@@ -107,6 +107,8 @@ fetch(API+'/rest/v1/rpc/fenix_cliente_pub',{method:'POST',headers:{'Content-Type
 .then(function(r){if(!r.ok)throw 0;return r.json();})
 .then(function(d){
  if(d&&d.erro==='sem_acesso'){document.getElementById('fcBody').innerHTML='<p class="estado">⏸ <b>Seu acesso está pausado pela clínica.</b><br>Fale com ela para reativar.</p>';document.getElementById('fcClin').textContent='—';return;}
+ var at=(String(location.hash||'').match(/ate=(\d{4}-\d{2}-\d{2})/)||[])[1];
+ if(at&&new Date(at+'T23:59:59')<new Date()){document.getElementById('fcBody').innerHTML='<p class="estado">⌛ <b>Seu acesso programado venceu em '+at.split('-').reverse().join('/')+'.</b><br>Fale com a clínica para renovar.</p>';document.getElementById('fcClin').textContent='—';return;}
  if(!d||!d.cliente){document.getElementById('fcBody').innerHTML='<p class="estado"><b>Link inválido ou cliente não encontrada.</b><br>Confira o endereço ou peça um novo link à clínica.</p>';document.getElementById('fcClin').textContent='—';return;}
  render(d);})
 .catch(function(){document.getElementById('fcBody').innerHTML='<p class="estado"><b>Sem conexão agora.</b><br>Verifique a internet e recarregue a página.</p>';});
