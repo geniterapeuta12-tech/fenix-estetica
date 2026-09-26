@@ -5065,22 +5065,29 @@ if(sb)sb.classList.toggle('hidden',IS_ANDROID);
 if(IS_ANDROID){try{localStorage.removeItem('fenix_zoom');}catch(e){}
 document.documentElement.style.zoom='';}}
 
-/* R24 — auto-reparo de arquivos herdados da importação antiga (ids/urls com "(" no começo):
-   se o aparelho ainda guarda registro sujo, ele se conserta sozinho ao abrir */
-function repararArqLegado(){try{
-const l=getArq();let mudou=false;const UUID=/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
-l.forEach(f=>{
-let id=String(f.id||'');
-if(id.charAt(0)==='('){const mm=id.match(UUID);if(mm){id=mm[0];f.id=id;mudou=true;}}
-let u=String(f.url||'');
+/* R24/R25 — auto-reparo: aparelho que ainda guarde registros da importação antiga
+   (ids/urls com "(" no começo) se conserta sozinho ao abrir — em TODAS as coleções.
+   Garante que links de cliente e formulário saiam sempre https limpos. */
+function repararIdsLegado(){try{
+const CH=['id','clienteId','cliente_id','clientId','pacote_id','pacoteId','pkgId','sessao_id','sessaoId','sesId','workspace_id','workspaceId','itemId','item','de','para'];
+const PARES=[[getCli,setCli],[getPkg,setPkg],[getSes,setSes],[getPay,setPay],[getAg,setAg],[getFin,setFin],[getArq,setArq],[getDoc,setDoc],[getAlarm,setAlarm],[getIac,setIac],[getIam,setIam],[getForm,setForm],[getKit,setKit],[getMsg,setMsg]];
+PARES.forEach(function(pa){const l=pa[0]();if(!Array.isArray(l))return;let m=false;
+l.forEach(function(o){if(!o||typeof o!=='object')return;
+CH.forEach(function(k){if(typeof o[k]==='string'&&o[k].indexOf('(')>=0){o[k]=o[k].replace(/\(/g,'');m=true;}});
+if(Array.isArray(o.itens))o.itens=o.itens.map(function(x){if(typeof x==='string'&&x.indexOf('(')>=0){m=true;return x.replace(/\(/g,'');}return x;});});
+if(m)pa[1](l);});
+/* urls de arquivos com "(" herdadas da importação */
+const la=getArq();let mu=false;
+la.forEach(function(f){const u=String(f.url||'');
 if(u.indexOf('(')>=0){const base=(u.match(/(https?:\/\/[^\s()]+\/fenix-arquivos\/[0-9a-f-]{36})\//i)||[])[1];
-if(base){const ext=(u.match(/\.([a-z0-9]+)\??[0-9]*$/i)||[])[1]||'jpg';f.url=base+'/'+id+'.'+ext;mudou=true;}}});
-if(mudou)setArq(l);}catch(e){}}
+if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z0-9]+)\??[0-9]*$/i)||[])[1]||'jpg';f.url=base+'/'+id+'.'+ext;mu=true;}}});
+if(mu)setArq(la);}catch(e){}}
+
 /* ===================== BOOTSTRAP ===================== */
 applyTheme(currentTheme());
 applyAccent(currentAccent());
 applySide(currentSide());
-repararArqLegado();
+repararIdsLegado();
 plataformaApply();
 loadWS();
 (async()=>{
