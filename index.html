@@ -3302,7 +3302,9 @@ $('btnRespViewBack').addEventListener('click',()=>{if(navStack.length)goBack();e
 
 /* ===================== LINK PÚBLICO DE RESPOSTA ===================== */
 let linkFormId=null;
-function appBaseHref(){return String(location.href||'').split('#')[0].split('?')[0];}
+function appBaseHref(){ /* R22: no EXE (file://) os links saem SEMPRE https oficiais */
+try{if(location.protocol==='file:')return 'https://geniterapeuta12-tech.github.io/fenix-estetica/index.html';}catch(e){}
+return String(location.href||'').split('#')[0].split('?')[0];}
 function linkOf(f){return appBaseHref()+'#resp='+(f&&f.token||'');}
 function pubTokenFromUrl(x){try{const m=String(x||'').match(/resp=([A-Za-z0-9_-]+)/);
 return m?m[1].replace(/[.,;)\]}>'” ]+$/,''):null;}catch(e){return null;}}
@@ -4820,11 +4822,9 @@ document.body.appendChild(a);a.click();a.remove();
 msg($('relMsg'),'✔ Arquivo .txt baixado — organizado e pronto pra enviar.','ok');}catch(e){msg($('relMsg'),'Não baixou agora: '+((e&&e.message)||e),'err');}});
 
 /* ===================== FÊNIX CLIENTS ===================== */
-function clientPubBase(){try{if(location.origin&&location.origin!=='null')return location.origin+location.pathname;}catch(e){}
-return String(location.href).split('#')[0];}
-function clientLink(id){ /* R19: cada cliente tem app proprio (clients/index.html) */
-let b='';try{b=location.origin+location.pathname;}catch(e){}
-b=String(b||location.href).split('#')[0];
+function clientPubBase(){return appBaseHref();}
+function clientLink(id){ /* R19: app proprio do cliente; R22: base oficial também dentro do EXE */
+const b=appBaseHref();
 const i=b.lastIndexOf('/');return b.slice(0,i+1)+'clients/index.html#cli='+id;}
 function renderClientsList(){const list=getCli().slice().sort((a,b)=>(b.ts||0)-(a.ts||0));
 $('cliLinkCount').textContent=list.length?(list.length+' cliente(s) — copie e envie no WhatsApp'):'Cadastre clientes no modo Gestão primeiro.';
