@@ -1,0 +1,24 @@
+# Fênix Estética — configuração do Supabase CLI
+project_id = "fenix-estetica"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "storage", "graphql_public"]
+
+[db]
+port = 54322
+shadow_port = 54320
+major_version = 15
+
+[studio]
+enabled = true
+port = 54323
+
+[auth]
+site_url = "https://geniterapeuta12-tech.github.io/fenix-estetica/"
+additional_redirect_urls = ["https://fenix-merce.netlify.app/"]
+enable_confirmations = false
+
+[auth.email]
+enable_signup = true
