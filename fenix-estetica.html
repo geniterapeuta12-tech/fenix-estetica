@@ -1144,6 +1144,7 @@ img{max-width:100%;height:auto}
 <div id="relBody" style="margin-top:10px"></div>
 <div class="rowbtns" style="margin-top:14px">
 <button class="btn" id="btnRelPDF" type="button"><svg class="ic"><use href="#i-doc"/></svg>Ver em PDF</button>
+<button class="btn" id="btnRelPdfDl" type="button"><svg class="ic"><use href="#i-dl"/></svg>Baixar PDF</button>
 <button class="btn ghost" id="btnRelTxt" type="button"><svg class="ic"><use href="#i-dl"/></svg>Baixar arquivo .txt organizado</button>
 </div>
 <p class="sub" style="margin-top:6px">O PDF abre na hora — dentro dele, o botão “Salvar como PDF” grava o arquivo. O .txt é o mesmo conteúdo, em texto puro e organizado.</p>
@@ -4820,6 +4821,36 @@ try{const u=URL.createObjectURL(new Blob([relLastTxt],{type:'text/plain;charset=
 const a=document.createElement('a');a.href=u;a.download='relatorio-'+(relCoreCache.cid?'cliente':'clinica')+'-'+new Date().toISOString().slice(0,10)+'.txt';
 document.body.appendChild(a);a.click();a.remove();
 msg($('relMsg'),'✔ Arquivo .txt baixado — organizado e pronto pra enviar.','ok');}catch(e){msg($('relMsg'),'Não baixou agora: '+((e&&e.message)||e),'err');}});
+/* R23 — PDF do relatório: gerador próprio (sem internet, sem biblioteca) — texto → arquivo PDF de verdade */
+function relPdfBytes(texto){
+const esc=s=>s.replace(/\\/g,'\\\\').replace(/\(/g,'\\(').replace(/\)/g,'\\)');
+const latin=s=>{let o='';for(let i=0;i<s.length;i++){const c=s.codePointAt(i);const M={8226:149,8212:151,8211:150,8216:145,8217:146,8220:147,8221:148,8230:133};const bb=c>255?((M[c]!==undefined)?M[c]:63):c;o+=String.fromCharCode(bb);}return o;};
+const quebra=l=>{if(l.length<=92)return[l];const out=[];let cur='';String(l).split(' ').forEach(w=>{while(w.length>92){if(cur){out.push(cur);cur='';}out.push(w.slice(0,92));w=w.slice(92);}if(!cur)cur=w;else if((cur+' '+w).length<=92)cur+=' '+w;else{out.push(cur);cur=w;}});if(cur)out.push(cur);return out;};
+const L=[];String(texto).split(/\r?\n/).forEach(l=>L.push(...quebra(l)));
+const H=Math.min(5,L.length),PAG=68;
+const pags=[];for(let i=0;i<L.length;i+=PAG)pags.push(L.slice(i,i+PAG));
+if(!pags.length)pags.push(['']);
+const streams=pags.map((pg,pi)=>{let s='BT\n',y=802;
+pg.forEach((l,idx)=>{const g=pi*PAG+idx;s+=(g<H?'/F2 10.5':'/F1 9')+' Tf\n1 0 0 1 40 '+y+' Tm\n('+esc(latin(l))+') Tj\n';y-=11.5;if(y<40)y=40;});
+return s+'ET\n';});
+const nPag=pags.length;let kids='';for(let i=0;i<nPag;i++)kids+=(5+2*i+1)+' 0 R ';
+const objs=['<< /Type /Catalog /Pages 2 0 R >>','<< /Type /Pages /Kids ['+kids.trim()+'] /Count '+nPag+' >>',
+'<< /Type /Font /Subtype /Type1 /BaseFont /Courier /Encoding /WinAnsiEncoding >>','<< /Type /Font /Subtype /Type1 /BaseFont /Courier-Bold /Encoding /WinAnsiEncoding >>'];
+streams.forEach((st,i)=>{objs.push('<< /Length '+st.length+' >>\nstream\n'+st+'endstream');
+objs.push('<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents '+(5+2*i)+' 0 R >>');});
+const header='%PDF-1.4\n%'+String.fromCharCode(0xE2,0xE3,0xCF,0xD3)+'\n';
+let total=header.length;const offs=[];
+objs.forEach((o,i)=>{offs.push(total);total+=((i+1)+' 0 obj\n'+o+'\nendobj\n').length;});
+let xref='xref\n0 '+(objs.length+1)+'\n0000000000 65535 f \n';
+offs.forEach(o=>{xref+=String(o).padStart(10,'0')+' 00000 n \n';});
+xref+='trailer\n<< /Size '+(objs.length+1)+' /Root 1 0 R >>\nstartxref\n'+total+'\n%%EOF';
+return header+objs.map((o,i)=>(i+1)+' 0 obj\n'+o+'\nendobj\n').join('')+xref;}
+$('btnRelPdfDl').addEventListener('click',()=>{if(!relLastTxt)return msg($('relMsg'),'Monte o relatório primeiro.','err');
+try{const b=relPdfBytes(relLastTxt);
+const u=URL.createObjectURL(new Blob([Uint8Array.from(b,ch=>ch.charCodeAt(0)&0xff)],{type:'application/pdf'}));
+const a=document.createElement('a');a.href=u;a.download='relatorio-'+(relCoreCache.cid?'cliente':'clinica')+'-'+new Date().toISOString().slice(0,10)+'.pdf';
+document.body.appendChild(a);a.click();a.remove();
+msg($('relMsg'),'✔ PDF baixado — pronto pra enviar no WhatsApp ou imprimir.','ok');}catch(e){msg($('relMsg'),'Não baixou agora: '+((e&&e.message)||e),'err');}});
 
 /* ===================== FÊNIX CLIENTS ===================== */
 function clientPubBase(){return appBaseHref();}
