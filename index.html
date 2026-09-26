@@ -652,7 +652,48 @@ html[data-perf="bruta"] .pmodal,html[data-perf="bruta"] .pmodal-soft{backdrop-fi
 .eqinput{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line)}
 .eqinput .input{flex:1}
 @media (max-width:720px){.eqwrap{flex-direction:column}.eqlist{width:100%;max-height:190px;border-right:0;border-bottom:1px solid var(--line)}}
-@media(max-width:600px){.panelcard{padding:16px 13px}.stats{gap:9px}.stat{padding:11px}.chips{gap:6px}.chip{padding:7px 11px}}
+/* R24 — Mensagens estilo Telegram (prévia) */
+.tgwrap{display:flex;min-height:460px;background:#0e1621}
+.tgside{width:272px;background:#17212b;border-right:1px solid #101921;flex-shrink:0;display:flex;flex-direction:column}
+.tgsearch{margin:10px;background:#242f3d;border-radius:16px;padding:8px 12px;color:#708499;font-size:.8rem;display:flex;align-items:center;gap:8px}
+.tgsearch svg{width:14px;height:14px;fill:#708499;flex-shrink:0}
+.tglist{list-style:none;overflow-y:auto;max-height:480px;margin:0;padding:0 4px 6px 0}
+.tglist li{display:flex;gap:10px;padding:9px 10px;cursor:pointer;align-items:center}
+.tglist li:hover{background:#202b36}
+.tglist li.on{background:#2b5278}
+.tgav{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#d4af37,#7a5f14);color:#141414;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+.tgmeta{flex:1;min-width:0}
+.tgmeta b{color:#fff;font-size:.85rem;font-weight:600;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tgprev{color:#708499;font-size:.78rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;max-width:150px}
+.tgright{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0}
+.tgtime{color:#708499;font-size:.68rem}
+.tgbadge{background:#4fae4e;color:#fff;border-radius:999px;font-size:.66rem;font-weight:700;padding:1px 6px;min-width:18px;text-align:center}
+.tgchat{flex:1;display:flex;flex-direction:column;min-width:0}
+.tghead{display:flex;align-items:center;gap:12px;padding:9px 16px;background:#17212b;border-bottom:1px solid #101921}
+.tghead b{color:#fff;font-size:.9rem}
+.tgstat{color:#708499;font-size:.74rem}
+.tgico{color:#708499;margin-left:auto;font-size:1.1rem;line-height:1}
+.tgmsgs{flex:1;padding:14px 16px 10px;display:flex;flex-direction:column;gap:3px;overflow-y:auto;max-height:400px;background-color:#0e1621;background-image:radial-gradient(rgba(255,255,255,.035) 1px,transparent 1px);background-size:18px 18px}
+.tgdate{align-self:center;background:rgba(0,0,0,.28);color:#fff;font-size:.7rem;border-radius:999px;padding:3px 12px;margin:4px 0 6px}
+.tgb{max-width:72%;padding:7px 12px 8px;border-radius:12px;font-size:.85rem;line-height:1.35;color:#fff;position:relative;margin-top:6px;word-wrap:break-word}
+.tgb.them{align-self:flex-start;background:#182533;border-bottom-left-radius:4px}
+.tgb.them::before{content:'';position:absolute;left:-8px;bottom:0;border-left:8px solid transparent;border-bottom:8px solid #182533}
+.tgb.me{align-self:flex-end;background:#2b5278;border-bottom-right-radius:4px}
+.tgb.me::after{content:'';position:absolute;right:-8px;bottom:0;border-right:8px solid transparent;border-bottom:8px solid #2b5278}
+.tgb .tm{font-size:.66rem;color:rgba(255,255,255,.55);margin-left:8px;white-space:nowrap}
+.tgb.me .tm .ck{color:#5eabee;letter-spacing:-1px;font-weight:700}
+.tgb.sys{align-self:center;background:rgba(0,0,0,.28);color:#fff;font-size:.72rem;border-radius:999px;padding:4px 14px;margin-top:10px}
+.tgb.sys::before,.tgb.sys::after{content:none}
+.tginput{display:flex;align-items:center;gap:8px;padding:9px 12px;background:#17212b;border-top:1px solid #101921}
+.tgclip svg,.tgsmile svg{width:21px;height:21px;fill:#708499}
+.tgfield{flex:1;display:flex;align-items:center;background:#242f3d;border-radius:16px;padding:9px 12px;gap:8px}
+.tgfield input{flex:1;background:none;border:0;color:#fff;font:inherit;font-size:.85rem;outline:none;min-width:0}
+.tgfield input::placeholder{color:#708499}
+.tgsend{width:40px;height:40px;border-radius:50%;background:#5288c1;border:0;display:flex;align-items:center;justify-content:center;opacity:.55;cursor:default;flex-shrink:0}
+.tgsend svg{width:18px;height:18px;fill:#fff}
+@media (max-width:720px){.tgwrap{flex-direction:column}.tgside{width:100%}.tglist{max-height:170px}}
+@media(max-width:600px){.panelcard{padding:16px 13px}
+#relBody.blur{filter:blur(10px);pointer-events:none;user-select:none}.stats{gap:9px}.stat{padding:11px}.chips{gap:6px}.chip{padding:7px 11px}}
 .client,.appt,.txn,.fileitem{flex-wrap:wrap}
 .cinfo{flex:1;min-width:0}
 #clientLinkList li.client{flex-wrap:wrap;row-gap:8px}
@@ -1089,18 +1130,20 @@ img{max-width:100%;height:auto}
 </div>
 <div id="eqMsgs" class="hidden">
 <div class="panelcard" style="padding:0;overflow:hidden">
-<div class="eqhead"><b>Mensagens</b><span class="sub">preview · o envio chega em breve</span></div>
-<div class="eqwrap">
-<ul class="eqlist" id="eqList"></ul>
-<div class="eqchat">
-<div class="eqchat-h"><span class="avatar" id="eqChatAv">✦</span><div><b id="eqChatNome">Grupo da clínica</b><br><small class="sub">offline · mensagens em breve</small></div></div>
-<div class="eqmsgs" id="eqMsgArea">
-<div class="eqb them">Olá! Este é o preview das mensagens da equipe ✦</div>
-<div class="eqb them">Aqui vai funcionar igual WhatsApp — conversas com sua equipe, direto no app.</div>
-<div class="eqb me">Perfeito! Aguardando o lançamento 💛</div>
-<div class="eqb sys">🔌 O envio ainda não está ativo — nada escrito aqui é enviado.</div>
+<div class="eqhead"><b>Mensagens</b><span class="sub">prévia no estilo Telegram · o envio chega em breve</span></div>
+<div class="tgwrap">
+<div class="tgside">
+<div class="tgsearch"><svg viewBox="0 0 24 24"><path d="M10 2a8 8 0 105.3 14l5.4 5.4 1.4-1.4-5.4-5.4A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z"/></svg><input placeholder="Pesquisar" disabled style="background:none;border:0;color:#708499;font:inherit;font-size:.8rem;outline:none;flex:1;min-width:0"></div>
+<ul class="tglist" id="tgList"></ul>
 </div>
-<div class="eqinput"><input class="input" placeholder="Escreva uma mensagem…" disabled><button class="btn gold" disabled style="opacity:.55" type="button"><svg class="ic"><use href="#i-send"/></svg></button></div>
+<div class="tgchat">
+<div class="tghead"><span class="tgav" id="tgAv">✦</span><div style="flex:1;min-width:0"><b id="tgNome">Grupo da clínica</b><br><small class="tgstat" id="tgStat">offline · mensagens em breve</small></div><span class="tgico">⋮</span></div>
+<div class="tgmsgs" id="tgArea"></div>
+<div class="tginput">
+<span class="tgclip"><svg viewBox="0 0 24 24"><path d="M16.5 6.5l-7.1 7.1a2 2 0 002.8 2.8l7.5-7.5a4 4 0 10-5.7-5.7l-7.7 7.7a6 6 0 108.5 8.5l7.1-7.1 1.4 1.4-7.1 7.1a8 8 0 11-11.3-11.3l7.7-7.7a6 6 0 118.5 8.5l-7.5 7.5a4 4 0 01-5.7-5.7l7.1-7.1 1.5 1.4z"/></svg></span>
+<div class="tgfield"><input placeholder="Escrever uma mensagem…" disabled><span class="tgsmile"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 2a8 8 0 110 16 8 8 0 010-16zM8.5 9a1.3 1.3 0 110 2.6A1.3 1.3 0 018.5 9zm7 0a1.3 1.3 0 110 2.6 1.3 1.3 0 010-2.6zM7.6 14.1a5.4 5.4 0 008.8 0l1.5 1.3a7.4 7.4 0 01-11.8 0l1.5-1.3z"/></svg></span></div>
+<button class="tgsend" disabled type="button" title="Em breve"><svg viewBox="0 0 24 24"><path d="M2 21l20-9L2 3v7l14 2-14 2z"/></svg></button>
+</div>
 </div>
 </div>
 </div>
@@ -1133,6 +1176,11 @@ img{max-width:100%;height:auto}
 <label>Escolha a cliente</label>
 <div class="field"><select id="relCliSel"><option value="">—</option></select></div>
 </div>
+<div style="margin-top:12px">
+<label>Relatório personalizado — escolha o que aparece (vale pra clínica ou pra uma cliente)</label>
+<div class="chips" id="relSecChips" style="margin-top:8px"></div>
+<p class="sub" style="margin:6px 0 0">Desmarque o que não quiser — o PDF sai só com as partes escolhidas.</p>
+</div>
 <div class="rowbtns" style="margin-top:12px">
 <button class="btn" id="btnRelMontar" type="button"><svg class="ic"><use href="#i-play"/></svg>Montar relatório</button>
 <button class="btn ghost" id="btnRelExemplo" type="button" style="margin-left:8px"><svg class="ic"><use href="#i-doc"/></svg>Ver exemplo pronto</button>
@@ -1140,14 +1188,12 @@ img{max-width:100%;height:auto}
 <p class="msg" id="relMsg"></p>
 </div>
 <div class="panelcard hidden" id="relPrev">
-<div class="chips" id="relTabs"></div>
-<div id="relBody" style="margin-top:10px"></div>
-<div class="rowbtns" style="margin-top:14px">
-<button class="btn" id="btnRelPDF" type="button"><svg class="ic"><use href="#i-doc"/></svg>Ver em PDF</button>
+<div class="chips hidden" id="relTabs"></div>
+<div id="relBody" class="blur" style="margin-top:10px"></div>
+<p class="sub" id="relBlurHint" style="margin-top:10px">🔒 Prévia protegida — sai desfocada de propósito. Toque em <b>Baixar PDF</b> e receba o arquivo nítido, pronto pra enviar.</p>
+<div class="rowbtns" style="margin-top:6px">
 <button class="btn" id="btnRelPdfDl" type="button"><svg class="ic"><use href="#i-dl"/></svg>Baixar PDF</button>
-<button class="btn ghost" id="btnRelTxt" type="button"><svg class="ic"><use href="#i-dl"/></svg>Baixar arquivo .txt organizado</button>
 </div>
-<p class="sub" style="margin-top:6px">O PDF abre na hora — dentro dele, o botão “Salvar como PDF” grava o arquivo. O .txt é o mesmo conteúdo, em texto puro e organizado.</p>
 </div>
 </section>
 
@@ -4298,7 +4344,7 @@ $('btnUpGen').addEventListener('click',()=>openUploadModal('clinica',{after:()=>
 $('btnUpCli').addEventListener('click',()=>openUploadModal('cliente',{after:()=>renderCliente()}));
 $('btnUpPkg').addEventListener('click',()=>openUploadModal('pacote',{pacoteId:state.pacoteId,after:()=>renderCliente()}));
 function compressImage(dataUrl,cb){const img=new Image();
-img.onload=()=>{const levels=[[2000,.85],[1600,.75],[1200,.62],[900,.5]];
+img.onload=()=>{const levels=[[2560,.9],[2048,.86],[1600,.8],[1280,.74],[1000,.65]];
 const run=i=>{const cfg=levels[Math.min(i,levels.length-1)];
 try{let w=img.width||1,h=img.height||1;const MAX=cfg[0];
 if(w>MAX||h>MAX){const r=Math.min(MAX/w,MAX/h);w=Math.max(1,Math.round(w*r));h=Math.max(1,Math.round(h*r));}
@@ -4405,6 +4451,15 @@ $('pvDl').setAttribute('href',f.url||'');$('pvDl').setAttribute('download',f.nom
 const body=$('pvBody');body.innerHTML='';
 $('previewModal').classList.remove('hidden');
 const type=(String(f.url||'').match(/^data:([^;]+)/)||[])[1]||'';
+const hu=String(f.url||''); /* R24: prévia também para arquivos com endereço http (fotos da nuvem) */
+if(/^https?:/i.test(hu)){
+const ext=((hu.split('?')[0].match(/\.([a-z0-9]+)$/i)||[])[1]||'').toLowerCase();
+if(['jpg','jpeg','png','gif','webp','bmp','avif'].indexOf(ext)>=0){const img=new Image();img.onerror=()=>{body.innerHTML=fallbackHTML();};img.src=hu;img.alt=f.nome;body.appendChild(img);}
+else if(ext==='pdf'){const ifr=document.createElement('iframe');ifr.src=hu;ifr.title=f.nome;body.appendChild(ifr);}
+else if(['mp4','webm','mov','m4v'].indexOf(ext)>=0){const v=document.createElement('video');v.controls=true;v.src=hu;body.appendChild(v);}
+else if(['mp3','wav','ogg','m4a','aac'].indexOf(ext)>=0){const au=document.createElement('audio');au.controls=true;au.src=hu;body.appendChild(au);}
+else body.innerHTML=fallbackHTML();
+return;}
 if(type.startsWith('image/')){const img=new Image();img.onerror=()=>{body.innerHTML=fallbackHTML();};img.src=f.url;img.alt=f.nome;body.appendChild(img);}
 else if(type==='application/pdf'){pvUrl=URL.createObjectURL(dataUrlToBlob(f.url));
 const ifr=document.createElement('iframe');ifr.src=pvUrl;ifr.title=f.nome;body.appendChild(ifr);}
@@ -4527,9 +4582,13 @@ const pacNome=id=>{const k=getPkg().find(x=>x.id===id);return k?k.nome:'—';};
 const cliente=cid?getCli().find(c=>c.id===cid):null;
 return {cid,cliente,cli,pks,ses,pays,ags,fins,contratado,recebido,emAberto,finIn,finOut,feitas,prox,rea,pagos,agsProx,cliNome,pacNome,
 geradoEm:new Date().toLocaleString('pt-BR'),clinica:($('appClinic')&&$('appClinic').textContent)||'Clínica'};}
-function relSecs(k){return k.cid?
+function relSecsAtivas(){ /* R24 — relatório personalizado: partes escolhidas pela clínica */
+try{const v=JSON.parse(localStorage.getItem('fenix_relsecs')||'{}');if(v&&typeof v==='object')return v;}catch(e){}
+return {};}
+function relSecs(k){const S=relSecsAtivas();const L=k.cid?
 [['resumo','Resumo'],['fin','Financeiro'],['pac','Pacotes'],['ses','Sessões'],['pag','Pagamentos']]:
-[['resumo','Resumo geral'],['fin','Financeiro'],['cli','Clientes'],['pac','Pacotes'],['ses','Sessões'],['ag','Agenda'],['pag','Pagamentos']];}
+[['resumo','Resumo geral'],['fin','Financeiro'],['cli','Clientes'],['pac','Pacotes'],['ses','Sessões'],['ag','Agenda'],['pag','Pagamentos']];
+return L.filter(s=>S[s[0]]!==false);}
 function relAppSection(k,tab){
 const stat=(v,l,c)=>'<div class="stat"><b'+(c?' style="color:'+c+'"':'')+'>'+v+'</b><span>'+l+'</span></div>';
 const crow=(a,b,bd)=>'<div class="crow"><div><strong>'+a+'</strong>'+(b?'<small>'+b+'</small>':'')+'</div>'+(bd||'')+'</div>';
@@ -4814,13 +4873,7 @@ setTimeout(()=>{$('relBody').innerHTML=relExemploHTML();
 msg($('relMsg'),'✔ Exemplo exibido — é exatamente assim que seus relatórios saem. Monte o seu real em cima.','ok');
 try{$('relPrev').scrollIntoView({behavior:'smooth',block:'start'});}catch(e){}},700);});
 $('relTabs').addEventListener('click',e=>{const t=e.target.closest('[data-rt]');if(!t)return;relTab=t.dataset.rt;relPaint();});
-$('btnRelPDF').addEventListener('click',()=>{if(!relLastDoc)return msg($('relMsg'),'Monte o relatório primeiro.','err');
-try{const u=URL.createObjectURL(new Blob([relLastDoc],{type:'text/html'}));window.open(u,'_blank');}catch(e){msg($('relMsg'),'Não abriu agora: '+((e&&e.message)||e),'err');}});
-$('btnRelTxt').addEventListener('click',()=>{if(!relLastTxt)return msg($('relMsg'),'Monte o relatório primeiro.','err');
-try{const u=URL.createObjectURL(new Blob([relLastTxt],{type:'text/plain;charset=utf-8'}));
-const a=document.createElement('a');a.href=u;a.download='relatorio-'+(relCoreCache.cid?'cliente':'clinica')+'-'+new Date().toISOString().slice(0,10)+'.txt';
-document.body.appendChild(a);a.click();a.remove();
-msg($('relMsg'),'✔ Arquivo .txt baixado — organizado e pronto pra enviar.','ok');}catch(e){msg($('relMsg'),'Não baixou agora: '+((e&&e.message)||e),'err');}});
+/* R24: "Ver em PDF" e ".txt" removidos — ficou só o Baixar PDF (prévia desfocada) */
 /* R23 — PDF do relatório: gerador próprio (sem internet, sem biblioteca) — texto → arquivo PDF de verdade */
 function relPdfBytes(texto){
 const esc=s=>s.replace(/\\/g,'\\\\').replace(/\(/g,'\\(').replace(/\)/g,'\\)');
@@ -4845,6 +4898,31 @@ let xref='xref\n0 '+(objs.length+1)+'\n0000000000 65535 f \n';
 offs.forEach(o=>{xref+=String(o).padStart(10,'0')+' 00000 n \n';});
 xref+='trailer\n<< /Size '+(objs.length+1)+' /Root 1 0 R >>\nstartxref\n'+total+'\n%%EOF';
 return header+objs.map((o,i)=>(i+1)+' 0 obj\n'+o+'\nendobj\n').join('')+xref;}
+/* R24 — personalizado: filtros por seção (prévia, documento e PDF) */
+const REL_TITULOS={'RESUMO GERAL':'resumo','FINANCEIRO':'fin','CLIENTES':'cli','PACOTES':'pac','SESSÕES':'ses','AGENDA':'ag','PAGAMENTOS':'pag'};
+function relTxtFiltrado(txt){const S=relSecsAtivas();const L=String(txt).split('\n');const out=[];let pula=false;
+for(let i=0;i<L.length;i++){const l=L[i];const m=l.match(/^\[[0-9]+\] (.+)$/);
+if(m){const key=REL_TITULOS[m[1].toUpperCase()]||'';pula=!!(key&&S[key]===false);
+if(pula&&out.length&&out[out.length-1]==='------------------------------------------------------------')out.pop();
+if(pula&&out.length&&!out[out.length-1])out.pop();
+if(!pula)out.push(l);continue;}
+if(!pula)out.push(l);}
+return out.join('\n');}
+function relFiltraDoc(doc){const S=relSecsAtivas();let D=doc;
+['resumo','fin','cli','pac','ses','ag','pag'].forEach(key=>{if(S[key]!==false)return;
+D=D.replace(new RegExp('<a href="#rel-'+key+'">[^<]*</a>'),'');
+let a=D.indexOf('<h2 id="rel-'+key+'">');if(a<0)return;
+let b=D.indexOf('<h2 id="rel-',a+10);if(b<0)b=D.indexOf('<p class="rodape">');if(b<0)b=D.length;
+D=D.slice(0,a)+D.slice(b);});
+return D;}
+/* chips das partes do relatório */
+(function(){const box=$('relSecChips');if(!box)return;
+const ITENS=[['resumo','Resumo'],['fin','Financeiro'],['cli','Clientes'],['pac','Pacotes'],['ses','Sessões'],['ag','Agenda'],['pag','Pagamentos']];
+const S=relSecsAtivas();
+box.innerHTML=ITENS.map(it=>'<label class="chip" style="cursor:pointer"><input type="checkbox" data-rsec="'+it[0]+'"'+(S[it[0]]===false?'':' checked')+' style="accent-color:#d4af37;margin-right:6px">'+it[1]+'</label>').join('');
+box.addEventListener('change',e=>{const c=e.target.closest('[data-rsec]');if(!c)return;
+const v=relSecsAtivas();v[c.dataset.rsec]=c.checked;try{localStorage.setItem('fenix_relsecs',JSON.stringify(v));}catch(x){}
+if(relCoreCache){relLastDoc=relFiltraDoc(relDocHTML(relCoreCache));relLastTxt=relTxtFiltrado(relTxt(relCoreCache));relPaint();}});})();
 $('btnRelPdfDl').addEventListener('click',()=>{if(!relLastTxt)return msg($('relMsg'),'Monte o relatório primeiro.','err');
 try{const b=relPdfBytes(relLastTxt);
 const u=URL.createObjectURL(new Blob([Uint8Array.from(b,ch=>ch.charCodeAt(0)&0xff)],{type:'application/pdf'}));
@@ -4957,19 +5035,27 @@ document.querySelectorAll('#cpBody .cpnav').forEach(x=>x.classList.toggle('on',x
 document.querySelectorAll('#cpBody .cpsec').forEach(x=>x.classList.toggle('on',x.id==='cp-'+t.dataset.cpt));});
 
 /* ===== R21 — Equipe · Mensagens (preview estilo WhatsApp) ===== */
-function renderEqMsgs(){
-const ul=$('eqList');if(!ul)return;
+function renderEqMsgs(){ /* R24 — UI estilo Telegram (prévia; envio inativo) */
+const ul=$('tgList');if(!ul)return;
 const us=getUsu();
-const itens=[{id:'__grupo',nome:'Grupo da clínica',prev:'Equipe · todas as conversas'}]
-.concat(us.map(u=>({id:u.id,nome:u.nome||u.username||'Membro',prev:u.cargo||'Membro da equipe'})));
-if(ul.dataset.done!=='1'){
-ul.innerHTML=itens.map((it,i)=>'<li data-eqid="'+it.id+'"'+(i===0?' class="on"':'')+'><span class="avatar">'+esc((it.nome||'?').charAt(0).toUpperCase())+'</span><div><b>'+esc(it.nome)+'</b><br><span class="eqprev">'+esc(it.prev)+'</span></div></li>').join('');
-ul.dataset.done='1';}
+const SEEDS={'__grupo':[['them','Bom dia, equipe! ✦'],['them','Alinhamento da semana: atendimentos começando no horário, por favor.'],['me','Perfeito, anotado! 💛']],
+'default':[['them','Recebido, obrigada!'],['me','Qualquer coisa é só chamar aqui 💛']]};
+const itens=[{id:'__grupo',nome:'Grupo da clínica',prev:'Equipe · todas as conversas',hora:'09:41',n:2}]
+.concat(us.map((u,i)=>({id:u.id,nome:u.nome||u.username||'Membro',prev:u.cargo||'Membro da equipe',hora:('0'+(9+i)).slice(-2)+':'+(i%2?'07':'23'),n:i%3})));
+ul.innerHTML=itens.map((it,i)=>'<li data-eqid="'+it.id+'"'+(i===0?' class="on"':'')+'><span class="tgav">'+esc((it.nome||'?').charAt(0).toUpperCase())+'</span><div class="tgmeta"><b>'+esc(it.nome)+'</b><span class="tgprev">'+esc(it.prev)+'</span></div><div class="tgright"><span class="tgtime">'+it.hora+'</span>'+(it.n?'<span class="tgbadge">'+it.n+'</span>':'')+'</div></li>').join('');
+const pintar=it=>{
+$('tgNome').textContent=it.nome;
+$('tgAv').textContent=(it.nome||'?').charAt(0).toUpperCase();
+$('tgStat').textContent=it.id==='__grupo'?((us.length+1)+' membros · offline'):'offline · mensagens em breve';
+const seed=SEEDS[it.id]||SEEDS.default;
+$('tgArea').innerHTML='<div class="tgdate">Hoje</div>'+
+seed.map(m=>'<div class="tgb '+m[0]+'">'+esc(m[1])+'<span class="tm">'+(m[0]==='me'?'<span class="ck">✓✓</span> ':'')+it.hora+'</span></div>').join('')+
+'<div class="tgb sys">🔌 Prévia — o envio ainda não está ativo; nada aqui é enviado.</div>';
+$('tgArea').scrollTop=$('tgArea').scrollHeight;};
+pintar(itens[0]);
 ul.onclick=e=>{const li=e.target.closest('li');if(!li)return;
 ul.querySelectorAll('li').forEach(x=>x.classList.remove('on'));li.classList.add('on');
-const it=itens.find(x=>x.id===li.dataset.eqid)||itens[0];
-$('eqChatNome').textContent=it.nome;
-$('eqChatAv').textContent=(it.nome||'?').charAt(0).toUpperCase();};}
+const it=itens.find(x=>x.id===li.dataset.eqid)||itens[0];pintar(it);};}
 
 /* ===== R21 — plataforma: Sistema (zoom) só no Windows; celular sempre 100% ===== */
 const IS_ANDROID=/Android/i.test(navigator.userAgent);
@@ -4979,10 +5065,22 @@ if(sb)sb.classList.toggle('hidden',IS_ANDROID);
 if(IS_ANDROID){try{localStorage.removeItem('fenix_zoom');}catch(e){}
 document.documentElement.style.zoom='';}}
 
+/* R24 — auto-reparo de arquivos herdados da importação antiga (ids/urls com "(" no começo):
+   se o aparelho ainda guarda registro sujo, ele se conserta sozinho ao abrir */
+function repararArqLegado(){try{
+const l=getArq();let mudou=false;const UUID=/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
+l.forEach(f=>{
+let id=String(f.id||'');
+if(id.charAt(0)==='('){const mm=id.match(UUID);if(mm){id=mm[0];f.id=id;mudou=true;}}
+let u=String(f.url||'');
+if(u.indexOf('(')>=0){const base=(u.match(/(https?:\/\/[^\s()]+\/fenix-arquivos\/[0-9a-f-]{36})\//i)||[])[1];
+if(base){const ext=(u.match(/\.([a-z0-9]+)\??[0-9]*$/i)||[])[1]||'jpg';f.url=base+'/'+id+'.'+ext;mudou=true;}}});
+if(mudou)setArq(l);}catch(e){}}
 /* ===================== BOOTSTRAP ===================== */
 applyTheme(currentTheme());
 applyAccent(currentAccent());
 applySide(currentSide());
+repararArqLegado();
 plataformaApply();
 loadWS();
 (async()=>{
@@ -5033,6 +5131,11 @@ const bar=$('enterLoadBar'),st=$('enterLoadStage');
 setTimeout(()=>{try{fn();}catch(e){$('enterLoad').classList.add('hidden');showErrorGlobal((e&&e.message)||e);return;}
 bar.style.width='100%';
 setTimeout(()=>{$('enterLoad').classList.add('hidden');bar.style.width='0';
+$('welcomeModal').classList.remove('hidden');},380);},1450);}
+$('btnWelcomeGo').addEventListener('click',()=>$('welcomeModal').classList.add('hidden'));
+</script>
+</body>
+</html>List.add('hidden');bar.style.width='0';
 $('welcomeModal').classList.remove('hidden');},380);},1450);}
 $('btnWelcomeGo').addEventListener('click',()=>$('welcomeModal').classList.add('hidden'));
 </script>
