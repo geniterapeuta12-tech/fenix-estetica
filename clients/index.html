@@ -3,52 +3,74 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0b0b0b">
+<meta name="theme-color" content="#0d0d0c">
 <title>Fênix Clients</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#0d0d0c;font-family:'Montserrat',system-ui,-apple-system,sans-serif;color:#e8e2d4;min-height:100vh}
-.fctop{padding:26px 18px 14px;text-align:center}
-.fctop .marca{font-family:Georgia,'Times New Roman',serif;letter-spacing:.22em;font-size:1.05rem;color:#d4af37}
+body{background:radial-gradient(1100px 550px at 50% -10%,rgba(212,175,55,.12),transparent 60%),#0d0d0c;font-family:'Montserrat',system-ui,-apple-system,sans-serif;color:#f5f5f5;min-height:100vh}
+.fctop{padding:28px 18px 10px;text-align:center}
+.fctop .marca{font-family:'Playfair Display',Georgia,serif;letter-spacing:.18em;font-size:1.3rem;color:#f5f5f5}
+.fctop .marca span{color:#d4af37}
 .fctop .clin{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#9a927e;margin-top:6px}
-.fctop .quem{margin-top:14px;display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border:1px solid rgba(212,175,55,.35);border-radius:14px;padding:10px 18px}
-.fctop .av{width:40px;height:40px;border-radius:50%;background:#d4af37;color:#141414;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+.fctop .quem{margin-top:14px;display:inline-flex;align-items:center;gap:10px;background:linear-gradient(180deg,#141414,#0e0e0e);border:1px solid rgba(212,175,55,.35);border-radius:14px;padding:10px 18px}
+.fctop .av{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#d4af37,#7a5f14);color:#141414;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
 .fctop .quem b{font-size:1.02rem;color:#fff}
-.wrap{max-width:880px;margin:0 auto;padding:8px 14px 96px}
-.folha{background:#fff;color:#141414;border:0;border-bottom:1px solid #c9c9c9;border-radius:0;padding:30px 6px 24px;margin:0 0 14px}
-.folha .fk{font-weight:700;font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;color:#8a8a8a}
-.folha h4{font-family:Georgia,'Times New Roman',serif;font-size:1.3rem;font-weight:600;color:#000;margin-top:4px}
-.frule{width:100%;height:1px;background:#141414;border:0;margin:10px 0 16px;opacity:.9}
-.fmeta{font-size:.86rem;color:#444;margin-bottom:10px}
+.wrap{max-width:880px;margin:0 auto;padding:14px 14px 118px}
+.panelcard{background:linear-gradient(180deg,#141414,#0e0e0e);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:20px 18px;margin:0 0 14px}
+.pc-tt{font-family:'Playfair Display',Georgia,serif;font-size:1.18rem;color:#f5f5f5;display:flex;align-items:center;gap:9px}
+.pc-tt .dot{width:8px;height:8px;border-radius:50%;background:#d4af37;box-shadow:0 0 10px rgba(212,175,55,.8)}
+.pc-sub{color:#9a927e;font-size:.78rem;margin-top:3px}
+hr.frule{border:0;height:1px;background:linear-gradient(90deg,rgba(212,175,55,.55),transparent);margin:12px 0 14px}
+.hero{text-align:center;padding:26px 18px}
+.hero .grande{font-family:'Playfair Display',Georgia,serif;font-size:1.5rem;margin-top:12px}
+.hero .grande span{color:#d4af37}
+.prox{margin:16px auto 0;max-width:430px;background:rgba(212,175,55,.09);border:1px solid rgba(212,175,55,.4);border-radius:14px;padding:14px}
+.prox small{display:block;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:#d4af37;font-weight:700}
+.prox b{font-size:1.05rem}
+.prox span{display:block;color:#9a927e;font-size:.8rem;margin-top:3px}
 table{width:100%;border-collapse:collapse}
-th{font-size:.64rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#333;text-align:left;padding:6px 8px;border-bottom:1px solid #999}
-td{padding:9px 8px;border-bottom:1px solid #e2e2e2;font-size:.9rem;color:#141414;vertical-align:top}
+th{font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#9a927e;text-align:left;padding:7px 6px;border-bottom:1px solid rgba(212,175,55,.35)}
+td{padding:10px 6px;border-bottom:1px solid rgba(255,255,255,.07);font-size:.9rem;vertical-align:top}
 tr:last-child td{border-bottom:0}
 .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
-.fsub{font-size:.8rem;color:#555;margin-top:2px}
-.fempty{color:#777;font-size:.9rem;margin:6px 0}
-.ffoot{font-size:.78rem;color:#666;border-top:1px solid #c9c9c9;padding-top:10px;margin-top:14px}
-.pos{color:#1e6b45}.aberto{color:#8a6d1d}
-.bar{display:none}
+.pos{color:#5ec98c}.aberto{color:#e7c96a}
+.fsub{font-size:.8rem;color:#9a927e;margin-top:2px}
+.fempty{color:#9a927e;font-size:.9rem;margin:6px 0}
+.bar{height:8px;border-radius:99px;background:rgba(255,255,255,.09);overflow:hidden;min-width:110px}
+.bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#d4af37,#f1d27a)}
+.pct{font-size:.72rem;color:#9a927e}
+.bdg{display:inline-block;border-radius:999px;padding:2px 9px;font-size:.68rem;font-weight:700}
+.bd-g{background:rgba(94,201,140,.15);color:#5ec98c}.bd-a{background:rgba(231,201,106,.13);color:#e7c96a}
+/* menu — mesma estrutura do app da clínica (decorativo) */
+.menulist{list-style:none;display:flex;flex-direction:column;gap:9px;margin-top:12px}
+.menulist li{display:flex;align-items:center;gap:13px;padding:13px 15px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:13px}
+.menulist li.ok{cursor:pointer;transition:.2s}
+.menulist li.ok:hover{border-color:rgba(212,175,55,.5)}
+.menulist li.off{opacity:.55}
+.menulist .mico{width:36px;height:36px;min-width:36px;border-radius:10px;background:rgba(212,175,55,.14);display:flex;align-items:center;justify-content:center;font-size:1rem}
+.menulist b{font-size:.9rem;font-weight:600;display:block}
+.menulist small{color:#9a927e;font-size:.72rem}
+.menulist .lock{margin-left:auto;color:#9a927e;font-size:.78rem}
 .fcnav{position:fixed;left:0;right:0;bottom:0;background:rgba(10,10,10,.97);border-top:1px solid rgba(212,175,55,.3);display:flex;justify-content:center;gap:2px;padding:8px 6px calc(8px + env(safe-area-inset-bottom))}
-.fcnav button{flex:1;max-width:120px;background:none;border:0;color:#9a927e;font:600 .74rem Montserrat;letter-spacing:.04em;padding:8px 4px;border-radius:10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px}
+.fcnav button{flex:1;max-width:120px;background:none;border:0;color:#9a927e;font:600 .74rem 'Montserrat';letter-spacing:.04em;padding:8px 4px;border-radius:10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px}
 .fcnav button.on{color:#d4af37}
 .fcnav button span.ic{font-size:1.15rem;line-height:1}
 .estado{text-align:center;padding:60px 20px;color:#9a927e}
 .estado b{color:#e8e2d4}
-.rodape{color:#6d6553;font-size:.72rem;text-align:center;padding:0 0 110px}
-@media (max-width:520px){.folha{padding:20px 16px 18px}.wrap{padding:6px 10px 96px}}
-@media print{body{background:#fff}.fcnav,.fctop{display:none}.folha{border:none;page-break-after:always}}
+.rodape{color:#6d6553;font-size:.72rem;text-align:center;padding:0 0 118px}
+@media (max-width:520px){.wrap{padding:10px 10px 118px}td,th{padding:8px 4px}}
+@media print{body{background:#fff;color:#141414}.fcnav,.fctop,.menulist-box{display:none}.panelcard{background:#fff;border-color:#ddd}}
 </style>
 </head>
 <body>
 <div class="fctop">
-  <div class="marca">✦ FÊNIX CLIENTS</div>
+  <div class="marca">✦ FÊNIX <span>ESTÉTICA</span></div>
   <div class="clin" id="fcClin">carregando…</div>
   <div class="quem" id="fcQuem" style="display:none"><span class="av" id="fcAv">?</span><b id="fcNome">…</b></div>
 </div>
 <div class="wrap" id="fcBody"><p class="estado">Carregando seu espaço…</p></div>
-<p class="rodape">Fênix Estética · espaço do cliente · relatório gerado pelo app da clínica</p>
+<p class="rodape">Fênix Estética · espaço do cliente · gerenciado pela sua clínica</p>
 <nav class="fcnav" id="fcNav" style="display:none">
   <button data-go="f-res" class="on"><span class="ic">◆</span>Início</button>
   <button data-go="f-pac"><span class="ic">▣</span>Pacotes</button>
@@ -66,38 +88,53 @@ function getId(){
 function brl(v){return Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}
 function dataBR(d){if(!d)return '—';var p=String(d).split('/');if(p.length===3)return d;var m=String(d).match(/^(\d{4})-(\d{2})-(\d{2})$/);return m?m[3]+'/'+m[2]+'/'+m[1]:d;}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
-function ordena(a){var p=String(a||'').split('/');return p.length===3?p[2]+'-'+p[1]+'-'+p[0]:String(a||'');}
-function folha(n,titulo,corpo){return '<div class="folha" id="f-'+n[0]+'"><p class="fk">Folha '+n[1]+'</p><h4>'+titulo+'</h4><hr class="frule">'+corpo+'</div>';}
+function sec(n,titulo,corpo){return '<div class="panelcard" id="f-'+n+'"><div class="pc-tt"><span class="dot"></span>'+titulo+'</div><hr class="frule">'+corpo+'</div>';}
 function render(d){
  document.getElementById('fcClin').textContent=d.clinica||'—';
  document.getElementById('fcQuem').style.display='inline-flex';
  document.getElementById('fcNome').textContent=d.cliente&&d.cliente.nome?d.cliente.nome:'—';
  document.getElementById('fcAv').textContent=(d.cliente&&d.cliente.nome?d.cliente.nome.charAt(0):'?').toUpperCase();
+ var nome=d.cliente&&d.cliente.nome?d.cliente.nome.split(' ')[0]:'';
  var pac=d.pacotes||[],prox=d.proximas||[],real=d.realizadas||[],pag=d.pagamentos||[];
  var contratado=0;pac.forEach(function(p){contratado+=Number(p.valor)||0;});
  var pago=Number(d.pago_total||0);var aberto=Math.max(0,contratado-pago);
  var h='';
- h+=folha(['res','01'],'Resumo',
-  '<p class="fmeta">Emitido em: '+new Date().toLocaleDateString('pt-BR')+'</p>'+
-  '<table><tr><td>Contratado (pacotes)</td><td class="num">'+brl(contratado)+'</td></tr>'+
-  '<tr><td>Já pagou</td><td class="num pos">'+brl(pago)+'</td></tr>'+
-  '<tr><td>Em aberto</td><td class="num aberto">'+brl(aberto)+'</td></tr></table>'+
-  (prox.length?'<p class="fsub" style="margin-top:10px"><b>Próxima sessão:</b> '+dataBR(prox[0].data)+(prox[0].pacote?' — '+esc(prox[0].pacote):'')+'</p>':'<p class="fsub" style="margin-top:10px">Sem sessões futuras agendadas.</p>')+
-  '<p class="ffoot">A análise escrita da IA chega em breve.</p>');
- h+=folha(['pac','02'],'Pacotes',
+ /* INÍCIO — sem relatório: boas-vindas + próxima sessão */
+ h+=sec('res','Início',
+  '<div class="hero"><div style="font-size:2.4rem;color:#d4af37">✦</div>'+
+  '<div class="grande">Olá, '+esc(nome)+'<span>!</span></div>'+
+  '<p class="fsub">Este é o seu espaço — aqui você acompanha tudo com a '+esc(d.clinica||'sua clínica')+'.</p>'+
+  (prox.length?'<div class="prox"><small>Próxima sessão</small><b>'+dataBR(prox[0].data)+'</b><span>'+esc(prox[0].pacote||'Sessão')+(prox[0].num!=null?' · #'+prox[0].num:'')+'</span></div>':'<div class="prox"><small>Agenda</small><b>Nada agendado por enquanto</b><span>Fale com a clínica para agendar.</span></div>')+
+  '</div>');
+ /* menu — mesma estrutura do app da clínica; só o seu espaço funciona */
+ h+='<div class="panelcard menulist-box"><div class="pc-tt"><span class="dot"></span>Menu</div><hr class="frule">'+
+ '<ul class="menulist">'+
+ '<li class="ok" data-go="f-pac"><span class="mico">▣</span><div><b>Pacotes & Avulsas</b><small>seus contratos</small></div></li>'+
+ '<li class="ok" data-go="f-ses"><span class="mico">✽</span><div><b>Agenda & Sessões</b><small>horários e histórico</small></div></li>'+
+ '<li class="ok" data-go="f-pag"><span class="mico">✓</span><div><b>Financeiro</b><small>pagamentos e totais</small></div></li>'+
+ '<li class="off"><span class="mico">📄</span><div><b>Documentos</b><small>exclusivo do app da clínica</small></div><span class="lock">🔒</span></li>'+
+ '<li class="off"><span class="mico">🏷️</span><div><b>Catálogo</b><small>exclusivo do app da clínica</small></div><span class="lock">🔒</span></li>'+
+ '<li class="off"><span class="mico">👥</span><div><b>Equipe</b><small>exclusivo do app da clínica</small></div><span class="lock">🔒</span></li>'+
+ '<li class="off"><span class="mico">⚙️</span><div><b>Dados & Backup</b><small>exclusivo do app da clínica</small></div><span class="lock">🔒</span></li>'+
+ '</ul></div>';
+ /* PACOTES */
+ h+=sec('pac','Pacotes & Avulsas',
   pac.length?'<table><tr><th>Pacote</th><th>Progresso</th><th class="num">Valor</th><th class="num">Pago</th></tr>'+
   pac.map(function(p){var qtd=Number(p.qtd)||0,feitas=Number(p.feitas)||0,pp=Number(p.pago)||0,falta=Math.max(0,(Number(p.valor)||0)-pp);
    var pct=qtd?Math.min(100,Math.round(feitas/qtd*100)):0;
-   return '<tr><td><b>'+esc(p.nome)+'</b><br><span class="fsub">'+feitas+' de '+qtd+' sessões'+(falta?' · falta '+brl(falta):' · quitado')+'</span></td><td><div class="bar"><i style="width:'+pct+'%"></i></div><span class="fsub">'+pct+'%</span></td><td class="num">'+brl(p.valor)+'</td><td class="num">'+brl(pp)+'</td></tr>';}).join('')+'</table>'
+   return '<tr><td><b>'+esc(p.nome)+'</b><br><span class="fsub">'+feitas+' de '+qtd+' sessões · '+(falta?'<span class="aberto">falta '+brl(falta)+'</span>':'<span class="pos">quitado</span>')+'</span></td><td><div class="bar"><i style="width:'+pct+'%"></i></div><span class="pct">'+pct+'%</span></td><td class="num">'+brl(p.valor)+'</td><td class="num">'+brl(pp)+'</td></tr>';}).join('')+'</table>'
   :'<p class="fempty">Nenhum pacote ainda.</p>');
- h+=folha(['ses','03'],'Sessões',
-  (prox.length?'<p class="fsub" style="margin-bottom:6px"><b>Próximas</b></p><table>'+prox.map(function(s){return '<tr><td>'+dataBR(s.data)+'</td><td>'+esc(s.pacote||'Sessão')+' #'+(s.num!=null?s.num:'—')+'</td><td>'+esc(s.obs||'')+'</td></tr>';}).join('')+'</table>':'<p class="fempty">Nada agendado por enquanto.</p>')+
-  (real.length?'<p class="fsub" style="margin:12px 0 6px"><b>Já realizadas ('+real.length+')</b></p><table>'+real.map(function(s){return '<tr><td>'+dataBR(s.data)+'</td><td>'+esc(s.pacote||'Sessão')+' #'+(s.num!=null?s.num:'—')+'</td><td>'+esc(s.obs||'')+'</td></tr>';}).join('')+'</table>':'<p class="fempty">Nenhuma realizada ainda.</p>'));
- h+=folha(['pag','04'],'Pagamentos',
-  pag.length?'<table><tr><th>Data</th><th>Forma</th><th>Observação</th><th class="num">Valor</th></tr>'+
+ /* SESSÕES */
+ h+=sec('ses','Sessões',
+  (prox.length?'<p class="fsub" style="margin-bottom:6px"><b style="color:#e7c96a">Próximas</b></p><table>'+prox.map(function(s){return '<tr><td>'+dataBR(s.data)+'</td><td>'+esc(s.pacote||'Sessão')+' #'+(s.num!=null?s.num:'—')+'</td><td>'+esc(s.obs||'')+'</td></tr>';}).join('')+'</table>':'<p class="fempty">Nada agendado por enquanto.</p>')+
+  (real.length?'<p class="fsub" style="margin:12px 0 6px"><b style="color:#e7c96a">Já realizadas ('+real.length+')</b></p><table>'+real.map(function(s){return '<tr><td>'+dataBR(s.data)+'</td><td>'+esc(s.pacote||'Sessão')+' #'+(s.num!=null?s.num:'—')+'</td><td>'+esc(s.obs||'')+'</td></tr>';}).join('')+'</table>':'<p class="fempty">Nenhuma realizada ainda.</p>'));
+ /* PAGAMENTOS */
+ h+=sec('pag','Pagamentos',
+  (contratado?'<p class="fsub" style="margin-bottom:8px">Contratado: <b>'+brl(contratado)+'</b> · Pago: <b class="pos">'+brl(pago)+'</b> · Em aberto: <b class="aberto">'+brl(aberto)+'</b></p>':'')+
+  (pag.length?'<table><tr><th>Data</th><th>Forma</th><th>Observação</th><th class="num">Valor</th></tr>'+
   pag.map(function(p){return '<tr><td>'+dataBR(p.data)+'</td><td>'+esc(p.metodo||'—')+'</td><td>'+esc(p.obs||'')+'</td><td class="num">'+brl(p.valor)+'</td></tr>';}).join('')+
-  '<tr><td colspan="3" style="text-align:right"><b>Total pago</b></td><td class="num"><b>'+brl(pago)+'</b></td></tr></table>'
-  :'<p class="fempty">Nenhum pagamento registrado.</p>');
+  '<tr><td colspan="3" style="text-align:right"><b>Total pago</b></td><td class="num"><b class="pos">'+brl(pago)+'</b></td></tr></table>'
+  :'<p class="fempty">Nenhum pagamento registrado.</p>'));
  document.getElementById('fcBody').innerHTML=h;
  document.getElementById('fcNav').style.display='flex';
 }
@@ -112,12 +149,16 @@ fetch(API+'/rest/v1/rpc/fenix_cliente_pub',{method:'POST',headers:{'Content-Type
  if(!d||!d.cliente){document.getElementById('fcBody').innerHTML='<p class="estado"><b>Link inválido ou cliente não encontrada.</b><br>Confira o endereço ou peça um novo link à clínica.</p>';document.getElementById('fcClin').textContent='—';return;}
  render(d);})
 .catch(function(){document.getElementById('fcBody').innerHTML='<p class="estado"><b>Sem conexão agora.</b><br>Verifique a internet e recarregue a página.</p>';});
+function vai(sel){var alvo=document.querySelector(sel);if(alvo)alvo.scrollIntoView({behavior:'smooth',block:'start'});}
 document.getElementById('fcNav').addEventListener('click',function(e){
  var b=e.target.closest('button');if(!b)return;
- var alvo=document.getElementById('f-'+b.dataset.go);
- if(alvo)alvo.scrollIntoView({behavior:'smooth',block:'start'});
+ vai('#'+b.dataset.go);
  var bs=this.querySelectorAll('button');for(var i=0;i<bs.length;i++)bs[i].classList.remove('on');
  b.classList.add('on');});
+document.addEventListener('click',function(e){
+ var m=e.target.closest('.menulist li.ok');if(!m)return;
+ vai('#'+m.dataset.go);
+ var bs=document.querySelectorAll('.fcnav button');for(var i=0;i<bs.length;i++)bs[i].classList.toggle('on',bs[i].dataset.go===m.dataset.go);});
 })();
 </script>
 </body>
