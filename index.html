@@ -878,7 +878,7 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 <symbol id="i-ai" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
 <symbol id="i-pin" viewBox="0 0 24 24"><path d="M9 3h6l-1 6 4 3v2H6v-2l4-3-1-6Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 14v7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
-<symbol id="i-form" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8.5 8h7M8.5 12h7M8.5 16h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+<symbol id="i-form" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8.5 8h7M8.5 12h7M8.5 16h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol><symbol id="i-gauge" viewBox="0 0 24 24"><path d="M4 14a8 8 0 1 1 16 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 14l4.2-4.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="14" r="1.7" fill="currentColor"/><path d="M5 20h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
 </svg>
 <svg class="watermark" viewBox="0 0 1440 960"><use href="#phoenix"/></svg>
 
@@ -976,7 +976,7 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <p class="navnote">Gerencia os links e o acesso dos seus clientes. O app próprio de cada uma fica em <b>clients/index.html#cli=ID</b>.</p>
 </nav>
 <nav class="sidenav hidden" id="navDados">
-<button class="navbtn" data-dsub="backup"><svg class="ic"><use href="#i-save"/></svg>Backup</button>
+<button class="navbtn" data-dsub="uso"><svg class="ic"><use href="#i-gauge"/></svg>Uso</button><button class="navbtn" data-dsub="backup"><svg class="ic"><use href="#i-save"/></svg>Backup</button>
 <button class="navbtn" data-dsub="sync"><svg class="ic"><use href="#i-refresh"/></svg>Sincronização</button>
 <button class="navbtn" data-dsub="theme"><svg class="ic"><use href="#i-spark"/></svg>Aparência</button>
 <button class="navbtn" data-dsub="otim"><svg class="ic"><use href="#i-bolt"/></svg>Otimização</button>
@@ -1366,6 +1366,27 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 </div>
 </section>
 
+<section id="viewUso" class="view hidden">
+<div class="panelcard">
+<h3>Uso da nuvem</h3>
+<p class="sub">Quanto do armazenamento grátis da nuvem a clínica está usando. Combinado com o dono: passando de 70%, é hora de migrar o banco pro servidor próprio (Fly.io) — e o próprio app avisa aqui embaixo.</p>
+<div style="margin-top:14px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap">
+<b id="usoPct" style="font-size:2.2rem;color:#d4af37">—</b>
+<span class="sub" id="usoBytes">toque em “Medir agora”</span>
+</div>
+<div style="height:14px;border-radius:8px;background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.35);overflow:hidden;margin-top:10px">
+<div id="usoBarra" style="height:100%;width:0%;background:linear-gradient(90deg,#8dffb0,#d4af37);transition:width .6s"></div>
+</div>
+<p class="sub" id="usoNota" style="margin-top:10px">A medida é feita ao vivo na nuvem.</p>
+<div id="usoAlerta" class="hidden" style="margin-top:12px;padding:12px 14px;border:1.5px dashed #d4af37;border-radius:10px;background:rgba(212,175,55,.08)">
+<b>⚠️ Passou de 70% — hora de planejar a migração pro Fly.io</b>
+<p class="sub" style="margin-top:4px">Combinado com o dono: nesse ponto a gente migra o banco pro servidor próprio (Fly.io) sem tirar nada do ar.</p>
+</div>
+<button class="btn ghost" id="usoAtualiza" type="button" style="margin-top:14px"><svg class="ic"><use href="#i-refresh"/></svg>Medir agora</button>
+</div>
+</div>
+</section>
 <section id="viewSistema" class="view hidden">
 <div class="panelcard" id="updBox">
 <h3>Atualização</h3>
@@ -2195,7 +2216,7 @@ const uid=()=>(window.crypto&&crypto.randomUUID)?crypto.randomUUID():'xxxxxxxx-x
 const initials=n=>{const p=String(n||'').trim().split(/\s+/);return((p[0]&&p[0][0]||'')+(p.length>1?p[p.length-1][0]:'')).toUpperCase()};
 const fmtBRL=v=>Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 const fmtDate=d=>d?String(d).split('-').reverse().join('/'):'—';
-const fmtSize=b=>b>1048576?(b/1048576).toFixed(1)+' MB':Math.max(1,Math.round((b||0)/1024))+' KB';
+const fmtSize=b=>b>=1073741824?(b/1073741824).toFixed(1)+' GB':b>1048576?(b/1048576).toFixed(1)+' MB':Math.max(1,Math.round((b||0)/1024))+' KB';
 const parseMoney=v=>{v=String(v).trim();if(!v)return NaN;if(v.includes(','))v=v.replace(/\./g,'').replace(',','.');return parseFloat(v)};
 const todayISO=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
 const curYM=()=>todayISO().slice(0,7);
@@ -2598,6 +2619,22 @@ if(!d||typeof d!=='object')throw new Error('formato');
 ['cli','pkg','ses','pay','ag','fin','arq','doc','alarm','iac','iam','form','resp','cat'].forEach(k=>{DB[k]=Array.isArray(d[k])?d[k]:[];});
 persistAll();renderBackupSummary();renderBkpList();renderApp();}
 function storageMB(){return (getArq().reduce((s,f)=>s+(f.url||'').length,0)/1048576).toFixed(1);}
+let usoBusy=false;
+async function renderUso(){const pe=$('usoPct'),bt=$('usoBytes'),bar=$('usoBarra'),nt=$('usoNota'),al=$('usoAlerta');if(!pe)return;
+if(!(REMOTE&&SB_TOKEN)){pe.textContent='—';bt.textContent='entre na clínica pra medir';nt.textContent='A medida é feita na nuvem — entre com o usuário da clínica e tente de novo.';al.classList.add('hidden');return;}
+if(usoBusy)return;usoBusy=true;try{
+pe.textContent='…';bt.textContent='medindo na nuvem…';
+const r=await fetch(NUVEM_URL.replace(/\/$/,'')+'/uso',{headers:{'Authorization':'Bearer '+SB_TOKEN}});
+if(!r.ok)throw new Error('http'+r.status);
+const d=await r.json();const quota=d.quota||5368709120,gat=d.gatilho||quota*.7,p=Math.max(.001,(d.bytes||0)/quota*100);
+pe.textContent=(p<1?p.toFixed(2):p.toFixed(1)).replace('.',',')+'%';
+bt.textContent=fmtSize(d.bytes||0)+' de '+fmtSize(quota);
+bar.style.width=Math.min(100,Math.max(2,p))+'%';
+bar.style.background=p>=70?'linear-gradient(90deg,#d4af37,#ff9d9d)':'linear-gradient(90deg,#8dffb0,#d4af37)';
+nt.textContent='Gatilho da migração (combinado): '+fmtSize(gat);
+al.classList.toggle('hidden',(d.bytes||0)<gat);
+}catch(e){pe.textContent='—';bt.textContent='não deu pra medir agora';nt.textContent='Sem resposta da nuvem neste momento — tente de novo em instantes.';}
+usoBusy=false;}
 function renderBackupSummary(){const el=$('backupSummary');if(!el)return;
 const avs=getSes().filter(s=>!s.pacoteId);
 el.textContent=getCli().length+' cliente(s) · '+getPkg().length+' pacote(s) · '+getSes().length+' sessão(ões) ('+avs.length+' avulsa(s)) · '+
@@ -2866,15 +2903,17 @@ $('viewSync').classList.toggle('hidden',!(dados&&state.dsub==='sync'));
 $('viewTheme').classList.toggle('hidden',!(dados&&state.dsub==='theme'));
 $('viewOtim').classList.toggle('hidden',!(dados&&state.dsub==='otim'));
 $('viewSistema').classList.toggle('hidden',!(dados&&state.dsub==='sistema'));
+$('viewUso').classList.toggle('hidden',!(dados&&state.dsub==='uso'));
 if(dados||anyStudio||equipe||clients){VIEWS.forEach(x=>$('view'+cap(x)).classList.add('hidden'));$('viewCliente').classList.add('hidden');}
 if(dados){
 document.querySelectorAll('#navGestao .navbtn,#navStudio .navbtn,#navCatalogo .navbtn,#navEquipe .navbtn').forEach(b=>b.classList.remove('active'));
 document.querySelectorAll('#navDados .navbtn').forEach(b=>b.classList.toggle('active',b.dataset.dsub===state.dsub));
-$('viewTitle').textContent=state.dsub==='backup'?'Dados · Backup':(state.dsub==='sync'?'Dados · Sincronização':(state.dsub==='otim'?'Dados · Otimização':(state.dsub==='sistema'?'Dados · Sistema':'Dados · Aparência')));
+$('viewTitle').textContent=state.dsub==='uso'?'Dados · Uso':state.dsub==='backup'?'Dados · Backup':(state.dsub==='sync'?'Dados · Sincronização':(state.dsub==='otim'?'Dados · Otimização':(state.dsub==='sistema'?'Dados · Sistema':'Dados · Aparência')));
 if(state.dsub==='backup'){renderBackupSummary();renderBkpList();}
 if(state.dsub==='sync')paintSyncPanel();
 if(state.dsub==='otim')applyPerf(currentPerf());
 if(state.dsub==='sistema')paintZoom();
+if(state.dsub==='uso')renderUso();
 updateBack();return;}
 if(catalogo){
 document.querySelectorAll('#navGestao .navbtn,#navDados .navbtn,#navEquipe .navbtn,#navStudio .navbtn').forEach(b=>b.classList.remove('active'));
@@ -4773,6 +4812,7 @@ zoomPaint();msg($('zoomMsg'),'✔ Zoom em '+Math.round(v*100)+'% — salvo no ap
 if($('zoomMenos'))$('zoomMenos').addEventListener('click',()=>zoomApply(zoomCur()-.05));
 if($('zoomMais'))$('zoomMais').addEventListener('click',()=>zoomApply(zoomCur()+.05));
 if($('zoomPad'))$('zoomPad').addEventListener('click',()=>zoomApply(1));
+if($('usoAtualiza'))$('usoAtualiza').addEventListener('click',()=>renderUso());
 $('btnTrocarSenha').addEventListener('click',async()=>{const a=$('senhaNova').value,b=$('senhaConf').value;
 if(a.length<6)return msg($('senhaMsg'),'A nova senha precisa de pelo menos 6 caracteres.','err');
 if(a!==b)return msg($('senhaMsg'),'As senhas não conferem.','err');
@@ -5398,7 +5438,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.19';
+const APP_VERSAO='1.6.20';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{

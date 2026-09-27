@@ -1,10 +1,8 @@
 {
-  "versao": "1.6.19",
-  "r": "R34",
+  "versao": "1.6.20",
+  "r": "R35",
   "melhorias": [
-    "Mensagens reais entre usuários da equipe — envia, recebe e sincroniza a cada 20s",
-    "Planilhas: primeiro cria o arquivo com nome, depois entra e edita (e o Forms não fica mais marcado junto)",
-    "Aparência › Lado da barra: Tradicional (esquerda) ou Direita"
+    "Dados › Uso: medidor do espaço da nuvem — mostra % usado, barra e avisa em 70% (hora de migrar pro Fly.io), com medida ao vivo no botão “Medir agora”"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }
