@@ -918,12 +918,12 @@ html[data-theme="light"] .updtoast{background:#fffdf6;color:#241f13;box-shadow:0
 <button class="navbtn" data-view="agenda"><svg class="ic"><use href="#i-cal"/></svg>Agenda</button>
 <button class="navbtn" data-view="financeiro"><svg class="ic"><use href="#i-fin"/></svg>Financeiro</button>
 <button class="navbtn" data-view="arquivos"><svg class="ic"><use href="#i-fold"/></svg>Arquivos</button>
-<button class="navbtn" data-view="extras"><svg class="ic"><use href="#i-spark"/></svg>Funções extras</button>
 </nav>
 <nav class="sidenav hidden" id="navStudio">
 <button class="navbtn active" data-sview="docs"><svg class="ic"><use href="#i-doc"/></svg>Documentos</button>
 <button class="navbtn" data-sview="forms"><svg class="ic"><use href="#i-form"/></svg>Formulários</button>
 <button class="navbtn" data-sview="relatorios"><svg class="ic"><use href="#i-spark"/></svg>Relatórios</button>
+<button class="navbtn" data-sview="planilha"><svg class="ic"><use href="#i-fold"/></svg>Planilha</button>
 <p class="navnote">Documentos estilo Word e formulários da clínica, tudo em um lugar.</p>
 </nav>
 <nav class="sidenav hidden" id="navCatalogo">
@@ -931,6 +931,7 @@ html[data-theme="light"] .updtoast{background:#fffdf6;color:#241f13;box-shadow:0
 <p class="navnote">Procedimentos da clínica — itens de referência, com ou sem preço. Não interfere em pacotes nem financeiro.</p>
 </nav>
 <nav class="sidenav hidden" id="navEquipe">
+<button class="navbtn" data-esub="usuarios"><svg class="ic"><use href="#i-users"/></svg>Usuários</button>
 <button class="navbtn" data-esub="msgs"><svg class="ic"><use href="#i-send"/></svg>Mensagens</button>
 </nav>
 <nav class="sidenav hidden" id="navClients">
@@ -1186,6 +1187,19 @@ html[data-theme="light"] .updtoast{background:#fffdf6;color:#241f13;box-shadow:0
 </section>
 
 <!-- ================= EQUIPE ================= -->
+<section id="viewUsuarios" class="view hidden">
+<div class="panelcard">
+<div class="sec-head"><div class="pc-tt"><h3>Usuários</h3><p class="sub" id="eqUsuCount"></p></div></div>
+<p class="sub" style="margin:4px 0 10px">Todos os usuários deste aparelho — nenhum superior ao outro por enquanto.</p>
+<ul class="list" id="eqUsuList"></ul>
+<div class="field" style="margin-top:12px"><label>Cadastrar usuário</label>
+<input class="input" id="eqUsuNome" placeholder="Nome de usuário" style="margin-bottom:8px">
+<input class="input" type="password" id="eqUsuSenha" placeholder="Senha (mín. 4 caracteres)"></div>
+<div class="rowbtns" style="margin-top:10px"><button class="btn small" id="eqUsuAdd" type="button">Cadastrar</button></div>
+<p class="msg" id="eqUsuMsg"></p>
+</div>
+</section>
+
 <section id="viewEquipe" class="view hidden">
 <div id="eqHome">
 <div class="panelcard" style="text-align:center;padding:60px 24px">
@@ -1256,6 +1270,18 @@ html[data-theme="light"] .updtoast{background:#fffdf6;color:#241f13;box-shadow:0
 </div>
 </div>
 
+<section id="viewPlanilha" class="view hidden">
+<div class="panelcard">
+<div class="sec-head"><div class="pc-tt"><h3>Planilha</h3><p class="sub" id="plnInfo"></p></div>
+<div class="rowbtns"><button class="btn small ghost" id="plnLinha" type="button">+ Linha</button>
+<button class="btn small ghost" id="plnCol" type="button">+ Coluna</button>
+<button class="btn small ghost" id="plnLinDel" type="button">– Última linha</button>
+<button class="btn small ghost" id="plnColDel" type="button">– Última coluna</button></div></div>
+<div style="overflow-x:auto;margin-top:10px"><table id="plnTab" style="min-width:520px"></table></div>
+<p class="sub" style="margin-top:8px">Clique numa célula para escrever. Tudo fica salvo neste aparelho — funções extras chegam em breve.</p>
+</div>
+</section>
+
 <!-- ================= DADOS ================= -->
 <section id="viewRelatorios" class="view hidden">
 <div class="panelcard">
@@ -1266,13 +1292,15 @@ html[data-theme="light"] .updtoast{background:#fffdf6;color:#241f13;box-shadow:0
 <div class="cinfo"><strong>Clínica completa</strong><small>Retrato de tudo: resumo, financeiro, clientes, pacotes, sessões, agenda e pagamentos</small></div></button>
 <button class="mode-opt" id="relTipoCliente" type="button"><span class="mico"><svg class="ic"><use href="#i-users"/></svg></span>
 <div class="cinfo"><strong>Uma cliente específica</strong><small>O que ela contratou, pagou, ainda deve e as sessões dela</small></div></button>
+<button class="mode-opt" id="relTipoPers" type="button"><span class="mico"><svg class="ic"><use href="#i-spark"/></svg></span>
+<div class="cinfo"><strong>Personalizado</strong><small>Você escolhe a cliente e quais partes aparecem</small></div></button>
 </div>
 <div id="relCliBox" class="hidden" style="margin-top:12px">
 <label>Escolha a cliente</label>
 <div class="field"><select id="relCliSel"><option value="">—</option></select></div>
 </div>
-<div style="margin-top:12px">
-<label>Relatório personalizado — escolha o que aparece (vale pra clínica ou pra uma cliente)</label>
+<div id="relPersBox" class="hidden" style="margin-top:12px">
+<label>Escolha o que aparece no relatório</label>
 <div class="chips" id="relSecChips" style="margin-top:8px"></div>
 <p class="sub" style="margin:6px 0 0">Desmarque o que não quiser — o PDF sai só com as partes escolhidas.</p>
 </div>
@@ -1971,6 +1999,33 @@ html[data-theme="light"] .updtoast{background:#fffdf6;color:#241f13;box-shadow:0
 </div>
 </div>
 
+<div id="userModal" class="pmodal-soft hidden">
+<div class="pmcard">
+<h3 style="margin:8px 0 0">Quem está usando?</h3>
+<p class="sub" style="margin-top:6px" id="userSub"></p>
+<div id="userList" style="display:flex;flex-direction:column;gap:8px;margin-top:10px"></div>
+<div id="userPassBox" class="hidden" style="margin-top:10px">
+<label>Senha de <b id="userPassNome"></b></label>
+<input class="input" type="password" id="userPass" placeholder="Senha do usuário">
+<div class="rowbtns" style="margin-top:10px">
+<button class="btn ghost" id="userBack" type="button">Voltar</button>
+<button class="btn gold" id="userEnter" type="button">Entrar</button>
+</div>
+</div>
+<div id="userNewBox" class="hidden" style="margin-top:10px">
+<label>Nome de usuário</label>
+<input class="input" id="userNewNome" placeholder="ex.: Maria">
+<label style="margin-top:8px">Senha</label>
+<input class="input" type="password" id="userNewSenha" placeholder="mínimo 4 caracteres">
+<div class="rowbtns" style="margin-top:10px">
+<button class="btn ghost" id="userNewBack" type="button">Voltar</button>
+<button class="btn gold" id="userNewSave" type="button">Cadastrar e entrar</button>
+</div>
+</div>
+<p class="msg" id="userMsg"></p>
+</div>
+</div>
+
 <main id="clientPub" class="screen hidden">
 <div class="cpwrap">
 <div id="cpBody"><p class="sub" style="text-align:center">Carregando…</p></div>
@@ -2658,6 +2713,7 @@ studio:{nome:'Studio',desc:'Documentos e formulários',icon:'i-spark'},
 catalogo:{nome:'Catálogo',desc:'Itens, kits e prontos da clínica',icon:'i-box'},
 clients:{nome:'Fênix Clients',desc:'Área do cliente final — link de consulta',icon:'i-users'},
 equipe:{nome:'Equipe',desc:'Usuários do app da clínica',icon:'i-id'},
+extras:{nome:'Funções extras',desc:'Espaço reservado pra novidades',icon:'i-spark'},
 dados:{nome:'Dados',desc:'Backup, sincronização e aparência',icon:'i-save'}};
 function setMode(m,save=true){
 if(!MODES[m])m='gestao';   /* modo removido/salvo antigo → volta pro Gestão */
@@ -2667,6 +2723,7 @@ if(m==='studio')Object.assign(state,{view:'studio',sview:'docs',docId:null});
 else if(m==='catalogo')Object.assign(state,{view:'catalogo',csub:'procedimentos',catEd:false,catId:null});
 else if(m==='equipe')Object.assign(state,{view:'equipe',esub:(state.esub==='msgs'?'msgs':'home')});
 else if(m==='clients')Object.assign(state,{view:'clients'});
+else if(m==='extras')Object.assign(state,{view:'extras'});
 else if(m==='dados')Object.assign(state,{view:'dados',dsub:'backup'});
 else Object.assign(state,{view:'inicio',sub:'perfil',pacoteId:null,psub:'menu',docId:null});
 if(save&&currentKey)store('fk_mode_'+currentKey,m);
@@ -2773,8 +2830,10 @@ updateBack();return;}
 if(equipe){
 document.querySelectorAll('#navGestao .navbtn,#navDados .navbtn,#navStudio .navbtn,#navCatalogo .navbtn,#navClients .navbtn').forEach(b=>b.classList.remove('active'));
 document.querySelectorAll('#navEquipe .navbtn').forEach(b=>b.classList.toggle('active',b.dataset.esub===(state.esub||'home')));
-if($('eqHome'))$('eqHome').classList.toggle('hidden',state.esub==='msgs');
+if($('eqHome'))$('eqHome').classList.toggle('hidden',state.esub==='msgs'||state.esub==='usuarios');
 if($('eqMsgs'))$('eqMsgs').classList.toggle('hidden',state.esub!=='msgs');
+if($('eqUsuarios'))$('eqUsuarios').classList.toggle('hidden',state.esub!=='usuarios');
+if(state.esub==='usuarios')renderEqUsu();
 if(state.esub==='msgs')$('viewTitle').textContent='Equipe · Mensagens';else $('viewTitle').textContent='Equipe';
 if(state.esub==='msgs')renderEqMsgs();
 updateBack();return;}
@@ -2808,6 +2867,7 @@ document.querySelectorAll('#navEquipe .navbtn').forEach(b=>b.addEventListener('c
 document.querySelectorAll('#navStudio .navbtn').forEach(b=>b.addEventListener('click',()=>{
 if(b.dataset.sview==='docs')navigate(()=>{state.sview='docs';state.docId=null;state.formId=null;formDraft=null;state.respForm=null;state.respId=null;});
 else if(b.dataset.sview==='forms')navigate(()=>{state.sview='forms';state.formId=null;formDraft=null;state.respForm=null;state.respId=null;});
+else if(b.dataset.sview==='planilha')navigate(()=>{state.sview='planilha';renderPlanilha();});
 else if(b.dataset.sview==='relatorios')navigate(()=>{state.sview='relatorios';state.docId=null;state.formId=null;formDraft=null;state.respForm=null;state.respId=null;});closeSide();}));
 $('btnMenu').addEventListener('click',()=>{$('sidebar').classList.add('open');$('backdrop').classList.add('show');});
 $('backdrop').addEventListener('click',closeSide);
@@ -3802,6 +3862,7 @@ $('dock').classList.add('hidden');
 Object.keys(DB).forEach(k=>DB[k]=[]);
 $('cloudBadge').classList.add('hidden');
 $('appScreen').classList.add('hidden');$('authScreen').classList.remove('hidden');
+try{localStorage.removeItem('fenix_user_ativo');}catch(e){}
 $('loginSenha').value='';$('authScreen').scrollTop=0;});
 function entrarUI(nome,key){
 try{$('authScreen').classList.add('hidden');$('appScreen').classList.remove('hidden');
@@ -4694,7 +4755,7 @@ return {};}
 function relSecs(k){const S=relSecsAtivas();const L=k.cid?
 [['resumo','Resumo'],['fin','Financeiro'],['pac','Pacotes'],['ses','Sessões'],['pag','Pagamentos']]:
 [['resumo','Resumo geral'],['fin','Financeiro'],['cli','Clientes'],['pac','Pacotes'],['ses','Sessões'],['ag','Agenda'],['pag','Pagamentos']];
-return L.filter(s=>S[s[0]]!==false);}
+return L.filter(s=>!relPers||S[s[0]]!==false);}
 function relAppSection(k,tab){
 const stat=(v,l,c)=>'<div class="stat"><b'+(c?' style="color:'+c+'"':'')+'>'+v+'</b><span>'+l+'</span></div>';
 const crow=(a,b,bd)=>'<div class="crow"><div><strong>'+a+'</strong>'+(b?'<small>'+b+'</small>':'')+'</div>'+(bd||'')+'</div>';
@@ -4947,7 +5008,9 @@ secDoc(k.cid?5:7,'Pagamentos','rel-pag')+
 '</div></body></html>';}
 function relLoadHTML(txt){return '<div class="relload"><div class="spinner"></div><p class="sub" style="margin-top:10px">'+txt+'</p><div class="loadbar" style="max-width:260px;margin:10px auto 0"><i style="width:70%"></i></div></div>';}
 function relMontar(){
-relScope=(getSel('relTipoCliente')&&document.getElementById('relTipoCliente').classList.contains('current'))?'cliente':'clinica';
+const pers=document.getElementById('relTipoPers').classList.contains('current');
+relScope=pers?'cliente':relScope;
+relPers=pers;
 let cid=null;
 if(relScope==='cliente'){cid=$('relCliSel').value;
 if(!cid)return msg($('relMsg'),'Escolha a cliente do relatório.','err');}
@@ -4964,11 +5027,15 @@ try{$('relPrev').scrollIntoView({behavior:'smooth',block:'start'});}catch(e){}},
 function getSel(id){return document.getElementById(id);}
 $('relTipoClinica').addEventListener('click',()=>{applyRelTipo('clinica');});
 $('relTipoCliente').addEventListener('click',()=>{applyRelTipo('cliente');});
+$('relTipoPers').addEventListener('click',()=>{applyRelTipo('pers');});
+let relPers=false;
 function applyRelTipo(t){relScope=t;
 $('relTipoClinica').classList.toggle('current',t==='clinica');
 $('relTipoCliente').classList.toggle('current',t==='cliente');
-$('relCliBox').classList.toggle('hidden',t!=='cliente');
-if(t==='cliente'){const sel=$('relCliSel');const cur=sel.value;
+$('relTipoPers').classList.toggle('current',t==='pers');
+$('relCliBox').classList.toggle('hidden',t!=='cliente'&&t!=='pers');
+$('relPersBox').classList.toggle('hidden',t!=='pers');
+if(t==='cliente'||t==='pers'){const sel=$('relCliSel');const cur=sel.value;
 sel.innerHTML='<option value="">Escolha…</option>'+getCli().slice().sort((a,b)=>(a.nome||'').localeCompare(b.nome||'')).map(c=>'<option value="'+c.id+'">'+esc(c.nome)+'</option>').join('');
 sel.value=cur;}}
 $('btnRelMontar').addEventListener('click',relMontar);
@@ -5006,7 +5073,7 @@ xref+='trailer\n<< /Size '+(objs.length+1)+' /Root 1 0 R >>\nstartxref\n'+total+
 return header+objs.map((o,i)=>(i+1)+' 0 obj\n'+o+'\nendobj\n').join('')+xref;}
 /* R24 — personalizado: filtros por seção (prévia, documento e PDF) */
 const REL_TITULOS={'RESUMO GERAL':'resumo','FINANCEIRO':'fin','CLIENTES':'cli','PACOTES':'pac','SESSÕES':'ses','AGENDA':'ag','PAGAMENTOS':'pag'};
-function relTxtFiltrado(txt){const S=relSecsAtivas();const L=String(txt).split('\n');const out=[];let pula=false;
+function relTxtFiltrado(txt){if(!relPers)return txt;const S=relSecsAtivas();const L=String(txt).split('\n');const out=[];let pula=false;
 for(let i=0;i<L.length;i++){const l=L[i];const m=l.match(/^\[[0-9]+\] (.+)$/);
 if(m){const key=REL_TITULOS[m[1].toUpperCase()]||'';pula=!!(key&&S[key]===false);
 if(pula&&out.length&&out[out.length-1]==='------------------------------------------------------------')out.pop();
@@ -5014,7 +5081,7 @@ if(pula&&out.length&&!out[out.length-1])out.pop();
 if(!pula)out.push(l);continue;}
 if(!pula)out.push(l);}
 return out.join('\n');}
-function relFiltraDoc(doc){const S=relSecsAtivas();let D=doc;
+function relFiltraDoc(doc){if(!relPers)return doc;const S=relSecsAtivas();let D=doc;
 ['resumo','fin','cli','pac','ses','ag','pag'].forEach(key=>{if(S[key]!==false)return;
 D=D.replace(new RegExp('<a href="#rel-'+key+'">[^<]*</a>'),'');
 let a=D.indexOf('<h2 id="rel-'+key+'">');if(a<0)return;
@@ -5229,7 +5296,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.13';
+const APP_VERSAO='1.6.14';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{
@@ -5278,6 +5345,44 @@ const sb=document.querySelector('#navDados [data-dsub="sistema"]');if(sb)sb.clic
 const vs=$('viewSistema');if(vs&&!vs.classList.contains('hidden'))try{vs.scrollIntoView({behavior:'smooth'});}catch(e){}};
 document.body.appendChild(d);updToastEl=d;
 setTimeout(()=>{if(d&&d.parentNode){d.remove();if(updToastEl===d)updToastEl=null;}},15000);}
+
+/* ===== R29 — Planilha (Studio): grade simples editável, salva no aparelho ===== */
+let PLN=null;
+function plnCarrega(){try{PLN=JSON.parse(localStorage.getItem('fenix_pln')||'null');}catch(e){PLN=null;}
+if(!PLN||!Array.isArray(PLN.rows)||!Array.isArray(PLN.cols))PLN={cols:['Item','Valor','Obs'],rows:[['','']]};}
+function plnSalva(){try{localStorage.setItem('fenix_pln',JSON.stringify(PLN));}catch(e){}}
+function renderPlanilha(){plnCarrega();const t=$('plnTab');if(!t)return;
+let h='<tr>';
+PLN.cols.forEach((c,ci)=>{h+='<th style="padding:8px;border:1px solid var(--line);background:rgba(212,175,55,.08)"><input data-plnh="'+ci+'" value="'+esc(c)+'" style="width:100%;min-width:110px;background:none;border:0;color:var(--gold);font:700 .78rem Montserrat;outline:none"></th>';});
+h+='</tr>';
+PLN.rows.forEach((r,ri)=>{h+='<tr>';
+PLN.cols.forEach((c,ci)=>{const val=(r[ci]!=null?r[ci]:'');h+='<td style="border:1px solid var(--line);padding:0"><input data-plnr="'+ri+'" data-plnc="'+ci+'" value="'+esc(val)+'" style="width:100%;min-width:110px;background:none;border:0;color:var(--txt);font:inherit;font-size:.86rem;padding:8px;outline:none"></td>';});
+h+='</tr>';});
+t.innerHTML=h;
+$('plnInfo').textContent=PLN.rows.length+' linha(s) × '+PLN.cols.length+' coluna(s) · salvo automaticamente';
+t.oninput=e=>{const el=e.target;
+if(el.dataset.plnh!=null){PLN.cols[+el.dataset.plnh]=el.value;plnSalva();return;}
+if(el.dataset.plnr!=null){const ri=+el.dataset.plnr,ci=+el.dataset.plnc;
+if(!PLN.rows[ri])PLN.rows[ri]=[];PLN.rows[ri][ci]=el.value;plnSalva();}};}
+$('plnLinha').addEventListener('click',()=>{PLN.rows.push(PLN.cols.map(()=>''));plnSalva();renderPlanilha();});
+$('plnCol').addEventListener('click',()=>{PLN.cols.push('Coluna '+(PLN.cols.length+1));PLN.rows.forEach(r=>r.push(''));plnSalva();renderPlanilha();});
+$('plnLinDel').addEventListener('click',()=>{if(PLN.rows.length>1){PLN.rows.pop();plnSalva();renderPlanilha();}});
+$('plnColDel').addEventListener('click',()=>{if(PLN.cols.length>1){PLN.cols.pop();PLN.rows.forEach(r=>r.pop());plnSalva();renderPlanilha();}});
+
+/* ===== R29 — Equipe › Usuários (lista plana, sem hierarquia) ===== */
+document.addEventListener('click',e=>{const b=e.target.closest('[data-esub="usuarios"]');if(!b)return;
+navigate(()=>{state.esub='usuarios';});});
+function renderEqUsu(){const ul=$('eqUsuList');if(!ul)return;
+const us=getUsu();$('eqUsuCount').textContent=us.length+' usuário(s)';
+ul.innerHTML=us.length?us.map(u=>'<li class="client"><span class="avatar">'+esc(String(u.nome||'?').charAt(0).toUpperCase())+'</span><div class="cinfo"><strong>'+esc(u.nome||u.username||'usuário')+'</strong><small>acesso igual · sem hierarquia</small></div></li>').join(''):'<li class="empty">Nenhum usuário ainda — cadastre o primeiro abaixo.</li>';}
+$('eqUsuAdd').addEventListener('click',()=>{
+const nome=String($('eqUsuNome').value||'').trim(),senha=String($('eqUsuSenha').value||'');
+if(nome.length<2)return msg($('eqUsuMsg'),'Dê um nome ao usuário (mín. 2 letras).','err');
+if(senha.length<4)return msg($('eqUsuMsg'),'A senha precisa ter pelo menos 4 caracteres.','err');
+if(getUsu().some(u=>String(u.nome||'').toLowerCase()===nome.toLowerCase()))return msg($('eqUsuMsg'),'Já existe usuário com esse nome.','err');
+setUsu(getUsu().concat([{id:uid(),nome,senha}]));
+$('eqUsuNome').value='';$('eqUsuSenha').value='';
+msg($('eqUsuMsg'),'✔ Usuário '+esc(nome)+' cadastrado — vale também na tela de entrar.','ok');renderEqUsu();});
 
 /* ===================== BOOTSTRAP ===================== */
 applyTheme(currentTheme());
@@ -5337,7 +5442,43 @@ setTimeout(()=>{try{fn();}catch(e){$('enterLoad').classList.add('hidden');showEr
 bar.style.width='100%';
 setTimeout(()=>{$('enterLoad').classList.add('hidden');bar.style.width='0';
 $('welcomeModal').classList.remove('hidden');},380);},1450);}
-$('btnWelcomeGo').addEventListener('click',()=>$('welcomeModal').classList.add('hidden'));
+let selUsu=null;
+function ultUsu(){try{return JSON.parse(localStorage.getItem('fenix_user_ativo')||'null')}catch(e){return null}}
+function renderUserStep(modo){
+if(!modo)modo=ultUsu()?'confirm':(getUsu().length?'lista':'cad');
+const us=getUsu();
+$('userSub').textContent='Clínica: '+($('appClinic').textContent||'—')+(us.length?(' · '+us.length+' usuário(s) neste aparelho'):' · nenhum usuário ainda');
+$('userList').classList.remove('hidden');
+$('userNewBox').classList.toggle('hidden',modo!=='cad');
+$('userPassBox').classList.toggle('hidden',modo!=='pass');
+if(modo==='pass')$('userList').classList.add('hidden');
+$('userMsg').textContent='';
+const ul=$('userList');ul.innerHTML='';
+if(modo==='cad')return;
+const last=ultUsu();
+const add=(txt,sub,fn,cur)=>{const b=document.createElement('button');b.className='mode-opt'+(cur?' current':'');b.type='button';
+b.innerHTML='<span class="mico">'+esc(txt.charAt(0).toUpperCase())+'</span><div class="cinfo"><strong>'+esc(txt)+'</strong><small>'+esc(sub)+'</small></div>';
+b.onclick=fn;ul.appendChild(b);};
+if(modo==='confirm'&&last){add(last.nome||'usuário','último acesso neste aparelho — toque para entrar',()=>pedirSenha(last),true);
+const o=document.createElement('button');o.className='btn small ghost';o.type='button';o.textContent='Entrar com outro usuário';o.onclick=()=>renderUserStep('lista');ul.appendChild(o);return;}
+us.forEach(u=>add(u.nome||u.username||'usuário','toque para colocar a senha',()=>pedirSenha(u),false));
+const nn=document.createElement('button');nn.className='btn small ghost';nn.type='button';nn.textContent='Cadastrar novo usuário';nn.onclick=()=>renderUserStep('cad');ul.appendChild(nn);}
+function pedirSenha(u){selUsu=u;$('userPassNome').textContent=u.nome||u.username||'usuário';$('userPass').value='';
+$('userList').classList.add('hidden');$('userNewBox').classList.add('hidden');$('userPassBox').classList.remove('hidden');$('userMsg').textContent='';}
+function usuarioEntrou(u){try{localStorage.setItem('fenix_user_ativo',JSON.stringify({id:u.id,nome:u.nome||u.username||'usuário'}));}catch(e){}
+$('userModal').classList.add('hidden');}
+$('userBack').addEventListener('click',()=>renderUserStep(ultUsu()?'confirm':'lista'));
+$('userEnter').addEventListener('click',()=>{if(!selUsu)return;
+if(String($('userPass').value)!==String(selUsu.senha||''))return msg($('userMsg'),'Senha incorreta — tente de novo ou escolha outro usuário.','err');
+usuarioEntrou(selUsu);});
+$('userNewBack').addEventListener('click',()=>renderUserStep(getUsu().length?(ultUsu()?'confirm':'lista'):'cad'));
+$('userNewSave').addEventListener('click',()=>{
+const nome=String($('userNewNome').value||'').trim(),senha=String($('userNewSenha').value||'');
+if(nome.length<2)return msg($('userMsg'),'Dê um nome ao usuário (mín. 2 letras).','err');
+if(senha.length<4)return msg($('userMsg'),'A senha precisa ter pelo menos 4 caracteres.','err');
+if(getUsu().some(u=>String(u.nome||'').toLowerCase()===nome.toLowerCase()))return msg($('userMsg'),'Já existe usuário com esse nome.','err');
+const u={id:uid(),nome,senha};setUsu(getUsu().concat([u]));usuarioEntrou(u);});
+$('btnWelcomeGo').addEventListener('click',()=>{$('welcomeModal').classList.add('hidden');renderUserStep();$('userModal').classList.remove('hidden');});
 </script>
 </body>
 </html>

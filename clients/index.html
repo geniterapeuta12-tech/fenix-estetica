@@ -9,18 +9,39 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:radial-gradient(1100px 550px at 50% -10%,rgba(212,175,55,.12),transparent 60%),#0d0d0c;font-family:'Montserrat',system-ui,-apple-system,sans-serif;color:#f5f5f5;min-height:100vh}
-.fctop{padding:28px 18px 10px;text-align:center}
-.fctop .marca{font-family:'Playfair Display',Georgia,serif;letter-spacing:.18em;font-size:1.3rem;color:#f5f5f5}
-.fctop .marca span{color:#d4af37}
-.fctop .clin{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#9a927e;margin-top:6px}
-.fctop .quem{margin-top:14px;display:inline-flex;align-items:center;gap:10px;background:linear-gradient(180deg,#141414,#0e0e0e);border:1px solid rgba(212,175,55,.35);border-radius:14px;padding:10px 18px}
-.fctop .av{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#d4af37,#7a5f14);color:#141414;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
-.fctop .quem b{font-size:1.02rem;color:#fff}
-.wrap{max-width:880px;margin:0 auto;padding:14px 14px 118px}
+/* ===== barra lateral ===== */
+.side{position:fixed;top:0;left:0;bottom:0;width:250px;background:linear-gradient(180deg,#121212,#0b0b0b);border-right:1px solid rgba(212,175,55,.28);display:flex;flex-direction:column;z-index:40;transition:transform .25s}
+.side-brand{font-family:'Playfair Display',Georgia,serif;letter-spacing:.14em;font-size:1.02rem;padding:20px 18px 4px}
+.side-brand span{color:#d4af37}
+.side-clin{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:#9a927e;padding:0 18px 14px;border-bottom:1px solid rgba(255,255,255,.07)}
+.side-quem{display:flex;align-items:center;gap:10px;margin:14px 14px 6px;background:rgba(212,175,55,.08);border:1px solid rgba(212,175,55,.35);border-radius:13px;padding:10px 12px}
+.side-quem .av{width:38px;height:38px;min-width:38px;border-radius:50%;background:linear-gradient(135deg,#d4af37,#7a5f14);color:#141414;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.05rem}
+.side-quem b{font-size:.92rem;color:#fff;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.side-quem small{color:#9a927e;font-size:.68rem}
+.snav{list-style:none;padding:10px 12px;overflow-y:auto;flex:1}
+.snav li{display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:11px;cursor:pointer;color:#cfc8b8;font:600 .84rem 'Montserrat';margin-bottom:2px}
+.snav li .ic{width:20px;text-align:center;font-size:1rem}
+.snav li:hover{background:rgba(255,255,255,.05)}
+.snav li.on{background:rgba(212,175,55,.14);color:#f1d27a}
+.snav li.off{opacity:.5;cursor:default}
+.snav li.off:hover{background:none}
+.snav .div{height:1px;background:rgba(255,255,255,.08);margin:9px 4px}
+.snav small.tag{margin-left:auto;font-size:.6rem;color:#9a927e}
+.side-foot{padding:12px 16px;color:#6d6553;font-size:.66rem;border-top:1px solid rgba(255,255,255,.07)}
+/* ===== topo mobile ===== */
+.topm{display:none;position:sticky;top:0;z-index:30;background:rgba(13,13,12,.96);border-bottom:1px solid rgba(212,175,55,.28);padding:12px 14px;align-items:center;gap:12px}
+.topm .burg{width:40px;height:40px;min-width:40px;border-radius:11px;background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.4);color:#d4af37;font-size:1.15rem;cursor:pointer}
+.topm .t{font-family:'Playfair Display',Georgia,serif;letter-spacing:.1em;font-size:.95rem}
+.topm .t span{color:#d4af37}
+.backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:35}
+/* ===== conteúdo ===== */
+.cont{margin-left:250px;min-height:100vh}
+.fchead{padding:26px 24px 4px}
+.fchead .clin{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:#9a927e}
+.wrap{max-width:880px;margin:0 auto;padding:12px 20px 60px}
 .panelcard{background:linear-gradient(180deg,#141414,#0e0e0e);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:20px 18px;margin:0 0 14px}
-.pc-tt{font-family:'Playfair Display',Georgia,serif;font-size:1.18rem;color:#f5f5f5;display:flex;align-items:center;gap:9px}
+.pc-tt{font-family:'Playfair Display',Georgia,serif;font-size:1.18rem;display:flex;align-items:center;gap:9px}
 .pc-tt .dot{width:8px;height:8px;border-radius:50%;background:#d4af37;box-shadow:0 0 10px rgba(212,175,55,.8)}
-.pc-sub{color:#9a927e;font-size:.78rem;margin-top:3px}
 hr.frule{border:0;height:1px;background:linear-gradient(90deg,rgba(212,175,55,.55),transparent);margin:12px 0 14px}
 .hero{text-align:center;padding:26px 18px}
 .hero .grande{font-family:'Playfair Display',Georgia,serif;font-size:1.5rem;margin-top:12px}
@@ -40,43 +61,48 @@ tr:last-child td{border-bottom:0}
 .bar{height:8px;border-radius:99px;background:rgba(255,255,255,.09);overflow:hidden;min-width:110px}
 .bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#d4af37,#f1d27a)}
 .pct{font-size:.72rem;color:#9a927e}
-.bdg{display:inline-block;border-radius:999px;padding:2px 9px;font-size:.68rem;font-weight:700}
-.bd-g{background:rgba(94,201,140,.15);color:#5ec98c}.bd-a{background:rgba(231,201,106,.13);color:#e7c96a}
-/* menu — mesma estrutura do app da clínica (decorativo) */
-.menulist{list-style:none;display:flex;flex-direction:column;gap:9px;margin-top:12px}
-.menulist li{display:flex;align-items:center;gap:13px;padding:13px 15px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:13px}
-.menulist li.ok{cursor:pointer;transition:.2s}
-.menulist li.ok:hover{border-color:rgba(212,175,55,.5)}
-.menulist li.off{opacity:.55}
-.menulist .mico{width:36px;height:36px;min-width:36px;border-radius:10px;background:rgba(212,175,55,.14);display:flex;align-items:center;justify-content:center;font-size:1rem}
-.menulist b{font-size:.9rem;font-weight:600;display:block}
-.menulist small{color:#9a927e;font-size:.72rem}
-.menulist .lock{margin-left:auto;color:#9a927e;font-size:.78rem}
-.fcnav{position:fixed;left:0;right:0;bottom:0;background:rgba(10,10,10,.97);border-top:1px solid rgba(212,175,55,.3);display:flex;justify-content:center;gap:2px;padding:8px 6px calc(8px + env(safe-area-inset-bottom))}
-.fcnav button{flex:1;max-width:120px;background:none;border:0;color:#9a927e;font:600 .74rem 'Montserrat';letter-spacing:.04em;padding:8px 4px;border-radius:10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px}
-.fcnav button.on{color:#d4af37}
-.fcnav button span.ic{font-size:1.15rem;line-height:1}
 .estado{text-align:center;padding:60px 20px;color:#9a927e}
 .estado b{color:#e8e2d4}
-.rodape{color:#6d6553;font-size:.72rem;text-align:center;padding:0 0 118px}
-@media (max-width:520px){.wrap{padding:10px 10px 118px}td,th{padding:8px 4px}}
-@media print{body{background:#fff;color:#141414}.fcnav,.fctop,.menulist-box{display:none}.panelcard{background:#fff;border-color:#ddd}}
+.rodape{color:#6d6553;font-size:.72rem;text-align:center;padding:0 0 40px}
+@media (max-width:899px){
+.cont{margin-left:0}
+.topm{display:flex}
+.side{transform:translateX(-105%);width:270px}
+.side.open{transform:translateX(0)}
+.backdrop.on{display:block}
+.wrap{padding:14px 12px 50px}
+td,th{padding:8px 4px}}
+@media print{body{background:#fff;color:#141414}.side,.topm,.backdrop{display:none!important}.cont{margin-left:0}.panelcard{background:#fff;border-color:#ddd}}
 </style>
 </head>
 <body>
-<div class="fctop">
-  <div class="marca">✦ FÊNIX <span>ESTÉTICA</span></div>
-  <div class="clin" id="fcClin">carregando…</div>
-  <div class="quem" id="fcQuem" style="display:none"><span class="av" id="fcAv">?</span><b id="fcNome">…</b></div>
+<div class="backdrop" id="backdrop"></div>
+<aside class="side" id="side">
+  <div class="side-brand">✦ FÊNIX <span>ESTÉTICA</span></div>
+  <div class="side-clin" id="fcClin">carregando…</div>
+  <div class="side-quem" id="fcQuem" style="display:none"><span class="av" id="fcAv">?</span><div style="min-width:0"><b id="fcNome">…</b><small>seu espaço</small></div></div>
+  <ul class="snav" id="snav">
+    <li data-go="f-res" class="on"><span class="ic">◆</span>Início</li>
+    <li data-go="f-pac"><span class="ic">▣</span>Pacotes & Avulsas</li>
+    <li data-go="f-ses"><span class="ic">✽</span>Sessões</li>
+    <li data-go="f-pag"><span class="ic">✓</span>Pagamentos</li>
+    <div class="div"></div>
+    <li class="off"><span class="ic">📄</span>Documentos<small class="tag">🔒 clínica</small></li>
+    <li class="off"><span class="ic">🏷️</span>Catálogo<small class="tag">🔒 clínica</small></li>
+    <li class="off"><span class="ic">👥</span>Equipe<small class="tag">🔒 clínica</small></li>
+    <li class="off"><span class="ic">⚙️</span>Dados & Backup<small class="tag">🔒 clínica</small></li>
+  </ul>
+  <div class="side-foot">Fênix Estética · gerenciado pela sua clínica</div>
+</aside>
+<div class="cont">
+  <div class="topm">
+    <button class="burg" id="burg" aria-label="Abrir menu">☰</button>
+    <div class="t">✦ FÊNIX <span>ESTÉTICA</span></div>
+  </div>
+  <div class="fchead"><div class="clin" id="fcClin2"></div></div>
+  <div class="wrap" id="fcBody"><p class="estado">Carregando seu espaço…</p></div>
+  <p class="rodape">Fênix Estética · espaço do cliente</p>
 </div>
-<div class="wrap" id="fcBody"><p class="estado">Carregando seu espaço…</p></div>
-<p class="rodape">Fênix Estética · espaço do cliente · gerenciado pela sua clínica</p>
-<nav class="fcnav" id="fcNav" style="display:none">
-  <button data-go="f-res" class="on"><span class="ic">◆</span>Início</button>
-  <button data-go="f-pac"><span class="ic">▣</span>Pacotes</button>
-  <button data-go="f-ses"><span class="ic">✽</span>Sessões</button>
-  <button data-go="f-pag"><span class="ic">✓</span>Pagamentos</button>
-</nav>
 <script>
 (function(){
 var API='https://fenix-api.geniterapeuta12.workers.dev';
@@ -90,8 +116,10 @@ function dataBR(d){if(!d)return '—';var p=String(d).split('/');if(p.length===3
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 function sec(n,titulo,corpo){return '<div class="panelcard" id="f-'+n+'"><div class="pc-tt"><span class="dot"></span>'+titulo+'</div><hr class="frule">'+corpo+'</div>';}
 function render(d){
- document.getElementById('fcClin').textContent=d.clinica||'—';
- document.getElementById('fcQuem').style.display='inline-flex';
+ var clin=d.clinica||'—';
+ document.getElementById('fcClin').textContent=clin;
+ document.getElementById('fcClin2').textContent=clin;
+ document.getElementById('fcQuem').style.display='flex';
  document.getElementById('fcNome').textContent=d.cliente&&d.cliente.nome?d.cliente.nome:'—';
  document.getElementById('fcAv').textContent=(d.cliente&&d.cliente.nome?d.cliente.nome.charAt(0):'?').toUpperCase();
  var nome=d.cliente&&d.cliente.nome?d.cliente.nome.split(' ')[0]:'';
@@ -99,36 +127,21 @@ function render(d){
  var contratado=0;pac.forEach(function(p){contratado+=Number(p.valor)||0;});
  var pago=Number(d.pago_total||0);var aberto=Math.max(0,contratado-pago);
  var h='';
- /* INÍCIO — sem relatório: boas-vindas + próxima sessão */
  h+=sec('res','Início',
   '<div class="hero"><div style="font-size:2.4rem;color:#d4af37">✦</div>'+
   '<div class="grande">Olá, '+esc(nome)+'<span>!</span></div>'+
-  '<p class="fsub">Este é o seu espaço — aqui você acompanha tudo com a '+esc(d.clinica||'sua clínica')+'.</p>'+
+  '<p class="fsub">Este é o seu espaço — aqui você acompanha tudo com a '+esc(clin)+'.</p>'+
   (prox.length?'<div class="prox"><small>Próxima sessão</small><b>'+dataBR(prox[0].data)+'</b><span>'+esc(prox[0].pacote||'Sessão')+(prox[0].num!=null?' · #'+prox[0].num:'')+'</span></div>':'<div class="prox"><small>Agenda</small><b>Nada agendado por enquanto</b><span>Fale com a clínica para agendar.</span></div>')+
   '</div>');
- /* menu — mesma estrutura do app da clínica; só o seu espaço funciona */
- h+='<div class="panelcard menulist-box"><div class="pc-tt"><span class="dot"></span>Menu</div><hr class="frule">'+
- '<ul class="menulist">'+
- '<li class="ok" data-go="f-pac"><span class="mico">▣</span><div><b>Pacotes & Avulsas</b><small>seus contratos</small></div></li>'+
- '<li class="ok" data-go="f-ses"><span class="mico">✽</span><div><b>Agenda & Sessões</b><small>horários e histórico</small></div></li>'+
- '<li class="ok" data-go="f-pag"><span class="mico">✓</span><div><b>Financeiro</b><small>pagamentos e totais</small></div></li>'+
- '<li class="off"><span class="mico">📄</span><div><b>Documentos</b><small>exclusivo do app da clínica</small></div><span class="lock">🔒</span></li>'+
- '<li class="off"><span class="mico">🏷️</span><div><b>Catálogo</b><small>exclusivo do app da clínica</small></div><span class="lock">🔒</span></li>'+
- '<li class="off"><span class="mico">👥</span><div><b>Equipe</b><small>exclusivo do app da clínica</small></div><span class="lock">🔒</span></li>'+
- '<li class="off"><span class="mico">⚙️</span><div><b>Dados & Backup</b><small>exclusivo do app da clínica</small></div><span class="lock">🔒</span></li>'+
- '</ul></div>';
- /* PACOTES */
  h+=sec('pac','Pacotes & Avulsas',
   pac.length?'<table><tr><th>Pacote</th><th>Progresso</th><th class="num">Valor</th><th class="num">Pago</th></tr>'+
   pac.map(function(p){var qtd=Number(p.qtd)||0,feitas=Number(p.feitas)||0,pp=Number(p.pago)||0,falta=Math.max(0,(Number(p.valor)||0)-pp);
    var pct=qtd?Math.min(100,Math.round(feitas/qtd*100)):0;
    return '<tr><td><b>'+esc(p.nome)+'</b><br><span class="fsub">'+feitas+' de '+qtd+' sessões · '+(falta?'<span class="aberto">falta '+brl(falta)+'</span>':'<span class="pos">quitado</span>')+'</span></td><td><div class="bar"><i style="width:'+pct+'%"></i></div><span class="pct">'+pct+'%</span></td><td class="num">'+brl(p.valor)+'</td><td class="num">'+brl(pp)+'</td></tr>';}).join('')+'</table>'
   :'<p class="fempty">Nenhum pacote ainda.</p>');
- /* SESSÕES */
  h+=sec('ses','Sessões',
   (prox.length?'<p class="fsub" style="margin-bottom:6px"><b style="color:#e7c96a">Próximas</b></p><table>'+prox.map(function(s){return '<tr><td>'+dataBR(s.data)+'</td><td>'+esc(s.pacote||'Sessão')+' #'+(s.num!=null?s.num:'—')+'</td><td>'+esc(s.obs||'')+'</td></tr>';}).join('')+'</table>':'<p class="fempty">Nada agendado por enquanto.</p>')+
   (real.length?'<p class="fsub" style="margin:12px 0 6px"><b style="color:#e7c96a">Já realizadas ('+real.length+')</b></p><table>'+real.map(function(s){return '<tr><td>'+dataBR(s.data)+'</td><td>'+esc(s.pacote||'Sessão')+' #'+(s.num!=null?s.num:'—')+'</td><td>'+esc(s.obs||'')+'</td></tr>';}).join('')+'</table>':'<p class="fempty">Nenhuma realizada ainda.</p>'));
- /* PAGAMENTOS */
  h+=sec('pag','Pagamentos',
   (contratado?'<p class="fsub" style="margin-bottom:8px">Contratado: <b>'+brl(contratado)+'</b> · Pago: <b class="pos">'+brl(pago)+'</b> · Em aberto: <b class="aberto">'+brl(aberto)+'</b></p>':'')+
   (pag.length?'<table><tr><th>Data</th><th>Forma</th><th>Observação</th><th class="num">Valor</th></tr>'+
@@ -136,8 +149,18 @@ function render(d){
   '<tr><td colspan="3" style="text-align:right"><b>Total pago</b></td><td class="num"><b class="pos">'+brl(pago)+'</b></td></tr></table>'
   :'<p class="fempty">Nenhum pagamento registrado.</p>'));
  document.getElementById('fcBody').innerHTML=h;
- document.getElementById('fcNav').style.display='flex';
 }
+/* navegação da barra lateral */
+function vai(sel){var alvo=document.querySelector(sel);if(alvo)alvo.scrollIntoView({behavior:'smooth',block:'start'});}
+function marca(go){var ls=document.querySelectorAll('#snav li[data-go]');for(var i=0;i<ls.length;i++)ls[i].classList.toggle('on',ls[i].dataset.go===go);}
+function fechaSide(){document.getElementById('side').classList.remove('open');document.getElementById('backdrop').classList.remove('on');}
+document.getElementById('snav').addEventListener('click',function(e){
+ var li=e.target.closest('li[data-go]');if(!li)return;
+ vai('#'+li.dataset.go);marca(li.dataset.go);fechaSide();});
+document.getElementById('burg').addEventListener('click',function(){
+ document.getElementById('side').classList.toggle('open');
+ document.getElementById('backdrop').classList.toggle('on',document.getElementById('side').classList.contains('open'));});
+document.getElementById('backdrop').addEventListener('click',fechaSide);
 var id=getId();
 if(!id){document.getElementById('fcBody').innerHTML='<p class="estado"><b>Link incompleto.</b><br>Peça à clínica o seu link completo do Fênix Clients.</p>';document.getElementById('fcClin').textContent='—';return;}
 fetch(API+'/rest/v1/rpc/fenix_cliente_pub',{method:'POST',headers:{'Content-Type':'application/json','apikey':KEY},body:JSON.stringify({p_id:id})})
@@ -149,16 +172,6 @@ fetch(API+'/rest/v1/rpc/fenix_cliente_pub',{method:'POST',headers:{'Content-Type
  if(!d||!d.cliente){document.getElementById('fcBody').innerHTML='<p class="estado"><b>Link inválido ou cliente não encontrada.</b><br>Confira o endereço ou peça um novo link à clínica.</p>';document.getElementById('fcClin').textContent='—';return;}
  render(d);})
 .catch(function(){document.getElementById('fcBody').innerHTML='<p class="estado"><b>Sem conexão agora.</b><br>Verifique a internet e recarregue a página.</p>';});
-function vai(sel){var alvo=document.querySelector(sel);if(alvo)alvo.scrollIntoView({behavior:'smooth',block:'start'});}
-document.getElementById('fcNav').addEventListener('click',function(e){
- var b=e.target.closest('button');if(!b)return;
- vai('#'+b.dataset.go);
- var bs=this.querySelectorAll('button');for(var i=0;i<bs.length;i++)bs[i].classList.remove('on');
- b.classList.add('on');});
-document.addEventListener('click',function(e){
- var m=e.target.closest('.menulist li.ok');if(!m)return;
- vai('#'+m.dataset.go);
- var bs=document.querySelectorAll('.fcnav button');for(var i=0;i<bs.length;i++)bs[i].classList.toggle('on',bs[i].dataset.go===m.dataset.go);});
 })();
 </script>
 </body>
