@@ -1,12 +1,9 @@
 {
-  "versao": "1.6.16",
-  "r": "R31",
+  "versao": "1.6.17",
+  "r": "R32",
   "melhorias": [
-    "Equipe › Usuários carregando de verdade",
-    "Letras dos pop-ups de acesso e usuário sempre claras (não dependem do tema)",
-    "Planilha aparecendo no Studio",
-    "Funções Extras limpo (sem itens da Gestão)",
-    "Atualização agora só acontece se você confirmar no aviso"
+    "Pop-up do usuário: opções e campos sempre com fundo escuro e letra clara — nada mais camuflado",
+    "Aviso de senha errada agora aparece em vermelho claro, bem visível"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }
