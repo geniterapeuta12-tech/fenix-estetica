@@ -1,10 +1,10 @@
 {
-  "versao": "1.6.23",
-  "r": "R38",
+  "versao": "1.6.24",
+  "r": "R39",
   "melhorias": [
-    "CORREÇÃO: senha de usuário não entrava mesmo com usuário existente — a conferência comparava a senha digitada com a versão criptografada gravada; agora decodifica e confere de verdade (inclusive senhas vindas do sistema antigo e de backup)",
-    "Nomes de usuário com letra maiúscula (ex.: Kaleb) agora entram certinho",
-    "Usuário novo já nasce com a senha no formato seguro que resiste a backup e sincronização"
+    "CORREÇÃO importante: as perguntas dos formulários não apagam mais ao responder (no app ou pelo link) — e guias de documentos, itens de kits e respostas também ficam protegidos na sincronização",
+    "Equipe › Mensagens: mensagens de texto funcionando, com duração de 24 horas (some da conversa e da nuvem depois disso)",
+    "Dados › Usuário (nova): mostra quem está logado, deixa trocar, remove repetidos e limpa usuários pra recadastrarem (cada pessoa com 1 usuário; a clínica continua)"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }

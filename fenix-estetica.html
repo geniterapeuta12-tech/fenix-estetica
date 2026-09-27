@@ -981,6 +981,7 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <button class="navbtn" data-dsub="theme"><svg class="ic"><use href="#i-spark"/></svg>Aparência</button>
 <button class="navbtn" data-dsub="otim"><svg class="ic"><use href="#i-bolt"/></svg>Otimização</button>
 <button class="navbtn" data-dsub="sistema"><svg class="ic"><use href="#i-search"/></svg>Sistema</button>
+<button class="navbtn" data-dsub="usuario"><svg class="ic"><use href="#i-id"/></svg>Usuário</button>
 </nav>
 <div class="side-foot"><button class="navbtn danger" id="btnSair"><svg class="ic"><use href="#i-out"/></svg>Sair</button></div>
 </aside>
@@ -1385,6 +1386,24 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 </div>
 <button class="btn ghost" id="usoAtualiza" type="button" style="margin-top:14px"><svg class="ic"><use href="#i-refresh"/></svg>Medir agora</button>
 </div>
+</div>
+</section>
+<section id="viewUsuario" class="view hidden">
+<div class="panelcard">
+<h3>Usuário conectado</h3>
+<p class="sub">Quem está usando o app agora. Dá pra trocar quando quiser — e cada pessoa deve ter <b>somente 1 usuário</b>.</p>
+<div id="usuAtualBox" style="margin-top:12px"></div>
+<button class="btn ghost" id="usuTrocar" type="button" style="margin-top:10px"><svg class="ic"><use href="#i-refresh"/></svg>Trocar de usuário</button>
+</div>
+<div class="panelcard">
+<h3>Usuários da clínica neste aparelho</h3>
+<p class="sub">Cada pessoa com apenas <b>1 usuário</b>: os repetidos podem ser removidos — e dá pra limpar <b>todos</b> pra cada um cadastrar de novo (a conta da clínica continua).</p>
+<ul class="list" id="usuDadosList" style="margin-top:12px"></ul>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+<button class="btn small ghost" id="usuDedup" type="button">Remover repetidos</button>
+<button class="btn small ghost" id="usuLimparTodos" type="button">Remover todos…</button>
+</div>
+<p class="sub" id="usuDadosMsg" style="margin-top:8px"></p>
 </div>
 </section>
 <section id="viewSistema" class="view hidden">
@@ -2482,6 +2501,7 @@ const meses=[...new Set(finRows().map(r=>String(r.data||'').slice(0,7)).filter(B
 fillSel($('finFmes'),'<option value="">Todos os meses</option>'+meses.map(m=>'<option value="'+m+'">'+mesLabel(m)+'</option>').join(''),finF.mes);}
 
 /* ===================== SYNC ===================== */
+const jsonArr=x=>{if(Array.isArray(x))return x;if(typeof x==='string'&&x.length>1&&(x[0]==='['||x[0]==='{')){try{const v=JSON.parse(x);if(Array.isArray(v))return v;}catch(e){}}return [];};
 const mapCliente=r=>({id:r.id,nome:r.nome,cpf:r.cpf||'',nasc:r.nasc||'',tel:r.tel||'',email:r.email||'',end:r.end||'',obs:r.obs||'',acesso:!(r.acesso===false||r.acesso===0||String(r.acesso)==='false'||String(r.acesso)==='fals'||String(r.acesso)==='0'),data:r.criado_em||''});
 const dbCliente=c=>({id:c.id,clinic_id:CLINIC_ID,nome:c.nome,cpf:c.cpf||'',nasc:c.nasc||null,tel:c.tel||'',email:c.email||'',end:c.end||'',obs:c.obs||'',acesso:c.acesso!==false,criado_em:c.data||''});
 const mapPacote=r=>({id:r.id,clientId:r.cliente_id,nome:r.nome,valor:Number(r.valor||0),sessoes:r.sessoes,criadoEm:r.criado_em||''});
@@ -2496,7 +2516,7 @@ const mapFin=r=>({id:r.id,tipo:r.tipo,desc:r.descr,valor:Number(r.valor||0),data
 const dbFin=f=>({id:f.id,clinic_id:CLINIC_ID,tipo:f.tipo,descr:f.desc,valor:f.valor,data:f.data||'',link:f.link||null,obs:f.obs||'',origem:f.origem||null});
 const mapArq=r=>({id:r.id,clientId:r.cliente_id,nome:r.nome,tamanho:Number(r.tamanho||0),data:r.data||'',url:r.url||'',link:r.link||null,topico:r.topico||'',ambito:r.ambito||'clinica',ts:Number(r.ts||0)});
 const dbArq=f=>({id:f.id,clinic_id:CLINIC_ID,cliente_id:f.clientId||null,nome:f.nome,tamanho:f.tamanho||0,data:f.data||'',url:f.url||'',link:f.link||null,topico:f.topico||'',ambito:f.ambito||'clinica',ts:f.ts||0});
-const mapDoc=r=>({id:r.id,clientId:r.cliente_id,pacoteId:r.pacote_id||null,sessaoId:r.sessao_id||null,titulo:r.titulo,texto:r.texto||'',guias:Array.isArray(r.guias)?r.guias.map(g=>({id:String(g.id),nome:String(g.nome||'Guia'),texto:String(g.texto||'')})):[],fav:!!r.fav,criadoEm:r.criado_em||'',atualizadoEm:r.atualizado_em||'',ts:Number(r.ts||0)});
+const mapDoc=r=>({id:r.id,clientId:r.cliente_id,pacoteId:r.pacote_id||null,sessaoId:r.sessao_id||null,titulo:r.titulo,texto:r.texto||'',guias:jsonArr(r.guias).map(g=>({id:String(g&&g.id),nome:String((g&&g.nome)||'Guia'),texto:String((g&&g.texto)||'')})),fav:!!r.fav,criadoEm:r.criado_em||'',atualizadoEm:r.atualizado_em||'',ts:Number(r.ts||0)});
 const dbDoc=d=>({id:d.id,clinic_id:CLINIC_ID,cliente_id:d.clientId||null,pacote_id:d.pacoteId||null,sessao_id:d.sessaoId||null,titulo:d.titulo,texto:d.texto||'',guias:(d.guias||[]).map(g=>({id:g.id,nome:g.nome,texto:g.texto})),fav:d.fav||null,criado_em:d.criadoEm||'',atualizado_em:d.atualizadoEm||'',ts:d.ts||0});
 const mapAlarm=r=>({id:r.id,hora:r.hora,label:r.label||'',ativa:r.ativa,som:r.som||'classico',data:r.data||'',ts:Number(r.ts||0)});
 const dbAlarm=a=>({id:a.id,clinic_id:CLINIC_ID,hora:a.hora,label:a.label||'',ativa:a.ativa,som:a.som||'classico',data:a.data||'',ts:a.ts||0});
@@ -2504,13 +2524,13 @@ const mapIac=r=>({id:r.id,titulo:r.titulo||'Nova conversa',criadoEm:r.criado_em|
 const dbIac=c=>({id:c.id,clinic_id:CLINIC_ID,titulo:c.titulo||'Nova conversa',criado_em:c.criadoEm||'',ts:c.ts||0});
 const mapIam=r=>({id:r.id,conversaId:r.conversa_id,papel:r.papel,texto:r.texto,ts:Number(r.ts||0)});
 const dbIam=m=>({id:m.id,clinic_id:CLINIC_ID,conversa_id:m.conversaId,papel:m.papel,texto:m.texto,ts:m.ts||0});
-const mapForm=r=>({id:r.id,titulo:r.titulo||'',descr:r.descr||'',qs:Array.isArray(r.estrutura)?r.estrutura:[],criadoEm:r.criado_em||'',atualizadoEm:r.atualizado_em||'',ts:Number(r.ts||0),token:r.link_token||''});
+const mapForm=r=>({id:r.id,titulo:r.titulo||'',descr:r.descr||'',qs:jsonArr(r.estrutura),criadoEm:r.criado_em||'',atualizadoEm:r.atualizado_em||'',ts:Number(r.ts||0),token:r.link_token||''});
 const dbForm=f=>({id:f.id,clinic_id:CLINIC_ID,titulo:f.titulo||'',descr:f.descr||'',estrutura:f.qs||[],criado_em:f.criadoEm||'',atualizado_em:f.atualizadoEm||'',ts:f.ts||0});
-const mapResp=r=>({id:r.id,formId:r.formulario_id,pessoa:r.pessoa||'',vals:Array.isArray(r.respostas)?r.respostas:[],criadoEm:r.criado_em||'',ts:Number(r.ts||0)});
+const mapResp=r=>({id:r.id,formId:r.formulario_id,pessoa:r.pessoa||'',vals:jsonArr(r.respostas),criadoEm:r.criado_em||'',ts:Number(r.ts||0)});
 const dbResp=r=>({id:r.id,clinic_id:CLINIC_ID,formulario_id:r.formId,pessoa:r.pessoa||'',respostas:r.vals||[],criado_em:r.criadoEm||'',ts:r.ts||0});
 const mapCat=r=>({id:r.id,tipo:(r.tipo==='procedimento'?'procedimento':'produto'),nome:r.nome||'',descr:r.descr||'',preco:(r.preco==null?null:Number(r.preco)),foto:r.foto||null,criadoEm:r.criado_em||'',atualizadoEm:r.atualizado_em||'',ts:Number(r.ts||0)});
 const dbCat=c=>({id:c.id,clinic_id:CLINIC_ID,tipo:c.tipo,nome:c.nome||'',descr:c.descr||'',preco:(c.preco==null?null:c.preco),foto:c.foto||null,criado_em:c.criadoEm||'',atualizado_em:c.atualizadoEm||'',ts:c.ts||0});
-const mapKit=r=>({id:r.id,kind:'kit',nome:r.nome||'',descr:r.descr||'',preco:(r.preco==null?null:Number(r.preco)),itens:Array.isArray(r.itens)?r.itens.map(String):[],foto:r.foto||null,criadoEm:r.criado_em||'',atualizadoEm:r.atualizado_em||'',ts:Number(r.ts||0)});
+const mapKit=r=>({id:r.id,kind:'kit',nome:r.nome||'',descr:r.descr||'',preco:(r.preco==null?null:Number(r.preco)),itens:jsonArr(r.itens).map(String),foto:r.foto||null,criadoEm:r.criado_em||'',atualizadoEm:r.atualizado_em||'',ts:Number(r.ts||0)});
 const dbKit=k=>({id:k.id,clinic_id:CLINIC_ID,nome:k.nome||'',descr:k.descr||'',preco:(k.preco==null?null:k.preco),itens:(k.itens||[]).map(String),foto:k.foto||null,criado_em:k.criadoEm||'',atualizado_em:k.atualizadoEm||'',ts:k.ts||0});
 const mapUsu=r=>({id:r.id,clinicId:r.clinic_id||'',userId:r.user_id||null,email:r.email||'',username:r.username||'',nome:r.nome||'',info:r.info||'',senha:r.senha||'',cargo:r.cargo||'',status:r.status||'ativo',pediuEm:r.pediu_em||'',criadoEm:r.criado_em||'',visto:r.visto_em||'',ts:Number(r.ts||0)});
 const dbUsu=u=>({id:u.id,clinic_id:CLINIC_ID,user_id:u.userId||null,email:u.email||null,username:u.username||'',nome:u.nome||'',info:u.info||null,senha:u.senha||null,cargo:u.cargo||'',status:u.status||'ativo',pediu_em:u.pediuEm||'',criado_em:u.criadoEm||'',visto_em:u.visto||'',ts:u.ts||0});
@@ -2635,6 +2655,12 @@ nt.textContent='Gatilho da migração (combinado): '+fmtSize(gat);
 al.classList.toggle('hidden',(d.bytes||0)<gat);
 }catch(e){pe.textContent='—';bt.textContent='não deu pra medir agora';nt.textContent='Sem resposta da nuvem neste momento — tente de novo em instantes.';}
 usoBusy=false;}
+function usuDadosMsg(t,k){const el=$('usuDadosMsg');if(!el)return;el.textContent=t||'';el.style.color=k==='err'?'#ff9d9d':(k==='ok'?'#8dffb0':'');}
+function renderUsuDados(){const box=$('usuAtualBox');if(!box)return;
+const at=ultUsu();const total=getUsu();
+box.innerHTML=at?'<div class="mode-opt current" style="cursor:default"><span class="mico">'+esc(String(at.nome||'?').charAt(0).toUpperCase())+'</span><div class="cinfo"><strong>'+esc(at.nome||'usuário')+'</strong><small>conectado neste aparelho</small></div></div>':'<p class="sub">Nenhum usuário selecionado — entre com um pra usar.</p>';
+const ul=$('usuDadosList');
+ul.innerHTML=total.length?total.map(u=>'<li class="fileitem"><span class="avatar file">'+esc(String(u.nome||'?').charAt(0).toUpperCase())+'</span><div class="cinfo"><strong>'+esc(u.nome||'usuário')+'</strong><small>'+(at&&u.id===at.id?'em uso agora':'usuário da clínica')+'</small></div><button class="iconbtn del" data-usudel="'+esc(u.id)+'" title="Remover usuário"><svg class="ic"><use href="#i-trash"/></svg></button></li>').join(''):'<p class="fempty">Nenhum usuário cadastrado — cada pessoa cria o dela ao entrar.</p>';}
 function renderBackupSummary(){const el=$('backupSummary');if(!el)return;
 const avs=getSes().filter(s=>!s.pacoteId);
 el.textContent=getCli().length+' cliente(s) · '+getPkg().length+' pacote(s) · '+getSes().length+' sessão(ões) ('+avs.length+' avulsa(s)) · '+
@@ -2664,7 +2690,7 @@ $('bkpList').innerHTML=list.map(b=>
 '<button class="iconbtn del" data-act="bkpdel" data-id="'+b.id+'" title="Apagar backup"><svg class="ic"><use href="#i-trash"/></svg></button></li>').join('');}
 async function getBkpPayload(id){
 if(REMOTE){const q=await SB.from('backups').select('payload').eq('id',id).maybeSingle();
-if(q.error)throw q.error;return q.data?q.data.payload:null;}
+if(q.error)throw q.error;let p=q.data?q.data.payload:null;if(typeof p==='string'){try{p=JSON.parse(p);}catch(e){}}return p;}
 return null;}
 /* R16: backup guarda DADOS — imagens em base64 viram referência (fotos ficam na tabela Arquivos) */
 function stripPesado(o){const LIM=2000;
@@ -2904,16 +2930,18 @@ $('viewTheme').classList.toggle('hidden',!(dados&&state.dsub==='theme'));
 $('viewOtim').classList.toggle('hidden',!(dados&&state.dsub==='otim'));
 $('viewSistema').classList.toggle('hidden',!(dados&&state.dsub==='sistema'));
 $('viewUso').classList.toggle('hidden',!(dados&&state.dsub==='uso'));
+$('viewUsuario').classList.toggle('hidden',!(dados&&state.dsub==='usuario'));
 if(dados||anyStudio||equipe||clients){VIEWS.forEach(x=>$('view'+cap(x)).classList.add('hidden'));$('viewCliente').classList.add('hidden');}
 if(dados){
 document.querySelectorAll('#navGestao .navbtn,#navStudio .navbtn,#navCatalogo .navbtn,#navEquipe .navbtn').forEach(b=>b.classList.remove('active'));
 document.querySelectorAll('#navDados .navbtn').forEach(b=>b.classList.toggle('active',b.dataset.dsub===state.dsub));
-$('viewTitle').textContent=state.dsub==='uso'?'Dados · Uso':state.dsub==='backup'?'Dados · Backup':(state.dsub==='sync'?'Dados · Sincronização':(state.dsub==='otim'?'Dados · Otimização':(state.dsub==='sistema'?'Dados · Sistema':'Dados · Aparência')));
+$('viewTitle').textContent=state.dsub==='uso'?'Dados · Uso':state.dsub==='backup'?'Dados · Backup':(state.dsub==='sync'?'Dados · Sincronização':(state.dsub==='otim'?'Dados · Otimização':(state.dsub==='sistema'?'Dados · Sistema':(state.dsub==='usuario'?'Dados · Usuário':'Dados · Aparência'))));
 if(state.dsub==='backup'){renderBackupSummary();renderBkpList();}
 if(state.dsub==='sync')paintSyncPanel();
 if(state.dsub==='otim')applyPerf(currentPerf());
 if(state.dsub==='sistema')paintZoom();
 if(state.dsub==='uso')renderUso();
+if(state.dsub==='usuario')renderUsuDados();
 updateBack();return;}
 if(catalogo){
 document.querySelectorAll('#navGestao .navbtn,#navDados .navbtn,#navEquipe .navbtn,#navStudio .navbtn').forEach(b=>b.classList.remove('active'));
@@ -3686,7 +3714,7 @@ const q=await SB.from('formularios').select('id,clinic_id,titulo,descr,estrutura
 if(q.error)throw q.error;
 if(!q.data){$('pubHead').innerHTML='<div class="fempty" style="padding:10px 0"><svg class="ic"><use href="#i-form"/></svg><br><b>Link inválido ou desativado.</b><br>Confira o endereço ou peça um novo link à clínica.</div>';return;}
 const f=q.data;PUB.form=f;
-const qs=Array.isArray(f.estrutura)?f.estrutura:[];
+const qs=jsonArr(f.estrutura);
 $('pubHead').innerHTML='<div class="pc-tt"><h3>'+esc(f.titulo||'Formulário')+'</h3><p class="sub">'+(f.descr?esc(f.descr):(qs.length+' pergunta(s) — preencha abaixo.'))+'</p></div>'+
 '<input id="pubPessoa" class="f-in" type="text" placeholder="Seu nome *" style="margin-top:16px" autocomplete="off">';
 function pubField(qq){const n='data-pub-qid="'+esc(qq.id)+'" style="margin-top:12px"';
@@ -3706,7 +3734,7 @@ $('btnPubSend').addEventListener('click',async()=>{
 const f=PUB.form;if(!f)return;
 const pessoa=(($('pubPessoa')&&$('pubPessoa').value)||'').trim();
 if(pessoa.length<2)return pubMsg('Digite seu nome.','err');
-const qs=Array.isArray(f.estrutura)?f.estrutura:[],vals=[];
+const qs=jsonArr(f.estrutura),vals=[];
 for(let i=0;i<qs.length;i++){const inp=document.querySelector('[data-pub-qid="'+qs[i].id+'"]');
 const v=inp?inp.value.trim():'';
 if(qs[i].obr&&!v){if(inp)inp.focus();return pubMsg('A pergunta '+(i+1)+' é obrigatória.','err');}
@@ -4815,6 +4843,21 @@ if($('zoomMenos'))$('zoomMenos').addEventListener('click',()=>zoomApply(zoomCur(
 if($('zoomMais'))$('zoomMais').addEventListener('click',()=>zoomApply(zoomCur()+.05));
 if($('zoomPad'))$('zoomPad').addEventListener('click',()=>zoomApply(1));
 if($('usoAtualiza'))$('usoAtualiza').addEventListener('click',()=>renderUso());
+if($('usuTrocar'))$('usuTrocar').addEventListener('click',()=>{renderUserStep(getUsu().length?'lista':'cad');$('userModal').classList.remove('hidden');});
+if($('usuDadosList'))$('usuDadosList').addEventListener('click',e=>{const b=e.target.closest('[data-usudel]');if(!b)return;
+const u=getUsu().find(x=>x.id===b.dataset.usudel);if(!u)return;
+setUsu(getUsu().filter(x=>x.id!==u.id));
+const at=ultUsu();if(at&&at.id===u.id){try{localStorage.removeItem('fenix_user_ativo');}catch(e){}}
+renderUsuDados();usuDadosMsg('Usuário “'+(u.nome||'')+'” removido — pode cadastrar de novo ao entrar.','ok');});
+let usuLimpaArma=false;
+if($('usuDedup'))$('usuDedup').addEventListener('click',()=>{const us=getUsu();const vistos={};const ficar=us.filter(u=>{const k=String(u.nome||'').trim().toLowerCase();if(vistos[k])return false;vistos[k]=1;return true;});
+if(ficar.length===us.length)return usuDadosMsg('Nenhum repetido — cada pessoa já tem 1 usuário só.','ok');
+setUsu(ficar);renderUsuDados();usuDadosMsg('Removidos '+String(us.length-ficar.length)+' usuário(s) repetido(s).','ok');});
+if($('usuLimparTodos'))$('usuLimparTodos').addEventListener('click',()=>{const us=getUsu();if(!us.length)return usuDadosMsg('Não há usuários pra remover.','err');
+if(!usuLimpaArma){usuLimpaArma=true;$('usuLimparTodos').textContent='Toque de novo pra CONFIRMAR';setTimeout(()=>{usuLimpaArma=false;const b=$('usuLimparTodos');if(b)b.textContent='Remover todos…';},4000);return;}
+usuLimpaArma=false;$('usuLimparTodos').textContent='Remover todos…';
+setUsu([]);try{localStorage.removeItem('fenix_user_ativo');}catch(e){}
+renderUsuDados();usuDadosMsg('Todos os usuários removidos (a clínica continua) — cada pessoa cadastra o dela ao entrar.','ok');});
 $('btnTrocarSenha').addEventListener('click',async()=>{const a=$('senhaNova').value,b=$('senhaConf').value;
 if(a.length<6)return msg($('senhaMsg'),'A nova senha precisa de pelo menos 6 caracteres.','err');
 if(a!==b)return msg($('senhaMsg'),'As senhas não conferem.','err');
@@ -5362,8 +5405,10 @@ try{let q=SB.from('mensagens').select('id,de,para,texto,criado_em,ts').eq('clini
 if(MSG.lastTs)q=q.gt('ts',MSG.lastTs);
 const r=await q.order('ts',{ascending:true}).limit(300);
 if(r.error)throw r.error;
-const novos=r.data||[];
-if(novos.length){MSG.rows=MSG.rows.concat(novos).slice(-600);MSG.lastTs=novos[novos.length-1].ts;
+const corte=Date.now()-86400000;
+const novos=(r.data||[]).filter(x=>Number(x.ts)>corte);
+if(novos.length!==((r.data)||[]).length){try{SB.from('mensagens').delete().lt('ts',corte);}catch(e){}}
+if(novos.length){MSG.rows=MSG.rows.filter(x=>Number(x.ts)>corte).concat(novos).slice(-600);MSG.lastTs=novos[novos.length-1].ts;
 renderEqMsgs();}}
 catch(e){}}
 function msgLiga(){if(MSG.timer)return;MSG.timer=setInterval(()=>{if(state.mode==='equipe')msgPuxa();},20000);}
@@ -5373,6 +5418,7 @@ const row={id:uid(),clinic_id:CLINIC_ID,de:meuNome(),para:MSG.peer,texto:texto.s
 try{const r=await SB.from('mensagens').insert(row);if(r.error)throw r.error;MSG.rows.push(row);return true;}catch(e){return false;}}
 function renderEqMsgs(){ /* R34 — estilo Telegram, conversas reais por usuário */
 const ul=$('tgList');if(!ul)return;
+MSG.rows=MSG.rows.filter(x=>Number(x.ts)>Date.now()-86400000);
 const us=getUsu();
 const eu=meuNome();
 const itens=[{id:'__grupo',nome:'Grupo da clínica',prev:'avisos · em breve',hora:'',n:0}]
@@ -5440,7 +5486,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.23';
+const APP_VERSAO='1.6.24';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{
