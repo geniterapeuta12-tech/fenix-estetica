@@ -1,9 +1,10 @@
 {
-  "versao": "1.6.18",
-  "r": "R33",
+  "versao": "1.6.19",
+  "r": "R34",
   "melhorias": [
-    "Pop-up do usuário: botões secundários com borda dourada visível e fundo escuro",
-    "Confirmação: nada mais herda cor do tema dentro do pop-up"
+    "Mensagens reais entre usuários da equipe — envia, recebe e sincroniza a cada 20s",
+    "Planilhas: primeiro cria o arquivo com nome, depois entra e edita (e o Forms não fica mais marcado junto)",
+    "Aparência › Lado da barra: Tradicional (esquerda) ou Direita"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }

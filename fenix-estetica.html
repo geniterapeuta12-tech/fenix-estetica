@@ -820,6 +820,15 @@ html[data-theme="light"] .updtoast{background:#fffdf6;color:#241f13;box-shadow:0
 .pmcard .msg.err{color:#ff9d9d!important}
 .pmcard .msg.ok{color:#8dffb0!important}
 .pmodal-card .btn.ghost,.pmcard .btn.ghost,.pmodal-card .mode-opt,.pmcard .mode-opt{color:var(--txt)!important}
+
+/* ===== R34 — barra lateral no lado DIREITO (Aparência › Lado da barra) ===== */
+html[data-sidepos="right"] .sidebar{left:auto;right:0;border-right:0;border-left:1px solid var(--line)}
+html[data-sidepos="right"] .content{margin-left:0;margin-right:250px}
+html[data-sidepos="right"] .sidebar{transform:translateX(101%)}
+html[data-sidepos="right"] .sidebar.open{transform:none!important}
+html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
+@media(min-width:901px){html[data-sidepos="right"][data-side="auto"] .sidebar:hover,html[data-sidepos="right"][data-side="auto"] .sidebar.open{transform:none}}
+@media(max-width:900px){html[data-sidepos="right"] .content{margin-right:0}}
 </style>
 </head>
 <body>
@@ -1250,8 +1259,8 @@ html[data-theme="light"] .updtoast{background:#fffdf6;color:#241f13;box-shadow:0
 <div class="tgmsgs" id="tgArea"></div>
 <div class="tginput">
 <span class="tgclip"><svg viewBox="0 0 24 24"><path d="M16.5 6.5l-7.1 7.1a2 2 0 002.8 2.8l7.5-7.5a4 4 0 10-5.7-5.7l-7.7 7.7a6 6 0 108.5 8.5l7.1-7.1 1.4 1.4-7.1 7.1a8 8 0 11-11.3-11.3l7.7-7.7a6 6 0 118.5 8.5l-7.5 7.5a4 4 0 01-5.7-5.7l7.1-7.1 1.5 1.4z"/></svg></span>
-<div class="tgfield"><input placeholder="Escrever uma mensagem…" disabled><span class="tgsmile"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 2a8 8 0 110 16 8 8 0 010-16zM8.5 9a1.3 1.3 0 110 2.6A1.3 1.3 0 018.5 9zm7 0a1.3 1.3 0 110 2.6 1.3 1.3 0 010-2.6zM7.6 14.1a5.4 5.4 0 008.8 0l1.5 1.3a7.4 7.4 0 01-11.8 0l1.5-1.3z"/></svg></span></div>
-<button class="tgsend" disabled type="button" title="Em breve"><svg viewBox="0 0 24 24"><path d="M2 21l20-9L2 3v7l14 2-14 2z"/></svg></button>
+<div class="tgfield"><input id="tgInput" placeholder="Escreva para a equipe…" disabled><span class="tgsmile"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 2a8 8 0 110 16 8 8 0 010-16zM8.5 9a1.3 1.3 0 110 2.6A1.3 1.3 0 018.5 9zm7 0a1.3 1.3 0 110 2.6 1.3 1.3 0 010-2.6zM7.6 14.1a5.4 5.4 0 008.8 0l1.5 1.3a7.4 7.4 0 01-11.8 0l1.5-1.3z"/></svg></span></div>
+<button class="tgsend" id="tgSend" disabled type="button" title="Enviar"><svg viewBox="0 0 24 24"><path d="M2 21l20-9L2 3v7l14 2-14 2z"/></svg></button>
 </div>
 </div>
 </div>
@@ -1299,14 +1308,23 @@ html[data-theme="light"] .updtoast{background:#fffdf6;color:#241f13;box-shadow:0
 </div>
 
 <section id="viewPlanilha" class="view hidden">
-<div class="panelcard">
-<div class="sec-head"><div class="pc-tt"><h3>Planilha</h3><p class="sub" id="plnInfo"></p></div>
-<div class="rowbtns"><button class="btn small ghost" id="plnLinha" type="button">+ Linha</button>
+<div class="panelcard" id="plnListaBox">
+<div class="sec-head"><div class="pc-tt"><h3>Planilhas</h3><p class="sub" id="plnListInfo"></p></div></div>
+<div class="field" style="margin-top:10px"><label>Criar nova planilha</label>
+<div style="display:flex;gap:8px;margin-top:6px"><input class="input" id="plnNovoNome" placeholder="Nome da planilha (ex.: Gastos setembro)">
+<button class="btn gold" id="plnCriar" type="button">Criar</button></div></div>
+<ul class="list" id="plnArqList" style="margin-top:12px"></ul>
+<p class="msg" id="plnMsg"></p>
+</div>
+<div class="panelcard hidden" id="plnEditBox">
+<div class="sec-head"><div class="pc-tt"><h3 id="plnTitulo">Planilha</h3><p class="sub" id="plnInfo"></p></div>
+<div class="rowbtns"><button class="btn small ghost" id="plnVoltar" type="button">← Planilhas</button>
+<button class="btn small ghost" id="plnLinha" type="button">+ Linha</button>
 <button class="btn small ghost" id="plnCol" type="button">+ Coluna</button>
-<button class="btn small ghost" id="plnLinDel" type="button">– Última linha</button>
-<button class="btn small ghost" id="plnColDel" type="button">– Última coluna</button></div></div>
+<button class="btn small ghost" id="plnLinDel" type="button">– Linha</button>
+<button class="btn small ghost" id="plnColDel" type="button">– Coluna</button></div></div>
 <div style="overflow-x:auto;margin-top:10px"><table id="plnTab" style="min-width:520px"></table></div>
-<p class="sub" style="margin-top:8px">Clique numa célula para escrever. Tudo fica salvo neste aparelho — funções extras chegam em breve.</p>
+<p class="sub" style="margin-top:8px">Clique numa célula para escrever. Salvo automaticamente neste aparelho.</p>
 </div>
 </section>
 
@@ -1471,6 +1489,13 @@ html[data-theme="light"] .updtoast{background:#fffdf6;color:#241f13;box-shadow:0
 <div class="cinfo"><strong>Fixa</strong><small>Sempre visível ao lado do conteúdo</small></div></button>
 <button class="mode-opt" id="sideAuto" type="button"><span class="mico"><svg class="ic"><use href="#i-menu"/></svg></span>
 <div class="cinfo"><strong>Automática</strong><small>Some e aparece ao passar o mouse na borda</small></div></button>
+</div>
+<label style="margin-top:16px">Lado da barra</label>
+<div class="opt2">
+<button class="mode-opt" id="sideEsq" type="button"><span class="mico"><svg class="ic"><use href="#i-chev"/></svg></span>
+<div class="cinfo"><strong>Tradicional (esquerda)</strong><small>A barra fica do lado esquerdo</small></div></button>
+<button class="mode-opt" id="sideDir" type="button"><span class="mico"><svg class="ic"><use href="#i-chev"/></svg></span>
+<div class="cinfo"><strong>Direita</strong><small>A barra fica do lado direito</small></div></button>
 </div>
 <p class="sub" id="sideHint" style="margin-top:14px"></p>
 </div>
@@ -2263,6 +2288,14 @@ if(!OK.includes(a))a='gold';document.documentElement.dataset.accent=a;
 try{localStorage.setItem('fenix_accent',a)}catch(e){}
 [['accGold','gold'],['accCoral','coral'],['accRosa','rosa'],['accMostarda','mostarda'],['accTerraco','terraco']].forEach(x=>{const b=$(x[0]);if(b)b.classList.toggle('current',a===x[1]);});}
 function currentAccent(){try{return localStorage.getItem('fenix_accent')||'gold'}catch(e){return 'gold'}}
+function applySidePos(p){ /* R34 — lado da barra: esquerda (tradicional) ou direita */
+p=(p==='right')?'right':'left';
+document.documentElement.dataset.sidepos=p;
+try{localStorage.setItem('fenix_sidepos',p)}catch(e){}
+const a=$('sideEsq'),d=$('sideDir');
+if(a)a.classList.toggle('current',p==='left');
+if(d)d.classList.toggle('current',p==='right');}
+function currentSidePos(){try{return localStorage.getItem('fenix_sidepos')||'left'}catch(e){return 'left'}}
 function applySide(m){document.documentElement.dataset.side=m;
 try{localStorage.setItem('fenix_side',m)}catch(e){}
 const f=$('sideFixed'),a=$('sideAuto');
@@ -2853,9 +2886,9 @@ if(studio){
 document.querySelectorAll('#navGestao .navbtn,#navDados .navbtn,#navEquipe .navbtn,#navCatalogo .navbtn').forEach(b=>b.classList.remove('active'));
 const docsAct=state.sview==='docs'||state.sview==='doc';
 document.querySelectorAll('#navStudio .navbtn').forEach(b=>{const sv=b.dataset.sview;
-b.classList.toggle('active',state.sview==='relatorios'?(sv==='relatorios'):(sv!=='relatorios'&&(sv==='docs')===docsAct));});
+b.classList.toggle('active',state.sview==='relatorios'?(sv==='relatorios'):(sv!=='relatorios'&&(sv===state.sview||(sv==='docs'&&state.sview==='doc'))));});
 $('viewTitle').textContent=computeTitle();
-if(state.sview==='docs')renderDocs();else if(state.sview==='forms')renderForms();else if(state.sview==='formEd')renderFormEd();else if(state.sview==='respFill')renderRespFill();else if(state.sview==='respList')renderRespList();else if(state.sview==='respView')renderRespView();else if(state.sview!=='relatorios')renderDocEd();
+if(state.sview==='docs')renderDocs();else if(state.sview==='forms')renderForms();else if(state.sview==='formEd')renderFormEd();else if(state.sview==='respFill')renderRespFill();else if(state.sview==='respList')renderRespList();else if(state.sview==='respView')renderRespView();else if(state.sview==='planilha')renderPlanilha();else if(state.sview!=='relatorios')renderDocEd();
 updateBack();return;}
 if(equipe){
 document.querySelectorAll('#navGestao .navbtn,#navDados .navbtn,#navStudio .navbtn,#navCatalogo .navbtn,#navClients .navbtn').forEach(b=>b.classList.remove('active'));
@@ -3825,6 +3858,8 @@ $('themeLight').addEventListener('click',()=>applyTheme('light'));
 
 $('sideFixed').addEventListener('click',()=>applySide('fixed'));
 $('sideAuto').addEventListener('click',()=>applySide('auto'));
+$('sideEsq').addEventListener('click',()=>applySidePos('left'));
+$('sideDir').addEventListener('click',()=>applySidePos('right'));
 $('accGold').addEventListener('click',()=>applyAccent('gold'));
 $('perfBaixa').addEventListener('click',()=>applyPerf('baixa')); $('perfMedia').addEventListener('click',()=>applyPerf('media'));
 $('perfAlta').addEventListener('click',()=>applyPerf('alta'));
@@ -5277,28 +5312,65 @@ document.querySelectorAll('#cpBody .cpnav').forEach(x=>x.classList.toggle('on',x
 document.querySelectorAll('#cpBody .cpsec').forEach(x=>x.classList.toggle('on',x.id==='cp-'+t.dataset.cpt));});
 
 /* ===== R21 — Equipe · Mensagens (preview estilo WhatsApp) ===== */
-function renderEqMsgs(){ /* R24 — UI estilo Telegram (prévia; envio inativo) */
+/* ===== R34 — Mensagens REAIS entre usuários (nuvem · sincroniza a cada 20s) ===== */
+let MSG={rows:[],lastTs:0,timer:null,peer:null,visto:{}};
+function meuNome(){try{const a=JSON.parse(localStorage.getItem('fenix_user_ativo')||'null');return (a&&a.nome)||'Clínica';}catch(e){return 'Clínica';}}
+async function msgPuxa(){if(!REMOTE||!CLINIC_ID||!SB)return;
+try{let q=SB.from('mensagens').select('id,de,para,texto,criado_em,ts').eq('clinic_id',CLINIC_ID);
+if(MSG.lastTs)q=q.gt('ts',MSG.lastTs);
+const r=await q.order('ts',{ascending:true}).limit(300);
+if(r.error)throw r.error;
+const novos=r.data||[];
+if(novos.length){MSG.rows=MSG.rows.concat(novos).slice(-600);MSG.lastTs=novos[novos.length-1].ts;
+renderEqMsgs();}}
+catch(e){}}
+function msgLiga(){if(MSG.timer)return;MSG.timer=setInterval(()=>{if(state.mode==='equipe')msgPuxa();},20000);}
+async function msgEnvia(texto){texto=String(texto||'').trim();if(!texto||!MSG.peer)return false;
+if(!REMOTE||!CLINIC_ID||!SB)return false;
+const row={id:uid(),clinic_id:CLINIC_ID,de:meuNome(),para:MSG.peer,texto:texto.slice(0,2000),criado_em:new Date().toLocaleDateString('pt-BR'),ts:Date.now()};
+try{const r=await SB.from('mensagens').insert(row);if(r.error)throw r.error;MSG.rows.push(row);return true;}catch(e){return false;}}
+function renderEqMsgs(){ /* R34 — estilo Telegram, conversas reais por usuário */
 const ul=$('tgList');if(!ul)return;
 const us=getUsu();
-const SEEDS={'__grupo':[['them','Bom dia, equipe! ✦'],['them','Alinhamento da semana: atendimentos começando no horário, por favor.'],['me','Perfeito, anotado! 💛']],
-'default':[['them','Recebido, obrigada!'],['me','Qualquer coisa é só chamar aqui 💛']]};
-const itens=[{id:'__grupo',nome:'Grupo da clínica',prev:'Equipe · todas as conversas',hora:'09:41',n:2}]
-.concat(us.map((u,i)=>({id:u.id,nome:u.nome||u.username||'Membro',prev:u.cargo||'Membro da equipe',hora:('0'+(9+i)).slice(-2)+':'+(i%2?'07':'23'),n:i%3})));
-ul.innerHTML=itens.map((it,i)=>'<li data-eqid="'+it.id+'"'+(i===0?' class="on"':'')+'><span class="tgav">'+esc((it.nome||'?').charAt(0).toUpperCase())+'</span><div class="tgmeta"><b>'+esc(it.nome)+'</b><span class="tgprev">'+esc(it.prev)+'</span></div><div class="tgright"><span class="tgtime">'+it.hora+'</span>'+(it.n?'<span class="tgbadge">'+it.n+'</span>':'')+'</div></li>').join('');
+const eu=meuNome();
+const itens=[{id:'__grupo',nome:'Grupo da clínica',prev:'avisos · em breve',hora:'',n:0}]
+.concat(us.filter(u=>(u.nome||u.username)!==eu).map(u=>({id:u.nome||u.username,nome:u.nome||u.username||'Membro',prev:'toque para conversar',hora:'',n:0})));
+const nLidas=p=>MSG.rows.filter(x=>x.para===eu&&x.de===p&&x.ts>(MSG.visto[p]||0)).length;
+const ultima=p=>MSG.rows.filter(x=>(x.de===p&&x.para===eu)||(x.de===eu&&x.para===p)).slice(-1)[0];
+ul.innerHTML=itens.map(it=>{const n=(it.id==='__grupo')?0:nLidas(it.id);const ult=it.id==='__grupo'?null:ultima(it.id);
+const prev=it.id==='__grupo'?it.prev:(ult?esc(ult.texto.slice(0,34)):it.prev);
+const hr=ult?new Date(ult.ts).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}):'';
+return '<li data-eqid="'+esc(it.id)+'"'+(MSG.peer===it.id||(it.id==='__grupo'&&!MSG.peer)?' class="on"':'')+'><span class="tgav">'+esc((it.nome||'?').charAt(0).toUpperCase())+'</span><div class="tgmeta"><b>'+esc(it.nome)+'</b><span class="tgprev">'+prev+'</span></div><div class="tgright"><span class="tgtime">'+hr+'</span>'+(n?'<span class="tgbadge">'+n+'</span>':'')+'</div></li>';}).join('');
 const pintar=it=>{
 $('tgNome').textContent=it.nome;
 $('tgAv').textContent=(it.nome||'?').charAt(0).toUpperCase();
-$('tgStat').textContent=it.id==='__grupo'?((us.length+1)+' membros · offline'):'offline · mensagens em breve';
-const seed=SEEDS[it.id]||SEEDS.default;
-$('tgArea').innerHTML='<div class="tgdate">Hoje</div>'+
-seed.map(m=>'<div class="tgb '+m[0]+'">'+esc(m[1])+'<span class="tm">'+(m[0]==='me'?'<span class="ck">✓✓</span> ':'')+it.hora+'</span></div>').join('')+
-'<div class="tgb sys">🔌 Prévia — o envio ainda não está ativo; nada aqui é enviado.</div>';
-$('tgArea').scrollTop=$('tgArea').scrollHeight;};
-pintar(itens[0]);
-ul.onclick=e=>{const li=e.target.closest('li');if(!li)return;
-ul.querySelectorAll('li').forEach(x=>x.classList.remove('on'));li.classList.add('on');
-const it=itens.find(x=>x.id===li.dataset.eqid)||itens[0];pintar(it);};}
-
+const grupo=it.id==='__grupo';
+$('tgStat').textContent=grupo?'avisos · em breve':('conversa com '+it.nome+' · sincroniza a cada 20s');
+const area=$('tgArea');
+if(grupo){MSG.peer=null;
+area.innerHTML='<div class="tgdate">Hoje</div><div class="tgb sys">📢 Avisos para toda a equipe chegam em breve.</div>';
+$('tgInput').disabled=true;$('tgSend').disabled=true;return;}
+MSG.peer=it.id;
+MSG.visto[it.id]=Date.now();
+const conv=MSG.rows.filter(x=>(x.de===eu&&x.para===it.id)||(x.de===it.id&&x.para===eu)).sort((a,b)=>a.ts-b.ts);
+area.innerHTML='<div class="tgdate">Hoje</div>'+
+(conv.length?conv.map(m=>{const meu=m.de===eu;const hr=new Date(m.ts).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+return '<div class="tgb '+(meu?'me':'them')+'">'+esc(m.texto)+'<span class="tm">'+(meu?'<span class="ck">✓✓</span> ':'')+hr+'</span></div>';}).join(''):'<div class="tgb sys">Comece a conversa com '+esc(it.nome)+' 💬</div>');
+area.scrollTop=area.scrollHeight;
+$('tgInput').disabled=!REMOTE;$('tgSend').disabled=!REMOTE;
+renderEqMsgsLista();};
+function renderEqMsgsLista(){ /* repinta só a lista (sem perder foco do input) */ }
+pintar(itens.find(x=>x.id===MSG.peer)||itens[0]);
+ul.onclick=async e=>{const li=e.target.closest('li');if(!li)return;
+const it=itens.find(x=>x.id===li.dataset.eqid)||itens[0];
+pintar(it);await msgPuxa();};
+$('tgSend').onclick=async()=>{const inp=$('tgInput');const t=inp.value;if(!t.trim())return;
+inp.value='';
+const ok=await msgEnvia(t);
+if(!ok)inp.value=t;
+renderEqMsgs();};
+$('tgInput').onkeydown=e=>{if(e.key==='Enter')$('tgSend').click();};
+if(REMOTE){msgLiga();msgPuxa();}}
 /* ===== R21 — plataforma: Sistema (zoom) só no Windows; celular sempre 100% ===== */
 const IS_ANDROID=/Android/i.test(navigator.userAgent);
 function plataformaApply(){
@@ -5326,7 +5398,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.18';
+const APP_VERSAO='1.6.19';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{
@@ -5379,49 +5451,64 @@ document.body.appendChild(d);
 $('updDepois').onclick=()=>{try{localStorage.setItem('fenix_upd_depois',String(Date.now()+24*3600*1000))}catch(e){}d.remove();};
 $('updAgora').onclick=()=>{try{localStorage.setItem('fenix_upd_visto',String((UPD||{}).versao||''));localStorage.removeItem('fenix_upd_depois');}catch(e){}try{location.reload();}catch(e){}};}
 
-/* ===== R29 — Planilha (Studio): grade simples editável, salva no aparelho ===== */
-let PLN=null;
-function plnCarrega(){try{PLN=JSON.parse(localStorage.getItem('fenix_pln')||'null');}catch(e){PLN=null;}
-if(!PLN||!Array.isArray(PLN.rows)||!Array.isArray(PLN.cols))PLN={cols:['Item','Valor','Obs'],rows:[['','']]};}
-function plnSalva(){try{localStorage.setItem('fenix_pln',JSON.stringify(PLN));}catch(e){}}
-function renderPlanilha(){plnCarrega();const t=$('plnTab');if(!t)return;
+/* ===== R34 — Planilhas: crie arquivos, entre e edite (salvo no aparelho) ===== */
+let PLNC={arq:[],sel:null};
+function plnCarrega(){try{PLNC=JSON.parse(localStorage.getItem('fenix_pln2')||'null');}catch(e){PLNC=null;}
+if(!PLNC||!Array.isArray(PLNC.arq))PLNC={arq:[]};
+if(!PLNC.arq.length){try{const velho=JSON.parse(localStorage.getItem('fenix_pln')||'null');
+if(velho&&Array.isArray(velho.cols))PLNC.arq.push({nome:'Planilha 1',cols:velho.cols,rows:velho.rows||[['']]});else PLNC.arq.push({nome:'Planilha 1',cols:['Item','Valor','Obs'],rows:[['','','']]});}catch(e){PLNC.arq.push({nome:'Planilha 1',cols:['Item','Valor','Obs'],rows:[['','','']]});}}
+if(PLNC.sel&&!PLNC.arq.some(x=>x.nome===PLNC.sel))PLNC.sel=null;
+plnSalva();}
+function plnSalva(){try{localStorage.setItem('fenix_pln2',JSON.stringify(PLNC));}catch(e){}}
+function plnAtual(){return PLNC.arq.find(x=>x.nome===PLNC.sel)||null;}
+function renderPlanilha(){plnCarrega();
+const lb=$('plnListaBox'),eb=$('plnEditBox');if(!lb)return;
+if(!PLNC.sel){lb.classList.remove('hidden');eb.classList.add('hidden');
+$('plnListInfo').textContent=PLNC.arq.length+' planilha(s) neste aparelho';
+const ul=$('plnArqList');
+ul.innerHTML=PLNC.arq.map(p=>'<li class="fileitem"><span class="avatar file"><svg class="ic"><use href="#i-fold"/></svg></span><div class="cinfo pln-open" data-nome="'+esc(p.nome)+'" title="Abrir"><strong>'+esc(p.nome)+'</strong><small>'+(p.rows?p.rows.length:0)+' linha(s) × '+(p.cols?p.cols.length:0)+' coluna(s)</small></div><button class="iconbtn del" data-plndel="'+esc(p.nome)+'" title="Apagar planilha"><svg class="ic"><use href="#i-trash"/></svg></button></li>').join('');
+return;}
+const p=plnAtual();if(!p){PLNC.sel=null;return renderPlanilha();}
+lb.classList.add('hidden');eb.classList.remove('hidden');
+$('plnTitulo').textContent=p.nome;
+const t=$('plnTab');
 let h='<tr>';
-PLN.cols.forEach((c,ci)=>{h+='<th style="padding:8px;border:1px solid var(--line);background:rgba(212,175,55,.08)"><input data-plnh="'+ci+'" value="'+esc(c)+'" style="width:100%;min-width:110px;background:none;border:0;color:var(--gold);font:700 .78rem Montserrat;outline:none"></th>';});
+p.cols.forEach((c,ci)=>{h+='<th style="padding:8px;border:1px solid var(--line);background:rgba(212,175,55,.08)"><input data-plnh="'+ci+'" value="'+esc(c)+'" style="width:100%;min-width:110px;background:none;border:0;color:var(--gold);font:700 .78rem Montserrat;outline:none"></th>';});
 h+='</tr>';
-PLN.rows.forEach((r,ri)=>{h+='<tr>';
-PLN.cols.forEach((c,ci)=>{const val=(r[ci]!=null?r[ci]:'');h+='<td style="border:1px solid var(--line);padding:0"><input data-plnr="'+ri+'" data-plnc="'+ci+'" value="'+esc(val)+'" style="width:100%;min-width:110px;background:none;border:0;color:var(--txt);font:inherit;font-size:.86rem;padding:8px;outline:none"></td>';});
+p.rows.forEach((r,ri)=>{h+='<tr>';
+p.cols.forEach((c,ci)=>{const val=(r[ci]!=null?r[ci]:'');h+='<td style="border:1px solid var(--line);padding:0"><input data-plnr="'+ri+'" data-plnc="'+ci+'" value="'+esc(val)+'" style="width:100%;min-width:110px;background:none;border:0;color:var(--txt);font:inherit;font-size:.86rem;padding:8px;outline:none"></td>';});
 h+='</tr>';});
 t.innerHTML=h;
-$('plnInfo').textContent=PLN.rows.length+' linha(s) × '+PLN.cols.length+' coluna(s) · salvo automaticamente';
+$('plnInfo').textContent=p.rows.length+' linha(s) × '+p.cols.length+' coluna(s) · salvo automaticamente';
 t.oninput=e=>{const el=e.target;
-if(el.dataset.plnh!=null){PLN.cols[+el.dataset.plnh]=el.value;plnSalva();return;}
+if(el.dataset.plnh!=null){p.cols[+el.dataset.plnh]=el.value;plnSalva();return;}
 if(el.dataset.plnr!=null){const ri=+el.dataset.plnr,ci=+el.dataset.plnc;
-if(!PLN.rows[ri])PLN.rows[ri]=[];PLN.rows[ri][ci]=el.value;plnSalva();}};}
-$('plnLinha').addEventListener('click',()=>{PLN.rows.push(PLN.cols.map(()=>''));plnSalva();renderPlanilha();});
-$('plnCol').addEventListener('click',()=>{PLN.cols.push('Coluna '+(PLN.cols.length+1));PLN.rows.forEach(r=>r.push(''));plnSalva();renderPlanilha();});
-$('plnLinDel').addEventListener('click',()=>{if(PLN.rows.length>1){PLN.rows.pop();plnSalva();renderPlanilha();}});
-$('plnColDel').addEventListener('click',()=>{if(PLN.cols.length>1){PLN.cols.pop();PLN.rows.forEach(r=>r.pop());plnSalva();renderPlanilha();}});
-
-/* ===== R29 — Equipe › Usuários (lista plana, sem hierarquia) ===== */
-document.addEventListener('click',e=>{const b=e.target.closest('[data-esub="usuarios"]');if(!b)return;
-navigate(()=>{state.esub='usuarios';});});
-function renderEqUsu(){const ul=$('eqUsuList');if(!ul)return;
-const us=getUsu();$('eqUsuCount').textContent=us.length+' usuário(s)';
-ul.innerHTML=us.length?us.map(u=>'<li class="client"><span class="avatar">'+esc(String(u.nome||'?').charAt(0).toUpperCase())+'</span><div class="cinfo"><strong>'+esc(u.nome||u.username||'usuário')+'</strong><small>acesso igual · sem hierarquia</small></div></li>').join(''):'<li class="empty">Nenhum usuário ainda — cadastre o primeiro abaixo.</li>';}
-$('eqUsuAdd').addEventListener('click',()=>{
-const nome=String($('eqUsuNome').value||'').trim(),senha=String($('eqUsuSenha').value||'');
-if(nome.length<2)return msg($('eqUsuMsg'),'Dê um nome ao usuário (mín. 2 letras).','err');
-if(senha.length<4)return msg($('eqUsuMsg'),'A senha precisa ter pelo menos 4 caracteres.','err');
-if(getUsu().some(u=>String(u.nome||'').toLowerCase()===nome.toLowerCase()))return msg($('eqUsuMsg'),'Já existe usuário com esse nome.','err');
-setUsu(getUsu().concat([{id:uid(),nome,senha}]));
-$('eqUsuNome').value='';$('eqUsuSenha').value='';
-msg($('eqUsuMsg'),'✔ Usuário '+esc(nome)+' cadastrado — vale também na tela de entrar.','ok');renderEqUsu();});
+if(!p.rows[ri])p.rows[ri]=[];p.rows[ri][ci]=el.value;plnSalva();}};}
+$('plnCriar').addEventListener('click',()=>{
+const nome=String($('plnNovoNome').value||'').trim();
+if(nome.length<2)return msg($('plnMsg'),'Dê um nome pra planilha (mín. 2 letras).','err');
+if(PLNC.arq.some(x=>x.nome.toLowerCase()===nome.toLowerCase()))return msg($('plnMsg'),'Já existe planilha com esse nome.','err');
+PLNC.arq.push({nome,cols:['Item','Valor','Obs'],rows:[['','','']]});PLNC.sel=nome;plnSalva();
+$('plnNovoNome').value='';renderPlanilha();});
+$('plnArqList').addEventListener('click',e=>{
+const del=e.target.closest('[data-plndel]');
+if(del){const p=PLNC.arq.find(x=>x.nome===del.dataset.plndel);if(!p)return;
+PLNC.arq=PLNC.arq.filter(x=>x.nome!==del.dataset.plndel);if(PLNC.sel===p.nome)PLNC.sel=null;
+plnSalva();renderPlanilha();msg($('plnMsg'),'Planilha apagada.','ok');return;}
+const op=e.target.closest('.pln-open');
+if(op){PLNC.sel=op.dataset.nome;plnSalva();renderPlanilha();}});
+$('plnVoltar').addEventListener('click',()=>{PLNC.sel=null;plnSalva();renderPlanilha();});
+$('plnLinha').addEventListener('click',()=>{const p=plnAtual();if(p){p.rows.push(p.cols.map(()=>''));plnSalva();renderPlanilha();}});
+$('plnCol').addEventListener('click',()=>{const p=plnAtual();if(p){p.cols.push('Coluna '+(p.cols.length+1));p.rows.forEach(r=>r.push(''));plnSalva();renderPlanilha();}});
+$('plnLinDel').addEventListener('click',()=>{const p=plnAtual();if(p&&p.rows.length>1){p.rows.pop();plnSalva();renderPlanilha();}});
+$('plnColDel').addEventListener('click',()=>{const p=plnAtual();if(p&&p.cols.length>1){p.cols.pop();p.rows.forEach(r=>r.pop());plnSalva();renderPlanilha();}});
 
 /* ===================== BOOTSTRAP ===================== */
 applyTheme(currentTheme());
 applyAccent(currentAccent());
 applySide(currentSide());
 repararIdsLegado();
+applySidePos(currentSidePos());
 setTimeout(()=>{try{consertaContraste();}catch(e){}},1300);
 setTimeout(()=>checarAtualizacao(true),9000);
 plataformaApply();
