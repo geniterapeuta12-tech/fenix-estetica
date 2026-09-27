@@ -1,8 +1,10 @@
 {
-  "versao": "1.6.22",
-  "r": "R37",
+  "versao": "1.6.23",
+  "r": "R38",
   "melhorias": [
-    "Planilha: botão “Limpar” — selecione a linha ou coluna e esvazie só o conteúdo dela (a estrutura continua); o resto da lista do dono segue da v1.6.21: cliente por abas c/ ícones fiéis e sem barra, renomear planilha, apagar linha/coluna selecionada, sessões com progresso real"
+    "CORREÇÃO: senha de usuário não entrava mesmo com usuário existente — a conferência comparava a senha digitada com a versão criptografada gravada; agora decodifica e confere de verdade (inclusive senhas vindas do sistema antigo e de backup)",
+    "Nomes de usuário com letra maiúscula (ex.: Kaleb) agora entram certinho",
+    "Usuário novo já nasce com a senha no formato seguro que resiste a backup e sincronização"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }

@@ -3873,8 +3873,10 @@ const dec=decodeURIComponent(escape(atob(enc.slice(4))));
 return dec.indexOf('fx|')===0?dec:null;}catch(e){return null;}}
 function hashUsu(u,p){return hashStr('fenix-usu|'+String(u).toLowerCase()+'|'+p);}
 function senhaOk(u,p){if(!u.senha)return true;
-if(u.senha.indexOf('fx1:')===0)return decSenha(u.senha)===('fx|'+u.username+'|'+p);
-return hashUsu(u.username,p)===u.senha;}
+const un=String(u.username||u.nome||'').toLowerCase();
+if(u.senha.indexOf('fx1:')===0)return decSenha(u.senha)===('fx|'+un+'|'+p);
+if(u.senha===p)return true;
+return hashUsu(un,p)===u.senha;}
 function senhaVisivel(u){if(!u.senha)return '';
 if(u.senha.indexOf('fx1:')===0){const d=decSenha(u.senha);return d?d.split('|')[2]||'':'';}
 return null;}
@@ -5438,7 +5440,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.22';
+const APP_VERSAO='1.6.23';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{
@@ -5654,7 +5656,7 @@ function usuarioEntrou(u){try{localStorage.setItem('fenix_user_ativo',JSON.strin
 $('userModal').classList.add('hidden');}
 $('userBack').addEventListener('click',()=>renderUserStep(ultUsu()?'confirm':'lista'));
 $('userEnter').addEventListener('click',()=>{if(!selUsu)return;
-if(String($('userPass').value)!==String(selUsu.senha||''))return msg($('userMsg'),'Senha incorreta — tente de novo ou escolha outro usuário.','err');
+if(!senhaOk(selUsu,String($('userPass').value)))return msg($('userMsg'),'Senha incorreta — tente de novo ou escolha outro usuário.','err');
 usuarioEntrou(selUsu);});
 $('userNewBack').addEventListener('click',()=>renderUserStep(getUsu().length?(ultUsu()?'confirm':'lista'):'cad'));
 $('userNewSave').addEventListener('click',()=>{
@@ -5662,7 +5664,7 @@ const nome=String($('userNewNome').value||'').trim(),senha=String($('userNewSenh
 if(nome.length<2)return msg($('userMsg'),'Dê um nome ao usuário (mín. 2 letras).','err');
 if(senha.length<4)return msg($('userMsg'),'A senha precisa ter pelo menos 4 caracteres.','err');
 if(getUsu().some(u=>String(u.nome||'').toLowerCase()===nome.toLowerCase()))return msg($('userMsg'),'Já existe usuário com esse nome.','err');
-const u={id:uid(),nome,senha};setUsu(getUsu().concat([u]));usuarioEntrou(u);});
+const u={id:uid(),nome,senha:senha?encSenha(nome,senha):''};setUsu(getUsu().concat([u]));usuarioEntrou(u);});
 $('btnWelcomeGo').addEventListener('click',()=>{$('welcomeModal').classList.add('hidden');renderUserStep();$('userModal').classList.remove('hidden');});
 </script>
 </body>
