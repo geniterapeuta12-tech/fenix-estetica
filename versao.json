@@ -1,9 +1,9 @@
 {
-  "versao": "1.6.17",
-  "r": "R32",
+  "versao": "1.6.18",
+  "r": "R33",
   "melhorias": [
-    "Pop-up do usuário: opções e campos sempre com fundo escuro e letra clara — nada mais camuflado",
-    "Aviso de senha errada agora aparece em vermelho claro, bem visível"
+    "Pop-up do usuário: botões secundários com borda dourada visível e fundo escuro",
+    "Confirmação: nada mais herda cor do tema dentro do pop-up"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }
