@@ -1,8 +1,10 @@
 {
-  "versao": "1.6.20",
-  "r": "R35",
+  "versao": "1.6.21",
+  "r": "R36",
   "melhorias": [
-    "Dados › Uso: medidor do espaço da nuvem — mostra % usado, barra e avisa em 70% (hora de migrar pro Fly.io), com medida ao vivo no botão “Medir agora”"
+    "App da cliente renovado: navegação por ABAS com os mesmos ícones da gestão (Início, Pacotes, Sessões, Pagamentos) — sem barra lateral e sem itens travados",
+    "Planilhas: renomear o arquivo (✏️) e selecionar linha/coluna (letra A-B-C / número) pra apagar ou editar só ela",
+    "Sessões: progresso REAL em todos os lugares (cada pacote mostra o 'X de Y' certo — conserto dos dados importados)"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }

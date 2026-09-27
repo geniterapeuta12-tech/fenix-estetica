@@ -2482,11 +2482,11 @@ const meses=[...new Set(finRows().map(r=>String(r.data||'').slice(0,7)).filter(B
 fillSel($('finFmes'),'<option value="">Todos os meses</option>'+meses.map(m=>'<option value="'+m+'">'+mesLabel(m)+'</option>').join(''),finF.mes);}
 
 /* ===================== SYNC ===================== */
-const mapCliente=r=>({id:r.id,nome:r.nome,cpf:r.cpf||'',nasc:r.nasc||'',tel:r.tel||'',email:r.email||'',end:r.end||'',obs:r.obs||'',acesso:r.acesso!==false,data:r.criado_em||''});
+const mapCliente=r=>({id:r.id,nome:r.nome,cpf:r.cpf||'',nasc:r.nasc||'',tel:r.tel||'',email:r.email||'',end:r.end||'',obs:r.obs||'',acesso:!(r.acesso===false||r.acesso===0||String(r.acesso)==='false'||String(r.acesso)==='fals'||String(r.acesso)==='0'),data:r.criado_em||''});
 const dbCliente=c=>({id:c.id,clinic_id:CLINIC_ID,nome:c.nome,cpf:c.cpf||'',nasc:c.nasc||null,tel:c.tel||'',email:c.email||'',end:c.end||'',obs:c.obs||'',acesso:c.acesso!==false,criado_em:c.data||''});
 const mapPacote=r=>({id:r.id,clientId:r.cliente_id,nome:r.nome,valor:Number(r.valor||0),sessoes:r.sessoes,criadoEm:r.criado_em||''});
 const dbPacote=p=>({id:p.id,clinic_id:CLINIC_ID,cliente_id:p.clientId,nome:p.nome,valor:p.valor,sessoes:p.sessoes,criado_em:p.criadoEm||''});
-const mapSess=r=>({id:r.id,clientId:r.cliente_id,pacoteId:r.pacote_id||null,num:r.num,feita:r.feita,data:r.data||'',obs:r.obs||'',valor:Number(r.valor||0)});
+const mapSess=r=>({id:r.id,clientId:r.cliente_id,pacoteId:r.pacote_id||null,num:r.num,feita:(r.feita===true||r.feita===1||String(r.feita)==='true'||String(r.feita)==='tru'||String(r.feita)==='1'),data:r.data||'',obs:r.obs||'',valor:Number(r.valor||0)});
 const dbSess=s=>({id:s.id,clinic_id:CLINIC_ID,cliente_id:s.clientId,pacote_id:s.pacoteId||null,num:s.num,feita:s.feita,data:s.data||'',obs:s.obs||'',valor:s.valor||0});
 const mapPay=r=>({id:r.id,clientId:r.cliente_id,pacoteId:r.pacote_id||null,sessaoId:r.sessao_id||null,valor:Number(r.valor||0),data:r.data||'',metodo:r.metodo||'',obs:r.obs||''});
 const dbPay=p=>({id:p.id,clinic_id:CLINIC_ID,cliente_id:p.clientId,pacote_id:p.pacoteId||null,sessao_id:p.sessaoId||null,valor:p.valor,data:p.data||'',metodo:p.metodo||'',obs:p.obs||''});
@@ -5438,7 +5438,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.20';
+const APP_VERSAO='1.6.21';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{
@@ -5492,7 +5492,7 @@ $('updDepois').onclick=()=>{try{localStorage.setItem('fenix_upd_depois',String(D
 $('updAgora').onclick=()=>{try{localStorage.setItem('fenix_upd_visto',String((UPD||{}).versao||''));localStorage.removeItem('fenix_upd_depois');}catch(e){}try{location.reload();}catch(e){}};}
 
 /* ===== R34 — Planilhas: crie arquivos, entre e edite (salvo no aparelho) ===== */
-let PLNC={arq:[],sel:null};
+let PLNC={arq:[],sel:null};let PLNSEL=null;let PLNREN=null;const plnLetra=i=>i<26?String.fromCharCode(65+i):String.fromCharCode(64+((i/26)|0))+String.fromCharCode(65+i%26);
 function plnCarrega(){try{PLNC=JSON.parse(localStorage.getItem('fenix_pln2')||'null');}catch(e){PLNC=null;}
 if(!PLNC||!Array.isArray(PLNC.arq))PLNC={arq:[]};
 if(!PLNC.arq.length){try{const velho=JSON.parse(localStorage.getItem('fenix_pln')||'null');
@@ -5506,24 +5506,35 @@ const lb=$('plnListaBox'),eb=$('plnEditBox');if(!lb)return;
 if(!PLNC.sel){lb.classList.remove('hidden');eb.classList.add('hidden');
 $('plnListInfo').textContent=PLNC.arq.length+' planilha(s) neste aparelho';
 const ul=$('plnArqList');
-ul.innerHTML=PLNC.arq.map(p=>'<li class="fileitem"><span class="avatar file"><svg class="ic"><use href="#i-fold"/></svg></span><div class="cinfo pln-open" data-nome="'+esc(p.nome)+'" title="Abrir"><strong>'+esc(p.nome)+'</strong><small>'+(p.rows?p.rows.length:0)+' linha(s) × '+(p.cols?p.cols.length:0)+' coluna(s)</small></div><button class="iconbtn del" data-plndel="'+esc(p.nome)+'" title="Apagar planilha"><svg class="ic"><use href="#i-trash"/></svg></button></li>').join('');
+ul.innerHTML=PLNC.arq.map(p=>{
+if(PLNREN===p.nome)return '<li class="fileitem"><span class="avatar file"><svg class="ic"><use href="#i-fold"/></svg></span><div class="cinfo" style="flex:1;display:flex;gap:6px;align-items:center"><input id="plnRenInp" value="'+esc(p.nome)+'" style="flex:1;min-width:0;background:#141414;border:1px solid rgba(212,175,55,.55);border-radius:9px;color:#f5f5f5;font:600 .88rem Montserrat;padding:8px 10px;outline:none"><button class="btn small" data-plnrenok="1" title="Salvar nome"><svg class="ic"><use href="#i-check"/></svg></button><button class="btn small ghost" data-plnrencan="1" title="Cancelar"><svg class="ic"><use href="#i-x"/></svg></button></div></li>';
+return '<li class="fileitem"><span class="avatar file"><svg class="ic"><use href="#i-fold"/></svg></span><div class="cinfo pln-open" data-nome="'+esc(p.nome)+'" title="Abrir"><strong>'+esc(p.nome)+'</strong><small>'+(p.rows?p.rows.length:0)+' linha(s) × '+(p.cols?p.cols.length:0)+' coluna(s)</small></div><button class="iconbtn" data-plnren="'+esc(p.nome)+'" title="Renomear planilha"><svg class="ic"><use href="#i-edit"/></svg></button><button class="iconbtn del" data-plndel="'+esc(p.nome)+'" title="Apagar planilha"><svg class="ic"><use href="#i-trash"/></svg></button></li>';}).join('');
+const rinp=$('plnRenInp');if(rinp){rinp.focus();const vl=rinp.value;try{rinp.setSelectionRange(vl.length,vl.length);}catch(e){}}
 return;}
 const p=plnAtual();if(!p){PLNC.sel=null;return renderPlanilha();}
 lb.classList.add('hidden');eb.classList.remove('hidden');
 $('plnTitulo').textContent=p.nome;
 const t=$('plnTab');
-let h='<tr>';
+const selr=ri=>PLNSEL&&PLNSEL.t==='r'&&PLNSEL.i===ri;
+const selc=ci=>PLNSEL&&PLNSEL.t==='c'&&PLNSEL.i===ci;
+let h='<tr><th title="Selecionador" style="border:1px solid var(--line);background:rgba(212,175,55,.05);min-width:30px"></th>';
+p.cols.forEach((c,ci)=>{h+='<th data-plnselc="'+ci+'" title="Toque pra selecionar a coluna '+plnLetra(ci)+'" style="text-align:center;padding:6px;border:1px solid var(--line);cursor:pointer;user-select:none;background:'+(selc(ci)?'rgba(212,175,55,.4)':'rgba(212,175,55,.08)')+';color:#d4af37;font:700 .72rem Montserrat">'+plnLetra(ci)+'</th>';});
+h+='</tr><tr><th style="border:1px solid var(--line);background:rgba(212,175,55,.05)"></th>';
 p.cols.forEach((c,ci)=>{h+='<th style="padding:8px;border:1px solid var(--line);background:rgba(212,175,55,.08)"><input data-plnh="'+ci+'" value="'+esc(c)+'" style="width:100%;min-width:110px;background:none;border:0;color:var(--gold);font:700 .78rem Montserrat;outline:none"></th>';});
 h+='</tr>';
 p.rows.forEach((r,ri)=>{h+='<tr>';
-p.cols.forEach((c,ci)=>{const val=(r[ci]!=null?r[ci]:'');h+='<td style="border:1px solid var(--line);padding:0"><input data-plnr="'+ri+'" data-plnc="'+ci+'" value="'+esc(val)+'" style="width:100%;min-width:110px;background:none;border:0;color:var(--txt);font:inherit;font-size:.86rem;padding:8px;outline:none"></td>';});
+h+='<td data-plnselr="'+ri+'" title="Toque pra selecionar a linha '+(ri+1)+'" style="text-align:center;padding:8px;border:1px solid var(--line);cursor:pointer;user-select:none;background:'+(selr(ri)?'rgba(212,175,55,.4)':'rgba(212,175,55,.05)')+';color:#d4af37;font:700 .72rem Montserrat">'+(ri+1)+'</td>';
+p.cols.forEach((c,ci)=>{const val=(r[ci]!=null?r[ci]:'');const mark=(selr(ri)||selc(ci))?'background:rgba(212,175,55,.07);':'';h+='<td style="border:1px solid var(--line);padding:0;'+mark+'"><input data-plnr="'+ri+'" data-plnc="'+ci+'" value="'+esc(val)+'" style="width:100%;min-width:110px;background:none;border:0;color:var(--txt);font:inherit;font-size:.86rem;padding:8px;outline:none"></td>';});
 h+='</tr>';});
 t.innerHTML=h;
-$('plnInfo').textContent=p.rows.length+' linha(s) × '+p.cols.length+' coluna(s) · salvo automaticamente';
+$('plnInfo').textContent=p.rows.length+' linha(s) × '+p.cols.length+' coluna(s) · salvo automaticamente'+(PLNSEL?(' · '+(PLNSEL.t==='r'?('LINHA '+(PLNSEL.i+1)+' selecionada'):('COLUNA '+plnLetra(PLNSEL.i)+' selecionada'))+' — “– Linha/– Coluna” apaga só ela'):'');
 t.oninput=e=>{const el=e.target;
 if(el.dataset.plnh!=null){p.cols[+el.dataset.plnh]=el.value;plnSalva();return;}
 if(el.dataset.plnr!=null){const ri=+el.dataset.plnr,ci=+el.dataset.plnc;
-if(!p.rows[ri])p.rows[ri]=[];p.rows[ri][ci]=el.value;plnSalva();}};}
+if(!p.rows[ri])p.rows[ri]=[];p.rows[ri][ci]=el.value;plnSalva();}};
+t.onclick=e=>{const sc=e.target.closest('[data-plnselc]');const sr=e.target.closest('[data-plnselr]');
+if(sc){const i=+sc.dataset.plnselc;PLNSEL=(PLNSEL&&PLNSEL.t==='c'&&PLNSEL.i===i)?null:{t:'c',i};plnSalva();renderPlanilha();return;}
+if(sr){const i=+sr.dataset.plnselr;PLNSEL=(PLNSEL&&PLNSEL.t==='r'&&PLNSEL.i===i)?null:{t:'r',i};plnSalva();renderPlanilha();}};}
 $('plnCriar').addEventListener('click',()=>{
 const nome=String($('plnNovoNome').value||'').trim();
 if(nome.length<2)return msg($('plnMsg'),'Dê um nome pra planilha (mín. 2 letras).','err');
@@ -5531,17 +5542,26 @@ if(PLNC.arq.some(x=>x.nome.toLowerCase()===nome.toLowerCase()))return msg($('pln
 PLNC.arq.push({nome,cols:['Item','Valor','Obs'],rows:[['','','']]});PLNC.sel=nome;plnSalva();
 $('plnNovoNome').value='';renderPlanilha();});
 $('plnArqList').addEventListener('click',e=>{
+if(e.target.closest('[data-plnrencan]')){PLNREN=null;renderPlanilha();return;}
+const okb=e.target.closest('[data-plnrenok]');
+if(okb){const inp=$('plnRenInp');const novo=String(inp&&inp.value||'').trim();const velho=PLNREN||'';
+if(novo.length<2)return msg($('plnMsg'),'Nome curto demais — mínimo de 2 letras.','err');
+if(novo.toLowerCase()!==velho.toLowerCase()&&PLNC.arq.some(x=>x.nome.toLowerCase()===novo.toLowerCase()))return msg($('plnMsg'),'Já existe planilha com esse nome.','err');
+const pp=PLNC.arq.find(x=>x.nome===velho);if(pp){pp.nome=novo;if(PLNC.sel===velho)PLNC.sel=novo;}
+PLNREN=null;plnSalva();renderPlanilha();msg($('plnMsg'),'Planilha renomeada pra “'+novo+'”.','ok');return;}
+const ren=e.target.closest('[data-plnren]');
+if(ren){PLNREN=ren.dataset.plnren;renderPlanilha();return;}
 const del=e.target.closest('[data-plndel]');
 if(del){const p=PLNC.arq.find(x=>x.nome===del.dataset.plndel);if(!p)return;
 PLNC.arq=PLNC.arq.filter(x=>x.nome!==del.dataset.plndel);if(PLNC.sel===p.nome)PLNC.sel=null;
 plnSalva();renderPlanilha();msg($('plnMsg'),'Planilha apagada.','ok');return;}
 const op=e.target.closest('.pln-open');
-if(op){PLNC.sel=op.dataset.nome;plnSalva();renderPlanilha();}});
-$('plnVoltar').addEventListener('click',()=>{PLNC.sel=null;plnSalva();renderPlanilha();});
+if(op){PLNC.sel=op.dataset.nome;PLNSEL=null;PLNREN=null;plnSalva();renderPlanilha();}});
+$('plnVoltar').addEventListener('click',()=>{PLNC.sel=null;PLNSEL=null;PLNREN=null;plnSalva();renderPlanilha();});
 $('plnLinha').addEventListener('click',()=>{const p=plnAtual();if(p){p.rows.push(p.cols.map(()=>''));plnSalva();renderPlanilha();}});
 $('plnCol').addEventListener('click',()=>{const p=plnAtual();if(p){p.cols.push('Coluna '+(p.cols.length+1));p.rows.forEach(r=>r.push(''));plnSalva();renderPlanilha();}});
-$('plnLinDel').addEventListener('click',()=>{const p=plnAtual();if(p&&p.rows.length>1){p.rows.pop();plnSalva();renderPlanilha();}});
-$('plnColDel').addEventListener('click',()=>{const p=plnAtual();if(p&&p.cols.length>1){p.cols.pop();p.rows.forEach(r=>r.pop());plnSalva();renderPlanilha();}});
+$('plnLinDel').addEventListener('click',()=>{const p=plnAtual();if(!p||p.rows.length<2)return;if(PLNSEL&&PLNSEL.t==='r'){p.rows.splice(PLNSEL.i,1);PLNSEL=null;}else p.rows.pop();plnSalva();renderPlanilha();});
+$('plnColDel').addEventListener('click',()=>{const p=plnAtual();if(!p||p.cols.length<2)return;if(PLNSEL&&PLNSEL.t==='c'){p.cols.splice(PLNSEL.i,1);p.rows.forEach(r=>r.splice(PLNSEL.i,1));PLNSEL=null;}else{p.cols.pop();p.rows.forEach(r=>r.pop());}plnSalva();renderPlanilha();});
 
 /* ===================== BOOTSTRAP ===================== */
 applyTheme(currentTheme());
