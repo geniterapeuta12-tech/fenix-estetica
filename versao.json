@@ -1,10 +1,8 @@
 {
-  "versao": "1.6.21",
-  "r": "R36",
+  "versao": "1.6.22",
+  "r": "R37",
   "melhorias": [
-    "App da cliente renovado: navegação por ABAS com os mesmos ícones da gestão (Início, Pacotes, Sessões, Pagamentos) — sem barra lateral e sem itens travados",
-    "Planilhas: renomear o arquivo (✏️) e selecionar linha/coluna (letra A-B-C / número) pra apagar ou editar só ela",
-    "Sessões: progresso REAL em todos os lugares (cada pacote mostra o 'X de Y' certo — conserto dos dados importados)"
+    "Planilha: botão “Limpar” — selecione a linha ou coluna e esvazie só o conteúdo dela (a estrutura continua); o resto da lista do dono segue da v1.6.21: cliente por abas c/ ícones fiéis e sem barra, renomear planilha, apagar linha/coluna selecionada, sessões com progresso real"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }
