@@ -1,13 +1,9 @@
 {
-  "versao": "1.6.14",
-  "r": "R29",
+  "versao": "1.6.15",
+  "r": "R30",
   "melhorias": [
-    "Novo modo Funções extras (saiu da Gestão)",
-    "Relatório Personalizado agora é um card, igual Clínica completa e Cliente",
-    "Studio ganhou Planilha (grade simples e editável)",
-    "App da cliente com barra lateral no computador e menu ☰ no celular",
-    "Entrar com usuário: cadastra nome e senha, escolhe o usuário e o acesso lembrado reconhece quem está usando",
-    "Equipe › Usuários: lista de todos, nenhum superior ao outro"
+    "Letras dos pop-ups consertadas — agora ficam sempre visíveis (branco no tema escuro)",
+    "Vale para todos os avisos: boas-vindas, usuário, links, uploads e programar acesso"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }

@@ -792,6 +792,14 @@ html[data-theme="light"][data-accent="terraco"] .avatar.file,html[data-theme="li
 html[data-theme="light"] .updtoast{background:#fffdf6;color:#241f13;box-shadow:0 18px 50px rgba(90,70,20,.25)}
 .updtoast:hover{border-color:var(--gold)}
 .txtfix{color:var(--txt)!important}
+
+/* ===== R30 — letras dos pop-ups SEMPRE visíveis (branco no escuro; preto no claro) ===== */
+.pmodal-card,.pmcard{color:var(--txt)!important}
+.pmodal-card h3,.pmodal-card h4,.pmodal-card b,.pmodal-card strong,.pmcard h3,.pmcard h4,.pmcard b,.pmcard strong{color:var(--txt)!important}
+.pmodal-card .sub,.pmodal-card label,.pmodal-card small,.pmodal-card p,.pmcard .sub,.pmcard label,.pmcard small,.pmcard p{color:var(--txt)!important;opacity:.85}
+.pmodal-card input,.pmodal-card select,.pmodal-card textarea,.pmcard input,.pmcard select,.pmcard textarea{color:var(--txt)!important}
+.pmodal-card input::placeholder,.pmcard input::placeholder{color:var(--muted)!important;opacity:1}
+.pmodal-card .btn.ghost,.pmcard .btn.ghost,.pmodal-card .mode-opt,.pmcard .mode-opt{color:var(--txt)!important}
 </style>
 </head>
 <body>
@@ -5296,7 +5304,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.14';
+const APP_VERSAO='1.6.15';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{
