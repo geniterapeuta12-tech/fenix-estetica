@@ -785,7 +785,14 @@ html[data-theme="light"][data-accent="terraco"] .tabs,html[data-theme="light"][d
 html[data-theme="light"][data-accent="terraco"] .menulist li:hover,html[data-theme="light"][data-accent="terraco"] .calc-pad button:hover,html[data-theme="light"][data-accent="terraco"] .dock-item:hover,html[data-theme="light"][data-accent="terraco"] .sess-head:hover,html[data-theme="light"][data-accent="terraco"] .mode-opt:hover,html[data-theme="light"][data-accent="terraco"] .navbtn:hover{background:#ecdcd2}
 html[data-theme="light"][data-accent="terraco"] .bar{background:#e7d4c8}
 html[data-theme="light"][data-accent="terraco"] .empty,html[data-theme="light"][data-accent="terraco"] .hint,html[data-theme="light"][data-accent="terraco"] .navnote,html[data-theme="light"][data-accent="terraco"] .fcount,html[data-theme="light"][data-accent="terraco"] .sc-hint,html[data-theme="light"][data-accent="terraco"] .dock-note,html[data-theme="light"][data-accent="terraco"] .chev,html[data-theme="light"][data-accent="terraco"] .pc-head .chev,html[data-theme="light"][data-accent="terraco"] .client time{color:#7d6656}
-html[data-theme="light"][data-accent="terraco"] .avatar.file,html[data-theme="light"][data-accent="terraco"] .num,html[data-theme="light"][data-accent="terraco"] .stat b,html[data-theme="light"][data-accent="terraco"] .side-clinic,html[data-theme="light"][data-accent="terraco"] .tmr-display,html[data-theme="light"][data-accent="terraco"] .when b,html[data-theme="light"][data-accent="terraco"] .pstats b,html[data-theme="light"][data-accent="terraco"] .calc-disp,html[data-theme="light"][data-accent="terraco"] .cal-day.today,html[data-theme="light"][data-accent="terraco"] .cal-day i,html[data-theme="light"][data-accent="terraco"] .dock>header .ic,html[data-theme="light"][data-accent="terraco"] .dock-item .ic,html[data-theme="light"][data-accent="terraco"] .widget>header .ic{color:#a04e22}</style>
+html[data-theme="light"][data-accent="terraco"] .avatar.file,html[data-theme="light"][data-accent="terraco"] .num,html[data-theme="light"][data-accent="terraco"] .stat b,html[data-theme="light"][data-accent="terraco"] .side-clinic,html[data-theme="light"][data-accent="terraco"] .tmr-display,html[data-theme="light"][data-accent="terraco"] .when b,html[data-theme="light"][data-accent="terraco"] .pstats b,html[data-theme="light"][data-accent="terraco"] .calc-disp,html[data-theme="light"][data-accent="terraco"] .cal-day.today,html[data-theme="light"][data-accent="terraco"] .cal-day i,html[data-theme="light"][data-accent="terraco"] .dock>header .ic,html[data-theme="light"][data-accent="terraco"] .dock-item .ic,html[data-theme="light"][data-accent="terraco"] .widget>header .ic{color:#a04e22}
+/* ===== R28 - aviso de atualização + contraste à prova de tema ===== */
+.updtoast{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:320;background:linear-gradient(180deg,#141414,#0e0e0e);border:1px solid rgba(212,175,55,.55);color:#f5f5f5;border-radius:14px;padding:12px 18px;box-shadow:0 18px 50px rgba(0,0,0,.55);cursor:pointer;display:flex;gap:11px;align-items:center;font:600 .84rem Montserrat;max-width:92vw}
+.updtoast small{font-weight:400;opacity:.75}
+html[data-theme="light"] .updtoast{background:#fffdf6;color:#241f13;box-shadow:0 18px 50px rgba(90,70,20,.25)}
+.updtoast:hover{border-color:var(--gold)}
+.txtfix{color:var(--txt)!important}
+</style>
 </head>
 <body>
 <svg style="display:none" xmlns="http://www.w3.org/2000/svg">
@@ -1286,6 +1293,11 @@ html[data-theme="light"][data-accent="terraco"] .avatar.file,html[data-theme="li
 </section>
 
 <section id="viewSistema" class="view hidden">
+<div class="panelcard" id="updBox">
+<h3>Atualização</h3>
+<p class="sub">A versão que você está usando e as novidades da mais recente.</p>
+<div id="updCorpo" style="margin-top:10px"><p class="sub">Verificando…</p></div>
+</div>
 <div class="panelcard">
 <h3>Zoom das telas</h3>
 <p class="sub">Aumenta ou diminui o tamanho de tudo no app, sem exagero — até 80% (cabe mais na tela) ou 125% (maior pra ler). Fica salvo e vale no navegador, no app de Windows e no de celular.</p>
@@ -2144,13 +2156,15 @@ if(p.sessaoId){const s=sesById(p.sessaoId);return s?('Avulsa: '+(s.obs||'')):'Av
 return 'Geral';}
 
 /* ===================== TEMA + LATERAL ===================== */
-function applyTheme(t){ /* R27: só Escuro e Claro (sépia/oceano removidos a pedido); valor inválido/antigo → escuro */
+function applyTheme(t){ /* R27: só Escuro e Claro; R28: re-executa o conserto de contraste */
 if(!['dark','light'].includes(t))t='dark';
 document.documentElement.dataset.theme=t;
 try{localStorage.setItem('fenix_theme',t)}catch(e){}
 const d=$('themeDark'),l=$('themeLight');
 if(d)d.classList.toggle('current',t==='dark');
-if(l)l.classList.toggle('current',t==='light');}
+if(l)l.classList.toggle('current',t==='light');
+try{document.querySelectorAll('.txtfix').forEach(x=>x.classList.remove('txtfix'));}catch(e){}
+try{consertaContraste();}catch(e){}}
 function currentTheme(){try{return localStorage.getItem('fenix_theme')||'dark'}catch(e){return 'dark'}}
 function applyPerf(m){if(!['baixa','media','alta','bruta'].includes(m))m='baixa';
 document.documentElement.dataset.perf=m;
@@ -5214,11 +5228,64 @@ if(u.indexOf('(')>=0){const base=(u.match(/(https?:\/\/[^\s()]+\/fenix-arquivos\
 if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z0-9]+)\??[0-9]*$/i)||[])[1]||'jpg';f.url=base+'/'+id+'.'+ext;mu=true;}}});
 if(mu)setArq(la);}catch(e){}}
 
+/* ===== R28 — versão do app, aviso de atualização e contraste ===== */
+const APP_VERSAO='1.6.13';
+let UPD=null,updToastEl=null;
+function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
+function consertaContraste(){try{
+const light=document.documentElement.dataset.theme==='light';
+document.querySelectorAll('.view:not(.hidden) *, #authScreen *, .pmodal-card *').forEach(el=>{
+if(el.closest('.folha'))return;
+if(!el.childNodes.length)return;
+const txt=Array.from(el.childNodes).filter(n=>n.nodeType===3).map(n=>n.textContent).join('').trim();
+if(!txt)return;
+const cs=getComputedStyle(el);
+const cl=_lum(cs.color);if(cl==null)return;
+const bgEl=el.closest('.btn,.chip,.badge,.mode-opt,.tgb,.tglist li,.prox,[style*="background"]')||el;
+const bl=_lum(getComputedStyle(bgEl).backgroundColor);
+if(bl!=null&&bl>110&&bl<215)return; /* fundo dourado/colorido: não mexe */
+const claroTxt=cl>195,escuroTxt=cl<70;
+if((light&&claroTxt)||(!light&&escuroTxt))el.classList.add('txtfix');
+});}catch(e){}}
+async function checarAtualizacao(tentar){
+try{
+const r=await fetch('https://geniterapeuta12-tech.github.io/fenix-estetica/versao.json?t='+Date.now(),{cache:'no-store'});
+if(!r.ok)throw new Error('http');
+UPD=await r.json();
+renderUpd();
+if(String(UPD.versao||'')!==String(APP_VERSAO)){
+let visto=null;try{visto=localStorage.getItem('fenix_upd_visto')}catch(e){}
+if(visto!==String(UPD.versao))mostrarAvisoUpd();
+}
+}catch(e){if(tentar)setTimeout(()=>checarAtualizacao(false),7000);}}
+function renderUpd(){const b=$('updCorpo');if(!b)return;
+if(!UPD){b.innerHTML='<p class="sub">Não foi possível verificar agora — tente reabrir o Sistema.</p>';return;}
+const nova=String(UPD.versao||'')!==String(APP_VERSAO);
+let h='<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="badge b-gold">v'+esc(APP_VERSAO)+' — esta instalação</span>'+
+(nova?'<span class="badge b-gold" style="border-color:#5ec98c;color:#5ec98c">nova: v'+esc(UPD.versao)+' disponível</span>':'<span class="badge b-gold" style="border-color:#5ec98c;color:#5ec98c">mais recente ✓</span>')+'</div>';
+if(nova&&Array.isArray(UPD.melhorias)&&UPD.melhorias.length){
+h+='<p class="fk" style="margin:12px 0 4px">MELHORIAS DA v'+esc(UPD.versao)+'</p><ul style="margin:0 0 0 18px">'+UPD.melhorias.map(m=>'<li class="sub" style="margin:4px 0">'+esc(m)+'</li>').join('')+'</ul>';
+h+='<p class="sub" style="margin-top:10px">Pra atualizar: feche e abra o app de novo — celular e computador pegam a versão nova sozinhos. EXE bem antigo? Baixe em '+esc(UPD.link||'https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest')+'</p>';}
+else if(!nova&&Array.isArray(UPD.melhorias)&&UPD.melhorias.length){
+h+='<p class="sub" style="margin-top:8px">Nesta versão: '+UPD.melhorias.map(m=>esc(m)).join(' · ')+'</p>';}
+b.innerHTML=h;}
+function mostrarAvisoUpd(){if(updToastEl)updToastEl.remove();
+const d=document.createElement('div');d.className='updtoast';
+d.innerHTML='<span style="font-size:1.15rem">🔔</span><div><b>Nova versão v'+esc((UPD||{}).versao||'')+' disponível</b><br><small>Toque para ver o que mudou</small></div>';
+d.onclick=()=>{d.remove();updToastEl=null;
+try{localStorage.setItem('fenix_upd_visto',String((UPD||{}).versao||''))}catch(e){}
+const sb=document.querySelector('#navDados [data-dsub="sistema"]');if(sb)sb.click();
+const vs=$('viewSistema');if(vs&&!vs.classList.contains('hidden'))try{vs.scrollIntoView({behavior:'smooth'});}catch(e){}};
+document.body.appendChild(d);updToastEl=d;
+setTimeout(()=>{if(d&&d.parentNode){d.remove();if(updToastEl===d)updToastEl=null;}},15000);}
+
 /* ===================== BOOTSTRAP ===================== */
 applyTheme(currentTheme());
 applyAccent(currentAccent());
 applySide(currentSide());
 repararIdsLegado();
+setTimeout(()=>{try{consertaContraste();}catch(e){}},1300);
+setTimeout(()=>checarAtualizacao(true),9000);
 plataformaApply();
 loadWS();
 (async()=>{

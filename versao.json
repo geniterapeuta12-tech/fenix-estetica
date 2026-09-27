@@ -1,0 +1,10 @@
+{
+  "versao": "1.6.13",
+  "r": "R28",
+  "melhorias": [
+    "Sistema agora mostra a versão atual e a última disponível",
+    "Aviso de nova versão que, ao tocar, abre o Sistema com as melhorias",
+    "Letras que ficavam invisíveis em alguns temas foram consertadas"
+  ],
+  "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
+}
