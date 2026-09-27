@@ -1,9 +1,12 @@
 {
-  "versao": "1.6.15",
-  "r": "R30",
+  "versao": "1.6.16",
+  "r": "R31",
   "melhorias": [
-    "Letras dos pop-ups consertadas — agora ficam sempre visíveis (branco no tema escuro)",
-    "Vale para todos os avisos: boas-vindas, usuário, links, uploads e programar acesso"
+    "Equipe › Usuários carregando de verdade",
+    "Letras dos pop-ups de acesso e usuário sempre claras (não dependem do tema)",
+    "Planilha aparecendo no Studio",
+    "Funções Extras limpo (sem itens da Gestão)",
+    "Atualização agora só acontece se você confirmar no aviso"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }

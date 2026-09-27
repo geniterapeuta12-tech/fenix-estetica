@@ -794,11 +794,19 @@ html[data-theme="light"] .updtoast{background:#fffdf6;color:#241f13;box-shadow:0
 .txtfix{color:var(--txt)!important}
 
 /* ===== R30 — letras dos pop-ups SEMPRE visíveis (branco no escuro; preto no claro) ===== */
-.pmodal-card,.pmcard{color:var(--txt)!important}
-.pmodal-card h3,.pmodal-card h4,.pmodal-card b,.pmodal-card strong,.pmcard h3,.pmcard h4,.pmcard b,.pmcard strong{color:var(--txt)!important}
-.pmodal-card .sub,.pmodal-card label,.pmodal-card small,.pmodal-card p,.pmcard .sub,.pmcard label,.pmcard small,.pmcard p{color:var(--txt)!important;opacity:.85}
-.pmodal-card input,.pmodal-card select,.pmodal-card textarea,.pmcard input,.pmcard select,.pmcard textarea{color:var(--txt)!important}
-.pmodal-card input::placeholder,.pmcard input::placeholder{color:var(--muted)!important;opacity:1}
+/* R31: .pmcard tem fundo SEMPRE escuro → texto claro FIXO (não segue o tema) */
+.pmcard{color:#f5f5f5!important}
+.pmcard :not(.btn){color:#f5f5f5!important}
+.pmcard .btn.ghost{color:#f5f5f5!important}
+.pmcard .btn.gold{color:#141414!important}
+.pmcard input,.pmcard select,.pmcard textarea{color:#f5f5f5!important}
+.pmcard input::placeholder,.pmcard select::placeholder,.pmcard textarea::placeholder{color:#9a9a9a!important;opacity:1}
+/* R31: .pmodal-card acompanha o tema (fundo muda) → texto do tema */
+.pmodal-card{color:var(--txt)!important}
+.pmodal-card h3,.pmodal-card h4,.pmodal-card b,.pmodal-card strong{color:var(--txt)!important}
+.pmodal-card .sub,.pmodal-card label,.pmodal-card small,.pmodal-card p{color:var(--txt)!important;opacity:.85}
+.pmodal-card input,.pmodal-card select,.pmodal-card textarea{color:var(--txt)!important}
+.pmodal-card input::placeholder{color:var(--muted)!important;opacity:1}
 .pmodal-card .btn.ghost,.pmcard .btn.ghost,.pmodal-card .mode-opt,.pmcard .mode-opt{color:var(--txt)!important}
 </style>
 </head>
@@ -2759,6 +2767,7 @@ function computeTitle(){
 if(state.mode==='studio'){if(state.sview==='relatorios')return 'Studio · Relatórios';
 if(state.sview==='doc'){const d=docById(state.docId);return 'Studio · '+(d?d.titulo:'Novo documento');}
 if(state.sview==='forms')return 'Studio · Formulários';
+if(state.sview==='planilha')return 'Studio · Planilha';
 if(state.sview==='formEd'){const f=state.formId?formById(state.formId):null;
 const t=(formDraft&&(formDraft.titulo||'').trim())||(f&&f.titulo)||'';return t?('Formulário: '+t):'Novo formulário';}
 if(state.sview==='respFill'){const f=formById(state.respForm);return 'Responder · '+(f?f.titulo:'');}
@@ -2784,7 +2793,7 @@ return titles[state.view]||'Início';}
 function renderApp(){
 const studio=state.mode==='studio',catalogo=state.mode==='catalogo',equipe=state.mode==='equipe',dados=state.mode==='dados',clients=state.mode==='clients';
 const anyStudio=studio||catalogo;
-$('navGestao').classList.toggle('hidden',anyStudio||equipe||dados||clients);
+$('navGestao').classList.toggle('hidden',anyStudio||equipe||dados||clients||state.mode==='extras');
 $('navStudio').classList.toggle('hidden',!studio);
 $('navCatalogo').classList.toggle('hidden',!catalogo);
 $('navEquipe').classList.toggle('hidden',!equipe);
@@ -2796,6 +2805,7 @@ $('modeName').textContent=MODES[state.mode].nome;
 $('viewDocs').classList.toggle('hidden',!(studio&&state.sview==='docs'));
 $('viewDocEd').classList.toggle('hidden',!(studio&&state.sview==='doc'));
 $('viewForms').classList.toggle('hidden',!(studio&&state.sview==='forms'));
+$('viewPlanilha').classList.toggle('hidden',!(studio&&state.sview==='planilha'));
 $('viewFormEd').classList.toggle('hidden',!(studio&&state.sview==='formEd'));
 $('viewRespFill').classList.toggle('hidden',!(studio&&state.sview==='respFill'));
 $('viewRespList').classList.toggle('hidden',!(studio&&state.sview==='respList'));
@@ -2840,7 +2850,7 @@ document.querySelectorAll('#navGestao .navbtn,#navDados .navbtn,#navStudio .navb
 document.querySelectorAll('#navEquipe .navbtn').forEach(b=>b.classList.toggle('active',b.dataset.esub===(state.esub||'home')));
 if($('eqHome'))$('eqHome').classList.toggle('hidden',state.esub==='msgs'||state.esub==='usuarios');
 if($('eqMsgs'))$('eqMsgs').classList.toggle('hidden',state.esub!=='msgs');
-if($('eqUsuarios'))$('eqUsuarios').classList.toggle('hidden',state.esub!=='usuarios');
+$('viewUsuarios').classList.toggle('hidden',!(state.view==='equipe'&&state.esub==='usuarios'));
 if(state.esub==='usuarios')renderEqUsu();
 if(state.esub==='msgs')$('viewTitle').textContent='Equipe · Mensagens';else $('viewTitle').textContent='Equipe';
 if(state.esub==='msgs')renderEqMsgs();
@@ -5304,7 +5314,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.15';
+const APP_VERSAO='1.6.16';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{
@@ -5344,15 +5354,18 @@ h+='<p class="sub" style="margin-top:10px">Pra atualizar: feche e abra o app de 
 else if(!nova&&Array.isArray(UPD.melhorias)&&UPD.melhorias.length){
 h+='<p class="sub" style="margin-top:8px">Nesta versão: '+UPD.melhorias.map(m=>esc(m)).join(' · ')+'</p>';}
 b.innerHTML=h;}
-function mostrarAvisoUpd(){if(updToastEl)updToastEl.remove();
-const d=document.createElement('div');d.className='updtoast';
-d.innerHTML='<span style="font-size:1.15rem">🔔</span><div><b>Nova versão v'+esc((UPD||{}).versao||'')+' disponível</b><br><small>Toque para ver o que mudou</small></div>';
-d.onclick=()=>{d.remove();updToastEl=null;
-try{localStorage.setItem('fenix_upd_visto',String((UPD||{}).versao||''))}catch(e){}
-const sb=document.querySelector('#navDados [data-dsub="sistema"]');if(sb)sb.click();
-const vs=$('viewSistema');if(vs&&!vs.classList.contains('hidden'))try{vs.scrollIntoView({behavior:'smooth'});}catch(e){}};
-document.body.appendChild(d);updToastEl=d;
-setTimeout(()=>{if(d&&d.parentNode){d.remove();if(updToastEl===d)updToastEl=null;}},15000);}
+function mostrarAvisoUpd(){ /* R31: atualizar SÓ se a pessoa confirmar */
+try{const depois=+(localStorage.getItem('fenix_upd_depois')||0);if(depois&&Date.now()<depois)return;}catch(e){}
+const old=document.getElementById('updModal');if(old)old.remove();
+const melhorias=(UPD&&Array.isArray(UPD.melhorias)&&UPD.melhorias.length)?('<ul style="margin:8px 0 0 18px;text-align:left">'+UPD.melhorias.map(m=>'<li style="margin:4px 0;font-size:.84rem">'+esc(m)+'</li>').join('')+'</ul>'):'';
+const d=document.createElement('div');d.id='updModal';d.className='pmodal-soft';
+d.innerHTML='<div class="pmcard"><h3 style="margin:0">🔔 Nova versão v'+esc((UPD||{}).versao||'')+' disponível</h3>'+
+'<p class="sub" style="margin-top:6px">Quer atualizar agora? O app recarrega com a versão nova — leva segundos.</p>'+melhorias+
+'<div class="rowbtns" style="margin-top:14px"><button class="btn ghost" id="updDepois" type="button">Mais tarde</button>'+
+'<button class="btn gold" id="updAgora" type="button">Atualizar agora</button></div></div>';
+document.body.appendChild(d);
+$('updDepois').onclick=()=>{try{localStorage.setItem('fenix_upd_depois',String(Date.now()+24*3600*1000))}catch(e){}d.remove();};
+$('updAgora').onclick=()=>{try{localStorage.setItem('fenix_upd_visto',String((UPD||{}).versao||''));localStorage.removeItem('fenix_upd_depois');}catch(e){}try{location.reload();}catch(e){}};}
 
 /* ===== R29 — Planilha (Studio): grade simples editável, salva no aparelho ===== */
 let PLN=null;
