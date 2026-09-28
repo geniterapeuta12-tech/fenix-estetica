@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.29",
-  "r": "R44",
+  "versao": "1.6.30",
+  "r": "R45",
   "melhorias": [
-    "🛠 RESOLVIDO: os documentos vinculados à cliente agora APARECEM no espaço dela — nova aba Documentos no Fênix Clients (toque para ler: contrato, anamnese, prescrição…)",
-    "✅ NOVO: Dashboard na Gestão — painéis com gráficos: Finanças em estilo trading (velas verdes e vermelhas dia a dia), Sessões (ritmo das últimas 8 semanas + comparecimento), Pacotes (quitação e em aberto) e Fotos & Arquivos organizados por pacote e por sessão",
-    "✅ NOVO: Gestão Planilha — toda a gestão numa tabela organizada por cliente (pacotes, sessões, pago, contratado, em aberto, última e próxima sessão) com busca, totais e botão Baixar CSV (abre no Excel)",
-    "✅ NOVO: Pastas — crie pastas e organize seus arquivos por dentro (prévia inicial: fica salvo neste aparelho; a sincronização na nuvem vem aí)",
-    "✅ MELHORADO: este aviso de atualização agora mostra sempre tudo que melhorou e o que foi resolvido quando houver versão nova"
+    "✅ NOVO: Produtos e PROCEDIMENTOS dentro do pacote — monte o pacote com o que ele inclui (🧖 procedimentos e 🧴 produtos)",
+    "💰 Preço OPCIONAL em tudo: item pode ter preço ou entrar como 'incluído'; pode também deixar o valor do pacote vazio que o app SOMA sozinho os itens com preço",
+    "✏️ Dá para adicionar, tirar e mudar os itens a qualquer hora (abrir pacote › Editar pacote)",
+    "👤 A cliente agora VÊ o conteúdo do pacote dela no espaço dela (o que está incluso e o que tem preço)",
+    "📋 Gestão Planilha ganhou a coluna Itens (e o CSV também)"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }

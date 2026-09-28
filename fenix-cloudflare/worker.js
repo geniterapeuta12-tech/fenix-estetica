@@ -156,6 +156,7 @@ async function rpcClientePub(env, pId) {
   const pacotes = await db.prepare(`
     SELECT json_group_array(json_object(
       'nome', p.nome, 'valor', p.valor, 'qtd', p.sessoes,
+      'itens', CASE WHEN p.itens IS NULL OR p.itens = '' THEN json('[]') ELSE json(p.itens) END,
       'feitas', (SELECT COUNT(*) FROM sessoes s WHERE s.pacote_id = p.id AND s.feita IN (1,'1','true','tru')),
       'pago', (SELECT COALESCE(SUM(pg.valor),0) FROM pagamentos pg WHERE pg.pacote_id = p.id)
     )) x FROM (SELECT * FROM pacotes WHERE cliente_id = ? ORDER BY criado_em) p

@@ -1776,9 +1776,17 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <form id="formPacote" novalidate>
 <label>Nome do pacote *</label><div class="field"><input id="pkgNome" type="text" placeholder="Ex.: Depilação a laser — 8 sessões"></div>
 <div class="grid2">
-<div><label>Valor (R$) *</label><div class="field"><input id="pkgValor" type="text" inputmode="decimal" placeholder="0,00"></div></div>
+<div><label>Valor total (R$)</label><div class="field"><input id="pkgValor" type="text" inputmode="decimal" placeholder="Opcional: vazio = soma dos itens"></div><p class="sub" style="margin:4px 0 0;font-size:.72rem">Preço do pacote é opcional: se deixar vazio e os itens tiverem preço, a gente soma sozinho. Itens sem preço entram como “incluído”.</p></div>
 <div><label>Qtd. de sessões *</label><div class="field"><input id="pkgSess" type="number" min="1" placeholder="Ex.: 8"></div></div>
 </div>
+<div style="margin-top:12px"><label>Produtos e procedimentos do pacote (opcional)</label>
+<div class="rowbtns" style="flex-wrap:wrap;gap:8px">
+<select class="input" id="pkgItTipo" style="max-width:160px"><option value="procedimento">🧖 Procedimento</option><option value="produto">🧴 Produto</option></select>
+<input class="input" id="pkgItNome" placeholder="Ex.: Limpeza de pele" style="max-width:240px">
+<input class="input" id="pkgItValor" type="text" inputmode="decimal" placeholder="Preço (opcional)" style="max-width:150px">
+<button class="btn small" id="pkgItAdd" type="button">Adicionar item</button></div>
+<ul class="list" id="pkgItList" style="margin-top:8px"></ul>
+<p class="sub" id="pkgItSoma"></p></div>
 <p class="msg" id="pkgMsg"></p><button class="btn" type="submit">Criar pacote</button>
 </form>
 </div>
@@ -1806,9 +1814,17 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <form id="formEditPkg" novalidate>
 <label>Nome do pacote *</label><div class="field"><input id="epNome" type="text"></div>
 <div class="grid2">
-<div><label>Valor (R$) *</label><div class="field"><input id="epValor" type="text" inputmode="decimal"></div></div>
+<div><label>Valor total (R$)</label><div class="field"><input id="epValor" type="text" inputmode="decimal"></div></div>
 <div><label>Qtd. de sessões *</label><div class="field"><input id="epSess" type="number" min="1"></div></div>
 </div>
+<div style="margin-top:12px"><label>Produtos e procedimentos do pacote</label>
+<div class="rowbtns" style="flex-wrap:wrap;gap:8px">
+<select class="input" id="epItTipo" style="max-width:160px"><option value="procedimento">🧖 Procedimento</option><option value="produto">🧴 Produto</option></select>
+<input class="input" id="epItNome" placeholder="Ex.: Máscara vitamina C" style="max-width:240px">
+<input class="input" id="epItValor" type="text" inputmode="decimal" placeholder="Preço (opcional)" style="max-width:150px">
+<button class="btn small" id="epItAdd" type="button">Adicionar item</button></div>
+<ul class="list" id="epItList" style="margin-top:8px"></ul>
+<p class="sub" id="epItSoma"></p></div>
 <p class="msg" id="epMsg"></p><button class="btn" type="submit"><svg class="ic"><use href="#i-save"/></svg>Salvar alterações</button>
 </form>
 </div>
@@ -2634,8 +2650,8 @@ fillSel($('finFmes'),'<option value="">Todos os meses</option>'+meses.map(m=>'<o
 const jsonArr=x=>{if(Array.isArray(x))return x;if(typeof x==='string'&&x.length>1&&(x[0]==='['||x[0]==='{')){try{const v=JSON.parse(x);if(Array.isArray(v))return v;}catch(e){}}return [];};
 const mapCliente=r=>({id:r.id,nome:r.nome,cpf:r.cpf||'',nasc:r.nasc||'',tel:r.tel||'',email:r.email||'',end:r.end||'',obs:r.obs||'',acesso:!(r.acesso===false||r.acesso===0||String(r.acesso)==='false'||String(r.acesso)==='fals'||String(r.acesso)==='0'),data:r.criado_em||''});
 const dbCliente=c=>({id:c.id,clinic_id:CLINIC_ID,nome:c.nome,cpf:c.cpf||'',nasc:c.nasc||null,tel:c.tel||'',email:c.email||'',end:c.end||'',obs:c.obs||'',acesso:c.acesso!==false,criado_em:c.data||''});
-const mapPacote=r=>({id:r.id,clientId:r.cliente_id,nome:r.nome,valor:Number(r.valor||0),sessoes:r.sessoes,criadoEm:r.criado_em||''});
-const dbPacote=p=>({id:p.id,clinic_id:CLINIC_ID,cliente_id:p.clientId,nome:p.nome,valor:p.valor,sessoes:p.sessoes,criado_em:p.criadoEm||''});
+const mapPacote=r=>({id:r.id,clientId:r.cliente_id,nome:r.nome,valor:Number(r.valor||0),sessoes:r.sessoes,criadoEm:r.criado_em||'',itens:jsonArr(r.itens).map(x=>({nome:String((x&&x.nome)||'').slice(0,120),tipo:(x&&x.tipo)==='produto'?'produto':'procedimento',valor:Number(x&&x.valor)||0}))});
+const dbPacote=p=>({id:p.id,clinic_id:CLINIC_ID,cliente_id:p.clientId,nome:p.nome,valor:p.valor,sessoes:p.sessoes,criado_em:p.criadoEm||'',itens:(p.itens||[]).map(x=>({nome:String(x.nome||'').slice(0,120),tipo:x.tipo==='produto'?'produto':'procedimento',valor:Number(x.valor)||0}))});
 const mapSess=r=>({id:r.id,clientId:r.cliente_id,pacoteId:r.pacote_id||null,num:r.num,feita:(r.feita===true||r.feita===1||String(r.feita)==='true'||String(r.feita)==='tru'||String(r.feita)==='1'),data:r.data||'',obs:r.obs||'',valor:Number(r.valor||0)});
 const dbSess=s=>({id:s.id,clinic_id:CLINIC_ID,cliente_id:s.clientId,pacote_id:s.pacoteId||null,num:s.num,feita:s.feita,data:s.data||'',obs:s.obs||'',valor:s.valor||0});
 const mapPay=r=>({id:r.id,clientId:r.cliente_id,pacoteId:r.pacote_id||null,sessaoId:r.sessao_id||null,valor:Number(r.valor||0),data:r.data||'',metodo:r.metodo||'',obs:r.obs||''});
@@ -4282,34 +4298,56 @@ setCli(getCli().filter(c=>c.id!==id));
 showView('clientes');renderStats();});});
 
 /* ===================== PACOTES ===================== */
+/* R45 — produtos e procedimentos do pacote (preço opcional) */
+let PKG_ITENS_NOVOS=[],PKG_ITENS_ED=[];
+function pkgItensSoma(l){return (l||[]).filter(x=>x.valor>0).reduce((a,b)=>a+b.valor,0);}
+function pkgItensPinta(l,ulId,somaId){const ul=$(ulId);if(!ul)return;
+ul.innerHTML=(l&&l.length)?l.map((x,i)=>'<li class="client"><span class="avatar">'+(x.tipo==='produto'?'🧴':'🧖')+'</span><div class="cinfo"><strong>'+esc(x.nome)+'</strong><small>'+(x.tipo==='produto'?'Produto':'Procedimento')+' · '+(x.valor>0?fmtBRL(x.valor):'sem preço (incluído no pacote)')+'</small></div><button class="iconbtn del" data-itdel="'+i+'" data-ul="'+ulId+'" title="Tirar do pacote"><svg class="ic"><use href="#i-trash"/></svg></button></li>').join(''):'<li class="empty">Nenhum item ainda (opcional). Itens sem preço ficam como “incluído”.</li>';
+const sm=$(somaId);if(sm)sm.textContent=(l&&l.length)?('Itens com preço somam '+fmtBRL(pkgItensSoma(l))+(pkgItensSoma(l)>0?' — deixe o valor total vazio que a soma vale pro pacote.':'')):'';}
+function pkgItensLiga(addId,tipoId,nomeId,valorId,ulId,somaId,getL,setL){
+$(addId).addEventListener('click',()=>{
+const n=$(nomeId).value.trim();if(n.length<2)return msg($(somaId),'Escreva o nome do item.','err');
+const v=parseMoney($(valorId).value);
+const l=getL();l.push({nome:n.slice(0,120),tipo:$(tipoId).value==='produto'?'produto':'procedimento',valor:(isFinite(v)&&v>0)?Math.round(v*100)/100:0});
+setL(l);$(nomeId).value='';$(valorId).value='';pkgItensPinta(l,ulId,somaId);});
+$(ulId).addEventListener('click',e=>{const b=e.target.closest('[data-itdel]');if(!b)return;const l=getL();l.splice(Number(b.dataset.itdel),1);setL(l);pkgItensPinta(l,ulId,somaId);});}
+pkgItensLiga('pkgItAdd','pkgItTipo','pkgItNome','pkgItValor','pkgItList','pkgItSoma',()=>PKG_ITENS_NOVOS,l=>PKG_ITENS_NOVOS=l);
+pkgItensLiga('epItAdd','epItTipo','epItNome','epItValor','epItList','epItSoma',()=>PKG_ITENS_ED,l=>PKG_ITENS_ED=l);
 $('formPacote').addEventListener('submit',e=>{e.preventDefault();
-const nome=$('pkgNome').value.trim(),valor=parseMoney($('pkgValor').value),sess=parseInt($('pkgSess').value,10);
+const nome=$('pkgNome').value.trim(),sess=parseInt($('pkgSess').value,10);
+let valor=parseMoney($('pkgValor').value);if(!isFinite(valor))valor=0;
+const itens=PKG_ITENS_NOVOS.map(x=>({nome:x.nome,tipo:x.tipo,valor:x.valor}));
+const somaItens=pkgItensSoma(itens);
+if(valor<=0)valor=somaItens;
 if(nome.length<2)return msg($('pkgMsg'),'Informe o nome do pacote.','err');
-if(!isFinite(valor)||valor<=0)return msg($('pkgMsg'),'Valor inválido. Ex.: 800,00','err');
+if(valor<=0)return msg($('pkgMsg'),'Informe o valor do pacote OU adicione itens com preço.','err');
 if(!sess||sess<1)return msg($('pkgMsg'),'Informe a quantidade de sessões.','err');
 const pkgId=uid(),list=getPkg();
-list.unshift({id:pkgId,clientId:state.clientId,nome,valor,sessoes:sess,criadoEm:todayISO()});
+list.unshift({id:pkgId,clientId:state.clientId,nome,valor,sessoes:sess,criadoEm:todayISO(),itens});
 setPkg(list);
 const sl=getSes();
 for(let i=1;i<=sess;i++)sl.push({id:uid(),clientId:state.clientId,pacoteId:pkgId,num:i,feita:false,data:null,obs:'',valor:0});
-setSes(sl);e.target.reset();renderCliente();
-msg($('pkgMsg'),'✔ Pacote criado com '+sess+' sessões numeradas!','ok');});
+setSes(sl);e.target.reset();PKG_ITENS_NOVOS=[];pkgItensPinta(PKG_ITENS_NOVOS,'pkgItList','pkgItSoma');renderCliente();
+msg($('pkgMsg'),'✔ Pacote criado com '+sess+' sessões numeradas!'+(itens.length?(' · '+itens.length+' item(ns) no pacote'+(valor===somaItens?' — valor somado dos itens':'')):''),'ok');});
 $('formEditPkg').addEventListener('submit',e=>{e.preventDefault();
 const p=pkgById(state.pacoteId);if(!p)return;
-const nome=$('epNome').value.trim(),valor=parseMoney($('epValor').value),target=parseInt($('epSess').value,10)||0;
+const nome=$('epNome').value.trim(),target=parseInt($('epSess').value,10)||0;
+let valor=parseMoney($('epValor').value);if(!isFinite(valor))valor=0;
+const somaItens=pkgItensSoma(PKG_ITENS_ED);
+if(valor<=0)valor=somaItens;
 if(nome.length<2)return msg($('epMsg'),'Informe o nome do pacote.','err');
-if(!isFinite(valor)||valor<=0)return msg($('epMsg'),'Valor inválido. Ex.: 800,00','err');
+if(valor<=0)return msg($('epMsg'),'Informe o valor do pacote OU adicione itens com preço.','err');
 if(target<1)return msg($('epMsg'),'Mínimo 1 sessão.','err');
 const ses=pkgSes(p.id),done=ses.filter(s=>s.feita).length;
 if(target<done)return msg($('epMsg'),'Há '+done+' sessão(ões) realizada(s) — não dá para reduzir abaixo disso.','err');
-p.nome=nome;p.valor=valor;
+p.nome=nome;p.valor=valor;p.itens=PKG_ITENS_ED.map(x=>({nome:x.nome,tipo:x.tipo,valor:x.valor}));
 let sl=getSes();
 if(target>ses.length){let maxN=ses.length?Math.max(...ses.map(s=>s.num)):0;
 for(let i=ses.length;i<target;i++){maxN++;sl.push({id:uid(),clientId:p.clientId,pacoteId:p.id,num:maxN,feita:false,data:null,obs:'',valor:0});}
 setSes(sl);}
 else if(target<ses.length){const rm=ses.filter(s=>!s.feita).sort((a,b)=>b.num-a.num).slice(0,ses.length-target).map(s=>s.id);
 sl=sl.filter(s=>!rm.includes(s.id));setSes(sl);}
-setPkg(getPkg());renderCliente();msg($('epMsg'),'✔ Pacote atualizado!','ok');});
+setPkg(getPkg());renderCliente();msg($('epMsg'),'✔ Pacote atualizado!'+(p.itens&&p.itens.length?(' · '+p.itens.length+' item(ns) no pacote'):''),'ok');});
 
 /* ============ SESSÃO AVULSA EM POP-UP (abre/fecha) ============ */
 function closeAvModal(){$('avModal').classList.add('hidden');avEditId=null;}
@@ -4413,7 +4451,8 @@ function renderPacotes(){const list=cliPkgs(state.clientId);
 $('pkgList').innerHTML=list.length?list.map(p=>{const ses=pkgSes(p.id),done=ses.filter(s=>s.feita).length;
 return '<li class="client clickable" data-id="'+p.id+'">'+
 '<span class="avatar file"><svg class="ic"><use href="#i-box"/></svg></span>'+
-'<div class="cinfo"><strong>'+esc(p.nome)+'</strong><small>'+fmtBRL(p.valor)+' · '+done+'/'+ses.length+' sessões realizadas</small></div>'+
+'<div class="cinfo"><strong>'+esc(p.nome)+'</strong><small>'+(p.valor>0?fmtBRL(p.valor):'sem preço definido')+' · '+done+'/'+ses.length+' sessões realizadas</small>'+
+((p.itens&&p.itens.length)?'<small style="display:block;margin-top:3px;color:#bdb49b">'+p.itens.slice(0,4).map(x=>(x.tipo==='produto'?'🧴 ':'🧖 ')+esc(x.nome)+(x.valor>0?' · '+fmtBRL(x.valor):'')).join('  ·  ')+(p.itens.length>4?'  ·  +'+(p.itens.length-4)+' item(ns)':'')+'</small>':'')+'</div>'+
 '<button class="iconbtn del" data-act="delpkg" data-id="'+p.id+'" title="Apagar pacote"><svg class="ic"><use href="#i-trash"/></svg></button>'+
 '<svg class="ic chev"><use href="#i-chev"/></svg></li>';}).join('')
 :'<li class="empty">Nenhum pacote ainda. Abra “Criar pacote” acima.</li>';
@@ -4434,11 +4473,11 @@ function renderPacote(){const p=pkgById(state.pacoteId);if(!p){openSub('pacotes'
 const ses=pkgSes(p.id).slice().sort((a,b)=>a.num-b.num),done=ses.filter(s=>s.feita).length;
 const pays=pkgPays(p.id),paid=pays.reduce((s,x)=>s+x.valor,0);
 const files=pkgFilesOf(p.id),docs=pkgDocs(p.id);
-$('pkgMeta').textContent='Valor: '+fmtBRL(p.valor)+' · Pago: '+fmtBRL(paid)+' · Em aberto: '+fmtBRL(Math.max(0,p.valor-paid));
+$('pkgMeta').textContent='Valor: '+(p.valor>0?fmtBRL(p.valor):'sem preço definido')+' · Pago: '+fmtBRL(paid)+' · Em aberto: '+fmtBRL(Math.max(0,p.valor-paid))+(p.itens&&p.itens.length?(' · '+p.itens.length+' item(ns) no pacote ('+p.itens.filter(x=>x.tipo==='produto').length+' produto(s))'):'');
 const pct=ses.length?Math.min(100,Math.round(done/ses.length*100)):0;
 $('pkgBarFill').style.width=pct+'%';
 $('pkgProg').textContent=done+' de '+ses.length+' sessões realizadas ('+pct+'%)';
-$('epNome').value=p.nome;$('epValor').value=String(p.valor).replace('.',',');$('epSess').value=ses.length;
+$('epNome').value=p.nome;$('epValor').value=p.valor>0?String(p.valor).replace('.',','):'';$('epSess').value=ses.length;PKG_ITENS_ED=(p.itens||[]).map(x=>({nome:x.nome,tipo:x.tipo,valor:x.valor}));pkgItensPinta(PKG_ITENS_ED,'epItList','epItSoma');
 $('mSes').textContent=done+'/'+ses.length+' realizadas';
 $('mPay').textContent=pays.length+' pagamento(s) · '+fmtBRL(paid)+' pagos';
 $('mDocP').textContent=docs.length+' documento(s)';
@@ -5804,7 +5843,7 @@ const contratado=mp.reduce((a,p)=>a+(Number(p.valor)||0),0);
 const feitas=ms.filter(s=>dashFeita(s.feita)).length;
 const futuro=ms.filter(s=>!dashFeita(s.feita)&&s.data&&(dashData(s.data)||'')>=hojeISO).sort((a,b)=>(dashData(a.data)<dashData(b.data)?-1:1));
 const feitasComData=ms.filter(s=>dashFeita(s.feita)&&s.data).sort((a,b)=>(dashData(a.data)<dashData(b.data)?1:-1));
-return {id:c.id,nome:c.nome||'—',tel:c.tel||'',npac:mp.length,qs:mp.reduce((a,p)=>a+(Number(p.sessoes)||0),0),feitas:feitas,pago:pago,contratado:contratado,aberto:Math.max(0,contratado-pago),
+return {id:c.id,nome:c.nome||'—',tel:c.tel||'',npac:mp.length,nitens:mp.reduce((a2,p2)=>a2+((p2.itens||[]).length),0),qs:mp.reduce((a,p)=>a+(Number(p.sessoes)||0),0),feitas:feitas,pago:pago,contratado:contratado,aberto:Math.max(0,contratado-pago),
 ult:feitasComData.length?dashData(feitasComData[0].data):'',
 prox:futuro.length?dashData(futuro[0].data):'',
 narq:arqs.filter(a=>a.clientId===c.id).length,ndoc:docs.filter(d=>d.clientId===c.id).length};});}
@@ -5814,14 +5853,14 @@ let L=plgDados();
 if(busca)L=L.filter(x=>(x.nome||'').toLowerCase().includes(busca)||(x.tel||'').includes(busca));
 const tot={pago:0,contratado:0,aberto:0,qs:0,feitas:0};
 const rows=L.map(x=>{tot.pago+=x.pago;tot.contratado+=x.contratado;tot.aberto+=x.aberto;tot.qs+=x.qs;tot.feitas+=x.feitas;
-return '<tr data-plgcli="'+esc(x.id)+'" title="Abrir '+esc(x.nome)+'"><td><b>'+esc(x.nome)+'</b>'+(x.tel?'<br><small style="color:#8f8574">'+esc(x.tel)+'</small>':'')+'</td><td>'+(x.npac||'—')+'</td><td>'+x.feitas+' / '+x.qs+'</td><td style="color:#3fbf6f">'+dashBRL(x.pago)+'</td><td>'+dashBRL(x.contratado)+'</td><td>'+(x.aberto>0?'<span style="color:#e0a452">'+dashBRL(x.aberto)+'</span>':'—')+'</td><td>'+(x.ult?fmtDDMMBR(x.ult):'—')+'</td><td>'+(x.prox?'<b>'+fmtDDMMBR(x.prox)+'</b>':'—')+'</td><td>'+x.ndoc+' doc(s) · '+x.narq+' arq(s)</td></tr>';}).join('');
-$('plgTab').innerHTML='<thead><tr><th>Cliente</th><th>Pacotes</th><th>Sessões</th><th>Pago</th><th>Contratado</th><th>Em aberto</th><th>Última sessão</th><th>Próxima</th><th>Anexos</th></tr></thead><tbody>'+(rows||'<tr><td colspan="9" style="text-align:center;color:#8f8574;padding:20px">Nenhum cliente'+(busca?' para essa busca':' cadastrado ainda')+'.</td></tr>')+'</tbody>'+
-'<tfoot><tr><td><b>TOTAL ('+L.length+')</b></td><td></td><td>'+tot.feitas+' / '+tot.qs+'</td><td style="color:#3fbf6f"><b>'+dashBRL(tot.pago)+'</b></td><td>'+dashBRL(tot.contratado)+'</td><td>'+(tot.aberto>0?'<span style="color:#e0a452">'+dashBRL(tot.aberto)+'</span>':'—')+'</td><td colspan="3"></td></tr></tfoot>';
+return '<tr data-plgcli="'+esc(x.id)+'" title="Abrir '+esc(x.nome)+'"><td><b>'+esc(x.nome)+'</b>'+(x.tel?'<br><small style="color:#8f8574">'+esc(x.tel)+'</small>':'')+'</td><td>'+(x.npac||'—')+'</td><td>'+(x.nitens||0)+'</td><td>'+x.feitas+' / '+x.qs+'</td><td style="color:#3fbf6f">'+dashBRL(x.pago)+'</td><td>'+dashBRL(x.contratado)+'</td><td>'+(x.aberto>0?'<span style="color:#e0a452">'+dashBRL(x.aberto)+'</span>':'—')+'</td><td>'+(x.ult?fmtDDMMBR(x.ult):'—')+'</td><td>'+(x.prox?'<b>'+fmtDDMMBR(x.prox)+'</b>':'—')+'</td><td>'+x.ndoc+' doc(s) · '+x.narq+' arq(s)</td></tr>';}).join('');
+$('plgTab').innerHTML='<thead><tr><th>Cliente</th><th>Pacotes</th><th>Itens</th><th>Sessões</th><th>Pago</th><th>Contratado</th><th>Em aberto</th><th>Última sessão</th><th>Próxima</th><th>Anexos</th></tr></thead><tbody>'+(rows||'<tr><td colspan="10" style="text-align:center;color:#8f8574;padding:20px">Nenhum cliente'+(busca?' para essa busca':' cadastrado ainda')+'.</td></tr>')+'</tbody>'+
+'<tfoot><tr><td><b>TOTAL ('+L.length+')</b></td><td></td><td></td><td>'+tot.feitas+' / '+tot.qs+'</td><td style="color:#3fbf6f"><b>'+dashBRL(tot.pago)+'</b></td><td>'+dashBRL(tot.contratado)+'</td><td>'+(tot.aberto>0?'<span style="color:#e0a452">'+dashBRL(tot.aberto)+'</span>':'—')+'</td><td colspan="3"></td></tr></tfoot>';
 if(!window._plgLigado){window._plgLigado=1;
 $('plgBusca').addEventListener('input',()=>renderPlanGest());
 $('plgTab').addEventListener('click',e=>{const tr=e.target.closest('tr[data-plgcli]');if(tr)openClient(tr.dataset.plgcli);});
 $('plgCsv').addEventListener('click',()=>{const L2=plgDados();
-const linhas=[['Cliente','Telefone','Pacotes','Sessoes (feitas/total)','Pago','Contratado','Em aberto','Ultima sessao','Proxima','Documentos','Arquivos']].concat(L2.map(x=>[x.nome,x.tel,x.npac,x.feitas+'/'+x.qs,String(x.pago),String(x.contratado),String(x.aberto),x.ult,x.prox,x.ndoc,x.narq]));
+const linhas=[['Cliente','Telefone','Pacotes','Itens','Sessoes (feitas/total)','Pago','Contratado','Em aberto','Ultima sessao','Proxima','Documentos','Arquivos']].concat(L2.map(x=>[x.nome,x.tel,x.npac,x.nitens,x.feitas+'/'+x.qs,String(x.pago),String(x.contratado),String(x.aberto),x.ult,x.prox,x.ndoc,x.narq]));
 try{const csv='\uFEFF'+linhas.map(l=>l.map(v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"').join(';')).join('\r\n');
 const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='gestao-planilha-'+new Date().toISOString().slice(0,10)+'.csv';document.body.appendChild(a);a.click();a.remove();
 msg($('plgMsg'),'✔ Planilha baixada — abre direto no Excel.','ok');}catch(e){msg($('plgMsg'),'⚠ Não baixou agora — tenta de novo.','err');}});}}
@@ -5903,7 +5942,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.29';
+const APP_VERSAO='1.6.30';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{

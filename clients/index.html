@@ -129,7 +129,8 @@ function render(d){
   pac.length?'<table><tr><th>Pacote</th><th>Progresso</th><th class="num">Valor</th><th class="num">Pago</th></tr>'+
   pac.map(function(p){var qtd=Number(p.qtd)||0,feitas=Number(p.feitas)||0,pp=Number(p.pago)||0,falta=Math.max(0,(Number(p.valor)||0)-pp);
    var pct=qtd?Math.min(100,Math.round(feitas/qtd*100)):0;
-   return '<tr><td><b>'+esc(p.nome)+'</b><br><span class="fsub">'+feitas+' de '+qtd+' sessões · '+(falta?'<span class="aberto">falta '+brl(falta)+'</span>':'<span class="pos">quitado</span>')+'</span></td><td><div class="bar"><i style="width:'+pct+'%"></i></div><span class="pct">'+pct+'%</span></td><td class="num">'+brl(p.valor)+'</td><td class="num">'+brl(pp)+'</td></tr>';}).join('')+'</table>'
+   var it=(p.itens||[]).map(function(x){return (x.tipo==='produto'?'🧴 ':'🧖 ')+esc(x.nome)+(Number(x.valor)>0?' · '+brl(x.valor):' · incluído');}).join('  ·  ');
+   return '<tr><td><b>'+esc(p.nome)+'</b><br><span class="fsub">'+feitas+' de '+qtd+' sessões · '+(falta?'<span class="aberto">falta '+brl(falta)+'</span>':'<span class="pos">quitado</span>')+'</span>'+(it?'<span style="display:block;margin-top:6px;color:#bdb49b;font-size:.74rem;line-height:1.5">'+it+'</span>':'')+'</td><td><div class="bar"><i style="width:'+pct+'%"></i></div><span class="pct">'+pct+'%</span></td><td class="num">'+brl(p.valor)+'</td><td class="num">'+brl(pp)+'</td></tr>';}).join('')+'</table>'
   :'<p class="fempty">Nenhum pacote ainda.</p>')+'</div>';
  h+='<div class="fcpanel" id="f-ses">'+
   sec('sesc','Sessões',
