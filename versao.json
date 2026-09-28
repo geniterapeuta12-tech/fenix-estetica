@@ -1,12 +1,10 @@
 {
-  "versao": "1.6.30",
-  "r": "R45",
+  "versao": "1.6.31",
+  "r": "R46",
   "melhorias": [
-    "✅ NOVO: Produtos e PROCEDIMENTOS dentro do pacote — monte o pacote com o que ele inclui (🧖 procedimentos e 🧴 produtos)",
-    "💰 Preço OPCIONAL em tudo: item pode ter preço ou entrar como 'incluído'; pode também deixar o valor do pacote vazio que o app SOMA sozinho os itens com preço",
-    "✏️ Dá para adicionar, tirar e mudar os itens a qualquer hora (abrir pacote › Editar pacote)",
-    "👤 A cliente agora VÊ o conteúdo do pacote dela no espaço dela (o que está incluso e o que tem preço)",
-    "📋 Gestão Planilha ganhou a coluna Itens (e o CSV também)"
+    "🛠 RESOLVIDO: as vendas do CATÁLOGO registradas no financeiro da cliente SUMIAM depois de alguns segundos (a sincronização apagava da tela) — agora ficam registradas de verdade",
+    "🛠 RESOLVIDO: no CELULAR não aparecia a função Sistema (Dados › Sistema) — agora o celular também tem versão/atualização, troca de senha e zoom das telas",
+    "✨ Nada mudou no resto: só correções"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }

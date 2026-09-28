@@ -2658,7 +2658,8 @@ const mapPay=r=>({id:r.id,clientId:r.cliente_id,pacoteId:r.pacote_id||null,sessa
 const dbPay=p=>({id:p.id,clinic_id:CLINIC_ID,cliente_id:p.clientId,pacote_id:p.pacoteId||null,sessao_id:p.sessaoId||null,valor:p.valor,data:p.data||'',metodo:p.metodo||'',obs:p.obs||''});
 const mapAg=r=>({id:r.id,clientId:r.cliente_id,cliente:r.cliente_nome||'',data:r.data,hora:r.hora,proc:r.proc||'',pacoteId:r.pacote_id||null,sessaoId:r.sessao_id||null,obs:r.obs||''});
 const dbAg=a=>({id:a.id,clinic_id:CLINIC_ID,cliente_id:a.clientId||null,cliente_nome:a.cliente||'',data:a.data,hora:a.hora,proc:a.proc||'',pacote_id:a.pacoteId||null,sessao_id:a.sessaoId||null,obs:a.obs||''});
-const mapFin=r=>({id:r.id,tipo:r.tipo,desc:r.descr,valor:Number(r.valor||0),data:r.data||'',link:r.link||null,obs:r.obs||'',origem:r.origem||''});
+const mapFin=r=>{let lk=r.link;try{lk=typeof lk==='string'?JSON.parse(String(lk).replace(/::jsonb\s*$/,'')):lk;}catch(e){lk=null;}
+return {id:r.id,tipo:r.tipo,desc:r.descr,valor:Number(r.valor||0),data:r.data||'',link:(lk&&typeof lk==='object')?lk:null,obs:r.obs||'',origem:r.origem||''};};
 const dbFin=f=>({id:f.id,clinic_id:CLINIC_ID,tipo:f.tipo,descr:f.desc,valor:f.valor,data:f.data||'',link:f.link||null,obs:f.obs||'',origem:f.origem||null});
 const mapArq=r=>{let lk=r.link;let mm=null;try{mm=typeof lk==='string'?JSON.parse(String(lk).replace(/::jsonb\s*$/,'')):lk;}catch(e){mm=null;}
 return {id:r.id,clientId:r.cliente_id,nome:r.nome,tamanho:Number(r.tamanho||0),data:r.data||'',url:r.url||'',link:(mm&&typeof mm==='object'&&mm.id&&mm.tipo)?{id:String(mm.id),tipo:String(mm.tipo),obs:mm.obs||''}:null,topico:r.topico||'',ambito:r.ambito||'clinica',ts:Number(r.ts||0)};};
@@ -5918,10 +5919,9 @@ msg($('pstMsg'),'✔ Adicionado à pasta.','ok');renderPastas();};}
 /* ===== R21 — plataforma: Sistema (zoom) só no Windows; celular sempre 100% ===== */
 const IS_ANDROID=/Android/i.test(navigator.userAgent);
 function plataformaApply(){
-const sb=document.querySelector('#navDados [data-dsub="sistema"]');
-if(sb)sb.classList.toggle('hidden',IS_ANDROID);
-if(IS_ANDROID){try{localStorage.removeItem('fenix_zoom');}catch(e){}
-document.documentElement.style.zoom='';}}
+/* R46: Sistema agora em TODOS os aparelhos — no celular também tem versão/atualização,
+   troca de senha e zoom (zoom CSS já é padrão nos navegadores/WebView atuais).
+   Nada é mais escondido nem resetado à força no Android. */}
 
 /* R24/R25 — auto-reparo: aparelho que ainda guarde registros da importação antiga
    (ids/urls com "(" no começo) se conserta sozinho ao abrir — em TODAS as coleções.
@@ -5942,7 +5942,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.30';
+const APP_VERSAO='1.6.31';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{
