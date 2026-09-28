@@ -1,12 +1,13 @@
 {
-  "versao": "1.6.32",
-  "r": "R47",
+  "versao": "1.6.33",
+  "r": "R48",
   "melhorias": [
-    "🗑 A PEDIDO: Dashboard e Gestão Planilha foram retirados do app (a Gestão voltou ao formato de antes, com Pastas e tudo mais que já funcionava)",
-    "✅ Anamnese DENTRO da cliente: vê as anamneses existentes e preenche ali mesmo (criar anamnese nova continua só no Studio › Formulários)",
-    "✅ Personalizar o app da cliente (Fênix Clients › Personalizar): escolha o que ela vê — Início, Pacotes, Sessões, Pagamentos, Documentos (não pode salvar com nada marcado)",
-    "✅ Roleta nas FUNÇÕES EXTRAS: crie roletas com nomes, imagem no centro se quiser, e gire com animação de verdade",
-    "💭 (Produtos e procedimentos no pacote com preço opcional continuam funcionando — v1.6.30)"
+    "✅ CATÁLOGO nos pacotes: nos FUNÇÕES DO PACOTE entrou a função Catálogo — vende itens/produtos do catálogo ali dentro (tipo o financeiro, mas do catálogo) e a venda CAI NO FINANCEIRO normalmente",
+    "✅ CATÁLOGO dentro da cliente: aba nova com todas as vendas do catálogo dela — e você escolhe ONDE vincular: num pacote (aparece no pacote), numa sessão avulsa (aparece na avulsa) ou só na cliente",
+    "✅ Criar produto/procedimento NO ATOMENTO da venda (dentro da venda do catálogo tem o botão + Criar no catálogo)",
+    "✅ PASTAS agora é um MODO próprio (saiu de dentro da Gestão — aparece no seletor de modos)",
+    "✅ Dados › Termos de uso: espaço preparado para os textos oficiais que vamos criar depois",
+    "🖥️ ABAS estilo navegador + DIVIDIR TELA: no computador, a barra lateral ganhou Abas — salve telas, veja a prévia, abra de novo, e divida a tela em 2 abas escolhidas (com zoom ajustado; não existe no celular)"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }
