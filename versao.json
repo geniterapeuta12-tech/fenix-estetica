@@ -1,10 +1,8 @@
 {
-  "versao": "1.6.24",
-  "r": "R39",
+  "versao": "1.6.25",
+  "r": "R40",
   "melhorias": [
-    "CORREÇÃO importante: as perguntas dos formulários não apagam mais ao responder (no app ou pelo link) — e guias de documentos, itens de kits e respostas também ficam protegidos na sincronização",
-    "Equipe › Mensagens: mensagens de texto funcionando, com duração de 24 horas (some da conversa e da nuvem depois disso)",
-    "Dados › Usuário (nova): mostra quem está logado, deixa trocar, remove repetidos e limpa usuários pra recadastrarem (cada pessoa com 1 usuário; a clínica continua)"
+    "CORREÇÃO nos Arquivos: as fotos que haviam se perdido na migração voltaram (as 49 fotos originais restauradas) e os vínculos com pacote/sessão/avulsa voltaram a aparecer certinhos"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }
