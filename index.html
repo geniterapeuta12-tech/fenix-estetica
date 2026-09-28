@@ -653,45 +653,89 @@ html[data-perf="bruta"] .pmodal,html[data-perf="bruta"] .pmodal-soft{backdrop-fi
 .eqinput .input{flex:1}
 @media (max-width:720px){.eqwrap{flex-direction:column}.eqlist{width:100%;max-height:190px;border-right:0;border-bottom:1px solid var(--line)}}
 /* R24 — Mensagens estilo Telegram (prévia) */
-.tgwrap{display:flex;min-height:460px;background:#0e1621}
-.tgside{width:272px;background:#17212b;border-right:1px solid #101921;flex-shrink:0;display:flex;flex-direction:column}
-.tgsearch{margin:10px;background:#242f3d;border-radius:16px;padding:8px 12px;color:#708499;font-size:.8rem;display:flex;align-items:center;gap:8px}
-.tgsearch svg{width:14px;height:14px;fill:#708499;flex-shrink:0}
-.tglist{list-style:none;overflow-y:auto;max-height:480px;margin:0;padding:0 4px 6px 0}
-.tglist li{display:flex;gap:10px;padding:9px 10px;cursor:pointer;align-items:center}
-.tglist li:hover{background:#202b36}
-.tglist li.on{background:#2b5278}
-.tgav{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#d4af37,#7a5f14);color:#141414;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+/* ===== R43 — Mensagens da equipe: tela cheia, nativa do app (dourado) ===== */
+.chatwrap{display:flex;height:calc(100dvh - 235px);min-height:470px;max-width:1060px;border-radius:18px;overflow:hidden;border:1px solid rgba(212,175,55,.16);box-shadow:0 24px 60px rgba(0,0,0,.35);background:#151310}
+.chatside{width:305px;background:#191713;border-right:1px solid rgba(212,175,55,.12);flex-shrink:0;display:flex;flex-direction:column;min-height:0}
+.chatsearch{margin:12px;background:#221f19;border:1px solid rgba(212,175,55,.12);border-radius:14px;padding:9px 12px;color:#8f8574;font-size:.8rem;display:flex;align-items:center;gap:8px;transition:border-color .2s}
+.chatsearch:focus-within{border-color:rgba(212,175,55,.45)}
+.chatsearch svg{width:14px;height:14px;fill:#8f8574;flex-shrink:0}
+.chatsearch input{background:none;border:0;color:#f3ead2;font:inherit;font-size:.8rem;outline:none;flex:1;min-width:0}
+.chatsearch input::placeholder{color:#7d7461}
+.chatlist{list-style:none;overflow-y:auto;flex:1;margin:0;padding:0 6px 8px 2px}
+.chatlist li{display:flex;gap:11px;padding:10px;cursor:pointer;align-items:center;border-radius:12px;margin:1px 0;transition:background .18s,transform .18s}
+.chatlist li:hover{background:rgba(212,175,55,.07)}
+.chatlist li:active{transform:scale(.985)}
+.chatlist li.on{background:linear-gradient(90deg,rgba(212,175,55,.16),rgba(212,175,55,.06));box-shadow:inset 2px 0 0 #d4af37}
+.tgav{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#d4af37,#7a5f14);color:#141414;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:1.02rem;position:relative;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.tgondot{position:absolute;right:1px;bottom:2px;width:11px;height:11px;border-radius:50%;background:#4fae4e;border:2px solid #191713}
 .tgmeta{flex:1;min-width:0}
-.tgmeta b{color:#fff;font-size:.85rem;font-weight:600;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.tgprev{color:#708499;font-size:.78rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;max-width:150px}
+.tgmeta b{color:#f5efe0;font-size:.87rem;font-weight:600;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tgprev{color:#8f8574;font-size:.77rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;max-width:160px}
 .tgright{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0}
-.tgtime{color:#708499;font-size:.68rem}
-.tgbadge{background:#4fae4e;color:#fff;border-radius:999px;font-size:.66rem;font-weight:700;padding:1px 6px;min-width:18px;text-align:center}
-.tgchat{flex:1;display:flex;flex-direction:column;min-width:0}
-.tghead{display:flex;align-items:center;gap:12px;padding:9px 16px;background:#17212b;border-bottom:1px solid #101921}
-.tghead b{color:#fff;font-size:.9rem}
-.tgstat{color:#708499;font-size:.74rem}
-.tgico{color:#708499;margin-left:auto;font-size:1.1rem;line-height:1}
-.tgmsgs{flex:1;padding:14px 16px 10px;display:flex;flex-direction:column;gap:3px;overflow-y:auto;max-height:400px;background-color:#0e1621;background-image:radial-gradient(rgba(255,255,255,.035) 1px,transparent 1px);background-size:18px 18px}
-.tgdate{align-self:center;background:rgba(0,0,0,.28);color:#fff;font-size:.7rem;border-radius:999px;padding:3px 12px;margin:4px 0 6px}
-.tgb{max-width:72%;padding:7px 12px 8px;border-radius:12px;font-size:.85rem;line-height:1.35;color:#fff;position:relative;margin-top:6px;word-wrap:break-word}
-.tgb.them{align-self:flex-start;background:#182533;border-bottom-left-radius:4px}
-.tgb.them::before{content:'';position:absolute;left:-8px;bottom:0;border-left:8px solid transparent;border-bottom:8px solid #182533}
-.tgb.me{align-self:flex-end;background:#2b5278;border-bottom-right-radius:4px}
-.tgb.me::after{content:'';position:absolute;right:-8px;bottom:0;border-right:8px solid transparent;border-bottom:8px solid #2b5278}
-.tgb .tm{font-size:.66rem;color:rgba(255,255,255,.55);margin-left:8px;white-space:nowrap}
-.tgb.me .tm .ck{color:#5eabee;letter-spacing:-1px;font-weight:700}
-.tgb.sys{align-self:center;background:rgba(0,0,0,.28);color:#fff;font-size:.72rem;border-radius:999px;padding:4px 14px;margin-top:10px}
-.tgb.sys::before,.tgb.sys::after{content:none}
-.tginput{display:flex;align-items:center;gap:8px;padding:9px 12px;background:#17212b;border-top:1px solid #101921}
-.tgclip svg,.tgsmile svg{width:21px;height:21px;fill:#708499}
-.tgfield{flex:1;display:flex;align-items:center;background:#242f3d;border-radius:16px;padding:9px 12px;gap:8px}
-.tgfield input{flex:1;background:none;border:0;color:#fff;font:inherit;font-size:.85rem;outline:none;min-width:0}
-.tgfield input::placeholder{color:#708499}
-.tgsend{width:40px;height:40px;border-radius:50%;background:#5288c1;border:0;display:flex;align-items:center;justify-content:center;opacity:.55;cursor:default;flex-shrink:0}
-.tgsend svg{width:18px;height:18px;fill:#fff}
-@media (max-width:720px){.tgwrap{flex-direction:column}.tgside{width:100%}.tglist{max-height:170px}}
+.tgtime{color:#8f8574;font-size:.68rem}
+.tgbadge{background:#4fae4e;color:#fff;border-radius:999px;font-size:.66rem;font-weight:700;padding:1px 6px;min-width:18px;text-align:center;animation:tgpulse 1.6s ease-in-out infinite}
+@keyframes tgpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+.tgempty{color:#8f8574;font-size:.8rem;padding:14px 12px;list-style:none}
+.chatfoot{padding:10px 14px;border-top:1px solid rgba(212,175,55,.1);color:#7d7461;font-size:.68rem;line-height:1.5}
+.chatmain{flex:1;display:flex;flex-direction:column;min-width:0;min-height:0;background-color:#12110e;background-image:radial-gradient(rgba(212,175,55,.05) 1px,transparent 1px);background-size:20px 20px}
+.chathead{display:flex;align-items:center;gap:12px;padding:10px 16px;background:rgba(23,21,17,.94);border-bottom:1px solid rgba(212,175,55,.12)}
+.chathead b{color:#f5efe0;font-size:.92rem;display:block}
+.chatid{flex:1;min-width:0}
+.chatback{display:none;width:34px;height:34px;border-radius:50%;border:1px solid rgba(212,175,55,.2);background:rgba(212,175,55,.08);cursor:pointer;flex-shrink:0;align-items:center;justify-content:center;transition:background .2s;padding:0}
+.chatback svg{width:19px;height:19px;fill:#d4af37}
+.chatback:hover{background:rgba(212,175,55,.18)}
+.tgstat{color:#8f8574;font-size:.74rem}
+.chatmsgs{flex:1;padding:16px 18px 12px;display:flex;flex-direction:column;gap:3px;overflow-y:auto;min-height:0}
+.chathint{margin:auto;text-align:center;color:#8f8574;font-size:.9rem;line-height:1.7;padding:20px}
+.chathint small{color:#6d6552}
+.tgdate{align-self:center;background:rgba(212,175,55,.1);color:#cdb98a;font-size:.7rem;border-radius:999px;padding:3px 14px;margin:2px 0 8px;letter-spacing:.04em}
+.tgb{max-width:76%;padding:8px 12px 7px;border-radius:14px;font-size:.86rem;line-height:1.4;color:#fff;position:relative;margin-top:7px;word-wrap:break-word;overflow-wrap:anywhere}
+.tgb.nova{animation:chatin .32s cubic-bezier(.2,.8,.3,1) both}
+@keyframes chatin{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
+.tgb.them{align-self:flex-start;background:#211e18;border-bottom-left-radius:4px;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.tgb.me{align-self:flex-end;background:linear-gradient(135deg,#d4af37,#b3902a);color:#171410;border-bottom-right-radius:4px;box-shadow:0 3px 14px rgba(212,175,55,.22)}
+.tgb .tm{font-size:.66rem;color:rgba(255,255,255,.5);margin-left:8px;white-space:nowrap}
+.tgb.me .tm{color:rgba(23,20,16,.6)}
+.tgb.me .tm .ck{color:#171410;letter-spacing:-1px;font-weight:700}
+.tgb.sys{align-self:center;background:rgba(212,175,55,.1);color:#cdb98a;font-size:.72rem;border-radius:999px;padding:4px 14px;margin-top:10px}
+.tctxt{white-space:pre-wrap}
+.chatfoto{display:block;max-width:250px;border-radius:10px;overflow:hidden;margin-bottom:2px;transition:transform .2s}
+.chatfoto:hover{transform:scale(1.02)}
+.chatfoto img{display:block;width:100%;max-height:300px;object-fit:cover;border-radius:10px}
+.chatfile{display:flex;align-items:center;gap:10px;background:rgba(0,0,0,.22);border:1px solid rgba(212,175,55,.18);border-radius:12px;padding:9px 12px;margin-bottom:3px;text-decoration:none;color:inherit;transition:border-color .2s,background .2s}
+.chatfile:hover{border-color:rgba(212,175,55,.5);background:rgba(212,175,55,.08)}
+.cfico{width:36px;height:36px;border-radius:10px;background:rgba(212,175,55,.16);display:flex;align-items:center;justify-content:center;font-size:1.05rem;flex-shrink:0}
+.cftxt{min-width:0}
+.cftxt b{display:block;font-size:.82rem;color:#f5efe0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:190px}
+.cftxt small{color:#8f8574;font-size:.68rem}
+.tgb.me .chatfile{background:rgba(0,0,0,.14);border-color:rgba(23,20,16,.25)}
+.tgb.me .cftxt b{color:#171410}
+.tgb.me .cftxt small{color:rgba(23,20,16,.6)}
+.chatbar{display:flex;align-items:center;gap:9px;padding:10px 14px;background:rgba(23,21,17,.94);border-top:1px solid rgba(212,175,55,.12)}
+.chatclip,.chatsend{width:42px;height:42px;border-radius:50%;border:0;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:transform .15s,filter .2s,opacity .2s;padding:0}
+.chatclip{background:rgba(212,175,55,.1)}
+.chatclip svg{width:20px;height:20px;fill:#d4af37}
+.chatclip:hover{background:rgba(212,175,55,.2)}
+.chatclip:disabled{opacity:.35;cursor:default}
+.chatsend{background:linear-gradient(135deg,#d4af37,#b3902a)}
+.chatsend svg{width:18px;height:18px;fill:#171410}
+.chatsend:hover{filter:brightness(1.1)}
+.chatsend:active{transform:scale(.9)}
+.chatsend:disabled{opacity:.35;cursor:default;filter:none}
+.chatfield{flex:1;display:flex;align-items:center;background:#221f19;border:1px solid rgba(212,175,55,.14);border-radius:18px;padding:10px 14px;transition:border-color .2s}
+.chatfield:focus-within{border-color:rgba(212,175,55,.5)}
+.chatfield input{flex:1;background:none;border:0;color:#f5efe0;font:inherit;font-size:.86rem;outline:none;min-width:0}
+.chatfield input::placeholder{color:#7d7461}
+@media (max-width:720px){
+.chatwrap{height:calc(100dvh - 200px);min-height:430px;border-radius:14px}
+.chatside{width:100%;border-right:0}
+.chatmain{display:none}
+.chatwrap.open .chatside{display:none}
+.chatwrap.open .chatmain{display:flex}
+.chatback{display:flex}
+.tgb{max-width:86%}
+.chatfoto{max-width:200px}
+}
 @media(max-width:600px){.panelcard{padding:16px 13px}
 #relBody.blur{filter:blur(10px);pointer-events:none;user-select:none}.stats{gap:9px}.stat{padding:11px}.chips{gap:6px}.chip{padding:7px 11px}}
 .client,.appt,.txn,.fileitem{flex-wrap:wrap}
@@ -732,14 +776,25 @@ html[data-theme="light"]{color-scheme:light}
 html[data-theme="light"] .chip{background:#fffdf6;color:#4a4230;border-color:var(--line)}
 html[data-theme="light"] .eqhead{background:#fffdf6}
 html[data-theme="light"] .pmodal{background:rgba(46,36,12,.4)}
-html[data-theme="light"] .tgwrap{background:#efe9db}
-html[data-theme="light"] .tgside,html[data-theme="light"] .tghead,html[data-theme="light"] .tginput{background:#faf6ec;border-color:#e2d9c4}
-html[data-theme="light"] .tgsearch,html[data-theme="light"] .tgfield{background:#efe9db}
-html[data-theme="light"] .tgsearch svg,html[data-theme="light"] .tgclip svg,html[data-theme="light"] .tgsmile svg{fill:#8a7f68}
-html[data-theme="light"] .tglist li:hover{background:#f1ead9}
-html[data-theme="light"] .tglist li.on{background:#f0e2b6}
-html[data-theme="light"] .tgmeta b,html[data-theme="light"] .tghead b,html[data-theme="light"] .tgfield input{color:#2a2410}
-html[data-theme="light"] .tgprev,html[data-theme="light"] .tgstat,html[data-theme="light"] .tgtime,html[data-theme="light"] .tgico{color:#8a7f68}
+html[data-theme="light"] .chatwrap{background:#f7f1e2;border-color:#e0d5b8;box-shadow:0 18px 44px rgba(80,60,10,.14)}
+html[data-theme="light"] .chatside,html[data-theme="light"] .chathead,html[data-theme="light"] .chatbar{background:#fbf7ec;border-color:#e7ddc2}
+html[data-theme="light"] .chatmain{background-color:#f7f1e2;background-image:radial-gradient(rgba(122,95,20,.07) 1px,transparent 1px)}
+html[data-theme="light"] .chatsearch,html[data-theme="light"] .chatfield{background:#efe9d6;border-color:#e0d5b8}
+html[data-theme="light"] .chatsearch svg{fill:#8a7f68}
+html[data-theme="light"] .chatsearch input,html[data-theme="light"] .chatfield input{color:#2a2410}
+html[data-theme="light"] .chatsearch input::placeholder,html[data-theme="light"] .chatfield input::placeholder{color:#8a7f68}
+html[data-theme="light"] .chatlist li:hover{background:#f1ead9}
+html[data-theme="light"] .chatlist li.on{background:#f0e2b6;box-shadow:inset 2px 0 0 #b3902a}
+html[data-theme="light"] .tgmeta b,html[data-theme="light"] .chathead b{color:#2a2410}
+html[data-theme="light"] .tgprev,html[data-theme="light"] .tgstat,html[data-theme="light"] .tgtime,html[data-theme="light"] .tgempty,html[data-theme="light"] .chatfoot,html[data-theme="light"] .chathint{color:#8a7f68}
+html[data-theme="light"] .tgb.them{background:#f1ead9;box-shadow:0 2px 8px rgba(80,60,10,.08)}
+html[data-theme="light"] .tgb .tm{color:rgba(42,36,16,.45)}
+html[data-theme="light"] .tgdate,html[data-theme="light"] .tgb.sys{background:#efe4c8;color:#7a6428}
+html[data-theme="light"] .chatfile{background:#efe9d6;border-color:#e0d5b8}
+html[data-theme="light"] .cftxt b{color:#2a2410}
+html[data-theme="light"] .cfico{background:#f0e2b6}
+html[data-theme="light"] .tgondot{border-color:#fbf7ec}
+html[data-theme="light"] .chatback{background:#f0e2b6;border-color:#e0d5b8}
 html[data-theme="light"] .tgmsgs{background-color:#f5f0e4;background-image:radial-gradient(rgba(0,0,0,.05) 1px,transparent 1px)}
 html[data-theme="light"] .tgb{color:#241f13}
 html[data-theme="light"] .tgb.them{background:#ffffff}
@@ -1248,28 +1303,29 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 </div>
 </div>
 <div id="eqMsgs" class="hidden">
-<div class="panelcard" style="padding:0;overflow:hidden">
-<div class="eqhead"><b>Mensagens</b><span class="sub">prévia no estilo Telegram · o envio chega em breve</span></div>
-<div class="tgwrap">
-<div class="tgside">
-<div class="tgsearch"><svg viewBox="0 0 24 24"><path d="M10 2a8 8 0 105.3 14l5.4 5.4 1.4-1.4-5.4-5.4A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z"/></svg><input placeholder="Pesquisar" disabled style="background:none;border:0;color:#708499;font:inherit;font-size:.8rem;outline:none;flex:1;min-width:0"></div>
-<ul class="tglist" id="tgList"></ul>
+<div class="chatwrap" id="chatWrap">
+<aside class="chatside">
+<div class="chatsearch"><svg viewBox="0 0 24 24"><path d="M10 2a8 8 0 105.3 14l5.4 5.4 1.4-1.4-5.4-5.4A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z"/></svg><input id="tgBusca" placeholder="Pesquisar pessoa…" autocomplete="off"></div>
+<ul class="chatlist tglist" id="tgList"></ul>
+<div class="chatfoot">🔒 Mensagens e arquivos somem em 24h · atualiza a cada 5s</div>
+</aside>
+<section class="chatmain">
+<header class="chathead"><button class="chatback" id="tgBack" type="button" title="Voltar"><svg viewBox="0 0 24 24"><path d="M15.4 4.6L8 12l7.4 7.4 1.4-1.4-6-6 6-6z"/></svg></button><span class="tgav" id="tgAv">✦</span><div class="chatid"><b id="tgNome">Mensagens</b><small class="tgstat" id="tgStat">escolha alguém na lista</small></div></header>
+<div class="chatmsgs" id="tgArea"><div class="chathint">👈 Escolha alguém na lista pra começar a conversar</div></div>
+<div class="chatbar">
+<button class="chatclip" id="tgClip" type="button" title="Anexar arquivo (até 1 MB · some em 24h)"><svg viewBox="0 0 24 24"><path d="M16.5 6.5l-7.1 7.1a2 2 0 002.8 2.8l7.5-7.5a4 4 0 10-5.7-5.7l-7.7 7.7a6 6 0 108.5 8.5l7.1-7.1 1.4 1.4-7.1 7.1a8 8 0 11-11.3-11.3l7.7-7.7a6 6 0 118.5 8.5l-7.5 7.5a4 4 0 01-5.7-5.7l7.1-7.1 1.5 1.4z"/></svg></button>
+<div class="chatfield"><input id="tgInput" placeholder="Escreva uma mensagem…" autocomplete="off" maxlength="2000"></div>
+<button class="chatsend" id="tgSend" type="button" title="Enviar"><svg viewBox="0 0 24 24"><path d="M2 21l20-9L2 3v7l14 2-14 2z"/></svg></button>
 </div>
-<div class="tgchat">
-<div class="tghead"><span class="tgav" id="tgAv">✦</span><div style="flex:1;min-width:0"><b id="tgNome">Grupo da clínica</b><br><small class="tgstat" id="tgStat">offline · mensagens em breve</small></div><span class="tgico">⋮</span></div>
-<div class="tgmsgs" id="tgArea"></div>
-<div class="tginput">
-<span class="tgclip"><svg viewBox="0 0 24 24"><path d="M16.5 6.5l-7.1 7.1a2 2 0 002.8 2.8l7.5-7.5a4 4 0 10-5.7-5.7l-7.7 7.7a6 6 0 108.5 8.5l7.1-7.1 1.4 1.4-7.1 7.1a8 8 0 11-11.3-11.3l7.7-7.7a6 6 0 118.5 8.5l-7.5 7.5a4 4 0 01-5.7-5.7l7.1-7.1 1.5 1.4z"/></svg></span>
-<div class="tgfield"><input id="tgInput" placeholder="Escreva para a equipe…" disabled><span class="tgsmile"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 2a8 8 0 110 16 8 8 0 010-16zM8.5 9a1.3 1.3 0 110 2.6A1.3 1.3 0 018.5 9zm7 0a1.3 1.3 0 110 2.6 1.3 1.3 0 010-2.6zM7.6 14.1a5.4 5.4 0 008.8 0l1.5 1.3a7.4 7.4 0 01-11.8 0l1.5-1.3z"/></svg></span></div>
-<button class="tgsend" id="tgSend" disabled type="button" title="Enviar"><svg viewBox="0 0 24 24"><path d="M2 21l20-9L2 3v7l14 2-14 2z"/></svg></button>
+</section>
 </div>
-</div>
-</div>
-</div>
+<input type="file" id="tgFile" class="hidden" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv">
+<p class="msg" id="tgMsg"></p>
 </div>
 </section>
 
 <section id="viewClients" class="view hidden">
+
 <div class="fchead">
 <div><h3 style="margin:0">Seus clientes</h3><p class="sub" style="margin:3px 0 0">Cada cliente tem um app próprio — copie o link abaixo e envie. Relatórios ficam no <b>Studio → Relatórios</b>.</p></div>
 </div>
@@ -5428,69 +5484,144 @@ $('cpBody').addEventListener('click',e=>{const t=e.target.closest('[data-cpt]');
 document.querySelectorAll('#cpBody .cpnav').forEach(x=>x.classList.toggle('on',x.dataset.cpt===t.dataset.cpt));
 document.querySelectorAll('#cpBody .cpsec').forEach(x=>x.classList.toggle('on',x.id==='cp-'+t.dataset.cpt));});
 
-/* ===== R21 — Equipe · Mensagens (preview estilo WhatsApp) ===== */
-/* ===== R34 — Mensagens REAIS entre usuários (nuvem · sincroniza a cada 20s) ===== */
-let MSG={rows:[],lastTs:0,timer:null,peer:null,visto:{}};
+/* ===== R21 — Equipe · Mensagens ===== */
+/* ===== R43 — REFORMA: tela cheia (sem popup), contatos separados da conversa,
+   efeitos na pessoa (avatar colorido, presença, bolhas animadas), atualização a
+   cada 5s e anexos leves (até 1 MB) salvos temporariamente — TUDO some em 24h. ===== */
+let MSG={rows:[],lastTs:0,timer:null,peer:null,visto:{},anim:{},autoScroll:true,itens:[],pintar:null};
+const TG_SOMEM=86400000,TG_SYNC=5000,TG_MAXB64=1400000,TG_MAXFILE=1048576;
 function meuNome(){try{const a=JSON.parse(localStorage.getItem('fenix_user_ativo')||'null');return (a&&a.nome)||'Clínica';}catch(e){return 'Clínica';}}
+function tgCor(nome){let h=0;const s=String(nome||'');for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))%360;return h;}
+function tgAvStyle(nome){const h=tgCor(nome);return 'background:linear-gradient(135deg,hsl('+h+',52%,50%),hsl('+((h+40)%360)+',52%,36%))';}
+function tgTam(n){n=Number(n||0);if(n>=1048576)return (n/1048576).toFixed(1).replace('.',',')+' MB';if(n>=1024)return Math.round(n/1024)+' KB';return n+' B';}
+function tgHora(ts){return new Date(Number(ts)).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});}
+function tgPresenca(p){const ult=MSG.rows.filter(x=>x.de===p&&x.para===meuNome()).slice(-1)[0];
+if(!ult)return 'online · sincroniza a cada 5s';
+const d=Date.now()-Number(ult.ts);
+if(d<120000)return 'ativo agora';
+if(d<3600000)return 'ativo há '+Math.max(1,Math.round(d/60000))+' min';
+return 'visto por último às '+tgHora(ult.ts);}
 async function msgPuxa(){if(!REMOTE||!CLINIC_ID||!SB)return;
-try{let q=SB.from('mensagens').select('id,de,para,texto,criado_em,ts').eq('clinic_id',CLINIC_ID);
+try{let q=SB.from('mensagens').select('id,de,para,texto,url,nome,tamanho,criado_em,ts').eq('clinic_id',CLINIC_ID);
 if(MSG.lastTs)q=q.gt('ts',MSG.lastTs);
 const r=await q.order('ts',{ascending:true}).limit(300);
 if(r.error)throw r.error;
-const corte=Date.now()-86400000;
+const corte=Date.now()-TG_SOMEM;
 const novos=(r.data||[]).filter(x=>Number(x.ts)>corte);
 if(novos.length!==((r.data)||[]).length){try{SB.from('mensagens').delete().lt('ts',corte);}catch(e){}}
 if(novos.length){MSG.rows=MSG.rows.filter(x=>Number(x.ts)>corte).concat(novos).slice(-600);MSG.lastTs=novos[novos.length-1].ts;
-renderEqMsgs();}}
+renderEqMsgs('nuvem');}}
 catch(e){}}
-function msgLiga(){if(MSG.timer)return;MSG.timer=setInterval(()=>{if(state.mode==='equipe')msgPuxa();},20000);}
-async function msgEnvia(texto){texto=String(texto||'').trim();if(!texto||!MSG.peer)return false;
+function msgLiga(){if(MSG.timer)return;MSG.timer=setInterval(()=>{if(state.mode==='equipe')msgPuxa();},TG_SYNC);}
+async function msgEnvia(texto,anexo){texto=String(texto||'').trim();if((!texto&&!anexo)||!MSG.peer)return false;
 if(!REMOTE||!CLINIC_ID||!SB)return false;
-const row={id:uid(),clinic_id:CLINIC_ID,de:meuNome(),para:MSG.peer,texto:texto.slice(0,2000),criado_em:new Date().toLocaleDateString('pt-BR'),ts:Date.now()};
+const row={id:uid(),clinic_id:CLINIC_ID,de:meuNome(),para:MSG.peer,texto:String(texto||'').slice(0,2000),criado_em:new Date().toLocaleDateString('pt-BR'),ts:Date.now()};
+if(anexo&&anexo.url){row.url=anexo.url;row.nome=String(anexo.nome||'arquivo').slice(0,120);row.tamanho=Number(anexo.tamanho)||0;}
 try{const r=await SB.from('mensagens').insert(row);if(r.error)throw r.error;MSG.rows.push(row);return true;}catch(e){return false;}}
-function renderEqMsgs(){ /* R34 — estilo Telegram, conversas reais por usuário */
-const ul=$('tgList');if(!ul)return;
-MSG.rows=MSG.rows.filter(x=>Number(x.ts)>Date.now()-86400000);
-const us=getUsu();
+function tgCarregaArq(file){return new Promise(async(res)=>{
+const falha=t=>{msg($('tgMsg'),'⚠ '+t,'err');res(null);};
+if(!file)return falha('arquivo inválido.');
+if(file.size>TG_MAXFILE*4)return falha('arquivo muito pesado (máximo 1 MB).');
+const ler=fr=>new Promise(r2=>{const f=new FileReader();f.onload=()=>r2(String(f.result));f.onerror=()=>r2(null);fr(f);});
+try{
+const ehImg=/^image\//.test(file.type);
+if(ehImg&&file.size>TG_MAXFILE){ /* foto grande: reduz sozinho pra caber */
+const dataUrl=await ler(f=>f.readAsDataURL(file));if(!dataUrl)return falha('não consegui ler o arquivo.');
+const img=new Image();img.onload=()=>{try{const cv=document.createElement('canvas');const sc=Math.min(1,1280/Math.max(img.width,img.height));
+cv.width=Math.max(1,Math.round(img.width*sc));cv.height=Math.max(1,Math.round(img.height*sc));
+cv.getContext('2d').drawImage(img,0,0,cv.width,cv.height);
+let u=cv.toDataURL('image/jpeg',.72),q=.72;
+while(u.length>TG_MAXB64&&q>.35){q-=.15;u=cv.toDataURL('image/jpeg',q);}
+if(u.length>TG_MAXB64)return falha('foto muito pesada mesmo reduzida (máximo 1 MB).');
+res({url:u,nome:file.name,tamanho:file.size});}catch(e){falha('não consegui reduzir a foto.');}};
+img.onerror=()=>falha('formato de imagem inválido.');img.src=dataUrl;return;}
+const u=await ler(f=>f.readAsDataURL(file));
+if(!u)return falha('não consegui ler o arquivo.');
+if(u.length>TG_MAXB64)return falha('arquivo muito pesado (máximo 1 MB).');
+res({url:u,nome:file.name,tamanho:file.size});
+}catch(e){falha('não consegui anexar o arquivo.');}
+});}
+function tgPintaLista(itens,filtro){const ul=$('tgList');if(!ul)return;
 const eu=meuNome();
-const itens=[{id:'__grupo',nome:'Grupo da clínica',prev:'avisos · em breve',hora:'',n:0}]
-.concat(us.filter(u=>(u.nome||u.username)!==eu).map(u=>({id:u.nome||u.username,nome:u.nome||u.username||'Membro',prev:'toque para conversar',hora:'',n:0})));
 const nLidas=p=>MSG.rows.filter(x=>x.para===eu&&x.de===p&&x.ts>(MSG.visto[p]||0)).length;
 const ultima=p=>MSG.rows.filter(x=>(x.de===p&&x.para===eu)||(x.de===eu&&x.para===p)).slice(-1)[0];
-ul.innerHTML=itens.map(it=>{const n=(it.id==='__grupo')?0:nLidas(it.id);const ult=it.id==='__grupo'?null:ultima(it.id);
-const prev=it.id==='__grupo'?it.prev:(ult?esc(ult.texto.slice(0,34)):it.prev);
-const hr=ult?new Date(ult.ts).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}):'';
-return '<li data-eqid="'+esc(it.id)+'"'+(MSG.peer===it.id||(it.id==='__grupo'&&!MSG.peer)?' class="on"':'')+'><span class="tgav">'+esc((it.nome||'?').charAt(0).toUpperCase())+'</span><div class="tgmeta"><b>'+esc(it.nome)+'</b><span class="tgprev">'+prev+'</span></div><div class="tgright"><span class="tgtime">'+hr+'</span>'+(n?'<span class="tgbadge">'+n+'</span>':'')+'</div></li>';}).join('');
+const f=String(filtro||'').trim().toLowerCase();
+const vis=itens.filter(it=>!f||(it.nome||'').toLowerCase().includes(f));
+if(!vis.length){ul.innerHTML='<li class="tgempty">Ninguém encontrado.</li>';return;}
+ul.innerHTML=vis.map(it=>{const n=(it.id==='__grupo')?0:nLidas(it.id);const ult=it.id==='__grupo'?null:ultima(it.id);
+const prev=it.id==='__grupo'?it.prev:(ult?esc((ult.url&&ult.texto.indexOf('📎 ')===0?'📎 ':'')+ult.texto.slice(0,34)):it.prev);
+const hr=ult?tgHora(ult.ts):'';
+const ativo=(it.id!=='__grupo'&&ult&&ult.de===it.id&&Date.now()-Number(ult.ts)<120000);
+return '<li data-eqid="'+esc(it.id)+'"'+(MSG.peer===it.id?' class="on"':'')+'><span class="tgav"'+(it.id==='__grupo'?'':' style="'+tgAvStyle(it.nome)+'"')+'>'+esc((it.nome||'?').charAt(0).toUpperCase())+(ativo?'<i class="tgondot"></i>':'')+'</span><div class="tgmeta"><b>'+esc(it.nome)+'</b><span class="tgprev">'+prev+'</span></div><div class="tgright"><span class="tgtime">'+hr+'</span>'+(n?'<span class="tgbadge">'+n+'</span>':'')+'</div></li>';}).join('');}
+function renderEqMsgs(origem){ /* R43 — tela cheia, contatos separados, efeitos, sync 5s, anexos */
+const ul=$('tgList');if(!ul)return;
+MSG.rows=MSG.rows.filter(x=>Number(x.ts)>Date.now()-TG_SOMEM);
+const us=getUsu();
+const eu=meuNome();
+MSG.itens=[{id:'__grupo',nome:'Grupo da clínica',prev:'📢 avisos para toda a equipe · em breve'}]
+.concat(us.filter(u=>(u.nome||u.username)!==eu).map(u=>({id:u.nome||u.username,nome:u.nome||u.username||'Membro',prev:'toque para conversar'})));
+const itens=MSG.itens;
+const filtro=()=>($('tgBusca')||{}).value||'';
+tgPintaLista(itens,filtro());
 const pintar=it=>{
-$('tgNome').textContent=it.nome;
-$('tgAv').textContent=(it.nome||'?').charAt(0).toUpperCase();
 const grupo=it.id==='__grupo';
-$('tgStat').textContent=grupo?'avisos · em breve':('conversa com '+it.nome+' · sincroniza a cada 20s');
-const area=$('tgArea');
+$('tgNome').textContent=it.nome;
+const av=$('tgAv');av.textContent=(it.nome||'?').charAt(0).toUpperCase();av.style=grupo?'':tgAvStyle(it.nome);
 if(grupo){MSG.peer=null;
-area.innerHTML='<div class="tgdate">Hoje</div><div class="tgb sys">📢 Avisos para toda a equipe chegam em breve.</div>';
-$('tgInput').disabled=true;$('tgSend').disabled=true;return;}
+$('tgStat').textContent='em breve';
+$('tgArea').innerHTML='<div class="chathint">📢 Avisos para toda a equipe chegam em breve.<br><small>Por enquanto, converse com cada pessoa da equipe pela lista.</small></div>';
+$('tgInput').disabled=true;$('tgSend').disabled=true;$('tgClip').disabled=true;tgPintaLista(itens,filtro());return;}
 MSG.peer=it.id;
 MSG.visto[it.id]=Date.now();
 const conv=MSG.rows.filter(x=>(x.de===eu&&x.para===it.id)||(x.de===it.id&&x.para===eu)).sort((a,b)=>a.ts-b.ts);
-area.innerHTML='<div class="tgdate">Hoje</div>'+
-(conv.length?conv.map(m=>{const meu=m.de===eu;const hr=new Date(m.ts).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-return '<div class="tgb '+(meu?'me':'them')+'">'+esc(m.texto)+'<span class="tm">'+(meu?'<span class="ck">✓✓</span> ':'')+hr+'</span></div>';}).join(''):'<div class="tgb sys">Comece a conversa com '+esc(it.nome)+' 💬</div>');
-area.scrollTop=area.scrollHeight;
-$('tgInput').disabled=!REMOTE;$('tgSend').disabled=!REMOTE;
-renderEqMsgsLista();};
-function renderEqMsgsLista(){ /* repinta só a lista (sem perder foco do input) */ }
-pintar(itens.find(x=>x.id===MSG.peer)||itens[0]);
-ul.onclick=async e=>{const li=e.target.closest('li');if(!li)return;
-const it=itens.find(x=>x.id===li.dataset.eqid)||itens[0];
-pintar(it);await msgPuxa();};
-$('tgSend').onclick=async()=>{const inp=$('tgInput');const t=inp.value;if(!t.trim())return;
-inp.value='';
+const area=$('tgArea');
+const perto=area.scrollHeight-area.scrollTop-area.clientHeight<90;
+area.innerHTML='<div class="tgdate">hoje · some em 24h</div>'+
+(conv.length?conv.map(m=>{const meu=m.de===eu;
+let corpo='';
+if(m.url){
+if(/^data:image/.test(m.url))corpo+='<a class="chatfoto" href="'+m.url+'" download="'+esc(m.nome||'foto')+'" title="Toque para baixar"><img src="'+m.url+'" alt="foto"></a>';
+else corpo+='<a class="chatfile" href="'+m.url+'" download="'+esc(m.nome||'arquivo')+'"><span class="cfico">📎</span><span class="cftxt"><b>'+esc(m.nome||'arquivo')+'</b><small>'+tgTam(m.tamanho)+' · toque para baixar · some em 24h</small></span></a>';
+}
+if(m.texto&&m.texto.indexOf('📎 ')!==0)corpo+='<div class="tctxt">'+esc(m.texto)+'</div>';
+if(!corpo)corpo='<div class="tctxt">'+esc(m.texto)+'</div>';
+const nova=!MSG.anim[m.id];MSG.anim[m.id]=1;
+return '<div class="tgb '+(meu?'me':'them')+(nova&&origem?' nova':'')+'" data-mid="'+esc(m.id)+'">'+corpo+'<span class="tm">'+(meu?'<span class="ck">✓✓</span> ':'')+tgHora(m.ts)+'</span></div>';}).join(''):'<div class="tgb sys">Comece a conversa com '+esc(it.nome)+' 💬</div>');
+if(MSG.autoScroll||perto||origem)area.scrollTop=area.scrollHeight;
+MSG.autoScroll=false;
+$('tgInput').disabled=!REMOTE;$('tgSend').disabled=!REMOTE;$('tgClip').disabled=!REMOTE;
+$('tgStat').textContent=tgPresenca(it.id);
+tgPintaLista(itens,filtro());};
+MSG.pintar=pintar;
+if(MSG.peer){const alvo=itens.find(x=>x.id===MSG.peer);
+if(alvo)pintar(alvo);
+else{MSG.peer=null;}}
+if(!MSG.peer){$('tgNome').textContent='Mensagens';$('tgStat').textContent='escolha alguém na lista';
+const av=$('tgAv');av.textContent='✦';av.style='';
+$('tgArea').innerHTML='<div class="chathint">👈 Escolha alguém na lista pra começar a conversar</div>';}
+if(!window._tgLigado){window._tgLigado=1;
+ul.onclick=async e=>{const li=e.target.closest('li');if(!li||!li.dataset.eqid)return;
+const it=(MSG.itens||[]).find(x=>x.id===li.dataset.eqid);if(!it)return;
+MSG.pintar(it);await msgPuxa();
+if(MSG.peer){const cw=$('chatWrap');cw&&cw.classList.add('open');}};
+$('tgBack').onclick=()=>{const cw=$('chatWrap');cw&&cw.classList.remove('open');MSG.peer=null;MSG.autoScroll=true;renderEqMsgs();};
+$('tgSend').onclick=async()=>{const inp=$('tgInput');const t=inp.value;if(!t.trim()||!MSG.peer)return;
+inp.value='';MSG.autoScroll=true;
 const ok=await msgEnvia(t);
-if(!ok)inp.value=t;
-renderEqMsgs();};
-$('tgInput').onkeydown=e=>{if(e.key==='Enter')$('tgSend').click();};
-if(REMOTE){msgLiga();msgPuxa();}}
+if(!ok){inp.value=t;msg($('tgMsg'),'⚠ não consegui enviar — tenta de novo.','err');}
+else{$('tgStat').textContent='enviado ✓';renderEqMsgs('eu');}};
+$('tgInput').onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();$('tgSend').click();}};
+$('tgBusca').oninput=()=>tgPintaLista(MSG.itens,filtro());
+$('tgClip').onclick=()=>{if(!MSG.peer)return msg($('tgMsg'),'escolha alguém na lista pra enviar.','err');$('tgFile').click();};
+$('tgFile').onchange=async()=>{const f=$('tgFile');const file=f.files&&f.files[0];f.value='';if(!file)return;
+MSG.autoScroll=true;
+msg($('tgMsg'),'anexando '+file.name+'…','');
+const anexo=await tgCarregaArq(file);if(!anexo)return;
+const ok=await msgEnvia('📎 '+anexo.nome,anexo);
+if(ok){msg($('tgMsg'),'✔ arquivo enviado — a outra pessoa vê na hora e ele some em 24h.','ok');renderEqMsgs('eu');}
+else msg($('tgMsg'),'⚠ não consegui enviar o arquivo — tenta de novo.','err');};}
+if(REMOTE&&origem!=='nuvem'){msgLiga();if(origem!=='eu')msgPuxa();}}
+function renderEqMsgsLista(){ /* repinta só a lista (sem perder foco do input) */ }
 /* ===== R21 — plataforma: Sistema (zoom) só no Windows; celular sempre 100% ===== */
 const IS_ANDROID=/Android/i.test(navigator.userAgent);
 function plataformaApply(){
@@ -5518,7 +5649,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.27';
+const APP_VERSAO='1.6.28';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{

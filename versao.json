@@ -1,11 +1,11 @@
 {
-  "versao": "1.6.27",
-  "r": "R42",
+  "versao": "1.6.28",
+  "r": "R43",
   "melhorias": [
-    "CORREÇÃO urgente: o conteúdo da Gestão (Clientes, Agenda, Financeiro, Arquivos) não aparecia no computador e no celular — consertado (as telas voltaram a aparecer; só a navegação ficava)",
-    "Links de formulário agora abrem uma PÁGINA PRÓPRIA do formulário (só as perguntas, identidade da clínica) — não abre mais o aplicativo",
-    "Resposta pelo link funciona sem login (e chega na lista de respostas da clínica)",
-    "Planilha: abre na LISTA de arquivos (não entra mais direto num arquivo; sair volta pra lista)"
+    "Mensagens da equipe com cara nova: a conversa OCUPA A TELA (no PC e no celular), contatos separados da conversa — nada de caixinha/flutuação",
+    "Efeitos na conversa: avatar colorido pra cada pessoa, bolhas animadas, quem está ativo agora e aviso de não lidas",
+    "As mensagens atualizam sozinhas a cada 5 segundos",
+    "Envio de ARQUIVOS nas conversas (fotos, PDF, documentos — até 1 MB; foto grande o app reduz sozinho), salvos temporariamente: mensagens e arquivos somem em 24 horas"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }
