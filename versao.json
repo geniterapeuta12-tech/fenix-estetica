@@ -1,10 +1,12 @@
 {
-  "versao": "1.6.31",
-  "r": "R46",
+  "versao": "1.6.32",
+  "r": "R47",
   "melhorias": [
-    "🛠 RESOLVIDO: as vendas do CATÁLOGO registradas no financeiro da cliente SUMIAM depois de alguns segundos (a sincronização apagava da tela) — agora ficam registradas de verdade",
-    "🛠 RESOLVIDO: no CELULAR não aparecia a função Sistema (Dados › Sistema) — agora o celular também tem versão/atualização, troca de senha e zoom das telas",
-    "✨ Nada mudou no resto: só correções"
+    "🗑 A PEDIDO: Dashboard e Gestão Planilha foram retirados do app (a Gestão voltou ao formato de antes, com Pastas e tudo mais que já funcionava)",
+    "✅ Anamnese DENTRO da cliente: vê as anamneses existentes e preenche ali mesmo (criar anamnese nova continua só no Studio › Formulários)",
+    "✅ Personalizar o app da cliente (Fênix Clients › Personalizar): escolha o que ela vê — Início, Pacotes, Sessões, Pagamentos, Documentos (não pode salvar com nada marcado)",
+    "✅ Roleta nas FUNÇÕES EXTRAS: crie roletas com nomes, imagem no centro se quiser, e gire com animação de verdade",
+    "💭 (Produtos e procedimentos no pacote com preço opcional continuam funcionando — v1.6.30)"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }

@@ -40,7 +40,7 @@ T('senha conferível (senhaOk)', ev('senhaOk(__mu,"abcd")')==='true'&&ev('senhaO
 ev("setMode('clientes');renderApp()");
 T('isolamento: viewUsuarios some ao sair da Equipe', d.getElementById('viewUsuarios').classList.contains('hidden'));
 T('isolamento: viewEquipe some fora da Equipe', d.getElementById('viewEquipe').classList.contains('hidden'));
-T('APP_VERSAO 1.6.31', ev('APP_VERSAO')==='1.6.31');
+T('APP_VERSAO 1.6.32', ev('APP_VERSAO')==='1.6.32');
 let ok=0;for(const[,c]of RES)if(c)ok++;
 console.log('RESULTADO: '+ok+'/'+RES.length+(ok===RES.length?' ✓':' ✗'));
 process.exit(ok===RES.length?0:1);

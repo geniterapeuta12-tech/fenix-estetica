@@ -114,41 +114,45 @@ function render(d){
  document.getElementById('fcAv').textContent=(d.cliente&&d.cliente.nome?d.cliente.nome.charAt(0):'?').toUpperCase();
  var nome=d.cliente&&d.cliente.nome?d.cliente.nome.split(' ')[0]:'';
  var pac=d.pacotes||[],prox=d.proximas||[],real=d.realizadas||[],pag=d.pagamentos||[];
+ var perm=(function(){var t=d.cliente&&d.cliente.ctabs;var all=['res','pac','ses','pag','doc'];if(t&&t.length){var okk=all.filter(function(k){return t.indexOf(k)>=0;});if(okk.length)return okk;}return all;})();
+ var P2=function(k,x){return perm.indexOf(k)>=0?x:'';};
  var contratado=0;pac.forEach(function(p){contratado+=Number(p.valor)||0;});
  var pago=Number(d.pago_total||0);var aberto=Math.max(0,contratado-pago);
  var h='';
- h+='<div class="fcpanel on" id="f-res">'+
+ h+=P2('res','<div class="fcpanel on" id="f-res">'+
   sec('resc','Início',
   '<div class="hero"><div style="font-size:2.4rem;color:#d4af37">✦</div>'+
   '<div class="grande">Olá, '+esc(nome)+'<span>!</span></div>'+
   '<p class="fsub">Este é o seu espaço — aqui você acompanha tudo com a '+esc(clin)+'.</p>'+
   (prox.length?'<div class="prox"><small>Próxima sessão</small><b>'+dataBR(prox[0].data)+'</b><span>'+esc(prox[0].pacote||'Sessão')+(prox[0].num!=null?' · #'+prox[0].num:'')+'</span></div>':'<div class="prox"><small>Agenda</small><b>Nada agendado por enquanto</b><span>Fale com a clínica para agendar.</span></div>')+
-  '</div>')+'</div>';
- h+='<div class="fcpanel" id="f-pac">'+
+  '</div>')+'</div>');
+ h+=P2('pac','<div class="fcpanel" id="f-pac">'+
   sec('pacc','Pacotes & Avulsas',
   pac.length?'<table><tr><th>Pacote</th><th>Progresso</th><th class="num">Valor</th><th class="num">Pago</th></tr>'+
   pac.map(function(p){var qtd=Number(p.qtd)||0,feitas=Number(p.feitas)||0,pp=Number(p.pago)||0,falta=Math.max(0,(Number(p.valor)||0)-pp);
    var pct=qtd?Math.min(100,Math.round(feitas/qtd*100)):0;
    var it=(p.itens||[]).map(function(x){return (x.tipo==='produto'?'🧴 ':'🧖 ')+esc(x.nome)+(Number(x.valor)>0?' · '+brl(x.valor):' · incluído');}).join('  ·  ');
    return '<tr><td><b>'+esc(p.nome)+'</b><br><span class="fsub">'+feitas+' de '+qtd+' sessões · '+(falta?'<span class="aberto">falta '+brl(falta)+'</span>':'<span class="pos">quitado</span>')+'</span>'+(it?'<span style="display:block;margin-top:6px;color:#bdb49b;font-size:.74rem;line-height:1.5">'+it+'</span>':'')+'</td><td><div class="bar"><i style="width:'+pct+'%"></i></div><span class="pct">'+pct+'%</span></td><td class="num">'+brl(p.valor)+'</td><td class="num">'+brl(pp)+'</td></tr>';}).join('')+'</table>'
-  :'<p class="fempty">Nenhum pacote ainda.</p>')+'</div>';
- h+='<div class="fcpanel" id="f-ses">'+
+  :'<p class="fempty">Nenhum pacote ainda.</p>')+'</div>');
+ h+=P2('ses','<div class="fcpanel" id="f-ses">'+
   sec('sesc','Sessões',
   (prox.length?'<p class="fsub" style="margin-bottom:6px"><b style="color:#e7c96a">Próximas</b></p><table>'+prox.map(function(s){return '<tr><td>'+dataBR(s.data)+'</td><td>'+esc(s.pacote||'Sessão')+' #'+(s.num!=null?s.num:'—')+'</td><td>'+esc(s.obs||'')+'</td></tr>';}).join('')+'</table>':'<p class="fempty">Nada agendado por enquanto.</p>')+
-  (real.length?'<p class="fsub" style="margin:12px 0 6px"><b style="color:#e7c96a">Já realizadas ('+real.length+')</b></p><table>'+real.map(function(s){return '<tr><td>'+dataBR(s.data)+'</td><td>'+esc(s.pacote||'Sessão')+' #'+(s.num!=null?s.num:'—')+'</td><td>'+esc(s.obs||'')+'</td></tr>';}).join('')+'</table>':'<p class="fempty">Nenhuma realizada ainda.</p>'))+'</div>';
- h+='<div class="fcpanel" id="f-pag">'+
+  (real.length?'<p class="fsub" style="margin:12px 0 6px"><b style="color:#e7c96a">Já realizadas ('+real.length+')</b></p><table>'+real.map(function(s){return '<tr><td>'+dataBR(s.data)+'</td><td>'+esc(s.pacote||'Sessão')+' #'+(s.num!=null?s.num:'—')+'</td><td>'+esc(s.obs||'')+'</td></tr>';}).join('')+'</table>':'<p class="fempty">Nenhuma realizada ainda.</p>'))+'</div>');
+ h+=P2('pag','<div class="fcpanel" id="f-pag">'+
   sec('pagc','Pagamentos',
   (contratado?'<p class="fsub" style="margin-bottom:8px">Contratado: <b>'+brl(contratado)+'</b> · Pago: <b class="pos">'+brl(pago)+'</b> · Em aberto: <b class="aberto">'+brl(aberto)+'</b></p>':'')+
   (pag.length?'<table><tr><th>Data</th><th>Forma</th><th>Observação</th><th class="num">Valor</th></tr>'+
   pag.map(function(p){return '<tr><td>'+dataBR(p.data)+'</td><td>'+esc(p.metodo||'—')+'</td><td>'+esc(p.obs||'')+'</td><td class="num">'+brl(p.valor)+'</td></tr>';}).join('')+
   '<tr><td colspan="3" style="text-align:right"><b>Total pago</b></td><td class="num"><b class="pos">'+brl(pago)+'</b></td></tr></table>'
-  :'<p class="fempty">Nenhum pagamento registrado.</p>'))+'</div>';
+  :'<p class="fempty">Nenhum pagamento registrado.</p>'))+'</div>');
  var docs=(d.documentos||[]).map(function(x){return {t:String(x.titulo||'Documento').replace(/<[^>]*>/g,'').slice(0,120),x:String(x.texto||'').replace(/<script[\s\S]*?<\/script>/gi,'').replace(/ on[a-z]+="[^"]*"/gi,''),dt:String(x.data||'')};});
- h+='<div class="fcpanel" id="f-doc">'+
+ h+=P2('doc','<div class="fcpanel" id="f-doc">'+
   sec('docc','Documentos',
   (docs.length?'<p class="fsub" style="margin-bottom:6px">Documentos que a clínica enviou pra você — toque para ler.</p>'+docs.map(function(dd,i){return '<details class="doc"'+(i===0&&docs.length===1?' open':'')+'><summary><span>'+esc(dd.t)+'</span><small>'+dataBR(dd.dt)+'</small></summary><div class="dtexto">'+dd.x+'</div></details>';}).join('')
-  :'<p class="fdempty">Nenhum documento enviado pela clínica ainda.<br>Quando ela mandar (contrato, anamnese, prescrição…), aparece aqui.</p>'))+'</div>';
+  :'<p class="fdempty">Nenhum documento enviado pela clínica ainda.<br>Quando ela mandar (contrato, anamnese, prescrição…), aparece aqui.</p>'))+'</div>');
+ var tb=document.querySelectorAll('#fcTabs .tab');for(var i=0;i<tb.length;i++){var g=tb[i].getAttribute('data-go').replace('f-','');tb[i].style.display=perm.indexOf(g)>=0?'':'none';}
  document.getElementById('fcBody').innerHTML=h;
+ if(perm.indexOf('res')<0)vai('f-'+perm[0]);
  document.getElementById('fcTabs').style.display='flex';
 }
 /* navegação por abas */

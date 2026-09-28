@@ -148,7 +148,7 @@ function hojeBR() {
 }
 async function rpcClientePub(env, pId) {
   const db = env.DB;
-  const c = await db.prepare('SELECT id, nome, clinic_id, acesso FROM clientes WHERE id = ?').bind(pId).first();
+  const c = await db.prepare('SELECT id, nome, clinic_id, acesso, ctabs FROM clientes WHERE id = ?').bind(pId).first();
   if (!c) return null;
   if (c.acesso === 0 || c.acesso === false || String(c.acesso)==='false' || String(c.acesso)==='fals' || String(c.acesso)==='0') return { erro: 'sem_acesso' };
   const clin = await db.prepare('SELECT nome FROM clinics WHERE id = ?').bind(c.clinic_id).first();
@@ -190,7 +190,7 @@ async function rpcClientePub(env, pId) {
   `).bind(pId).first();
   const jsafe = (r) => { try { return JSON.parse(r.x || '[]'); } catch (e) { return []; } };
   return {
-    cliente: { nome: c.nome },
+    cliente: (() => { let ct = null; try { const p = JSON.parse(c.ctabs || 'null'); if (Array.isArray(p) && p.length) { const okk = ['res','pac','ses','pag','doc'].filter(k => p.indexOf(k) >= 0); if (okk.length) ct = okk; } } catch (e) {} return { nome: c.nome, ctabs: ct }; })(),
     clinica: clin ? clin.nome : null,
     pago_total: pt ? pt.t : 0,
     pacotes: jsafe(pacotes) || [],

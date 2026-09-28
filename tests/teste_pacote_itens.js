@@ -53,10 +53,9 @@ console.log('   [debug pkgMeta]:',d.getElementById('pkgMeta').textContent);
 T('12. pkgMeta mostra contagem de itens/produtos', d.getElementById('pkgMeta').textContent.includes('2 item(ns)') && d.getElementById('pkgMeta').textContent.includes('2 produto(s)'));
 // ===== mapPacote lê string JSON da nuvem (rowOut) =====
 T('13. mapPacote parses itens string JSON', w.eval(`mapPacote({id:'x9',cliente_id:'c1',nome:'P',valor:10,sessoes:1,criado_em:'',itens:'[{"nome":"Peeling","tipo":"procedimento","valor":200}]'}).itens[0].valor`)===200);
-// ===== Gestão Planilha coluna Itens =====
-w.eval("setMode('gestao');showView('plangest');");
-T('14. planilha: coluna Itens no cabeçalho', d.getElementById('plgTab').textContent.includes('Itens'));
-T('15. planilha: Ana com 2 itens', d.querySelector('#plgTab tbody tr').textContent.includes('2'));
+// ===== Gestão Planilha foi REMOVIDA na R47 (a pedido) =====
+w.eval("setMode('gestao');showView('inicio')");
+T('14. Gestão Planilha removida (sem plgTab)', !d.getElementById('plgTab') && !d.getElementById('viewPlangest'));
 // ===== app da cliente mostra chips (mock com itens) =====
 const cli=new JSDOM(fs.readFileSync(path.join('/home/user','clients','index.html'),'utf-8'),{runScripts:'dangerously',pretendToBeVisual:true,url:'https://x/#cli=t',beforeParse(x){x.fetch=()=>Promise.resolve({ok:true,json:()=>Promise.resolve({cliente:{nome:'F'},clinica:'c',pacotes:[{nome:'Detox',valor:150,qtd:4,feitas:1,pago:0,itens:[{nome:'Limpeza',tipo:'procedimento',valor:150},{nome:'Máscara',tipo:'produto',valor:0}]}],proximas:[],realizadas:[],pagamentos:[],documentos:[]})});}});
 await new Promise(r=>setTimeout(r,250));
