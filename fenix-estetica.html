@@ -736,6 +736,47 @@ html[data-perf="bruta"] .pmodal,html[data-perf="bruta"] .pmodal-soft{backdrop-fi
 .tgb{max-width:86%}
 .chatfoto{max-width:200px}
 }
+/* ===== R44 — Dashboard, Gestão Planilha, Pastas ===== */
+.dashtabs{display:flex;gap:8px;flex-wrap:wrap}
+.dtab{padding:9px 16px;border-radius:999px;border:1px solid rgba(212,175,55,.22);background:none;color:#cfc7b2;font:inherit;font-size:.84rem;cursor:pointer;transition:all .2s}
+.dtab:hover{border-color:rgba(212,175,55,.5);color:#f5efe0}
+.dtab.on{background:linear-gradient(135deg,#d4af37,#b3902a);color:#171410;border-color:transparent;font-weight:700}
+.dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.dkpi{background:rgba(212,175,55,.05);border:1px solid rgba(212,175,55,.16);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+.dkpi small{color:#8f8574;font-size:.72rem;letter-spacing:.04em;text-transform:uppercase}
+.dkpi b{color:#f5efe0;font-size:1.15rem}
+.dkpi span{color:#8f8574;font-size:.72rem}
+.dlinha{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px dashed rgba(212,175,55,.1)}
+.dlinha:last-child{border-bottom:0}
+.dlinha b{flex:0 0 34%;max-width:34%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#f5efe0;font-size:.85rem}
+.dlinha span{color:#8f8574;font-size:.76rem;white-space:nowrap}
+.dbar{flex:1;height:10px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden}
+.dbar i{display:block;height:100%;background:linear-gradient(90deg,#3fbf6f,#2a8f50);border-radius:999px}
+.dbadge{background:rgba(212,175,55,.12);color:#d4af37;border-radius:999px;padding:2px 10px;font-size:.72rem}
+.plgtab{width:100%;border-collapse:collapse;font-size:.8rem;min-width:820px}
+.plgtab th{position:sticky;top:0;background:#191713;color:#d4af37;text-align:left;padding:10px 12px;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid rgba(212,175,55,.2)}
+.plgtab td{padding:10px 12px;border-bottom:1px solid rgba(212,175,55,.08);color:#e9e2cf}
+.plgtab tbody tr{cursor:pointer;transition:background .15s}
+.plgtab tbody tr:hover{background:rgba(212,175,55,.06)}
+.plgtab tfoot td{padding:12px;border-top:2px solid rgba(212,175,55,.3);color:#f5efe0}
+.plgtab .pos{color:#3fbf6f}.plgtab .aberto{color:#e0a452}
+.pstgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-top:14px}
+.pstcard{background:rgba(212,175,55,.05);border:1px solid rgba(212,175,55,.16);border-radius:16px;padding:16px 14px;cursor:pointer;display:flex;flex-direction:column;gap:4px;position:relative;transition:transform .18s,border-color .2s}
+.pstcard:hover{transform:translateY(-2px);border-color:rgba(212,175,55,.45)}
+.pstico{font-size:1.9rem}
+.pstcard b{color:#f5efe0;font-size:.92rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pstcard small{color:#8f8574;font-size:.74rem}
+.pstbts{position:absolute;top:8px;right:8px;display:flex;gap:4px;opacity:.25;transition:opacity .2s}
+.pstcard:hover .pstbts{opacity:1}
+.pstarq{display:flex;align-items:center;gap:11px;padding:9px 4px;border-bottom:1px dashed rgba(212,175,55,.1)}
+.pstarq:last-child{border-bottom:0}
+html[data-theme="light"] .dkpi,html[data-theme="light"] .pstcard{background:#fbf7ec;border-color:#e0d5b8}
+html[data-theme="light"] .dkpi b,html[data-theme="light"] .pstcard b,html[data-theme="light"] .dlinha b{color:#2a2410}
+html[data-theme="light"] .dtab{color:#6d6552}
+html[data-theme="light"] .dbar{background:#e7ddc2}
+html[data-theme="light"] .plgtab th{background:#fbf7ec}
+html[data-theme="light"] .plgtab td{color:#2a2410}
+html[data-theme="light"] .plgtab tbody tr:hover{background:#f1ead9}
 @media(max-width:600px){.panelcard{padding:16px 13px}
 #relBody.blur{filter:blur(10px);pointer-events:none;user-select:none}.stats{gap:9px}.stat{padding:11px}.chips{gap:6px}.chip{padding:7px 11px}}
 .client,.appt,.txn,.fileitem{flex-wrap:wrap}
@@ -920,6 +961,9 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
 <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3 2 8.5l10 5.5 10-5.5L12 3Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M2 13.5 12 19l10-5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
 <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+<symbol id="i-dash" viewBox="0 0 24 24"><path d="M7 4v3M7 17v3M5 7h4v10H5zM17 3v2M17 15v6M15 5h4v10h-4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+<symbol id="i-tabela" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 10h18M9 10v10M15 10v10" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+<symbol id="i-pasta2" viewBox="0 0 24 24"><path d="M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 10v6M9 13h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
 <symbol id="i-brief" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
 <symbol id="i-save" viewBox="0 0 24 24"><path d="M5 3h11l5 5v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M8 3v5h7V3M8 21v-7h8v7" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
 <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 13 4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
@@ -1010,6 +1054,9 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <button class="navbtn" data-view="agenda"><svg class="ic"><use href="#i-cal"/></svg>Agenda</button>
 <button class="navbtn" data-view="financeiro"><svg class="ic"><use href="#i-fin"/></svg>Financeiro</button>
 <button class="navbtn" data-view="arquivos"><svg class="ic"><use href="#i-fold"/></svg>Arquivos</button>
+<button class="navbtn" data-view="dash"><svg class="ic"><use href="#i-dash"/></svg>Dashboard</button>
+<button class="navbtn" data-view="plangest"><svg class="ic"><use href="#i-tabela"/></svg>Gestão Planilha</button>
+<button class="navbtn" data-view="pastas"><svg class="ic"><use href="#i-pasta2"/></svg>Pastas</button>
 </nav>
 <nav class="sidenav hidden" id="navStudio">
 <button class="navbtn active" data-sview="docs"><svg class="ic"><use href="#i-doc"/></svg>Documentos</button>
@@ -1336,7 +1383,34 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 </div>
 </section>
 
+<section id="viewDash" class="view hidden">
+<div class="fchead"><div><h3 style="margin:0">Dashboard</h3><p class="sub" style="margin:3px 0 0">A clínica vista de cima — finanças, sessões, pacotes e arquivos em painéis.</p></div></div>
+<div class="dashtabs" id="dashTabs">
+<button class="dtab on" data-dt="fin" type="button">💰 Finanças</button>
+<button class="dtab" data-dt="ses" type="button">🗓️ Sessões</button>
+<button class="dtab" data-dt="pac" type="button">📦 Pacotes</button>
+<button class="dtab" data-dt="arq" type="button">📎 Fotos &amp; Arquivos</button>
+</div>
+<div id="dashBox" style="margin-top:14px"></div>
+</section>
+
+<section id="viewPlangest" class="view hidden">
+<div class="fchead"><div><h3 style="margin:0">Gestão Planilha</h3><p class="sub" style="margin:3px 0 0">Toda a gestão numa tabela organizada por cliente — toque na linha para abrir a cliente.</p></div>
+<div class="rowbtns"><input class="input" id="plgBusca" placeholder="Buscar cliente…" style="max-width:200px"><button class="btn small ghost" id="plgCsv" type="button">Baixar CSV</button></div></div>
+<div class="panelcard" style="padding:0;overflow:auto;margin-top:14px"><table class="plgtab" id="plgTab"></table></div>
+<p class="msg" id="plgMsg"></p>
+</section>
+
+<section id="viewPastas" class="view hidden">
+<div class="fchead"><div><h3 style="margin:0">Pastas</h3><p class="sub" style="margin:3px 0 0">Crie pastas e organize seus arquivos por dentro. <span class="badge b-gold">prévia · fica salvo neste aparelho por enquanto</span></p></div></div>
+<div class="rowbtns" id="pstNewRow" style="margin-top:6px"><input class="input" id="pstNome" placeholder="Nome da nova pasta" style="max-width:280px"><button class="btn small" id="pstAdd" type="button">Criar pasta</button></div>
+<p class="sub" id="pstCrumb" style="margin:10px 0 0"></p>
+<div id="pstBox"></div>
+<p class="msg" id="pstMsg"></p>
+</section>
+
 <section id="viewExtras" class="view hidden">
+
 <div class="panelcard" style="text-align:center;padding:60px 24px">
 <svg class="logo" viewBox="0 0 1440 960" style="width:96px;opacity:.92"><use href="#phoenix"/></svg>
 <h3 style="margin:16px 0 6px;letter-spacing:.08em">Funções extras</h3>
@@ -2926,8 +3000,8 @@ function goBack(){const prev=navStack.pop();if(!prev)return;const prevCli=state.
 if(state.clientId!==prevCli)filters.cli=emptyF();renderApp();}
 $('btnBack').addEventListener('click',goBack);
 function updateBack(){$('btnBack').classList.toggle('hidden',navStack.length===0);}
-const VIEWS=['inicio','clientes','agenda','financeiro','arquivos','extras'];
-const titles={inicio:'Início',clientes:'Clientes',agenda:'Agenda',financeiro:'Financeiro',arquivos:'Arquivos',extras:'Funções extras'};
+const VIEWS=['inicio','clientes','agenda','financeiro','arquivos','extras','dash','plangest','pastas'];
+const titles={inicio:'Início',clientes:'Clientes',agenda:'Agenda',financeiro:'Financeiro',arquivos:'Arquivos',extras:'Funções extras',dash:'Dashboard',plangest:'Gestão Planilha',pastas:'Pastas'};
 function computeTitle(){
 if(state.mode==='studio'){if(state.sview==='relatorios')return 'Studio · Relatórios';
 if(state.sview==='doc'){const d=docById(state.docId);return 'Studio · '+(d?d.titulo:'Novo documento');}
@@ -2963,7 +3037,7 @@ if($('eqUsuCount'))$('eqUsuCount').textContent=us.length+' usuário(s) neste apa
 ul.innerHTML=us.length?us.map(u=>'<li class="fileitem"><span class="avatar file">'+esc(String(u.nome||'?').charAt(0).toUpperCase())+'</span><div class="cinfo"><strong>'+esc(u.nome||'usuário')+'</strong><small>'+(at&&u.id===at.id?'em uso agora':'usuário da clínica')+'</small></div><button class="iconbtn del" data-eqsudel="'+esc(u.id)+'" title="Remover usuário"><svg class="ic"><use href="#i-trash"/></svg></button></li>').join(''):'<p class="fempty">Nenhum usuário neste aparelho — cadastre o primeiro abaixo.</p>';}
 function isolamentoAreas(){
 /* R41 — isolamento total: uma tela só fica visível na SUA área. De uma vez por todas. */
-const dono={viewInicio:'gestao',viewClientes:'gestao',viewCliente:'gestao',viewIA:'gestao',viewAgenda:'gestao',viewFinanceiro:'gestao',viewArquivos:'gestao',viewExtras:'gestao',viewEquipe:'equipe',viewUsuarios:'equipe',viewCatalogo:'catalogo',viewClients:'clients',viewDocs:'studio',viewDocEd:'studio',viewForms:'studio',viewFormEd:'studio',viewRespFill:'studio',viewRespList:'studio',viewRespView:'studio',viewPlanilha:'studio',viewRelatorios:'studio',viewBackup:'dados',viewSync:'dados',viewTheme:'dados',viewOtim:'dados',viewSistema:'dados',viewUso:'dados',viewUsuario:'dados'};
+const dono={viewInicio:'gestao',viewClientes:'gestao',viewCliente:'gestao',viewIA:'gestao',viewAgenda:'gestao',viewFinanceiro:'gestao',viewArquivos:'gestao',viewDash:'gestao',viewPlangest:'gestao',viewPastas:'gestao',viewExtras:'gestao',viewEquipe:'equipe',viewUsuarios:'equipe',viewCatalogo:'catalogo',viewClients:'clients',viewDocs:'studio',viewDocEd:'studio',viewForms:'studio',viewFormEd:'studio',viewRespFill:'studio',viewRespList:'studio',viewRespView:'studio',viewPlanilha:'studio',viewRelatorios:'studio',viewBackup:'dados',viewSync:'dados',viewTheme:'dados',viewOtim:'dados',viewSistema:'dados',viewUso:'dados',viewUsuario:'dados'};
 for(const id in dono){const el=document.getElementById(id);if(!el||el.classList.contains('hidden'))continue;
 const ok=(id==='viewExtras')?(state.mode==='gestao'||state.mode==='extras'):(state.mode===dono[id]);
 if(!ok)el.classList.add('hidden');}
@@ -3052,6 +3126,9 @@ if(state.view==='clientes')renderClientes();
 else if(state.view==='agenda')renderAgenda();
 else if(state.view==='financeiro')renderFin();
 else if(state.view==='arquivos')renderArquivos();
+else if(state.view==='dash')renderDash();
+else if(state.view==='plangest')renderPlanGest();
+else if(state.view==='pastas')renderPastas();
 else if(state.view==='inicio')renderStats();
 else if(state.view==='cliente'){
 if(state.sub==='docEd'){$('viewCliente').classList.add('hidden');$('viewDocEd').classList.remove('hidden');renderDocEd();}
@@ -5622,6 +5699,183 @@ if(ok){msg($('tgMsg'),'✔ arquivo enviado — a outra pessoa vê na hora e ele 
 else msg($('tgMsg'),'⚠ não consegui enviar o arquivo — tenta de novo.','err');};}
 if(REMOTE&&origem!=='nuvem'){msgLiga();if(origem!=='eu')msgPuxa();}}
 function renderEqMsgsLista(){ /* repinta só a lista (sem perder foco do input) */ }
+/* ===== R44 — Dashboard da gestão + Gestão Planilha + Pastas ===== */
+function dashBRL(v){return Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}
+function dashData(s){const t=String(s||'').trim();let m=t.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);if(m)return m[3]+'-'+m[2]+'-'+m[1];m=t.match(/^(\d{4})-(\d{2})-(\d{2})/);return m?m[1]+'-'+m[2]+'-'+m[3]:null;}
+const dashFeita=x=>x===true||x===1||String(x)==='true'||String(x)==='tru'||String(x)==='1';
+function renderDash(){
+if(!state.dashTab)state.dashTab='fin';
+if(!window._dashLigado){window._dashLigado=1;$('dashTabs').addEventListener('click',e=>{const b=e.target.closest('.dtab');if(!b)return;state.dashTab=b.dataset.dt;renderDash();});}
+document.querySelectorAll('#dashTabs .dtab').forEach(b=>b.classList.toggle('on',b.dataset.dt===state.dashTab));
+const box=$('dashBox');
+try{
+if(state.dashTab==='ses')box.innerHTML=dashSesHTML();
+else if(state.dashTab==='pac')box.innerHTML=dashPacHTML();
+else if(state.dashTab==='arq')box.innerHTML=dashArqHTML();
+else box.innerHTML=dashFinHTML();
+}catch(e){box.innerHTML='<div class="panelcard"><p class="fempty">Não deu para montar o painel agora — volte e abra de novo.</p></div>';console.warn('dash:',e);}}
+function dashKPI(rotulo,valor,extra,cor){return '<div class="dkpi"'+(cor?' style="border-color:'+cor+'"':'')+'><small>'+esc(rotulo)+'</small><b style="'+(cor?'color:'+cor:'')+'">'+valor+'</b>'+(extra?'<span>'+esc(extra)+'</span>':'')+'</div>';}
+function dashFinHTML(){
+const pays=getPay().map(p=>({d:dashData(p.data),v:Number(p.valor)||0})).filter(x=>x.d).sort((a,b)=>a.d<b.d?-1:1);
+const hoje=dashData(todayISO())||new Date().toISOString().slice(0,10);
+const porDia={};pays.forEach(p=>{porDia[p.d]=(porDia[p.d]||0)+p.v;});
+const dias=Object.keys(porDia).sort().slice(-24);
+const vals=dias.map(d=>porDia[d]);
+const maxV=Math.max.apply(null,vals.concat([1]));
+const y=v=>100-Math.min(96,(v/(maxV*1.12))*88)-2;
+let cs='';
+dias.forEach((d,i)=>{const abre=i?vals[i-1]:0,fecha=vals[i];if(!abre&&!fecha)return;
+const verde=fecha>=abre,cor=verde?'#3fbf6f':'#e05252';
+const cx=Math.round(52+i*((750-60)/Math.max(1,dias.length-1)));
+const cT=y(Math.max(abre,fecha)),cB=y(Math.min(abre,fecha)),alt=Math.max(4,cB-cT);
+cs+='<g><line x1="'+cx+'" y1="'+(cT-7)+'" x2="'+cx+'" y2="'+(cT+alt+7)+'" stroke="'+cor+'" stroke-width="1.4" opacity=".65"/>'+
+'<rect x="'+(cx-9)+'" y="'+cT+'" width="18" height="'+alt+'" rx="3" fill="'+cor+'"><title>'+fmtDDMMBR(d)+' · '+dashBRL(fecha)+(verde?' ▲':' ▼')+'</title></rect></g>';});
+const mes=hoje.slice(0,7);
+const noMes=pays.filter(p=>p.d.slice(0,7)===mes).reduce((a,b)=>a+b.v,0);
+const mp=mes.split('-'),mesAnt=(Number(mp[1])===1?String(Number(mp[0])-1):mp[0])+'-'+String(Number(mp[1])===1?12:Number(mp[1])-1).padStart(2,'0');
+const totMesAnt=pays.filter(p=>p.d.slice(0,7)===mesAnt).reduce((a,b)=>a+b.v,0);
+const noAno=pays.filter(p=>p.d.slice(0,4)===hoje.slice(0,4)).reduce((a,b)=>a+b.v,0);
+const ticks=[.25,.5,.75,1].map(t=>{const v=maxV*t;return '<line x1="46" y1="'+(y(v))+'" x2="756" y2="'+y(v)+'" stroke="rgba(212,175,55,.1)" stroke-width="1"/>'+'<text x="42" y="'+(y(v)+3)+'" text-anchor="end" font-size="9" fill="#8f8574">'+(v>=1000?(v/1000).toFixed(1).replace('.',',')+'k':Math.round(v))+'</text>';}).join('');
+return '<div class="dgrid">'+
+dashKPI('Entradas do mês',dashBRL(noMes),noMes>=totMesAnt?'▲ melhor que o mês passado':'▼ abaixo do mês passado',noMes>=totMesAnt?'#3fbf6f':'#e05252')+
+dashKPI('Mês passado',dashBRL(totMesAnt),'')+
+dashKPI('Total do ano',dashBRL(noAno),'')+
+dashKPI('Pagamentos registrados',String(pays.length),'todos os tempos','')+'</div>'+
+'<div class="panelcard" style="margin-top:14px"><div class="pc-tt"><span class="dot"></span>Finanças · estilo trading (cada vela = um dia de entradas)</div><hr class="frule">'+
+(dias.length>1?'<svg viewBox="0 0 770 116" style="width:100%;height:auto">'+ticks+cs+'</svg><p class="sub" style="margin:8px 0 0">🟢 dia acima do anterior · 🔴 dia abaixo — toque/pare numa vela para ver o dia e o valor.</p>':'<p class="fempty">Ainda sem pagamentos suficientes para o gráfico — ele nasce com o segundo dia registrado.</p>')+'</div>';}
+function dashSesHTML(){
+const ses=getSes();
+const hojeISO=dashData(todayISO())||new Date().toISOString().slice(0,10);
+const mes=hojeISO.slice(0,7);
+const feitasMes=ses.filter(s=>dashFeita(s.feita)&&(dashData(s.data)||'').slice(0,7)===mes).length;
+const futuras=ses.filter(s=>!dashFeita(s.feita)&&s.data&&(dashData(s.data)||'')>=hojeISO).length;
+const janela=ses.filter(s=>{const d=dashData(s.data);const lim=new Date(Date.now()-30*86400000).toISOString().slice(0,10);return d&&d>=lim&&d<=hojeISO;});
+const comp=janela.length?Math.round(janela.filter(s=>dashFeita(s.feita)).length/janela.length*100):null;
+const sem=[];for(let i=7;i>=0;i--){const a=new Date(Date.now()-((i+1)*7-1)*86400000).toISOString().slice(0,10),b=new Date(Date.now()-i*7*86400000).toISOString().slice(0,10);
+sem.push(ses.filter(s=>{const d=dashData(s.data);return d&&d>=a&&d<=b&&dashFeita(s.feita);}).length);}
+const mx=Math.max.apply(null,sem.concat([1]));
+const bars=sem.map((n,i)=>{const h=Math.max(4,(n/mx)*90);return '<g><rect x="'+(18+i*43)+'" y="'+(102-h)+'" width="26" height="'+h+'" rx="5" fill="#3fbf6f"><title>'+n+' sessão(ões) feitas</title></rect><text x="'+(31+i*43)+'" y="116" text-anchor="middle" font-size="10" fill="#8f8574">'+n+'</text></g>';}).join('');
+return '<div class="dgrid">'+
+dashKPI('Feitas neste mês',String(feitasMes),'')+
+dashKPI('Agendadas à frente',String(futuras),'próximas sessões','#d4af37')+
+dashKPI('Comparecimento (30 dias)',comp==null?'—':comp+'%','feitas ÷ marcadas',comp==null?'':(comp>=70?'#3fbf6f':'#e0a452'))+
+dashKPI('Sessões no total',String(ses.length),'')+'</div>'+
+'<div class="panelcard" style="margin-top:14px"><div class="pc-tt"><span class="dot"></span>Ritmo das sessões · últimas 8 semanas</div><hr class="frule"><svg viewBox="0 0 370 122" style="width:100%;max-width:560px;height:auto">'+bars+'</svg></div>';}
+function dashPacHTML(){
+const pgs=getPkg(),pays=getPay();
+const contratado=pgs.reduce((a,p)=>a+(Number(p.valor)||0),0);
+const pagoPg=id=>pays.filter(p=>p.pacoteId===id).reduce((a,b)=>a+(Number(b.valor)||0),0);
+const pagoT=pgs.reduce((a,p)=>a+pagoPg(p.id),0);
+const ativos=pgs.filter(p=>getSes().filter(s=>s.pacoteId===p.id&&dashFeita(s.feita)).length<(Number(p.sessoes)||0)).length;
+const rows=pgs.map(p=>({n:p.nome,v:Number(p.valor)||0,p:pagoPg(p.id)})).sort((a,b)=>b.v-a.v).slice(0,8);
+const list=rows.map(p=>{const pct=p.v?Math.min(100,Math.round(p.p/p.v*100)):0;
+return '<div class="dlinha"><b>'+esc(p.n||'Pacote')+'</b><div class="dbar"><i style="width:'+pct+'%"></i></div><span>'+dashBRL(p.p)+' / '+dashBRL(p.v)+' · '+pct+'%</span></div>';}).join('');
+return '<div class="dgrid">'+
+dashKPI('Pacotes em andamento',String(ativos),'de '+pgs.length+' no total','#d4af37')+
+dashKPI('Contratado',dashBRL(contratado),'todos os pacotes','')+
+dashKPI('Já pago',dashBRL(pagoT),'','#3fbf6f')+
+dashKPI('Em aberto',dashBRL(Math.max(0,contratado-pagoT)),contratado-pagoT>0?'cobrança pendente':'tudo quitado',contratado-pagoT>0?'#e05252':'#3fbf6f')+'</div>'+
+'<div class="panelcard" style="margin-top:14px"><div class="pc-tt"><span class="dot"></span>Quitação por pacote (maiores contratos)</div><hr class="frule">'+(list||'<p class="fempty">Nenhum pacote ainda.</p>')+'</div>';}
+function dashArqHTML(){
+const arqs=getArq(),ses=getSes(),pgs=getPkg(),cli=getCli();
+const porPacote={},porSessao={},avulsos=[];
+arqs.forEach(a=>{const lk=a.link;
+if(lk&&lk.tipo==='pacote'){const p=pgs.find(x=>x.id===lk.id);const k=p?(p.nome||'Pacote'):'Pacote';(porPacote[k]=porPacote[k]||[]).push(a);}
+else if(lk&&lk.tipo==='sessao'){const s=ses.find(x=>x.id===lk.id);const c=s?cli.find(x=>x.id===s.clientId):null;
+const k='Sessão #'+(s&&(s.num!=null)?s.num:'?')+(c?' · '+c.nome:'')+(s&&s.data?' · '+s.data:'');(porSessao[k]=porSessao[k]||[]).push(a);}
+else avulsos.push(a);});
+const bloco=(tt,obj,vazio)=>{const ks=Object.keys(obj).sort();
+return '<div class="panelcard" style="margin-top:14px"><div class="pc-tt"><span class="dot"></span>'+tt+'</div><hr class="frule">'+(ks.length?ks.map(k=>'<div class="dlinha"><b>'+esc(k)+'</b><span class="dbadge">'+obj[k].length+' arquivo(s)</span></div>').join(''):'<p class="fempty">'+vazio+'</p>')+'</div>';};
+const nPac=Object.keys(porPacote).reduce((a,k)=>a+porPacote[k].length,0);
+const nSes=Object.keys(porSessao).reduce((a,k)=>a+porSessao[k].length,0);
+return '<div class="dgrid">'+dashKPI('Arquivos no total',String(arqs.length),'fotos e documentos')+
+dashKPI('Vinculados a pacotes',String(nPac),'')+
+dashKPI('Vinculados a sessões',String(nSes),'')+
+dashKPI('Avulsos',String(avulsos.length),'',avulsos.length?'#e0a452':'#3fbf6f')+'</div>'+
+bloco('Por pacote',porPacote,'Nenhum arquivo ligado a pacotes ainda.')+
+bloco('Por sessão',porSessao,'Nenhum arquivo ligado a sessões ainda.')+
+'<div class="panelcard" style="margin-top:14px"><div class="pc-tt"><span class="dot"></span>Sem vínculo (avulsos)</div><hr class="frule">'+(avulsos.length?avulsos.slice(-10).reverse().map(a=>'<div class="dlinha"><b>'+esc(a.nome||'arquivo')+'</b><span class="dbadge">'+esc(a.data||'')+'</span></div>').join(''):'<p class="fempty">Tudo certinho — nada solto.</p>')+'</div>';}
+function plgDados(){
+const cli=getCli(),pgs=getPkg(),ses=getSes(),pays=getPay(),arqs=getArq(),docs=getDoc();
+const hojeISO=dashData(todayISO())||new Date().toISOString().slice(0,10);
+return cli.map(c=>{const mp=pgs.filter(p=>p.clientId===c.id),ms=ses.filter(s=>s.clientId===c.id),mpay=pays.filter(p=>p.clientId===c.id);
+const pago=mpay.reduce((a,b)=>a+(Number(b.valor)||0),0);
+const contratado=mp.reduce((a,p)=>a+(Number(p.valor)||0),0);
+const feitas=ms.filter(s=>dashFeita(s.feita)).length;
+const futuro=ms.filter(s=>!dashFeita(s.feita)&&s.data&&(dashData(s.data)||'')>=hojeISO).sort((a,b)=>(dashData(a.data)<dashData(b.data)?-1:1));
+const feitasComData=ms.filter(s=>dashFeita(s.feita)&&s.data).sort((a,b)=>(dashData(a.data)<dashData(b.data)?1:-1));
+return {id:c.id,nome:c.nome||'—',tel:c.tel||'',npac:mp.length,qs:mp.reduce((a,p)=>a+(Number(p.sessoes)||0),0),feitas:feitas,pago:pago,contratado:contratado,aberto:Math.max(0,contratado-pago),
+ult:feitasComData.length?dashData(feitasComData[0].data):'',
+prox:futuro.length?dashData(futuro[0].data):'',
+narq:arqs.filter(a=>a.clientId===c.id).length,ndoc:docs.filter(d=>d.clientId===c.id).length};});}
+function renderPlanGest(){
+const busca=(($('plgBusca')||{}).value||'').trim().toLowerCase();
+let L=plgDados();
+if(busca)L=L.filter(x=>(x.nome||'').toLowerCase().includes(busca)||(x.tel||'').includes(busca));
+const tot={pago:0,contratado:0,aberto:0,qs:0,feitas:0};
+const rows=L.map(x=>{tot.pago+=x.pago;tot.contratado+=x.contratado;tot.aberto+=x.aberto;tot.qs+=x.qs;tot.feitas+=x.feitas;
+return '<tr data-plgcli="'+esc(x.id)+'" title="Abrir '+esc(x.nome)+'"><td><b>'+esc(x.nome)+'</b>'+(x.tel?'<br><small style="color:#8f8574">'+esc(x.tel)+'</small>':'')+'</td><td>'+(x.npac||'—')+'</td><td>'+x.feitas+' / '+x.qs+'</td><td style="color:#3fbf6f">'+dashBRL(x.pago)+'</td><td>'+dashBRL(x.contratado)+'</td><td>'+(x.aberto>0?'<span style="color:#e0a452">'+dashBRL(x.aberto)+'</span>':'—')+'</td><td>'+(x.ult?fmtDDMMBR(x.ult):'—')+'</td><td>'+(x.prox?'<b>'+fmtDDMMBR(x.prox)+'</b>':'—')+'</td><td>'+x.ndoc+' doc(s) · '+x.narq+' arq(s)</td></tr>';}).join('');
+$('plgTab').innerHTML='<thead><tr><th>Cliente</th><th>Pacotes</th><th>Sessões</th><th>Pago</th><th>Contratado</th><th>Em aberto</th><th>Última sessão</th><th>Próxima</th><th>Anexos</th></tr></thead><tbody>'+(rows||'<tr><td colspan="9" style="text-align:center;color:#8f8574;padding:20px">Nenhum cliente'+(busca?' para essa busca':' cadastrado ainda')+'.</td></tr>')+'</tbody>'+
+'<tfoot><tr><td><b>TOTAL ('+L.length+')</b></td><td></td><td>'+tot.feitas+' / '+tot.qs+'</td><td style="color:#3fbf6f"><b>'+dashBRL(tot.pago)+'</b></td><td>'+dashBRL(tot.contratado)+'</td><td>'+(tot.aberto>0?'<span style="color:#e0a452">'+dashBRL(tot.aberto)+'</span>':'—')+'</td><td colspan="3"></td></tr></tfoot>';
+if(!window._plgLigado){window._plgLigado=1;
+$('plgBusca').addEventListener('input',()=>renderPlanGest());
+$('plgTab').addEventListener('click',e=>{const tr=e.target.closest('tr[data-plgcli]');if(tr)openClient(tr.dataset.plgcli);});
+$('plgCsv').addEventListener('click',()=>{const L2=plgDados();
+const linhas=[['Cliente','Telefone','Pacotes','Sessoes (feitas/total)','Pago','Contratado','Em aberto','Ultima sessao','Proxima','Documentos','Arquivos']].concat(L2.map(x=>[x.nome,x.tel,x.npac,x.feitas+'/'+x.qs,String(x.pago),String(x.contratado),String(x.aberto),x.ult,x.prox,x.ndoc,x.narq]));
+try{const csv='\uFEFF'+linhas.map(l=>l.map(v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"').join(';')).join('\r\n');
+const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='gestao-planilha-'+new Date().toISOString().slice(0,10)+'.csv';document.body.appendChild(a);a.click();a.remove();
+msg($('plgMsg'),'✔ Planilha baixada — abre direto no Excel.','ok');}catch(e){msg($('plgMsg'),'⚠ Não baixou agora — tenta de novo.','err');}});}}
+function getPastas(){try{const p=JSON.parse(localStorage.getItem('fenix_pastas')||'null');if(p&&Array.isArray(p.ps))return p;}catch(e){}return {ps:[]};}
+function setPastas(p){try{localStorage.setItem('fenix_pastas',JSON.stringify(p));}catch(e){}}
+function renderPastas(){
+const P=getPastas();
+if(!window._pstLigado){window._pstLigado=1;
+$('pstAdd').onclick=()=>{const inp=$('pstNome');const n=(inp.value||'').trim();if(!n)return msg($('pstMsg'),'Dê um nome para a pasta.','err');
+const P2=getPastas();P2.ps.push({id:uid(),nome:n.slice(0,60),ts:Date.now(),arqs:[]});setPastas(P2);inp.value='';
+msg($('pstMsg'),'✔ Pasta criada.','ok');renderPastas();};
+$('pstNome').onkeydown=e=>{if(e.key==='Enter')$('pstAdd').click();};
+$('pstBox').addEventListener('click',e=>{
+const abrir=e.target.closest('[data-pstabrir]');if(abrir&&!e.target.closest('.pstbts')){state.pastaId=abrir.dataset.pstabrir;renderPastas();return;}
+if($('pstVoltar')&&e.target.closest('#pstVoltar')){state.pastaId=null;renderPastas();return;}
+const P3=getPastas();
+const delP=e.target.closest('[data-pstdel]');if(delP){const p=P3.ps.find(x=>x.id===delP.dataset.pstdel);if(!p)return;
+let ok2=true;try{ok2=!p.arqs.length||confirm('A pasta "'+p.nome+'" tem '+p.arqs.length+' arquivo(s) dentro. Apagar tudo?');}catch(x){ok2=true;}
+if(!ok2)return;setPastas({ps:P3.ps.filter(x=>x.id!==p.id)});msg($('pstMsg'),'🗑 Pasta apagada.','ok');renderPastas();return;}
+const ren=e.target.closest('[data-pstren]');if(ren){const card=ren.closest('.pstcard');const nomeEl=card&&card.querySelector('.pstnome');if(!nomeEl)return;
+const atual=nomeEl.textContent;
+nomeEl.innerHTML='<input class="input" style="max-width:150px;padding:4px 8px" value="'+esc(atual)+'">';
+const inp=nomeEl.querySelector('input');try{inp.focus();inp.select();}catch(x){}
+const salva=()=>{const v=(inp.value||'').trim();const P4=getPastas();const p=P4.ps.find(x=>x.id===ren.dataset.pstren);
+if(p&&v&&v!==atual){p.nome=v.slice(0,60);setPastas(P4);}renderPastas();};
+inp.onkeydown=ev2=>{if(ev2.key==='Enter')salva();if(ev2.key==='Escape')renderPastas();};
+inp.onblur=salva;return;}
+const delA=e.target.closest('[data-pstardel]');if(delA&&state.pastaId){const P5=getPastas();const p=P5.ps.find(x=>x.id===state.pastaId);if(!p)return;
+p.arqs=p.arqs.filter(x=>x.id!==delA.dataset.pstardel);setPastas(P5);renderPastas();return;}});}
+if(!state.pastaId){
+$('pstCrumb').textContent='';
+$('pstNewRow').classList.remove('hidden');
+const cards=P.ps.slice().sort((a,b)=>(b.ts||0)-(a.ts||0)).map(p=>'<div class="pstcard" data-pstabrir="'+esc(p.id)+'" title="Abrir pasta"><div class="pstbts"><button class="iconbtn" data-pstren="'+esc(p.id)+'" title="Renomear" type="button">✏️</button><button class="iconbtn" data-pstdel="'+esc(p.id)+'" title="Apagar pasta" type="button">🗑</button></div><div class="pstico">📁</div><b class="pstnome">'+esc(p.nome)+'</b><small>'+p.arqs.length+' arquivo(s)</small></div>').join('');
+$('pstBox').innerHTML=P.ps.length?'<div class="pstgrid">'+cards+'</div>':'<div class="panelcard"><p class="fempty">Nenhuma pasta ainda — crie a primeira aí em cima ⤴</p></div>';
+return;}
+const p=P.ps.find(x=>x.id===state.pastaId);
+if(!p){state.pastaId=null;renderPastas();return;}
+$('pstCrumb').innerHTML='<button class="btn small ghost" id="pstVoltar" type="button">← Todas as pastas</button> &nbsp;📁 <b>'+esc(p.nome)+'</b>';
+$('pstVoltar').onclick=()=>{state.pastaId=null;renderPastas();};
+$('pstNewRow').classList.add('hidden');
+const lst=p.arqs.slice().sort((a,b)=>(b.ts||0)-(a.ts||0)).map(a=>'<div class="pstarq"><span class="cfico">'+(a.tipo==='Foto'?'🖼':a.tipo==='PDF'?'📕':a.tipo==='Vídeo'?'🎬':'📄')+'</span><div class="cinfo"><strong>'+esc(a.nome||'arquivo')+'</strong><small>'+esc(a.tipo||'Documento')+(a.tam?' · '+esc(a.tam):'')+(a.obs?' · '+esc(a.obs):'')+' · '+esc(a.quando||'')+'</small></div><button class="iconbtn del" data-pstardel="'+esc(a.id)+'" title="Tirar da pasta" type="button">🗑</button></div>').join('');
+$('pstBox').innerHTML='<div class="panelcard" style="margin-top:10px"><div class="sec-head"><div class="pc-tt"><h3>Arquivos dentro de "'+esc(p.nome)+'"</h3><p class="sub">Registre o que está guardado nesta pasta (o arquivo em si continua onde você o guarda).</p></div></div>'+
+'<div class="rowbtns" style="flex-wrap:wrap;gap:8px"><input class="input" id="pstArqNome" placeholder="Nome (ex.: Contrato Ana)" style="max-width:220px">'+
+'<select class="input" id="pstArqTipo" style="max-width:130px"><option>Documento</option><option>Foto</option><option>PDF</option><option>Vídeo</option><option>Outro</option></select>'+
+'<input class="input" id="pstArqTam" placeholder="Tamanho (opcional)" style="max-width:140px">'+
+'<input class="input" id="pstArqObs" placeholder="Observação (opcional)" style="max-width:170px">'+
+'<button class="btn small" id="pstArqAdd" type="button">Adicionar</button></div>'+
+'<ul class="list" style="margin-top:10px">'+(lst||'<li class="empty">Pasta vazia.</li>')+'</ul></div>';
+$('pstArqAdd').onclick=()=>{const P6=getPastas();const pp=P6.ps.find(x=>x.id===state.pastaId);if(!pp)return;
+const n=($('pstArqNome').value||'').trim();if(!n)return msg($('pstMsg'),'Escreva o nome do arquivo.','err');
+pp.arqs.push({id:uid(),nome:n.slice(0,90),tipo:$('pstArqTipo').value,tam:($('pstArqTam').value||'').trim().slice(0,20),obs:($('pstArqObs').value||'').trim().slice(0,80),quando:new Date().toLocaleDateString('pt-BR'),ts:Date.now()});
+setPastas(P6);$('pstArqNome').value='';$('pstArqTam').value='';$('pstArqObs').value='';
+msg($('pstMsg'),'✔ Adicionado à pasta.','ok');renderPastas();};}
+
 /* ===== R21 — plataforma: Sistema (zoom) só no Windows; celular sempre 100% ===== */
 const IS_ANDROID=/Android/i.test(navigator.userAgent);
 function plataformaApply(){
@@ -5649,7 +5903,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.28';
+const APP_VERSAO='1.6.29';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{
@@ -5692,7 +5946,8 @@ b.innerHTML=h;}
 function mostrarAvisoUpd(){ /* R31: atualizar SÓ se a pessoa confirmar */
 try{const depois=+(localStorage.getItem('fenix_upd_depois')||0);if(depois&&Date.now()<depois)return;}catch(e){}
 const old=document.getElementById('updModal');if(old)old.remove();
-const melhorias=(UPD&&Array.isArray(UPD.melhorias)&&UPD.melhorias.length)?('<ul style="margin:8px 0 0 18px;text-align:left">'+UPD.melhorias.map(m=>'<li style="margin:4px 0;font-size:.84rem">'+esc(m)+'</li>').join('')+'</ul>'):'';
+const mel=(UPD&&Array.isArray(UPD.melhorias))?UPD.melhorias:[];
+const melhorias=mel.length?('<div style="margin-top:10px;text-align:left"><p class="fk" style="margin:0 0 6px">✨ O QUE MELHOROU NESTA VERSÃO</p><div style="max-height:220px;overflow-y:auto;border:1px solid rgba(212,175,55,.22);border-radius:12px;padding:10px 12px;background:rgba(212,175,55,.05)"><ul style="margin:0 0 0 16px">'+mel.map(m=>'<li style="margin:6px 0;font-size:.84rem;line-height:1.45">'+esc(m)+'</li>').join('')+'</ul></div><p class="sub" style="margin:8px 0 0;font-size:.76rem">Tudo testado antes de chegar pra você — atualizar leva segundos e não mexe nos seus dados.</p></div>'):'';
 const d=document.createElement('div');d.id='updModal';d.className='pmodal-soft';
 d.innerHTML='<div class="pmcard"><h3 style="margin:0">🔔 Nova versão v'+esc((UPD||{}).versao||'')+' disponível</h3>'+
 '<p class="sub" style="margin-top:6px">Quer atualizar agora? O app recarrega com a versão nova — leva segundos.</p>'+melhorias+

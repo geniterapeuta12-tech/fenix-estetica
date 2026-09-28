@@ -1,11 +1,12 @@
 {
-  "versao": "1.6.28",
-  "r": "R43",
+  "versao": "1.6.29",
+  "r": "R44",
   "melhorias": [
-    "Mensagens da equipe com cara nova: a conversa OCUPA A TELA (no PC e no celular), contatos separados da conversa — nada de caixinha/flutuação",
-    "Efeitos na conversa: avatar colorido pra cada pessoa, bolhas animadas, quem está ativo agora e aviso de não lidas",
-    "As mensagens atualizam sozinhas a cada 5 segundos",
-    "Envio de ARQUIVOS nas conversas (fotos, PDF, documentos — até 1 MB; foto grande o app reduz sozinho), salvos temporariamente: mensagens e arquivos somem em 24 horas"
+    "🛠 RESOLVIDO: os documentos vinculados à cliente agora APARECEM no espaço dela — nova aba Documentos no Fênix Clients (toque para ler: contrato, anamnese, prescrição…)",
+    "✅ NOVO: Dashboard na Gestão — painéis com gráficos: Finanças em estilo trading (velas verdes e vermelhas dia a dia), Sessões (ritmo das últimas 8 semanas + comparecimento), Pacotes (quitação e em aberto) e Fotos & Arquivos organizados por pacote e por sessão",
+    "✅ NOVO: Gestão Planilha — toda a gestão numa tabela organizada por cliente (pacotes, sessões, pago, contratado, em aberto, última e próxima sessão) com busca, totais e botão Baixar CSV (abre no Excel)",
+    "✅ NOVO: Pastas — crie pastas e organize seus arquivos por dentro (prévia inicial: fica salvo neste aparelho; a sincronização na nuvem vem aí)",
+    "✅ MELHORADO: este aviso de atualização agora mostra sempre tudo que melhorou e o que foi resolvido quando houver versão nova"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }
