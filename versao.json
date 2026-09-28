@@ -1,8 +1,10 @@
 {
-  "versao": "1.6.25",
-  "r": "R40",
+  "versao": "1.6.26",
+  "r": "R41",
   "melhorias": [
-    "CORREÇÃO nos Arquivos: as fotos que haviam se perdido na migração voltaram (as 49 fotos originais restauradas) e os vínculos com pacote/sessão/avulsa voltaram a aparecer certinhos"
+    "CORREÇÃO de uma vez por todas: tela da Equipe›Usuários estava quebrada (função interna apagada) e deixava conteúdo de outra área na tela — recriada, com cadastro e remoção de usuários nela",
+    "Isolamento total de áreas: um mecanismo permanente garante que nenhuma tela de uma área apareça em outra (auditadas as 38 combinações de navegação, inclusive sair da Equipe pra qualquer lugar)",
+    "Proteção extra: se qualquer tela falhar um dia, mostra aviso amigável — nunca mais conteúdo errado de outra área"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }

@@ -2899,6 +2899,20 @@ return (p?p.nome:'Pacote')+' · '+n;}
 if(state.sub==='docEd'){const d=docById(state.docId);return c.nome+' · '+(d?d.titulo:'Novo documento');}
 return map[state.sub]?c.nome+' · '+map[state.sub]:c.nome;}
 return titles[state.view]||'Início';}
+/* R41 — topo do app: visíveis em qualquer área */
+/* R41 — Equipe › Usuários: lista plana + cadastro (função recriada — era fantasma e quebrava a tela) */
+function renderEqUsu(){const ul=$('eqUsuList');if(!ul)return;
+const us=getUsu(),at=ultUsu();
+if($('eqUsuCount'))$('eqUsuCount').textContent=us.length+' usuário(s) neste aparelho'+(at?(' · conectado: '+at.nome):'');
+ul.innerHTML=us.length?us.map(u=>'<li class="fileitem"><span class="avatar file">'+esc(String(u.nome||'?').charAt(0).toUpperCase())+'</span><div class="cinfo"><strong>'+esc(u.nome||'usuário')+'</strong><small>'+(at&&u.id===at.id?'em uso agora':'usuário da clínica')+'</small></div><button class="iconbtn del" data-eqsudel="'+esc(u.id)+'" title="Remover usuário"><svg class="ic"><use href="#i-trash"/></svg></button></li>').join(''):'<p class="fempty">Nenhum usuário neste aparelho — cadastre o primeiro abaixo.</p>';}
+function isolamentoAreas(){
+/* R41 — isolamento total: uma tela só fica visível na SUA área. De uma vez por todas. */
+const dono={viewInicio:'inicio',viewClientes:'clientes',viewCliente:'clientes',viewIA:'clientes',viewAgenda:'agenda',viewFinanceiro:'financeiro',viewArquivos:'arquivos',viewExtras:'extras',viewEquipe:'equipe',viewUsuarios:'equipe',viewCatalogo:'catalogo',viewClients:'clients',viewDocs:'studio',viewDocEd:'studio',viewForms:'studio',viewFormEd:'studio',viewRespFill:'studio',viewRespList:'studio',viewRespView:'studio',viewPlanilha:'studio',viewRelatorios:'studio',viewBackup:'dados',viewSync:'dados',viewTheme:'dados',viewOtim:'dados',viewSistema:'dados',viewUso:'dados',viewUsuario:'dados'};
+for(const id in dono){const el=document.getElementById(id);if(el&&!el.classList.contains('hidden')&&state.mode!==dono[id])el.classList.add('hidden');}
+const dd={viewBackup:'backup',viewSync:'sync',viewTheme:'theme',viewOtim:'otim',viewSistema:'sistema',viewUso:'uso',viewUsuario:'usuario'};
+for(const id in dd){const el=document.getElementById(id);if(el&&!el.classList.contains('hidden')&&!(state.mode==='dados'&&state.dsub===dd[id]))el.classList.add('hidden');}
+const st={viewDocs:'docs',viewDocEd:'doc',viewForms:'forms',viewFormEd:'formEd',viewRespFill:'respFill',viewRespList:'respList',viewRespView:'respView',viewPlanilha:'planilha',viewRelatorios:'relatorios'};
+for(const id in st){const el=document.getElementById(id);if(el&&!el.classList.contains('hidden')&&!(state.mode==='studio'&&state.sview===st[id]))el.classList.add('hidden');}}
 function renderApp(){
 const studio=state.mode==='studio',catalogo=state.mode==='catalogo',equipe=state.mode==='equipe',dados=state.mode==='dados',clients=state.mode==='clients';
 const anyStudio=studio||catalogo;
@@ -2937,41 +2951,41 @@ if(dados){
 document.querySelectorAll('#navGestao .navbtn,#navStudio .navbtn,#navCatalogo .navbtn,#navEquipe .navbtn').forEach(b=>b.classList.remove('active'));
 document.querySelectorAll('#navDados .navbtn').forEach(b=>b.classList.toggle('active',b.dataset.dsub===state.dsub));
 $('viewTitle').textContent=state.dsub==='uso'?'Dados · Uso':state.dsub==='backup'?'Dados · Backup':(state.dsub==='sync'?'Dados · Sincronização':(state.dsub==='otim'?'Dados · Otimização':(state.dsub==='sistema'?'Dados · Sistema':(state.dsub==='usuario'?'Dados · Usuário':'Dados · Aparência'))));
-if(state.dsub==='backup'){renderBackupSummary();renderBkpList();}
+try{if(state.dsub==='backup'){renderBackupSummary();renderBkpList();}
 if(state.dsub==='sync')paintSyncPanel();
 if(state.dsub==='otim')applyPerf(currentPerf());
 if(state.dsub==='sistema')paintZoom();
 if(state.dsub==='uso')renderUso();
-if(state.dsub==='usuario')renderUsuDados();
-updateBack();return;}
+if(state.dsub==='usuario')renderUsuDados();}catch(e){console.warn('dados:',e);}
+isolamentoAreas();updateBack();return;}
 if(catalogo){
 document.querySelectorAll('#navGestao .navbtn,#navDados .navbtn,#navEquipe .navbtn,#navStudio .navbtn').forEach(b=>b.classList.remove('active'));
 document.querySelectorAll('#navCatalogo .navbtn').forEach(b=>b.classList.add('active'));
 $('viewTitle').textContent=computeTitle();
 if(state.catEd)renderCatEd();else renderCat();
-updateBack();return;}
+isolamentoAreas();updateBack();return;}
 if(studio){
 document.querySelectorAll('#navGestao .navbtn,#navDados .navbtn,#navEquipe .navbtn,#navCatalogo .navbtn').forEach(b=>b.classList.remove('active'));
 const docsAct=state.sview==='docs'||state.sview==='doc';
 document.querySelectorAll('#navStudio .navbtn').forEach(b=>{const sv=b.dataset.sview;
 b.classList.toggle('active',state.sview==='relatorios'?(sv==='relatorios'):(sv!=='relatorios'&&(sv===state.sview||(sv==='docs'&&state.sview==='doc'))));});
 $('viewTitle').textContent=computeTitle();
-if(state.sview==='docs')renderDocs();else if(state.sview==='forms')renderForms();else if(state.sview==='formEd')renderFormEd();else if(state.sview==='respFill')renderRespFill();else if(state.sview==='respList')renderRespList();else if(state.sview==='respView')renderRespView();else if(state.sview==='planilha')renderPlanilha();else if(state.sview!=='relatorios')renderDocEd();
-updateBack();return;}
+try{if(state.sview==='docs')renderDocs();else if(state.sview==='forms')renderForms();else if(state.sview==='formEd')renderFormEd();else if(state.sview==='respFill')renderRespFill();else if(state.sview==='respList')renderRespList();else if(state.sview==='respView')renderRespView();else if(state.sview==='planilha')renderPlanilha();else if(state.sview!=='relatorios')renderDocEd();}catch(e){console.warn('studio:',e);const mapa={docs:'viewDocs',doc:'viewDocEd',forms:'viewForms',formEd:'viewFormEd',respFill:'viewRespFill',respList:'viewRespList',respView:'viewRespView',planilha:'viewPlanilha',relatorios:'viewRelatorios'};const vx=document.getElementById(mapa[state.sview]||'');if(vx)vx.innerHTML='<p class="fempty">Não foi possível abrir esta tela — volte e abra de novo.</p>';}
+isolamentoAreas();updateBack();return;}
 if(equipe){
 document.querySelectorAll('#navGestao .navbtn,#navDados .navbtn,#navStudio .navbtn,#navCatalogo .navbtn,#navClients .navbtn').forEach(b=>b.classList.remove('active'));
 document.querySelectorAll('#navEquipe .navbtn').forEach(b=>b.classList.toggle('active',b.dataset.esub===(state.esub||'home')));
 if($('eqHome'))$('eqHome').classList.toggle('hidden',state.esub==='msgs'||state.esub==='usuarios');
 if($('eqMsgs'))$('eqMsgs').classList.toggle('hidden',state.esub!=='msgs');
 $('viewUsuarios').classList.toggle('hidden',!(state.view==='equipe'&&state.esub==='usuarios'));
-if(state.esub==='usuarios')renderEqUsu();
+if(state.esub==='usuarios'){try{renderEqUsu();}catch(e){console.warn('eqUsu:',e);const el=document.getElementById('eqUsuList');if(el)el.innerHTML='<p class=\"fempty\">Não foi possível carregar os usuários agora — volte e abra de novo.</p>';}}
 if(state.esub==='msgs')$('viewTitle').textContent='Equipe · Mensagens';else $('viewTitle').textContent='Equipe';
 if(state.esub==='msgs')renderEqMsgs();
-updateBack();return;}
+isolamentoAreas();updateBack();return;}
 if(clients){
 document.querySelectorAll('#navGestao .navbtn,#navDados .navbtn,#navStudio .navbtn,#navCatalogo .navbtn,#navEquipe .navbtn').forEach(b=>b.classList.remove('active'));
 document.querySelectorAll('#navClients .navbtn').forEach(b=>b.classList.add('active'));
-$('viewTitle').textContent='Fênix Clients';renderClientsList();updateBack();return;}
+$('viewTitle').textContent='Fênix Clients';renderClientsList();isolamentoAreas();updateBack();return;}
 VIEWS.forEach(x=>$('view'+cap(x)).classList.toggle('hidden',state.view!==x));
 $('viewCliente').classList.toggle('hidden',state.view!=='cliente'||state.sub==='docEd');
 document.querySelectorAll('#navGestao .navbtn').forEach(b=>b.classList.toggle('active',b.dataset.view===(state.view==='cliente'?'clientes':state.view)));
@@ -2984,7 +2998,7 @@ else if(state.view==='inicio')renderStats();
 else if(state.view==='cliente'){
 if(state.sub==='docEd'){$('viewCliente').classList.add('hidden');$('viewDocEd').classList.remove('hidden');renderDocEd();}
 else renderCliente();}
-updateBack();}
+isolamentoAreas();updateBack();}
 function showView(v){navStack=[];Object.assign(state,{view:v,sub:'perfil',pacoteId:null,psub:'menu',openSes:null,openAv:null});renderApp();closeSide();}
 function showDados(v){navStack=[];Object.assign(state,{dsub:v});renderApp();closeSide();}
 function openClient(id){navigate(()=>{state.view='cliente';state.clientId=id;state.sub='perfil';state.pacoteId=null;state.psub='menu';state.openAv=null;filters.cli=emptyF();});}
@@ -4859,6 +4873,19 @@ if(!usuLimpaArma){usuLimpaArma=true;$('usuLimparTodos').textContent='Toque de no
 usuLimpaArma=false;$('usuLimparTodos').textContent='Remover todos…';
 setUsu([]);try{localStorage.removeItem('fenix_user_ativo');}catch(e){}
 renderUsuDados();usuDadosMsg('Todos os usuários removidos (a clínica continua) — cada pessoa cadastra o dela ao entrar.','ok');});
+if($('eqUsuAdd'))$('eqUsuAdd').addEventListener('click',()=>{
+const nome=String($('eqUsuNome').value||'').trim(),senha=String($('eqUsuSenha').value||'');
+if(nome.length<2)return msg($('eqUsuMsg'),'Dê um nome ao usuário (mín. 2 letras).','err');
+if(senha.length<4)return msg($('eqUsuMsg'),'A senha precisa ter pelo menos 4 caracteres.','err');
+if(getUsu().some(u=>String(u.nome||'').toLowerCase()===nome.toLowerCase()))return msg($('eqUsuMsg'),'Já existe usuário com esse nome — cada pessoa tem 1 usuário só.','err');
+const u={id:uid(),nome,senha:senha?encSenha(nome,senha):''};setUsu(getUsu().concat([u]));
+$('eqUsuNome').value='';$('eqUsuSenha').value='';
+renderEqUsu();msg($('eqUsuMsg'),'✔ '+nome+' cadastrado — entre com a senha dele na tela de usuário.','ok');});
+if($('eqUsuList'))$('eqUsuList').addEventListener('click',e=>{const b=e.target.closest('[data-eqsudel]');if(!b)return;
+const u=getUsu().find(x=>x.id===b.dataset.eqsudel);if(!u)return;
+setUsu(getUsu().filter(x=>x.id!==u.id));
+const at=ultUsu();if(at&&at.id===u.id){try{localStorage.removeItem('fenix_user_ativo');}catch(e){}}
+renderEqUsu();msg($('eqUsuMsg'),'Usuário removido — cada pessoa mantém 1 usuário.','ok');});
 $('btnTrocarSenha').addEventListener('click',async()=>{const a=$('senhaNova').value,b=$('senhaConf').value;
 if(a.length<6)return msg($('senhaMsg'),'A nova senha precisa de pelo menos 6 caracteres.','err');
 if(a!==b)return msg($('senhaMsg'),'As senhas não conferem.','err');
@@ -5487,7 +5514,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.25';
+const APP_VERSAO='1.6.26';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{
