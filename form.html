@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0d0d0c">
+<title>Formulário · Fênix Estética</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:radial-gradient(1100px 550px at 50% -10%,rgba(212,175,55,.12),transparent 60%),#0d0d0c;font-family:'Montserrat',system-ui,-apple-system,sans-serif;color:#f5f5f5;min-height:100vh}
+.wrap{max-width:640px;margin:0 auto;padding:22px 16px 60px}
+.brand{text-align:center;font-family:'Playfair Display',Georgia,serif;letter-spacing:.14em;font-size:1.05rem;margin-bottom:6px}
+.brand span{color:#d4af37}
+.clin{text-align:center;font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:#9a927e;margin-bottom:18px}
+.panel{background:linear-gradient(180deg,#141414,#0e0e0e);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:20px 18px}
+.pc-tt{font-family:'Playfair Display',Georgia,serif;font-size:1.18rem;display:flex;align-items:center;gap:9px}
+.pc-tt .dot{width:8px;height:8px;border-radius:50%;background:#d4af37;box-shadow:0 0 10px rgba(212,175,55,.8)}
+hr{border:0;height:1px;background:linear-gradient(90deg,rgba(212,175,55,.55),transparent);margin:12px 0 14px}
+.f-in{width:100%;background:#141414;border:1.5px solid rgba(212,175,55,.4);border-radius:12px;color:#f5f5f5;font:600 .92rem Montserrat;padding:12px 14px;outline:none}
+.f-in:focus{border-color:#d4af37}
+.qcard{margin-top:14px}
+.qhead{display:flex;gap:9px;align-items:flex-start;margin-bottom:7px}
+.qbadge{min-width:22px;height:22px;border-radius:7px;background:rgba(212,175,55,.15);color:#d4af37;font:700 .72rem Montserrat;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.qq{font:600 .9rem Montserrat;color:#e8e2d4}
+.reqmark{color:#d4af37}
+.qtext{width:100%;background:#141414;border:1.5px solid rgba(255,255,255,.18);border-radius:12px;color:#f5f5f5;font:400 .92rem Montserrat;padding:11px 13px;outline:none}
+.qtext:focus{border-color:rgba(212,175,55,.65)}
+select.qtext{appearance:none;background-image:linear-gradient(45deg,transparent 50%,#9a927e 50%),linear-gradient(135deg,#9a927e 50%,transparent 50%);background-position:calc(100% - 20px) 50%,calc(100% - 14px) 50%;background-size:6px 6px;background-repeat:no-repeat}
+textarea.ta{min-height:96px;resize:vertical}
+.fbtn{appearance:none;border:0;cursor:pointer;border-radius:12px;padding:13px 20px;font:700 .9rem Montserrat;display:inline-flex;align-items:center;gap:8px}
+.fbtn.gold{background:linear-gradient(135deg,#d4af37,#b8952e);color:#141414;width:100%;justify-content:center;margin-top:18px}
+.fbtn.gold:disabled{opacity:.55;cursor:default}
+.fbtn.ghost{background:none;border:1.5px solid rgba(212,175,55,.5);color:#f1d27a;margin-top:12px;width:100%;justify-content:center}
+.msg{font:600 .82rem Montserrat;margin-top:10px;min-height:18px;text-align:center}
+.msg.err{color:#ff9d9d}.msg.ok{color:#8dffb0}
+.fempty{color:#9a927e;font-size:.92rem;text-align:center;padding:24px 8px;line-height:1.5}
+.fempty b{color:#e8e2d4}
+.icw{width:22px;height:22px;vertical-align:-5px}
+.rodape{color:#6d6553;font-size:.68rem;text-align:center;margin-top:22px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">✦ FÊNIX <span>ESTÉTICA</span></div>
+  <div class="clin" id="fmClin"></div>
+  <div class="panel">
+    <div id="fmBody"><p class="fempty">Carregando o formulário…</p></div>
+    <div id="fmFoot" style="display:none">
+      <button class="fbtn gold" id="fmSend" type="button">Enviar resposta</button>
+      <button class="fbtn ghost" id="fmAgain" type="button" style="display:none">Responder de novo</button>
+    </div>
+    <p class="msg" id="fmMsg"></p>
+  </div>
+  <p class="rodape">Fênix Estética · formulário da sua clínica</p>
+</div>
+<script>
+(function(){
+var API='https://fenix-api.geniterapeuta12.workers.dev';
+var PUB={token:null,form:null};
+function getId(){
+ var m=String(location.search||'').match(/resp=([A-Za-z0-9_-]+)/);if(m)return m[1];
+ m=String(location.hash||'').match(/resp=([A-Za-z0-9_-]+)/);if(m)return m[1];
+ return null;}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function msg(t,tip){var el=document.getElementById('fmMsg');el.textContent=t||'';el.className='msg '+(tip||'');}
+function field(qq){
+ var n='data-fm-qid="'+esc(qq.id)+'" style="margin-top:2px"';
+ if(qq.tipo==='longo')return '<textarea class="qtext ta" '+n+' placeholder="Sua resposta"></textarea>';
+ if(qq.tipo==='sel')return '<select class="qtext" '+n+'><option value="">Selecione…</option>'+(qq.opcoes||[]).map(function(o){return '<option>'+esc(o)+'</option>';}).join('')+'</select>';
+ return '<input class="qtext" '+n+' placeholder="Sua resposta" autocomplete="off">';}
+function invalido(){document.getElementById('fmBody').innerHTML='<p class="fempty">🔗 <b>Link inválido ou desativado.</b><br>Confira o endereço ou peça um novo link à clínica.</p>';document.getElementById('fmFoot').style.display='none';}
+async function carregar(){
+ var body=document.getElementById('fmBody'),foot=document.getElementById('fmFoot');
+ foot.style.display='none';msg('');
+ body.innerHTML='<p class="fempty">Carregando o formulário…</p>';
+ try{
+  var r=await fetch(API+'/pub/form',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:PUB.token})});
+  var d=await r.json();
+  if(!r.ok||!d||d.erro||!d.id){invalido();return;}
+  PUB.form=d;
+  document.getElementById('fmClin').textContent='';
+  var qs=Array.isArray(d.estrutura)?d.estrutura:[];
+  var h='<div class="pc-tt"><span class="dot"></span>'+esc(d.titulo||'Formulário')+'</div>'+
+        (d.descr?'<p style="color:#9a927e;font-size:.82rem;margin-top:6px">'+esc(d.descr)+'</p>':'')+
+        '<input id="fmPessoa" class="f-in" type="text" placeholder="Seu nome *" style="margin-top:16px" autocomplete="off">';
+  h+=qs.length?qs.map(function(qq,i){return '<div class="qcard"><div class="qhead"><span class="qbadge">'+(i+1)+'</span><span class="qq">'+esc(qq.texto||'')+(qq.obr?' <b class="reqmark">*</b>':'')+'</span></div>'+field(qq)+'</div>';}).join(''):'<p class="fempty">Este formulário não tem perguntas.</p>';
+  body.innerHTML=h;
+  if(qs.length)foot.style.display='block';
+ }catch(e){
+  body.innerHTML='<p class="fempty"><b>Sem conexão agora.</b><br>Verifique a internet e recarregue a página.</p>';
+ }}
+document.getElementById('fmSend').addEventListener('click',async function(){
+ var f=PUB.form;if(!f)return;
+ var pessoa=(document.getElementById('fmPessoa')||{}).value||'';
+ pessoa=pessoa.trim();
+ if(pessoa.length<2)return msg('Digite seu nome.','err');
+ var qs=Array.isArray(f.estrutura)?f.estrutura:[],vals=[];
+ for(var i=0;i<qs.length;i++){
+  var inp=document.querySelector('[data-fm-qid="'+qs[i].id+'"]');
+  var v=inp?String(inp.value).trim():'';
+  if(qs[i].obr&&!v){if(inp)inp.focus();return msg('A pergunta '+(i+1)+' é obrigatória.','err');}
+  if(v)vals.push({qid:qs[i].id,valor:v});}
+ if(!vals.length)return msg('Responda pelo menos uma pergunta.','err');
+ var bt=document.getElementById('fmSend');bt.disabled=true;msg('⏳ Enviando…','');
+ try{
+  var r=await fetch(API+'/pub/resp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:PUB.token,pessoa:pessoa,vals:vals})});
+  if(r.status===409){bt.disabled=false;return msg('Ops — "'+pessoa+'" já respondeu este formulário. Cada pessoa responde uma vez só.','err');}
+  if(!r.ok){var dd={};try{dd=await r.json();}catch(e2){}
+   bt.disabled=false;return msg('Não foi possível enviar: '+(dd.message||'erro de conexão'),'err');}
+  document.getElementById('fmBody').innerHTML='<p class="fempty">✔ <b style="font-size:1.05rem">Resposta enviada!</b><br>Obrigado, '+esc(pessoa)+'.</p>';
+  document.getElementById('fmFoot').style.display='block';
+  document.getElementById('fmAgain').style.display='flex';
+  bt.style.display='none';msg('','');
+ }catch(e){bt.disabled=false;msg('Não foi possível enviar: erro de conexão','err');}});
+document.getElementById('fmAgain').addEventListener('click',function(){
+ document.getElementById('fmAgain').style.display='none';
+ var bt=document.getElementById('fmSend');bt.style.display='inline-flex';bt.disabled=false;
+ carregar();});
+var tk=getId();
+if(!tk){document.getElementById('fmBody').innerHTML='<p class="fempty"><b>Link incompleto.</b><br>Peça à clínica o seu link completo do formulário.</p>';}
+else{PUB.token=tk;carregar();}
+})();
+</script>
+</body>
+</html>

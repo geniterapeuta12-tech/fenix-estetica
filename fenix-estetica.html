@@ -2907,8 +2907,10 @@ if($('eqUsuCount'))$('eqUsuCount').textContent=us.length+' usuário(s) neste apa
 ul.innerHTML=us.length?us.map(u=>'<li class="fileitem"><span class="avatar file">'+esc(String(u.nome||'?').charAt(0).toUpperCase())+'</span><div class="cinfo"><strong>'+esc(u.nome||'usuário')+'</strong><small>'+(at&&u.id===at.id?'em uso agora':'usuário da clínica')+'</small></div><button class="iconbtn del" data-eqsudel="'+esc(u.id)+'" title="Remover usuário"><svg class="ic"><use href="#i-trash"/></svg></button></li>').join(''):'<p class="fempty">Nenhum usuário neste aparelho — cadastre o primeiro abaixo.</p>';}
 function isolamentoAreas(){
 /* R41 — isolamento total: uma tela só fica visível na SUA área. De uma vez por todas. */
-const dono={viewInicio:'inicio',viewClientes:'clientes',viewCliente:'clientes',viewIA:'clientes',viewAgenda:'agenda',viewFinanceiro:'financeiro',viewArquivos:'arquivos',viewExtras:'extras',viewEquipe:'equipe',viewUsuarios:'equipe',viewCatalogo:'catalogo',viewClients:'clients',viewDocs:'studio',viewDocEd:'studio',viewForms:'studio',viewFormEd:'studio',viewRespFill:'studio',viewRespList:'studio',viewRespView:'studio',viewPlanilha:'studio',viewRelatorios:'studio',viewBackup:'dados',viewSync:'dados',viewTheme:'dados',viewOtim:'dados',viewSistema:'dados',viewUso:'dados',viewUsuario:'dados'};
-for(const id in dono){const el=document.getElementById(id);if(el&&!el.classList.contains('hidden')&&state.mode!==dono[id])el.classList.add('hidden');}
+const dono={viewInicio:'gestao',viewClientes:'gestao',viewCliente:'gestao',viewIA:'gestao',viewAgenda:'gestao',viewFinanceiro:'gestao',viewArquivos:'gestao',viewExtras:'gestao',viewEquipe:'equipe',viewUsuarios:'equipe',viewCatalogo:'catalogo',viewClients:'clients',viewDocs:'studio',viewDocEd:'studio',viewForms:'studio',viewFormEd:'studio',viewRespFill:'studio',viewRespList:'studio',viewRespView:'studio',viewPlanilha:'studio',viewRelatorios:'studio',viewBackup:'dados',viewSync:'dados',viewTheme:'dados',viewOtim:'dados',viewSistema:'dados',viewUso:'dados',viewUsuario:'dados'};
+for(const id in dono){const el=document.getElementById(id);if(!el||el.classList.contains('hidden'))continue;
+const ok=(id==='viewExtras')?(state.mode==='gestao'||state.mode==='extras'):(state.mode===dono[id]);
+if(!ok)el.classList.add('hidden');}
 const dd={viewBackup:'backup',viewSync:'sync',viewTheme:'theme',viewOtim:'otim',viewSistema:'sistema',viewUso:'uso',viewUsuario:'usuario'};
 for(const id in dd){const el=document.getElementById(id);if(el&&!el.classList.contains('hidden')&&!(state.mode==='dados'&&state.dsub===dd[id]))el.classList.add('hidden');}
 const st={viewDocs:'docs',viewDocEd:'doc',viewForms:'forms',viewFormEd:'formEd',viewRespFill:'respFill',viewRespList:'respList',viewRespView:'respView',viewPlanilha:'planilha',viewRelatorios:'relatorios'};
@@ -3662,7 +3664,8 @@ let linkFormId=null;
 function appBaseHref(){ /* R22: no EXE (file://) os links saem SEMPRE https oficiais */
 try{if(location.protocol==='file:')return 'https://geniterapeuta12-tech.github.io/fenix-estetica/index.html';}catch(e){}
 return String(location.href||'').split('#')[0].split('?')[0];}
-function linkOf(f){return appBaseHref()+'#resp='+(f&&f.token||'');}
+function linkOf(f){ /* R42: link público = página própria do formulário (NÃO o app) */
+return 'https://geniterapeuta12-tech.github.io/fenix-estetica/form.html?resp='+(f&&f.token||'');}
 function pubTokenFromUrl(x){try{const m=String(x||'').match(/resp=([A-Za-z0-9_-]+)/);
 return m?m[1].replace(/[.,;)\]}>'” ]+$/,''):null;}catch(e){return null;}}
 $('btnLink').addEventListener('click',()=>{const f=formById(state.respForm);if(!f)return;
@@ -3725,10 +3728,10 @@ $('pubHead').innerHTML='<div class="pc-tt"><h3>Carregando formulário…</h3></d
 $('pubQs').innerHTML='';$('pubFoot').classList.add('hidden');$('pubAgain').classList.add('hidden');
 $('btnPubSend').disabled=false;pubMsg('','');
 PUB={token,form:null};
-const q=await SB.from('formularios').select('id,clinic_id,titulo,descr,estrutura').eq('link_token',token).maybeSingle();
-if(q.error)throw q.error;
-if(!q.data){$('pubHead').innerHTML='<div class="fempty" style="padding:10px 0"><svg class="ic"><use href="#i-form"/></svg><br><b>Link inválido ou desativado.</b><br>Confira o endereço ou peça um novo link à clínica.</div>';return;}
-const f=q.data;PUB.form=f;
+const rr=await fetch(NUVEM_URL.replace(/\/$/,'')+'/pub/form',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:token})});
+const pd=await rr.json();
+if(!rr.ok||!pd||pd.erro||!pd.id){$('pubHead').innerHTML='<div class="fempty" style="padding:10px 0"><svg class="ic"><use href="#i-form"/></svg><br><b>Link inválido ou desativado.</b><br>Confira o endereço ou peça um novo link à clínica.</div>';return;}
+const f=pd;PUB.form=f;
 const qs=jsonArr(f.estrutura);
 $('pubHead').innerHTML='<div class="pc-tt"><h3>'+esc(f.titulo||'Formulário')+'</h3><p class="sub">'+(f.descr?esc(f.descr):(qs.length+' pergunta(s) — preencha abaixo.'))+'</p></div>'+
 '<input id="pubPessoa" class="f-in" type="text" placeholder="Seu nome *" style="margin-top:16px" autocomplete="off">';
@@ -3756,8 +3759,9 @@ if(qs[i].obr&&!v){if(inp)inp.focus();return pubMsg('A pergunta '+(i+1)+' é obri
 if(v)vals.push({qid:qs[i].id,valor:v});}
 if(!vals.length)return pubMsg('Responda pelo menos uma pergunta.','err');
 $('btnPubSend').disabled=true;pubMsg('⏳ Enviando…','');
-try{const q=await SB.from('formulario_respostas').insert({id:uid(),clinic_id:f.clinic_id,formulario_id:f.id,pessoa,respostas:vals,criado_em:nowLabel(),ts:Date.now()});
-if(q.error)throw q.error;
+try{const q=await fetch(NUVEM_URL.replace(/\/$/,'')+'/pub/resp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:PUB.token,pessoa:pessoa,vals:vals})});
+if(!q.ok){const e2={message:''};try{const jj=await q.json();e2.message=jj.message||'';}catch(e3){}
+if(String(e2.message).includes('já respondeu')){const ee=new Error('já respondeu');throw ee;}throw e2;}
 $('pubQs').innerHTML='<div class="fempty" style="padding:16px 0"><svg class="ic"><use href="#i-check"/></svg><br><b style="font-size:1.05rem">Resposta enviada!</b><br>Obrigado, '+esc(pessoa)+'.</div>';
 $('pubFoot').classList.add('hidden');$('pubAgain').classList.remove('hidden');pubMsg('','');}
 catch(e){console.warn('pub send:',e);$('btnPubSend').disabled=false;
@@ -5514,7 +5518,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.26';
+const APP_VERSAO='1.6.27';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{
@@ -5568,9 +5572,10 @@ $('updDepois').onclick=()=>{try{localStorage.setItem('fenix_upd_depois',String(D
 $('updAgora').onclick=()=>{try{localStorage.setItem('fenix_upd_visto',String((UPD||{}).versao||''));localStorage.removeItem('fenix_upd_depois');}catch(e){}try{location.reload();}catch(e){}};}
 
 /* ===== R34 — Planilhas: crie arquivos, entre e edite (salvo no aparelho) ===== */
-let PLNC={arq:[],sel:null};let PLNSEL=null;let PLNREN=null;const plnLetra=i=>i<26?String.fromCharCode(65+i):String.fromCharCode(64+((i/26)|0))+String.fromCharCode(65+i%26);
+let PLNC={arq:[],sel:null};let PLN_BOOT=0;let PLNSEL=null;let PLNREN=null;const plnLetra=i=>i<26?String.fromCharCode(65+i):String.fromCharCode(64+((i/26)|0))+String.fromCharCode(65+i%26);
 function plnCarrega(){try{PLNC=JSON.parse(localStorage.getItem('fenix_pln2')||'null');}catch(e){PLNC=null;}
 if(!PLNC||!Array.isArray(PLNC.arq))PLNC={arq:[]};
+if(!PLN_BOOT){PLN_BOOT=1;PLNC.sel=null;} /* R42: o app SEMPRE abre a Planilha na lista de arquivos */
 if(!PLNC.arq.length){try{const velho=JSON.parse(localStorage.getItem('fenix_pln')||'null');
 if(velho&&Array.isArray(velho.cols))PLNC.arq.push({nome:'Planilha 1',cols:velho.cols,rows:velho.rows||[['']]});else PLNC.arq.push({nome:'Planilha 1',cols:['Item','Valor','Obs'],rows:[['','','']]});}catch(e){PLNC.arq.push({nome:'Planilha 1',cols:['Item','Valor','Obs'],rows:[['','','']]});}}
 if(PLNC.sel&&!PLNC.arq.some(x=>x.nome===PLNC.sel))PLNC.sel=null;

@@ -1,10 +1,11 @@
 {
-  "versao": "1.6.26",
-  "r": "R41",
+  "versao": "1.6.27",
+  "r": "R42",
   "melhorias": [
-    "CORREÇÃO de uma vez por todas: tela da Equipe›Usuários estava quebrada (função interna apagada) e deixava conteúdo de outra área na tela — recriada, com cadastro e remoção de usuários nela",
-    "Isolamento total de áreas: um mecanismo permanente garante que nenhuma tela de uma área apareça em outra (auditadas as 38 combinações de navegação, inclusive sair da Equipe pra qualquer lugar)",
-    "Proteção extra: se qualquer tela falhar um dia, mostra aviso amigável — nunca mais conteúdo errado de outra área"
+    "CORREÇÃO urgente: o conteúdo da Gestão (Clientes, Agenda, Financeiro, Arquivos) não aparecia no computador e no celular — consertado (as telas voltaram a aparecer; só a navegação ficava)",
+    "Links de formulário agora abrem uma PÁGINA PRÓPRIA do formulário (só as perguntas, identidade da clínica) — não abre mais o aplicativo",
+    "Resposta pelo link funciona sem login (e chega na lista de respostas da clínica)",
+    "Planilha: abre na LISTA de arquivos (não entra mais direto num arquivo; sair volta pra lista)"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }
