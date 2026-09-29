@@ -1,15 +1,11 @@
 {
-  "versao": "1.6.34",
-  "r": "R49",
+  "versao": "1.6.35",
+  "r": "R50",
   "melhorias": [
-    "✅ PASTAS saiu do sistema: nem na Gestão nem como modo — a pedido",
-    "✅ ABAS simples na barra lateral: é só clicar no + pra salvar a tela atual como aba, clicar na aba pra voltar e no × pra tirar — a função DIVIDIR TELA saiu (por enquanto)",
-    "✅ Funções Extras agora tem a ROLETA como função — é só tocar no cartão pra abrir",
-    "✅ ROLETA DE NÚMEROS: dentro da roleta você escolhe Nomes ou Números — digita um por vez ou IMPORTA DE UM ARQUIVO .TXT e sorteia entre eles",
-    "✅ NOTIFICAÇÃO de mensagem: se alguém mandar mensagem da equipe e você estiver em outra área do app, o aviso aparece na hora — toque e a conversa abre",
-    "✅ Aparência › Posição das notificações: direita em cima (padrão), esquerda em cima, esquerda embaixo ou direita embaixo",
-    "✅ Personalizar Fênix Clients virou função própria e mais completa: abas + COR do app + MENSAGEM no topo (por cliente)",
-    "✅ Correções: letras invisíveis nas abas e a faixa de cor sólida que aparecia embaixo quando o zoom expandia a tela"
+    "✅ ABAS com janelinha bonita: o botão ⊞ na barra lateral abre TODAS as abas salvas — cartões com ícone, nome e caminho; toque pra abrir, lixeira pra tirar, e dá pra salvar a tela atual por lá também",
+    "✅ Duas cores novas de tema: ÁGUA (turquesa) e LAVANDA (roxo suave) — em Aparência › Cor do tema, combinando com claro e escuro",
+    "✅ CONCERTADO no celular: os botões de anexar/colocar arquivos agora FUNCIONAM — o app do celular ganhou seletor de arquivos nativo e pedido de permissão do Android (arquivos e notificações) na primeira abertura",
+    "✅ Notificações como aviso do SISTEMA: se a mensagem chegar com o app em segundo plano (ou escondido), vira notificação do aparelho/computador — e tem botão 🔔 Permitir em Aparência e em Dados › Permissões do aparelho"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }
