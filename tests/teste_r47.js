@@ -12,8 +12,8 @@ await new Promise(r=>{if(w.document.readyState==='complete')return r();w.addEven
 const d=w.document;
 w.eval("DB.cli=[{id:'c1',nome:'Ana Lima',acesso:true}];DB.form=[{id:'f1',titulo:'Anamnese Facial',descr:'',qs:[{id:'q1',tipo:'curto',texto:'Tem alergia?',obr:true},{id:'q2',tipo:'curto',texto:'Rotina de skincare',obr:false}],criadoEm:'',atualizadoEm:'',ts:1,token:''}];try{localStorage.setItem('fenix_user_ativo',JSON.stringify({id:'x',nome:'Fatima Dono'}))}catch(e){}document.getElementById('authScreen').classList.add('hidden');document.getElementById('appScreen').classList.remove('hidden');document.getElementById('splash').classList.add('hidden');");
 // —— remoção dash/plangest
-T('1. barra da Gestão com 6 botões (sem Dashboard/Planilha)', d.querySelectorAll('#navGestao .navbtn').length===6);
-T('2. Pastas CONTINUA na barra', !!d.querySelector('#navGestao [data-view="pastas"]'));
+T('1. barra da Gestão com 5 botões (sem Dashboard/Planilha/Pastas)', d.querySelectorAll('#navGestao .navbtn').length===5);
+T('2. Pastas removida da barra (R49)', !d.querySelector('#navGestao [data-view="pastas"]'));
 T('3. viewDash/viewPlangest não existem mais', !d.getElementById('viewDash')&&!d.getElementById('viewPlangest'));
 // —— anamnese na cliente
 w.eval("setMode('gestao');openClient('c1');openSub('anamnese');");
@@ -39,7 +39,7 @@ T('13. NÃO salva com nada marcado (erro orienta)', d.getElementById('persMsg').
 d.querySelector('.persChk[value="res"]').checked=true;
 d.querySelector('.persChk[value="pag"]').checked=true;
 d.getElementById('persSave').click();
-T('14. salva ctabs na cliente (res+pag)', w.eval(`(getCli()[0].ctabs||[]).join(',')`)==='res,pag');
+T('14. salva ctabs na cliente (res+pag)', (()=>{const s=w.eval("JSON.stringify((getCli()[0].ctabs||{}).abas||[])");return s==='["res","pag"]';})());
 // —— roleta (extras)
 w.eval("setMode('extras');");
 T('15. extras mostra botão Abrir Roleta', !!d.getElementById('rolOpen') && !d.getElementById('viewExtras').classList.contains('hidden'));

@@ -7,15 +7,16 @@
 <title>Fênix Clients</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
+:root{--acc:#d4af37}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{background:radial-gradient(1100px 550px at 50% -10%,rgba(212,175,55,.12),transparent 60%),#0d0d0c;font-family:'Montserrat',system-ui,-apple-system,sans-serif;color:#f5f5f5;min-height:100vh}
 /* ===== cabeçalho (fiel ao app da gestão) ===== */
 .fc-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 20px 10px;max-width:980px;margin:0 auto}
 .brand{font-family:'Playfair Display',Georgia,serif;letter-spacing:.14em;font-size:1.15rem;white-space:nowrap}
-.brand span{color:#d4af37}
+.brand span{color:var(--acc,#d4af37)}
 .quem{display:flex;align-items:center;gap:10px;background:rgba(212,175,55,.08);border:1px solid rgba(212,175,55,.35);border-radius:13px;padding:8px 12px;min-width:0}
-.quem .av{width:36px;height:36px;min-width:36px;border-radius:50%;background:linear-gradient(135deg,#d4af37,#7a5f14);color:#141414;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem}
+.quem .av{width:36px;height:36px;min-width:36px;border-radius:50%;background:linear-gradient(135deg,var(--acc,#d4af37),#7a5f14);color:#141414;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem}
 .quem b{font-size:.9rem;color:#fff;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:180px}
 .quem small{color:#9a927e;font-size:.66rem}
 .clinbar{max-width:980px;margin:0 auto;padding:0 20px 10px;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:#9a927e}
@@ -26,18 +27,18 @@ body{background:radial-gradient(1100px 550px at 50% -10%,rgba(212,175,55,.12),tr
 .tab{appearance:none;border:0;background:none;display:flex;align-items:center;gap:8px;padding:13px 15px;color:#cfc8b8;font:600 .84rem 'Montserrat',sans-serif;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
 .tab .ic{width:18px;height:18px;min-width:18px}
 .tab:hover{background:rgba(255,255,255,.05)}
-.tab.on{color:#f1d27a;border-bottom-color:#d4af37;background:rgba(212,175,55,.08)}
+.tab.on{color:#f1d27a;border-bottom-color:var(--acc,#d4af37);background:rgba(212,175,55,.08)}
 /* ===== conteúdo ===== */
 .wrap{max-width:980px;margin:0 auto;padding:16px 20px 60px}
 .panelcard{background:linear-gradient(180deg,#141414,#0e0e0e);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:20px 18px;margin:0 0 14px}
 .pc-tt{font-family:'Playfair Display',Georgia,serif;font-size:1.18rem;display:flex;align-items:center;gap:9px}
-.pc-tt .dot{width:8px;height:8px;border-radius:50%;background:#d4af37;box-shadow:0 0 10px rgba(212,175,55,.8)}
+.pc-tt .dot{width:8px;height:8px;border-radius:50%;background:var(--acc,#d4af37);box-shadow:0 0 10px rgba(212,175,55,.8)}
 hr.frule{border:0;height:1px;background:linear-gradient(90deg,rgba(212,175,55,.55),transparent);margin:12px 0 14px}
 .hero{text-align:center;padding:26px 18px}
 .hero .grande{font-family:'Playfair Display',Georgia,serif;font-size:1.5rem;margin-top:12px}
-.hero .grande span{color:#d4af37}
+.hero .grande span{color:var(--acc,#d4af37)}
 .prox{margin:16px auto 0;max-width:430px;background:rgba(212,175,55,.09);border:1px solid rgba(212,175,55,.4);border-radius:14px;padding:14px}
-.prox small{display:block;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:#d4af37;font-weight:700}
+.prox small{display:block;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--acc,#d4af37);font-weight:700}
 .prox b{font-size:1.05rem}
 .prox span{display:block;color:#9a927e;font-size:.8rem;margin-top:3px}
 table{width:100%;border-collapse:collapse}
@@ -49,7 +50,7 @@ tr:last-child td{border-bottom:0}
 .fsub{font-size:.8rem;color:#9a927e;margin-top:2px}
 .fempty{color:#9a927e;font-size:.9rem;margin:6px 0}
 .bar{height:8px;border-radius:99px;background:rgba(255,255,255,.09);overflow:hidden;min-width:110px}
-.bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#d4af37,#f1d27a)}
+.bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--acc,#d4af37),#f1d27a)}
 .pct{font-size:.72rem;color:#9a927e}
 .estado{text-align:center;padding:60px 20px;color:#9a927e}
 .estado b{color:#e8e2d4}
@@ -57,6 +58,7 @@ tr:last-child td{border-bottom:0}
 .fcpanel{display:none}.fcpanel.on{display:block}
 @media (max-width:640px){
 .fc-head{flex-wrap:wrap;padding:14px 12px 8px}
+.fcmsg{max-width:980px;margin:0 auto;padding:9px 13px;border:1px solid var(--acc,#d4af37);border-radius:12px;background:rgba(212,175,55,.08);color:#f3ecd8;font:600 .92rem Montserrat}
 .quem b{max-width:120px}
 .wrap{padding:14px 12px 50px}
 .tab{padding:12px 11px;font-size:.8rem}
@@ -114,14 +116,22 @@ function render(d){
  document.getElementById('fcAv').textContent=(d.cliente&&d.cliente.nome?d.cliente.nome.charAt(0):'?').toUpperCase();
  var nome=d.cliente&&d.cliente.nome?d.cliente.nome.split(' ')[0]:'';
  var pac=d.pacotes||[],prox=d.proximas||[],real=d.realizadas||[],pag=d.pagamentos||[];
- var perm=(function(){var t=d.cliente&&d.cliente.ctabs;var all=['res','pac','ses','pag','doc'];if(t&&t.length){var okk=all.filter(function(k){return t.indexOf(k)>=0;});if(okk.length)return okk;}return all;})();
+ var perm=(function(){var t=d.cliente&&d.cliente.ctabs;
+  if(typeof t==='string'&&t.length>1){try{t=JSON.parse(t);}catch(e){t=null;}}
+  if(t&&t.abas)t=t.abas;
+  var all=['res','pac','ses','pag','doc'];if(t&&t.length){var okk=all.filter(function(k){return t.indexOf(k)>=0;});if(okk.length)return okk;}return all;})();
+ var PERS=(function(){var p=d.cliente&&d.cliente.ctabs;
+  if(typeof p==='string'&&p.length>1){try{p=JSON.parse(p);}catch(e){p=null;}}
+  return (p&&!Array.isArray(p))?p:null;})();
  var P2=function(k,x){return perm.indexOf(k)>=0?x:'';};
+ if(PERS&&PERS.cor){document.documentElement.style.setProperty('--acc',String(PERS.cor).slice(0,20));}
+ if(PERS&&PERS.msg){var hmsg=document.querySelector('.fc-head');if(hmsg&&!document.getElementById('fcMsgTop')){var mdiv=document.createElement('div');mdiv.id='fcMsgTop';mdiv.className='fcmsg';mdiv.textContent=String(PERS.msg).slice(0,90);hmsg.parentNode.insertBefore(mdiv,hmsg.nextSibling);}}
  var contratado=0;pac.forEach(function(p){contratado+=Number(p.valor)||0;});
  var pago=Number(d.pago_total||0);var aberto=Math.max(0,contratado-pago);
  var h='';
  h+=P2('res','<div class="fcpanel on" id="f-res">'+
   sec('resc','Início',
-  '<div class="hero"><div style="font-size:2.4rem;color:#d4af37">✦</div>'+
+  '<div class="hero"><div style="font-size:2.4rem;color:var(--acc,#d4af37)">✦</div>'+
   '<div class="grande">Olá, '+esc(nome)+'<span>!</span></div>'+
   '<p class="fsub">Este é o seu espaço — aqui você acompanha tudo com a '+esc(clin)+'.</p>'+
   (prox.length?'<div class="prox"><small>Próxima sessão</small><b>'+dataBR(prox[0].data)+'</b><span>'+esc(prox[0].pacote||'Sessão')+(prox[0].num!=null?' · #'+prox[0].num:'')+'</span></div>':'<div class="prox"><small>Agenda</small><b>Nada agendado por enquanto</b><span>Fale com a clínica para agendar.</span></div>')+

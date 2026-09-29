@@ -40,41 +40,29 @@ w.eval("renderCliente()");
 T('10. bloco Catálogo da avulsa agora mostra a venda', d.getElementById('avList').textContent.includes('Catálogo (1)'));
 // ===== CLIENTE (fora do pacote) =====
 w.eval("openSub('catalogo')");
-T('11. aba Catálogo da cliente lista as 2 vendas com vínculos', d.getElementById('cliCatalogo')&&!d.getElementById('cliCatalogo').classList.contains('hidden') && d.getElementById('cliCatList').textContent.includes('Detox Gold') && d.getElementById('cliCatList').textContent.includes('sessão avulsa'));
-// ===== PASTAS vira MODO =====
-w.eval("setMode('pastas')");
-T('12. Pastas é MODO (nav da gestão some, view abre)', d.getElementById('navGestao').classList.contains('hidden') && !d.getElementById('viewPastas').classList.contains('hidden') && d.getElementById('viewTitle').textContent==='Pastas');
-T('13. seletor de modos inclui Pastas', w.eval(`Object.keys(MODES).includes('pastas')`));
-T('14. voltando pra gestão, pastas some (isolamento)', (()=>{w.eval("setMode('gestao')");return d.getElementById('viewPastas').classList.contains('hidden');})());
+T('11. aba Catálogo da cliente lista as 2 vendas com vínculos', d.getElementById('cliCatalogo')&&!d.getElementById('cliCatalogo').classList.contains('hidden') && d.getElementById('cliCatList').textContent.includes('Detox Gold') && d.getElementById('cliCatList').textContent.includes('sessão avulsa'));// ===== PASTAS REMOVIDA (R49) =====
+T('12. Pastas foi REMOVIDA (não é modo, sem view e sem botão)', (()=>{const r=w.eval("Object.keys(MODES).indexOf('pastas')<0 && !document.getElementById('viewPastas') && !document.querySelector('#navGestao [data-view=\\'pastas\\']')");return r===true;})());
+T('13. seletor de modos não tem Pastas (render ok)', (()=>{w.eval("renderModes()");return !d.querySelector('#modeList [data-mode="pastas"]');})());
+T('14. DIVIDIR TELA saiu (sem modal, sem painel, sem botões)', !d.getElementById('abasModal') && !d.getElementById('splitPane') && !d.getElementById('btnSplit') && !d.getElementById('btnAbaSalvar'));
 // ===== TERMOS =====
 w.eval("setMode('dados');showDados('termos')");
 T('15. Dados › Termos de uso abre (placeholder)', !d.getElementById('viewTermos').classList.contains('hidden') && d.getElementById('viewTitle').textContent==='Dados · Termos de uso');
-// ===== ABAS + DIVIDIR (desktop) =====
+// ===== ABAS SIMPLES (desktop) =====
 w.eval("setMode('gestao');showView('clientes')");
-T('16. botão Abas na sidebar (desktop)', !!d.getElementById('btnAbas') && !d.getElementById('abasBar').classList.contains('hidden'));
-d.getElementById('btnAbas').click();
-d.getElementById('btnAbaSalvar').click();
-T('17. salvar aba atual (prévia listada)', d.querySelectorAll('#abasList .aba-card').length===1 && d.getElementById('abasList').textContent.includes('Clientes'));
-d.getElementById('abasClose').click();
-w.eval("setMode('gestao');openClient('c1')");
-d.getElementById('btnAbas').click();
-d.getElementById('btnAbaSalvar').click();
-T('18. 2 abas salvas', d.querySelectorAll('#abasList .aba-card').length===2);
-d.getElementById('btnSplit').click();
-T('19. modo dividir ligado (dica + 0/2)', !d.getElementById('splitHint').classList.contains('hidden') && d.getElementById('splitCount').textContent==='0/2');
-d.querySelector('#abasList .aba-card').click();
-d.querySelectorAll('#abasList .aba-card')[1].click();
-T('20. DIVIDIU: painel da direita com a outra aba + zoom reduzido', !d.getElementById('splitPane').classList.contains('hidden') && d.getElementById('splitBody').innerHTML.length>500 && String(w.document.documentElement.style.zoom)!=='');
-d.getElementById('btnSplitSwap').click();
-T('21. swap troca a aba ao vivo', d.getElementById('splitTitleB').textContent.includes('Dividido'));
-d.getElementById('btnSplitExit').click();
-T('22. sair da divisão restaura zoom e fecha painel', d.getElementById('splitPane').classList.contains('hidden') && (w.document.documentElement.style.zoom===''||w.document.documentElement.style.zoom===null));
-// ===== ANDROID: sem Abas =====
+await new Promise(r=>setTimeout(r,300)); // binds diferidos da sidebar
+T('16. barra de Abas simples: chips + botão + (desktop)', !!d.getElementById('btnAbaAdd') && !!d.getElementById('abasChips') && !d.getElementById('abasBar').classList.contains('hidden'));
+d.getElementById('btnAbaAdd').click();
+T('17. + salva a tela atual como aba (chip com título)', d.querySelectorAll('#abasChips .aba-chip').length===1 && d.querySelector('#abasChips .aba-chip b').textContent.length>0);
+w.eval("setMode('studio')");
+d.querySelector('#abasChips .aba-chip').click();
+T('18. clicar na aba abre a tela salva', w.eval("state.mode")==='gestao');
+d.querySelector('#abasChips .aba-x').click();
+T('19. × remove a aba', d.querySelectorAll('#abasChips .aba-chip').length===0);
+// ===== CELULAR =====
 const domM=new JSDOM(html,{runScripts:'dangerously',pretendToBeVisual:true,url:'https://x/',beforeParse(x){Object.defineProperty(x.navigator,'userAgent',{value:'Mozilla/5.0 (Linux; Android 13; Pixel 7) Chrome/130 Mobile',configurable:true});}});
 await new Promise(r=>setTimeout(r,300));
 const wm=domM.window;
-await new Promise(r=>{if(wm.document.readyState==='complete')return r();wm.addEventListener('load',r);setTimeout(r,5000);});
-T('23. no CELULAR a barra de Abas não existe (escondida)', wm.document.getElementById('abasBar').classList.contains('hidden'));
-console.log(falhas?('FALHAS: '+falhas):'TUDO OK (23/23)');
+T('20. no CELULAR a barra de Abas não existe (escondida)', wm.document.getElementById('abasBar').classList.contains('hidden'));
+console.log(falhas?('FALHAS: '+falhas):'TUDO OK (20/20)');
 process.exit(falhas?1:0);
 })().catch(e=>{console.error('ERRO:',e.stack||e.message);process.exit(1);});

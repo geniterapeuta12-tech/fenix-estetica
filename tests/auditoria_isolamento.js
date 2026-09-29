@@ -27,8 +27,6 @@ const rotas=[
  ['inicio',          "setMode('inicio')",'viewInicio'],
  ['inicio·pacote',   "setMode('inicio');state.sub='pacote';state.pacoteId='p1';renderApp()",null],
  ['clientes',        "setMode('gestao');showView('clientes')",'viewClientes'],
- ['pastas',          "setMode('pastas')",'viewPastas'],
- ['pastas·dentro',   "setMode('pastas');state.pastaId='pf1';renderPastas()",'viewPastas'],
  ['extras·roleta',   "setMode('extras');state.extrasRoleta=true;renderApp()",'viewRoleta'],
  ['dados·termos',    "setMode('dados');showDados('termos')",'viewTermos'],
  ['cliente·perfil',  "setMode('gestao');openClient('c1')",'viewCliente'],

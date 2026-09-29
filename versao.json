@@ -1,13 +1,15 @@
 {
-  "versao": "1.6.33",
-  "r": "R48",
+  "versao": "1.6.34",
+  "r": "R49",
   "melhorias": [
-    "✅ CATÁLOGO nos pacotes: nos FUNÇÕES DO PACOTE entrou a função Catálogo — vende itens/produtos do catálogo ali dentro (tipo o financeiro, mas do catálogo) e a venda CAI NO FINANCEIRO normalmente",
-    "✅ CATÁLOGO dentro da cliente: aba nova com todas as vendas do catálogo dela — e você escolhe ONDE vincular: num pacote (aparece no pacote), numa sessão avulsa (aparece na avulsa) ou só na cliente",
-    "✅ Criar produto/procedimento NO ATOMENTO da venda (dentro da venda do catálogo tem o botão + Criar no catálogo)",
-    "✅ PASTAS agora é um MODO próprio (saiu de dentro da Gestão — aparece no seletor de modos)",
-    "✅ Dados › Termos de uso: espaço preparado para os textos oficiais que vamos criar depois",
-    "🖥️ ABAS estilo navegador + DIVIDIR TELA: no computador, a barra lateral ganhou Abas — salve telas, veja a prévia, abra de novo, e divida a tela em 2 abas escolhidas (com zoom ajustado; não existe no celular)"
+    "✅ PASTAS saiu do sistema: nem na Gestão nem como modo — a pedido",
+    "✅ ABAS simples na barra lateral: é só clicar no + pra salvar a tela atual como aba, clicar na aba pra voltar e no × pra tirar — a função DIVIDIR TELA saiu (por enquanto)",
+    "✅ Funções Extras agora tem a ROLETA como função — é só tocar no cartão pra abrir",
+    "✅ ROLETA DE NÚMEROS: dentro da roleta você escolhe Nomes ou Números — digita um por vez ou IMPORTA DE UM ARQUIVO .TXT e sorteia entre eles",
+    "✅ NOTIFICAÇÃO de mensagem: se alguém mandar mensagem da equipe e você estiver em outra área do app, o aviso aparece na hora — toque e a conversa abre",
+    "✅ Aparência › Posição das notificações: direita em cima (padrão), esquerda em cima, esquerda embaixo ou direita embaixo",
+    "✅ Personalizar Fênix Clients virou função própria e mais completa: abas + COR do app + MENSAGEM no topo (por cliente)",
+    "✅ Correções: letras invisíveis nas abas e a faixa de cor sólida que aparecia embaixo quando o zoom expandia a tela"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }
