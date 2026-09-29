@@ -786,34 +786,55 @@ html[data-theme="light"] .pstcard b{color:#2a2410}
 .rolchip{display:inline-flex;align-items:center;gap:6px;background:rgba(212,175,55,.08);border:1px solid rgba(212,175,55,.2);border-radius:999px;padding:4px 6px 4px 12px;margin:3px;font-size:.84rem;color:#f5efe0}
 html[data-theme="light"] .rolres,html[data-theme="light"] .rolchip{color:#2a2410}
 html[data-theme="light"] .rolhub{border-color:#fbf7ec}
-/* R51 — Abas: barra + popup com contraste garantido (claro e escuro) */
-.abasbar{display:flex;gap:10px;align-items:center;padding:8px 12px;border-top:1px solid var(--line)}
-.abaslbl{font:700 .66rem Montserrat;letter-spacing:.16em;text-transform:uppercase;color:#b9b09a!important}
-html[data-theme="light"] .abaslbl{color:#6d6553!important}
+/* R52 — Abas: barra + popup que seguem o tema (texto sempre var(--txt)) */
+.abasbar{display:flex;gap:9px;align-items:center;padding:8px 12px;border-top:1px solid var(--line)}
+.abaslbl{font:700 .62rem Montserrat;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)!important}
 .abaschips{display:flex;gap:7px;flex:1;overflow-x:auto;padding:2px 0}
-.aba-chip{display:inline-flex;gap:8px;align-items:center;padding:7px 8px 7px 14px;border:1px solid rgba(212,175,55,.5);border-radius:999px;background:rgba(212,175,55,.13);box-shadow:0 2px 8px rgba(0,0,0,.25);cursor:pointer;white-space:nowrap;transition:.15s}
-html[data-theme="light"] .aba-chip{background:rgba(180,140,30,.12);border-color:rgba(140,105,20,.5);box-shadow:0 2px 8px rgba(80,60,10,.12)}
-.aba-chip:hover{background:rgba(212,175,55,.24);border-color:var(--gold);transform:translateY(-1px)}
-.aba-chip b{color:#f7f2e3!important;font-weight:700;font-size:.8rem;letter-spacing:.02em}
-html[data-theme="light"] .aba-chip b{color:#241f13!important}
-.aba-x{border:0;background:rgba(212,175,55,.22);color:#f7f2e3!important;width:19px;height:19px;border-radius:50%;font-size:.85rem;cursor:pointer;padding:0;line-height:1;display:flex;align-items:center;justify-content:center}
-html[data-theme="light"] .aba-x{background:rgba(140,105,20,.18);color:#241f13!important}
+.aba-chip{display:inline-flex;gap:8px;align-items:center;padding:7px 8px 7px 14px;border:1px solid var(--line);border-radius:999px;background:rgba(212,175,55,.08);cursor:pointer;white-space:nowrap;transition:.15s}
+html[data-theme="light"] .aba-chip{background:rgba(180,140,30,.10)}
+.aba-chip:hover{border-color:var(--gold);background:rgba(212,175,55,.18)}
+.aba-chip b{color:var(--txt)!important;font-weight:700;font-size:.8rem}
+.aba-x{border:0;background:rgba(128,110,60,.16);color:var(--txt)!important;width:20px;height:20px;border-radius:50%;font-size:.85rem;cursor:pointer;padding:0;line-height:1;display:flex;align-items:center;justify-content:center;flex:none}
 .aba-x:hover{background:#c0392b!important;color:#fff!important}
-.aba-add{width:26px;height:26px;flex:none;border-radius:50%;border:1px solid var(--gold);background:rgba(212,175,55,.1);color:var(--gold);font:700 1.05rem Montserrat;cursor:pointer;line-height:1;padding:0}
-.aba-add:hover{background:rgba(212,175,55,.28)}
-.abas-todas{color:var(--gold)!important;border-color:rgba(212,175,55,.55)!important;font-size:.82rem;background:rgba(212,175,55,.08)}
-.abas-todas:hover{background:rgba(212,175,55,.22)!important;color:var(--gold)!important}
+.aba-add{width:26px;height:26px;flex:none;border-radius:50%;border:1px solid var(--gold);background:transparent;color:var(--gold);font:700 1.05rem Montserrat;cursor:pointer;line-height:1;padding:0}
+.aba-add:hover{background:rgba(212,175,55,.22)}
+.abas-todas{color:var(--gold)!important;border-color:var(--gold)!important;font-size:.82rem;background:transparent}
+.abas-todas:hover{background:rgba(212,175,55,.16)!important}
+/* popup: card próprio — fundo segue o tema, texto sempre var(--txt) */
+.abas-modal{background:linear-gradient(170deg,#211c10,#13110a)!important;border:1px solid rgba(212,175,55,.42)!important;border-radius:20px!important;padding:22px 22px 18px!important;max-width:600px!important;width:94vw!important;text-align:left!important;color:var(--txt)!important;overflow:auto}
+html[data-theme="light"] .abas-modal{background:#fffdf6!important;border-color:rgba(140,105,20,.4)!important;box-shadow:0 30px 90px rgba(90,70,20,.30)}
+.abas-modal h3,.abas-modal h4,.abas-modal b,.abas-modal strong,.abas-modal label{color:var(--txt)!important}
+.abas-modal .sub,.abas-modal small{color:var(--muted)!important}
+.abas-modal .pc-tt{display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
 .abas-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
 @media(max-width:520px){.abas-grid{grid-template-columns:1fr}}
-.abas-card{display:flex;gap:11px;align-items:center;padding:13px;border:1px solid rgba(212,175,55,.35);border-radius:14px;background:rgba(212,175,55,.09);cursor:pointer;transition:.15s;text-align:left}
-.abas-card:hover{border-color:var(--gold);background:rgba(212,175,55,.18);box-shadow:0 8px 24px rgba(0,0,0,.35)}
-.abas-ico{width:40px;height:40px;min-width:40px;border-radius:12px;background:linear-gradient(135deg,rgba(212,175,55,.32),rgba(212,175,55,.14));border:1px solid rgba(212,175,55,.35);display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+.abas-card{display:flex;gap:11px;align-items:center;padding:13px;border:1px solid var(--line);border-radius:14px;background:rgba(212,175,55,.06);cursor:pointer;transition:.15s;text-align:left}
+.abas-card:hover{border-color:var(--gold);background:rgba(212,175,55,.14)}
+html[data-theme="light"] .abas-card{background:rgba(180,140,30,.07)}
+.abas-ico{width:40px;height:40px;min-width:40px;border-radius:12px;background:linear-gradient(135deg,rgba(212,175,55,.30),rgba(212,175,55,.12));border:1px solid rgba(212,175,55,.35);display:flex;align-items:center;justify-content:center;font-size:1.2rem}
 .abas-meta{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
-.abas-meta b{color:#f7f2e3!important;font-size:.93rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.abas-meta small{color:#b9b09a!important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.abas-del{border:0;background:transparent;color:#b9b09a!important;cursor:pointer;padding:4px;line-height:1}
+.abas-meta b{color:var(--txt)!important;font-size:.93rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.abas-meta small{color:var(--muted)!important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.abas-del{border:0;background:transparent;color:var(--muted)!important;cursor:pointer;padding:4px;line-height:1}
 .abas-del:hover{color:#ff6b6b!important}
-#abasVazio2.fempty{color:#b9b09a!important}
+#abasVazio2.fempty{color:var(--muted)!important}
+/* R52 — accordions de Termos e Ajuda */
+.faq{border:1px solid var(--line);border-radius:12px;margin:8px 0;background:rgba(212,175,55,.04);overflow:hidden}
+.faq summary{cursor:pointer;padding:12px 14px;font:600 .92rem Montserrat;color:var(--txt)!important;list-style:none;display:flex;gap:9px;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::before{content:'▸';color:var(--gold);font-weight:700;flex:none}
+.faq[open] summary::before{content:'▾'}
+.faq .faqb{padding:0 14px 12px;color:var(--txt)!important}
+.faq .faqb p{margin:6px 0;font-size:.9rem;color:var(--txt)!important}
+.faq .faqb p b{color:var(--txt)}
+.ajuda-grp{margin:18px 0 6px}
+.ajuda-grp h3{margin:0 0 2px;color:var(--txt)!important}
+.tsub{border-radius:12px!important}
+.tsub .mico{font-size:1.05rem}
+.grprow{display:flex;gap:8px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin:6px 0}
+.grprow b{color:var(--txt)!important;font-size:.9rem}
+.grprow small{flex:1;min-width:0;color:var(--muted)!important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tgquem{display:block;font-size:.72rem;color:var(--gold);margin-bottom:2px}
 @media(max-width:900px){#abasBar{display:none!important}}
 /* R49 — Funções extras como cartões */
 .fng{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:14px}
@@ -1167,12 +1188,13 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <button class="navbtn" data-dsub="otim"><svg class="ic"><use href="#i-bolt"/></svg>Otimização</button>
 <button class="navbtn" data-dsub="sistema"><svg class="ic"><use href="#i-search"/></svg>Sistema</button>
 <button class="navbtn" data-dsub="usuario"><svg class="ic"><use href="#i-id"/></svg>Usuário</button>
+<button class="navbtn" data-dsub="ajuda"><svg class="ic"><use href="#i-bolt"/></svg>Central de ajuda</button>
 <button class="navbtn" data-dsub="termos"><svg class="ic"><use href="#i-doc"/></svg>Termos de uso</button>
 </nav>
 <div class="abasbar" id="abasBar"><span class="abaslbl">Abas</span><div class="abaschips" id="abasChips"></div><button class="aba-add" id="btnAbaAdd" type="button" title="Salvar esta tela como aba">+</button><button class="aba-add abas-todas" id="btnAbasTodas" type="button" title="Ver todas as abas">⊞</button></div>
 
 <div class="pmodal hidden" id="abasModal2">
-<div class="pmodal-card pmcard" style="max-width:560px;width:94vw;max-height:86vh;overflow:auto">
+<div class="pmodal-card abas-modal">
 <div class="sec-head"><div class="pc-tt"><h3 style="margin:0">Todas as abas</h3><p class="sub" style="margin:2px 0 0">Toque numa aba para abrir — ou tire com a lixeira.</p></div>
 <span class="badge b-gold" id="abasCount2">0</span></div>
 <div class="abas-grid" id="abasGrid2"></div>
@@ -1452,6 +1474,7 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <div id="eqMsgs" class="hidden">
 <div class="chatwrap" id="chatWrap">
 <aside class="chatside">
+<div style="display:flex;gap:8px;align-items:center;margin:12px 12px 0"><button class="btn small gold" id="btnGrpNovo" type="button">＋ Grupo</button><small class="sub">grupos de até 5 pessoas</small></div>
 <div class="chatsearch"><svg viewBox="0 0 24 24"><path d="M10 2a8 8 0 105.3 14l5.4 5.4 1.4-1.4-5.4-5.4A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z"/></svg><input id="tgBusca" placeholder="Pesquisar pessoa…" autocomplete="off"></div>
 <ul class="chatlist tglist" id="tgList"></ul>
 <div class="chatfoot">🔒 Mensagens e arquivos somem em 24h · atualiza a cada 5s</div>
@@ -1487,12 +1510,173 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 
 
 <section id="viewTermos" class="view hidden">
-<div class="panelcard"><h3>Termos de uso e Política de privacidade</h3>
-<p class="sub" style="max-width:520px">Espaço reservado — os textos oficiais vão ser criados e colocados aqui depois. Quando existirem, aparecem nesta tela.</p>
-<span class="badge b-gold" style="display:inline-block;margin-top:12px">✦ Em preparo</span>
+<div class="panelcard">
+<div class="sec-head"><div class="pc-tt"><h3>Termos de uso e políticas</h3><p class="sub">Documentos oficiais do Fênix Estética — vale para o app da clínica, do celular e do Fênix Clients.</p></div>
+<span class="badge b-gold">atualizado em 29/09/2026</span></div>
+<div class="opt2" style="margin-top:12px">
+<button class="mode-opt tsub current" data-tdoc="0" type="button"><span class="mico">📜</span><div class="cinfo"><strong>Termos de Uso</strong><small>Regras para usar o app</small></div></button>
+<button class="mode-opt tsub" data-tdoc="1" type="button"><span class="mico">🔒</span><div class="cinfo"><strong>Política de Privacidade</strong><small>Seus dados, LGPD e segurança</small></div></button>
+<button class="mode-opt tsub" data-tdoc="2" type="button"><span class="mico">🗂</span><div class="cinfo"><strong>Arquivos, Mensagens e Backup</strong><small>24 horas, limites e cópias</small></div></button>
+<button class="mode-opt tsub" data-tdoc="3" type="button"><span class="mico">💛</span><div class="cinfo"><strong>Fênix Clients</strong><small>Termos do app da cliente</small></div></button>
+</div>
+</div>
+
+<div class="panelcard tdoc" id="tdoc-0">
+<h3>Termos de Uso — Fênix Estética</h3>
+<p class="sub">Estes termos regulam o uso do aplicativo Fênix Estética (versões de navegador, Windows e Android) e do Fênix Clients. Ao criar a conta da clínica ou entrar no app, você concorda com tudo o que está aqui.</p>
+<details class="faq" open><summary>1. O que é o Fênix Estética</summary><div class="faqb">
+<p>O Fênix Estética é um sistema de gestão para clínicas de estética e profissionais autônomas: cadastro de clientes, pacotes e sessões, financeiro, catálogo de produtos e procedimentos, documentos e formulários, mensagens da equipe, funções extras e o app da cliente (Fênix Clients).</p>
+<p>O sistema é composto pelo app principal (usado pela clínica e pela equipe), pelo app da cliente (acesso por link ou aplicativo) e pela infraestrutura de nuvem que sincroniza os dados entre os aparelhos autorizados.</p>
+</div></details>
+<details class="faq"><summary>2. Conta, usuários e senhas</summary><div class="faqb">
+<p>A conta é criada pela clínica responsável, que define o nome da clínica e a senha. Cada pessoa da equipe pode ter um usuário próprio com senha individual (mínimo de 4 caracteres). A clínica é responsável por manter senhas fortes, não compartilhá-las e revogar o acesso de quem sai da equipe.</p>
+<p>O acesso da equipe é controlado pela clínica: cadastrar, trocar e remover usuários é feito dentro do app, em Equipe › Usuários. Ao trocar de usuário, a senha é solicitada novamente.</p>
+<p>O dono da conta se responsabiliza por qualquer atividade feita com as senhas da clínica e dos usuários. Suspeita de acesso indevido? Troque as senhas imediatamente.</p>
+</div></details>
+<details class="faq"><summary>3. Uso permitido</summary><div class="faqb">
+<p>O app deve ser usado para a gestão da própria clínica: cadastro e atendimento de clientes reais, controle financeiro, documentos da relação clínica e comunicação interna da equipe.</p>
+<p>É proibido: usar o app para praticar qualquer ato ilícito; cadastrar dados de terceiros sem autorização; tentar acessar dados de outras clínicas; explorar, revender ou disponibilizar o sistema a terceiros sem autorização; sobrecarregar deliberadamente a infraestrutura; tentar engenharia reversa das partes de servidor; usar as mensagens da equipe para assédio, spam ou conteúdo ofensivo.</p>
+<p>O Fênix Clients existe para o relacionamento com a cliente final: o conteúdo publicado lá (abas, documentos, valores) é de responsabilidade exclusiva da clínica.</p>
+</div></details>
+<details class="faq"><summary>4. Disponibilidade, atualizações e suporte</summary><div class="faqb">
+<p>Buscamos manter o app sempre disponível, mas a dependência de internet e de serviços de nuvem significa que interrupções podem acontecer. Sem conexão, o app entra em modo local e sincroniza quando a internet voltar.</p>
+<p>Atualizações são publicadas como novas versões (com lista de melhorias). O app avisa quando existe versão nova e você escolhe quando atualizar — o aviso espera até 24 horas antes de lembrar de novo. Manter o app atualizado é recomendado para receber correções e novidades.</p>
+<p>O suporte é prestado diretamente pelo canal combinado com quem forneceu o sistema à clínica (WhatsApp, telefone ou e-mail).</p>
+</div></details>
+<details class="faq"><summary>5. Encerramento e suspensão</summary><div class="faqb">
+<p>A clínica pode parar de usar o app a qualquer momento e exportar seus dados (backup completo em arquivo e planilhas de sessões). A conta pode ser suspensa em caso de uso proibido, inadimplência combinada com o fornecedor ou tentativa de comprometer a segurança da plataforma.</p>
+<p>Antes de uma suspensão por uso proibido, sempre que possível avisamos e damos prazo para regularização. Dados não apagados manualmente podem ser removidos após encerramento combinado, com aviso prévio.</p>
+</div></details>
+<details class="faq"><summary>6. Alterações destes termos</summary><div class="faqb">
+<p>Estes termos podem ser atualizados para refletir novas funções ou exigências legais. A versão vigente fica sempre nesta tela, com a data de atualização no topo. Mudanças importantes são comunicadas nas notas de versão do app.</p>
+<p>Continuando a usar o app depois de uma mudança, você concorda com a versão atualizada.</p>
+</div></details>
+</div>
+
+<div class="panelcard tdoc hidden" id="tdoc-1">
+<h3>Política de Privacidade — Fênix Estética</h3>
+<p class="sub">Este documento explica quais dados o app trata, por quê, onde ficam e quais são os seus direitos, em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018 — LGPD).</p>
+<details class="faq" open><summary>1. Quais dados são tratados</summary><div class="faqb">
+<p><b>Dados da clínica:</b> nome da clínica, credenciais de acesso, configurações de aparência e de funcionamento.</p>
+<p><b>Dados de clientes da clínica:</b> nome, CPF, data de nascimento, telefone, e-mail, endereço, observações, pacotes contratados, sessões realizadas e agendadas, pagamentos, vendas do catálogo e documentos vinculados (contratos, anamneses, prescrições e respostas de formulários).</p>
+<p><b>Dados de equipe:</b> nome/usuario e senha dos usuários criados pela clínica, e as mensagens trocadas entre a equipe (que somem automaticamente após 24 horas).</p>
+<p><b>Dados da cliente final (Fênix Clients):</b> os mesmos dados da cliente que a clínica escolhe mostrar (resumo, pacotes, sessões, pagamentos, documentos) e a imagem opcional de perfil/roleta que a clínica enviar.</p>
+</div></details>
+<details class="faq"><summary>2. Para que usamos (finalidades)</summary><div class="faqb">
+<p>Para o funcionamento do sistema: cadastro, atendimento, cobrança, comunicação interna, documentos e acompanhamento pela cliente. Os dados são tratados com base na execução do serviço solicitado pela clínica e no legítimo interesse de manter o app funcionando e seguro.</p>
+<p>Não usamos dados de clientes da clínica para publicidade, não vendemos dados e não compartilhamos com empresas parceiras. Não há rastreamento publicitário no app.</p>
+</div></details>
+<details class="faq"><summary>3. Onde os dados ficam e como são protegidos</summary><div class="faqb">
+<p>Os dados ficam em nuvem pública (Cloudflare — banco D1 e armazenamento R2) e sincronizam com os aparelhos autorizados. O tráfego é criptografado (HTTPS). As senhas de acesso são verificadas por serviço especializado de autenticação (Supabase Auth) e nunca ficam salvas em texto puro nos servidores; as senhas de usuários da equipe ficam cifradas no registro do usuário.</p>
+<p>Credenciais internas do sistema (como chaves de serviço) jamais ficam expostas dentro dos aplicativos. Cada clínica só acessa os próprios dados — o isolamento entre clínicas é verificado em todos os lançamentos.</p>
+<p>No celular e no computador, os dados locais ficam no armazenamento do próprio aparelho. Proteja o aparelho com senha/biometria: ele passa a conter dados de clientes.</p>
+</div></details>
+<details class="faq"><summary>4. Quem pode ver cada coisa</summary><div class="faqb">
+<p>A clínica (dono e usuários) vê tudo do próprio negócio. Cada usuário da equipe acessa conforme a clínica permitir. A cliente final vê, pelo Fênix Clients, apenas o próprio cadastro — e só as abas que a clínica personalizar (Início, Pacotes, Sessões, Pagamentos, Documentos).</p>
+<p>A equipe de suporte do sistema só acessa dados a pedido e autorização da clínica, para resolver problemas pontuais.</p>
+</div></details>
+<details class="faq"><summary>5. Quanto tempo os dados ficam</summary><div class="faqb">
+<p><b>Mensagens da equipe:</b> 24 horas, depois somem automaticamente (do app e da nuvem).</p>
+<p><b>Anexos enviados nas mensagens:</b> arquivos de até 1 MB também expiram em 24 horas; downloads feitos no aparelho ficam sob controle de quem baixou.</p>
+<p><b>Cadastros e histórico (clientes, pacotes, sessões, pagamentos, documentos):</b> ficam enquanto a clínica mantiver a conta; a exclusão pode ser feita item a item ou via encerramento combinado.</p>
+<p><b>Backup:</b> a clínica pode gerar cópia completa dos próprios dados a qualquer momento, em Dados › Backup.</p>
+</div></details>
+<details class="faq"><summary>6. Direitos dos titulares (LGPD)</summary><div class="faqb">
+<p>A cliente cujos dados estejam no app deve solicitar acesso, correção, portabilidade ou exclusão <b>diretamente à clínica</b>, que é a responsável pelo tratamento no relacionamento com ela. A clínica consegue corrigir, exportar e apagar os dados dentro do próprio app.</p>
+<p>Pedidos relativos à conta da clínica (a titular dos dados da clínica) também podem ser feitos pelo canal de suporte.</p>
+</div></details>
+<details class="faq"><summary>7. Menores de idade e alterações</summary><div class="faqb">
+<p>O app não é destinado a menores de 16 anos como titulares diretos de conta. Atendimento de menores como clientes da clínica é responsabilidade da clínica, que deve ter a autorização dos responsáveis.</p>
+<p>Esta política pode ser atualizada; a versão vigente fica sempre nesta tela com a data no topo. Dúvidas de privacidade: fale com a clínica ou com o suporte do sistema.</p>
+</div></details>
+</div>
+
+<div class="panelcard tdoc hidden" id="tdoc-2">
+<h3>Arquivos, Mensagens e Backup</h3>
+<p class="sub">Como funcionam os anexos, as mensagens da equipe e as cópias de segurança do Fênix Estética.</p>
+<details class="faq" open><summary>1. Mensagens da equipe</summary><div class="faqb">
+<p>Cada usuário conversa com os demais da clínica (e em grupos de até 5 pessoas). As mensagens e seus anexos <b>somem automaticamente após 24 horas</b>, do app e da nuvem — trate o chat como aviso rápido, não como arquivo.</p>
+<p>A sincronização acontece a cada 5 segundos com o app aberto. Se uma mensagem chegar enquanto você está em outra área do app, aparece uma notificação (com posição configurável em Aparência) e, se o app estiver em segundo plano, um aviso do sistema — para isso, permita notificações quando o app pedir.</p>
+</div></details>
+<details class="faq"><summary>2. Anexos e arquivos</summary><div class="faqb">
+<p>Anexos de mensagem de até <b>1 MB</b> são aceitos (imagens, PDFs, textos) e expiram em 24 horas junto com a conversa. Downloads que você fizer ficam na pasta de downloads do aparelho e não expiram pelo app.</p>
+<p><b>Arquivos da clínica</b> (Gestão › Arquivos) e <b>documentos de clientes</b> não expiram: ficam na nuvem da clínica até alguém apagar. Imagens podem ser usadas, por exemplo, no centro da roleta.</p>
+<p>No celular, para anexar é preciso permitir o acesso a arquivos e fotos quando o app pedir (Dados › Sistema › Permissões do aparelho mostra o status e reabre o pedido).</p>
+</div></details>
+<details class="faq"><summary>3. Backup e exportação</summary><div class="faqb">
+<p>Em Dados › Backup a clínica gera uma cópia completa dos próprios dados em arquivo — recomendamos guardar uma cópia fora do celular periodicamente. A restauração é feita pelo mesmo painel.</p>
+<p>As sessões dos pacotes podem ser exportadas em planilha (CSV) para conferência e impressão. O financeiro e as vendas do catálogo constam no backup completo.</p>
+<p>O que nunca apagamos automaticamente: cadastros, histórico financeiro, documentos, formulários e a própria conta. O que some sozinho: mensagens e anexos de chat (24h).</p>
+</div></details>
+</div>
+
+<div class="panelcard tdoc hidden" id="tdoc-3">
+<h3>Termos do Fênix Clients (app da cliente)</h3>
+<p class="sub">O Fênix Clients é o espaço da cliente final: um app/link fornecido pela clínica onde ela acompanha o próprio tratamento.</p>
+<details class="faq" open><summary>1. Acesso da cliente</summary><div class="faqb">
+<p>O acesso é individual, por link exclusivo (ou app baixado com o mesmo link configurado). Cada cliente tem o seu — ele não deve ser compartilhado, pois mostra os dados do tratamento dela.</p>
+<p>A clínica pode <b>pausar</b> o acesso a qualquer momento e programar uma <b>data de vencimento</b> (ex.: fim do pacote). Acesso pausado ou vencido mostra aviso e não abre os dados.</p>
+</div></details>
+<details class="faq"><summary>2. O que a cliente vê</summary><div class="faqb">
+<p>Somente o que a clínica liberar em Personalizar: Início (saudação e próxima sessão), Pacotes &amp; Avulsas, Sessões, Pagamentos e Documentos — além da mensagem no topo e da cor escolhida. A cliente <b>não</b> cadastra, edita ou apaga nada: o app dela é somente leitura.</p>
+<p>Documentos publicados na cliente (contratos, orientações, prescrições) são de responsabilidade da clínica. Revise antes de publicar.</p>
+</div></details>
+<details class="faq"><summary>3. Responsabilidades</summary><div class="faqb">
+<p>A clínica é responsável pela exatidão das informações exibidas à cliente e por comunicar o link correto. A cliente é responsável por guardar o acesso e não compartilhar o link.</p>
+<p>O Fênix Clients não envia notificações para a cliente nesta versão — ela vê as novidades ao abrir o app.</p>
+</div></details>
 </div>
 </section>
 
+<section id="viewAjuda" class="view hidden">
+<div class="panelcard">
+<div class="sec-head"><div class="pc-tt"><h3>Central de Ajuda</h3><p class="sub">Como o Fênix Estética funciona, função por função — toque numa pergunta para ver a resposta.</p></div></div>
+<input class="input" id="ajudaBusca" placeholder="🔎 Buscar no ajuda (ex.: grupo, roleta, backup…)" style="margin-top:10px">
+</div>
+<div class="panelcard" id="ajudaCorpo">
+
+<div class="ajuda-grp"><h3>🚀 Começando</h3></div>
+<details class="faq" open><summary>Como o app se organiza?</summary><div class="faqb"><p>A barra lateral tem os <b>modos</b>: <b>Gestão</b> (clientes, agenda, financeiro, arquivos), <b>Studio</b> (documentos, formulários, relatórios, planilha), <b>Catálogo</b>, <b>Fênix Clients</b>, <b>Equipe</b> (usuários e mensagens), <b>Funções Extras</b> (roleta), <b>Dados</b> (backup, aparência, sistema, termos) e o app da cliente. Troque pelo botão de modo no topo da barra.</p></div></details>
+<details class="faq"><summary>Como funcionam as senhas?</summary><div class="faqb"><p>A <b>senha da clínica</b> entra no sistema. Cada usuário da equipe tem senha própria (mínimo 4 caracteres). Ao entrar, o app vai direto para o último usuário usado — para trocar, vá em Equipe › Usuários (aí sim pede a senha de quem vai entrar). A senha do usuário cadastra/altera em Equipe › Usuários.</p></div></details>
+<details class="faq"><summary>Como atualizo o app?</summary><div class="faqb"><p>Quando existe versão nova, o app mostra um aviso com a lista de melhorias e espera sua confirmação (lembra de novo só depois de 24h). Ao atualizar, baixe pelo mesmo lugar de sempre — ou pela <b>Fênix Center</b>, nossa central de apps (link em Dados › Sistema). Suas ficam salvas.</p></div></details>
+
+<div class="ajuda-grp"><h3>🗂 Gestão</h3></div>
+<details class="faq"><summary>Como cadastro uma cliente e crio o app dela?</summary><div class="faqb"><p>Clientes › Nova cliente: nome, telefone e o que mais quiser. Com a cliente aberta, use <b>Programar acesso</b> para liberar o app dela (link exclusivo) e <b>Personalizar</b> para escolher abas, cor e mensagem do app dela.</p></div></details>
+<details class="faq"><summary>Como os pacotes funcionam?</summary><div class="faqb"><p>Pacote tem valor e número de sessões (o padrão é 8 — as sessões nunca ficam todas "8/8": faça as sessões conforme acontece). O pacote aceita <b>produtos e procedimentos com preço opcional</b>: sem preço entra como "incluído"; com preço, o app soma os itens. Dá para editar sempre, e a cliente vê o conteúdo no app dela.</p></div></details>
+<details class="faq"><summary>E as sessões avulsas?</summary><div class="faqb"><p>Na cliente, aba Pacotes &amp; Avulsas: crie avulsas avulsas (sem pacote) com valor e data. Também aparecem na agenda e no app da cliente.</p></div></details>
+<details class="faq"><summary>Como funciona o Catálogo dentro do pacote e da cliente?</summary><div class="faqb"><p>Nas <b>funções do pacote</b> e na aba <b>Catálogo</b> da cliente existe a venda do catálogo: marque produtos/procedimentos, dê nome e valor, e registre — a venda <b>cai no financeiro normal</b> vinculada ao pacote, à avulsa ou só à cliente. Dá para <b>criar o item do catálogo ali mesmo</b>. A lista do Catálogo mostra as vendas feitas e abre o financeiro no clique.</p></div></details>
+<details class="faq"><summary>Como registrar pagamentos e acompanhar o financeiro?</summary><div class="faqb"><p>No pacote ou na cliente: "Registrar pagamento" com valor, data e observação. O Geral reúne entradas e saídas de todas as clientes, com filtros por período. Vendas do catálogo aparecem com o vínculo (pacote/avulsa/cliente).</p></div></details>
+<details class="faq"><summary>Onde guardo arquivos?</summary><div class="faqb"><p>Gestão › Arquivos: fotos, PDFs e documentos da clínica. Eles <b>não expiram</b>. Já as mensagens da equipe e seus anexos somem em 24 horas.</p></div></details>
+
+<div class="ajuda-grp"><h3>📝 Studio e formulários</h3></div>
+<details class="faq"><summary>Como funcionam os documentos?</summary><div class="faqb"><p>Studio › Documentos: editor estilo Word com <b>guias</b> dentro do documento, vínculo com cliente/pacote/sessão e salvamento com status. Documentos da cliente também aparecem no app dela (aba Documentos, se liberada).</p></div></details>
+<details class="faq"><summary>E os formulários e anamneses?</summary><div class="faqb"><p>Studio › Formulários cria formulários com perguntas obrigatórias ou não; o link público abre preenchido pela cliente (se já responder, dá 409 — um resposta por formulário). As respostas ficam em Studio › Respostas. <b>Anamnese na cliente</b>: dentro da cliente você vê, preenche e apaga respostas; criar o formulário é sempre no Studio.</p></div></details>
+
+<div class="ajuda-grp"><h3>👥 Equipe e mensagens</h3></div>
+<details class="faq"><summary>Como adiciono pessoas da equipe?</summary><div class="faqb"><p>Equipe › Usuários › Cadastrar novo usuário: nome + senha (mín. 4). Cada pessoa entra com o próprio usuário no mesmo login da clínica. Remover alguém corta o acesso dela — troque as senhas se preciso.</p></div></details>
+<details class="faq"><summary>Como funcionam as mensagens da equipe?</summary><div class="faqb"><p>Equipe › Mensagens: conversa 1 a 1 (cada contato separado) com sincronização a cada 5 segundos. Tudo <b>soma em 24 horas</b> — aviso rápido, não arquivo. Anexos de até 1 MB seguem a mesma regra.</p></div></details>
+<details class="faq"><summary>Como crio um grupo?</summary><div class="faqb"><p>Equipe › Mensagens › botão <b>＋ Grupo</b>: nome + marque até 4 pessoas (você já entra — máximo 5). Quem for do grupo recebe automaticamente no app dela. No grupo, cada mensagem mostra quem falou, e tudo some em 24h como nas conversas individuais.</p></div></details>
+<details class="faq"><summary>Como funcionam as notificações de mensagem?</summary><div class="faqb"><p>Se a mensagem chegar enquanto você está em <b>outra área do app</b>, aparece um cartão de aviso — toque para abrir a conversa. A posição do aviso muda em Aparência › Posição das notificações (4 cantos). Com o app em segundo plano/escondido, vira <b>aviso do sistema</b> — permita em Aparência › 🔔 (no celular, Dados › Sistema › Permissões).</p></div></details>
+
+<div class="ajuda-grp"><h3>🎡 Extras, abas e aparência</h3></div>
+<details class="faq"><summary>Como funciona a Roleta?</summary><div class="faqb"><p>Funções Extras › Roleta: crie roletas com <b>Nomes</b> ou <b>Números</b> (no modo números, digite um por vez ou <b>importe um .txt</b> que extrai os números). Imagem opcional no centro, giro animado e resultado. Números aceitam até 100; nomes, até 24.</p></div></details>
+<details class="faq"><summary>Como funcionam as Abas da barra lateral?</summary><div class="faqb"><p>O <b>+</b> salva a tela atual como aba; o <b>⊞</b> abre a janela com TODAS as abas (toque para abrir, lixeira para tirar); os chips na barra abrem com um toque e o × tira rápido. Máximo de 12 abas, salvas neste aparelho.</p></div></details>
+<details class="faq"><summary>Temas, cores e zoom</summary><div class="faqb"><p>Aparência: tema <b>Escuro/Claro</b> e <b>7 cores</b> (Dourado, Verde Coral, Rosa-Queimado, Mostarda, Terracota, Água e Lavanda). O <b>zoom</b> (80% a 125%) fica em Dados › Sistema e vale em tudo; o <b>lado da barra</b> troca esquerda/direita.</p></div></details>
+
+<div class="ajuda-grp"><h3>⚙️ Dados, backup e segurança</h3></div>
+<details class="faq"><summary>Como faço backup?</summary><div class="faqb"><p>Dados › Backup: gera arquivo completo dos dados da clínica. Guarde cópias fora do aparelho de vez em quando. A restauração substitui os dados locais e sincroniza com a nuvem.</p></div></details>
+<details class="faq"><summary>O que é "Uso" no Dados?</summary><div class="faqb"><p>Mostra o consumo da nuvem da clínica (leituras/escritas e tamanho). Aviso automático quando chega perto do limite — aí o app diminui sincronizações para economizar. Nada é apagado por isso.</p></div></details>
+<details class="faq"><summary>Permissões do celular (arquivos e notificações)</summary><div class="faqb"><p>Dados › Sistema › <b>Permissões do aparelho</b>: mostra o status real (🔔 Notificações e 📁 Arquivos), pede de novo com 🔐, abre a configuração do Android com ⚙️ e testa o seletor de arquivos com 📎. Sem permissão, anexos e avisos do sistema não funcionam.</p></div></details>
+<details class="faq"><summary>Onde ficam os Termos e a Política de Privacidade?</summary><div class="faqb"><p>Dados › Termos de uso: Termos de Uso, Política de Privacidade, regras de Arquivos/Mensagens/Backup e os termos do Fênix Clients — completos e atualizados.</p></div></details>
+
+<div class="ajuda-grp"><h3>💛 Fênix Clients (app da cliente)</h3></div>
+<details class="faq"><summary>O que a cliente consegue ver e fazer?</summary><div class="faqb"><p>Somente leitura das abas liberadas em Personalizar (Início, Pacotes &amp; Avulsas, Sessões, Pagamentos, Documentos), com a mensagem no topo e a cor escolhidas. Ela não mexe em nada — cliente nunca altera o banco; tudo é controlado pela clínica.</p></div></details>
+<details class="faq"><summary>Como pauso ou limito o acesso de uma cliente?</summary><div class="faqb"><p>Na cliente: <b>Programar acesso</b> define prazo (7/30/90 dias ou data) e a pausa manual pausa na hora. Pausada ou vencida, a cliente vê aviso e não acessa os dados. O link continua o mesmo quando reativar.</p></div></details>
+
+<div class="ajuda-grp"><h3>⬇️ Fênix Center</h3></div>
+<details class="faq"><summary>O que é a Fênix Center?</summary><div class="faqb"><p>É a nossa central de apps: uma página com todas as versões do sistema, onde baixa o app de Windows e o de Android — e, se o app já está instalado, um botão <b>Abrir o app</b> manda direto para ele. O link fica em Dados › Sistema e nas mensagens de atualização.</p></div></details>
+</div>
+</section>
 <section id="viewExtras" class="view hidden">
 
 <div class="sec-head"><div class="pc-tt"><h3>Funções extras</h3><p class="sub">Ferramentas a mais da clínica — toque para abrir.</p></div></div>
@@ -1771,6 +1955,7 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <button class="btn gold" id="btnPermsAparelho" type="button">🔐 Pedir permissões agora</button>
 <button class="btn ghost" id="btnPermsConfig" type="button">⚙️ Abrir configuração do aparelho</button>
 <button class="btn ghost" id="btnArqTeste" type="button">📎 Testar escolher arquivo</button>
+<a class="btn ghost" href="https://geniterapeuta12-tech.github.io/fenix-estetica/center/" target="_blank" rel="noopener">🦅 Fênix Center</a>
 </div>
 <p class="sub" style="margin-top:10px">No celular, se algo ficar bloqueado, use <b>⚙️ Abrir configuração do aparelho</b> › Permissões e ligue <b>Arquivos/fotos</b> e <b>Notificações</b>.</p>
 <p class="msg" id="permsMsg"></p>
@@ -2381,6 +2566,22 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 </div>
 </div></div></div>
 
+<div class="pmodal hidden" id="grupoModal">
+<div class="pmodal-card abas-modal">
+<div class="pc-tt"><h3 style="margin:0 0 2px">Novo grupo</h3><span class="badge b-gold" id="grpCount">1/5</span></div>
+<p class="sub" style="margin:0 0 10px">Até 5 pessoas (você + 4). Quem for do grupo recebe no app dela. Mensagens do grupo somem em 24h.</p>
+<label>Nome do grupo</label>
+<input class="input" id="grpNome" maxlength="40" placeholder="Ex.: Equipe do sábado">
+<label style="display:block;margin-top:12px">Pessoas (marque até 4)</label>
+<div id="grpMems" style="max-height:200px;overflow:auto;margin-top:6px"></div>
+<p class="msg" id="grpMsg"></p>
+<div class="rowbtns" style="margin-top:10px"><button class="btn ghost" id="grpCancel" type="button">Cancelar</button><button class="btn gold" id="grpSave" type="button">Criar grupo</button></div>
+<hr class="frule">
+<h4 style="margin:0 0 6px">Seus grupos neste aparelho</h4>
+<div id="grpList"></div>
+</div>
+</div>
+
 <div id="sellModal" class="pmodal hidden">
 <div class="pmodal-card mode-card">
 <header><strong>Vender do catálogo</strong>
@@ -2449,6 +2650,7 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <svg class="logo" style="width:74px" viewBox="0 0 1440 960"><use href="#phoenix"/></svg>
 <h3 style="margin:8px 0 0">Bem-vinda, <span id="welcomeClin">sua clínica</span> ✦</h3>
 <p class="sub" style="margin-top:6px">Tudo pronto: seus dados estão carregados e sincronizados.</p>
+<p class="sub" id="welcomeSub" style="margin-top:2px"></p>
 <button class="btn gold" id="btnWelcomeGo" type="button" style="margin-top:12px">COMEÇAR</button>
 </div>
 </div>
@@ -3274,11 +3476,11 @@ if($('eqUsuCount'))$('eqUsuCount').textContent=us.length+' usuário(s) neste apa
 ul.innerHTML=us.length?us.map(u=>'<li class="fileitem"><span class="avatar file">'+esc(String(u.nome||'?').charAt(0).toUpperCase())+'</span><div class="cinfo"><strong>'+esc(u.nome||'usuário')+'</strong><small>'+(at&&u.id===at.id?'em uso agora':'usuário da clínica')+'</small></div><button class="iconbtn del" data-eqsudel="'+esc(u.id)+'" title="Remover usuário"><svg class="ic"><use href="#i-trash"/></svg></button></li>').join(''):'<p class="fempty">Nenhum usuário neste aparelho — cadastre o primeiro abaixo.</p>';}
 function isolamentoAreas(){
 /* R41 — isolamento total: uma tela só fica visível na SUA área. De uma vez por todas. */
-const dono={viewInicio:'gestao',viewClientes:'gestao',viewCliente:'gestao',viewIA:'gestao',viewAgenda:'gestao',viewFinanceiro:'gestao',viewArquivos:'gestao',viewExtras:'gestao',viewRoleta:'extras',viewEquipe:'equipe',viewUsuarios:'equipe',viewCatalogo:'catalogo',viewClients:'clients',viewDocs:'studio',viewDocEd:'studio',viewForms:'studio',viewFormEd:'studio',viewRespFill:'studio',viewRespList:'studio',viewRespView:'studio',viewPlanilha:'studio',viewRelatorios:'studio',viewBackup:'dados',viewSync:'dados',viewTheme:'dados',viewOtim:'dados',viewSistema:'dados',viewUso:'dados',viewUsuario:'dados',viewTermos:'dados'};
+const dono={viewInicio:'gestao',viewClientes:'gestao',viewCliente:'gestao',viewIA:'gestao',viewAgenda:'gestao',viewFinanceiro:'gestao',viewArquivos:'gestao',viewExtras:'gestao',viewRoleta:'extras',viewEquipe:'equipe',viewUsuarios:'equipe',viewCatalogo:'catalogo',viewClients:'clients',viewDocs:'studio',viewDocEd:'studio',viewForms:'studio',viewFormEd:'studio',viewRespFill:'studio',viewRespList:'studio',viewRespView:'studio',viewPlanilha:'studio',viewRelatorios:'studio',viewBackup:'dados',viewSync:'dados',viewTheme:'dados',viewOtim:'dados',viewSistema:'dados',viewUso:'dados',viewUsuario:'dados',viewTermos:'dados',viewAjuda:'dados'};
 for(const id in dono){const el=document.getElementById(id);if(!el||el.classList.contains('hidden'))continue;
 const ok=(id==='viewExtras'||id==='viewRoleta')?(state.mode==='gestao'||state.mode==='extras'):(state.mode===dono[id]);
 if(!ok)el.classList.add('hidden');}
-const dd={viewBackup:'backup',viewSync:'sync',viewTheme:'theme',viewOtim:'otim',viewSistema:'sistema',viewUso:'uso',viewUsuario:'usuario',viewTermos:'termos'};
+const dd={viewBackup:'backup',viewSync:'sync',viewTheme:'theme',viewOtim:'otim',viewSistema:'sistema',viewUso:'uso',viewUsuario:'usuario',viewTermos:'termos',viewAjuda:'ajuda'};
 for(const id in dd){const el=document.getElementById(id);if(el&&!el.classList.contains('hidden')&&!(state.mode==='dados'&&state.dsub===dd[id]))el.classList.add('hidden');}
 const st={viewDocs:'docs',viewDocEd:'doc',viewForms:'forms',viewFormEd:'formEd',viewRespFill:'respFill',viewRespList:'respList',viewRespView:'respView',viewPlanilha:'planilha',viewRelatorios:'relatorios'};
 for(const id in st){const el=document.getElementById(id);if(el&&!el.classList.contains('hidden')&&!(state.mode==='studio'&&state.sview===st[id]))el.classList.add('hidden');}}
@@ -3316,11 +3518,12 @@ $('viewSistema').classList.toggle('hidden',!(dados&&state.dsub==='sistema'));
 $('viewUso').classList.toggle('hidden',!(dados&&state.dsub==='uso'));
 $('viewUsuario').classList.toggle('hidden',!(dados&&state.dsub==='usuario'));
 $('viewTermos').classList.toggle('hidden',!(dados&&state.dsub==='termos'));
+$('viewAjuda').classList.toggle('hidden',!(dados&&state.dsub==='ajuda'));
 if(dados||anyStudio||equipe||clients){VIEWS.forEach(x=>$('view'+cap(x)).classList.add('hidden'));$('viewCliente').classList.add('hidden');}
 if(dados){
 document.querySelectorAll('#navGestao .navbtn,#navStudio .navbtn,#navCatalogo .navbtn,#navEquipe .navbtn').forEach(b=>b.classList.remove('active'));
 document.querySelectorAll('#navDados .navbtn').forEach(b=>b.classList.toggle('active',b.dataset.dsub===state.dsub));
-$('viewTitle').textContent=state.dsub==='uso'?'Dados · Uso':state.dsub==='backup'?'Dados · Backup':(state.dsub==='sync'?'Dados · Sincronização':(state.dsub==='otim'?'Dados · Otimização':(state.dsub==='sistema'?'Dados · Sistema':(state.dsub==='usuario'?'Dados · Usuário':state.dsub==='termos'?'Dados · Termos de uso':'Dados · Aparência'))));
+$('viewTitle').textContent=state.dsub==='uso'?'Dados · Uso':state.dsub==='backup'?'Dados · Backup':(state.dsub==='sync'?'Dados · Sincronização':(state.dsub==='otim'?'Dados · Otimização':(state.dsub==='sistema'?'Dados · Sistema':(state.dsub==='usuario'?'Dados · Usuário':state.dsub==='termos'?'Dados · Termos de uso':state.dsub==='ajuda'?'Dados · Central de Ajuda':'Dados · Aparência'))));
 try{if(state.dsub==='backup'){renderBackupSummary();renderBkpList();}
 if(state.dsub==='sync')paintSyncPanel();
 if(state.dsub==='otim')applyPerf(currentPerf());
@@ -4444,6 +4647,7 @@ mountFilterBar('fbarGen','gen');mountFilterBar('fbarCli','cli');mountFilterBar('
 loadWS();mountWidgets();
 setMode(read('fk_mode_'+key,'gestao'),false);
 $('welcomeClin').textContent=nome;
+try{const wl=ultUsu();const ws=$('welcomeSub');if(ws&&wl)ws.textContent='Entrando como '+wl.nome+' — pra trocar de usuário, use Equipe › Usuários.';}catch(e){}
 $('welcomeModal').classList.remove('hidden');
 if(REMOTE){setTimeout(()=>pullRemote(false),2500);flushPendingBkp();}
 }catch(err){showErrorGlobal((err&&err.message)||err);}}
@@ -5889,6 +6093,9 @@ if(r.error)throw r.error;
 const corte=Date.now()-TG_SOMEM;
 const novos=(r.data||[]).filter(x=>Number(x.ts)>corte);
 if(novos.length!==((r.data)||[]).length){try{SB.from('mensagens').delete().lt('ts',corte);}catch(e){}}
+try{grpAbsorve((r.data||[]).filter(x=>x.para==='__grupos'));}catch(e){}
+const novos2=[];for(const xx of novos){if(xx.para==='__grupos')continue;if(String(xx.texto||'').indexOf('__GRUPO__')===0)continue;novos2.push(xx);}
+novos.length=0;novos.push(...novos2);
 if(novos.length){MSG.rows=MSG.rows.filter(x=>Number(x.ts)>corte).concat(novos).slice(-600);MSG.lastTs=novos[novos.length-1].ts;
 if(state.mode==='equipe')renderEqMsgs('nuvem');else notiMsgs(novos);}}
 catch(e){}}
@@ -5900,13 +6107,15 @@ function notiApply(p){try{localStorage.setItem('fenix_notipos',p);}catch(e){}
 document.documentElement.dataset.notipos=p;
 document.querySelectorAll('#notiOpts .mode-opt').forEach(b=>b.classList.toggle('current',b.dataset.notipos===p));}
 function notiMsgs(novos){const eu=meuNome();
-novos.forEach(x=>{if(!x||x.de===eu||x.para!==eu)return;if(NOTI_VISTOS[x.id])return;NOTI_VISTOS[x.id]=1;
+novos.forEach(x=>{if(!x||x.de===eu)return;if(x.para!==eu&&String(x.para||'').indexOf('grupo:')!==0)return;if(NOTI_VISTOS[x.id])return;NOTI_VISTOS[x.id]=1;
 if(Object.keys(NOTI_VISTOS).length>400)NOTI_VISTOS={};
 const wrap=$('notiWrap');if(!wrap)return;
-const prev=x.url?('📎 '+(x.nome||'arquivo')):String(x.texto||'').slice(0,80);
+let prev=x.url?('📎 '+(x.nome||'arquivo')):String(x.texto||'').slice(0,80);
+let deLbl=x.de||'Mensagem';
+if(String(x.para||'').indexOf('grupo:')===0){const gg=(tryGetGrp().gs.find(g=>g.id===x.para)||{}).nome;deLbl='👥 '+(gg||'Grupo');prev=(x.de||'')+(x.de?': ':'')+prev;}
 const el=document.createElement('div');el.className='noti';
-el.innerHTML='<span class="tgav" style="'+tgAvStyle(x.de)+'">'+esc(String(x.de||'?').charAt(0).toUpperCase())+'</span>'+
-'<span class="ntmeta"><b>'+esc(x.de||'')+'</b><small>'+esc(prev)+'</small><i>toque para abrir a conversa</i></span>'+
+el.innerHTML='<span class="tgav" style="'+(String(x.para||'').indexOf('grupo:')===0?'':tgAvStyle(x.de))+'">'+(String(x.para||'').indexOf('grupo:')===0?'👥':esc(String(x.de||'?').charAt(0).toUpperCase()))+'</span>'+
+'<span class="ntmeta"><b>'+esc(deLbl)+'</b><small>'+esc(prev)+'</small><i>toque para abrir a conversa</i></span>'+
 '<button class="ntx" type="button" title="Fechar">×</button>';
 const fora=()=>{try{wrap.removeChild(el);}catch(e){}};
 el.querySelector('.ntx').addEventListener('click',ev=>{ev.stopPropagation();fora();});
@@ -5967,25 +6176,41 @@ ul.innerHTML=vis.map(it=>{const n=(it.id==='__grupo')?0:nLidas(it.id);const ult=
 const prev=it.id==='__grupo'?it.prev:(ult?esc((ult.url&&ult.texto.indexOf('📎 ')===0?'📎 ':'')+ult.texto.slice(0,34)):it.prev);
 const hr=ult?tgHora(ult.ts):'';
 const ativo=(it.id!=='__grupo'&&ult&&ult.de===it.id&&Date.now()-Number(ult.ts)<120000);
-return '<li data-eqid="'+esc(it.id)+'"'+(MSG.peer===it.id?' class="on"':'')+'><span class="tgav"'+(it.id==='__grupo'?'':' style="'+tgAvStyle(it.nome)+'"')+'>'+esc((it.nome||'?').charAt(0).toUpperCase())+(ativo?'<i class="tgondot"></i>':'')+'</span><div class="tgmeta"><b>'+esc(it.nome)+'</b><span class="tgprev">'+prev+'</span></div><div class="tgright"><span class="tgtime">'+hr+'</span>'+(n?'<span class="tgbadge">'+n+'</span>':'')+'</div></li>';}).join('');}
+return '<li data-eqid="'+esc(it.id)+'"'+(MSG.peer===it.id?' class="on"':'')+'><span class="tgav"'+(it.grp?'':' style="'+tgAvStyle(it.nome)+'"')+'>'+(it.grp?'👥':esc((it.nome||'?').charAt(0).toUpperCase()))+(ativo?'<i class="tgondot"></i>':'')+'</span><div class="tgmeta"><b>'+esc(it.nome)+'</b><span class="tgprev">'+prev+'</span></div><div class="tgright"><span class="tgtime">'+hr+'</span>'+(n?'<span class="tgbadge">'+n+'</span>':'')+'</div></li>';}).join('');}
 function renderEqMsgs(origem){ /* R43 — tela cheia, contatos separados, efeitos, sync 5s, anexos */
 const ul=$('tgList');if(!ul)return;
 MSG.rows=MSG.rows.filter(x=>Number(x.ts)>Date.now()-TG_SOMEM);
 const us=getUsu();
 const eu=meuNome();
-MSG.itens=[{id:'__grupo',nome:'Grupo da clínica',prev:'📢 avisos para toda a equipe · em breve'}]
+const MEUS_G=tryGetGrp().gs.filter(g=>(g.membros||[]).indexOf(eu)>=0);
+MSG.itens=MEUS_G.map(g=>({id:g.id,nome:g.nome,grp:true,membros:g.membros,prev:'grupo · '+((g.membros||[]).length)+' pessoas'}))
 .concat(us.filter(u=>(u.nome||u.username)!==eu).map(u=>({id:u.nome||u.username,nome:u.nome||u.username||'Membro',prev:'toque para conversar'})));
 const itens=MSG.itens;
 const filtro=()=>($('tgBusca')||{}).value||'';
 tgPintaLista(itens,filtro());
 const pintar=it=>{
-const grupo=it.id==='__grupo';
-$('tgNome').textContent=it.nome;
-const av=$('tgAv');av.textContent=(it.nome||'?').charAt(0).toUpperCase();av.style=grupo?'':tgAvStyle(it.nome);
-if(grupo){MSG.peer=null;
-$('tgStat').textContent='em breve';
-$('tgArea').innerHTML='<div class="chathint">📢 Avisos para toda a equipe chegam em breve.<br><small>Por enquanto, converse com cada pessoa da equipe pela lista.</small></div>';
-$('tgInput').disabled=true;$('tgSend').disabled=true;$('tgClip').disabled=true;tgPintaLista(itens,filtro());return;}
+const grupo=!!it.grp;
+$('tgNome').textContent=grupo?('👥 '+it.nome):it.nome;
+const av=$('tgAv');av.textContent=grupo?'👥':(it.nome||'?').charAt(0).toUpperCase();av.style=grupo?'':tgAvStyle(it.nome);
+if(grupo){MSG.peer=it.id;
+MSG.visto[it.id]=Date.now();
+const conv=MSG.rows.filter(x=>x.para===it.id).sort((a,b)=>a.ts-b.ts);
+const area=$('tgArea');
+const perto=area.scrollHeight-area.scrollTop-area.clientHeight<90;
+area.innerHTML='<div class="tgdate">grupo · tudo some em 24h</div>'+
+(conv.length?conv.map(m=>{const meu=m.de===eu;
+let corpo='';
+if(m.url){if(/^data:image/.test(m.url))corpo+='<a class="chatfoto" href="'+m.url+'" download="'+esc(m.nome||'foto')+'"><img src="'+m.url+'" alt="foto"></a>';
+else corpo+='<a class="chatfile" href="'+m.url+'" download="'+esc(m.nome||'arquivo')+'"><span class="cfico">📎</span><span class="cftxt"><b>'+esc(m.nome||'arquivo')+'</b><small>'+tgTam(m.tamanho)+' · some em 24h</small></span></a>';}
+if(m.texto&&m.texto.indexOf('📎 ')!==0)corpo+='<div class="tctxt">'+esc(m.texto)+'</div>';
+if(!corpo)corpo='<div class="tctxt">'+esc(m.texto)+'</div>';
+const nova=!MSG.anim[m.id];MSG.anim[m.id]=1;
+return '<div class="tgb '+(meu?'me':'them')+(nova&&origem?' nova':'')+'" data-mid="'+esc(m.id)+'">'+(meu?'':'<b class="tgquem">'+esc(m.de)+'</b>')+corpo+'<span class="tm">'+(meu?'<span class="ck">✓✓</span> ':'')+tgHora(m.ts)+'</span></div>';}).join(''):'<div class="tgb sys">Comece a conversa do grupo 💬</div>');
+if(MSG.autoScroll||perto||origem)area.scrollTop=area.scrollHeight;
+MSG.autoScroll=false;
+$('tgInput').disabled=!REMOTE;$('tgSend').disabled=!REMOTE;$('tgClip').disabled=!REMOTE;
+$('tgStat').textContent=((it.membros||[]).length)+' pessoas';
+tgPintaLista(itens,filtro());return;}
 MSG.peer=it.id;
 MSG.visto[it.id]=Date.now();
 const conv=MSG.rows.filter(x=>(x.de===eu&&x.para===it.id)||(x.de===it.id&&x.para===eu)).sort((a,b)=>a.ts-b.ts);
@@ -6318,7 +6543,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.36';
+const APP_VERSAO='1.6.37';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{
@@ -6545,7 +6770,61 @@ if(nome.length<2)return msg($('userMsg'),'Dê um nome ao usuário (mín. 2 letra
 if(senha.length<4)return msg($('userMsg'),'A senha precisa ter pelo menos 4 caracteres.','err');
 if(getUsu().some(u=>String(u.nome||'').toLowerCase()===nome.toLowerCase()))return msg($('userMsg'),'Já existe usuário com esse nome.','err');
 const u={id:uid(),nome,senha:senha?encSenha(nome,senha):''};setUsu(getUsu().concat([u]));usuarioEntrou(u);});
-$('btnWelcomeGo').addEventListener('click',()=>{$('welcomeModal').classList.add('hidden');renderUserStep();$('userModal').classList.remove('hidden');});
+/* ===== R52 — Grupos da equipe (até 5 pessoas) ===== */
+function tryGetGrp(){try{const g=JSON.parse(localStorage.getItem('fenix_grupos')||'null');if(g&&Array.isArray(g.gs))return g;}catch(e){}return {gs:[]};}
+function setGrp(g){try{localStorage.setItem('fenix_grupos',JSON.stringify(g));}catch(e){}}
+function grpAbsorve(rows){if(!Array.isArray(rows))return;rows.forEach(x=>{
+if(String(x.texto||'').indexOf('__GRUPO__')!==0)return;
+try{const g=JSON.parse(String(x.texto).slice(9));if(!g||!g.id)return;
+const G=tryGetGrp();const i=G.gs.findIndex(y=>y.id===g.id);
+if(i<0)G.gs.push(g);else if((g.ts||0)>(G.gs[i].ts||0))G.gs[i]=g;
+G.gs=G.gs.slice(0,30);setGrp(G);}catch(e){}});}
+async function grpAnuncia(g){try{if(REMOTE&&CLINIC_ID&&SB){await SB.from('mensagens').insert({id:uid(),clinic_id:CLINIC_ID,de:meuNome(),para:'__grupos',texto:'__GRUPO__'+JSON.stringify(g),ts:Date.now()});}}catch(e){}}
+if(!window._grpLig){window._grpLig=1;
+$('btnGrpNovo').addEventListener('click',()=>{
+$('grpNome').value='';$('grpMsg').textContent='';
+const us=getUsu();const eu=meuNome();
+$('grpMems').innerHTML=us.filter(u=>(u.nome||u.username)!==eu).map(u=>'<label style="display:flex;gap:8px;align-items:center;margin:4px 0;color:var(--txt)"><input type="checkbox" class="grpChk" value="'+esc(u.nome||u.username||'')+'"> '+esc(u.nome||u.username||'')+'</label>').join('')||'<p class="sub">Nenhum outro usuário cadastrado ainda.</p>';
+$('grpCount').textContent='1/5';
+grpPintaLista();$('grupoModal').classList.remove('hidden');});
+$('grpCancel').addEventListener('click',()=>$('grupoModal').classList.add('hidden'));
+$('grupoModal').addEventListener('click',e=>{if(e.target.id==='grupoModal')$('grupoModal').classList.add('hidden');});
+$('grpMems').addEventListener('change',e=>{const chs=Array.from(document.querySelectorAll('.grpChk:checked'));
+if(chs.length>4){e.target.checked=false;}
+const n=Math.min(4,Array.from(document.querySelectorAll('.grpChk:checked')).length);
+$('grpCount').textContent=(1+n)+'/5';});
+$('grpSave').addEventListener('click',async()=>{
+const nome=String($('grpNome').value||'').trim();
+if(nome.length<2)return msg($('grpMsg'),'Dê um nome ao grupo.','err');
+const mems=Array.from(document.querySelectorAll('.grpChk:checked')).map(c=>c.value);
+if(mems.length<1)return msg($('grpMsg'),'Marque pelo menos 1 pessoa além de você.','err');
+if(mems.length>4)return msg($('grpMsg'),'Máximo 4 pessoas além de você (5 no total).','err');
+const g={id:'grupo:'+nome.toLowerCase().replace(/\s+/g,'-').slice(0,40),nome:nome.slice(0,40),membros:[meuNome()].concat(mems),ts:Date.now()};
+const G=tryGetGrp();const i=G.gs.findIndex(y=>y.id===g.id);
+if(i>=0)G.gs[i]=g;else G.gs.unshift(g);
+G.gs=G.gs.slice(0,30);setGrp(G);
+await grpAnuncia(g);
+$('grupoModal').classList.add('hidden');
+try{renderEqMsgs();}catch(e){}
+msg($('tgMsg'),'✔ Grupo "'+g.nome+'" criado — quem for do grupo recebe no app dela em instantes.','ok');});
+$('grpList').addEventListener('click',e=>{const del=e.target.closest('[data-grpdel]');if(!del)return;
+const G=tryGetGrp();G.gs=G.gs.filter(x=>x.id!==del.dataset.grpdel);setGrp(G);grpPintaLista();try{renderEqMsgs();}catch(e){}});}
+function grpPintaLista(){const el=$('grpList');if(!el)return;const G=tryGetGrp();
+el.innerHTML=G.gs.length?G.gs.map(g=>'<div class="grprow"><b>👥 '+esc(g.nome)+'</b><small>'+esc((g.membros||[]).join(', '))+'</small><button class="iconbtn del" data-grpdel="'+esc(g.id)+'" type="button" title="Tirar deste aparelho">🗑</button></div>').join(''):'<p class="sub" style="margin:4px 0 0">Nenhum grupo neste aparelho ainda.</p>';}
+if(!window._termosLig){window._termosLig=1;
+document.querySelectorAll('#viewTermos .tsub').forEach(b=>b.addEventListener('click',()=>{
+document.querySelectorAll('#viewTermos .tsub').forEach(x=>x.classList.toggle('current',x===b));
+document.querySelectorAll('#viewTermos .tdoc').forEach((dv,i)=>dv.classList.toggle('hidden',String(b.dataset.tdoc)!==String(i)));}));}
+if(!window._ajudaLig){window._ajudaLig=1;
+$('ajudaBusca').addEventListener('input',()=>{const q=($('ajudaBusca').value||'').trim().toLowerCase();
+document.querySelectorAll('#ajudaCorpo .faq').forEach(f=>{f.style.display=!q||f.textContent.toLowerCase().includes(q)?'':'none';});
+document.querySelectorAll('#ajudaCorpo .ajuda-grp').forEach(g=>{let vis=0;let n=g.nextElementSibling;
+while(n&&n.classList&&n.classList.contains('faq')){if(n.style.display!=='none')vis++;n=n.nextElementSibling;}
+g.style.display=(!q||vis)?'':'none';});});}
+$('btnWelcomeGo').addEventListener('click',()=>{$('welcomeModal').classList.add('hidden');
+const last=ultUsu();
+if(last&&getUsu().some(u=>String(u.id||'')===String(last.id||''))){usuarioEntrou(last);return;}
+renderUserStep();$('userModal').classList.remove('hidden');});
 </script>
 </body>
 </html>

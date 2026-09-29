@@ -1,10 +1,13 @@
 {
-  "versao": "1.6.36",
-  "r": "R51",
+  "versao": "1.6.37",
+  "r": "R52",
   "melhorias": [
-    "✅ Abas com CONTRASTE CERTO: chips da barra e cartões do popup com letras bem visíveis no tema claro e no escuro (e visual mais bonito)",
-    "✅ Permissões pela configuração do app: em Dados › Sistema › Permissões do aparelho agora mostra o STATUS REAL (🔔 Notificações e 📁 Arquivos), tem 🔐 Pedir permissões, ⚙️ Abrir configuração do aparelho e 📎 Testar escolher arquivo",
-    "✅ No celular o app abre a tela de permissões do Android pra você ligar arquivos e notificações direto de dentro do Fênix"
+    "✅ ABAS com visual novo: chips da barra e o popup de todas as abas ficaram bonitos e CERTOS no tema claro e no escuro",
+    "✅ LOGIN de UMA vez: depois do entrar da clínica, o app vai direto pro último usuário usado — sem pedir senha de novo (trocar de usuário continua pedindo)",
+    "✅ TERMOS DE USO e políticas COMPLETOS: 4 documentos (Termos, Privacidade/LGPD, Arquivos & Mensagens e Fênix Clients) em Dados › Termos de uso",
+    "✅ CENTRAL DE AJUDA: novo FAQ em Dados com o passo a passo de TODAS as funções, com busca",
+    "✅ GRUPOS nas mensagens da equipe: crie grupos de até 5 pessoas (＋ Grupo) — quem for do grupo recebe no app dela",
+    "✅ FÊNIX CENTER: nossa central de apps (geniterapeuta12-tech.github.io/fenix-estetica/center/) com todas as versões e botão ABRIR o app instalado — o APK de agora responde ao abrir (fenix://)"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }
