@@ -10,350 +10,468 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Fênix Center">
-<link rel="manifest" href="manifest.json?v=3">
-<link rel="icon" href="icone-192.png?v=2">
-<link rel="apple-touch-icon" href="icone-192.png?v=2">
+<link rel="manifest" href="manifest.json?v=4">
+<link rel="icon" href="icone-192.png?v=4">
+<link rel="apple-touch-icon" href="icone-192.png?v=4">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+/* ═══ TEMAS (igual app de estética: Escuro/Claro × 7 acentos) ═══ */
+html{--gold:#d4af37;background:#0a0906;min-height:100%}
+html[data-accent="coral"]{--gold:#1fa37c;background:#0a0d0b}
+html[data-accent="rosa"]{--gold:#cd8f7d;background:#0d0a09}
+html[data-accent="mostarda"]{--gold:#d6a418;background:#0d0b06}
+html[data-accent="terraco"]{--gold:#c96a3b;background:#0d0906}
+html[data-accent="acqua"]{--gold:#2ba3b0;background:#080b0c}
+html[data-accent="lilas"]{--gold:#8b7bd8;background:#0b0a0e}
+html[data-theme="light"]{background:#f3efe4}
+html[data-theme="light"][data-accent="coral"]{--gold:#17755a}
+html[data-theme="light"][data-accent="rosa"]{--gold:#a5685a}
+html[data-theme="light"][data-accent="mostarda"]{--gold:#9a7309}
+html[data-theme="light"][data-accent="terraco"]{--gold:#a04e22}
+html[data-theme="light"][data-accent="acqua"]{--gold:#1c7c88}
+html[data-theme="light"][data-accent="lilas"]{--gold:#6a5cc0}
 :root{
-  --gold:#d4af37;--gold2:#f1d27a;--gold3:#8a6d1f;
-  --metal:linear-gradient(135deg,#f6e27a 0%,#d4af37 45%,#b08a2a 100%);
-  --bg:#0b0a07;--card:rgba(24,21,13,.74);--line:rgba(212,175,55,.20);--line2:rgba(212,175,55,.40);
-  --txt:#f4efe1;--muted:#a89d84;
+  --line:rgba(240,220,160,.15);--line2:rgba(240,220,160,.3);
+  --txt:#f4efe1;--muted:#a89d84;--card:rgba(255,255,255,.035);--card2:rgba(255,255,255,.06);
   --serif:'Playfair Display',Georgia,serif;--sans:Montserrat,system-ui,sans-serif;
-  --navh:64px;
 }
-html{background:#0b0a07;height:100%}
-body{margin:0;height:100%;color:var(--txt);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow:hidden}
-.grao{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.05;
- background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E")}
-.fundo{position:fixed;inset:0;z-index:-1;background:
- radial-gradient(1100px 520px at 50% -12%,rgba(212,175,55,.17),transparent 62%),
- radial-gradient(760px 420px at 108% 6%,rgba(212,175,55,.08),transparent 55%),
- radial-gradient(760px 520px at -10% 32%,rgba(212,175,55,.05),transparent 55%),
- var(--bg)}
-.vinheta{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(120% 90% at 50% 10%,transparent 60%,rgba(0,0,0,.5))}
-.app{position:relative;z-index:1;height:100dvh;display:flex;flex-direction:column}
+html[data-theme="light"]{--line:rgba(80,62,20,.16);--line2:rgba(80,62,20,.32);--txt:#241d0e;--muted:#6d6553;--card:rgba(255,253,246,.8);--card2:#fffdf6}
+html[data-theme="light"] .topbar,html[data-theme="light"] .side,html[data-theme="light"] .pmenu,html[data-theme="light"] .tmodal,html[data-theme="light"] .toast{background:#fffdf6}
+html[data-theme="light"] .wm{opacity:.09;filter:invert(1)}
+html[data-theme="light"] #upd{background:#fff8e2}
+body{margin:0;color:var(--txt);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow:hidden;height:100dvh}
+.fundo{position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(1000px 500px at 50% -8%,color-mix(in srgb,var(--gold) 14%,transparent),transparent 62%),radial-gradient(700px 400px at 105% 10%,color-mix(in srgb,var(--gold) 7%,transparent),transparent 55%)}
+.wm{position:fixed;inset:0;margin:auto;width:min(88vw,760px);max-height:88vh;opacity:.055;pointer-events:none;z-index:0}
+.app{position:relative;z-index:1;height:100dvh;display:flex}
 
-/* ─── barra de app ─── */
-.topbar{flex:none;display:flex;align-items:center;gap:11px;padding:14px 18px 12px;
- border-bottom:1px solid rgba(212,175,55,.14);background:rgba(11,10,7,.72);backdrop-filter:blur(14px)}
-.topbar .mark{width:40px;height:40px;border-radius:12px;overflow:hidden;border:1px solid var(--line2);box-shadow:0 6px 20px rgba(212,175,55,.22)}
-.topbar .mark img{width:100%;height:100%;object-fit:cover;display:block}
-.brand b{display:block;font:800 .9rem/1.1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--gold2)}
-.brand small{display:block;margin-top:2px;font:600 .58rem var(--sans);letter-spacing:.34em;text-transform:uppercase;color:var(--muted)}
-.topbar .live{margin-left:auto;display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font:600 .62rem var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
-.topbar .live i{width:7px;height:7px;border-radius:50%;background:#7ec97e;box-shadow:0 0 10px #7ec97e;animation:pulse 2.2s infinite}
+/* ═══ SIDEBAR (igual app de estética) ═══ */
+.side{flex:none;width:216px;display:flex;flex-direction:column;border-right:1px solid var(--line);background:rgba(10,9,6,.55);backdrop-filter:blur(10px)}
+html[data-theme="light"] .side{background:rgba(255,253,246,.6)}
+.side-logo{padding:24px 16px 16px;text-align:center;border-bottom:1px solid var(--line)}
+.side-logo img{width:84px;border-radius:20px;border:1px solid var(--line2);box-shadow:0 8px 26px rgba(0,0,0,.4)}
+html[data-theme="light"] .side-logo img{box-shadow:0 8px 22px rgba(80,62,20,.18)}
+.side-brand{font-family:var(--serif);letter-spacing:.16em;font-size:.92rem;margin-top:10px}
+.side-brand span{color:var(--gold)}
+.side-clinic{font:600 .58rem var(--sans);letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+.snav{padding:14px 12px;display:flex;flex-direction:column;gap:4px}
+.navbtn{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;border:0;background:none;color:var(--muted);border-radius:12px;font:600 .9rem var(--sans);letter-spacing:.03em;cursor:pointer;transition:.2s}
+.navbtn svg{width:19px;height:19px;flex:none}
+.navbtn:hover{color:var(--txt);background:var(--card)}
+.navbtn.active{color:var(--gold);background:linear-gradient(90deg,color-mix(in srgb,var(--gold) 15%,transparent),transparent);box-shadow:inset 3px 0 0 var(--gold)}
+.side-foot{margin-top:auto;padding:14px 16px;border-top:1px solid var(--line);color:var(--muted);font:600 .62rem var(--sans);letter-spacing:.18em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.side-foot i{width:7px;height:7px;border-radius:50%;background:#7ec97e;box-shadow:0 0 8px #7ec97e}
+.side-foot button{margin-left:auto;border:1px solid var(--line2);background:none;color:var(--gold);border-radius:9px;padding:6px 9px;font:700 .78rem var(--sans);cursor:pointer}
+
+/* ═══ CORPO ═══ */
+.corpo{flex:1;display:flex;flex-direction:column;min-width:0}
+.topbar{flex:none;display:flex;align-items:center;gap:10px;padding:13px 18px;border-bottom:1px solid var(--line);background:rgba(10,9,6,.55);backdrop-filter:blur(10px)}
+html[data-theme="light"] .topbar{background:rgba(255,253,246,.6)}
+.btnv{display:none;align-items:center;gap:7px;border:1px solid var(--line2);background:var(--card);color:var(--txt);border-radius:11px;padding:9px 14px;font:700 .8rem var(--sans);cursor:pointer}
+.btnv.show{display:inline-flex}
+.btnv:hover{color:var(--gold);border-color:var(--gold)}
+.titulo{font:700 1.12rem var(--serif);letter-spacing:.02em}
+.topbar .live{margin-left:auto;display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font:600 .6rem var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.topbar .live i{width:7px;height:7px;border-radius:50%;background:#7ec97e;box-shadow:0 0 8px #7ec97e;animation:pulse 2.2s infinite}
 @keyframes pulse{50%{opacity:.35}}
+.bmenu{display:none;margin-right:2px;border:1px solid var(--line2);background:var(--card);color:var(--gold);border-radius:11px;padding:8px 12px;font:800 .95rem var(--sans);cursor:pointer}
 
-/* ─── barra de atualização ─── */
-#upd{display:none;flex:none;align-items:center;gap:10px;margin:10px 18px 0;padding:10px 12px 10px 14px;border-radius:14px;border:1px solid rgba(212,175,55,.5);
- background:linear-gradient(160deg,rgba(212,175,55,.16),rgba(212,175,55,.05));color:var(--txt);font:600 .8rem/1.4 var(--sans);animation:tin .3s ease}
+/* barra de atualização */
+#upd{display:none;flex:none;align-items:center;gap:10px;margin:12px 18px 0;padding:11px 13px;border-radius:14px;border:1px solid var(--gold);background:color-mix(in srgb,var(--gold) 12%,transparent);font:600 .8rem/1.4 var(--sans);animation:tin .3s ease}
 #upd.show{display:flex}
-#upd b{color:var(--gold2)}
-#upd button{margin-left:auto;flex:none;border:0;border-radius:10px;background:var(--metal);color:#171204;font:800 .74rem var(--sans);letter-spacing:.06em;padding:9px 14px;cursor:pointer;text-transform:uppercase}
+#upd b{color:var(--gold)}
+#upd button{margin-left:auto;flex:none;border:0;border-radius:10px;background:var(--gold);color:#171204;font:800 .74rem var(--sans);letter-spacing:.06em;padding:9px 14px;cursor:pointer;text-transform:uppercase}
 
-/* ─── conteúdo ─── */
-main{flex:1;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:0 18px 30px;scrollbar-width:thin;scrollbar-color:rgba(212,175,55,.35) transparent}
+main{flex:1;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:0 20px 34px;scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--gold) 40%,transparent) transparent}
 main::-webkit-scrollbar{width:8px}
-main::-webkit-scrollbar-thumb{background:rgba(212,175,55,.28);border-radius:99px}
-.view{max-width:880px;margin:0 auto;animation:vfade .3s ease}
+main::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--gold) 30%,transparent);border-radius:99px}
+.view{max-width:980px;margin:0 auto;animation:vfade .28s ease}
 .view.esconde{display:none}
-@keyframes vfade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-@keyframes sobe{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes vfade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes sobe{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 
-/* abas segmentadas (desktop) */
-.segs{position:relative;display:none;gap:4px;margin:16px auto 0;max-width:880px;padding:4px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.03)}
-.segs .desl{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:10px;background:linear-gradient(160deg,rgba(212,175,55,.24),rgba(212,175,55,.10));box-shadow:inset 0 0 0 1px rgba(212,175,55,.4);transition:transform .25s cubic-bezier(.5,1.4,.6,1)}
-.segs button{position:relative;z-index:1;flex:1;border:0;background:transparent;color:var(--muted);font:700 .82rem var(--sans);letter-spacing:.08em;padding:10px 12px;border-radius:10px;cursor:pointer;transition:color .2s;text-transform:uppercase}
-.segs button.on{color:var(--gold2)}
+/* ═══ INÍCIO: prateleira de apps (estilo loja) ═══ */
+.chamada{padding:26px 2px 4px;animation:sobe .4s .02s both}
+.chamada h1{font:800 1.7rem/1.15 var(--serif);margin:0}
+.chamada h1 em{font-style:italic;color:var(--gold)}
+.chamada p{margin:6px 0 0;color:var(--muted);font:500 .88rem var(--sans)}
+.prateleira{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-top:18px}
+.appcard{position:relative;display:flex;flex-direction:column;padding:18px;border:1px solid var(--line);border-radius:20px;background:var(--card);backdrop-filter:blur(8px);cursor:pointer;transition:transform .16s,border-color .16s,box-shadow .16s;animation:sobe .45s both}
+.appcard:nth-child(2){animation-delay:.08s}
+.appcard:hover{transform:translateY(-3px);border-color:var(--gold);box-shadow:0 18px 44px rgba(0,0,0,.35)}
+html[data-theme="light"] .appcard:hover{box-shadow:0 16px 36px rgba(80,62,20,.14)}
+.appcard:active{transform:scale(.985)}
+.appcard .ac-top{display:flex;gap:14px;align-items:center}
+.appcard .aico{width:64px;height:64px;flex:none;border-radius:16px;border:1px solid var(--line2);overflow:hidden;box-shadow:0 8px 22px rgba(0,0,0,.35)}
+.appcard .aico img{width:100%;height:100%;object-fit:cover;display:block}
+.appcard h3{margin:0;font:700 1.05rem var(--serif)}
+.appcard .dev{margin-top:2px;font:600 .68rem var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.appcard .desc{margin:12px 0 0;color:var(--muted);font:500 .82rem/1.55 var(--sans);min-height:38px}
+.appcard .meta{display:flex;gap:7px;align-items:center;margin-top:12px;flex-wrap:wrap}
+.pill{border:1px solid var(--line2);color:var(--txt);border-radius:999px;padding:4px 10px;font:700 .62rem var(--sans);letter-spacing:.08em}
+.pill.ver{color:var(--gold);border-color:var(--gold)}
+.pill.of{color:var(--muted)}
+.appcard .ac-bts{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.bto{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line2);border-radius:11px;padding:9px 13px;color:var(--txt);text-decoration:none;font:700 .76rem var(--sans);cursor:pointer;background:none;transition:.15s}
+.bto:hover{border-color:var(--gold);color:var(--gold)}
+.bto.pri{background:var(--gold);color:#171204;border-color:transparent;font-weight:800}
+.bto.pri:hover{filter:brightness(1.08);color:#171204}
+.bto.mini{padding:7px 11px;font-size:.72rem}
+.voce{position:absolute;top:14px;right:14px;border:1px solid var(--gold);color:var(--gold);border-radius:999px;padding:4px 10px;font:700 .58rem var(--sans);letter-spacing:.14em;text-transform:uppercase;background:color-mix(in srgb,var(--gold) 10%,transparent)}
 
-/* ─── hero ─── */
-.hero{text-align:center;padding:30px 10px 6px}
-.hico{position:relative;width:110px;height:110px;margin:0 auto;border-radius:26px;overflow:hidden;border:1px solid rgba(212,175,55,.5);
- box-shadow:0 24px 70px rgba(0,0,0,.65),0 0 0 1px rgba(212,175,55,.12),inset 0 1px 0 rgba(255,255,255,.08);animation:sobe .5s .02s both}
-.hico::after{content:'';position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.14) 46%,transparent 60%);transform:translateX(-120%);animation:shine 5.5s ease-in-out infinite}
-@keyframes shine{0%,55%{transform:translateX(-120%)}75%,100%{transform:translateX(120%)}}
-.halo{position:relative;width:220px;height:110px;margin:-88px auto 0;background:radial-gradient(circle,rgba(212,175,55,.22),transparent 65%);filter:blur(10px);pointer-events:none}
-.kicker{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:6px 13px;font:700 .62rem var(--sans);letter-spacing:.3em;text-transform:uppercase;color:var(--gold);animation:sobe .5s .07s both}
-.hero h1{font:800 clamp(1.9rem,5.6vw,2.7rem)/1.1 var(--serif);margin:12px 0 0;animation:sobe .5s .12s both}
-.hero h1 em{font-style:italic;background:var(--metal);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero .tag{margin:10px auto 0;max-width:520px;color:var(--muted);font:500 .92rem/1.65 var(--sans);animation:sobe .5s .17s both}
+/* ═══ DETALHE DO APP (estilo Microsoft Store) ═══ */
+.dhero{display:flex;gap:20px;align-items:flex-start;padding:26px 0 6px;flex-wrap:wrap;animation:sobe .4s .02s both}
+.dhero .dico{width:104px;height:104px;flex:none;border-radius:24px;border:1px solid var(--line2);overflow:hidden;box-shadow:0 18px 44px rgba(0,0,0,.4)}
+.dhero .dico img{width:100%;height:100%;object-fit:cover;display:block}
+.dhero .info{flex:1;min-width:230px}
+.dhero h1{margin:2px 0 0;font:800 1.9rem/1.1 var(--serif)}
+.dhero .dev{margin-top:5px;font:700 .7rem var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.dhero .ddesc{margin:9px 0 0;color:var(--muted);font:500 .88rem/1.6 var(--sans);max-width:560px}
+.dhero .meta{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.dacts{display:flex;gap:9px;margin-top:16px;flex-wrap:wrap}
+.dacts .bto{padding:11px 17px;font-size:.82rem}
+.sec{margin-top:24px;animation:sobe .45s .1s both}
+.sec > h2{display:flex;align-items:baseline;gap:12px;font:700 1.2rem var(--serif);margin:0 0 12px}
+.sec > h2 .rule{flex:1;height:1px;background:linear-gradient(90deg,var(--line2),transparent)}
+.news{border:1px solid var(--line);border-radius:18px;padding:18px 20px;background:var(--card)}
+.news ul{margin:0;padding:0;list-style:none}
+.news li{position:relative;padding:4px 0 4px 20px;color:var(--txt);font:500 .86rem/1.55 var(--sans)}
+.news li::before{content:'✦';position:absolute;left:0;color:var(--gold);font-size:.7rem;top:8px}
+/* lista de versões */
+.vrow{border:1px solid var(--line);border-radius:16px;padding:15px 17px;background:var(--card);margin-bottom:10px;animation:sobe .4s both}
+.vrow .vh{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.vrow .vt{font:700 1.02rem var(--serif);color:var(--gold)}
+.vrow .dt{margin-left:auto;color:var(--muted);font:600 .7rem var(--sans)}
+.vrow ul{margin:8px 0 0;padding:0;list-style:none}
+.vrow ul li{position:relative;padding:2px 0 2px 18px;color:var(--muted);font:500 .8rem/1.5 var(--sans)}
+.vrow ul li::before{content:'✦';position:absolute;left:0;color:var(--gold);font-size:.62rem;top:6px}
+.vrow .vb{display:flex;gap:7px;margin-top:11px;flex-wrap:wrap}
+.badge{border:1px solid var(--gold);color:var(--gold);border-radius:999px;font:700 .56rem var(--sans);letter-spacing:.18em;padding:4px 10px;text-transform:uppercase;background:color-mix(in srgb,var(--gold) 8%,transparent)}
+.badge.gray{border-color:var(--line2);color:var(--muted);background:none}
+.skel{border:1px dashed var(--line2);border-radius:16px;padding:22px;text-align:center;color:var(--muted);font:500 .84rem var(--sans)}
+.nota{color:var(--muted);font:500 .78rem var(--sans);margin:10px 2px 0}
 
-/* ─── ações ─── */
-.acts{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:22px 0 0}
-@media(max-width:560px){.acts{grid-template-columns:1fr}}
-.act{position:relative;display:flex;gap:13px;align-items:center;padding:15px 16px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(170deg,rgba(255,255,255,.045),rgba(255,255,255,.01));cursor:pointer;color:var(--txt);font-family:var(--sans);text-decoration:none;text-align:left;transition:transform .16s,border-color .16s,background .16s,box-shadow .16s;animation:sobe .5s both}
-.act:nth-child(1){animation-delay:.2s}.act:nth-child(2){animation-delay:.26s}.act:nth-child(3){animation-delay:.32s}.act:nth-child(4){animation-delay:.38s}
-.act:hover{transform:translateY(-2px);border-color:var(--line2);background:linear-gradient(170deg,rgba(212,175,55,.10),rgba(212,175,55,.03));box-shadow:0 16px 40px rgba(0,0,0,.45)}
-.act:active{transform:scale(.985)}
-.act .ico{width:44px;height:44px;flex:none;border-radius:13px;border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;background:linear-gradient(150deg,rgba(212,175,55,.22),rgba(212,175,55,.06));color:var(--gold2)}
-.act .ico svg{width:22px;height:22px}
-.act b{display:block;font:700 .92rem var(--sans)}
-.act small{display:block;margin-top:3px;color:var(--muted);font:500 .76rem/1.4 var(--sans)}
-.act .go{margin-left:auto;color:var(--gold);font:800 1.05rem var(--sans)}
-.act.primary{grid-column:1/-1;border-color:rgba(212,175,55,.55);background:linear-gradient(160deg,rgba(212,175,55,.18),rgba(212,175,55,.05));padding:18px}
-.act.primary .ico{width:50px;height:50px}
-.act.primary b{font-size:1.02rem}
-#actInstalar{display:none}
-#actInstalar.show{display:flex}
+/* ═══ POPUPS (estilo ⊞ do app de estética) ═══ */
+.painel{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);padding:20px}
+.painel.show{display:flex}
+.pmenu,.tmodal{width:min(340px,92vw);border:1px solid var(--line2);border-radius:22px;padding:18px;background:rgba(16,14,9,.98);box-shadow:0 30px 90px rgba(0,0,0,.7);animation:tin .2s ease}
+.pmenu h4,.tmodal h4{margin:2px 4px 12px;font:700 1.05rem var(--serif)}
+.pmenu h4 span,.tmodal h4 span{color:var(--gold)}
+.mitem{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 13px;border:0;background:none;color:var(--txt);border-radius:12px;font:600 .9rem var(--sans);cursor:pointer}
+.mitem:hover{background:var(--card2)}
+.mitem svg{width:18px;height:18px;color:var(--gold)}
+.mitem small{margin-left:auto;color:var(--muted);font:600 .68rem var(--sans)}
+.segthemes{display:flex;gap:4px;padding:4px;border:1px solid var(--line);border-radius:12px;margin-bottom:14px}
+.segthemes button{flex:1;border:0;background:none;color:var(--muted);font:700 .74rem var(--sans);padding:9px;border-radius:9px;cursor:pointer;text-transform:uppercase;letter-spacing:.08em}
+.segthemes button.on{background:color-mix(in srgb,var(--gold) 18%,transparent);color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}
+.sws{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.sw{border:2px solid transparent;border-radius:13px;padding:8px 4px;background:var(--card);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--muted);font:600 .58rem var(--sans);text-transform:uppercase;letter-spacing:.06em}
+.sw i{width:26px;height:26px;border-radius:50%}
+.sw.on{border-color:var(--gold);color:var(--txt)}
+.sw-gold i{background:#d4af37}.sw-coral i{background:linear-gradient(135deg,#1fa37c,#cd8f7d)}.sw-rosa i{background:#cd8f7d}.sw-mostarda i{background:#d6a418}.sw-terraco i{background:#c96a3b}.sw-acqua i{background:#2ba3b0}.sw-lilas i{background:#8b7bd8}
 
-/* ─── destaque: última versão ─── */
-.spot{margin-top:16px;border:1px solid rgba(212,175,55,.45);border-radius:22px;padding:20px;background:linear-gradient(165deg,rgba(212,175,55,.10),rgba(20,17,9,.75) 55%);backdrop-filter:blur(10px);position:relative;overflow:hidden;animation:sobe .5s .44s both}
-.spot::before{content:'';position:absolute;inset:-1px;border-radius:22px;padding:1px;background:linear-gradient(150deg,rgba(212,175,55,.55),transparent 30%,transparent 72%,rgba(212,175,55,.4));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
-.spot .slab{position:absolute;right:-38px;top:-38px;width:150px;height:150px;background:radial-gradient(circle,rgba(212,175,55,.18),transparent 65%);pointer-events:none}
-.spot .slabt{display:flex;align-items:center;gap:9px;margin-bottom:4px}
-.spot .slabt small{font:700 .6rem var(--sans);letter-spacing:.28em;text-transform:uppercase;color:var(--muted)}
-.spot .rh{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.spot .vt{font:700 1.5rem var(--serif);background:var(--metal);-webkit-background-clip:text;background-clip:text;color:transparent}
-.badge{border:1px solid rgba(212,175,55,.6);color:var(--gold2);border-radius:999px;font:700 .58rem var(--sans);letter-spacing:.2em;padding:5px 11px;text-transform:uppercase;background:rgba(212,175,55,.08)}
-.spot .dt{margin-left:auto;color:var(--muted);font:600 .72rem var(--sans)}
-.spot ul{margin:10px 0 2px;padding:0;list-style:none}
-.spot ul li{position:relative;padding:3px 0 3px 19px;color:#d8cdae;font:500 .85rem/1.55 var(--sans)}
-.spot ul li::before{content:'✦';position:absolute;left:0;color:var(--gold);font-size:.7rem;top:6px}
-.spot .dl{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
-.dl a{display:inline-flex;gap:7px;align-items:center;padding:9px 15px;border-radius:11px;border:1px solid var(--line2);color:var(--txt);text-decoration:none;font:700 .78rem var(--sans);transition:.15s}
-.dl a:hover{border-color:var(--gold);color:var(--gold2)}
-.dl a.main{background:var(--metal);color:#171204;border-color:transparent;box-shadow:0 10px 26px rgba(212,175,55,.28);font-weight:800}
-.dl a.main:hover{color:#171204;filter:brightness(1.08)}
-.dl a.gh{color:var(--muted);border-color:var(--line)}
-.skel{border:1px dashed var(--line);border-radius:16px;padding:24px;text-align:center;color:var(--muted);font:500 .86rem var(--sans)}
-
-/* ─── passos ─── */
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
-@media(max-width:560px){.steps{grid-template-columns:1fr}}
-.step{border:1px solid var(--line);border-radius:15px;padding:14px;background:rgba(255,255,255,.02);animation:sobe .5s both}
-.step:nth-child(1){animation-delay:.48s}.step:nth-child(2){animation-delay:.54s}.step:nth-child(3){animation-delay:.6s}
-.step .n{font:700 1.5rem var(--serif);color:var(--gold)}
-.step b{display:block;margin-top:2px;font:700 .85rem var(--sans)}
-.step p{margin:3px 0 0;color:var(--muted);font:500 .78rem/1.5 var(--sans)}
-
-/* ─── versões (timeline) ─── */
-.vhead{display:flex;align-items:baseline;gap:12px;margin:26px 0 4px}
-.vhead h2{font:700 1.3rem var(--serif);color:var(--txt);margin:0}
-.vhead .rule{flex:1;height:1px;background:linear-gradient(90deg,var(--line2),transparent)}
-.vhead .ct{color:var(--muted);font:600 .68rem var(--sans);letter-spacing:.16em;text-transform:uppercase}
-.nota{color:var(--muted);font:500 .82rem var(--sans);margin:0 0 14px}
-.tl{position:relative;margin-top:18px;padding-left:24px}
-.tl::before{content:'';position:absolute;left:6px;top:8px;bottom:8px;width:1px;background:linear-gradient(180deg,var(--gold),rgba(212,175,55,.06))}
-.rel{position:relative;border:1px solid var(--line);border-radius:20px;padding:20px;margin:0 0 14px;background:var(--card);backdrop-filter:blur(9px)}
-.rel::before{content:'';position:absolute;left:-22px;top:28px;width:9px;height:9px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(212,175,55,.15)}
-.rel .rh{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.rel .vt{font:700 1.22rem var(--serif);color:var(--gold2)}
-.badge.gray{border-color:rgba(255,255,255,.14);color:var(--muted);background:transparent}
-.rel .dt{margin-left:auto;color:var(--muted);font:600 .72rem var(--sans)}
-.rel ul{margin:12px 0 4px;padding:0;list-style:none}
-.rel ul li{position:relative;padding:3px 0 3px 19px;color:#cfc4a9;font:500 .84rem/1.55 var(--sans)}
-.rel ul li::before{content:'✦';position:absolute;left:0;color:var(--gold);font-size:.7rem;top:6px}
-.rel .dl{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
-
-/* ─── rodapé ─── */
-footer{margin-top:32px;padding-top:18px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:6px;align-items:center;color:var(--muted);font:500 .75rem var(--sans);text-align:center}
-footer .f1{display:flex;gap:9px;align-items:center;flex-wrap:wrap;justify-content:center}
-footer img{width:20px;height:20px;border-radius:6px}
-footer b{color:var(--gold2)}
-footer .vcenter{font:600 .68rem var(--sans);letter-spacing:.14em;text-transform:uppercase;opacity:.75}
-
-/* ─── menu inferior ─── */
-.bottomnav{flex:none;display:flex;border-top:1px solid rgba(212,175,55,.16);background:rgba(11,10,7,.88);backdrop-filter:blur(16px);padding:8px 10px calc(8px + env(safe-area-inset-bottom))}
-.bottomnav button{flex:1;border:0;background:transparent;color:var(--muted);font:700 .68rem var(--sans);letter-spacing:.1em;padding:7px 0 4px;border-radius:12px;cursor:pointer;display:flex;flex-direction:column;gap:3px;align-items:center;text-transform:uppercase}
-.bottomnav button svg{width:21px;height:21px}
-.bottomnav button.on{color:var(--gold2)}
-.bottomnav button.on .pilula{background:linear-gradient(160deg,rgba(212,175,55,.22),rgba(212,175,55,.08));box-shadow:inset 0 0 0 1px rgba(212,175,55,.35)}
-.pilula{padding:5px 22px;border-radius:99px;transition:.15s}
-
-/* ─── toasts ─── */
-#toasts{position:fixed;left:50%;bottom:calc(var(--navh) + 16px);transform:translateX(-50%);z-index:60;display:flex;flex-direction:column;gap:8px;width:min(460px,92vw)}
-.toast{background:rgba(18,16,9,.97);border:1px solid var(--line2);border-left:3px solid var(--gold);color:var(--txt);border-radius:14px;padding:12px 15px;font:600 .82rem/1.45 var(--sans);box-shadow:0 20px 60px rgba(0,0,0,.6);animation:tin .22s ease;white-space:pre-line;backdrop-filter:blur(8px)}
+/* toasts */
+#toasts{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:60;display:flex;flex-direction:column;gap:8px;width:min(440px,92vw)}
+.toast{background:rgba(16,14,9,.97);border:1px solid var(--line2);border-left:3px solid var(--gold);color:var(--txt);border-radius:14px;padding:12px 15px;font:600 .82rem/1.45 var(--sans);box-shadow:0 20px 60px rgba(0,0,0,.6);animation:tin .22s ease;white-space:pre-line}
+html[data-theme="light"] .toast{background:#fffdf6}
 @keyframes tin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-@media(max-width:759px){.segs{display:none}main{padding-bottom:18px}}
-@media(min-width:760px){.bottomnav{display:none}.segs{display:flex}}
+
+/* ═══ responsivo (celular: sem sidebar, ⊞ como no app de estética) ═══ */
+@media(max-width:719px){
+ .side{display:none}
+ .bmenu{display:inline-flex}
+ .btnv span{display:none}
+ .btnv{padding:9px 11px}
+ .dhero h1{font-size:1.5rem}
+ main{padding:0 14px 26px}
+ .prateleira{grid-template-columns:1fr}
+}
+@media(min-width:720px){.bmenu{display:none}}
 </style>
 </head>
 <body>
-<div class="fundo"></div><div class="grao"></div><div class="vinheta"></div>
+<div class="fundo"></div>
+<img class="wm" src="icone-512.png?v=4" alt="" aria-hidden="true">
 <div class="app">
 
+<!-- ═══ SIDEBAR ═══ -->
+<aside class="side">
+  <div class="side-logo">
+    <img src="icone-512.png?v=4" alt="Fênix Center">
+    <div class="side-brand">FÊNIX <span>CENTER</span></div>
+    <div class="side-clinic">central de apps</div>
+  </div>
+  <nav class="snav">
+    <button class="navbtn active" data-nav="inicio" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Início</button>
+    <button class="navbtn" data-nav="temas" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="8.5" cy="10" r="1.2" fill="currentColor" stroke="none"/><circle cx="12" cy="7.5" r="1.2" fill="currentColor" stroke="none"/><circle cx="15.5" cy="10" r="1.2" fill="currentColor" stroke="none"/><path d="M12 21a9 9 0 0 0 0-18"/><path d="M12 21c-4 0-4.5-3.5-2-5"/></svg>Aparência</button>
+  </nav>
+  <div class="side-foot"><i></i>v1.3.0<button id="btnSobre" type="button" title="Sobre">ⓘ</button></div>
+</aside>
+
+<!-- ═══ CORPO ═══ -->
+<div class="corpo">
 <header class="topbar">
-  <div class="mark"><img src="icone-192.png?v=2" alt="Fênix Center"></div>
-  <div class="brand"><b>Fênix Center</b><small>central de apps</small></div>
+  <button class="bmenu" id="btnMenu" type="button" title="Menu">⊞</button>
+  <button class="btnv" id="btnVoltar" type="button">‹ <span>Voltar</span></button>
+  <div class="titulo" id="titulo">Início</div>
   <div class="live"><i></i>oficial</div>
 </header>
 
 <div id="upd"><span>🔄 <b>Nova versão do Center disponível.</b><br>Instale por cima — nada é apagado.</span><button id="btnUpd" type="button">Atualizar</button></div>
 
-<nav class="segs" aria-label="Seções">
-  <span class="desl" id="desl"></span>
-  <button class="on" data-tab="inicio" type="button">Início</button>
-  <button data-tab="versoes" type="button">Versões</button>
-</nav>
-
 <main id="scroller">
-  <!-- ═══ INÍCIO ═══ -->
+  <!-- ═══ INÍCIO: todos os apps ═══ -->
   <section class="view" id="view-inicio">
-    <div class="hero">
-      <div class="hico"><img src="icone-512.png?v=2" alt="Fênix Center"></div>
-      <div class="halo"></div>
-      <div style="margin-top:10px"><span class="kicker">🦅 Fênix Estética</span></div>
-      <h1>Tudo do <em>Fênix</em>,<br>num só lugar</h1>
-      <p class="tag">A central oficial para instalar, atualizar e abrir o app da sua clínica — no computador e no celular.</p>
+    <div class="chamada">
+      <h1>Todos os <em>apps</em></h1>
+      <p>Toque num app pra ver versões, novidades e instalar.</p>
     </div>
-
-    <div class="acts">
-      <button class="act primary" id="btnAbrir" type="button">
-        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M10.5 5h3M12 18.2h.01"/></svg></span>
-        <span><b>Abrir o app instalado</b><small id="abrirSub">manda direto pro Fênix instalado</small></span>
-        <span class="go">›</span>
-      </button>
-      <a class="act" id="btnApkC" href="fenix-center.apk?v=3" download>
-        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 8l5-5 5 5"/><path d="M4 17v2.5A1.5 1.5 0 0 0 5.5 21h13a1.5 1.5 0 0 0 1.5-1.5V17"/></svg></span>
-        <span><b>Instalar este Center</b><small>app do Center no Android (APK)</small></span>
-        <span class="go">›</span>
-      </a>
-      <button class="act" id="actInstalar" type="button">
-        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v10M9 10l3 3 3-3"/><rect x="5" y="16" width="14" height="5" rx="1.5"/></svg></span>
-        <span><b>Instalar no aparelho</b><small>adiciona o Center à tela inicial</small></span>
-        <span class="go">›</span>
-      </button>
-      <a class="act" id="btnExeC" href="#" data-dl="center">
-        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M2 20h20"/></svg></span>
-        <span><b>Center para Windows</b><small>app próprio de mesa (ZIP)</small></span>
-        <span class="go">›</span>
-      </a>
+    <div class="prateleira" id="prateleira">
+      <div class="skel">Carregando os apps…</div>
     </div>
-
-    <div class="spot" id="spot"><div class="slab"></div>
-      <div class="slabt"><small>última versão do app</small></div>
-      <div class="skel" style="border:0;padding:8px;text-align:left">Buscando…</div>
-    </div>
-
-    <div class="steps">
-      <div class="step"><div class="n">1</div><b>Baixe o app</b><p>Android (APK) ou Windows (ZIP), sempre a versão mais recente.</p></div>
-      <div class="step"><div class="n">2</div><b>Instale</b><p>Android: abra o arquivo e confirme. Windows: extraia e rode o instalador de 1 passo.</p></div>
-      <div class="step"><div class="n">3</div><b>Abra por aqui</b><p>Com o app instalado, o botão de cima manda direto pra ele.</p></div>
-    </div>
-
-    <footer>
-      <div class="f1"><img src="icone-192.png?v=2" alt=""><span>Feito com 💛 pela <b>Fênix</b> · a porta oficial do <b>Fênix Estética</b></span></div>
-      <span class="vcenter">Fênix Center <b>v1.2.0</b> · atualiza sozinho</span>
-    </footer>
   </section>
 
-  <!-- ═══ VERSÕES ═══ -->
-  <section class="view esconde" id="view-versoes">
-    <div class="vhead"><h2>Todas as versões</h2><span class="rule"></span><span class="ct" id="relCt"></span></div>
-    <p class="nota">Histórico oficial de lançamentos — do mais novo pro mais antigo. Atualizar por cima nunca apaga seus dados.</p>
-    <div class="tl" id="rels"><div class="skel">Consultando as versões…</div></div>
+  <!-- ═══ DETALHE DO APP ═══ -->
+  <section class="view esconde" id="view-app">
+    <div id="dconteudo"><div class="skel" style="margin-top:24px">Carregando…</div></div>
   </section>
 </main>
-
-<nav class="bottomnav" aria-label="Menu">
-  <button class="on" data-tab="inicio" type="button"><span class="pilula"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg></span>Início</button>
-  <button data-tab="versoes" type="button"><span class="pilula"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 8l9-5 9 5-9 5-9-5z"/><path d="M3 16l9 5 9-5"/></svg></span>Versões</button>
-</nav>
 </div>
+</div>
+
+<!-- ═══ popup ⊞ (celular) ═══ -->
+<div class="painel" id="painelMenu">
+  <div class="pmenu">
+    <h4>Fênix <span>Center</span></h4>
+    <button class="mitem" data-nav="inicio" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Início</button>
+    <button class="mitem" data-nav="temas" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="8.5" cy="10" r="1.2" fill="currentColor" stroke="none"/><circle cx="12" cy="7.5" r="1.2" fill="currentColor" stroke="none"/><circle cx="15.5" cy="10" r="1.2" fill="currentColor" stroke="none"/><path d="M12 21a9 9 0 0 0 0-18"/></svg>Aparência<small id="miTema">escuro</small></button>
+    <button class="mitem" id="miSobre" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>Sobre este app<small>v1.3.0</small></button>
+  </div>
+</div>
+
+<!-- ═══ popup Aparência (temas, igual app de estética) ═══ -->
+<div class="painel" id="painelTema">
+  <div class="tmodal">
+    <h4>Aparência</h4>
+    <div class="segthemes">
+      <button id="segEsc" class="on" type="button">🌙 Escuro</button>
+      <button id="segCla" type="button">☀️ Claro</button>
+    </div>
+    <div class="sws">
+      <button class="sw sw-gold on" data-accent="gold" type="button"><i></i>gold</button>
+      <button class="sw sw-coral" data-accent="coral" type="button"><i></i>coral</button>
+      <button class="sw sw-rosa" data-accent="rosa" type="button"><i></i>rosa</button>
+      <button class="sw sw-mostarda" data-accent="mostarda" type="button"><i></i>mostarda</button>
+      <button class="sw sw-terraco" data-accent="terraco" type="button"><i></i>terracota</button>
+      <button class="sw sw-acqua" data-accent="acqua" type="button"><i></i>acqua</button>
+      <button class="sw sw-lilas" data-accent="lilas" type="button"><i></i>lilás</button>
+    </div>
+  </div>
+</div>
+
 <div id="toasts"></div>
 <script>
 const REPO='geniterapeuta12-tech/fenix-estetica';
 const L='https://github.com/'+REPO+'/releases/latest/download/';
-const CENTER_V='1.2.0', CENTER_BUILD='2026-09-29';
-const $=s=>document.querySelector(s);
+const CENTER_V='1.3.0', CENTER_BUILD='2026-09-29';
+const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function toast(t){const el=document.createElement('div');el.className='toast';el.textContent=t;$('#toasts').appendChild(el);setTimeout(()=>{try{el.remove()}catch(e){}},5200)}
 
-/* ─── navegação estilo app ─── */
-function tab(nome){
-  document.querySelectorAll('.view').forEach(v=>v.classList.add('esconde'));
-  $('#view-'+nome).classList.remove('esconde');
-  document.querySelectorAll('.segs button,[data-tab]').forEach(b=>b.classList.toggle('on',b.dataset.tab===nome));
-  const d=$('#desl');if(d)d.style.transform=nome==='versoes'?'translateX(100%)':'translateX(0)';
-  $('#scroller').scrollTop=0;
-}
-document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>tab(b.dataset.tab)));
+/* ═══ estamos DENTRO do app instalado? (APK = ponte · EXE = Electron) ═══ */
+const isApp=(!!window.FenixCenterApp)||/Electron/i.test(navigator.userAgent);
 
-/* ─── ponte nativa (APK do Center) + fallback fenix:// ─── */
-function temFenix(){try{return window.FenixCenterApp&&window.FenixCenterApp.statusFenix()==='1'}catch(e){return false}}
+/* ═══ temas (persistem, igual app de estética) ═══ */
+function pintaTema(){
+ const t=localStorage.getItem('center_tema')||'dark', a=localStorage.getItem('center_accent')||'gold';
+ document.documentElement.dataset.theme=(t==='light'?'light':'');
+ document.documentElement.dataset.accent=a;
+ $$('.sw').forEach(b=>b.classList.toggle('on',b.dataset.accent===a));
+ $('#segEsc').classList.toggle('on',t!=='light');$('#segCla').classList.toggle('on',t==='light');
+ const m=$('#miTema');if(m)m.textContent=t==='light'?'claro':'escuro';
+ try{document.querySelector('meta[name=theme-color]').setAttribute('content',t==='light'?'#f3efe4':'#0b0a07');}catch(e){}
+}
+$('#segEsc').onclick=()=>{localStorage.setItem('center_tema','dark');pintaTema()};
+$('#segCla').onclick=()=>{localStorage.setItem('center_tema','light');pintaTema()};
+$$('.sw').forEach(b=>b.onclick=()=>{localStorage.setItem('center_accent',b.dataset.accent);pintaTema()});
+function abreTemas(){$('#painelTema').classList.add('show')}
+function abreMenu(){$('#painelMenu').classList.add('show')}
+$$('.painel').forEach(p=>p.addEventListener('click',e=>{if(e.target===p)p.classList.remove('show')}));
+pintaTema();
+
+/* ═══ dados dos apps da loja ═══ */
+const APPS={
+ estetica:{id:'estetica',nome:'Fênix Estética',dev:'Fênix · oficial',
+  desc:'O app da sua clínica: clientes, agenda, financeiro, equipe, catálogo, mensagens e mais. Para Windows e Android.',
+  icone:'icone-512.png?v=4',plataformas:['Windows','Android']},
+ center:{id:'center',nome:'Fênix Center',dev:'Fênix · oficial',
+  desc:'Esta central: a porta oficial dos apps Fênix. Por ela você instala e atualiza tudo — e abre o app já instalado.',
+  icone:'icone-512.png?v=4',plataformas:['Windows','Android']}
+};
+let RELS=[]; /* releases do GitHub */
+function assets(v){const a={};(v.assets||[]).forEach(x=>{a[x.name]=x.browser_download_url});return a}
+function limpa(md){return String(md||'').replace(/\r/g,'').split('\n')
+ .filter(l=>l.trim()&&l.indexOf('## Instala')<0&&l.indexOf('## Arquivos')<0&&l.indexOf('releases/latest')<0&&l.indexOf('geniterapeuta12-tech.github.io')<0)
+ .filter(l=>!/^\s*[-*]\s*\[/.test(l))
+ .map(l=>l.replace(/^\s*[-*]\s*/,'').replace(/\*\*/g,'').replace(/^#+\s*/,'').replace(/^ABRIR A FÊNIX CENTER\s*$/i,'').trim())
+ .filter(l=>l.length>3)}
+function dt(v){return (v.published_at||'').slice(0,10).split('-').reverse().join('/')}
+
+/* ═══ navegação (hash: botão voltar do celular funciona) ═══ */
+function rota(){
+ const h=location.hash||'#/inicio';
+ const m=h.match(/^#\/app\/(\w+)/);
+ $('#btnVoltar').classList.toggle('show',!!m);
+ $$('.navbtn[data-nav=inicio]').forEach(b=>b.classList.toggle('active',!m));
+ if(m){abreApp(m[1]);$('#titulo').textContent=(APPS[m[1]]||{}).nome||'App';}
+ else{$('#view-inicio').classList.remove('esconde');$('#view-app').classList.add('esconde');$('#titulo').textContent='Início';}
+ $('#scroller').scrollTop=0;
+ $$('.painel').forEach(p=>p.classList.remove('show'));
+}
+function vai(h){if(location.hash===h)rota();else location.hash=h}
+window.addEventListener('hashchange',rota);
+$('#btnVoltar').onclick=()=>{if(history.length>1)history.back();else vai('#/inicio')};
+$$('[data-nav]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.nav==='temas'){$$('.painel').forEach(p=>p.classList.remove('show'));abreTemas();}else vai('#/inicio');}));
+$('#btnMenu').onclick=abreMenu;
+$('#btnSobre').onclick=$('#miSobre').onclick=()=>{$$('.painel').forEach(p=>p.classList.remove('show'));
+ toast('Fênix Center v'+CENTER_V+'\n'+(isApp?'Você está dentro do app instalado ✓':'Rodando no navegador')+'\n'+(atualizaDisponivel?'🔄 Tem atualização — use a barra no topo.':'Você está na versão mais recente ✓'));};
+
+/* ═══ abrir o Fênix instalado (APK) / fenix:// (Windows) ═══ */
 function abreFenix(){
-  try{if(window.FenixCenterApp&&window.FenixCenterApp.abrirFenix){window.FenixCenterApp.abrirFenix();return;}}catch(e){}
-  let ok=false;
-  const t=setTimeout(()=>{if(!ok)toast('O app não respondeu.\nSe o Fênix ainda não está instalado, baixe no card «última versão» — depois este botão abre direto.');},1700);
-  window.addEventListener('blur',()=>{ok=true;clearTimeout(t)},{once:true});
-  try{window.location.href='fenix://abrir';}catch(e){clearTimeout(t);}
+ try{if(window.FenixCenterApp&&window.FenixCenterApp.abrirFenix){window.FenixCenterApp.abrirFenix();return;}}catch(e){}
+ let ok=false;const t=setTimeout(()=>{if(!ok)toast('O app não respondeu.\nInstale o Fênix Estética pelos botões desta central — depois este botão abre direto.');},1700);
+ window.addEventListener('blur',()=>{ok=true;clearTimeout(t)},{once:true});
+ try{window.location.href='fenix://abrir';}catch(e){clearTimeout(t);}
 }
-$('#btnAbrir').addEventListener('click',abreFenix);
-if(temFenix())$('#abrirSub').textContent='Fênix instalado neste aparelho ✓';
-$('#btnExeC').href=L+'Fenix-Center-Windows.zip';
 
-/* ─── instalar o Center (PWA) ─── */
-let promptInstalar=null;
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();promptInstalar=e;$('#actInstalar').classList.add('show');});
-$('#actInstalar').addEventListener('click',async()=>{
-  if(!promptInstalar){toast('Para instalar: menu do navegador › «Adicionar à tela inicial» / «Instalar app».');return;}
-  promptInstalar.prompt();
-  try{const r=await promptInstalar.userChoice;if(r&&r.outcome==='accepted')toast('✔ Fênix Center instalado! Procure o ícone na tela inicial.');}catch(e){}
-  promptInstalar=null;$('#actInstalar').classList.remove('show');
-});
+/* ═══ render: prateleira de apps ═══ */
+function cardApp(a){
+ const ult=RELS[0];
+ const asUlt=ult?assets(ult):{};
+ const verEst=ult?ult.tag_name.replace('v',''):'…';
+ if(a.id==='estetica'){
+  return '<div class="appcard" onclick="vai(\'#/app/estetica\')"><div class="ac-top">'
+   +'<div class="aico"><img src="'+a.icone+'" alt=""></div>'
+   +'<div><h3>'+a.nome+'</h3><div class="dev">'+a.dev+'</div></div></div>'
+   +'<p class="desc">'+a.desc+'</p>'
+   +'<div class="meta"><span class="pill ver">v'+esc(verEst)+'</span><span class="pill of">Windows · Android</span></div>'
+   +'<div class="ac-bts">'
+   +(asUlt['FENIX-Estetica.apk']?'<a class="bto pri" href="'+esc(asUlt['FENIX-Estetica.apk'])+'" onclick="event.stopPropagation()">⬇ Android</a>':'')
+   +(asUlt['FENIX-Estetica-Windows.zip']?'<a class="bto" href="'+esc(asUlt['FENIX-Estetica-Windows.zip'])+'" onclick="event.stopPropagation()">⬇ Windows</a>':'')
+   +'<button class="bto" onclick="event.stopPropagation();abreFenix()" title="abre o app já instalado">Abrir instalado ›</button>'
+   +'</div></div>';
+ }
+ /* card do próprio Center: dentro do app NÃO empurra instalação (pedido do dono) */
+ if(isApp){
+  return '<div class="appcard"><div class="voce">este app</div><div class="ac-top">'
+   +'<div class="aico"><img src="'+a.icone+'" alt=""></div>'
+   +'<div><h3>'+a.nome+'</h3><div class="dev">'+a.dev+'</div></div></div>'
+   +'<p class="desc">'+a.desc+'</p>'
+   +'<div class="meta"><span class="pill ver">v'+CENTER_V+'</span><span class="pill of">'+(/Electron/i.test(navigator.userAgent)?'Windows':'Android')+'</span></div>'
+   +'<div class="ac-bts"><button class="bto pri" onclick="checaUpdate()">Procurar atualização</button></div></div>';
+ }
+ return '<div class="appcard" onclick="vai(\'#/app/center\')"><div class="ac-top">'
+  +'<div class="aico"><img src="'+a.icone+'" alt=""></div>'
+  +'<div><h3>'+a.nome+'</h3><div class="dev">'+a.dev+'</div></div></div>'
+  +'<p class="desc">'+a.desc+'</p>'
+  +'<div class="meta"><span class="pill ver">v'+CENTER_V+'</span><span class="pill of">Windows · Android</span></div>'
+  +'<div class="ac-bts"><a class="bto pri" href="fenix-center.apk?v=4" onclick="event.stopPropagation()">⬇ Android (APK)</a>'
+  +'<a class="bto" href="'+L+'Fenix-Center-Windows.zip" onclick="event.stopPropagation()">⬇ Windows</a></div></div>';
+}
+function pintaPrateleira(){$('#prateleira').innerHTML=APPS.estetica&&RELS!==null?cardApp(APPS.estetica)+cardApp(APPS.center):'<div class="skel">Carregando…</div>'}
 
-/* ─── auto-atualização do Center ─── */
+/* ═══ render: detalhe estilo Microsoft Store ═══ */
+function linhaVersao(v,i){
+ const a=assets(v),it=limpa(v.body).slice(0,4);
+ return '<div class="vrow" style="animation-delay:'+(0.04*i)+'s"><div class="vh">'
+  +'<span class="vt">'+esc(v.tag_name)+'</span>'
+  +(i===0?'<span class="badge">mais recente</span>':'<span class="badge gray">arquivo</span>')
+  +'<span class="dt">'+esc(dt(v))+'</span></div>'
+  +(it.length?'<ul>'+it.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul>':'')
+  +'<div class="vb">'
+  +(a['FENIX-Estetica.apk']?'<a class="bto mini pri" href="'+esc(a['FENIX-Estetica.apk'])+'">⬇ Instalar (Android)</a>':'')
+  +(a['FENIX-Estetica-Windows.zip']?'<a class="bto mini" href="'+esc(a['FENIX-Estetica-Windows.zip'])+'">⬇ Instalar (Windows)</a>':'')
+  +(a['checksums-sha256.txt']?'<a class="bto mini" href="'+esc(a['checksums-sha256.txt'])+'">checksums</a>':'')
+  +'</div></div>';
+}
+function abreApp(id){
+ $('#view-inicio').classList.add('esconde');$('#view-app').classList.remove('esconde');
+ const el=$('#dconteudo');
+ if(id==='estetica'){
+  const ult=RELS[0],a=ult?assets(ult):{},ver=ult?ult.tag_name:'…';
+  const nov=ult?limpa(ult.body).slice(0,5):[];
+  el.innerHTML='<div class="dhero">'
+   +'<div class="dico"><img src="icone-512.png?v=4" alt=""></div>'
+   +'<div class="info"><h1>Fênix Estética</h1><div class="dev">Fênix · oficial</div>'
+   +'<p class="ddesc">O app da sua clínica: clientes, agenda, financeiro, equipe, catálogo, mensagens, pacotes e mais. Atualizar por cima nunca apaga seus dados.</p>'
+   +'<div class="meta"><span class="pill ver">v'+esc(ver.replace('v',''))+'</span><span class="pill of">Windows · Android</span><span class="pill of">português (BR)</span></div>'
+   +'<div class="dacts">'
+   +(a['FENIX-Estetica.apk']?'<a class="bto pri" href="'+esc(a['FENIX-Estetica.apk'])+'">⬇ Instalar (Android APK)</a>':'')
+   +(a['FENIX-Estetica-Windows.zip']?'<a class="bto pri" href="'+esc(a['FENIX-Estetica-Windows.zip'])+'">⬇ Instalar (Windows)</a>':'')
+   +'<button class="bto" onclick="abreFenix()">Abrir o app instalado ›</button>'
+   +'</div></div></div>'
+   +(nov.length?'<div class="sec"><h2>Novidades desta versão<span class="rule"></span></h2><div class="news"><ul>'+nov.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul></div></div>':'')
+   +'<div class="sec"><h2>Todas as versões<span class="rule"></span></h2>'
+   +'<p class="nota">Pode instalar qualquer uma — todas são oficiais e assinadas. Recomendamos sempre a mais recente.</p>'
+   +'<div id="listaVersoes">'+(RELS.length?RELS.map(linhaVersao).join(''):'<div class="skel">Consultando as versões…</div>')+'</div></div>';
+ }else if(id==='center'){
+  const ult=RELS[0],a=ult?assets(ult):{};
+  el.innerHTML='<div class="dhero">'
+   +'<div class="dico"><img src="icone-512.png?v=4" alt=""></div>'
+   +'<div class="info"><h1>Fênix Center</h1><div class="dev">Fênix · oficial</div>'
+   +'<p class="ddesc">A porta oficial dos apps Fênix: reúne as versões, instala atualizações e abre o app já instalado com um toque.</p>'
+   +'<div class="meta"><span class="pill ver">v'+CENTER_V+'</span><span class="pill of">Windows · Android</span></div>'
+   +'<div class="dacts">'
+   +(isApp?'<button class="bto pri" onclick="checaUpdate()">Procurar atualização</button>'
+          :'<a class="bto pri" href="fenix-center.apk?v=4">⬇ Instalar (Android APK)</a><button class="bto" id="btoPwa">Instalar no aparelho (PWA)</button>')
+   +(!isApp?'<a class="bto" href="'+L+'Fenix-Center-Windows.zip">⬇ Windows</a>':'')
+   +'</div></div></div>'
+   +'<div class="sec"><h2>Sobre<span class="rule"></span></h2><div class="news"><ul>'
+   +'<li>Atualiza sozinho: quando existe versão nova, avisa e instala por cima.</li>'
+   +'<li>Temas idênticos ao app de estética: Escuro/Claro e 7 cores.</li>'
+   +'<li>Mostra todas as versões oficiais dos apps — nada de fonte desconhecida.</li>'
+   +'</ul></div></div>';
+  const bp=$('#btoPwa');if(bp)bp.onclick=()=>{if(promptInstalar){promptInstalar.prompt();}else toast('Para instalar: menu do navegador › «Adicionar à tela inicial» / «Instalar app».');};
+ }
+}
+
+/* ═══ releases (GitHub) ═══ */
+async function carregaReleases(){
+ try{
+  const r=await fetch('https://api.github.com/repos/'+REPO+'/releases?per_page=30');
+  if(!r.ok)throw 0;
+  RELS=await r.json();
+  if(!Array.isArray(RELS))RELS=[];
+ }catch(e){RELS=[];}
+ pintaPrateleira();
+ if((location.hash||'').startsWith('#/app/'))rota();
+}
+/* ═══ auto-atualização do Center ═══ */
+let atualizaDisponivel=false;
 (async function(){
  try{
   const r=await fetch('https://api.github.com/repos/'+REPO+'/commits?path=center/index.html&per_page=1');
   const c=await r.json();
   if(Array.isArray(c)&&c[0]&&c[0].commit){
    const d=Date.parse(c[0].commit.committer.date), b=Date.parse(CENTER_BUILD+'T12:00:00Z');
-   if(d>b+86400000)$('#upd').classList.add('show');
+   if(d>b+86400000){atualizaDisponivel=true;$('#upd').classList.add('show');}
   }
  }catch(e){}
 })();
-$('#btnUpd').addEventListener('click',()=>{try{window.location.href='fenix-center.apk?v='+Date.now();}catch(e){}});
-
-/* ─── versões ─── */
-function limpa(md){return String(md||'').replace(/\r/g,'').split('\n')
- .filter(l=>l.trim()&&l.indexOf('## Instala')<0&&l.indexOf('## Arquivos')<0&&l.indexOf('releases/latest')<0&&l.indexOf('geniterapeuta12-tech.github.io')<0)
- .filter(l=>!/^\s*[-*]\s*\[/.test(l))
- .map(l=>l.replace(/^\s*[-*]\s*/,'').replace(/\*\*/g,'').replace(/^#+\s*/,'').replace(/^ABRIR A FÊNIX CENTER\s*$/i,'').trim())
- .filter(l=>l.length>3).slice(0,7)}
-async function carrega(){
- try{
-  const r=await fetch('https://api.github.com/repos/'+REPO+'/releases?per_page=30');
-  if(!r.ok)throw 0;
-  const list=await r.json();
-  if(!Array.isArray(list)||!list.length){$('#spot .skel').textContent='Nenhuma versão publicada ainda.';$('#rels').innerHTML='';return;}
-  $('#relCt').textContent=list.length+' versões';
-  /* destaque (última) */
-  const v0=list[0],as0={};(v0.assets||[]).forEach(a=>{as0[a.name]=a.browser_download_url});
-  const it0=limpa(v0.body).slice(0,3),dt0=(v0.published_at||'').slice(0,10).split('-').reverse().join('/');
-  $('#spot').innerHTML='<div class="slab"></div><div class="slabt"><small>última versão do app</small></div>'
-   +'<div class="rh"><span class="vt">'+esc(v0.tag_name)+'</span><span class="badge">mais recente</span><span class="dt">'+esc(dt0)+'</span></div>'
-   +(it0.length?'<ul>'+it0.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul>':'')
-   +'<div class="dl">'+(as0['FENIX-Estetica.apk']?'<a class="main" href="'+esc(as0['FENIX-Estetica.apk'])+'">⬇ Android (APK)</a>':'')
-   +(as0['FENIX-Estetica-Windows.zip']?'<a class="main" href="'+esc(as0['FENIX-Estetica-Windows.zip'])+'">⬇ Windows (ZIP)</a>':'')
-   +(as0['checksums-sha256.txt']?'<a class="gh" href="'+esc(as0['checksums-sha256.txt'])+'">checksums</a>':'')+'</div>';
-  /* timeline completa */
-  $('#rels').innerHTML=list.map(function(v,i){
-   const dt=(v.published_at||'').slice(0,10).split('-').reverse().join('/');
-   const itens=limpa(v.body);
-   const as={};(v.assets||[]).forEach(a=>{as[a.name]=a.browser_download_url});
-   const apk=as['FENIX-Estetica.apk'],zip=as['FENIX-Estetica-Windows.zip'],chk=as['checksums-sha256.txt'];
-   return '<article class="rel"><div class="rh"><span class="vt">'+esc(v.tag_name)+'</span>'
-    +(i===0?'<span class="badge">mais recente</span>':'<span class="badge gray">arquivo</span>')
-    +'<span class="dt">'+esc(dt)+'</span></div>'
-    +(itens.length?'<ul>'+itens.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul>':'')
-    +'<div class="dl">'+(apk?'<a class="main" href="'+esc(apk)+'">⬇ App (Android)</a>':'')
-    +(zip?'<a class="main" href="'+esc(zip)+'">⬇ App (Windows)</a>':'')
-    +(chk?'<a class="gh" href="'+esc(chk)+'">checksums</a>':'')
-    +'<a class="gh" href="'+esc(v.html_url)+'">detalhes</a></div></article>';
-  }).join('');
- }catch(e){
-  $('#spot .skel').textContent='Sem internet agora — as versões aparecem quando conectar.';
- }
+function checaUpdate(){
+ if(atualizaDisponivel)toast('🔄 Tem atualização do Center!\nUse a barra dourada no topo → «Atualizar».');
+ else toast('Você já está na versão mais recente ✓ (v'+CENTER_V+')');
 }
-carrega();
-/* ─── PWA ─── */
-try{if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js?v=3');}catch(e){}
+$('#btnUpd').onclick=()=>{try{window.location.href='fenix-center.apk?v='+Date.now();}catch(e){}};
+/* ═══ PWA ═══ */
+let promptInstalar=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();promptInstalar=e;});
+try{if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js?v=4');}catch(e){}
+/* ═══ start ═══ */
+rota();
+carregaReleases();
 </script>
 </body>
 </html>
