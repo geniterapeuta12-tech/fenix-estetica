@@ -786,29 +786,34 @@ html[data-theme="light"] .pstcard b{color:#2a2410}
 .rolchip{display:inline-flex;align-items:center;gap:6px;background:rgba(212,175,55,.08);border:1px solid rgba(212,175,55,.2);border-radius:999px;padding:4px 6px 4px 12px;margin:3px;font-size:.84rem;color:#f5efe0}
 html[data-theme="light"] .rolres,html[data-theme="light"] .rolchip{color:#2a2410}
 html[data-theme="light"] .rolhub{border-color:#fbf7ec}
-/* R49 — Abas simples na barra lateral (chips + botão +) */
+/* R51 — Abas: barra + popup com contraste garantido (claro e escuro) */
 .abasbar{display:flex;gap:10px;align-items:center;padding:8px 12px;border-top:1px solid var(--line)}
-.abaslbl{font:700 .66rem Montserrat;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
-.abaschips{display:flex;gap:6px;flex:1;overflow-x:auto;padding:2px 0}
-.aba-chip{display:inline-flex;gap:7px;align-items:center;padding:5px 7px 5px 11px;border:1px solid var(--line);border-radius:999px;background:rgba(212,175,55,.06);color:var(--txt);font:600 .78rem Montserrat;cursor:pointer;white-space:nowrap}
-.aba-chip:hover{background:rgba(212,175,55,.16);border-color:var(--gold)}
-.aba-chip b{color:var(--txt);font-weight:600}
-.aba-x{border:0;background:transparent;color:var(--muted);font-size:.9rem;cursor:pointer;padding:0 2px;line-height:1}
-.aba-x:hover{color:#ff6b6b}
-.aba-add{width:25px;height:25px;flex:none;border-radius:50%;border:1px solid var(--gold);background:transparent;color:var(--gold);font:700 1rem Montserrat;cursor:pointer;line-height:1;padding:0}
-.aba-add:hover{background:rgba(212,175,55,.18)}
-.abas-todas{color:var(--txt);border-color:var(--line);font-size:.8rem}
-.abas-todas:hover{border-color:var(--gold);color:var(--gold)}
+.abaslbl{font:700 .66rem Montserrat;letter-spacing:.16em;text-transform:uppercase;color:#b9b09a!important}
+html[data-theme="light"] .abaslbl{color:#6d6553!important}
+.abaschips{display:flex;gap:7px;flex:1;overflow-x:auto;padding:2px 0}
+.aba-chip{display:inline-flex;gap:8px;align-items:center;padding:7px 8px 7px 14px;border:1px solid rgba(212,175,55,.5);border-radius:999px;background:rgba(212,175,55,.13);box-shadow:0 2px 8px rgba(0,0,0,.25);cursor:pointer;white-space:nowrap;transition:.15s}
+html[data-theme="light"] .aba-chip{background:rgba(180,140,30,.12);border-color:rgba(140,105,20,.5);box-shadow:0 2px 8px rgba(80,60,10,.12)}
+.aba-chip:hover{background:rgba(212,175,55,.24);border-color:var(--gold);transform:translateY(-1px)}
+.aba-chip b{color:#f7f2e3!important;font-weight:700;font-size:.8rem;letter-spacing:.02em}
+html[data-theme="light"] .aba-chip b{color:#241f13!important}
+.aba-x{border:0;background:rgba(212,175,55,.22);color:#f7f2e3!important;width:19px;height:19px;border-radius:50%;font-size:.85rem;cursor:pointer;padding:0;line-height:1;display:flex;align-items:center;justify-content:center}
+html[data-theme="light"] .aba-x{background:rgba(140,105,20,.18);color:#241f13!important}
+.aba-x:hover{background:#c0392b!important;color:#fff!important}
+.aba-add{width:26px;height:26px;flex:none;border-radius:50%;border:1px solid var(--gold);background:rgba(212,175,55,.1);color:var(--gold);font:700 1.05rem Montserrat;cursor:pointer;line-height:1;padding:0}
+.aba-add:hover{background:rgba(212,175,55,.28)}
+.abas-todas{color:var(--gold)!important;border-color:rgba(212,175,55,.55)!important;font-size:.82rem;background:rgba(212,175,55,.08)}
+.abas-todas:hover{background:rgba(212,175,55,.22)!important;color:var(--gold)!important}
 .abas-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
 @media(max-width:520px){.abas-grid{grid-template-columns:1fr}}
-.abas-card{display:flex;gap:10px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:14px;background:rgba(212,175,55,.05);cursor:pointer;transition:.15s;text-align:left}
-.abas-card:hover{border-color:var(--gold);background:rgba(212,175,55,.12)}
-.abas-ico{width:38px;height:38px;min-width:38px;border-radius:11px;background:rgba(212,175,55,.14);display:flex;align-items:center;justify-content:center;font-size:1.15rem}
-.abas-meta{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
-.abas-meta b{color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.abas-meta small{color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.abas-del{border:0;background:transparent;color:var(--muted);cursor:pointer;padding:4px;line-height:1}
-.abas-del:hover{color:#ff6b6b}
+.abas-card{display:flex;gap:11px;align-items:center;padding:13px;border:1px solid rgba(212,175,55,.35);border-radius:14px;background:rgba(212,175,55,.09);cursor:pointer;transition:.15s;text-align:left}
+.abas-card:hover{border-color:var(--gold);background:rgba(212,175,55,.18);box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.abas-ico{width:40px;height:40px;min-width:40px;border-radius:12px;background:linear-gradient(135deg,rgba(212,175,55,.32),rgba(212,175,55,.14));border:1px solid rgba(212,175,55,.35);display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+.abas-meta{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.abas-meta b{color:#f7f2e3!important;font-size:.93rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.abas-meta small{color:#b9b09a!important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.abas-del{border:0;background:transparent;color:#b9b09a!important;cursor:pointer;padding:4px;line-height:1}
+.abas-del:hover{color:#ff6b6b!important}
+#abasVazio2.fempty{color:#b9b09a!important}
 @media(max-width:900px){#abasBar{display:none!important}}
 /* R49 — Funções extras como cartões */
 .fng{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:14px}
@@ -1761,10 +1766,13 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <div class="panelcard">
 <h3>Permissões do aparelho</h3>
 <p class="sub">Deixa o app usar <b>arquivos</b> (anexos, fotos) e <b>notificações</b> do sistema. No celular abre o pedido de permissão do Android; no computador usa a permissão do navegador/app.</p>
+<p class="sub" id="permsStatus" style="margin:12px 0 0;font-weight:600">Verificando permissões…</p>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
 <button class="btn gold" id="btnPermsAparelho" type="button">🔐 Pedir permissões agora</button>
+<button class="btn ghost" id="btnPermsConfig" type="button">⚙️ Abrir configuração do aparelho</button>
 <button class="btn ghost" id="btnArqTeste" type="button">📎 Testar escolher arquivo</button>
 </div>
+<p class="sub" style="margin-top:10px">No celular, se algo ficar bloqueado, use <b>⚙️ Abrir configuração do aparelho</b> › Permissões e ligue <b>Arquivos/fotos</b> e <b>Notificações</b>.</p>
 <p class="msg" id="permsMsg"></p>
 <input type="file" id="arqTesteInput" class="hidden">
 </div>
@@ -3366,7 +3374,7 @@ if(state.mode==='extras'){$('viewExtras').classList.toggle('hidden',!!state.extr
 else $('viewRoleta').classList.add('hidden');
 isolamentoAreas();updateBack();}
 function showView(v){navStack=[];Object.assign(state,{view:v,sub:'perfil',pacoteId:null,psub:'menu',openSes:null,openAv:null});renderApp();closeSide();}
-function showDados(v){navStack=[];Object.assign(state,{dsub:v});renderApp();closeSide();}
+function showDados(v){navStack=[];Object.assign(state,{dsub:v});renderApp();closeSide();if(v==='sistema'&&typeof permsPintaStatus==='function'){try{permsPintaStatus();}catch(e){}}}
 function openClient(id){navigate(()=>{state.view='cliente';state.clientId=id;state.sub='perfil';state.pacoteId=null;state.psub='menu';state.openAv=null;filters.cli=emptyF();});}
 function openSub(sub){navigate(()=>{state.sub=sub;$('payData').value=todayISO();$('payCliData').value=todayISO();$('agCliData').value=todayISO();
 if(sub==='pacotes')setAreaTab(areaTab);});}
@@ -4328,14 +4336,28 @@ const el=$('notiPermHint');if(!el)return;
 if(typeof Notification==='undefined'){el.textContent='Avisos direto no app (este navegador não tem notificações do sistema).';return;}
 el.textContent=Notification.permission==='granted'?'Notificações do sistema: permitidas ✓':(Notification.permission==='denied'?'Notificações do sistema bloqueadas — libere nas configurações do navegador/aparelho.':'Toque no botão acima pra permitir avisos também fora do app.');}catch(e){}};}
 try{notiPermPinta();}catch(e){}
+try{if(typeof permsPintaStatus==='function')permsPintaStatus();}catch(e){}
+function permsPintaStatus(){const el=$('permsStatus');if(!el)return;
+try{
+if(window.FenixApp&&window.FenixApp.statusPerms){const s=JSON.parse(window.FenixApp.statusPerms());
+el.innerHTML='🔔 Notificações: <b>'+(s.noti?'permitidas ✓':'bloqueadas ⚠')+'</b> &nbsp;·&nbsp; 📁 Arquivos: <b>'+(s.arq?'permitidos ✓':'bloqueados ⚠')+'</b>';return;}
+if(typeof Notification!=='undefined'){el.textContent='🔔 Notificações do sistema: '+(Notification.permission==='granted'?'permitidas ✓':(Notification.permission==='denied'?'bloqueadas — libere na configuração do navegador ⚠':'não perguntadas ainda'))+' · 📁 Arquivos: use o teste abaixo';return;}
+el.textContent='Use o teste abaixo pra conferir o acesso a arquivos.';
+}catch(e){el.textContent='';}}
 if(!window._permsLig&&$('btnPermsAparelho')){window._permsLig=1;
 $('btnPermsAparelho').addEventListener('click',()=>{
 let ok=false;
 try{if(window.FenixApp&&window.FenixApp.pedirPerms){window.FenixApp.pedirPerms();ok=true;}}catch(e){}
 try{if(typeof Notification!=='undefined'&&Notification.requestPermission){Notification.requestPermission().then(p=>{if($('permsMsg'))msg($('permsMsg'),p==='granted'?'✔ Notificações permitidas!':('Notificações: '+p),p==='granted'?'ok':'');});ok=true;}}catch(e){}
-msg($('permsMsg'),ok?'✔ Pedido enviado — confirme nas janelas que abrirem (se não abrir, o aparelho já deu a permissão).':'Use o botão de testar arquivo — se abrir, as permissões estão ok.',ok?'ok':'');});
+setTimeout(function(){try{permsPintaStatus();}catch(e){}},2500);msg($('permsMsg'),ok?'✔ Pedido enviado — confirme nas janelas que abrirem (se não abrir, o aparelho já deu a permissão).':'Use o botão de testar arquivo — se abrir, as permissões estão ok.',ok?'ok':'');});
 $('btnArqTeste').addEventListener('click',()=>{const i=$('arqTesteInput');if(i){i.value='';i.click();}});
-$('arqTesteInput').addEventListener('change',function(){const f=this.files&&this.files[0];msg($('permsMsg'),f?('✔ Funcionou! Você escolheu: '+f.name):'Nenhum arquivo escolhido.','ok');});}
+$('arqTesteInput').addEventListener('change',function(){const f=this.files&&this.files[0];msg($('permsMsg'),f?('✔ Funcionou! Você escolheu: '+f.name):'Nenhum arquivo escolhido.','ok');});
+const pc=$('btnPermsConfig');
+if(pc)pc.addEventListener('click',()=>{try{
+if(window.FenixApp&&window.FenixApp.abrirConfig){window.FenixApp.abrirConfig();msg($('permsMsg'),'Abrindo a configuração do aparelho — toque em Permissões e ligue Arquivos e Notificações.','ok');}
+else{msg($('permsMsg'),'No computador a permissão pede pelo próprio navegador — use o botão 🔔 na Aparência.','');}
+}catch(e){}});
+window.permsPintaStatus=permsPintaStatus;}
 $('accGold').addEventListener('click',()=>applyAccent('gold'));
 $('perfBaixa').addEventListener('click',()=>applyPerf('baixa')); $('perfMedia').addEventListener('click',()=>applyPerf('media'));
 $('perfAlta').addEventListener('click',()=>applyPerf('alta'));
@@ -6296,7 +6318,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.35';
+const APP_VERSAO='1.6.36';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{

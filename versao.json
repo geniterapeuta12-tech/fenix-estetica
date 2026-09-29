@@ -1,11 +1,10 @@
 {
-  "versao": "1.6.35",
-  "r": "R50",
+  "versao": "1.6.36",
+  "r": "R51",
   "melhorias": [
-    "✅ ABAS com janelinha bonita: o botão ⊞ na barra lateral abre TODAS as abas salvas — cartões com ícone, nome e caminho; toque pra abrir, lixeira pra tirar, e dá pra salvar a tela atual por lá também",
-    "✅ Duas cores novas de tema: ÁGUA (turquesa) e LAVANDA (roxo suave) — em Aparência › Cor do tema, combinando com claro e escuro",
-    "✅ CONCERTADO no celular: os botões de anexar/colocar arquivos agora FUNCIONAM — o app do celular ganhou seletor de arquivos nativo e pedido de permissão do Android (arquivos e notificações) na primeira abertura",
-    "✅ Notificações como aviso do SISTEMA: se a mensagem chegar com o app em segundo plano (ou escondido), vira notificação do aparelho/computador — e tem botão 🔔 Permitir em Aparência e em Dados › Permissões do aparelho"
+    "✅ Abas com CONTRASTE CERTO: chips da barra e cartões do popup com letras bem visíveis no tema claro e no escuro (e visual mais bonito)",
+    "✅ Permissões pela configuração do app: em Dados › Sistema › Permissões do aparelho agora mostra o STATUS REAL (🔔 Notificações e 📁 Arquivos), tem 🔐 Pedir permissões, ⚙️ Abrir configuração do aparelho e 📎 Testar escolher arquivo",
+    "✅ No celular o app abre a tela de permissões do Android pra você ligar arquivos e notificações direto de dentro do Fênix"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }
