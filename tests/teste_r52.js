@@ -74,15 +74,16 @@ T('18. notificação de grupo mostra 👥 + nome do grupo', d.querySelector('#no
 w.eval("grpAbsorve([{de:'Joana',para:'__grupos',texto:'__GRUPO__'+JSON.stringify({id:'grupo:promocoes',nome:'Promoções',membros:['Joana','Fatima Dono'],ts:999})}])");
 T('19. anúncio de grupo de outra pessoa é absorvido (aparece pra mim se eu for membro)', (()=>{const G=JSON.parse(w.eval("localStorage.getItem('fenix_grupos')"));return G.gs.some(g=>g.id==='grupo:promocoes');})());
 // ===== FÊNIX CENTER =====
-const ctr=fs.readFileSync('/home/user/center/index.html','utf-8');
-T('20. Fênix Center é APP: ícone, PWA (manifest+sw), ponte nativa e abrir-instalado', (()=>{const c=fs.readFileSync('/home/user/center/index.html','utf-8');
-const tem=(c.includes('Fênix Center')&&c.includes('icone-512.png')&&c.includes('manifest.json')&&c.includes('serviceWorker')&&c.includes('FenixCenterApp')&&c.includes('fenix://abrir'));
-const temM=fs.existsSync('/home/user/center/manifest.json')&&fs.existsSync('/home/user/center/sw.js')&&fs.existsSync('/home/user/center/icone-192.png');
-const temApk=fs.existsSync('/home/user/center/fenix-center.apk');
-if(!(tem&&temM&&temApk))console.log('   [dbg20] web=',tem,'· pwa=',temM,'· apk=',temApk);
-return tem&&temM&&temApk;})());
-T('21. Center lista versões pela API do GitHub', (()=>{const c=fs.readFileSync('/home/user/center/index.html','utf-8');return c.includes("api.github.com/repos/'+REPO+'/releases")&&c.includes('MAIS RECENTE'.toLowerCase())||c.includes('mais recente');})());
-T('22. APK do Fênix existe e o do Estética tem scheme fenix (link no repo)', fs.existsSync('/home/user/center/fenix-center.apk') && (()=>{try{const m=fs.readFileSync('/home/user/apk-manifest-vc17.xml','utf-8');return m.includes('android:scheme="fenix"');}catch(e){return false;}})());
+T('20. Center é APP (APK+EXE), UI tudo junto e SEM página web (dono)', (()=>{const fsx=fs;
+const web=fsx.existsSync('/home/user/center/index.html');
+const apk=fsx.existsSync('/home/user/center-src/Fenix-Center.apk');
+const src=fsx.readFileSync('/home/user/center-src/www/index.html','utf-8');
+const ui=src.includes('O <em>app</em> da sua clínica')&&src.includes('Instalar Android (APK)')&&src.includes('Instalar Windows (EXE)')&&src.includes('Todas as versões')&&src.includes('FenixCenterApp');
+const semSelf=src.indexOf('fenix-center.apk')<0&&src.indexOf('Fenix-Center-Windows.zip')<0;
+if(!( !web&&apk&&ui&&semSelf))console.log('   [dbg20] webExiste=',web,'· apk=',apk,'· ui=',ui,'· semSelf=',semSelf);
+return !web&&apk&&ui&&semSelf;})());
+T('21. Center (app) lista versões pela API do GitHub', (()=>{const c=fs.readFileSync('/home/user/center-src/www/index.html','utf-8');return c.includes("api.github.com/repos/'+REPO+'/releases")&&c.includes('mais recente');})());
+T('22. APK do Fênix existe e o do Estética tem scheme fenix (link no repo)', (()=>{try{const m=fs.readFileSync('/home/user/apk-manifest-vc17.xml','utf-8');return m.includes('android:scheme="fenix"');}catch(e){return false;}})());
 T('23. APP_VERSAO 1.6.37', w.eval("APP_VERSAO")==='1.6.37');
 console.log(falhas?('FALHAS: '+falhas):'TUDO OK (23/23)');
 process.exit(falhas?1:0);

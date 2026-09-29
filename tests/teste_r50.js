@@ -53,7 +53,7 @@ w.eval("window.FenixApp={chamadas:0,pedirPerms:function(){window.FenixApp.chamad
 d.getElementById('btnPermsAparelho').click();
 T('15. pedir permissões chama a ponte nativa (APK)', w.eval("window.FenixApp.chamadas")>=1 && d.getElementById('permsMsg').textContent.includes('Pedido enviado'));
 // ===== VERSÃO =====
-T('16. APP_VERSAO 1.6.36', w.eval("APP_VERSAO")==='1.6.36');
+T('16. APP_VERSAO 1.6.37', w.eval("APP_VERSAO")==='1.6.37');
 console.log(falhas?('FALHAS: '+falhas):'TUDO OK (16/16)');
 process.exit(falhas?1:0);
 })().catch(e=>{console.error('ERRO:',e.stack||e.message);process.exit(1);});

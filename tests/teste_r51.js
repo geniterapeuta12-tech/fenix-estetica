@@ -12,10 +12,10 @@ const d=w.document;
 w.eval("try{localStorage.setItem('fenix_user_ativo',JSON.stringify({id:'x',nome:'Fatima Dono'}))}catch(e){}document.getElementById('authScreen').classList.add('hidden');document.getElementById('appScreen').classList.remove('hidden');document.getElementById('splash').classList.add('hidden');setMode('gestao')");
 await new Promise(r=>setTimeout(r,350));
 // ===== CONTRASTE DAS ABAS (cores fixas por tema) =====
-T('1. chips da barra: texto claro fixo no escuro', html.includes('.aba-chip b{color:#f7f2e3!important;font-weight:700'));
-T('2. chips da barra: texto escuro fixo no claro', html.includes('html[data-theme="light"] .aba-chip b{color:#241f13!important}'));
-T('3. popup: cartões com texto claro fixo (pmcard é sempre escuro)', html.includes('.abas-meta b{color:#f7f2e3!important') && html.includes('.abas-meta small{color:#b9b09a!important') && html.includes('.abas-del{border:0;background:transparent;color:#b9b09a!important'));
-T('4. vazio do popup com cor garantida', html.includes('#abasVazio2.fempty{color:#b9b09a!important}'));
+T('1. chips da barra: texto com var(--txt) (vence o tema)', html.includes('.aba-chip b{color:var(--txt)!important;font-weight:700'));
+T('2. popup segue o tema: fundo claro no claro', html.includes('html[data-theme="light"] .abas-modal{background:#fffdf6!important'));
+T('3. popup sem pmcard e textos com var', html.includes('.abas-meta b{color:var(--txt)!important') && html.includes('.abas-meta small{color:var(--muted)!important'));
+T('4. vazio do popup com cor do tema', html.includes('#abasVazio2.fempty{color:var(--muted)!important}'));
 // ===== SALVAR ABA + ABRIR POPUP (fluxo continua funcionando) =====
 w.eval("showView('clientes')");
 d.getElementById('btnAbaAdd').click();
@@ -33,7 +33,7 @@ d.getElementById('btnPermsConfig').click();
 T('8. ⚙️ chama abrirConfig da ponte', w.eval("window.__cfg")===1 && d.getElementById('permsMsg').textContent.includes('configuração do aparelho'));
 T('9. sem ponte (PC): status orientando o teste', (()=>{w.eval("delete window.FenixApp");w.eval("permsPintaStatus()");const s=d.getElementById('permsStatus').textContent;return s.includes('Notificações do sistema')||s.includes('arquivos');})());
 // ===== VERSÃO =====
-T('10. APP_VERSAO 1.6.36', w.eval("APP_VERSAO")==='1.6.36');
+T('10. APP_VERSAO 1.6.37', w.eval("APP_VERSAO")==='1.6.37');
 console.log(falhas?('FALHAS: '+falhas):'TUDO OK (10/10)');
 process.exit(falhas?1:0);
 })().catch(e=>{console.error('ERRO:',e.stack||e.message);process.exit(1);});
