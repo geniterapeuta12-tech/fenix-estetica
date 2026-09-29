@@ -25,6 +25,12 @@ public class MainActivity extends Activity {
         s.setUseWideViewPort(true);
         wv.setWebViewClient(new WebViewClient());
         wv.addJavascriptInterface(new Ponte(), "FenixCenterApp");
+        // downloads (APKs e ZIPs) vão pro navegador do sistema instalar
+        wv.setDownloadListener(new android.webkit.DownloadListener() {
+            public void onDownloadStart(String url, String ua, String cd, String mime, long len) {
+                try { startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url))); } catch (Exception e) {}
+            }
+        });
         setContentView(wv);
         wv.loadUrl("file:///android_asset/www/index.html");
     }

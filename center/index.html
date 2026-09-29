@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Fênix Center">
-<link rel="manifest" href="manifest.json?v=2">
+<link rel="manifest" href="manifest.json?v=3">
 <link rel="icon" href="icone-192.png?v=2">
 <link rel="apple-touch-icon" href="icone-192.png?v=2">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,6 +20,7 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
   --gold:#d4af37;--gold2:#f1d27a;--gold3:#8a6d1f;
+  --metal:linear-gradient(135deg,#f6e27a 0%,#d4af37 45%,#b08a2a 100%);
   --bg:#0b0a07;--card:rgba(24,21,13,.74);--line:rgba(212,175,55,.20);--line2:rgba(212,175,55,.40);
   --txt:#f4efe1;--muted:#a89d84;
   --serif:'Playfair Display',Georgia,serif;--sans:Montserrat,system-ui,sans-serif;
@@ -30,13 +31,14 @@ body{margin:0;height:100%;color:var(--txt);font-family:var(--sans);-webkit-font-
 .grao{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.05;
  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E")}
 .fundo{position:fixed;inset:0;z-index:-1;background:
- radial-gradient(1100px 520px at 50% -12%,rgba(212,175,55,.16),transparent 62%),
+ radial-gradient(1100px 520px at 50% -12%,rgba(212,175,55,.17),transparent 62%),
  radial-gradient(760px 420px at 108% 6%,rgba(212,175,55,.08),transparent 55%),
  radial-gradient(760px 520px at -10% 32%,rgba(212,175,55,.05),transparent 55%),
  var(--bg)}
+.vinheta{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(120% 90% at 50% 10%,transparent 60%,rgba(0,0,0,.5))}
 .app{position:relative;z-index:1;height:100dvh;display:flex;flex-direction:column}
 
-/* ─── barra de app (topo) ─── */
+/* ─── barra de app ─── */
 .topbar{flex:none;display:flex;align-items:center;gap:11px;padding:14px 18px 12px;
  border-bottom:1px solid rgba(212,175,55,.14);background:rgba(11,10,7,.72);backdrop-filter:blur(14px)}
 .topbar .mark{width:40px;height:40px;border-radius:12px;overflow:hidden;border:1px solid var(--line2);box-shadow:0 6px 20px rgba(212,175,55,.22)}
@@ -47,6 +49,13 @@ body{margin:0;height:100%;color:var(--txt);font-family:var(--sans);-webkit-font-
 .topbar .live i{width:7px;height:7px;border-radius:50%;background:#7ec97e;box-shadow:0 0 10px #7ec97e;animation:pulse 2.2s infinite}
 @keyframes pulse{50%{opacity:.35}}
 
+/* ─── barra de atualização ─── */
+#upd{display:none;flex:none;align-items:center;gap:10px;margin:10px 18px 0;padding:10px 12px 10px 14px;border-radius:14px;border:1px solid rgba(212,175,55,.5);
+ background:linear-gradient(160deg,rgba(212,175,55,.16),rgba(212,175,55,.05));color:var(--txt);font:600 .8rem/1.4 var(--sans);animation:tin .3s ease}
+#upd.show{display:flex}
+#upd b{color:var(--gold2)}
+#upd button{margin-left:auto;flex:none;border:0;border-radius:10px;background:var(--metal);color:#171204;font:800 .74rem var(--sans);letter-spacing:.06em;padding:9px 14px;cursor:pointer;text-transform:uppercase}
+
 /* ─── conteúdo ─── */
 main{flex:1;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:0 18px 30px;scrollbar-width:thin;scrollbar-color:rgba(212,175,55,.35) transparent}
 main::-webkit-scrollbar{width:8px}
@@ -54,28 +63,31 @@ main::-webkit-scrollbar-thumb{background:rgba(212,175,55,.28);border-radius:99px
 .view{max-width:880px;margin:0 auto;animation:vfade .3s ease}
 .view.esconde{display:none}
 @keyframes vfade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes sobe{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
 /* abas segmentadas (desktop) */
-.segs{display:none;gap:4px;margin:16px auto 0;max-width:880px;padding:4px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.03)}
-.segs button{flex:1;border:0;background:transparent;color:var(--muted);font:700 .82rem var(--sans);letter-spacing:.08em;padding:10px 12px;border-radius:10px;cursor:pointer;transition:.15s;text-transform:uppercase}
-.segs button.on{background:linear-gradient(160deg,rgba(212,175,55,.24),rgba(212,175,55,.10));color:var(--gold2);box-shadow:inset 0 0 0 1px rgba(212,175,55,.4)}
+.segs{position:relative;display:none;gap:4px;margin:16px auto 0;max-width:880px;padding:4px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.03)}
+.segs .desl{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:10px;background:linear-gradient(160deg,rgba(212,175,55,.24),rgba(212,175,55,.10));box-shadow:inset 0 0 0 1px rgba(212,175,55,.4);transition:transform .25s cubic-bezier(.5,1.4,.6,1)}
+.segs button{position:relative;z-index:1;flex:1;border:0;background:transparent;color:var(--muted);font:700 .82rem var(--sans);letter-spacing:.08em;padding:10px 12px;border-radius:10px;cursor:pointer;transition:color .2s;text-transform:uppercase}
+.segs button.on{color:var(--gold2)}
 
 /* ─── hero ─── */
-.hero{text-align:center;padding:34px 10px 8px}
-.hico{position:relative;width:118px;height:118px;margin:0 auto;border-radius:28px;overflow:hidden;border:1px solid rgba(212,175,55,.5);
- box-shadow:0 24px 70px rgba(0,0,0,.65),0 0 0 1px rgba(212,175,55,.12),inset 0 1px 0 rgba(255,255,255,.08)}
+.hero{text-align:center;padding:30px 10px 6px}
+.hico{position:relative;width:110px;height:110px;margin:0 auto;border-radius:26px;overflow:hidden;border:1px solid rgba(212,175,55,.5);
+ box-shadow:0 24px 70px rgba(0,0,0,.65),0 0 0 1px rgba(212,175,55,.12),inset 0 1px 0 rgba(255,255,255,.08);animation:sobe .5s .02s both}
 .hico::after{content:'';position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.14) 46%,transparent 60%);transform:translateX(-120%);animation:shine 5.5s ease-in-out infinite}
 @keyframes shine{0%,55%{transform:translateX(-120%)}75%,100%{transform:translateX(120%)}}
-.halo{position:relative;width:230px;height:120px;margin:-96px auto 0;background:radial-gradient(circle,rgba(212,175,55,.22),transparent 65%);filter:blur(10px);pointer-events:none}
-.kicker{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:6px 13px;font:700 .62rem var(--sans);letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
-.hero h1{font:800 clamp(1.9rem,5.6vw,2.7rem)/1.1 var(--serif);margin:12px 0 0;color:var(--txt)}
-.hero h1 em{font-style:italic;color:var(--gold2)}
-.hero .tag{margin:10px auto 0;max-width:520px;color:var(--muted);font:500 .92rem/1.65 var(--sans)}
+.halo{position:relative;width:220px;height:110px;margin:-88px auto 0;background:radial-gradient(circle,rgba(212,175,55,.22),transparent 65%);filter:blur(10px);pointer-events:none}
+.kicker{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:6px 13px;font:700 .62rem var(--sans);letter-spacing:.3em;text-transform:uppercase;color:var(--gold);animation:sobe .5s .07s both}
+.hero h1{font:800 clamp(1.9rem,5.6vw,2.7rem)/1.1 var(--serif);margin:12px 0 0;animation:sobe .5s .12s both}
+.hero h1 em{font-style:italic;background:var(--metal);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .tag{margin:10px auto 0;max-width:520px;color:var(--muted);font:500 .92rem/1.65 var(--sans);animation:sobe .5s .17s both}
 
 /* ─── ações ─── */
-.acts{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:24px 0 0}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:22px 0 0}
 @media(max-width:560px){.acts{grid-template-columns:1fr}}
-.act{position:relative;display:flex;gap:13px;align-items:center;padding:15px 16px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(170deg,rgba(255,255,255,.045),rgba(255,255,255,.01));cursor:pointer;color:var(--txt);font-family:var(--sans);text-decoration:none;text-align:left;transition:transform .16s,border-color .16s,background .16s,box-shadow .16s}
+.act{position:relative;display:flex;gap:13px;align-items:center;padding:15px 16px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(170deg,rgba(255,255,255,.045),rgba(255,255,255,.01));cursor:pointer;color:var(--txt);font-family:var(--sans);text-decoration:none;text-align:left;transition:transform .16s,border-color .16s,background .16s,box-shadow .16s;animation:sobe .5s both}
+.act:nth-child(1){animation-delay:.2s}.act:nth-child(2){animation-delay:.26s}.act:nth-child(3){animation-delay:.32s}.act:nth-child(4){animation-delay:.38s}
 .act:hover{transform:translateY(-2px);border-color:var(--line2);background:linear-gradient(170deg,rgba(212,175,55,.10),rgba(212,175,55,.03));box-shadow:0 16px 40px rgba(0,0,0,.45)}
 .act:active{transform:scale(.985)}
 .act .ico{width:44px;height:44px;flex:none;border-radius:13px;border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;background:linear-gradient(150deg,rgba(212,175,55,.22),rgba(212,175,55,.06));color:var(--gold2)}
@@ -89,10 +101,32 @@ main::-webkit-scrollbar-thumb{background:rgba(212,175,55,.28);border-radius:99px
 #actInstalar{display:none}
 #actInstalar.show{display:flex}
 
+/* ─── destaque: última versão ─── */
+.spot{margin-top:16px;border:1px solid rgba(212,175,55,.45);border-radius:22px;padding:20px;background:linear-gradient(165deg,rgba(212,175,55,.10),rgba(20,17,9,.75) 55%);backdrop-filter:blur(10px);position:relative;overflow:hidden;animation:sobe .5s .44s both}
+.spot::before{content:'';position:absolute;inset:-1px;border-radius:22px;padding:1px;background:linear-gradient(150deg,rgba(212,175,55,.55),transparent 30%,transparent 72%,rgba(212,175,55,.4));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.spot .slab{position:absolute;right:-38px;top:-38px;width:150px;height:150px;background:radial-gradient(circle,rgba(212,175,55,.18),transparent 65%);pointer-events:none}
+.spot .slabt{display:flex;align-items:center;gap:9px;margin-bottom:4px}
+.spot .slabt small{font:700 .6rem var(--sans);letter-spacing:.28em;text-transform:uppercase;color:var(--muted)}
+.spot .rh{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.spot .vt{font:700 1.5rem var(--serif);background:var(--metal);-webkit-background-clip:text;background-clip:text;color:transparent}
+.badge{border:1px solid rgba(212,175,55,.6);color:var(--gold2);border-radius:999px;font:700 .58rem var(--sans);letter-spacing:.2em;padding:5px 11px;text-transform:uppercase;background:rgba(212,175,55,.08)}
+.spot .dt{margin-left:auto;color:var(--muted);font:600 .72rem var(--sans)}
+.spot ul{margin:10px 0 2px;padding:0;list-style:none}
+.spot ul li{position:relative;padding:3px 0 3px 19px;color:#d8cdae;font:500 .85rem/1.55 var(--sans)}
+.spot ul li::before{content:'✦';position:absolute;left:0;color:var(--gold);font-size:.7rem;top:6px}
+.spot .dl{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.dl a{display:inline-flex;gap:7px;align-items:center;padding:9px 15px;border-radius:11px;border:1px solid var(--line2);color:var(--txt);text-decoration:none;font:700 .78rem var(--sans);transition:.15s}
+.dl a:hover{border-color:var(--gold);color:var(--gold2)}
+.dl a.main{background:var(--metal);color:#171204;border-color:transparent;box-shadow:0 10px 26px rgba(212,175,55,.28);font-weight:800}
+.dl a.main:hover{color:#171204;filter:brightness(1.08)}
+.dl a.gh{color:var(--muted);border-color:var(--line)}
+.skel{border:1px dashed var(--line);border-radius:16px;padding:24px;text-align:center;color:var(--muted);font:500 .86rem var(--sans)}
+
 /* ─── passos ─── */
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
 @media(max-width:560px){.steps{grid-template-columns:1fr}}
-.step{border:1px solid var(--line);border-radius:15px;padding:14px;background:rgba(255,255,255,.02)}
+.step{border:1px solid var(--line);border-radius:15px;padding:14px;background:rgba(255,255,255,.02);animation:sobe .5s both}
+.step:nth-child(1){animation-delay:.48s}.step:nth-child(2){animation-delay:.54s}.step:nth-child(3){animation-delay:.6s}
 .step .n{font:700 1.5rem var(--serif);color:var(--gold)}
 .step b{display:block;margin-top:2px;font:700 .85rem var(--sans)}
 .step p{margin:3px 0 0;color:var(--muted);font:500 .78rem/1.5 var(--sans)}
@@ -109,26 +143,21 @@ main::-webkit-scrollbar-thumb{background:rgba(212,175,55,.28);border-radius:99px
 .rel::before{content:'';position:absolute;left:-22px;top:28px;width:9px;height:9px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(212,175,55,.15)}
 .rel .rh{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .rel .vt{font:700 1.22rem var(--serif);color:var(--gold2)}
-.badge{border:1px solid rgba(212,175,55,.6);color:var(--gold2);border-radius:999px;font:700 .58rem var(--sans);letter-spacing:.2em;padding:5px 11px;text-transform:uppercase;background:rgba(212,175,55,.08)}
 .badge.gray{border-color:rgba(255,255,255,.14);color:var(--muted);background:transparent}
 .rel .dt{margin-left:auto;color:var(--muted);font:600 .72rem var(--sans)}
 .rel ul{margin:12px 0 4px;padding:0;list-style:none}
 .rel ul li{position:relative;padding:3px 0 3px 19px;color:#cfc4a9;font:500 .84rem/1.55 var(--sans)}
 .rel ul li::before{content:'✦';position:absolute;left:0;color:var(--gold);font-size:.7rem;top:6px}
 .rel .dl{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
-.dl a{display:inline-flex;gap:7px;align-items:center;padding:9px 15px;border-radius:11px;border:1px solid var(--line2);color:var(--txt);text-decoration:none;font:700 .78rem var(--sans);transition:.15s}
-.dl a:hover{border-color:var(--gold);color:var(--gold2)}
-.dl a.main{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#171204;border-color:transparent;box-shadow:0 10px 26px rgba(212,175,55,.25)}
-.dl a.main:hover{color:#171204}
-.dl a.gh{color:var(--muted);border-color:var(--line)}
-.skel{border:1px dashed var(--line);border-radius:16px;padding:24px;text-align:center;color:var(--muted);font:500 .86rem var(--sans)}
 
 /* ─── rodapé ─── */
-footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);display:flex;gap:9px;align-items:center;justify-content:center;color:var(--muted);font:500 .75rem var(--sans);flex-wrap:wrap;text-align:center}
+footer{margin-top:32px;padding-top:18px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:6px;align-items:center;color:var(--muted);font:500 .75rem var(--sans);text-align:center}
+footer .f1{display:flex;gap:9px;align-items:center;flex-wrap:wrap;justify-content:center}
 footer img{width:20px;height:20px;border-radius:6px}
 footer b{color:var(--gold2)}
+footer .vcenter{font:600 .68rem var(--sans);letter-spacing:.14em;text-transform:uppercase;opacity:.75}
 
-/* ─── menu inferior (celular) ─── */
+/* ─── menu inferior ─── */
 .bottomnav{flex:none;display:flex;border-top:1px solid rgba(212,175,55,.16);background:rgba(11,10,7,.88);backdrop-filter:blur(16px);padding:8px 10px calc(8px + env(safe-area-inset-bottom))}
 .bottomnav button{flex:1;border:0;background:transparent;color:var(--muted);font:700 .68rem var(--sans);letter-spacing:.1em;padding:7px 0 4px;border-radius:12px;cursor:pointer;display:flex;flex-direction:column;gap:3px;align-items:center;text-transform:uppercase}
 .bottomnav button svg{width:21px;height:21px}
@@ -138,14 +167,14 @@ footer b{color:var(--gold2)}
 
 /* ─── toasts ─── */
 #toasts{position:fixed;left:50%;bottom:calc(var(--navh) + 16px);transform:translateX(-50%);z-index:60;display:flex;flex-direction:column;gap:8px;width:min(460px,92vw)}
-.toast{background:rgba(18,16,9,.97);border:1px solid var(--line2);color:var(--txt);border-radius:14px;padding:12px 15px;font:600 .82rem/1.45 var(--sans);box-shadow:0 20px 60px rgba(0,0,0,.6);animation:tin .22s ease;white-space:pre-line}
+.toast{background:rgba(18,16,9,.97);border:1px solid var(--line2);border-left:3px solid var(--gold);color:var(--txt);border-radius:14px;padding:12px 15px;font:600 .82rem/1.45 var(--sans);box-shadow:0 20px 60px rgba(0,0,0,.6);animation:tin .22s ease;white-space:pre-line;backdrop-filter:blur(8px)}
 @keyframes tin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-@media(max-width:759px){.segs{display:none}.bottomnav{display:flex}main{padding-bottom:18px}}
+@media(max-width:759px){.segs{display:none}main{padding-bottom:18px}}
 @media(min-width:760px){.bottomnav{display:none}.segs{display:flex}}
 </style>
 </head>
 <body>
-<div class="fundo"></div><div class="grao"></div>
+<div class="fundo"></div><div class="grao"></div><div class="vinheta"></div>
 <div class="app">
 
 <header class="topbar">
@@ -154,7 +183,10 @@ footer b{color:var(--gold2)}
   <div class="live"><i></i>oficial</div>
 </header>
 
+<div id="upd"><span>🔄 <b>Nova versão do Center disponível.</b><br>Instale por cima — nada é apagado.</span><button id="btnUpd" type="button">Atualizar</button></div>
+
 <nav class="segs" aria-label="Seções">
+  <span class="desl" id="desl"></span>
   <button class="on" data-tab="inicio" type="button">Início</button>
   <button data-tab="versoes" type="button">Versões</button>
 </nav>
@@ -176,7 +208,7 @@ footer b{color:var(--gold2)}
         <span><b>Abrir o app instalado</b><small id="abrirSub">manda direto pro Fênix instalado</small></span>
         <span class="go">›</span>
       </button>
-      <a class="act" id="btnApkC" href="fenix-center.apk?v=2" download>
+      <a class="act" id="btnApkC" href="fenix-center.apk?v=3" download>
         <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 8l5-5 5 5"/><path d="M4 17v2.5A1.5 1.5 0 0 0 5.5 21h13a1.5 1.5 0 0 0 1.5-1.5V17"/></svg></span>
         <span><b>Instalar este Center</b><small>app do Center no Android (APK)</small></span>
         <span class="go">›</span>
@@ -193,6 +225,11 @@ footer b{color:var(--gold2)}
       </a>
     </div>
 
+    <div class="spot" id="spot"><div class="slab"></div>
+      <div class="slabt"><small>última versão do app</small></div>
+      <div class="skel" style="border:0;padding:8px;text-align:left">Buscando…</div>
+    </div>
+
     <div class="steps">
       <div class="step"><div class="n">1</div><b>Baixe o app</b><p>Android (APK) ou Windows (ZIP), sempre a versão mais recente.</p></div>
       <div class="step"><div class="n">2</div><b>Instale</b><p>Android: abra o arquivo e confirme. Windows: extraia e rode o instalador de 1 passo.</p></div>
@@ -200,8 +237,8 @@ footer b{color:var(--gold2)}
     </div>
 
     <footer>
-      <img src="icone-192.png?v=2" alt="">
-      <span>Feito com 💛 pela <b>Fênix</b> · Fênix Center é a porta oficial do <b>Fênix Estética</b></span>
+      <div class="f1"><img src="icone-192.png?v=2" alt=""><span>Feito com 💛 pela <b>Fênix</b> · a porta oficial do <b>Fênix Estética</b></span></div>
+      <span class="vcenter">Fênix Center <b>v1.2.0</b> · atualiza sozinho</span>
     </footer>
   </section>
 
@@ -222,18 +259,18 @@ footer b{color:var(--gold2)}
 <script>
 const REPO='geniterapeuta12-tech/fenix-estetica';
 const L='https://github.com/'+REPO+'/releases/latest/download/';
+const CENTER_V='1.2.0', CENTER_BUILD='2026-09-29';
 const $=s=>document.querySelector(s);
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function toast(t){const el=document.createElement('div');el.className='toast';el.textContent=t;$('#toasts').appendChild(el);setTimeout(()=>{try{el.remove()}catch(e){}},5200)}
 
 /* ─── navegação estilo app ─── */
-let versoesCarregadas=false;
 function tab(nome){
   document.querySelectorAll('.view').forEach(v=>v.classList.add('esconde'));
   $('#view-'+nome).classList.remove('esconde');
-  document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('on',b.dataset.tab===nome));
+  document.querySelectorAll('.segs button,[data-tab]').forEach(b=>b.classList.toggle('on',b.dataset.tab===nome));
+  const d=$('#desl');if(d)d.style.transform=nome==='versoes'?'translateX(100%)':'translateX(0)';
   $('#scroller').scrollTop=0;
-  if(nome==='versoes'&&!versoesCarregadas){versoesCarregadas=true;carrega();}
 }
 document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>tab(b.dataset.tab)));
 
@@ -242,7 +279,7 @@ function temFenix(){try{return window.FenixCenterApp&&window.FenixCenterApp.stat
 function abreFenix(){
   try{if(window.FenixCenterApp&&window.FenixCenterApp.abrirFenix){window.FenixCenterApp.abrirFenix();return;}}catch(e){}
   let ok=false;
-  const t=setTimeout(()=>{if(!ok)toast('O app não respondeu.\nSe o Fênix ainda não está instalado, baixe na aba Versões — depois este botão abre direto.');},1700);
+  const t=setTimeout(()=>{if(!ok)toast('O app não respondeu.\nSe o Fênix ainda não está instalado, baixe no card «última versão» — depois este botão abre direto.');},1700);
   window.addEventListener('blur',()=>{ok=true;clearTimeout(t)},{once:true});
   try{window.location.href='fenix://abrir';}catch(e){clearTimeout(t);}
 }
@@ -260,6 +297,19 @@ $('#actInstalar').addEventListener('click',async()=>{
   promptInstalar=null;$('#actInstalar').classList.remove('show');
 });
 
+/* ─── auto-atualização do Center ─── */
+(async function(){
+ try{
+  const r=await fetch('https://api.github.com/repos/'+REPO+'/commits?path=center/index.html&per_page=1');
+  const c=await r.json();
+  if(Array.isArray(c)&&c[0]&&c[0].commit){
+   const d=Date.parse(c[0].commit.committer.date), b=Date.parse(CENTER_BUILD+'T12:00:00Z');
+   if(d>b+86400000)$('#upd').classList.add('show');
+  }
+ }catch(e){}
+})();
+$('#btnUpd').addEventListener('click',()=>{try{window.location.href='fenix-center.apk?v='+Date.now();}catch(e){}});
+
 /* ─── versões ─── */
 function limpa(md){return String(md||'').replace(/\r/g,'').split('\n')
  .filter(l=>l.trim()&&l.indexOf('## Instala')<0&&l.indexOf('## Arquivos')<0&&l.indexOf('releases/latest')<0&&l.indexOf('geniterapeuta12-tech.github.io')<0)
@@ -267,14 +317,23 @@ function limpa(md){return String(md||'').replace(/\r/g,'').split('\n')
  .map(l=>l.replace(/^\s*[-*]\s*/,'').replace(/\*\*/g,'').replace(/^#+\s*/,'').replace(/^ABRIR A FÊNIX CENTER\s*$/i,'').trim())
  .filter(l=>l.length>3).slice(0,7)}
 async function carrega(){
- const el=$('#rels');
  try{
   const r=await fetch('https://api.github.com/repos/'+REPO+'/releases?per_page=30');
   if(!r.ok)throw 0;
   const list=await r.json();
-  if(!Array.isArray(list)||!list.length){el.innerHTML='<div class="skel">Nenhuma versão publicada ainda — use os botões da aba Início.</div>';return;}
+  if(!Array.isArray(list)||!list.length){$('#spot .skel').textContent='Nenhuma versão publicada ainda.';$('#rels').innerHTML='';return;}
   $('#relCt').textContent=list.length+' versões';
-  el.innerHTML=list.map(function(v,i){
+  /* destaque (última) */
+  const v0=list[0],as0={};(v0.assets||[]).forEach(a=>{as0[a.name]=a.browser_download_url});
+  const it0=limpa(v0.body).slice(0,3),dt0=(v0.published_at||'').slice(0,10).split('-').reverse().join('/');
+  $('#spot').innerHTML='<div class="slab"></div><div class="slabt"><small>última versão do app</small></div>'
+   +'<div class="rh"><span class="vt">'+esc(v0.tag_name)+'</span><span class="badge">mais recente</span><span class="dt">'+esc(dt0)+'</span></div>'
+   +(it0.length?'<ul>'+it0.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul>':'')
+   +'<div class="dl">'+(as0['FENIX-Estetica.apk']?'<a class="main" href="'+esc(as0['FENIX-Estetica.apk'])+'">⬇ Android (APK)</a>':'')
+   +(as0['FENIX-Estetica-Windows.zip']?'<a class="main" href="'+esc(as0['FENIX-Estetica-Windows.zip'])+'">⬇ Windows (ZIP)</a>':'')
+   +(as0['checksums-sha256.txt']?'<a class="gh" href="'+esc(as0['checksums-sha256.txt'])+'">checksums</a>':'')+'</div>';
+  /* timeline completa */
+  $('#rels').innerHTML=list.map(function(v,i){
    const dt=(v.published_at||'').slice(0,10).split('-').reverse().join('/');
    const itens=limpa(v.body);
    const as={};(v.assets||[]).forEach(a=>{as[a.name]=a.browser_download_url});
@@ -289,11 +348,12 @@ async function carrega(){
     +'<a class="gh" href="'+esc(v.html_url)+'">detalhes</a></div></article>';
   }).join('');
  }catch(e){
-  el.innerHTML='<div class="skel">Não consegui listar as versões agora (internet?).<br><br><a style="color:var(--gold2)" href="https://github.com/'+REPO+'/releases">Abrir versões no GitHub ↗</a></div>';
+  $('#spot .skel').textContent='Sem internet agora — as versões aparecem quando conectar.';
  }
 }
+carrega();
 /* ─── PWA ─── */
-try{if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js?v=2');}catch(e){}
+try{if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js?v=3');}catch(e){}
 </script>
 </body>
 </html>
