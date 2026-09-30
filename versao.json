@@ -1,12 +1,10 @@
 {
-  "versao": "1.6.38",
-  "r": "R54",
+  "versao": "1.6.39",
+  "r": "R60",
   "melhorias": [
-    "✅ MENSAGENS DA EQUIPE corrigidas: agora chegam SEMPRE — mesmo se o relógio do celular de quem envia estiver atrasado (era isso que 'perdia' mensagens)",
-    "✅ RELATÓRIO: a prévia desfocada agora vale também no COMPUTADOR (antes só o celular desfocava)",
-    "✅ Adeus barra cinza de rolagem: rolar ficou elegante no app todo, nos 2 temas",
-    "✅ APP DA CLIENTE: números e textos nunca mais estouram o quadro no celular",
-    "✅ FÊNIX CENTER com página de apresentação nova (geniterapeuta12-tech.github.io/fenix-estetica/center/): animações da nossa marca e download do Center pra Android (APK) e Windows (EXE)"
+    "📎 ANEXOS 10× MAIORES: agora dá pra mandar fotos, PDFs e arquivos de até 10 MB nas mensagens da equipe (antes só 1 MB) — os pesados ficam no armazenamento seguro da clínica (Cloudflare R2) e expiram junto com a conversa, em 24 horas",
+    "☁️ ARMAZENAMENTO NOVO: fotos e arquivos da clínica agora moram no Cloudflare R2 (10 GB grátis) — o banco de dados fica leve, e o app continua igual por dentro",
+    "🛡️ NADA QUEBRA: arquivos antigos continuam abrindo normalmente; se o armazenamento novo falhar, o app volta pro modo antigo sozinho"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }

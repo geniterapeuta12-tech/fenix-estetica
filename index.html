@@ -1588,7 +1588,7 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 </div></details>
 <details class="faq"><summary>5. Quanto tempo os dados ficam</summary><div class="faqb">
 <p><b>Mensagens da equipe:</b> 24 horas, depois somem automaticamente (do app e da nuvem).</p>
-<p><b>Anexos enviados nas mensagens:</b> arquivos de até 1 MB também expiram em 24 horas; downloads feitos no aparelho ficam sob controle de quem baixou.</p>
+<p><b>Anexos enviados nas mensagens:</b> arquivos de até 10 MB (pesados ficam guardados no armazenamento seguro e expiram com a conversa, em 24 horas); downloads feitos no aparelho ficam sob controle de quem baixou.</p>
 <p><b>Cadastros e histórico (clientes, pacotes, sessões, pagamentos, documentos):</b> ficam enquanto a clínica mantiver a conta; a exclusão pode ser feita item a item ou via encerramento combinado.</p>
 <p><b>Backup:</b> a clínica pode gerar cópia completa dos próprios dados a qualquer momento, em Dados › Backup.</p>
 </div></details>
@@ -1610,7 +1610,7 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <p>A sincronização acontece a cada 5 segundos com o app aberto. Se uma mensagem chegar enquanto você está em outra área do app, aparece uma notificação (com posição configurável em Aparência) e, se o app estiver em segundo plano, um aviso do sistema — para isso, permita notificações quando o app pedir.</p>
 </div></details>
 <details class="faq"><summary>2. Anexos e arquivos</summary><div class="faqb">
-<p>Anexos de mensagem de até <b>1 MB</b> são aceitos (imagens, PDFs, textos) e expiram em 24 horas junto com a conversa. Downloads que você fizer ficam na pasta de downloads do aparelho e não expiram pelo app.</p>
+<p>Anexos de mensagem de até <b>10 MB</b> são aceitos (imagens, PDFs, textos) e expiram em 24 horas junto com a conversa. Arquivos pesados ficam no armazenamento seguro da clínica e somem com a mensagem. Downloads que você fizer ficam na pasta de downloads do aparelho e não expiram pelo app.</p>
 <p><b>Arquivos da clínica</b> (Gestão › Arquivos) e <b>documentos de clientes</b> não expiram: ficam na nuvem da clínica até alguém apagar. Imagens podem ser usadas, por exemplo, no centro da roleta.</p>
 <p>No celular, para anexar é preciso permitir o acesso a arquivos e fotos quando o app pedir (Dados › Sistema › Permissões do aparelho mostra o status e reabre o pedido).</p>
 </div></details>
@@ -6082,9 +6082,9 @@ document.querySelectorAll('#cpBody .cpsec').forEach(x=>x.classList.toggle('on',x
 /* ===== R21 — Equipe · Mensagens ===== */
 /* ===== R43 — REFORMA: tela cheia (sem popup), contatos separados da conversa,
    efeitos na pessoa (avatar colorido, presença, bolhas animadas), atualização a
-   cada 5s e anexos leves (até 1 MB) salvos temporariamente — TUDO some em 24h. ===== */
+   cada 5s; anexos leves inline e pesados (até 10 MB) no R2 — TUDO some em 24h (R2 apagado junto). ===== */
 let MSG={rows:[],lastTs:0,timer:null,peer:null,visto:{},anim:{},autoScroll:true,itens:[],pintar:null};
-const TG_SOMEM=86400000,TG_SYNC=5000,TG_MARGEM=300000,TG_MAXB64=1400000,TG_MAXFILE=1048576;/* TG_MARGEM R54: janela de sobreposição p/ relógio atrasado */
+const TG_SOMEM=86400000,TG_SYNC=5000,TG_MARGEM=300000,TG_MAXB64=1400000,TG_MAXFILE=1048576,TG_MAXR2=10485760;/* R60: anexo grande vai pro R2 (10 MB) *//* TG_MARGEM R54: janela de sobreposição p/ relógio atrasado */
 function meuNome(){try{const a=JSON.parse(localStorage.getItem('fenix_user_ativo')||'null');return (a&&a.nome)||'Clínica';}catch(e){return 'Clínica';}}
 function tgCor(nome){let h=0;const s=String(nome||'');for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))%360;return h;}
 function tgAvStyle(nome){const h=tgCor(nome);return 'background:linear-gradient(135deg,hsl('+h+',52%,50%),hsl('+((h+40)%360)+',52%,36%))';}
@@ -6165,26 +6165,40 @@ try{const r=await SB.from('mensagens').insert(row);if(r.error)throw r.error;MSG.
 function tgCarregaArq(file){return new Promise(async(res)=>{
 const falha=t=>{msg($('tgMsg'),'⚠ '+t,'err');res(null);};
 if(!file)return falha('arquivo inválido.');
-if(file.size>TG_MAXFILE*4)return falha('arquivo muito pesado (máximo 1 MB).');
+if(file.size>TG_MAXR2)return falha('arquivo muito pesado (máximo 10 MB).');
 const ler=fr=>new Promise(r2=>{const f=new FileReader();f.onload=()=>r2(String(f.result));f.onerror=()=>r2(null);fr(f);});
+const sobeR2=async()=>{ /* R60: arquivo grande → armazenamento R2, mensagem guarda só o link */
+const ns='anexos/'+Date.now()+'-'+(uid()||'x')+'-'+String(file.name||'arquivo').replace(/[^\w.\-]+/g,'-').slice(-80);
+const u=await tgSobeR2(file,ns);
+if(!u)return falha('não consegui subir o arquivo (sem internet? tenta de novo).');
+res({url:u,nome:file.name,tamanho:file.size,r2:true});};
 try{
 const ehImg=/^image\//.test(file.type);
-if(ehImg&&file.size>TG_MAXFILE){ /* foto grande: reduz sozinho pra caber */
+if(ehImg&&file.size>TG_MAXFILE){ /* foto grande: reduz sozinho; se ainda pesada, vai pro R2 */
 const dataUrl=await ler(f=>f.readAsDataURL(file));if(!dataUrl)return falha('não consegui ler o arquivo.');
-const img=new Image();img.onload=()=>{try{const cv=document.createElement('canvas');const sc=Math.min(1,1280/Math.max(img.width,img.height));
+const img=new Image();img.onload=async()=>{try{const cv=document.createElement('canvas');const sc=Math.min(1,1280/Math.max(img.width,img.height));
 cv.width=Math.max(1,Math.round(img.width*sc));cv.height=Math.max(1,Math.round(img.height*sc));
 cv.getContext('2d').drawImage(img,0,0,cv.width,cv.height);
 let u=cv.toDataURL('image/jpeg',.72),q=.72;
 while(u.length>TG_MAXB64&&q>.35){q-=.15;u=cv.toDataURL('image/jpeg',q);}
-if(u.length>TG_MAXB64)return falha('foto muito pesada mesmo reduzida (máximo 1 MB).');
-res({url:u,nome:file.name,tamanho:file.size});}catch(e){falha('não consegui reduzir a foto.');}};
+if(u.length<=TG_MAXB64)return res({url:u,nome:file.name,tamanho:file.size});
+if(!SB_TOKEN)return falha('foto muito pesada mesmo reduzida (máximo 10 MB).');
+return sobeR2();}catch(e){falha('não consegui reduzir a foto.');}};
 img.onerror=()=>falha('formato de imagem inválido.');img.src=dataUrl;return;}
 const u=await ler(f=>f.readAsDataURL(file));
 if(!u)return falha('não consegui ler o arquivo.');
-if(u.length>TG_MAXB64)return falha('arquivo muito pesado (máximo 1 MB).');
+if(u.length>TG_MAXB64){ /* arquivo grande (PDF, vídeo, foto original) → R2 */
+if(!SB_TOKEN)return falha('arquivo muito pesado (máximo 1 MB).');
+return sobeR2();}
 res({url:u,nome:file.name,tamanho:file.size});
 }catch(e){falha('não consegui anexar o arquivo.');}
 });}
+async function tgSobeR2(file,ns){try{ /* R60: upload pro R2 via worker (chave nunca no app) */
+const r=await fetch(NUVEM_URL+'/storage/v1/object/fenix-arquivos/'+ns,{method:'POST',headers:{Authorization:'Bearer '+(SB_TOKEN||''),'Content-Type':file.type||'application/octet-stream'},body:file});
+if(!r.ok)return null;
+return NUVEM_URL+'/storage/v1/object/public/fenix-arquivos/'+ns;
+}catch(e){return null;}}
+function tgEhImgUrl(u){u=String(u||'');return /^data:image/.test(u)||(/\/storage\/v1\/object\/public\//.test(u)&&/\.(jpe?g|png|gif|webp)(\?|$)/i.test(u.split('?')[0]));}
 function tgPintaLista(itens,filtro){const ul=$('tgList');if(!ul)return;
 const eu=meuNome();
 const nLidas=p=>MSG.rows.filter(x=>x.para===eu&&x.de===p&&x.ts>(MSG.visto[p]||0)).length;
@@ -6220,7 +6234,7 @@ const perto=area.scrollHeight-area.scrollTop-area.clientHeight<90;
 area.innerHTML='<div class="tgdate">grupo · tudo some em 24h</div>'+
 (conv.length?conv.map(m=>{const meu=m.de===eu;
 let corpo='';
-if(m.url){if(/^data:image/.test(m.url))corpo+='<a class="chatfoto" href="'+m.url+'" download="'+esc(m.nome||'foto')+'"><img src="'+m.url+'" alt="foto"></a>';
+if(m.url){if(tgEhImgUrl(m.url))corpo+='<a class="chatfoto" href="'+m.url+'" download="'+esc(m.nome||'foto')+'"><img src="'+m.url+'" alt="foto"></a>';
 else corpo+='<a class="chatfile" href="'+m.url+'" download="'+esc(m.nome||'arquivo')+'"><span class="cfico">📎</span><span class="cftxt"><b>'+esc(m.nome||'arquivo')+'</b><small>'+tgTam(m.tamanho)+' · some em 24h</small></span></a>';}
 if(m.texto&&m.texto.indexOf('📎 ')!==0)corpo+='<div class="tctxt">'+esc(m.texto)+'</div>';
 if(!corpo)corpo='<div class="tctxt">'+esc(m.texto)+'</div>';
@@ -6240,7 +6254,7 @@ area.innerHTML='<div class="tgdate">hoje · some em 24h</div>'+
 (conv.length?conv.map(m=>{const meu=m.de===eu;
 let corpo='';
 if(m.url){
-if(/^data:image/.test(m.url))corpo+='<a class="chatfoto" href="'+m.url+'" download="'+esc(m.nome||'foto')+'" title="Toque para baixar"><img src="'+m.url+'" alt="foto"></a>';
+if(tgEhImgUrl(m.url))corpo+='<a class="chatfoto" href="'+m.url+'" download="'+esc(m.nome||'foto')+'" title="Toque para baixar"><img src="'+m.url+'" alt="foto"></a>';
 else corpo+='<a class="chatfile" href="'+m.url+'" download="'+esc(m.nome||'arquivo')+'"><span class="cfico">📎</span><span class="cftxt"><b>'+esc(m.nome||'arquivo')+'</b><small>'+tgTam(m.tamanho)+' · toque para baixar · some em 24h</small></span></a>';
 }
 if(m.texto&&m.texto.indexOf('📎 ')!==0)corpo+='<div class="tctxt">'+esc(m.texto)+'</div>';
@@ -6563,7 +6577,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.38';
+const APP_VERSAO='1.6.39';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{
