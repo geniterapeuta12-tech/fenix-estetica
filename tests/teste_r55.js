@@ -69,7 +69,7 @@ T('23. aviso «conta local · por enquanto» presente (ainda não funciona de ve
 
 // ===== CENTER (APK/EXE) builds =====
 T('24. fonte Java: botão voltar do Android chama __fenixBack antes de sair', fs.readFileSync('/home/user/center-src/br/fenix/center/MainActivity.java','utf-8').includes('__fenixBack'));
-T('25. Center 1.6.1 nas duas plataformas (UI)', w.eval("CENTER_V")==='1.6.1' && html.includes('v1.6.1'));
+T('25. Center 1.6.2 nas duas plataformas (UI)', w.eval("CENTER_V")==='1.6.2' && html.includes('v1.6.2'));
 T('26. temas/side/⊞ intactos', html.includes('fenix-center-v5')===false && html.includes('data-accent="lilas"') && !!d.getElementById('painelTema'));
 
 console.log(falhas?('FALHAS: '+falhas):'TUDO OK (26/26)');

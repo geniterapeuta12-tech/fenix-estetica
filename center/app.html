@@ -78,6 +78,7 @@ main{flex:1;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolli
 main::-webkit-scrollbar{width:8px}
 main::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--gold) 30%,transparent);border-radius:99px}
 .view{max-width:860px;margin:0 auto;animation:vfade .28s ease}
+.view.esconde{display:none}/* R57: faltava — Account "abria" embaixo do Início */
 @keyframes vfade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @keyframes sobe{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 
@@ -209,11 +210,11 @@ html[data-theme="light"] .toast{background:#fffdf6}
     <div class="side-clinic">central de apps</div>
   </div>
   <nav class="snav">
-    <button class="navbtn active" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Início</button>
+    <button class="navbtn active" id="navInicio" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Início</button>
     <button class="navbtn" id="navAccount" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-5.5 8-5.5s6.5 1.5 8 5.5"/></svg>Account</button>
     <button class="navbtn" id="navTemas" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="8.5" cy="10" r="1.2" fill="currentColor" stroke="none"/><circle cx="12" cy="7.5" r="1.2" fill="currentColor" stroke="none"/><circle cx="15.5" cy="10" r="1.2" fill="currentColor" stroke="none"/><path d="M12 21a9 9 0 0 0 0-18"/><path d="M12 21c-4 0-4.5-3.5-2-5"/></svg>Aparência</button>
   </nav>
-  <div class="side-foot"><i></i>v1.6.1<button id="btnSobre" type="button" title="Sobre">ⓘ</button></div>
+  <div class="side-foot"><i></i>v1.6.2<button id="btnSobre" type="button" title="Sobre">ⓘ</button></div>
 </aside>
 
 <!-- ═══ CORPO ═══ -->
@@ -268,7 +269,7 @@ html[data-theme="light"] .toast{background:#fffdf6}
 
     <footer>
       <div class="f1"><img src="icone-192.png?v=4" alt=""><span>Feito com 💛 pela <b>Fênix</b></span></div>
-      <span class="vc">Fênix Center v1.6.1</span>
+      <span class="vc">Fênix Center v1.6.2</span>
     </footer>
   </section>
 
@@ -318,10 +319,10 @@ html[data-theme="light"] .toast{background:#fffdf6}
 <div class="painel" id="painelMenu">
   <div class="pmenu">
     <h4>Fênix <span>Center</span></h4>
-    <button class="mitem" type="button" onclick="document.getElementById('painelMenu').classList.remove('show')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Início</button>
+    <button class="mitem" type="button" onclick="document.getElementById('painelMenu').classList.remove('show');if(window.__fenixBack2)__fenixFirst()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Início</button>
     <button class="mitem" id="miAccount" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-5.5 8-5.5s6.5 1.5 8 5.5"/></svg>Account<small id="miAcUser">—</small></button>
     <button class="mitem" id="miTemas" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="8.5" cy="10" r="1.2" fill="currentColor" stroke="none"/><circle cx="12" cy="7.5" r="1.2" fill="currentColor" stroke="none"/><circle cx="15.5" cy="10" r="1.2" fill="currentColor" stroke="none"/><path d="M12 21a9 9 0 0 0 0-18"/></svg>Aparência<small id="miTema">escuro</small></button>
-    <button class="mitem" id="miSobre" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>Sobre este app<small>v1.6.1</small></button>
+    <button class="mitem" id="miSobre" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>Sobre este app<small>v1.6.2</small></button>
   </div>
 </div>
 
@@ -348,7 +349,7 @@ html[data-theme="light"] .toast{background:#fffdf6}
 <div id="toasts"></div>
 <script>
 const REPO='geniterapeuta12-tech/fenix-estetica';
-const CENTER_V='1.6.1';
+const CENTER_V='1.6.2';
 const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function toast(t){const el=document.createElement('div');el.className='toast';el.textContent=t;$('#toasts').appendChild(el);setTimeout(()=>{try{el.remove()}catch(e){}},5200)}
@@ -379,7 +380,10 @@ function abreView(v){
   VISTA=v;
   $('#view-inicio').classList.toggle('esconde',v!=='inicio');
   $('#view-account').classList.toggle('esconde',v!=='account');
-  const nb=$('#navAccount');if(nb)nb.classList.toggle('active',v==='account');
+  /* R57: seleção ÚNICA na barra lateral */
+  const ni=$('#navInicio'),na=$('#navAccount');
+  if(ni)ni.classList.toggle('active',v==='inicio');
+  if(na)na.classList.toggle('active',v==='account');
   $('#btnVoltar').classList.toggle('show',v!=='inicio');
   $('#titulo').textContent=v==='account'?'Account':'Fênix Center';
   $('#scroller').scrollTop=0;
@@ -391,6 +395,8 @@ function __fenixBack(){
   return false;
 }
 window.__fenixBack=__fenixBack;
+function __fenixFirst(){abreView('inicio');}
+window.__fenixFirst=__fenixFirst;
 $('#btnVoltar').onclick=__fenixBack;
 $('#navAccount').onclick=()=>{abreView('account');pintaConta();};
 const _miAc=$('#miAccount');if(_miAc)_miAc.onclick=()=>{$$('.painel').forEach(p=>p.classList.remove('show'));abreView('account');pintaConta();};
