@@ -1,5 +1,5 @@
-# FENIX — checksums sha256 (v1.6.38 + Center 1.4.0)
-9a4f51b2b2e3ae77a3559a27f670ea2fae09a7be34ef404da2c8a862afa34dfd  FENIX-Estetica.apk
-2779c43f30b4676d7e50fe7ae80d883e43e237b4ea43cb98e804d2d3bb5cfeb2  FENIX-Estetica-Windows.zip
-d6339300f5fb9dad1eccd4d665e8a20144e88c437f203ac20a6fa77735d39971  Fenix-Center-Windows.zip
-5b3743e778b16018169934fe5abdc32cfeab210a9a76e02c6a5be751bd979136  Fenix-Center.apk
+# FENIX — checksums sha256 (v1.6.39 + Center 1.8.0)
+47651e70164af1bd42083102a835c643e765f7c43fbaf36c4b5cfeee692ec60f  FENIX-Estetica.apk
+cf478b6d207bcce846834f7e3cf7d2c560da597bd93cd7c00ad2395e1678c7d6  FENIX-Estetica-Windows.zip
+3cb3d6f450624b21b52e5e539393521bfcfe447cee5203547ef5788ec3ee1357  Fenix-Center-Windows.zip
+d28e6a5c87a89db9db81ba409212324c1e2b02eee5a825acca3f4f06bbb5b1e2  Fenix-Center.apk
