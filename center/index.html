@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Fênix — o app da sua clínica de estética</title>
+<meta name="description" content="Conheça o Fênix Estética e o Fênix Center: a central que instala, atualiza e abre o app da sua clínica. Baixe o Fênix Center para Android (APK) ou Windows (EXE).">
+<meta name="theme-color" content="#0a0906">
+<link rel="icon" href="icone-192.png?v=4">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --gold:#d4af37;--gold2:#f1d27a;--bg:#0a0906;--line:rgba(240,220,160,.16);--line2:rgba(240,220,160,.34);
+  --txt:#f4efe1;--muted:#a89d84;--card:rgba(255,255,255,.035);
+  --serif:'Playfair Display',Georgia,serif;--sans:Montserrat,system-ui,sans-serif;
+}
+html{background:var(--bg);min-height:100%;scroll-behavior:smooth}
+body{margin:0;color:var(--txt);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+/* aurora + grão (assinatura visual do app) */
+.fundo{position:fixed;inset:0;z-index:-2;background:
+ radial-gradient(1100px 560px at 50% -14%,rgba(212,175,55,.17),transparent 62%),
+ radial-gradient(760px 460px at 106% 6%,rgba(212,175,55,.08),transparent 55%),
+ radial-gradient(760px 520px at -8% 34%,rgba(212,175,55,.05),transparent 55%),
+ var(--bg);animation:aur 16s ease-in-out infinite alternate}
+@keyframes aur{to{transform:translateY(-26px) scale(1.04)}}
+.grao{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.05;
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E")}
+.wm{position:fixed;inset:0;margin:auto;width:min(90vw,820px);max-height:88vh;opacity:.05;pointer-events:none;z-index:-1;animation:flutua 9s ease-in-out infinite}
+@keyframes flutua{50%{transform:translateY(-14px)}}
+.wrap{max-width:1020px;margin:0 auto;padding:0 22px}
+
+/* topo */
+.top{display:flex;align-items:center;gap:12px;padding:22px 2px 0}
+.top .mark{width:42px;height:42px;border-radius:13px;overflow:hidden;border:1px solid var(--line2);box-shadow:0 6px 22px rgba(212,175,55,.25)}
+.top .mark img{width:100%;height:100%;object-fit:cover}
+.brand b{display:block;font:800 .92rem/1.1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--gold2)}
+.brand small{display:block;margin-top:2px;font:600 .56rem var(--sans);letter-spacing:.32em;text-transform:uppercase;color:var(--muted)}
+.top .badge-of{margin-left:auto;border:1px solid var(--line);border-radius:999px;padding:7px 13px;font:600 .62rem var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+
+/* entrada + reveal (igual ao app) */
+@keyframes sobe{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.rv.on{opacity:1;transform:none}
+
+/* ─── hero ─── */
+.hero{text-align:center;padding:64px 10px 30px;position:relative}
+.hico{position:relative;width:118px;height:118px;margin:0 auto;border-radius:28px;overflow:hidden;border:1px solid rgba(212,175,55,.5);
+ box-shadow:0 26px 70px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.08);animation:sobe .6s .05s both}
+.hico::after{content:'';position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.15) 46%,transparent 60%);transform:translateX(-120%);animation:shine 5.5s ease-in-out infinite}
+@keyframes shine{0%,55%{transform:translateX(-120%)}75%,100%{transform:translateX(120%)}}
+.halo{width:230px;height:110px;margin:-86px auto 0;background:radial-gradient(circle,rgba(212,175,55,.22),transparent 65%);filter:blur(10px)}
+.kicker{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:7px 14px;font:700 .62rem var(--sans);letter-spacing:.3em;text-transform:uppercase;color:var(--gold);animation:sobe .6s .12s both}
+.hero h1{font:800 clamp(2.2rem,7vw,3.6rem)/1.08 var(--serif);margin:16px 0 0;animation:sobe .6s .18s both}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero .tag{margin:14px auto 0;max-width:600px;color:var(--muted);font:500 .98rem/1.7 var(--sans);animation:sobe .6s .24s both}
+.hero .bts{display:flex;gap:11px;justify-content:center;flex-wrap:wrap;margin-top:26px;animation:sobe .6s .3s both}
+.bt{display:inline-flex;align-items:center;gap:9px;border-radius:14px;padding:15px 22px;font:800 .88rem var(--sans);letter-spacing:.02em;cursor:pointer;text-decoration:none;transition:transform .16s,filter .16s,box-shadow .16s}
+.bt svg{width:19px;height:19px}
+.bt.pri{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#171204;border:0;box-shadow:0 14px 36px rgba(212,175,55,.3)}
+.bt.pri:hover{transform:translateY(-2px);filter:brightness(1.07)}
+.bt.sec{border:1px solid var(--line2);color:var(--txt);background:rgba(255,255,255,.03)}
+.bt.sec:hover{border-color:var(--gold);color:var(--gold2);transform:translateY(-2px)}
+.hero .ver{margin-top:14px;color:var(--muted);font:600 .72rem var(--sans);letter-spacing:.12em;text-transform:uppercase;animation:sobe .6s .36s both}
+.hero .ver b{color:var(--gold)}
+.baixo{margin-top:30px;color:var(--gold);font-size:1.2rem;animation:desce 1.8s ease-in-out infinite;display:inline-block}
+@keyframes desce{50%{transform:translateY(8px);opacity:.5}}
+
+/* ─── seções ─── */
+.sec{padding:52px 0 8px}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+.sec-head h2{font:700 1.7rem var(--serif);margin:0}
+.sec-head h2 em{font-style:italic;color:var(--gold)}
+.sec-head .rule{flex:1;height:1px;background:linear-gradient(90deg,var(--line2),transparent)}
+.sec .sub{color:var(--muted);font:500 .9rem/1.6 var(--sans);margin:0 0 22px;max-width:640px}
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+@media(max-width:760px){.feats{grid-template-columns:1fr 1fr}}
+@media(max-width:460px){.feats{grid-template-columns:1fr}}
+.feat{border:1px solid var(--line);border-radius:20px;padding:20px;background:var(--card);backdrop-filter:blur(8px);transition:transform .16s,border-color .16s}
+.feat:hover{transform:translateY(-3px);border-color:var(--gold)}
+.feat .fi{width:44px;height:44px;border-radius:13px;border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;background:linear-gradient(150deg,rgba(212,175,55,.2),rgba(212,175,55,.05));color:var(--gold2);margin-bottom:12px}
+.feat .fi svg{width:22px;height:22px}
+.feat b{display:block;font:700 .95rem var(--sans)}
+.feat p{margin:6px 0 0;color:var(--muted);font:500 .82rem/1.55 var(--sans)}
+
+/* ─── center destaque ─── */
+.center-box{position:relative;border:1px solid rgba(212,175,55,.45);border-radius:28px;padding:34px 30px;margin-top:8px;overflow:hidden;
+ background:linear-gradient(165deg,rgba(212,175,55,.10),rgba(20,17,9,.78) 55%);backdrop-filter:blur(10px)}
+.center-box::before{content:'';position:absolute;inset:-1px;border-radius:28px;padding:1px;background:linear-gradient(150deg,rgba(212,175,55,.55),transparent 30%,transparent 70%,rgba(212,175,55,.4));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.center-box .halo2{position:absolute;right:-60px;top:-60px;width:260px;height:260px;background:radial-gradient(circle,rgba(212,175,55,.16),transparent 65%);pointer-events:none}
+.cb-in{position:relative;display:flex;gap:26px;align-items:center;flex-wrap:wrap}
+.cb-in .dico{width:96px;height:96px;flex:none;border-radius:23px;overflow:hidden;border:1px solid rgba(212,175,55,.5);box-shadow:0 18px 44px rgba(0,0,0,.45);animation:flutua 7s ease-in-out infinite}
+.cb-in .dico img{width:100%;height:100%;object-fit:cover}
+.cb-in .cinfo{flex:1;min-width:250px}
+.cb-in h3{font:800 1.7rem var(--serif);margin:0}
+.cb-in h3 em{font-style:italic;color:var(--gold)}
+.cb-in .cdesc{color:var(--muted);font:500 .9rem/1.65 var(--sans);margin:8px 0 0;max-width:520px}
+.cb-in .cbts{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.tec{position:relative;margin-top:18px;border-top:1px solid var(--line);padding-top:14px;display:flex;gap:16px;flex-wrap:wrap;color:var(--muted);font:600 .72rem var(--sans);letter-spacing:.08em;text-transform:uppercase}
+.tec span b{color:var(--gold2);font-weight:700}
+.tec .ok{color:#7ec97e}
+
+/* ─── passos ─── */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+@media(max-width:760px){.steps{grid-template-columns:1fr}}
+.step{border:1px solid var(--line);border-radius:18px;padding:20px;background:var(--card)}
+.step .n{font:700 1.9rem var(--serif);color:var(--gold)}
+.step b{display:block;margin-top:4px;font:700 .92rem var(--sans)}
+.step p{margin:5px 0 0;color:var(--muted);font:500 .82rem/1.55 var(--sans)}
+
+/* ─── rodapé ─── */
+footer{margin-top:70px;border-top:1px solid var(--line);padding:26px 0 40px;display:flex;flex-direction:column;gap:8px;align-items:center;color:var(--muted);font:500 .8rem var(--sans);text-align:center}
+footer .f1{display:flex;gap:9px;align-items:center}
+footer img{width:22px;height:22px;border-radius:7px}
+footer b{color:var(--gold2)}
+footer a{color:var(--muted);text-decoration:none;border-bottom:1px dotted var(--line2)}
+footer a:hover{color:var(--gold2)}
+
+/* rolagem elegante */
+*{scrollbar-width:thin;scrollbar-color:rgba(212,175,55,.32) transparent}
+*::-webkit-scrollbar{width:7px;height:7px}
+*::-webkit-scrollbar-track{background:transparent}
+*::-webkit-scrollbar-thumb{background:rgba(212,175,55,.32);border-radius:99px}
+@media(max-width:600px){.hero{padding:46px 8px 20px}.center-box{padding:26px 20px}}
+</style>
+</head>
+<body>
+<div class="fundo"></div><div class="grao"></div>
+<img class="wm" src="icone-512.png?v=4" alt="" aria-hidden="true">
+
+<div class="wrap">
+<header class="top">
+  <div class="mark"><img src="icone-192.png?v=4" alt="Fênix"></div>
+  <div class="brand"><b>Fênix</b><small>estética · center</small></div>
+  <div class="badge-of">oficial</div>
+</header>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hico"><img src="icone-512.png?v=4" alt="Fênix Center"></div>
+  <div class="halo"></div>
+  <div style="margin-top:12px"><span class="kicker">✦ bem-vindo à fênix</span></div>
+  <h1>O sistema da sua clínica,<br><em>bonito</em> de usar</h1>
+  <p class="tag">Conheça o <b style="color:var(--txt)">Fênix Estética</b> — o app que organiza clientes, agenda, financeiro e equipe da sua clínica de estética — e o <b style="color:var(--txt)">Fênix Center</b>, a central que instala e atualiza tudo pra você.</p>
+  <div class="bts">
+    <a class="bt pri" href="https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest/download/Fenix-Center.apk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 8l5-5 5 5"/><path d="M4 17v2.5A1.5 1.5 0 0 0 5.5 21h13a1.5 1.5 0 0 0 1.5-1.5V17"/></svg>Baixar Center no Android (APK)</a>
+    <a class="bt sec" href="https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest/download/Fenix-Center-Windows.zip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M2 20h20"/></svg>Baixar Center no Windows (EXE)</a>
+  </div>
+  <p class="ver">versão mais recente: <b id="verTxt">consultando…</b> · atualiza sozinho</p>
+  <span class="baixo">▾</span>
+</section>
+
+<!-- ═══ O APP (Fênix Estética) ═══ -->
+<section class="sec" id="app">
+  <div class="sec-head rv"><h2>Dentro do <em>Fênix Estética</em></h2><span class="rule"></span></div>
+  <p class="sub rv">Tudo que a sua clínica precisa num lugar só — com a elegância do escuro e dourado que já é a nossa cara.</p>
+  <div class="feats">
+    <div class="feat rv"><div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-5.5 8-5.5s6.5 1.5 8 5.5"/></svg></div><b>Clientes</b><p>Fichas completas, anamnese, fotos de evolução e histórico de sessões de cada cliente.</p></div>
+    <div class="feat rv"><div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg></div><b>Agenda</b><p>Os horários do dia com confirmação — sem caderninho e sem perder cliente.</p></div>
+    <div class="feat rv"><div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 6.5c0-2-2.2-3-5-3s-5 1-5 3 2 3 5 3 5 1 5 3-2.2 3-5 3-5-1-5-3"/></svg></div><b>Financeiro</b><p>Pagamentos, pacotes e o quanto entrou no mês — claro, na hora.</p></div>
+    <div class="feat rv"><div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5c0 4.1-4 7.5-9 7.5-1 0-2-.1-2.9-.4L4 20l1.3-3.1C4 15.6 3 13.7 3 11.5 3 7.4 7 4 12 4s9 3.4 9 7.5z"/></svg></div><b>Equipe &amp; mensagens</b><p>Recados da clínica em segundos, com grupos e avisos na hora — nada de WhatsApp misturado.</p></div>
+    <div class="feat rv"><div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8 12 3 3 8l9 5 9-5zM3 8v8l9 5 9-5V8"/></svg></div><b>Catálogo &amp; pacotes</b><p>Procedimentos e produtos com preço, pacotes com sessões — a cliente acompanha pelo app dela.</p></div>
+    <div class="feat rv"><div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div><b>Relatórios</b><p>O andamento da clínica em páginas bonitas, prontas pra guardar ou enviar.</p></div>
+  </div>
+</section>
+
+<!-- ═══ FÊNIX CENTER ═══ -->
+<section class="sec" id="center">
+  <div class="sec-head rv"><h2>Conheça o <em>Fênix Center</em></h2><span class="rule"></span></div>
+  <p class="sub rv">Um app que cuida dos seus apps Fênix — do jeito simples.</p>
+  <div class="center-box rv">
+    <div class="halo2"></div>
+    <div class="cb-in">
+      <div class="dico"><img src="icone-512.png?v=4" alt="Fênix Center"></div>
+      <div class="cinfo">
+        <h3>Fênix <em>Center</em></h3>
+        <p class="cdesc">Por ele você <b style="color:var(--txt)">instala o app da clínica</b> no computador e no celular, <b style="color:var(--txt)">recebe as atualizações</b> com a lista de melhorias e <b style="color:var(--txt)">abre o app já instalado</b> com um toque. Toda versão passa por aqui — oficial, assinada e verificada.</p>
+        <div class="cbts">
+          <a class="bt pri" href="https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest/download/Fenix-Center.apk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 8l5-5 5 5"/><path d="M4 17v2.5A1.5 1.5 0 0 0 5.5 21h13a1.5 1.5 0 0 0 1.5-1.5V17"/></svg>Android · APK</a>
+          <a class="bt sec" href="https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest/download/Fenix-Center-Windows.zip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M2 20h20"/></svg>Windows · EXE</a>
+        </div>
+      </div>
+    </div>
+    <div class="tec">
+      <span>versão <b id="verTxt2">—</b></span>
+      <span>Windows <b>10+</b> · Android <b>7+</b></span>
+      <span class="ok">✔ assinado oficialmente</span>
+      <span class="ok">✔ checksum sha-256 publicado</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PASSOS ═══ -->
+<section class="sec" id="passos">
+  <div class="sec-head rv"><h2>Simples <em>assim</em></h2><span class="rule"></span></div>
+  <div class="steps" style="margin-top:18px">
+    <div class="step rv"><div class="n">1</div><b>Baixe o Fênix Center</b><p>No Android (APK) ou no Windows (EXE) pelos botões desta página.</p></div>
+    <div class="step rv"><div class="n">2</div><b>Instale e abra</b><p>O Center fica na sua tela — bonito, nos temas da Fênix.</p></div>
+    <div class="step rv"><div class="n">3</div><b>Tudo do Fênix por lá</b><p>Instale o app da clínica, receba atualizações e abra com um toque — pra sempre.</p></div>
+  </div>
+</section>
+
+<footer>
+  <div class="f1"><img src="icone-192.png?v=4" alt=""><span>Feito com 💛 pela <b>Fênix</b></span></div>
+  <span><a href="https://github.com/geniterapeuta12-tech/fenix-estetica/releases">todas as versões</a> · o app Center se atualiza sozinho</span>
+</footer>
+</div>
+<script>
+/* versão ao vivo (pill tecnológica) */
+(async function(){
+ try{
+  const r=await fetch('https://api.github.com/repos/geniterapeuta12-tech/fenix-estetica/releases/latest');
+  if(!r.ok)return;
+  const v=await r.json();
+  const t=String(v.tag_name||'').replace('v','');
+  ['verTxt','verTxt2'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='v'+t;});
+ }catch(e){const el=document.getElementById('verTxt');if(el)el.textContent='—';}
+})();
+/* reveal (igual ao app) */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}}),{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

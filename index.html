@@ -15,6 +15,16 @@
 <style>
 :root{--gold:#d4af37;--gold2:#f1d27a;--line:rgba(255,255,255,.14);--txt:#f5f5f5;--muted:#9a9a9a;--logo-cut:#000;color-scheme:dark}
 *{box-sizing:border-box}
+/* R54 — rolagem elegante (fim da barra cinza) */
+*{scrollbar-width:thin;scrollbar-color:rgba(212,175,55,.32) transparent}
+*::-webkit-scrollbar{width:7px;height:7px}
+*::-webkit-scrollbar-track{background:transparent}
+*::-webkit-scrollbar-thumb{background:rgba(212,175,55,.32);border-radius:99px}
+*::-webkit-scrollbar-thumb:hover{background:rgba(212,175,55,.55)}
+html[data-theme="light"] *{scrollbar-color:rgba(80,62,20,.3) transparent}
+html[data-theme="light"] *::-webkit-scrollbar-thumb{background:rgba(80,62,20,.3)}
+@media(hover:none){*{scrollbar-width:none}*::-webkit-scrollbar{width:0;height:0}}
+
 body{margin:0;color:var(--txt);font-family:Montserrat,sans-serif;background:radial-gradient(1100px 550px at 50% -10%,rgba(212,175,55,.12),transparent 60%),#000;min-height:100vh}
 html{background:#000;min-height:100%}
 html[data-theme="light"]{background:#f3efe4}
@@ -861,8 +871,9 @@ html[data-notipos="bl"] .noti,html[data-notipos="br"] .noti{animation:none}
 .ntmeta i{color:var(--gold);font-style:normal;font-size:.72rem}
 .ntx{border:0;background:transparent;color:var(--muted);font-size:1.05rem;cursor:pointer;line-height:1;padding:0}
 .ntx:hover{color:#ff6b6b}
+#relBody.blur{filter:blur(10px);pointer-events:none;user-select:none}/* R54: global — PC desfoca igual celular */
 @media(max-width:600px){.panelcard{padding:16px 13px}
-#relBody.blur{filter:blur(10px);pointer-events:none;user-select:none}.stats{gap:9px}.stat{padding:11px}.chips{gap:6px}.chip{padding:7px 11px}}
+.stats{gap:9px}.stat{padding:11px}.chips{gap:6px}.chip{padding:7px 11px}}
 .client,.appt,.txn,.fileitem{flex-wrap:wrap}
 .cinfo{flex:1;min-width:0}
 #clientLinkList li.client{flex-wrap:wrap;row-gap:8px}
@@ -1955,7 +1966,7 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <button class="btn gold" id="btnPermsAparelho" type="button">🔐 Pedir permissões agora</button>
 <button class="btn ghost" id="btnPermsConfig" type="button">⚙️ Abrir configuração do aparelho</button>
 <button class="btn ghost" id="btnArqTeste" type="button">📎 Testar escolher arquivo</button>
-<a class="btn ghost" href="https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest" target="_blank" rel="noopener">🦅 Fênix Center</a>
+<a class="btn ghost" href="https://geniterapeuta12-tech.github.io/fenix-estetica/center/" target="_blank" rel="noopener">🦅 Fênix Center</a>
 </div>
 <p class="sub" style="margin-top:10px">No celular, se algo ficar bloqueado, use <b>⚙️ Abrir configuração do aparelho</b> › Permissões e ligue <b>Arquivos/fotos</b> e <b>Notificações</b>.</p>
 <p class="msg" id="permsMsg"></p>
@@ -6073,7 +6084,7 @@ document.querySelectorAll('#cpBody .cpsec').forEach(x=>x.classList.toggle('on',x
    efeitos na pessoa (avatar colorido, presença, bolhas animadas), atualização a
    cada 5s e anexos leves (até 1 MB) salvos temporariamente — TUDO some em 24h. ===== */
 let MSG={rows:[],lastTs:0,timer:null,peer:null,visto:{},anim:{},autoScroll:true,itens:[],pintar:null};
-const TG_SOMEM=86400000,TG_SYNC=5000,TG_MAXB64=1400000,TG_MAXFILE=1048576;
+const TG_SOMEM=86400000,TG_SYNC=5000,TG_MARGEM=300000,TG_MAXB64=1400000,TG_MAXFILE=1048576;/* TG_MARGEM R54: janela de sobreposição p/ relógio atrasado */
 function meuNome(){try{const a=JSON.parse(localStorage.getItem('fenix_user_ativo')||'null');return (a&&a.nome)||'Clínica';}catch(e){return 'Clínica';}}
 function tgCor(nome){let h=0;const s=String(nome||'');for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))%360;return h;}
 function tgAvStyle(nome){const h=tgCor(nome);return 'background:linear-gradient(135deg,hsl('+h+',52%,50%),hsl('+((h+40)%360)+',52%,36%))';}
@@ -6086,17 +6097,26 @@ if(d<120000)return 'ativo agora';
 if(d<3600000)return 'ativo há '+Math.max(1,Math.round(d/60000))+' min';
 return 'visto por último às '+tgHora(ult.ts);}
 async function msgPuxa(){if(!REMOTE||!CLINIC_ID||!SB)return;
-try{let q=SB.from('mensagens').select('id,de,para,texto,url,nome,tamanho,criado_em,ts').eq('clinic_id',CLINIC_ID);
-if(MSG.lastTs)q=q.gt('ts',MSG.lastTs);
-const r=await q.order('ts',{ascending:true}).limit(300);
+try{const agora=Date.now();
+/* R54 — mensagens que não chegavam: 2 causas corrigidas.
+   (a) cursor antigo usava ts do relógio de quem ENVIA: se o aparelho do remetente
+       estivesse atrasado, a msg nascia com ts menor que o cursor e era perdida pra sempre.
+       Agora buscamos uma JANELA recente (5 min de sobreposição) e deduplicamos por id.
+   (b) 1ª carga pedia "as 300 primeiras em ordem crescente" = as mais ANTIGAS da clínica.
+       Agora pede as mais NOVAS (24h, decrescente limit 200) e inverte. */
+const margem=Math.max(Number(MSG.lastTs)||0,agora)-TG_MARGEM;
+let q=SB.from('mensagens').select('id,de,para,texto,url,nome,tamanho,criado_em,ts').eq('clinic_id',CLINIC_ID);
+if(MSG.lastTs)q=q.gt('ts',margem);else q=q.gt('ts',agora-TG_SOMEM);
+const r=await q.order('ts',{ascending:false}).limit(200);
 if(r.error)throw r.error;
-const corte=Date.now()-TG_SOMEM;
-const novos=(r.data||[]).filter(x=>Number(x.ts)>corte);
-if(novos.length!==((r.data)||[]).length){try{SB.from('mensagens').delete().lt('ts',corte);}catch(e){}}
-try{grpAbsorve((r.data||[]).filter(x=>x.para==='__grupos'));}catch(e){}
-const novos2=[];for(const xx of novos){if(xx.para==='__grupos')continue;if(String(xx.texto||'').indexOf('__GRUPO__')===0)continue;novos2.push(xx);}
-novos.length=0;novos.push(...novos2);
-if(novos.length){MSG.rows=MSG.rows.filter(x=>Number(x.ts)>corte).concat(novos).slice(-600);MSG.lastTs=novos[novos.length-1].ts;
+const rows=(r.data||[]).slice().reverse();
+const corte=agora-TG_SOMEM;
+if((r.data||[]).length){try{SB.from('mensagens').delete().lt('ts',corte);}catch(e){}}
+try{grpAbsorve(rows.filter(x=>x.para==='__grupos'));}catch(e){}
+const tenho=new Set(MSG.rows.map(x=>x.id));
+const novos=rows.filter(x=>Number(x.ts)>corte&&x.para!=='__grupos'&&String(x.texto||'').indexOf('__GRUPO__')!==0&&!tenho.has(x.id));
+if(novos.length){MSG.rows=MSG.rows.filter(x=>Number(x.ts)>corte).concat(novos).slice(-600);
+MSG.lastTs=Math.max(Number(MSG.lastTs)||0,novos[novos.length-1].ts);
 if(state.mode==='equipe')renderEqMsgs('nuvem');else notiMsgs(novos);}}
 catch(e){}}
 function msgLiga(){if(MSG.timer)return;MSG.timer=setInterval(()=>{msgPuxa();},TG_SYNC);}
@@ -6543,7 +6563,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.37';
+const APP_VERSAO='1.6.38';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{

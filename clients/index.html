@@ -72,6 +72,19 @@ details.doc .dtexto img{max-width:100%;border-radius:8px}
 details.doc[open] summary{border-bottom:1px solid rgba(212,175,55,.15)}
 .fdempty{color:#9a917d;font-size:.85rem;padding:10px 2px}
 @media print{body{background:#fff;color:#141414}.tabs,.fc-head,.clinbar,.rodape{display:none!important}.fcpanel{display:block!important;page-break-before:always}.fcpanel:first-of-type{page-break-before:auto}.panelcard{background:#fff;border-color:#ddd}.pos{color:#1d6b40}.aberto{color:#8a6d12}}
+
+/* R54 — números e textos NUNCA mais estouram o quadro no celular */
+.wrap{overflow-x:hidden}
+.panelcard{overflow-x:auto;-webkit-overflow-scrolling:touch}
+td{max-width:0;overflow-wrap:anywhere;word-break:break-word}
+.num{font-size:.84rem}
+.bar{min-width:60px;width:100%;max-width:110px}
+/* R54 — rolagem elegante (fim da barra cinza) */
+*{scrollbar-width:thin;scrollbar-color:rgba(212,175,55,.3) transparent}
+*::-webkit-scrollbar{width:7px;height:7px}
+*::-webkit-scrollbar-track{background:transparent}
+*::-webkit-scrollbar-thumb{background:rgba(212,175,55,.3);border-radius:99px}
+@media(hover:none){*{scrollbar-width:none}*::-webkit-scrollbar{width:0;height:0}}
 </style>
 </head>
 <body>

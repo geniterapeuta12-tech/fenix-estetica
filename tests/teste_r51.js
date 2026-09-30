@@ -33,7 +33,7 @@ d.getElementById('btnPermsConfig').click();
 T('8. ⚙️ chama abrirConfig da ponte', w.eval("window.__cfg")===1 && d.getElementById('permsMsg').textContent.includes('configuração do aparelho'));
 T('9. sem ponte (PC): status orientando o teste', (()=>{w.eval("delete window.FenixApp");w.eval("permsPintaStatus()");const s=d.getElementById('permsStatus').textContent;return s.includes('Notificações do sistema')||s.includes('arquivos');})());
 // ===== VERSÃO =====
-T('10. APP_VERSAO 1.6.37', w.eval("APP_VERSAO")==='1.6.37');
+T('10. APP_VERSAO 1.6.38', w.eval("APP_VERSAO")==='1.6.38');
 console.log(falhas?('FALHAS: '+falhas):'TUDO OK (10/10)');
 process.exit(falhas?1:0);
 })().catch(e=>{console.error('ERRO:',e.stack||e.message);process.exit(1);});
