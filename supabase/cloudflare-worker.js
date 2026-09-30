@@ -27,6 +27,21 @@ const enc = new TextEncoder();
 function b64u(b) { let s = btoa(String.fromCharCode(...new Uint8Array(b))); return s.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
 function b64uS(s) { return b64u(enc.encode(s)); }
 function ub64u(s) { s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '='; const bin = atob(s); return Uint8Array.from(bin, c => c.charCodeAt(0)); }
+/* R60 — R2: fotos e arquivos no balde fenix-arquivos (D1 fica só c/ dados + fotos antigas) */
+const R2_AC='022e146199d99c7fc5785f2d9c620a9b';
+const R2_BUCKET='fenix-arquivos';
+function r2Url(path){return 'https://api.cloudflare.com/client/v4/accounts/'+R2_AC+'/r2/buckets/'+R2_BUCKET+'/objects/'+encodeURIComponent(path);}
+async function r2Put(path, buf, mime, token){
+  const r=await fetch(r2Url(path),{method:'PUT',headers:{'authorization':'Bearer '+token,'content-type':mime||'application/octet-stream'},body:buf});
+  return r.ok;
+}
+async function r2Get(path, token){
+  try{const r=await fetch(r2Url(path),{headers:{'authorization':'Bearer '+token}});
+  if(r.status===200)return r; return null;}catch(e){return null;}
+}
+async function r2Del(path, token){
+  try{await fetch(r2Url(path),{method:'DELETE',headers:{'authorization':'Bearer '+token}});}catch(e){}
+}
 async function hmacKey(secret) { return crypto.subtle.importKey('raw', enc.encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign', 'verify']); }
 async function signJWT(payload, secret) {
   const head = b64uS(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
@@ -107,6 +122,14 @@ function sqlVal(v) {
 function rowOut(row) {
   // booleans 0/1 → true/false não dá pra saber quais colunas são bool;
   // o app trata 0/1 como falsy/truthy — mantém como está.
+  // R39: colunas JSON gravadas como TEXTO voltam como lista/objeto de novo
+  // (corrigia "as perguntas do formulário apagam" e guias/itens/respostas).
+  for (const c of ['estrutura', 'respostas', 'guias', 'itens', 'payload']) {
+    const v = row[c];
+    if (typeof v === 'string' && v.length > 1 && (v[0] === '[' || v[0] === '{')) {
+      try { row[c] = JSON.parse(v); } catch (e) {}
+    }
+  }
   return row;
 }
 
@@ -140,15 +163,16 @@ function hojeBR() {
 }
 async function rpcClientePub(env, pId) {
   const db = env.DB;
-  const c = await db.prepare('SELECT id, nome, clinic_id, acesso FROM clientes WHERE id = ?').bind(pId).first();
+  const c = await db.prepare('SELECT id, nome, clinic_id, acesso, ctabs FROM clientes WHERE id = ?').bind(pId).first();
   if (!c) return null;
-  if (c.acesso === 0 || c.acesso === false) return { erro: 'sem_acesso' };
+  if (c.acesso === 0 || c.acesso === false || String(c.acesso)==='false' || String(c.acesso)==='fals' || String(c.acesso)==='0') return { erro: 'sem_acesso' };
   const clin = await db.prepare('SELECT nome FROM clinics WHERE id = ?').bind(c.clinic_id).first();
   const pt = await db.prepare('SELECT COALESCE(SUM(valor),0) t FROM pagamentos WHERE cliente_id = ?').bind(pId).first();
   const pacotes = await db.prepare(`
     SELECT json_group_array(json_object(
       'nome', p.nome, 'valor', p.valor, 'qtd', p.sessoes,
-      'feitas', (SELECT COUNT(*) FROM sessoes s WHERE s.pacote_id = p.id AND s.feita = 1),
+      'itens', CASE WHEN p.itens IS NULL OR p.itens = '' THEN json('[]') ELSE json(p.itens) END,
+      'feitas', (SELECT COUNT(*) FROM sessoes s WHERE s.pacote_id = p.id AND s.feita IN (1,'1','true','tru')),
       'pago', (SELECT COALESCE(SUM(pg.valor),0) FROM pagamentos pg WHERE pg.pacote_id = p.id)
     )) x FROM (SELECT * FROM pacotes WHERE cliente_id = ? ORDER BY criado_em) p
   `).bind(pId).first();
@@ -157,23 +181,38 @@ async function rpcClientePub(env, pId) {
       'data', s.data, 'pacote', p.nome, 'obs', s.obs, 'num', s.num
     )) x FROM (
       SELECT s.* FROM sessoes s LEFT JOIN pacotes p ON p.id = s.pacote_id
-      WHERE s.cliente_id = ? AND (s.feita = 0 OR s.feita IS NULL) AND s.data IS NOT NULL AND s.data >= ?
+      WHERE s.cliente_id = ? AND (s.feita IN (0,'0','false','fals') OR s.feita IS NULL) AND s.data IS NOT NULL AND s.data >= ?
       ORDER BY s.data LIMIT 8
     ) s LEFT JOIN pacotes p ON p.id = s.pacote_id
   `).bind(pId, hojeBR()).first();
+  const realizadas = await db.prepare(`
+    SELECT json_group_array(json_object(
+      'data', s.data, 'pacote', p.nome, 'obs', s.obs, 'num', s.num
+    )) x FROM (
+      SELECT * FROM sessoes WHERE cliente_id = ? AND feita IN (1,'1','true','tru') AND data IS NOT NULL
+      ORDER BY data DESC LIMIT 30
+    ) s LEFT JOIN pacotes p ON p.id = s.pacote_id
+  `).bind(pId).first();
   const pagamentos = await db.prepare(`
     SELECT json_group_array(json_object(
       'valor', pg.valor, 'data', pg.data, 'metodo', pg.metodo, 'obs', pg.obs
     )) x FROM (SELECT * FROM pagamentos WHERE cliente_id = ? ORDER BY data DESC LIMIT 20) pg
   `).bind(pId).first();
+  const documentos = await db.prepare(`
+    SELECT json_group_array(json_object(
+      'titulo', d.titulo, 'texto', d.texto, 'data', COALESCE(d.atualizado_em, d.criado_em)
+    )) x FROM (SELECT * FROM documentos WHERE cliente_id = ? AND titulo IS NOT NULL ORDER BY COALESCE(atualizado_em, criado_em) DESC LIMIT 12) d
+  `).bind(pId).first();
   const jsafe = (r) => { try { return JSON.parse(r.x || '[]'); } catch (e) { return []; } };
   return {
-    cliente: { nome: c.nome },
+    cliente: (() => { let ct = null; try { const p = JSON.parse(c.ctabs || 'null'); if (Array.isArray(p) && p.length) { const okk = ['res','pac','ses','pag','doc'].filter(k => p.indexOf(k) >= 0); if (okk.length) ct = okk; } } catch (e) {} return { nome: c.nome, ctabs: ct }; })(),
     clinica: clin ? clin.nome : null,
     pago_total: pt ? pt.t : 0,
     pacotes: jsafe(pacotes) || [],
     proximas: jsafe(proximas) || [],
+    realizadas: jsafe(realizadas) || [],
     pagamentos: jsafe(pagamentos) || [],
+    documentos: jsafe(documentos) || [],
   };
 }
 
@@ -287,15 +326,55 @@ export default {
       /* ============ RPC ============ */
       const mrpc = p.match(/^\/rest\/v1\/rpc\/(\w+)$/);
       if (mrpc && req.method === 'POST') {
-        const auth = req.headers.get('authorization') || '';
-        const pl = await verifyJWT(auth.replace(/^Bearer /i, ''), secret);
-        if (!pl) return jerr('Invalid API key', 401, 'invalid_api_key');
         if (mrpc[1] === 'fenix_cliente_pub') {
+          /* pública: o link do cliente É a chave (id imprevisível) — a cliente não faz login */
           const b = await req.json();
           const r = await rpcClientePub(env, b.p_id);
           return j(r);
         }
+        const auth = req.headers.get('authorization') || '';
+        const pl = await verifyJWT(auth.replace(/^Bearer /i, ''), secret);
+        if (!pl) return jerr('Invalid API key', 401, 'invalid_api_key');
         return jerr('function not found', 404, 'PGRST202');
+      }
+
+      /* ============ PÚBLICO: formulário por link (o token do link É a chave) ============ */
+      if (p === '/pub/form' && req.method === 'POST') {
+        const b = await req.json().catch(() => ({}));
+        const tk = String(b.token || '').slice(0, 64);
+        if (!tk) return jerr('token ausente', 400);
+        const r = await env.DB.prepare('SELECT id, clinic_id, titulo, descr, estrutura FROM formularios WHERE link_token = ?').bind(tk).first();
+        if (!r) return j({ erro: 'invalido' });
+        let est = r.estrutura;
+        if (typeof est === 'string') { try { est = JSON.parse(est); } catch (e) { est = []; } }
+        return j({ id: r.id, clinic_id: r.clinic_id, titulo: r.titulo, descr: r.descr, estrutura: Array.isArray(est) ? est : [] });
+      }
+      if (p === '/pub/resp' && req.method === 'POST') {
+        const b = await req.json().catch(() => ({}));
+        const tk = String(b.token || '').slice(0, 64);
+        const pessoa = String(b.pessoa || '').trim().slice(0, 120);
+        const valsIn = Array.isArray(b.vals) ? b.vals.slice(0, 200) : [];
+        if (!tk || pessoa.length < 2) return jerr('dados inválidos', 400);
+        const fm = await env.DB.prepare('SELECT id, clinic_id FROM formularios WHERE link_token = ?').bind(tk).first();
+        if (!fm) return jerr('link inválido', 404, 'invalid_link');
+        const dup = await env.DB.prepare('SELECT id FROM formulario_respostas WHERE formulario_id = ? AND lower(pessoa) = lower(?) LIMIT 1').bind(fm.id, pessoa).first();
+        if (dup) return jerr('já respondeu', 409, 'dup');
+        const vals = valsIn.filter(v => v && v.qid).map(v => ({ qid: String(v.qid).slice(0, 64), valor: String(v.valor || '').slice(0, 4000) }));
+        if (!vals.length) return jerr('sem respostas', 400);
+        await env.DB.prepare('INSERT INTO formulario_respostas (id, clinic_id, formulario_id, pessoa, respostas, criado_em, ts) VALUES (?,?,?,?,?,?,?)')
+          .bind(crypto.randomUUID(), fm.clinic_id, fm.id, pessoa, JSON.stringify(vals), new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }), Date.now()).run();
+        return j({ ok: true });
+      }
+
+      /* ============ USO — medidor do banco (Dados › Uso) ============ */
+      if (p === '/uso' && req.method === 'GET') {
+        const auth = req.headers.get('authorization') || '';
+        const pl = await verifyJWT(auth.replace(/^Bearer /i, ''), secret);
+        if (!pl) return jerr('Invalid API key', 401, 'invalid_api_key');
+        const r0 = await env.DB.prepare('SELECT id FROM mensagens LIMIT 1').run();
+        const bytes = (r0.meta && r0.meta.size_after) || 0;
+        const quota = 5368709120;
+        return j({ bytes, quota, gatilho: 3758096384, pct: +(bytes / quota * 100).toFixed(3), atualizado_em: new Date().toISOString() });
       }
 
       /* ============ REST ============ */
@@ -371,6 +450,14 @@ export default {
         if (req.method === 'DELETE') {
           const w = buildWhere(url);
           if (!w.sql) return jerr('DELETE requires a filter', 400, 'PGRST103');
+          if (t === 'mensagens' && env.R2_TOKEN) {
+            /* R60: mensagens expiram em 24h → arquivos delas no R2 expiram junto */
+            try {
+              const velhas = await db.prepare('SELECT url FROM ' + t + w.sql + ' LIMIT 200').bind(...w.vals).all();
+              const paths = (velhas.results || []).map(x => String(x.url || '')).filter(u => u.indexOf('/storage/v1/object/public/fenix-arquivos/') >= 0).map(u => decodeURIComponent(u.split('fenix-arquivos/')[1] || ''));
+              if (paths.length) await Promise.all(paths.map(pp => r2Del(pp, env.R2_TOKEN)));
+            } catch (e) { /* R2 falhou → apaga só no banco */ }
+          }
           const r2 = await db.prepare('DELETE FROM ' + t + w.sql).bind(...w.vals).run();
           return new Response(null, { status: 204, headers: CORS });
         }
@@ -387,6 +474,11 @@ export default {
         const mime = req.headers.get('content-type') || 'application/octet-stream';
         const buf = await req.arrayBuffer();
         if (buf.byteLength > 12 * 1024 * 1024) return jerr('Payload too large', 413);
+        if (env.R2_TOKEN) {
+          const ok = await r2Put(path, buf, mime, env.R2_TOKEN);
+          if (ok) return j({ Key: path, r2: true });
+          /* R2 falhou → segue pro D1 como antes (não perde o arquivo) */
+        }
         const b64 = ab2b64(buf);
         await env.DB.prepare('INSERT OR REPLACE INTO fotos (path,mime,bytes,data) VALUES (?,?,?,?)')
           .bind(path, mime, buf.byteLength, b64).run();
@@ -395,6 +487,12 @@ export default {
       const mPub = p.match(/^\/storage\/v1\/object\/public\/fenix-arquivos\/(.+)$/);
       if (mPub && req.method === 'GET') {
         const path = decodeURIComponent(mPub[1]);
+        if (env.R2_TOKEN) {
+          const rf = await r2Get(path, env.R2_TOKEN);
+          if (rf) return new Response(rf.body, { status: 200, headers: {
+            'content-type': rf.headers.get('content-type') || 'application/octet-stream',
+            'cache-control': 'public, max-age=3600', ...CORS } });
+        }
         const f = await env.DB.prepare('SELECT mime,data FROM fotos WHERE path = ?').bind(path).first();
         if (!f) return new Response('Not found', { status: 404, headers: CORS });
         return new Response(b642ab(f.data), {
@@ -407,8 +505,62 @@ export default {
         const auth = req.headers.get('authorization') || '';
         const pl = await verifyJWT(auth.replace(/^Bearer /i, ''), secret);
         if (!pl) return jerr('Invalid API key', 401, 'invalid_api_key');
+        if (env.R2_TOKEN) await r2Del(decodeURIComponent(mDel[1]), env.R2_TOKEN);
         await env.DB.prepare('DELETE FROM fotos WHERE path = ?').bind(decodeURIComponent(mDel[1])).run();
         return j({ message: 'Successfully deleted' });
+      }
+
+      if (p === '/r2-ok') return j({ ok: true, r2: !!env.R2_TOKEN });
+
+      /* ---- R61: migração das FOTOS ANTIGAS (base64 no D1) para o R2 ---- */
+      /* GET /r2-status → quanto falta migrar (não precisa de login: só contagem) */
+      if (p === '/r2-status' && req.method === 'GET') {
+        const s = await env.DB.prepare('SELECT COUNT(*) AS n, COALESCE(SUM(bytes),0) AS b FROM fotos').first();
+        return j({ ok: true, r2: !!env.R2_TOKEN, restantes: (s && s.n) || 0, bytes: (s && s.b) || 0 });
+      }
+      /* POST /r2-migra {limite, dry} → migra um LOTE (login obrigatório) */
+      if (p === '/r2-migra' && req.method === 'POST') {
+        const auth = req.headers.get('authorization') || '';
+        const pl = await verifyJWT(auth.replace(/^Bearer /i, ''), secret);
+        if (!pl) return jerr('Invalid API key', 401, 'invalid_api_key');
+        if (!env.R2_TOKEN) return jerr('R2 nao configurado (env.R2_TOKEN ausente)', 503, 'r2_off');
+        let body = {};
+        try { body = await req.json(); } catch (e) { body = {}; }
+        const dry = !!body.dry;
+        const limite = Math.max(1, Math.min(25, parseInt(body.limite, 10) || 10));
+        const lote = await env.DB.prepare('SELECT path,mime,bytes,data FROM fotos ORDER BY rowid LIMIT ?').bind(limite).all();
+        const linhas = (lote && lote.results) || [];
+        const res = { ok: true, dry, lidas: linhas.length, migradas: 0, ja_no_r2: 0, bytes: 0, erros: [] };
+        for (const f of linhas) {
+          const path = String(f.path || '');
+          if (!path) { res.erros.push({ path: path, erro: 'path vazio' }); continue; }
+          try {
+            /* já está no balde? então o D1 só guarda cópia velha */
+            const existe = await r2Get(path, env.R2_TOKEN);
+            if (existe) {
+              try { await existe.body.cancel(); } catch (e) { /* ignora */ }
+              if (!dry) await env.DB.prepare('DELETE FROM fotos WHERE path = ?').bind(path).run();
+              res.ja_no_r2++; res.bytes += Number(f.bytes) || 0;
+              continue;
+            }
+            if (dry) { res.migradas++; res.bytes += Number(f.bytes) || 0; continue; }
+            const buf = b642ab(f.data);
+            const okPut = await r2Put(path, buf, f.mime || 'application/octet-stream', env.R2_TOKEN);
+            if (!okPut) { res.erros.push({ path: path, erro: 'r2Put falhou' }); continue; }
+            /* confere que subiu ANTES de apagar do banco (nunca perder foto) */
+            const conf = await r2Get(path, env.R2_TOKEN);
+            if (!conf) { res.erros.push({ path: path, erro: 'confirmacao falhou' }); continue; }
+            try { await conf.body.cancel(); } catch (e) { /* ignora */ }
+            await env.DB.prepare('DELETE FROM fotos WHERE path = ?').bind(path).run();
+            res.migradas++; res.bytes += Number(f.bytes) || 0;
+          } catch (e) {
+            res.erros.push({ path: path, erro: (e && e.message) ? e.message : String(e) });
+          }
+        }
+        const s = await env.DB.prepare('SELECT COUNT(*) AS n, COALESCE(SUM(bytes),0) AS b FROM fotos').first();
+        res.restantes = (s && s.n) || 0;
+        res.bytes_restantes = (s && s.b) || 0;
+        return j(res);
       }
 
       return jerr('Not found: ' + p, 404, 'not_found');

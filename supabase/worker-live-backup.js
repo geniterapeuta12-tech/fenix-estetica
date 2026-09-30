@@ -512,6 +512,57 @@ export default {
 
       if (p === '/r2-ok') return j({ ok: true, r2: !!env.R2_TOKEN });
 
+      /* ---- R61: migração das FOTOS ANTIGAS (base64 no D1) para o R2 ---- */
+      /* GET /r2-status → quanto falta migrar (não precisa de login: só contagem) */
+      if (p === '/r2-status' && req.method === 'GET') {
+        const s = await env.DB.prepare('SELECT COUNT(*) AS n, COALESCE(SUM(bytes),0) AS b FROM fotos').first();
+        return j({ ok: true, r2: !!env.R2_TOKEN, restantes: (s && s.n) || 0, bytes: (s && s.b) || 0 });
+      }
+      /* POST /r2-migra {limite, dry} → migra um LOTE (login obrigatório) */
+      if (p === '/r2-migra' && req.method === 'POST') {
+        const auth = req.headers.get('authorization') || '';
+        const pl = await verifyJWT(auth.replace(/^Bearer /i, ''), secret);
+        if (!pl) return jerr('Invalid API key', 401, 'invalid_api_key');
+        if (!env.R2_TOKEN) return jerr('R2 nao configurado (env.R2_TOKEN ausente)', 503, 'r2_off');
+        let body = {};
+        try { body = await req.json(); } catch (e) { body = {}; }
+        const dry = !!body.dry;
+        const limite = Math.max(1, Math.min(25, parseInt(body.limite, 10) || 10));
+        const lote = await env.DB.prepare('SELECT path,mime,bytes,data FROM fotos ORDER BY rowid LIMIT ?').bind(limite).all();
+        const linhas = (lote && lote.results) || [];
+        const res = { ok: true, dry, lidas: linhas.length, migradas: 0, ja_no_r2: 0, bytes: 0, erros: [] };
+        for (const f of linhas) {
+          const path = String(f.path || '');
+          if (!path) { res.erros.push({ path: path, erro: 'path vazio' }); continue; }
+          try {
+            /* já está no balde? então o D1 só guarda cópia velha */
+            const existe = await r2Get(path, env.R2_TOKEN);
+            if (existe) {
+              try { await existe.body.cancel(); } catch (e) { /* ignora */ }
+              if (!dry) await env.DB.prepare('DELETE FROM fotos WHERE path = ?').bind(path).run();
+              res.ja_no_r2++; res.bytes += Number(f.bytes) || 0;
+              continue;
+            }
+            if (dry) { res.migradas++; res.bytes += Number(f.bytes) || 0; continue; }
+            const buf = b642ab(f.data);
+            const okPut = await r2Put(path, buf, f.mime || 'application/octet-stream', env.R2_TOKEN);
+            if (!okPut) { res.erros.push({ path: path, erro: 'r2Put falhou' }); continue; }
+            /* confere que subiu ANTES de apagar do banco (nunca perder foto) */
+            const conf = await r2Get(path, env.R2_TOKEN);
+            if (!conf) { res.erros.push({ path: path, erro: 'confirmacao falhou' }); continue; }
+            try { await conf.body.cancel(); } catch (e) { /* ignora */ }
+            await env.DB.prepare('DELETE FROM fotos WHERE path = ?').bind(path).run();
+            res.migradas++; res.bytes += Number(f.bytes) || 0;
+          } catch (e) {
+            res.erros.push({ path: path, erro: (e && e.message) ? e.message : String(e) });
+          }
+        }
+        const s = await env.DB.prepare('SELECT COUNT(*) AS n, COALESCE(SUM(bytes),0) AS b FROM fotos').first();
+        res.restantes = (s && s.n) || 0;
+        res.bytes_restantes = (s && s.b) || 0;
+        return j(res);
+      }
+
       return jerr('Not found: ' + p, 404, 'not_found');
     } catch (e) {
       return jerr('Erro interno: ' + (e && e.message ? e.message : String(e)), 500, 'internal');

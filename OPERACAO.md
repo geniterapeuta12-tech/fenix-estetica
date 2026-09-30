@@ -77,6 +77,20 @@ Em CADA versão nova: (1) atualizar `APP_VERSAO` no index.html; (2) atualizar `v
 - **Planilha**: renomear (✏️ inline, sem prompt() — Electron proíbe); selecionar linha/coluna pelos cabeçalhos (números 1-2-3 / letras A-B-C, plnLetra) com realce dourado; – Linha/– Coluna apagam a SELEÇÃO (sem seleção = última, como antes).
 - **CONSERTE DE DADOS (import)**: booleans foram importados como TEXTO e truncados ('true'→'tru', 'false'→'fals') — isso fazia TODA sessão aparecer feita ("8/8") e cliente pausada aparecer ativa. Corrigido no D1 (sessoes.feita/pago, clientes.acesso, alarmes.ativa, documentos.fav → inteiros 1/0; conferido com CSV: 81 feitas/54 não). Worker: RPC fenix_cliente_pub aceita 1/'true'/'tru' etc.; app: mapSess/mapCliente blindados (texto 'false' NÃO é mais truthy; acesso 0/'fals'/'0' = pausado). NÃO re-importar sem converter booleans!
 - **FRAGILIDADE SNAPSHOT**: zip de ~101 MB em fenix-apps/ pode corromper/retroceder no snapshot (teto ~128 MB). Fonte da verdade = release no GitHub; se o zip local estiver estranho, re-baixar de releases/download/v1.6.X/ antes de usar como base.
+## R61 — migração das FOTOS ANTIGAS pro R2 (30/09/2026)
+*Continuação da R60: a R60 passou a GRAVAR no R2; a R61 leva pro R2 o que já estava em base64 na tabela `fotos` do D1.*
+- **Worker (`supabase/worker-live-backup.js`, espelhado em `fenix-cloudflare/worker.js` e `supabase/cloudflare-worker.js`)**:
+  - `GET /r2-status` → `{r2, restantes, bytes}` (quantas fotos ainda estão no banco). Aberto, só contagem.
+  - `POST /r2-migra` `{limite:1..25, dry:bool}` → migra UM lote (exige login/JWT). Sem `R2_TOKEN` responde **503 `r2_off`** (nunca finge que migrou).
+- **Regra de ouro (nunca perder foto)**: sobe com `r2Put` → **confere com `r2Get`** → só então `DELETE FROM fotos`. Se o upload ou a conferência falhar, a linha do D1 **fica** e o path entra em `erros[]`. Foto que já está no balde: apaga só a cópia velha do banco (`ja_no_r2`). Erro numa foto não derruba o lote.
+- **Idempotente e retomável**: pode interromper e rodar de novo; cada resposta traz `restantes`/`bytes_restantes`.
+- **Como executar** (precisa de rede pra Cloudflare + login da clínica):
+  1. Publicar o worker R61 (deploy do `fenix-cloudflare/worker.js`) e conferir `GET /r2-ok` → `{"r2":true}`.
+  2. `node tools/migrar-fotos-r2.mjs --email clinicaprincipal@clinicas.fenix.app --senha '***' --dry` (simulação, 1 lote).
+  3. Sem `--dry` pra valer: roda em lotes de 10 até `restantes = 0`. Opções: `--lote`, `--max`, `--api`, `--token`.
+  4. Depois: `GET /uso` + tamanho do D1 pra registrar quanto o banco encolheu.
+- **Status nesta sessão**: código + script + testes prontos e commitados (`tests/teste_r61.js`, 20/20). A migração **ao vivo ainda não rodou** — o sandbox não tem saída de rede pro `fenix-api...workers.dev` nem a `R2_TOKEN`/senha da clínica. Assim que o worker R61 estiver publicado, é só rodar o comando do passo 3.
+
 ## R52.1 — Fênix Center como APP (29/09/2026)
 - center/index.html REFEITO: design premium (Playfair+Montserrat, aurora dourada, cards vidro, timeline de versões com linha, toasts, reveal) — SEM svg phoenix do app (ícone PNG próprio).
 - PWA: manifest.json + sw.js (cache-first) → instalável pelo navegador também.
