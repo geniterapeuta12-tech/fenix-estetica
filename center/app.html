@@ -70,8 +70,7 @@ html[data-theme="light"] .side-logo img{box-shadow:0 8px 22px rgba(80,62,20,.18)
 html[data-theme="light"] .topbar{background:rgba(255,253,246,.6)}
 .titulo{font:700 1.12rem var(--serif);letter-spacing:.02em}
 .topbar .live{margin-left:auto;display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font:600 .6rem var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
-.topbar .live i{width:7px;height:7px;border-radius:50%;background:#7ec97e;box-shadow:0 0 8px #7ec97e;animation:pulse 2.2s infinite}
-@keyframes pulse{50%{opacity:.35}}
+.topbar .live i{width:7px;height:7px;border-radius:50%;background:#7ec97e;box-shadow:0 0 8px #7ec97e}/* R59: estática — sem piscar */
 .bmenu{display:none;border:1px solid var(--line2);background:var(--card);color:var(--gold);border-radius:11px;padding:8px 12px;font:800 .95rem var(--sans);cursor:pointer}
 
 main{flex:1;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:0 20px 34px;scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--gold) 40%,transparent) transparent}
@@ -214,7 +213,7 @@ html[data-theme="light"] .toast{background:#fffdf6}
     <button class="navbtn" id="navAccount" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-5.5 8-5.5s6.5 1.5 8 5.5"/></svg>Account</button>
     <button class="navbtn" id="navTemas" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="8.5" cy="10" r="1.2" fill="currentColor" stroke="none"/><circle cx="12" cy="7.5" r="1.2" fill="currentColor" stroke="none"/><circle cx="15.5" cy="10" r="1.2" fill="currentColor" stroke="none"/><path d="M12 21a9 9 0 0 0 0-18"/><path d="M12 21c-4 0-4.5-3.5-2-5"/></svg>Aparência</button>
   </nav>
-  <div class="side-foot"><i></i>v1.7.0<button id="btnSobre" type="button" title="Sobre">ⓘ</button></div>
+  <div class="side-foot"><i></i>v1.8.0<button id="btnSobre" type="button" title="Sobre">ⓘ</button></div>
 </aside>
 
 <!-- ═══ CORPO ═══ -->
@@ -269,7 +268,7 @@ html[data-theme="light"] .toast{background:#fffdf6}
 
     <footer>
       <div class="f1"><img src="icone-192.png?v=4" alt=""><span>Feito com 💛 pela <b>Fênix</b></span></div>
-      <span class="vc">Fênix Center v1.7.0</span>
+      <span class="vc">Fênix Center v1.8.0</span>
     </footer>
   </section>
 
@@ -322,7 +321,7 @@ html[data-theme="light"] .toast{background:#fffdf6}
     <button class="mitem" type="button" onclick="document.getElementById('painelMenu').classList.remove('show');if(window.__fenixFirst)__fenixFirst()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Início</button>
     <button class="mitem" id="miAccount" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-5.5 8-5.5s6.5 1.5 8 5.5"/></svg>Account<small id="miAcUser">—</small></button>
     <button class="mitem" id="miTemas" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="8.5" cy="10" r="1.2" fill="currentColor" stroke="none"/><circle cx="12" cy="7.5" r="1.2" fill="currentColor" stroke="none"/><circle cx="15.5" cy="10" r="1.2" fill="currentColor" stroke="none"/><path d="M12 21a9 9 0 0 0 0-18"/></svg>Aparência<small id="miTema">escuro</small></button>
-    <button class="mitem" id="miSobre" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>Sobre este app<small>v1.7.0</small></button>
+    <button class="mitem" id="miSobre" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>Sobre este app<small>v1.8.0</small></button>
   </div>
 </div>
 
@@ -349,7 +348,7 @@ html[data-theme="light"] .toast{background:#fffdf6}
 <div id="toasts"></div>
 <script>
 const REPO='geniterapeuta12-tech/fenix-estetica';
-const CENTER_V='1.7.0';
+const CENTER_V='1.8.0';
 const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function toast(t){const el=document.createElement('div');el.className='toast';el.textContent=t;$('#toasts').appendChild(el);setTimeout(()=>{try{el.remove()}catch(e){}},5200)}
@@ -530,7 +529,7 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden)checaUiNov
 if(u&&u!==CENTER_V)setTimeout(()=>toast('✔ Fênix Center atualizado pra v'+CENTER_V+' ✓\ntudo seu continua aqui.'),900);
 lsSet('center_ultima_v',CENTER_V);}catch(e){}})();
 /* ═══ PWA ═══ */
-try{if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js?v=5');}catch(e){}
+/* R59: sem service worker — o Center é APP (APK/EXE); o sw antigo foi exterminado via center/sw.js */
 </script>
 </body>
 </html>

@@ -5,11 +5,11 @@ let html=fs.readFileSync('/home/user/center-src/www/index.html','utf-8');
 let falhas=0;const T=(n,c)=>{console.log((c?'  ✔ ':'  ✘ ')+n);if(!c)falhas++;};
 
 /* ===== estáticos ===== */
-T('1. UI mestra: versão 1.7.0', html.includes("CENTER_V='1.7.0'") && html.includes('v1.7.0'));
+T('1. UI mestra: versão 1.8.0', html.includes("CENTER_V='1.8.0'") && html.includes('v1.8.0'));
 T('2. auto-atualização na UI (checa ao abrir + a cada 30min + nunca rebaixa)', html.includes('async function checaUiNova') && html.includes('setInterval(checaUiNova,30*60*1000)') && html.includes('function uiMaisNova') && html.includes("document.open();document.write(inj);document.close();"));
 T('3. base href injetado no swap (ícones resolvem)', html.includes('<base href="https://geniterapeuta12-tech.github.io/fenix-estetica/center/">'));
 T('4. UI mestra = center/app.html publicada (byte-idênticas)', fs.readFileSync('/home/user/center/app.html','utf-8')===html);
-T('5. Java: carregar() nativo + nunca rebaixa (maisNova) + base', (()=>{const j=fs.readFileSync('/home/user/center-src/br/fenix/center/MainActivity.java','utf-8');return j.includes('private void carregar()')&&j.includes('maisNova')&&j.includes('center-live.html')&&j.includes('CENTER_V = "1.7.0"')&&j.includes('LIVE_UI')&&j.includes('finish();')&&!j.includes('wv.goBack()');})());
+T('5. Java: carregar() nativo + nunca rebaixa (maisNova) + base', (()=>{const j=fs.readFileSync('/home/user/center-src/br/fenix/center/MainActivity.java','utf-8');return j.includes('private void carregar()')&&j.includes('maisNova')&&j.includes('center-live.html')&&j.includes('CENTER_V = "1.8.0"')&&j.includes('LIVE_UI')&&j.includes('finish();')&&!j.includes('wv.goBack()');})());
 T('6. landing da marca intacta (não confundir com o app)', fs.existsSync('/home/user/center/index.html') && fs.readFileSync('/home/user/center/index.html','utf-8').includes('bem-vindo à fênix'));
 
 /* ===== comportamental: recebe versão ANTIGA → NÃO troca; nova → troca ===== */
@@ -25,7 +25,7 @@ w.__fila=["<!DOCTYPE html><html><head><title>VELHO</title></head><body>x CENTER_
 await w.eval("checaUiNova()");
 await new Promise(r=>setTimeout(r,150));
 T('8. versão mais ANTIGA no ar → NÃO rebaixa (não troca a tela)', d.getElementById('view-inicio')!==null && d.title!=='VELHO');
-/* nova (1.7.0): troca na hora */
+/* nova (1.8.0): troca na hora */
 w.__fila=["<!DOCTYPE html><html><head><title>NOVO</title></head><body>center atualizado CENTER_V='1.9.9'</body></html>",null];
 await w.eval("checaUiNova()");
 await new Promise(r=>setTimeout(r,200));
@@ -70,6 +70,10 @@ d3.querySelector('#painelMenu .mitem').click();
 await new Promise(r=>setTimeout(r,50));
 T('16. ⊞ Início volta ao início (typo __fenixFirst corrigido)', d3.getElementById('view-inicio').classList.contains('esconde')===false && d3.getElementById('view-account').classList.contains('esconde')===true);
 }
-console.log(falhas?('FALHAS: '+falhas):'TUDO OK (16/16)');
+/* ===== R59 — fim do service worker zumbi + bolinha estática ===== */
+T('17. UI mestra NÃO registra mais service worker (Center é app)', !html.includes('serviceWorker.register'));
+T('18. sw.js EXTERMINADOR no ar: apaga todos os caches e se desregistra', (()=>{const sw=fs.readFileSync('/home/user/center/sw.js','utf-8');return sw.includes('caches.delete')&&sw.includes('unregister')&&sw.includes('EXTERMINADOR');})());
+T('19. bolinha do oficial ESTÁTICA (sem piscar)', !html.includes('animation:pulse') && html.includes('estática — sem piscar'));
+console.log(falhas?('FALHAS: '+falhas):'TUDO OK (19/19)');
 process.exit(falhas?1:0);
 })().catch(e=>{console.error('ERRO:',e.stack||e.message);process.exit(1);});
