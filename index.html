@@ -1856,7 +1856,7 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 </div>
 <div class="panelcard">
 <label>O que você quer postar?</label>
-<textarea class="input" id="gpCmd" rows="2" style="width:100%;resize:vertical" placeholder="Ex.: promoção de limpeza de pele essa semana · abri vaga pra quinta · dica de cuidados no verão…"></textarea>
+<textarea class="input" id="gpCmd" rows="2" style="width:100%;resize:vertical" placeholder="Ex.: ozônio terapia capilar com os benefícios · promoção de limpeza de pele essa semana · abri vaga pra quinta…"></textarea>
 <div class="rowbtns" style="margin-top:10px">
 <button class="btn" id="gpGo" type="button">✨ Gerar post</button>
 </div>
@@ -5951,28 +5951,35 @@ function gpWrap(t,n){const p=String(t||'').trim().split(/\s+/);const L=[];let cu
 p.forEach(w=>{if((cur+' '+w).trim().length>n){if(cur)L.push(cur);cur=w;}else cur=(cur?cur+' ':'')+w;});
 if(cur)L.push(cur);return L;}
 function gpCardHTML(g){
-const ti=gpWrap(g.titulo,26).slice(0,3),ca=gpWrap(g.chamada,38).slice(0,4);
-return '<div style="aspect-ratio:1/1;background:#141414;border-radius:14px;padding:8%;display:flex;flex-direction:column;justify-content:space-between;border:1px solid rgba(212,175,55,.35)">'+
-'<div style="font-family:Montserrat,sans-serif;font-size:.62rem;letter-spacing:.24em;color:#d4af37">✦ ESTÚDIO DE ESTÉTICA ✦</div>'+
-'<div><div style="font-family:Playfair,Georgia,serif;font-size:2rem;line-height:1.15;color:#f0e6c0;font-weight:700">'+ti.map(esc).join('<br>')+'</div>'+
-(ca.length?'<div style="font-family:Montserrat,sans-serif;font-size:.92rem;line-height:1.5;color:#cfc9bb;margin-top:12px">'+ca.map(esc).join('<br>')+'</div>':'')+'</div>'+
-'<div style="border-top:1px solid rgba(212,175,55,.4);padding-top:10px;display:flex;align-items:center;gap:10px">'+
-'<span style="width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#d4af37,#7a5f14);color:#141414;display:flex;align-items:center;justify-content:center;font-family:Playfair,Georgia,serif;font-weight:700">F</span>'+
-'<span style="font-family:Montserrat,sans-serif;font-size:.68rem;letter-spacing:.14em;color:#d4af37">'+esc((($('appClinic')&&$('appClinic').textContent)||'FÊNIX ESTÉTICA').toUpperCase().slice(0,28))+'</span></div></div>';}
+const bf=Array.isArray(g.beneficios)?g.beneficios.slice(0,4):[];
+const ti=gpWrap(g.titulo,26).slice(0,bf.length?2:3);
+const ca=bf.length?gpWrap(g.chamada,44).slice(0,2):gpWrap(g.chamada,38).slice(0,4);
+let h='<div style="aspect-ratio:1/1;background:#141414;border-radius:14px;padding:8%;display:flex;flex-direction:column;justify-content:space-between;border:1px solid rgba(212,175,55,.35)">';
+h+='<div style="font-family:Montserrat,sans-serif;font-size:.62rem;letter-spacing:.24em;color:#d4af37">✦ ESTÚDIO DE ESTÉTICA ✦</div>';
+h+='<div><div style="font-family:Playfair,Georgia,serif;font-size:'+(bf.length?1.7:2)+'rem;line-height:1.15;color:#f0e6c0;font-weight:700">'+ti.map(esc).join('<br>')+'</div>';
+if(ca.length)h+='<div style="font-family:Montserrat,sans-serif;font-size:.92rem;line-height:1.5;color:#cfc9bb;margin-top:12px">'+ca.map(esc).join('<br>')+'</div>';
+if(bf.length)h+='<div style="margin-top:14px">'+bf.map(b=>'<div style="font-family:Montserrat,sans-serif;font-size:.85rem;color:#d4af37;margin-top:5px">✓ '+esc(b)+'</div>').join('')+'</div>';
+h+='</div><div style="border-top:1px solid rgba(212,175,55,.4);padding-top:10px;display:flex;align-items:center;gap:10px"><span style="width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#d4af37,#7a5f14);color:#141414;display:flex;align-items:center;justify-content:center;font-family:Playfair,Georgia,serif;font-weight:700">F</span><span style="font-family:Montserrat,sans-serif;font-size:.68rem;letter-spacing:.14em;color:#d4af37">'+esc((($('appClinic')&&$('appClinic').textContent)||'FÊNIX ESTÉTICA').toUpperCase().slice(0,28))+'</span></div></div>';
+return h;}
 function gpSVG(g,W2){
-const ti=gpWrap(g.titulo,24).slice(0,3),ca=gpWrap(g.chamada,34).slice(0,4);
+const bf=Array.isArray(g.beneficios)?g.beneficios.slice(0,4):[];
+const ti=gpWrap(g.titulo,24).slice(0,bf.length?2:3);
+const ca=bf.length?gpWrap(g.chamada,40).slice(0,2):gpWrap(g.chamada,34).slice(0,4);
 const nome=(($('appClinic')&&$('appClinic').textContent)||'Fênix Estética').toUpperCase().slice(0,28);
-let y=400-(ti.length*55);
+const E=x=>String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;');
 let s='<svg xmlns="http://www.w3.org/2000/svg" width="'+W2+'" height="'+W2+'" viewBox="0 0 1080 1080">';
 s+='<rect width="1080" height="1080" fill="#141414"/>';
 s+='<rect x="26" y="26" width="1028" height="1028" fill="none" stroke="#d4af37" stroke-opacity=".45" stroke-width="3" rx="34"/>';
 s+='<text x="90" y="140" font-family="Montserrat,Arial,sans-serif" font-size="30" letter-spacing="16" fill="#d4af37">✦ ESTÚDIO DE ESTÉTICA ✦</text>';
-ti.forEach((l,i)=>{s+='<text x="90" y="'+(y+i*100)+'" font-family="Georgia,serif" font-size="88" font-weight="bold" fill="#f0e6c0">'+l.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</text>';});
-const yc=y+ti.length*100+40;
-ca.forEach((l,i)=>{s+='<text x="90" y="'+(yc+i*58)+'" font-family="Arial,sans-serif" font-size="40" fill="#cfc9bb">'+l.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</text>';});
+const tfs=bf.length?80:88,tls=bf.length?94:100;
+let y=340;
+ti.forEach((l,i)=>{s+='<text x="90" y="'+(y+i*tls)+'" font-family="Georgia,serif" font-size="'+tfs+'" font-weight="bold" fill="#f0e6c0">'+E(l)+'</text>';});
+y+=ti.length*tls;
+if(ca.length){y+=44;ca.forEach((l,i)=>{s+='<text x="90" y="'+(y+i*56)+'" font-family="Arial,sans-serif" font-size="40" fill="#cfc9bb">'+E(l)+'</text>';});y+=ca.length*56;}
+if(bf.length){y+=52;bf.forEach((b,i)=>{s+='<text x="90" y="'+(y+i*62)+'" font-family="Arial,sans-serif" font-size="40" fill="#d4af37">✓  '+E(b)+'</text>';});y+=bf.length*62;}
 s+='<line x1="90" y1="960" x2="990" y2="960" stroke="#d4af37" stroke-opacity=".5" stroke-width="2"/>';
 s+='<circle cx="118" cy="1002" r="26" fill="#d4af37"/><text x="118" y="1012" text-anchor="middle" font-family="Georgia,serif" font-size="30" font-weight="bold" fill="#141414">F</text>';
-s+='<text x="160" y="1012" font-family="Arial,sans-serif" font-size="28" letter-spacing="8" fill="#d4af37">'+nome.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</text>';
+s+='<text x="160" y="1012" font-family="Arial,sans-serif" font-size="28" letter-spacing="8" fill="#d4af37">'+E(nome)+'</text>';
 return s+'</svg>';}
 async function gpGera(){
 if(gpBusy)return;const cmd=$('gpCmd').value.trim();
@@ -5985,7 +5992,7 @@ const j=await r.json().catch(()=>null);
 if(!r.ok||!j||!j.resposta)throw new Error((j&&j.erro)||('HTTP '+r.status));
 let g=null;const rr=j.resposta;if(rr&&typeof rr==='object')g=rr;else if(typeof rr==='string'){try{const i=rr.indexOf('{'),f=rr.lastIndexOf('}');if(i>=0&&f>i)g=JSON.parse(rr.slice(i,f+1));}catch(e){}}
 if(!g||!g.titulo)throw new Error('a I.A não conseguiu montar o post — tenta de novo');
-gpData={titulo:String(g.titulo).slice(0,80),chamada:String(g.chamada||'').slice(0,240),legenda:String(g.legenda||'').slice(0,1200)};
+const gbf=Array.isArray(g.beneficios)?g.beneficios.filter(x=>typeof x==='string'&&x.trim()).map(x=>x.trim().slice(0,42)).slice(0,4):[];gpData={titulo:String(g.titulo).slice(0,80),chamada:String(g.chamada||'').slice(0,240),beneficios:gbf,legenda:String(g.legenda||'').slice(0,1200)};
 $('gpCard').innerHTML=gpCardHTML(gpData);
 $('gpLeg').textContent=gpData.legenda||'';
 $('gpOut').classList.remove('hidden');msg($('gpMsg'),'✔ Post pronto — baixe o PNG e copie a legenda!','ok');
@@ -6743,7 +6750,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.49';
+const APP_VERSAO='1.6.50';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{

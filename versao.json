@@ -1,10 +1,10 @@
 {
-  "versao": "1.6.49",
-  "r": "R70",
+  "versao": "1.6.50",
+  "r": "R70.1",
   "melhorias": [
-    "🐛 CORREÇÃO IMPORTANTE: «Conversar com a I.A» não estava abrindo (a tela ficava presa) — consertado, agora abre normalmente no Laboratório I.A",
-    "✨ NOVO: Gerador de Posts no Laboratório I.A — diga o que quer postar e a I.A cria o cartão visual do estúdio + legenda pronta com hashtags; baixa em PNG pra publicar",
-    "🧠 A I.A entende de estética e nunca faz promessa médica (protege o seu estúdio)"
+    "✨ Gerador de Posts turbinado: a I.A agora usa o nome EXATO do serviço que você escreveu — pediu «ozônio terapia capilar»? o post fala «Ozônio Terapia Capilar», sem trocar por palavra genérica",
+    "✅ Benefícios no post: o cartão e a legenda agora mostram os benefícios do serviço (lista ✓ no cartão e ✅ na legenda) — é só pedir «com os benefícios»",
+    "#️⃣ Legendas com hashtags específicas do serviço (ex.: #ozonioterapiacapilar) + cartão com até 4 benefícios desenhados"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }
