@@ -24,7 +24,7 @@ DETALHES
 • Login e senha: os mesmos. Celular e PC sincronizados
   (mesmo banco na nuvem).
 • Zoom das telas: menu Dados > Sistema (80% a 125%).
-• Novidade v1.6.43: RESUMO DA I.A nos relatórios — monte o relatório (Studio › Relatórios) e toque em «Gerar resumo bonito»: a IA escreve um texto elegante sobre os seus números, pronto pra compartilhar · chat de I.A retirado
+• Novidade v1.6.44: correção — o cartão «Resumo da I.A» agora APARECE ao montar o relatório (Studio › Relatórios)
 
 • Atualização futura: recebe uma pasta nova e substitui.
 • Links de WhatsApp abrem no app certo do Windows.
