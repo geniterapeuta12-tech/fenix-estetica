@@ -1,0 +1,30 @@
+FÊNIX ESTÉTICA — APP DE WINDOWS (v1.6 — SEM NAVEGADOR, SEM SITE)
+=================================================================
+
+INSTALAÇÃO (1 passo)
+1. Extraia este ZIP inteiro numa pasta definitiva (ex.: Documentos).
+2. Dois cliques em:  1 - Instalar e abrir (rode este).bat
+3. Pronto: atalho "Fenix Estetica" criado na Área de Trabalho
+   (ícone da Fênix) e o app abre na sequência.
+   Depois: 2 cliques no atalho, igual qualquer programa.
+
+POR QUE AGORA É UM APP DE VERDADE (v1.6)
+• O app traz o PRÓPRIO MOTOR DE TELA DENTRO DO PACOTE
+  (tecnologia Electron — a mesma do Visual Studio Code,
+  Discord e WhatsApp Desktop). NÃO usa o Edge, não usa o
+  Chrome, não usa navegador nenhum do seu computador.
+• O SISTEMA INTEIRO e até a biblioteca de dados estão
+  dentro da pasta — não depende mais do site (abre
+  instantâneo, mesmo sem internet — nesse caso entra no
+  modo local e sincroniza quando a net voltar).
+• Janela própria, ícone da Fênix na barra de tarefas,
+  sem abas e sem barra de endereço.
+
+DETALHES
+• Login e senha: os mesmos. Celular e PC sincronizados
+  (mesmo banco na nuvem).
+• Zoom das telas: menu Dados > Sistema (80% a 125%).
+• Novidade v1.6.40: FÊNIX I.A — assistente de inteligência artificial no app (Studio I.A): pergunte sobre o seu negócio e receba respostas com base nos seus dados, sem configurar nada · conversas salvas na nuvem
+
+• Atualização futura: recebe uma pasta nova e substitui.
+• Links de WhatsApp abrem no app certo do Windows.
