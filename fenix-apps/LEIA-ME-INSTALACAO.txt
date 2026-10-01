@@ -24,7 +24,7 @@ DETALHES
 • Login e senha: os mesmos. Celular e PC sincronizados
   (mesmo banco na nuvem).
 • Zoom das telas: menu Dados > Sistema (80% a 125%).
-• Novidade v1.6.45: o Resumo da I.A agora é PARTE do relatório — em todos os tipos, a seção Resumo ganha o texto da IA (na prévia, no PDF e no txt), escrevendo sozinho ao montar
+• Novidade v1.6.46: ATUALIZA SOZINHO — Windows carrega sempre a versão mais recente da nuvem; celular baixa a versão nova sozinho ao abrir (uma última instalação e nunca mais)
 
 • Atualização futura: recebe uma pasta nova e substitui.
 • Links de WhatsApp abrem no app certo do Windows.
