@@ -1,10 +1,10 @@
 {
-  "versao": "1.6.43",
-  "r": "R64",
+  "versao": "1.6.44",
+  "r": "R65",
   "melhorias": [
-    "✨ RESUMO DA I.A NOS RELATÓRIOS: monte o relatório (Studio › Relatórios) e toque em «Gerar resumo bonito» — a inteligência artificial lê os números e escreve um texto elegante e pessoal, pronto pra compartilhar (com botão de copiar)",
-    "🧹 Chat de I.A retirado: a inteligência agora vive dentro dos relatórios, onde é útil de verdade",
-    "🎨 O resumo sai em letra de serifa, com traço dourado, no estilo da marca"
+    "🐛 CORREÇÃO: o cartão «✨ Resumo da I.A» não estava aparecendo após montar o relatório (nascia escondido) — agora aparece direitinho em Studio › Relatórios › Montar relatório",
+    "✨ Resumo da I.A: a IA lê o relatório e escreve um texto elegante e pessoal, com botão pra copiar e compartilhar",
+    "🧹 A IA vive nos relatórios (o chat antigo foi aposentado) — sem chave, sem custo, e seus dados não treinam IA nenhuma"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }

@@ -5892,7 +5892,7 @@ relCoreCache=relCore(cid);relTab='resumo';
 relPaint();
 relLastDoc=relDocHTML(relCoreCache);
 relLastTxt=relTxt(relCoreCache);
-try{$('relIaCard').classList.add('hidden');$('relIaBox').classList.add('hidden');$('relIaActs').classList.add('hidden');msg($('relIaMsg'),'');}catch(e){}
+try{$('relIaCard').classList.remove('hidden');$('relIaBox').classList.add('hidden');$('relIaActs').classList.add('hidden');msg($('relIaMsg'),'');}catch(e){}
 msg($('relMsg'),'✔ Relatório montado — role o documento, ou gere PDF / .txt abaixo.','ok');
 try{$('relPrev').scrollIntoView({behavior:'smooth',block:'start'});}catch(e){}},700);}
 function getSel(id){return document.getElementById(id);}
@@ -6634,7 +6634,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.43';
+const APP_VERSAO='1.6.44';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{
