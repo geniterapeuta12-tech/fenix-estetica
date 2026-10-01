@@ -24,7 +24,7 @@ DETALHES
 • Login e senha: os mesmos. Celular e PC sincronizados
   (mesmo banco na nuvem).
 • Zoom das telas: menu Dados > Sistema (80% a 125%).
-• Novidade v1.6.46: ATUALIZA SOZINHO — Windows carrega sempre a versão mais recente da nuvem; celular baixa a versão nova sozinho ao abrir (uma última instalação e nunca mais)
+• Novidade v1.6.47: ÁREAS no Studio — barra do Studio agora alterna 🎓 Studio e 🧪 Laboratório I.A · Relatórios (com Resumo da I.A) se mudou pro Laboratório
 
 • Atualização futura: recebe uma pasta nova e substitui.
 • Links de WhatsApp abrem no app certo do Windows.
