@@ -1,10 +1,10 @@
 {
-  "versao": "1.6.47",
-  "r": "R68",
+  "versao": "1.6.48",
+  "r": "R69",
   "melhorias": [
-    "🧪 NOVA ÁREA NO STUDIO: a barra do Studio agora tem 2 áreas alternáveis — 🎓 Studio (Documentos, Formulários, Planilha) e 🧪 Laboratório I.A",
-    "📊 RELATÓRIOS se mudou pro LABORATÓRIO I.A (com o Resumo da I.A dentro) — saiu da área do Studio como você pediu",
-    "💡 A área escolhida fica salva: você volta onde estava (Studio ou Laboratório)"
+    "🤖 NOVO NO LABORATÓRIO I.A: «Conversar com a I.A» — fale com a inteligência artificial do estúdio: peça ideias de posts, textos para clientes, sugestões de pacote e tire dúvidas do dia a dia",
+    "☁️ Conversas salvas na nuvem: começa no celular e continua no Windows (e vice-versa)",
+    "🧠 A I.A agora entende de estética: procedimentos, cuidados e o jeito certo de falar com sua cliente — e nunca faz promessa médica"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }

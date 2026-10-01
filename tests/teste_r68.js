@@ -13,12 +13,12 @@ T('7. clicar na área Studio abre Documentos', /else navigate\(\(\)=>\{state\.sv
 T('8. área salva no localStorage (fenix_sarea)', W.includes("localStorage.setItem('fenix_sarea'")&&W.includes("localStorage.getItem('fenix_sarea')"));
 T('9. renderApp pinta a área no Studio', /if\(studio\)\{\s*try\{pintaSarea\(\)\}catch/.test(W));
 T('10. título: Laboratório I.A · Relatórios', W.includes("'Laboratório I.A · Relatórios'"));
-T('11. nota da barra muda por área', W.includes('Laboratório I.A: relatórios com resumo escrito'));
+T('11. nota da barra muda por área', W.includes('Laboratório I.A: converse com a inteligência artificial'));
 T('12. clicar num item sincroniza a área (data-area)', /const ar=b\.dataset\.area;if\(ar&&ar!==state\.sarea\)/.test(W));
 T('13. CSS das áreas (areatoggle/areabtn.on)', W.includes('.areatoggle{')&&W.includes('.areabtn.on{'));
-T('14. versão 1.6.47', W.includes("APP_VERSAO='1.6.47'"));
+T('14. versão 1.6.48', W.includes("APP_VERSAO='1.6.48'"));
 T('15. Resumo da I.A no relatório intacto (R66)', /sc\[0\]==='resumo'\?relIaBloco\(\):''/.test(W));
-T('16. versao.json 1.6.47/R68', VJ.versao==='1.6.47'&&VJ.r==='R68'&&(VJ.melhorias||[]).length>=3);
+T('16. versao.json 1.6.48/R69', VJ.versao==='1.6.48'&&VJ.r==='R69'&&(VJ.melhorias||[]).length>=3);
 T('17. JS válido', (()=>{try{new Function(W.match(/<script>([\s\S]*)<\/script>/)[1]);return true}catch(e){return false}})());
 T('18. Center 1.8.0 intocado', fs.readFileSync(path.join(__dirname,'..','center-src','www','index.html'),'utf8').includes("CENTER_V='1.8.0'"));
 console.log(fail?('FALHAS: '+fail):('TUDO OK ('+ok+'/18)'));

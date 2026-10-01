@@ -1185,6 +1185,7 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <button class="navbtn" data-sview="forms" data-area="studio"><svg class="ic"><use href="#i-form"/></svg>Formulários</button>
 <button class="navbtn" data-sview="planilha" data-area="studio"><svg class="ic"><use href="#i-fold"/></svg>Planilha</button>
 <button class="navbtn" data-sview="relatorios" data-area="lab"><svg class="ic"><use href="#i-spark"/></svg>Relatórios</button>
+<button class="navbtn" data-sview="ia" data-area="lab"><svg class="ic"><use href="#i-ai"/></svg>Conversar com a I.A</button>
 <p class="navnote" id="sareaNote">Documentos estilo Word e formulários da clínica, tudo em um lugar.</p>
 </nav>
 <nav class="sidenav hidden" id="navCatalogo">
@@ -1419,9 +1420,9 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <section id="viewIa" class="view hidden">
 <div class="hero">
 <svg class="logo" viewBox="0 0 1440 960"><use href="#phoenix"/></svg>
-<div><h3>Studio I.A</h3>
-<p>Assistente de inteligência artificial da clínica: crie textos, roteiros, legendas, fichas e tire dúvidas. As conversas ficam salvas na nuvem.</p>
-<span class="badge b-gold" style="margin-top:12px;display:inline-block">Studio I.A</span></div>
+<div><h3>Conversar com a I.A</h3>
+<p>Fale com a inteligência artificial do estúdio: peça ideias de posts, textos para clientes, sugestões e tire dúvidas do dia a dia. As conversas ficam salvas na nuvem.</p>
+<span class="badge b-gold" style="margin-top:12px;display:inline-block">Fênix I.A</span></div>
 </div>
 <div class="panelcard">
 <div class="sec-head">
@@ -3463,6 +3464,7 @@ const VIEWS=['inicio','clientes','agenda','financeiro','arquivos','extras'];
 const titles={inicio:'Início',clientes:'Clientes',agenda:'Agenda',financeiro:'Financeiro',arquivos:'Arquivos',extras:'Funções extras'};
 function computeTitle(){
 if(state.mode==='studio'){if(state.sview==='relatorios')return 'Laboratório I.A · Relatórios';
+if(state.sview==='ia')return 'Laboratório I.A · Conversar';
 if(state.sview==='doc'){const d=docById(state.docId);return 'Studio · '+(d?d.titulo:'Novo documento');}
 if(state.sview==='forms')return 'Studio · Formulários';
 if(state.sview==='planilha')return 'Studio · Planilha';
@@ -3564,7 +3566,7 @@ const docsAct=state.sview==='docs'||state.sview==='doc';
 document.querySelectorAll('#navStudio .navbtn').forEach(b=>{const sv=b.dataset.sview;
 b.classList.toggle('active',state.sview==='relatorios'?(sv==='relatorios'):(sv!=='relatorios'&&(sv===state.sview||(sv==='docs'&&state.sview==='doc'))));});
 $('viewTitle').textContent=computeTitle();
-try{if(state.sview==='docs')renderDocs();else if(state.sview==='forms')renderForms();else if(state.sview==='formEd')renderFormEd();else if(state.sview==='respFill')renderRespFill();else if(state.sview==='respList')renderRespList();else if(state.sview==='respView')renderRespView();else if(state.sview==='planilha')renderPlanilha();else if(state.sview!=='relatorios')renderDocEd();}catch(e){console.warn('studio:',e);const mapa={docs:'viewDocs',doc:'viewDocEd',forms:'viewForms',formEd:'viewFormEd',respFill:'viewRespFill',respList:'viewRespList',respView:'viewRespView',planilha:'viewPlanilha',relatorios:'viewRelatorios'};const vx=document.getElementById(mapa[state.sview]||'');if(vx)vx.innerHTML='<p class="fempty">Não foi possível abrir esta tela — volte e abra de novo.</p>';}
+try{if(state.sview==='ia')renderIA();else if(state.sview==='docs')renderDocs();else if(state.sview==='forms')renderForms();else if(state.sview==='formEd')renderFormEd();else if(state.sview==='respFill')renderRespFill();else if(state.sview==='respList')renderRespList();else if(state.sview==='respView')renderRespView();else if(state.sview==='planilha')renderPlanilha();else if(state.sview!=='relatorios')renderDocEd();}catch(e){console.warn('studio:',e);const mapa={docs:'viewDocs',doc:'viewDocEd',forms:'viewForms',formEd:'viewFormEd',respFill:'viewRespFill',respList:'viewRespList',respView:'viewRespView',planilha:'viewPlanilha',relatorios:'viewRelatorios'};const vx=document.getElementById(mapa[state.sview]||'');if(vx)vx.innerHTML='<p class="fempty">Não foi possível abrir esta tela — volte e abra de novo.</p>';}
 isolamentoAreas();updateBack();return;}
 if(equipe){
 document.querySelectorAll('#navGestao .navbtn,#navDados .navbtn,#navStudio .navbtn,#navCatalogo .navbtn,#navClients .navbtn').forEach(b=>b.classList.remove('active'));
@@ -3611,7 +3613,7 @@ function pintaSarea(){ /* R68 — ÁREAS dentro do Studio: 🎓 Studio · 🧪 L
 const tgl=$('sareaTgl');if(!tgl)return;
 tgl.querySelectorAll('.areabtn').forEach(b=>b.classList.toggle('on',b.dataset.sarea===state.sarea));
 document.querySelectorAll('#navStudio .navbtn[data-area]').forEach(b=>b.style.display=(b.dataset.area===state.sarea)?'':'none');
-const n=$('sareaNote');if(n)n.textContent=state.sarea==='lab'?'Laboratório I.A: relatórios com resumo escrito pela inteligência artificial do estúdio.':'Documentos estilo Word e formulários da clínica, tudo em um lugar.';}
+const n=$('sareaNote');if(n)n.textContent=state.sarea==='lab'?'Laboratório I.A: converse com a inteligência artificial e gere relatórios com resumo automático.':'Documentos estilo Word e formulários da clínica, tudo em um lugar.';}
 document.querySelectorAll('#sareaTgl .areabtn').forEach(b=>b.addEventListener('click',()=>{
 if(state.sarea===b.dataset.sarea)return;
 state.sarea=b.dataset.sarea;
@@ -3624,6 +3626,7 @@ try{const ar=b.dataset.area;if(ar&&ar!==state.sarea){state.sarea=ar;localStorage
 if(b.dataset.sview==='docs')navigate(()=>{state.sview='docs';state.docId=null;state.formId=null;formDraft=null;state.respForm=null;state.respId=null;});
 else if(b.dataset.sview==='forms')navigate(()=>{state.sview='forms';state.formId=null;formDraft=null;state.respForm=null;state.respId=null;});
 else if(b.dataset.sview==='planilha')navigate(()=>{state.sview='planilha';renderPlanilha();});
+else if(b.dataset.sview==='ia')navigate(()=>{state.sview='ia';try{renderIA()}catch(e){}});
 else if(b.dataset.sview==='relatorios')navigate(()=>{state.sview='relatorios';state.docId=null;state.formId=null;formDraft=null;state.respForm=null;state.respId=null;});closeSide();}));
 $('btnMenu').addEventListener('click',()=>{$('sidebar').classList.add('open');$('backdrop').classList.add('show');});
 $('backdrop').addEventListener('click',closeSide);
@@ -6650,7 +6653,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.47';
+const APP_VERSAO='1.6.48';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{
