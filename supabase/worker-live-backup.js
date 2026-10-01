@@ -29,6 +29,7 @@ function b64uS(s) { return b64u(enc.encode(s)); }
 function ub64u(s) { s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '='; const bin = atob(s); return Uint8Array.from(bin, c => c.charCodeAt(0)); }
 /* R61 — IA: Workers AI (binding, sem chave) + Groq (se GROQ_KEY existir) */
 const IA_SYS='Você é o Assistente Fênix, assistente de um estúdio de estética. Responda em português do Brasil, de forma curta (máximo 120 palavras), direta e amigável. Baseie-se SOMENTE nos dados fornecidos; nunca invente números; se algo não estiver nos dados, diga com franqueza que não tem essa informação.';
+const IA_RESUMO='Você é a assistente pessoal de um estúdio de estética. Escreva um RESUMO ELEGANTE, caloroso e profissional do relatório abaixo, em português do Brasil. Use 2 a 4 parágrafos curtos, com linguagem humana e acolhedora, como quem conhece o negócio de perto. Destaque com sutileza as conquistas (faturamento, clientes fiéis, sessões realizadas), aponte com delicadeza o que merece atenção e feche com 1 ou 2 sugestões práticas e otimistas. NUNCA use tabelas nem listas com marcadores. NUNCA invente números: use apenas os do relatório. Não comece com saudação: vá direto ao texto.';
 async function aiChat(env,msgs){
   try{
     const r=await env.AI.run('@cf/meta/llama-3.3-70b-instruct-fp8-fast',{messages:msgs,max_tokens:400,temperature:0.4});
@@ -544,7 +545,9 @@ export default {
         const ctx = String(b&&b.contexto||'').slice(0,6000);
         if(!q) return jerr('pergunta vazia',400);
         const hist=Array.isArray(b.historico)?b.historico.slice(-10).filter(h=>h&&(h.role==='user'||h.role==='assistant')&&typeof h.content==='string').map(h=>({role:h.role,content:h.content.slice(0,2000)})):[];
-        const msgs=[{role:'system',content:IA_SYS+'\n\nDADOS ATUAIS DA CLÍNICA:\n'+ctx}].concat(hist).concat([{role:'user',content:q}]);
+        const modo=String(b&&b.modo||'').slice(0,20);
+        const sysBase=(modo==='resumo')?(IA_RESUMO+'\n\nRELATÓRIO:\n'+ctx):(IA_SYS+'\n\nDADOS ATUAIS DA CLÍNICA:\n'+ctx);
+        const msgs=[{role:'system',content:sysBase}].concat(hist).concat([{role:'user',content:q}]);
         let motor='workers-ai',out=null;
         try{
           if(env.GROQ_KEY){motor='groq';out=await groqChat(env.GROQ_KEY,msgs);}
