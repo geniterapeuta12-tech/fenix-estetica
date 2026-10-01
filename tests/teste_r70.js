@@ -18,13 +18,13 @@ T('9. PNG: SVG 1080 rasterizado no canvas', /gpSVG\(gpData,1080\)/.test(W)&&/dra
 T('10. sem internet/login: mensagens claras', W.includes('Entre com sua conta pra usar a I.A')&&W.includes('tenta de novo'));
 T('11. título Gerador de Posts', W.includes("'Laboratório I.A · Gerador de Posts'"));
 T('12. ordem no Lab: Relatórios → Gerador → Conversar', W.indexOf('data-sview="relatorios"')<W.indexOf('data-sview="posts"')&&W.indexOf('data-sview="posts"')<W.indexOf('data-sview="ia"'));
-T('13. versão 1.6.50', W.includes("APP_VERSAO='1.6.50'"));
+T('13. versão 1.6.51', W.includes("APP_VERSAO='1.6.51'"));
 T('14. worker: modo post com JSON estrito', WK.includes('IA_POST')&&WK.includes('SOMENTE com um JSON válido')&&WK.includes("modo==='post'"));
 T('15. worker: cérebro estético (sem promessa médica)', WK.includes('NUNCA prometa resultado médico'));
 T('16. chat R69 intacto', /data-sview="ia" data-area="lab"/.test(W)&&W.includes("'Laboratório I.A · Conversar'"));
 T('17. resumo R66 intacto', /sc\[0\]==='resumo'\?relIaBloco\(\):''/.test(W));
 T('18. JS válido', (()=>{try{new Function(W.match(/<script>([\s\S]*)<\/script>/)[1]);return true}catch(e){return false}})());
-T('19. versao.json 1.6.49/R70', VJ.versao==='1.6.50'&&VJ.r==='R70.1'&&(VJ.melhorias||[]).length>=3);
+T('19. versao.json 1.6.49/R70', VJ.versao==='1.6.51'&&VJ.r==='R71'&&(VJ.melhorias||[]).length>=3);
 T('20. Center 1.8.0 intocado', fs.readFileSync(path.join(__dirname,'..','center-src','www','index.html'),'utf8').includes("CENTER_V='1.8.0'"));
 console.log(fail?('FALHAS: '+fail):('TUDO OK ('+ok+'/20)'));
 process.exit(fail?1:0);

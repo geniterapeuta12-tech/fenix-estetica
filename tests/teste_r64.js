@@ -15,10 +15,10 @@ T('8. chama o worker /ia em modo resumo c/ o texto do relatório', /relIaAuto[\s
 T('9. chegada da I.A regenera prévia+PDF+txt (respeita personalizado)', /if\(relPers\)\{relLastDoc=relFiltraDoc\(relDocHTML[\s\S]{0,120}relTxtFiltrado/.test(W));
 T('10. botão ✨ regenera (limpa e chama de novo)', /\$\('btnRelIa'\)\.addEventListener\('click',\(\)=>\{if\(!relLastTxt\)return msg[\s\S]{0,120}relIaTexto='';relIaAuto\(\);/.test(W));
 T('11. sem HTML injetado (esc nos parágrafos)', /esc\(p\)\.replace\(\/\\n\/g,'<br>'\)/.test(W));
-T('12. versão 1.6.47', W.includes("APP_VERSAO='1.6.50'"));
+T('12. versão 1.6.47', W.includes("APP_VERSAO='1.6.51'"));
 T('13. worker: modo resumo com prompt elegante', WK.includes('IA_RESUMO')&&WK.includes("modo==='resumo'"));
 T('14. JS válido', (()=>{try{new Function(W.match(/<script>([\s\S]*)<\/script>/)[1]);return true}catch(e){return false}})());
-T('15. versao.json 1.6.45/R66', VJ.versao==='1.6.50'&&VJ.r==='R70.1'&&v_j_ok());
+T('15. versao.json 1.6.45/R66', VJ.versao==='1.6.51'&&VJ.r==='R71'&&v_j_ok());
 function v_j_ok(){try{return (VJ.melhorias||[]).length>=3}catch(e){return false}}
 T('16. Center 1.8.0 intocado', fs.readFileSync(path.join(__dirname,'..','center-src','www','index.html'),'utf8').includes("CENTER_V='1.8.0'"));
 console.log(fail?('FALHAS: '+fail):('TUDO OK ('+ok+'/16)'));

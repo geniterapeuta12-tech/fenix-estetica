@@ -1,10 +1,10 @@
 {
-  "versao": "1.6.50",
-  "r": "R70.1",
+  "versao": "1.6.51",
+  "r": "R71",
   "melhorias": [
-    "✨ Gerador de Posts turbinado: a I.A agora usa o nome EXATO do serviço que você escreveu — pediu «ozônio terapia capilar»? o post fala «Ozônio Terapia Capilar», sem trocar por palavra genérica",
-    "✅ Benefícios no post: o cartão e a legenda agora mostram os benefícios do serviço (lista ✓ no cartão e ✅ na legenda) — é só pedir «com os benefícios»",
-    "#️⃣ Legendas com hashtags específicas do serviço (ex.: #ozonioterapiacapilar) + cartão com até 4 benefícios desenhados"
+    "✍️ NOVO: I.A nos Documentos — «Gerar documento» (diga o que precisa e a I.A escreve o rascunho) + nos documentos abertos: ✨ Melhorar, 📜 Resumir e 🩹 Corrigir (funciona no texto todo ou só no trecho selecionado); você revisa e salva",
+    "✏️ NOVO: Editor de Posts no Studio — toque pra selecionar, arraste pra mover, toque 2× pra editar o texto; A+ A−, cor da marca, duplicar, apagar e ⬇️ Baixar PNG",
+    "🔗 O Gerador de Posts agora tem «✏️ Editar no Studio»: mande o post da I.A direto pro Editor pra ajustar do seu jeito (+ 💾 salvar e 📂 reabrir designs)"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }

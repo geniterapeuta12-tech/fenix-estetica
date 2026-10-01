@@ -1182,6 +1182,7 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <button class="areabtn" data-sarea="lab" type="button">🧪 Laboratório I.A</button>
 </div>
 <button class="navbtn active" data-sview="docs" data-area="studio"><svg class="ic"><use href="#i-doc"/></svg>Documentos</button>
+<button class="navbtn" data-sview="editor" data-area="studio"><svg class="ic"><use href="#i-edit"/></svg>Editor</button>
 <button class="navbtn" data-sview="forms" data-area="studio"><svg class="ic"><use href="#i-form"/></svg>Formulários</button>
 <button class="navbtn" data-sview="planilha" data-area="studio"><svg class="ic"><use href="#i-fold"/></svg>Planilha</button>
 <button class="navbtn" data-sview="relatorios" data-area="lab"><svg class="ic"><use href="#i-spark"/></svg>Relatórios</button>
@@ -1248,6 +1249,12 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <span class="badge b-gold" style="margin-top:12px;display:inline-block">Studio</span></div>
 </div>
 <div class="panelcard">
+<div class="sec-head"><div><h3>✨ I.A nos Documentos</h3><p class="sub">Diga o que precisa e a I.A escreve o rascunho — você revisa e salva. Nada médico, só bem-estar.</p></div></div>
+<input class="input" id="ddCmd" style="width:100%" placeholder="Ex.: mensagem de pós-procedimento p/ cliente · contrato simples · aviso de recesso…">
+<div class="rowbtns" style="margin-top:10px"><button class="btn" id="ddGo" type="button">✨ Gerar documento</button></div>
+<p class="msg" id="ddMsg"></p>
+</div>
+<div class="panelcard">
 <div class="sec-head">
 <div><h3>Documentos da clínica</h3><p class="sub">Toque para abrir e editar · lixeira apaga (2 toques).</p></div>
 <button class="btn small" id="btnNovoDoc"><svg class="ic"><use href="#i-plus"/></svg>Novo documento</button>
@@ -1298,6 +1305,12 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <div><label>Sessão / Avulsa</label><select id="docSes"><option value="">Sem sessão</option></select></div>
 </div>
 </details>
+<div class="rowbtns" style="margin:0 0 10px;gap:8px;flex-wrap:wrap">
+<button class="btn small" id="docIaM" type="button">✨ Melhorar</button>
+<button class="btn small" id="docIaR" type="button">📜 Resumir</button>
+<button class="btn small" id="docIaC" type="button">🩹 Corrigir</button>
+<span class="sub" style="align-self:center">I.A no texto aberto (ou no trecho selecionado)</span>
+</div>
 <textarea id="docTexto" class="doc-page" placeholder="Comece a escrever aqui…"></textarea>
 <div class="doc-foot"><span class="sub" id="docCount">0 palavra(s) · 0 caractere(s)</span>
 <div class="rowbtns" style="margin:0">
@@ -1865,10 +1878,39 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <div class="panelcard hidden" id="gpOut">
 <div class="sec-head"><div><h3>Seu post</h3><p class="sub">Baixe o cartão em PNG e publique com a legenda copiada.</p></div></div>
 <div id="gpCard" style="max-width:420px;border-radius:14px;overflow:hidden;margin:6px 0 14px"></div>
-<div class="rowbtns"><button class="btn" id="gpPng" type="button"><svg class="ic"><use href="#i-dl"/></svg>Baixar PNG</button></div>
+<div class="rowbtns"><button class="btn" id="gpPng" type="button"><svg class="ic"><use href="#i-dl"/></svg>Baixar PNG</button><button class="btn small" id="gpEdit" type="button">✏️ Editar no Studio</button></div>
 <label style="margin-top:14px">Legenda (copie e cole no Instagram)</label>
 <div id="gpLeg" style="border:1px solid var(--line);border-radius:10px;padding:12px 14px;line-height:1.6;white-space:pre-wrap"></div>
 <div class="rowbtns" style="margin-top:8px"><button class="btn small ghost" id="gpCopy" type="button">📋 Copiar legenda</button></div>
+</div>
+</section>
+
+<section id="viewEditor" class="view hidden">
+<div class="hero">
+<svg class="logo" viewBox="0 0 1440 960"><use href="#phoenix"/></svg>
+<div><h3>Editor de Posts</h3>
+<p>Toque para selecionar · arraste para mover · toque 2× para editar o texto. Ajuste tamanho e cor, duplique, apague — e baixe em PNG.</p>
+<span class="badge b-gold" style="margin-top:12px;display:inline-block">Studio</span></div>
+</div>
+<div class="panelcard">
+<div id="edCard" style="max-width:420px;margin:6px auto"></div>
+<div class="rowbtns" style="justify-content:center;gap:6px;flex-wrap:wrap;margin-top:14px">
+<button class="btn small" id="edTxt" type="button">✏️ Texto</button>
+<button class="btn small" id="edMinus" type="button">A−</button>
+<button class="btn small" id="edPlus" type="button">A+</button>
+<button class="btn small" id="edCor" type="button">🎨 Cor</button>
+<button class="btn small" id="edDup" type="button">⧉ Duplicar</button>
+<button class="btn small" id="edDel" type="button">🗑 Apagar</button>
+</div>
+<div class="rowbtns" style="justify-content:center;gap:6px;flex-wrap:wrap;margin-top:8px">
+<button class="btn" id="edPng" type="button"><svg class="ic"><use href="#i-dl"/></svg>Baixar PNG</button>
+<button class="btn small" id="edSave" type="button">💾 Salvar design</button>
+<button class="btn small" id="edList" type="button">📂 Meus designs</button>
+<button class="btn small" id="edNew" type="button">✨ Novo</button>
+</div>
+<p class="msg" id="edMsg" style="text-align:center"></p>
+<div id="edSaved" class="hidden" style="margin-top:10px"><ul class="list" id="edSavedList"></ul></div>
+<p class="sub" style="text-align:center;margin-top:8px">Designs salvos ficam neste aparelho (por enquanto).</p>
 </div>
 </section>
 
@@ -3490,6 +3532,7 @@ const VIEWS=['inicio','clientes','agenda','financeiro','arquivos','extras'];
 const titles={inicio:'Início',clientes:'Clientes',agenda:'Agenda',financeiro:'Financeiro',arquivos:'Arquivos',extras:'Funções extras'};
 function computeTitle(){
 if(state.mode==='studio'){if(state.sview==='relatorios')return 'Laboratório I.A · Relatórios';
+if(state.sview==='editor')return 'Studio · Editor';
 if(state.sview==='posts')return 'Laboratório I.A · Gerador de Posts';
 if(state.sview==='ia')return 'Laboratório I.A · Conversar';
 if(state.sview==='doc'){const d=docById(state.docId);return 'Studio · '+(d?d.titulo:'Novo documento');}
@@ -3525,13 +3568,13 @@ if($('eqUsuCount'))$('eqUsuCount').textContent=us.length+' usuário(s) neste apa
 ul.innerHTML=us.length?us.map(u=>'<li class="fileitem"><span class="avatar file">'+esc(String(u.nome||'?').charAt(0).toUpperCase())+'</span><div class="cinfo"><strong>'+esc(u.nome||'usuário')+'</strong><small>'+(at&&u.id===at.id?'em uso agora':'usuário da clínica')+'</small></div><button class="iconbtn del" data-eqsudel="'+esc(u.id)+'" title="Remover usuário"><svg class="ic"><use href="#i-trash"/></svg></button></li>').join(''):'<p class="fempty">Nenhum usuário neste aparelho — cadastre o primeiro abaixo.</p>';}
 function isolamentoAreas(){
 /* R41 — isolamento total: uma tela só fica visível na SUA área. De uma vez por todas. */
-const dono={viewInicio:'gestao',viewClientes:'gestao',viewCliente:'gestao',viewIa:'studio',viewPosts:'studio',viewAgenda:'gestao',viewFinanceiro:'gestao',viewArquivos:'gestao',viewExtras:'gestao',viewRoleta:'extras',viewEquipe:'equipe',viewUsuarios:'equipe',viewCatalogo:'catalogo',viewClients:'clients',viewDocs:'studio',viewDocEd:'studio',viewForms:'studio',viewFormEd:'studio',viewRespFill:'studio',viewRespList:'studio',viewRespView:'studio',viewPlanilha:'studio',viewRelatorios:'studio',viewBackup:'dados',viewSync:'dados',viewTheme:'dados',viewOtim:'dados',viewSistema:'dados',viewUso:'dados',viewUsuario:'dados',viewTermos:'dados',viewAjuda:'dados'};
+const dono={viewInicio:'gestao',viewClientes:'gestao',viewCliente:'gestao',viewIa:'studio',viewPosts:'studio',viewEditor:'studio',viewAgenda:'gestao',viewFinanceiro:'gestao',viewArquivos:'gestao',viewExtras:'gestao',viewRoleta:'extras',viewEquipe:'equipe',viewUsuarios:'equipe',viewCatalogo:'catalogo',viewClients:'clients',viewDocs:'studio',viewDocEd:'studio',viewForms:'studio',viewFormEd:'studio',viewRespFill:'studio',viewRespList:'studio',viewRespView:'studio',viewPlanilha:'studio',viewRelatorios:'studio',viewBackup:'dados',viewSync:'dados',viewTheme:'dados',viewOtim:'dados',viewSistema:'dados',viewUso:'dados',viewUsuario:'dados',viewTermos:'dados',viewAjuda:'dados'};
 for(const id in dono){const el=document.getElementById(id);if(!el||el.classList.contains('hidden'))continue;
 const ok=(id==='viewExtras'||id==='viewRoleta')?(state.mode==='gestao'||state.mode==='extras'):(state.mode===dono[id]);
 if(!ok)el.classList.add('hidden');}
 const dd={viewBackup:'backup',viewSync:'sync',viewTheme:'theme',viewOtim:'otim',viewSistema:'sistema',viewUso:'uso',viewUsuario:'usuario',viewTermos:'termos',viewAjuda:'ajuda'};
 for(const id in dd){const el=document.getElementById(id);if(el&&!el.classList.contains('hidden')&&!(state.mode==='dados'&&state.dsub===dd[id]))el.classList.add('hidden');}
-const st={viewDocs:'docs',viewDocEd:'doc',viewForms:'forms',viewFormEd:'formEd',viewRespFill:'respFill',viewRespList:'respList',viewRespView:'respView',viewPlanilha:'planilha',viewRelatorios:'relatorios',viewIa:'ia'};
+const st={viewEditor:'editor',viewDocs:'docs',viewDocEd:'doc',viewForms:'forms',viewFormEd:'formEd',viewRespFill:'respFill',viewRespList:'respList',viewRespView:'respView',viewPlanilha:'planilha',viewRelatorios:'relatorios',viewIa:'ia'};
 for(const id in st){const el=document.getElementById(id);if(el&&!el.classList.contains('hidden')&&!(state.mode==='studio'&&state.sview===st[id]))el.classList.add('hidden');}}
 function renderApp(){
 const studio=state.mode==='studio',catalogo=state.mode==='catalogo',equipe=state.mode==='equipe',dados=state.mode==='dados',clients=state.mode==='clients';
@@ -3556,6 +3599,7 @@ $('viewRespView').classList.toggle('hidden',!(studio&&state.sview==='respView'))
 $('viewRelatorios').classList.toggle('hidden',!(studio&&state.sview==='relatorios'));
 $('viewIa').classList.toggle('hidden',!(studio&&state.sview==='ia'));
 $('viewPosts').classList.toggle('hidden',!(studio&&state.sview==='posts'));
+$('viewEditor').classList.toggle('hidden',!(studio&&state.sview==='editor'));
 $('viewCatalogo').classList.toggle('hidden',!(catalogo&&!state.catEd));
 $('viewCatEd').classList.toggle('hidden',!(catalogo&&state.catEd));
 $('viewEquipe').classList.toggle('hidden',!equipe);
@@ -3595,7 +3639,7 @@ const docsAct=state.sview==='docs'||state.sview==='doc';
 document.querySelectorAll('#navStudio .navbtn').forEach(b=>{const sv=b.dataset.sview;
 b.classList.toggle('active',state.sview==='relatorios'?(sv==='relatorios'):(sv!=='relatorios'&&(sv===state.sview||(sv==='docs'&&state.sview==='doc'))));});
 $('viewTitle').textContent=computeTitle();
-try{if(state.sview==='ia')renderIA();else if(state.sview==='docs')renderDocs();else if(state.sview==='forms')renderForms();else if(state.sview==='formEd')renderFormEd();else if(state.sview==='respFill')renderRespFill();else if(state.sview==='respList')renderRespList();else if(state.sview==='respView')renderRespView();else if(state.sview==='planilha')renderPlanilha();else if(state.sview!=='relatorios')renderDocEd();}catch(e){console.warn('studio:',e);const mapa={docs:'viewDocs',doc:'viewDocEd',forms:'viewForms',formEd:'viewFormEd',respFill:'viewRespFill',respList:'viewRespList',respView:'viewRespView',planilha:'viewPlanilha',relatorios:'viewRelatorios'};const vx=document.getElementById(mapa[state.sview]||'');if(vx)vx.innerHTML='<p class="fempty">Não foi possível abrir esta tela — volte e abra de novo.</p>';}
+try{if(state.sview==='ia')renderIA();else if(state.sview==='docs')renderDocs();else if(state.sview==='forms')renderForms();else if(state.sview==='formEd')renderFormEd();else if(state.sview==='respFill')renderRespFill();else if(state.sview==='respList')renderRespList();else if(state.sview==='respView')renderRespView();else if(state.sview==='planilha')renderPlanilha();else if(state.sview==='editor'){if(!edData)edData=edBlank();edRender();}else if(state.sview!=='relatorios'&&state.sview!=='posts')renderDocEd();}catch(e){console.warn('studio:',e);const mapa={docs:'viewDocs',doc:'viewDocEd',forms:'viewForms',formEd:'viewFormEd',respFill:'viewRespFill',respList:'viewRespList',respView:'viewRespView',planilha:'viewPlanilha',relatorios:'viewRelatorios'};const vx=document.getElementById(mapa[state.sview]||'');if(vx)vx.innerHTML='<p class="fempty">Não foi possível abrir esta tela — volte e abra de novo.</p>';}
 isolamentoAreas();updateBack();return;}
 if(equipe){
 document.querySelectorAll('#navGestao .navbtn,#navDados .navbtn,#navStudio .navbtn,#navCatalogo .navbtn,#navClients .navbtn').forEach(b=>b.classList.remove('active'));
@@ -3656,6 +3700,7 @@ if(b.dataset.sview==='docs')navigate(()=>{state.sview='docs';state.docId=null;st
 else if(b.dataset.sview==='forms')navigate(()=>{state.sview='forms';state.formId=null;formDraft=null;state.respForm=null;state.respId=null;});
 else if(b.dataset.sview==='planilha')navigate(()=>{state.sview='planilha';renderPlanilha();});
 else if(b.dataset.sview==='posts')navigate(()=>{state.sview='posts';});
+else if(b.dataset.sview==='editor')navigate(()=>{state.sview='editor';});
 else if(b.dataset.sview==='ia')navigate(()=>{state.sview='ia';try{renderIA()}catch(e){}});
 else if(b.dataset.sview==='relatorios')navigate(()=>{state.sview='relatorios';state.docId=null;state.formId=null;formDraft=null;state.respForm=null;state.respId=null;});closeSide();}));
 $('btnMenu').addEventListener('click',()=>{$('sidebar').classList.add('open');$('backdrop').classList.add('show');});
@@ -6012,6 +6057,146 @@ catch(e){msg($('gpMsg'),'Não consegui gerar o PNG nesse aparelho — tira um pr
 img.onerror=()=>msg($('gpMsg'),'Não consegui gerar o PNG — tira um print do cartão.','err');
 img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
 }catch(e){msg($('gpMsg'),'Não consegui gerar o PNG — tira um print do cartão.','err');}});
+/* R71 — I.A nos Documentos (gerar / melhorar / resumir / corrigir) */
+let ddBusy=false,iaDocBusy=false;
+async function iaFetch(pergunta){const r=await fetch(NUVEM_URL+'/ia',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SB_TOKEN||'')},body:JSON.stringify({modo:'doc',pergunta,contexto:buildIaCtx()})});
+const j=await r.json().catch(()=>null);
+if(!r.ok||!j||!j.resposta)throw new Error((j&&j.erro)||('HTTP '+r.status));
+const t=typeof j.resposta==='object'?JSON.stringify(j.resposta):String(j.resposta);
+if(!t.trim())throw new Error('a I.A não respondeu nada');return t.trim();}
+async function iaDocGera(){if(ddBusy)return;const cmd=$('ddCmd').value.trim();
+if(!cmd)return msg($('ddMsg'),'Diga o que a I.A deve escrever (ex.: mensagem de pós-procedimento).','err');
+if(!SB_TOKEN)return msg($('ddMsg'),'Entre com sua conta pra usar a I.A.','err');
+ddBusy=true;$('ddGo').disabled=true;msg($('ddMsg'),'✨ A I.A está escrevendo o documento…');
+try{const texto=await iaFetch('Escreva um documento: '+cmd);
+const t=cmd.length>48?cmd.slice(0,48)+'…':cmd;
+const list=getDoc();const d={id:uid(),clientId:null,pacoteId:null,sessaoId:null,titulo:t,texto:texto,guias:[{id:uid(),nome:'Guia 1',texto:texto}],criadoEm:nowLabel(),atualizadoEm:nowLabel(),ts:Date.now()};
+list.unshift(d);setDoc(list);state.docId=d.id;docGuia=d.guias[0].id;$('ddCmd').value='';
+navigate(()=>{state.sview='doc';});
+setTimeout(()=>msg($('docMsg'),'✔ Rascunho da I.A pronto — revise e SALVE o documento.','ok'),80);
+}catch(e){msg($('ddMsg'),'⚠ '+((e&&e.message)||'erro')+' — tenta de novo em instantes.','err');}
+$('ddGo').disabled=false;ddBusy=false;}
+async function iaDocAcao(acao){if(iaDocBusy)return;const ta=$('docTexto');
+const i0=ta.selectionStart||0,i1=ta.selectionEnd||0;
+const trecho=i1>i0?ta.value.slice(i0,i1):ta.value;
+if(!trecho.trim())return msg($('docMsg'),'Escreva ou cole um texto primeiro (ou selecione o trecho).','err');
+if(!SB_TOKEN)return msg($('docMsg'),'Entre com sua conta pra usar a I.A.','err');
+iaDocBusy=true;
+const rot=acao==='melhorar'?'melhorando':acao==='resumir'?'resumindo':'corrigindo';
+msg($('docMsg'),'✨ A I.A está '+rot+' o texto…');
+try{const novo=await iaFetch(acao+' este texto, mantendo o formato de linhas:\n\n'+trecho);
+if(i1>i0)ta.value=ta.value.slice(0,i0)+novo+ta.value.slice(i1);else ta.value=novo;
+updateDocCount();setDocBadge('Alterações não salvas','b-red');ta.focus();
+msg($('docMsg'),'✔ I.A terminou — confira e SALVE o documento.','ok');
+}catch(e){msg($('docMsg'),'⚠ '+((e&&e.message)||'erro')+' — tenta de novo em instantes.','err');}
+iaDocBusy=false;}
+$('ddGo').addEventListener('click',iaDocGera);
+$('docIaM').addEventListener('click',()=>iaDocAcao('melhorar'));
+$('docIaR').addEventListener('click',()=>iaDocAcao('resumir'));
+$('docIaC').addEventListener('click',()=>iaDocAcao('corrigir'));
+/* R72 — Editor de Posts (canva simples: selecionar/arrastar, toque duplo edita, A±, cor da marca, duplicar, apagar, PNG, designs) */
+const ED_CORES=['#d4af37','#f0e6c0','#ffffff','#cfc9bb'];
+let edData=null,edSel=null;
+function edUid(){return 'e'+Date.now().toString(36)+Math.floor(Math.random()*1e4).toString(36);}
+function edBlank(){return {els:[
+{id:edUid(),texto:'✦ ESTÚDIO DE ESTÉTICA ✦',x:6,y:5,s:30,c:0},
+{id:edUid(),texto:'Seu título aqui',x:6,y:18,s:84,c:1},
+{id:edUid(),texto:'uma frase de apoio',x:6,y:48,s:38,c:3},
+{id:edUid(),texto:'✓ primeiro benefício\n✓ segundo benefício',x:6,y:62,s:36,c:0},
+{id:edUid(),texto:'NOME DO ESTÚDIO',x:16,y:92,s:26,c:0}]};}
+function edFromPost(g){const bf=(Array.isArray(g.beneficios)&&g.beneficios.length)?g.beneficios.slice(0,4):['benefício um','benefício dois'];
+return {els:[
+{id:edUid(),texto:'✦ ESTÚDIO DE ESTÉTICA ✦',x:6,y:5,s:30,c:0},
+{id:edUid(),texto:String(g.titulo||'Seu título'),x:6,y:16,s:80,c:1},
+{id:edUid(),texto:String(g.chamada||''),x:6,y:46,s:38,c:3},
+{id:edUid(),texto:bf.map(b=>'✓ '+String(b).replace(/^✓\s*/,'')).join('\n'),x:6,y:60,s:36,c:0},
+{id:edUid(),texto:(($('appClinic')&&$('appClinic').textContent)||'FÊNIX ESTÉTICA').toUpperCase().slice(0,28),x:16,y:92,s:26,c:0}]};}
+function edEl(id){return edData.els.find(e=>e.id===id);}
+function edRender(){const host=$('edCard');if(!host||!edData)return;
+host.style.background='#141414';host.style.aspectRatio='1/1';host.style.borderRadius='14px';host.style.border='1px solid rgba(212,175,55,.35)';host.style.overflow='hidden';host.style.position='relative';host.style.width='100%';
+const w=host.clientWidth||340;
+let h='<div style="position:absolute;left:5%;right:5%;bottom:9.5%;border-top:1px solid rgba(212,175,55,.4);pointer-events:none"></div>';
+h+='<div style="position:absolute;left:5%;bottom:3.2%;width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#d4af37,#7a5f14);color:#141414;display:flex;align-items:center;justify-content:center;font-family:Playfair,Georgia,serif;font-weight:700;font-size:14px;pointer-events:none">F</div>';
+edData.els.forEach(e=>{const on=e.id===edSel;
+h+='<div data-edel="'+e.id+'" style="position:absolute;left:'+e.x+'%;top:'+e.y+'%;max-width:'+(94-e.x)+'%;font-size:'+(e.s/1080*w).toFixed(1)+'px;line-height:1.16;color:'+ED_CORES[e.c]+';font-family:'+(e.s>=50?'Playfair,Georgia,serif':'Montserrat,Arial,sans-serif')+';white-space:pre-wrap;cursor:move;touch-action:none;'+(on?'outline:2px dashed #d4af37;outline-offset:3px;':'')+'">'+esc(e.texto)+'</div>';});
+host.innerHTML=h;
+if(!host.dataset.bound){edBind();host.dataset.bound='1';}}
+function edRenderSoft(){const host=$('edCard');if(!host)return;
+edData.els.forEach(e=>{const dv=host.querySelector('[data-edel="'+e.id+'"]');if(dv){dv.style.left=e.x+'%';dv.style.top=e.y+'%';}});}
+function edEdTxt(el){const n=window.prompt('Novo texto (pode ter várias linhas):',el.texto);
+if(n!==null&&n.trim()){el.texto=n.trim();edRender();}}
+function edBind(){const host=$('edCard');let lastTap=0,lastId=null;
+host.addEventListener('dblclick',e=>{const dv=e.target.closest('[data-edel]');if(!dv)return;const el=edEl(dv.dataset.edel);if(el)edEdTxt(el);});
+host.addEventListener('pointerdown',e=>{const dv=e.target.closest('[data-edel]');
+if(!dv){edSel=null;edRender();return;}
+const el=edEl(dv.dataset.edel);if(!el)return;
+edSel=el.id;
+const now=Date.now();
+if(lastId===el.id&&now-lastTap<350){edEdTxt(el);lastTap=0;return;}
+lastTap=now;lastId=el.id;
+const px=e.clientX,py=e.clientY,ox=el.x,oy=el.y;
+const W2=host.clientWidth||340,H2=host.clientHeight||W2;
+const mv=ev=>{el.x=Math.min(92,Math.max(2,Math.round((ox+(ev.clientX-px)/W2*100)*10)/10));el.y=Math.min(94,Math.max(2,Math.round((oy+(ev.clientY-py)/H2*100)*10)/10));edRenderSoft();};
+const up=()=>{window.removeEventListener('pointermove',mv);window.removeEventListener('pointerup',up);};
+window.addEventListener('pointermove',mv);window.addEventListener('pointerup',up);});}
+function edAct(a){if(!edData)return;const el=edSel?edEl(edSel):null;
+if(['txt','mais','menos','cor','dup','del'].indexOf(a)>=0&&!el)return msg($('edMsg'),'Toque num texto do cartão primeiro pra selecionar.','');
+if(a==='txt')return edEdTxt(el);
+if(a==='mais'){el.s=Math.min(150,el.s+8);edRender();return;}
+if(a==='menos'){el.s=Math.max(18,el.s-8);edRender();return;}
+if(a==='cor'){el.c=(el.c+1)%ED_CORES.length;edRender();return;}
+if(a==='dup'){const c={id:edUid(),texto:el.texto,x:Math.min(92,el.x+4),y:Math.min(94,el.y+4),s:el.s,c:el.c};edData.els.push(c);edSel=c.id;edRender();return;}
+if(a==='del'){if(edData.els.length<2)return msg($('edMsg'),'O cartão precisa de pelo menos um texto.','');
+edData.els=edData.els.filter(e=>e.id!==el.id);edSel=null;edRender();return;}}
+function edSVG(els,W){const E=x=>String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+let s='<svg xmlns="http://www.w3.org/2000/svg" width="'+W+'" height="'+W+'" viewBox="0 0 1080 1080">';
+s+='<rect width="1080" height="1080" fill="#141414"/>';
+s+='<rect x="26" y="26" width="1028" height="1028" fill="none" stroke="#d4af37" stroke-opacity=".45" stroke-width="3" rx="34"/>';
+s+='<line x1="54" y1="952" x2="1026" y2="952" stroke="#d4af37" stroke-opacity=".5" stroke-width="2"/>';
+s+='<circle cx="100" cy="999" r="26" fill="#d4af37"/><text x="100" y="1009" text-anchor="middle" font-family="Georgia,serif" font-size="30" font-weight="bold" fill="#141414">F</text>';
+els.forEach(e=>{const fs=e.s,cx=Math.max(8,Math.floor(900/(fs*0.54)));
+const lines=[];String(e.texto).split('\n').forEach(sg=>{gpWrap(sg,cx).forEach(l=>lines.push(l));});
+const X=Math.round(e.x/100*1080);const Y=e.y/100*1080+fs*0.82;
+const fam=fs>=50?'Georgia,serif':'Arial,sans-serif';
+lines.forEach((l,i)=>{s+='<text x="'+X+'" y="'+Math.round(Y+i*fs*1.18)+'" font-family="'+fam+'" font-size="'+fs+'" fill="'+ED_CORES[e.c]+'">'+E(l)+'</text>';});});
+return s+'</svg>';}
+function edPng(){if(!edData)return;
+try{const img=new Image();
+img.onload=()=>{const cv=document.createElement('canvas');cv.width=1080;cv.height=1080;
+cv.getContext('2d').drawImage(img,0,0,1080,1080);
+cv.toBlob(b=>{const u=URL.createObjectURL(b);const a2=document.createElement('a');a2.href=u;a2.download='design-fenix.png';document.body.appendChild(a2);a2.click();a2.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);msg($('edMsg'),'✔ PNG baixado!','ok');},'image/png');};
+img.onerror=()=>msg($('edMsg'),'Não consegui gerar o PNG — tira um print do cartão.','err');
+img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(edSVG(edData.els,1080));
+}catch(e){msg($('edMsg'),'Não consegui gerar o PNG — tira um print do cartão.','err');}}
+function edDesigns(){try{return JSON.parse(localStorage.getItem('fenix_designs')||'[]')}catch(e){return []}}
+function edSaveDesign(){const n=(window.prompt('Nome do design:','Meu design')||'').trim();if(!n)return;
+const ds=edDesigns().filter(d=>d.nome!==n);ds.unshift({nome:n,ts:Date.now(),els:edData.els});
+try{localStorage.setItem('fenix_designs',JSON.stringify(ds.slice(0,30)))}catch(e){}
+msg($('edMsg'),'✔ Design «'+n+'» salvo neste aparelho.','ok');}
+function edListDesigns(){const host=$('edSaved');const ds=edDesigns();
+host.classList.remove('hidden');
+$('edSavedList').innerHTML=ds.length?ds.map(d=>'<li class="client clickable" data-edd="'+esc(d.nome)+'"><span class="avatar file">🎨</span><div class="cinfo"><strong>'+esc(d.nome)+'</strong><small>'+d.els.length+' texto(s) · salvo aqui no aparelho</small></div><button class="iconbtn del" data-eddel="'+esc(d.nome)+'" title="Apagar design">✕</button></li>').join(''):'<li class="empty">Nenhum design salvo ainda.</li>';}
+$('edSavedList').addEventListener('click',e=>{const del=e.target.closest('[data-eddel]');
+if(del){try{localStorage.setItem('fenix_designs',JSON.stringify(edDesigns().filter(d=>d.nome!==del.dataset.eddel)))}catch(x){}edListDesigns();return;}
+const li=e.target.closest('[data-edd]');if(!li)return;
+const d=edDesigns().find(x=>x.nome===li.dataset.edd);
+if(d){edData={els:d.els};edSel=null;edRender();$('edSaved').classList.add('hidden');msg($('edMsg'),'✔ Design «'+d.nome+'» aberto!','ok');}});
+$('edTxt').addEventListener('click',()=>edAct('txt'));
+$('edPlus').addEventListener('click',()=>edAct('mais'));
+$('edMinus').addEventListener('click',()=>edAct('menos'));
+$('edCor').addEventListener('click',()=>edAct('cor'));
+$('edDup').addEventListener('click',()=>edAct('dup'));
+$('edDel').addEventListener('click',()=>edAct('del'));
+$('edPng').addEventListener('click',edPng);
+$('edSave').addEventListener('click',edSaveDesign);
+$('edList').addEventListener('click',edListDesigns);
+$('edNew').addEventListener('click',()=>{if(edData&&edData.els.length&&!window.confirm('Começar um cartão novo? O atual não salvo será perdido.'))return;
+edData=edBlank();edSel=null;$('edSaved').classList.add('hidden');edRender();});
+$('gpEdit').addEventListener('click',()=>{if(!gpData)return;
+edData=edFromPost(gpData);edSel=null;$('edSaved').classList.add('hidden');
+navigate(()=>{state.sview='editor';});
+setTimeout(edRender,60);});
+try{window.addEventListener('resize',()=>{if(state.mode==='studio'&&state.sview==='editor')edRender();});}catch(e){}
 function getSel(id){return document.getElementById(id);}
 $('relTipoClinica').addEventListener('click',()=>{applyRelTipo('clinica');});
 $('relTipoCliente').addEventListener('click',()=>{applyRelTipo('cliente');});
@@ -6750,7 +6935,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.50';
+const APP_VERSAO='1.6.51';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{
