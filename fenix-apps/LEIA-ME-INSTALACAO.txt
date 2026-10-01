@@ -24,7 +24,7 @@ DETALHES
 • Login e senha: os mesmos. Celular e PC sincronizados
   (mesmo banco na nuvem).
 • Zoom das telas: menu Dados > Sistema (80% a 125%).
-• Novidade v1.6.47: ÁREAS no Studio — barra do Studio agora alterna 🎓 Studio e 🧪 Laboratório I.A · Relatórios (com Resumo da I.A) se mudou pro Laboratório
+• Novidade v1.6.48: «Conversar com a I.A» no Laboratório I.A — fale com a inteligência artificial do estúdio: ideias de posts, textos pra cliente, sugestões e dúvidas · conversas salvas na nuvem
 
 • Atualização futura: recebe uma pasta nova e substitui.
 • Links de WhatsApp abrem no app certo do Windows.
