@@ -24,7 +24,7 @@ DETALHES
 • Login e senha: os mesmos. Celular e PC sincronizados
   (mesmo banco na nuvem).
 • Zoom das telas: menu Dados > Sistema (80% a 125%).
-• Novidade v1.6.40: FÊNIX I.A — assistente de inteligência artificial no app (Studio I.A): pergunte sobre o seu negócio e receba respostas com base nos seus dados, sem configurar nada · conversas salvas na nuvem
+• Novidade v1.6.41: botão FÊNIX I.A na barra lateral (a inteligência artificial já estava no app, mas sem atalho) · 1 toque e você conversa com a IA sobre o seu negócio
 
 • Atualização futura: recebe uma pasta nova e substitui.
 • Links de WhatsApp abrem no app certo do Windows.
