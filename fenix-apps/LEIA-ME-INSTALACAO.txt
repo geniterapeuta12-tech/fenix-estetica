@@ -24,7 +24,7 @@ DETALHES
 • Login e senha: os mesmos. Celular e PC sincronizados
   (mesmo banco na nuvem).
 • Zoom das telas: menu Dados > Sistema (80% a 125%).
-• Novidade v1.6.53: «Melhorar meu texto» no Gerador de Posts — cole o SEU roteiro e a I.A só melhora, sem mudar suas ideias
+• Novidade v1.6.54: POST REAL — fundos lindos de estética, foto da galeria e fundo por I.A no Gerador e no Editor; PNG com texto encaixado
 
 • Atualização futura: recebe uma pasta nova e substitui.
 • Links de WhatsApp abrem no app certo do Windows.
