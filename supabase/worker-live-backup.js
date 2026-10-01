@@ -30,6 +30,7 @@ function ub64u(s) { s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length
 /* R61 — IA: Workers AI (binding, sem chave) + Groq (se GROQ_KEY existir) */
 const IA_SYS='Você é o Assistente Fênix, assistente de um estúdio de estética. Responda em português do Brasil, de forma curta (máximo 120 palavras), direta e amigável. Baseie-se SOMENTE nos dados fornecidos; nunca invente números; se algo não estiver nos dados, diga com franqueza que não tem essa informação. Conhecimento de estética: procedimentos comuns incluem limpeza de pele, peeling, massagem modeladora, drenagem linfática, design de sobrancelhas e nail design; foque em benefícios e bem-estar e NUNCA prometa resultado médico ou curativo; quando pedirem textos criativos (posts, legendas, mensagens para clientes), escreva com tom acolhedor e elegante.';
 const IA_RESUMO='Você é a assistente pessoal de um estúdio de estética. Escreva um RESUMO ELEGANTE, caloroso e profissional do relatório abaixo, em português do Brasil. Use 2 a 4 parágrafos curtos, com linguagem humana e acolhedora, como quem conhece o negócio de perto. Destaque com sutileza as conquistas (faturamento, clientes fiéis, sessões realizadas), aponte com delicadeza o que merece atenção e feche com 1 ou 2 sugestões práticas e otimistas. NUNCA use tabelas nem listas com marcadores. NUNCA invente números: use apenas os do relatório. Não comece com saudação: vá direto ao texto.';
+const IA_POST='Você cria posts de Instagram para um estúdio de estética. Responda SOMENTE com um JSON válido, sem nenhum texto fora dele, exatamente neste formato: {"titulo":"...","chamada":"...","legenda":"..."}. titulo: até 6 palavras, impactante. chamada: 1 ou 2 frases curtas de apoio (máximo 160 caracteres). legenda: legenda completa para Instagram com 1 a 3 emojis e 5 a 8 hashtags no final. Estilo da marca: elegante, acolhedor, sofisticado. Conhecimento de estética: limpeza de pele, massagem modeladora, drenagem linfática, design de sobrancelhas, nail design; foque em benefícios e bem-estar; NUNCA prometa resultado médico ou curativo.';
 async function aiChat(env,msgs){
   try{
     const r=await env.AI.run('@cf/meta/llama-3.3-70b-instruct-fp8-fast',{messages:msgs,max_tokens:400,temperature:0.4});
@@ -546,7 +547,7 @@ export default {
         if(!q) return jerr('pergunta vazia',400);
         const hist=Array.isArray(b.historico)?b.historico.slice(-10).filter(h=>h&&(h.role==='user'||h.role==='assistant')&&typeof h.content==='string').map(h=>({role:h.role,content:h.content.slice(0,2000)})):[];
         const modo=String(b&&b.modo||'').slice(0,20);
-        const sysBase=(modo==='resumo')?(IA_RESUMO+'\n\nRELATÓRIO:\n'+ctx):(IA_SYS+'\n\nDADOS ATUAIS DA CLÍNICA:\n'+ctx);
+        const sysBase=(modo==='resumo')?(IA_RESUMO+'\n\nRELATÓRIO:\n'+ctx):(modo==='post')?(IA_POST+'\n\nCONTEXTO DO ESTÚDIO:\n'+ctx):(IA_SYS+'\n\nDADOS ATUAIS DA CLÍNICA:\n'+ctx);
         const msgs=[{role:'system',content:sysBase}].concat(hist).concat([{role:'user',content:q}]);
         let motor='workers-ai',out=null;
         try{

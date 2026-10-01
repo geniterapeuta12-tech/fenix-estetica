@@ -1,10 +1,10 @@
 {
-  "versao": "1.6.48",
-  "r": "R69",
+  "versao": "1.6.49",
+  "r": "R70",
   "melhorias": [
-    "🤖 NOVO NO LABORATÓRIO I.A: «Conversar com a I.A» — fale com a inteligência artificial do estúdio: peça ideias de posts, textos para clientes, sugestões de pacote e tire dúvidas do dia a dia",
-    "☁️ Conversas salvas na nuvem: começa no celular e continua no Windows (e vice-versa)",
-    "🧠 A I.A agora entende de estética: procedimentos, cuidados e o jeito certo de falar com sua cliente — e nunca faz promessa médica"
+    "🐛 CORREÇÃO IMPORTANTE: «Conversar com a I.A» não estava abrindo (a tela ficava presa) — consertado, agora abre normalmente no Laboratório I.A",
+    "✨ NOVO: Gerador de Posts no Laboratório I.A — diga o que quer postar e a I.A cria o cartão visual do estúdio + legenda pronta com hashtags; baixa em PNG pra publicar",
+    "🧠 A I.A entende de estética e nunca faz promessa médica (protege o seu estúdio)"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }
