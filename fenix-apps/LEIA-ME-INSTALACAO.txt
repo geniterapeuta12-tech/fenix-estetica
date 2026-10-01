@@ -24,7 +24,7 @@ DETALHES
 • Login e senha: os mesmos. Celular e PC sincronizados
   (mesmo banco na nuvem).
 • Zoom das telas: menu Dados > Sistema (80% a 125%).
-• Novidade v1.6.48: «Conversar com a I.A» no Laboratório I.A — fale com a inteligência artificial do estúdio: ideias de posts, textos pra cliente, sugestões e dúvidas · conversas salvas na nuvem
+• Novidade v1.6.49: CORRIGIDO o «Conversar com a I.A» que não abria · NOVO Gerador de Posts no Laboratório I.A: a IA cria o cartão do estúdio + legenda com hashtags, baixe em PNG
 
 • Atualização futura: recebe uma pasta nova e substitui.
 • Links de WhatsApp abrem no app certo do Windows.
