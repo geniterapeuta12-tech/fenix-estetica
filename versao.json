@@ -1,10 +1,10 @@
 {
-  "versao": "1.6.44",
-  "r": "R65",
+  "versao": "1.6.45",
+  "r": "R66",
   "melhorias": [
-    "🐛 CORREÇÃO: o cartão «✨ Resumo da I.A» não estava aparecendo após montar o relatório (nascia escondido) — agora aparece direitinho em Studio › Relatórios › Montar relatório",
-    "✨ Resumo da I.A: a IA lê o relatório e escreve um texto elegante e pessoal, com botão pra copiar e compartilhar",
-    "🧹 A IA vive nos relatórios (o chat antigo foi aposentado) — sem chave, sem custo, e seus dados não treinam IA nenhuma"
+    "✨ RESUMO DA I.A AGORA É PARTE DO RELATÓRIO: em todos os relatórios (clínica completa, por cliente e personalizado) a seção Resumo ganha o texto da I.A — aparece na prévia, no PDF e no arquivo de texto, automático",
+    "⏱️ Ao montar o relatório, a I.A já começa a escrever (aparece «✍️ escrevendo…» e o texto entra sozinho, em ~15 segundos)",
+    "✨ Botão «Resumo da I.A» ao lado de «Baixar PDF» pra gerar/atualizar quando quiser"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }

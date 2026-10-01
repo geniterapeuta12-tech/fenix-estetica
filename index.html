@@ -1833,14 +1833,8 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <p class="sub" id="relBlurHint" style="margin-top:10px">🔒 Prévia protegida — sai desfocada de propósito. Toque em <b>Baixar PDF</b> e receba o arquivo nítido, pronto pra enviar.</p>
 <div class="rowbtns" style="margin-top:6px">
 <button class="btn" id="btnRelPdfDl" type="button"><svg class="ic"><use href="#i-dl"/></svg>Baixar PDF</button>
+<button class="btn ghost" id="btnRelIa" type="button" title="A I.A escreve um resumo deste relatório">✨ Resumo da I.A</button>
 </div>
-</div>
-<div class="panelcard hidden" id="relIaCard" style="margin-top:14px">
-<div class="sec-head"><div><h3>✨ Resumo da I.A</h3><p class="sub">Um texto bonito e pessoal sobre este relatório, escrito pela inteligência artificial do estúdio.</p></div></div>
-<button class="btn" id="btnRelIa" type="button"><svg class="ic"><use href="#i-ai"/></svg>Gerar resumo bonito</button>
-<p class="msg" id="relIaMsg"></p>
-<div id="relIaBox" class="hidden" style="border-left:3px solid rgba(212,175,55,.65);padding:10px 14px;margin-top:10px;border-radius:0 10px 10px 0;font-family:Georgia,serif;line-height:1.7"></div>
-<div class="rowbtns hidden" id="relIaActs" style="margin-top:8px"><button class="btn small ghost" id="btnRelIaCopy" type="button"><svg class="ic"><use href="#i-doc"/></svg>Copiar texto</button></div>
 </div>
 </section>
 
@@ -5680,7 +5674,7 @@ const secs=relSecs(k);
 /* R20 — BASE DO RELATÓRIO: Capa (identificação + sumário) → Seções numeradas → Considerações finais.
    Toda nova seção entra em relSecs() e o documento se reorganiza sozinho. */
 $('relTabs').classList.add('hidden');
-$('relBody').innerHTML=relCapaHTML(k,secs)+secs.map((sc,i)=>'<div class="folha"><p class="fk">Folha '+String(i+1).padStart(2,'0')+'</p><h4>'+sc[1]+'</h4><hr class="frule">'+relAppSection(k,sc[0])+'</div>').join('')+relFinalHTML(k);}
+$('relBody').innerHTML=relCapaHTML(k,secs)+secs.map((sc,i)=>'<div class="folha"><p class="fk">Folha '+String(i+1).padStart(2,'0')+'</p><h4>'+sc[1]+'</h4><hr class="frule">'+relAppSection(k,sc[0])+(sc[0]==='resumo'?relIaBloco():'')+'</div>').join('')+relFinalHTML(k);}
 function relCapaHTML(k,secs){
 const titulo=k.cid?'RELATÓRIO DA CLIENTE':'RELATÓRIO DA CLÍNICA';
 const nome=k.cid?(k.cliente&&k.cliente.nome)||'':'Visão geral da clínica';
@@ -5740,6 +5734,7 @@ par('Pacotes',k.pks.length);
 par('Sessões realizadas',k.feitas);
 par('Sessões pendentes',k.ses.length-k.feitas);
 if(!k.cid)par('Compromissos futuros na agenda',k.agsProx.length);
+if(relIaTexto){L.push('');L.push('--- RESUMO DA I.A ---');L.push(relIaTexto);}
 sec(2,'FINANCEIRO');
 par('Contratado (pacotes)',fmtTxt(k.contratado));
 par('Recebido',fmtTxt(k.recebido));
@@ -5844,7 +5839,7 @@ secDoc(1,'Resumo geral','rel-resumo')+
 '<div class="card"><span>PACOTES</span><b>'+k.pks.length+'</b></div>'+
 '<div class="card"><span>SESSÕES REALIZADAS</span><b class="verde">'+k.feitas+'</b></div>'+
 '<div class="card"><span>SESSÕES PENDENTES</span><b>'+(k.ses.length-k.feitas)+'</b></div>'+
-'<div class="card"><span>VALOR EM ABERTO</span><b class="vm">'+fmtBRL(k.emAberto)+'</b></div></div>'+
+'<div class="card"><span>VALOR EM ABERTO</span><b class="vm">'+fmtBRL(k.emAberto)+'</b></div></div>'+relIaBloco()+
 secDoc(2,'Financeiro','rel-fin')+
 '<h3 style="font-size:.85rem;color:#6d6146;margin:18px 0 0;letter-spacing:.05em;text-transform:uppercase">Pacotes</h3>'+
 '<div class="cards">'+
@@ -5892,7 +5887,7 @@ relCoreCache=relCore(cid);relTab='resumo';
 relPaint();
 relLastDoc=relDocHTML(relCoreCache);
 relLastTxt=relTxt(relCoreCache);
-try{$('relIaCard').classList.remove('hidden');$('relIaBox').classList.add('hidden');$('relIaActs').classList.add('hidden');msg($('relIaMsg'),'');}catch(e){}
+relIaTexto='';relIaPend=false;try{relIaAuto();}catch(e){}
 msg($('relMsg'),'✔ Relatório montado — role o documento, ou gere PDF / .txt abaixo.','ok');
 try{$('relPrev').scrollIntoView({behavior:'smooth',block:'start'});}catch(e){}},700);}
 function getSel(id){return document.getElementById(id);}
@@ -5967,23 +5962,22 @@ box.innerHTML=ITENS.map(it=>'<label class="chip" style="cursor:pointer"><input t
 box.addEventListener('change',e=>{const c=e.target.closest('[data-rsec]');if(!c)return;
 const v=relSecsAtivas();v[c.dataset.rsec]=c.checked;try{localStorage.setItem('fenix_relsecs',JSON.stringify(v));}catch(x){}
 if(relCoreCache){relLastDoc=relFiltraDoc(relDocHTML(relCoreCache));relLastTxt=relTxtFiltrado(relTxt(relCoreCache));relPaint();}});})();
-let relIaBusy=false,relIaTexto='';
-async function relIaGera(){const box=$('relIaBox');
-if(!relLastTxt)return msg($('relIaMsg'),'Monte o relatório primeiro (botão «Montar relatório»).','err');
-if(relIaBusy)return;relIaBusy=true;$('btnRelIa').disabled=true;
-$('relIaCard').classList.remove('hidden');box.classList.add('hidden');$('relIaActs').classList.add('hidden');
-msg($('relIaMsg'),'✨ A I.A está lendo o relatório e escrevendo o resumo…');
+let relIaBusy=false,relIaTexto='',relIaPend=false;
+function relIaBloco(){ /* R66: resumo da I.A embutido na seção Resumo (prévia, PDF e txt) */
+if(relIaPend)return '<div style="border-left:3px solid rgba(212,175,55,.65);padding:10px 14px;margin:14px 0 4px;font-family:Georgia,serif;font-style:italic;color:#6d6146">✍️ A I.A está escrevendo o resumo deste relatório…</div>';
+if(!relIaTexto)return '';
+return '<div style="border-left:3px solid rgba(212,175,55,.65);padding:10px 14px;margin:14px 0 4px"><p style="font-family:Montserrat,sans-serif;font-size:.72rem;letter-spacing:.07em;font-weight:700;color:#8a6d1c;margin:0 0 8px">✨ RESUMO DA I.A</p>'+relIaTexto.split(/\n{2,}/).map(p=>'<p style="font-family:Georgia,serif;line-height:1.7;margin:0 0 9px">'+esc(p).replace(/\n/g,'<br>')+'</p>').join('')+'</div>';}
+async function relIaAuto(){if(relIaBusy||!relLastTxt)return;relIaBusy=true;relIaPend=true;try{relPaint()}catch(e){}
 try{
 const r=await fetch(NUVEM_URL+'/ia',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SB_TOKEN||'')},body:JSON.stringify({modo:'resumo',pergunta:'Escreva o resumo deste relatório',contexto:String(relLastTxt).slice(0,6000)})});
 const j=await r.json().catch(()=>null);
 if(!r.ok||!j||!j.resposta)throw new Error((j&&j.erro)||('HTTP '+r.status));
 relIaTexto=j.resposta;
-box.innerHTML=j.resposta.split(/\n{2,}/).map(p=>'<p>'+esc(p).replace(/\n/g,'<br>')+'</p>').join('');
-box.classList.remove('hidden');$('relIaActs').classList.remove('hidden');msg($('relIaMsg'),'');
-}catch(e){msg($('relIaMsg'),'⚠ Não consegui gerar agora ('+((e&&e.message)||'erro')+'). Tenta de novo em instantes.','err');}
-$('btnRelIa').disabled=false;relIaBusy=false;}
-$('btnRelIa').addEventListener('click',relIaGera);
-$('btnRelIaCopy').addEventListener('click',()=>{if(!relIaTexto)return;try{navigator.clipboard.writeText(relIaTexto);msg($('relIaMsg'),'✔ Texto copiado!','ok');}catch(e){const ta=document.createElement('textarea');ta.value=relIaTexto;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');msg($('relIaMsg'),'✔ Texto copiado!','ok');}catch(e2){}ta.remove();}});
+}catch(e){relIaTexto='';msg($('relMsg'),'A I.A não conseguiu escrever o resumo agora — toque em ✨ Resumo da I.A pra tentar de novo.','err');}
+relIaPend=false;relIaBusy=false;
+if(relCoreCache){if(relPers){relLastDoc=relFiltraDoc(relDocHTML(relCoreCache));relLastTxt=relTxtFiltrado(relTxt(relCoreCache));}else{relLastDoc=relDocHTML(relCoreCache);relLastTxt=relTxt(relCoreCache);}}
+try{relPaint()}catch(e){}}
+$('btnRelIa').addEventListener('click',()=>{if(!relLastTxt)return msg($('relMsg'),'Monte o relatório primeiro.','err');if(relIaBusy)return;relIaTexto='';relIaAuto();});
 $('btnRelPdfDl').addEventListener('click',()=>{if(!relLastTxt)return msg($('relMsg'),'Monte o relatório primeiro.','err');
 try{const b=relPdfBytes(relLastTxt);
 const u=URL.createObjectURL(new Blob([Uint8Array.from(b,ch=>ch.charCodeAt(0)&0xff)],{type:'application/pdf'}));
@@ -6634,7 +6628,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.44';
+const APP_VERSAO='1.6.45';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{
