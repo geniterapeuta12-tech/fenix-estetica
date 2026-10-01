@@ -1,0 +1,22 @@
+/* R74 — «Melhorar meu texto»: dono manda o roteiro, a I.A só melhora */
+const fs=require('fs'),path=require('path');
+let ok=0,fail=0;const T=(n,c)=>{if(c){ok++;}else{fail++;console.log('  ✗ '+n);}};
+const W=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
+const WK=fs.readFileSync(path.join(__dirname,'..','supabase','worker-live-backup.js'),'utf8');
+const VJ=JSON.parse(fs.readFileSync(path.join(__dirname,'..','versao.json'),'utf8'));
+T('1. campo do roteiro (gpMeu) + botão (gpMelhora) no Gerador', W.includes('id="gpMeu"')&&W.includes('id="gpMelhora"')&&W.includes('só melhora'));
+T('2. envia prefixo MELHORAR ROTEIRO DO USUÁRIO', W.includes("'MELHORAR ROTEIRO DO USUÁRIO: '+txt"));
+T('3. mesmo fluxo do gerador (gpAplica → card+legenda+PNG)', /function gpAplica\(j\)/.test(W)&&/gpMelhora[\s\S]{0,800}gpAplica\(j\)/.test(W));
+T('4. placeholder com exemplo realista', W.includes('venha conhecer a ozônio terapia capilar'));
+T('5. exige login + texto (mensagens claras)', W.includes('Cole o seu texto primeiro')&&W.includes('Entre com sua conta pra usar a I.A'));
+T('6. trava de clique duplo (gpBusy)', /async function gpMelhora\(\)\{if\(gpBusy\)return/.test(W));
+T('7. worker: regra (0) MELHORAR ROTEIRO', WK.includes('(0) MELHORAR ROTEIRO')&&WK.includes('NÃO invente tema novo')&&WK.includes('nome EXATO dos serviços'));
+T('8. worker: IA_POST v2 intacta (fidelidade+benefícios)', WK.includes('FIDELIDADE AO PEDIDO')&&WK.includes('"beneficios":["..."]'));
+T('9. worker: todas as cérebros presentes', ['const IA_POST','const IA_DOC','const IA_SYS','const IA_RESUMO'].every(k=>WK.includes(k)));
+T('10. gerar do zero continua (gpGo/gpGera)', W.includes('id="gpGo"')&&/async function gpGera\(\)/.test(W)&&W.includes('gpAplica(j);'));
+T('11. versão 1.6.53 + versao.json', W.includes("APP_VERSAO='1.6.53'")&&VJ.versao==='1.6.53'&&VJ.r==='R74'&&(VJ.melhorias||[]).length>=3);
+T('12. nada quebrou (editor/documentos/pdf/chat)', ['edFromPost','iaDocGera','relPdfModelo',"$('viewIa').classList.toggle"].every(f=>W.includes(f)));
+T('13. JS válido', (()=>{try{new Function(W.match(/<script>([\s\S]*)<\/script>/)[1]);return true}catch(e){return false}})());
+T('14. worker sintaxe (node --check)', (()=>{try{require('child_process').execSync('node --check "'+path.join(__dirname,'..','supabase','worker-live-backup.js')+'"',{stdio:'pipe'});return true}catch(e){return false}})());
+console.log(fail?('FALHAS: '+fail):('TUDO OK ('+ok+'/14)'));
+process.exit(fail?1:0);

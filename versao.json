@@ -1,10 +1,10 @@
 {
-  "versao": "1.6.52",
-  "r": "R73",
+  "versao": "1.6.53",
+  "r": "R74",
   "melhorias": [
-    "📄 NOVO: «Baixar PDF» dos relatórios agora gera PDF PROFISSIONAL no estilo documento corporativo — título grande, seções numeradas, tabelas organizadas com linhas e cores, cartões de números e linhas de assinatura no fim",
-    "✨ O Resumo da I.A agora vai EMBUTIDO no PDF (com barra dourada), junto com tudo que você escolher no relatório personalizado",
-    "📑 PDF com rodapé «Página X de Y» e pronto pra enviar no WhatsApp ou imprimir"
+    "✨ NOVO no Gerador de Posts: «Melhorar meu texto» — você cola o SEU roteiro e a I.A só melhora a escrita (ortografia, clareza, emojis e hashtags) SEM mudar suas ideias nem o nome dos seus serviços",
+    "🛡️ Suas ideias preservadas: no modo melhorar a I.A é proibida de inventar tema novo — ela organiza e embeleza o que VOCÊ escreveu",
+    "📄 (de ontem) PDF profissional dos relatórios já no ar"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }
