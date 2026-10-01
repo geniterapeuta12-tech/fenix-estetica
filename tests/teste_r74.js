@@ -14,7 +14,7 @@ T('7. worker: regra (0) MELHORAR ROTEIRO', WK.includes('(0) MELHORAR ROTEIRO')&&
 T('8. worker: IA_POST v2 intacta (fidelidade+benefícios)', WK.includes('FIDELIDADE AO PEDIDO')&&WK.includes('"beneficios":["..."]'));
 T('9. worker: todas as cérebros presentes', ['const IA_POST','const IA_DOC','const IA_SYS','const IA_RESUMO'].every(k=>WK.includes(k)));
 T('10. gerar do zero continua (gpGo/gpGera)', W.includes('id="gpGo"')&&/async function gpGera\(\)/.test(W)&&W.includes('gpAplica(j);'));
-T('11. versão 1.6.53 + versao.json', W.includes("APP_VERSAO='1.6.53'")&&VJ.versao==='1.6.53'&&VJ.r==='R74'&&(VJ.melhorias||[]).length>=3);
+T('11. versão 1.6.54 + versao.json', W.includes("APP_VERSAO='1.6.54'")&&VJ.versao==='1.6.54'&&VJ.r==='R75'&&(VJ.melhorias||[]).length>=3);
 T('12. nada quebrou (editor/documentos/pdf/chat)', ['edFromPost','iaDocGera','relPdfModelo',"$('viewIa').classList.toggle"].every(f=>W.includes(f)));
 T('13. JS válido', (()=>{try{new Function(W.match(/<script>([\s\S]*)<\/script>/)[1]);return true}catch(e){return false}})());
 T('14. worker sintaxe (node --check)', (()=>{try{require('child_process').execSync('node --check "'+path.join(__dirname,'..','supabase','worker-live-backup.js')+'"',{stdio:'pipe'});return true}catch(e){return false}})());

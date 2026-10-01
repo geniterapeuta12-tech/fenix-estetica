@@ -23,15 +23,15 @@ T('13. arrastar move elemento (pointer + clamp)', W.includes('pointerdown')&&W.i
 T('14. A+/A− alteram tamanho (clamp 18-150)', W.includes('Math.min(150,el.s+8)')&&W.includes('Math.max(18,el.s-8)'));
 T('15. paleta da marca (4 cores dourado/creme)', W.includes("ED_CORES=['#d4af37','#f0e6c0','#ffffff','#cfc9bb']")&&W.includes('(el.c+1)%ED_CORES.length'));
 T('16. duplicar e apagar (mínimo 1 texto)', W.includes('edData.els.push(c)')&&W.includes('pelo menos um texto'));
-T('17. PNG do editor (SVG→canvas→design-fenix.png)', W.includes('edSVG(edData.els,1080)')&&W.includes("'design-fenix.png'"));
+T('17. PNG do editor (canvas→design-fenix.png)', W.includes('edDesenha(cv,edData.els,fim)')&&W.includes("'design-fenix.png'"));
 T('18. designs salvos (fenix_designs: salvar/listar/abrir/apagar)', W.includes("localStorage.getItem('fenix_designs'")&&W.includes('edListDesigns'));
 T('19. ligação Gerador→Editor (Editar no Studio)', W.includes('id="gpEdit"')&&/edData=edFromPost\(gpData\)/.test(W));
-T('20. v1 SEM foto de fundo (fundo é cor, não imagem)', !/edCard[\s\S]{0,200}background(-image)?\s*:\s*url/.test(W));
+T('20. fundo opcional com véu de legibilidade no preview', W.includes('inset:0;background:linear-gradient'));
 /* nada quebrou */
 T('21. chat/gerador intactos (portas viewIa/viewPosts)', W.includes("$('viewIa').classList.toggle")&&W.includes("$('viewPosts').classList.toggle"));
 T('22. worker IA_DOC (sem promessa médica)', WK.includes('IA_DOC')&&WK.includes('NUNCA dê orientação médica')&&WK.includes("modo==='doc'"));
 T('23. resumo R66 intacto', /sc\[0\]==='resumo'\?relIaBloco\(\):''/.test(W));
-T('24. versão 1.6.52 + versao.json', W.includes("APP_VERSAO='1.6.53'")&&VJ.versao==='1.6.53'&&VJ.r==='R74'&&(VJ.melhorias||[]).length>=3);
+T('24. versão 1.6.52 + versao.json', W.includes("APP_VERSAO='1.6.54'")&&VJ.versao==='1.6.54'&&VJ.r==='R75'&&(VJ.melhorias||[]).length>=3);
 T('25. JS válido', (()=>{try{new Function(W.match(/<script>([\s\S]*)<\/script>/)[1]);return true}catch(e){return false}})());
 T('26. worker sintaxe (node --check)', (()=>{try{require('child_process').execSync('node --check "'+path.join(__dirname,'..','supabase','worker-live-backup.js')+'"',{stdio:'pipe'});return true}catch(e){return false}})());
 console.log(fail?('FALHAS: '+fail):('TUDO OK ('+ok+'/26)'));

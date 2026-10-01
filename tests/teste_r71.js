@@ -12,17 +12,17 @@ T('4. worker: exemplo de benefícios capilares', WK.includes('Fortalece os fios'
 T('5. worker: cérebro estético intacto (sem promessa médica)', WK.includes('NUNCA prometa resultado médico'));
 /* app: benefícios desenhados */
 T('6. card: benefícios com ✓ dourado no preview', /✓ '\+esc\(b\)/.test(W));
-T('7. PNG: benefícios ✓ desenhados no SVG (dourado)', /✓  '\+E\(b\)/.test(W)&&/font-size="40" fill="#d4af37"/.test(W));
+T('7. PNG: benefícios ✓ desenhados (dourado)', W.includes("'✓  '+j2")&&W.includes('fillStyle=\'#d4af37\''));
 T('8. gpData guarda benefícios (gbf)', /const gbf=Array\.isArray\(g\.beneficios\)/.test(W)&&W.includes('beneficios:gbf'));
 T('9. título vira 2 linhas quando tem benefícios (cabe no cartão)', /slice\(0,bf\.length\?2:3\)/.test(W));
 T('10. benefícios limitados a 4 e 42 caracteres', /slice\(0,42\)\)\.slice\(0,4\)/.test(W));
 T('11. placeholder ensina pedir benefícios', W.includes('ozônio terapia capilar com os benefícios'));
-T('12. versão 1.6.52', W.includes("APP_VERSAO='1.6.53'"));
-T('13. versao.json 1.6.50/R70.1 (3+ melhorias)', VJ.versao==='1.6.53'&&VJ.r==='R74'&&(VJ.melhorias||[]).length>=3);
+T('12. versão 1.6.52', W.includes("APP_VERSAO='1.6.54'"));
+T('13. versao.json 1.6.50/R70.1 (3+ melhorias)', VJ.versao==='1.6.54'&&VJ.r==='R75'&&(VJ.melhorias||[]).length>=3);
 /* nada quebrou */
 T('14. chat R69 intacto', W.includes("$('viewIa').classList.toggle('hidden',!(studio&&state.sview==='ia'))"));
 T('15. resumo R66 intacto', /sc\[0\]==='resumo'\?relIaBloco\(\):''/.test(W));
-T('16. PNG mecânica intacta (SVG→canvas→post-fenix.png)', /gpSVG\(gpData,1080\)/.test(W)&&W.includes("'post-fenix.png'"));
+T('16. PNG mecânica intacta (canvas→post-fenix.png)', /gpPngV2/.test(W)&&W.includes("'post-fenix.png'"));
 T('17. JS válido', (()=>{try{new Function(W.match(/<script>([\s\S]*)<\/script>/)[1]);return true}catch(e){return false}})());
 T('18. worker sintaxe válida (node --check)', (()=>{try{require('child_process').execSync('node --check "'+path.join(__dirname,'..','supabase','worker-live-backup.js')+'"',{stdio:'pipe'});return true}catch(e){return false}})());
 console.log(fail?('FALHAS: '+fail):('TUDO OK ('+ok+'/18)'));

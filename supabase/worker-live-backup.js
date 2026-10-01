@@ -538,6 +538,20 @@ export default {
           return j({ok:!!out.resposta,motor,resposta:out.resposta,ms:Date.now()-t0});
         }catch(e){return j({ok:false,erro:String(e&&e.message||e).slice(0,200)})}
       }
+      if (p === '/ia-imagem' && req.method === 'POST') {
+        const auth = req.headers.get('authorization') || '';
+        const pl = await verifyJWT(auth.replace(/^Bearer /i, ''), secret);
+        if (!pl) return jerr('Invalid API key', 401, 'invalid_api_key');
+        try{
+          const b = await req.json().catch(()=>null);
+          const t = String(b&&b.tema||'').slice(0,200).trim();
+          if(!t) return jerr('Diga o tema do fundo.',400);
+          const prompt='Elegant luxury beauty salon background art. Dark black base with gold accents: '+t+'. Abstract textures, soft golden light, premium spa aesthetic, smooth gradients. Absolutely no people, no faces, no hands, no text, no letters, no logo, no watermark.';
+          const r=await env.AI.run('@cf/black-forest-labs/flux-1-schnell',{prompt,steps:4});
+          if(!r||!r.image) return jerr('A I.A de imagem não respondeu — tenta de novo.',502);
+          return j({img:r.image});
+        }catch(e){return jerr('Falhou a geração do fundo — tenta de novo em instantes.',500)}
+      }
       if (p === '/ia' && req.method === 'POST') {
         const auth = req.headers.get('authorization') || '';
         const pl = await verifyJWT(auth.replace(/^Bearer /i, ''), secret);
