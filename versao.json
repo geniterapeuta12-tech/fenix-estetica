@@ -1,10 +1,10 @@
 {
-  "versao": "1.6.46",
-  "r": "R67",
+  "versao": "1.6.47",
+  "r": "R68",
   "melhorias": [
-    "🔄 ATUALIZA SOZINHO DE VERDADE: o app do Windows e o do celular agora buscam a versão nova da nuvem sozinhos ao abrir — acabou a era de reinstalar pra receber melhoria",
-    "⚡ No Windows: abre e já está na versão mais recente (se estiver sem internet, usa a cópia interna)",
-    "📱 No celular: na primeira abertura após instalar, o app já passa a se manter atualizado sozinho para sempre"
+    "🧪 NOVA ÁREA NO STUDIO: a barra do Studio agora tem 2 áreas alternáveis — 🎓 Studio (Documentos, Formulários, Planilha) e 🧪 Laboratório I.A",
+    "📊 RELATÓRIOS se mudou pro LABORATÓRIO I.A (com o Resumo da I.A dentro) — saiu da área do Studio como você pediu",
+    "💡 A área escolhida fica salva: você volta onde estava (Studio ou Laboratório)"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }

@@ -20,9 +20,9 @@ T('10. EXE: no-cache pra pegar a versão nova', EX.includes("'Cache-Control': 'n
 T('11. EXE: sem internet → cópia interna (fallback)', EX.includes('loadFile(path.join(__dirname')&&EX.includes('caiLocal'));
 T('12. EXE: fonte versionada no repo (exe-src/)', fs.existsSync(path.join(__dirname,'..','exe-src','package.json')));
 /* app */
-T('13. APP_VERSAO 1.6.46', W.includes("APP_VERSAO='1.6.46'"));
+T('13. APP_VERSAO 1.6.47', W.includes("APP_VERSAO='1.6.47'"));
 T('14. Resumo da I.A embutido intacto (R66)', /sc\[0\]==='resumo'\?relIaBloco\(\):''/.test(W));
-T('15. versao.json 1.6.46/R67', VJ.versao==='1.6.46'&&VJ.r==='R67'&&(VJ.melhorias||[]).length>=3);
+T('15. versao.json 1.6.47/R68', VJ.versao==='1.6.47'&&VJ.r==='R68'&&(VJ.melhorias||[]).length>=3);
 T('16. JS do app válido', (()=>{try{new Function(W.match(/<script>([\s\S]*)<\/script>/)[1]);return true}catch(e){return false}})());
 T('17. Center 1.8.0 intocado', fs.readFileSync(path.join(__dirname,'..','center-src','www','index.html'),'utf8').includes("CENTER_V='1.8.0'"));
 console.log(fail?('FALHAS: '+fail):('TUDO OK ('+ok+'/17)'));
