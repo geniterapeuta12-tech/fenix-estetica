@@ -1,10 +1,10 @@
 {
-  "versao": "1.6.40",
-  "r": "R61",
+  "versao": "1.6.41",
+  "r": "R62",
   "melhorias": [
-    "🤖 FÊNIX I.A NO AR: o app agora tem assistente de inteligência artificial próprio (barra lateral › Studio I.A) — pergunta qualquer coisa sobre o seu negócio: \"quem devo chamar pra voltar?\", \"como foi meu mês?\", \"quem faz aniversário?\" — ele responde com base nos SEUS dados, sem configurar nada",
-    "💬 Conversas salvas na nuvem: dá pra continuar de onde parou em qualquer aparelho",
-    "⚙️ Avançado: se quiser usar uma API própria (OpenAI etc.), continua podendo em Configurações — mas não precisa"
+    "🚪 FÊNIX I.A COM ATALHO: novo botão FÊNIX I.A na barra lateral (do lado de Arquivos) — a inteligência artificial já estava no app mas estava SEM ATALHO; agora é 1 toque",
+    "🤖 IA responde com base nos seus dados: \"quem devo chamar pra voltar?\", \"como foi meu mês?\", \"quem faz aniversário?\" · conversas salvas na nuvem (começa no celular, continua no computador)",
+    "✨ Tela da IA com status e mensagens mais claras (mostra \"Fênix I.A\" quando está usando o motor da nossa nuvem, sem precisar de chave)"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }
