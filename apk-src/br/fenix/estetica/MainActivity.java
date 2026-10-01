@@ -72,8 +72,69 @@ public class MainActivity extends Activity {
         });
         wv.addJavascriptInterface(new Ponte(), "FenixApp");
         setContentView(wv);
-        wv.loadUrl("file:///android_asset/www/index.html");
+        /* R67 — AUTO-UPDATE: se já baixou versão nova da nuvem, carrega ela; senão a cópia interna */
+        java.io.File live = new java.io.File(getFilesDir(), "app-live.html");
+        wv.loadUrl(live.exists() ? ("file://" + getFilesDir() + "/app-live.html") : "file:///android_asset/www/index.html");
         pedirPerms();
+        new Thread(new Runnable() { public void run() { checaNova(); } }).start();
+    }
+
+    /* R67 — AUTO-UPDATE (padrão Center): compara a versão da nuvem com a instalada; se a nuvem for mais nova, baixa o app e recarrega na hora */
+    private static final String NUVEM = "https://geniterapeuta12-tech.github.io/fenix-estetica/";
+
+    private void checaNova() {
+        try {
+            String local = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+            String vjson = puxa(NUVEM + "versao.json", 5000);
+            String rem = extrai(vjson, "\"versao\"\\s*:\\s*\"([0-9.]+)\"");
+            if (rem == null || !maisNova(rem, local)) return;
+            String html = puxa(NUVEM + "index.html", 8000);
+            if (html == null || html.indexOf("APP_VERSAO") < 0) return;
+            java.io.FileOutputStream f = openFileOutput("app-live.html", MODE_PRIVATE);
+            f.write(html.getBytes("UTF-8"));
+            f.close();
+            runOnUiThread(new Runnable() { public void run() {
+                try { wv.loadUrl("file://" + getFilesDir() + "/app-live.html"); } catch (Exception e) {}
+            }});
+        } catch (Exception e) {}
+    }
+
+    private String puxa(String u, int tmo) {
+        try {
+            java.net.HttpURLConnection c = (java.net.HttpURLConnection) new java.net.URL(u).openConnection();
+            c.setConnectTimeout(tmo);
+            c.setReadTimeout(tmo + 5000);
+            c.setInstanceFollowRedirects(true);
+            c.setRequestProperty("Cache-Control", "no-cache");
+            java.io.InputStream in = c.getInputStream();
+            java.io.ByteArrayOutputStream b = new java.io.ByteArrayOutputStream();
+            byte[] buf = new byte[8192];
+            int n;
+            while ((n = in.read(buf)) > 0) b.write(buf, 0, n);
+            in.close();
+            return b.toString("UTF-8");
+        } catch (Exception e) { return null; }
+    }
+
+    private String extrai(String s, String rx) {
+        try {
+            java.util.regex.Matcher m = java.util.regex.Pattern.compile(rx).matcher(s);
+            return m.find() ? m.group(1) : null;
+        } catch (Exception e) { return null; }
+    }
+
+    private boolean maisNova(String a, String b) {
+        try {
+            String[] x = a.split("\\.");
+            String[] y = b.split("\\.");
+            int n = Math.max(x.length, y.length);
+            for (int i = 0; i < n; i++) {
+                int xi = i < x.length ? Integer.parseInt(x[i]) : 0;
+                int yi = i < y.length ? Integer.parseInt(y[i]) : 0;
+                if (xi != yi) return xi > yi;
+            }
+            return false;
+        } catch (Exception e) { return false; }
     }
 
     private boolean temPerm(String p) {

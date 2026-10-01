@@ -1,10 +1,10 @@
 {
-  "versao": "1.6.45",
-  "r": "R66",
+  "versao": "1.6.46",
+  "r": "R67",
   "melhorias": [
-    "✨ RESUMO DA I.A AGORA É PARTE DO RELATÓRIO: em todos os relatórios (clínica completa, por cliente e personalizado) a seção Resumo ganha o texto da I.A — aparece na prévia, no PDF e no arquivo de texto, automático",
-    "⏱️ Ao montar o relatório, a I.A já começa a escrever (aparece «✍️ escrevendo…» e o texto entra sozinho, em ~15 segundos)",
-    "✨ Botão «Resumo da I.A» ao lado de «Baixar PDF» pra gerar/atualizar quando quiser"
+    "🔄 ATUALIZA SOZINHO DE VERDADE: o app do Windows e o do celular agora buscam a versão nova da nuvem sozinhos ao abrir — acabou a era de reinstalar pra receber melhoria",
+    "⚡ No Windows: abre e já está na versão mais recente (se estiver sem internet, usa a cópia interna)",
+    "📱 No celular: na primeira abertura após instalar, o app já passa a se manter atualizado sozinho para sempre"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }
