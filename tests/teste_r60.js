@@ -5,7 +5,7 @@ const W=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const WK=fs.readFileSync(path.join(__dirname,'..','supabase','worker-live-backup.js'),'utf8');
 const VJ=JSON.parse(fs.readFileSync(path.join(__dirname,'..','versao.json'),'utf8'));
 /* app */
-T('1. APP_VERSAO 1.6.40', W.includes("APP_VERSAO='1.6.51'"));
+T('1. APP_VERSAO 1.6.40', W.includes("APP_VERSAO='1.6.52'"));
 T('2. TG_MAXR2 = 10 MB', W.includes('TG_MAXR2=10485760'));
 T('3. tgSobeR2 existe (upload pro R2)', W.includes('async function tgSobeR2'));
 T('4. upload usa rota do worker (sem chave no app)', /tgSobeR2[\s\S]{0,400}storage\/v1\/object\/fenix-arquivos/.test(W));
@@ -27,7 +27,7 @@ T('18. worker: upload POST → R2 primeiro', /if \(env\.R2_TOKEN\) \{[\s\S]{0,20
 T('19. worker: GET público → R2 primeiro, D1 fallback', /const rf = await r2Get/.test(WK)&&/SELECT mime,data FROM fotos WHERE path/.test(WK)&&WK.indexOf('const rf = await r2Get')<WK.indexOf('SELECT mime,data FROM fotos'));
 T('20. worker: diagnóstico /r2-ok', WK.includes("p === '/r2-ok'"));
 /* versao.json */
-T('21. versao.json 1.6.40 / R61', VJ.versao==='1.6.51'&&VJ.r==='R71');
+T('21. versao.json 1.6.40 / R61', VJ.versao==='1.6.52'&&VJ.r==='R73');
 T('22. melhorias listadas (≥3)', (VJ.melhorias||[]).length>=3);
 /* center intocado */
 T('23. Center 1.8.0 intocado', fs.readFileSync(path.join(__dirname,'..','center-src','www','index.html'),'utf8').includes("CENTER_V='1.8.0'"));

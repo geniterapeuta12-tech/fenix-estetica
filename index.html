@@ -6244,6 +6244,134 @@ let xref='xref\n0 '+(objs.length+1)+'\n0000000000 65535 f \n';
 offs.forEach(o=>{xref+=String(o).padStart(10,'0')+' 00000 n \n';});
 xref+='trailer\n<< /Size '+(objs.length+1)+' /Root 1 0 R >>\nstartxref\n'+total+'\n%%EOF';
 return header+objs.map((o,i)=>(i+1)+' 0 obj\n'+o+'\nendobj\n').join('')+xref;}
+/* R73 — PDF profissional (modelo do dono): Helvetica, seções numeradas, tabelas zebradas, assinaturas */
+function relPdfModelo(k){
+const esc=s=>String(s).replace(/\\/g,'\\\\').replace(/\(/g,'\\(').replace(/\)/g,'\\)');
+const latin=s=>{let o='';for(const ch of String(s==null?'':s)){const c=ch.codePointAt(0);if(c<256)o+=String.fromCharCode(c);else{const M={8220:147,8221:148,8216:145,8217:146,8211:150,8212:151,8226:149,8230:133};o+=M[c]!==undefined?String.fromCharCode(M[c]):'';}}return o;};
+const CW=f=>f==='F2'?0.56:0.53;
+const wS=(s,f,z)=>String(s).length*z*CW(f);
+function wrap(s,z,f,maxw){const words=String(s==null?'':s).split(/\s+/).filter(Boolean);const mx=Math.max(6,Math.floor(maxw/(z*CW(f))));const out=[];let cur='';
+words.forEach(w=>{while(w.length>mx){if(cur){out.push(cur);cur='';}out.push(w.slice(0,mx));w=w.slice(mx);}if(!cur)cur=w;else if((cur+' '+w).length<=mx)cur+=' '+w;else{out.push(cur);cur=w;}});if(cur)out.push(cur);return out.length?out:[''];}
+const COL={ink:'0.16 0.19 0.24 rg',sub:'0.42 0.45 0.50 rg',body:'0.24 0.27 0.32 rg',gold:'0.83 0.69 0.27 rg',head:'0.953 0.957 0.965 rg',zebra:'0.973 0.976 0.984 rg',band:'0.937 0.945 0.957 rg'};
+const COR={g:'0.118 0.478 0.31 rg',r:'0.64 0.235 0.165 rg',o:'0.706 0.325 0.035 rg'};
+const PW=595.28,PH=841.89,X0=46,X1=552,W=X1-X0;
+const pages=[];let cur=null,Y=0,secN=0;
+function np(){cur=[];pages.push(cur);Y=PH-70;}
+function need(h){if(Y-h<64)np();}
+function T(x,s,f,z,c){cur.push('BT /'+f+' '+z+' Tf '+c+' 1 0 0 1 '+x.toFixed(1)+' '+Y.toFixed(1)+' Tm ('+esc(latin(s))+') Tj ET');}
+function box(x,y,w,h,fill,stroke){if(fill)cur.push(fill+' '+x.toFixed(1)+' '+y.toFixed(1)+' '+w.toFixed(1)+' '+h.toFixed(1)+' re f');if(stroke)cur.push('0.6 w '+x.toFixed(1)+' '+y.toFixed(1)+' '+w.toFixed(1)+' '+h.toFixed(1)+' re S');}
+function p(t,z,par){z=z||9.5;const L=wrap(t,z,'F1',W);need(L.length*13.5);L.forEach(l=>{T(X0,l,'F1',z,par||COL.body);Y-=13.5;});Y-=5;}
+function sec(t){secN++;need(64);Y-=10;T(X0,secN+'. '+t,'F2',12.5,COL.ink);Y-=19;}
+function cap(t){need(40);Y-=6;T(X0,t,'F2',8.8,COL.sub);Y-=15;}
+function kpis(items){const n=items.length,gap=8,bw=(W-(n-1)*gap)/n,h=48;need(h+4);
+items.forEach((it,i)=>{const x=X0+i*(bw+gap);box(x,Y-h,bw,h,null,1);
+const vs=String(it.v);const z=vs.length>11?9.5:12.5;
+cur.push('BT /F2 '+z+' Tf '+(it.c||COL.ink)+' 1 0 0 1 '+(x+(bw-wS(vs,'F2',z))/2).toFixed(1)+' '+(Y-h+16).toFixed(1)+' Tm ('+esc(latin(vs))+') Tj ET');
+const ls=String(it.l);const zl=ls.length>18?5.8:6.4;
+cur.push('BT /F2 '+zl+' Tf '+COL.sub+' 1 0 0 1 '+(x+(bw-wS(ls,'F2',zl))/2).toFixed(1)+' '+(Y-h+36).toFixed(1)+' Tm ('+esc(latin(ls))+') Tj ET');});
+Y-=h+10;}
+function tabela(hs,wts,rows){const sw=wts.reduce((a2,b2)=>a2+b2,0);const cw=wts.map(t=>W*t/sw);
+function head(){need(34);box(X0,Y-22,W,22,COL.head,1);
+let x=X0;hs.forEach((h,i)=>{cur.push('BT /F2 8.2 Tf '+COL.ink+' 1 0 0 1 '+(x+5).toFixed(1)+' '+(Y-14.5).toFixed(1)+' Tm ('+esc(latin(h))+') Tj ET');x+=cw[i];});Y-=22;}
+head();
+rows.forEach((r,ri)=>{const cells=r.map((c,i)=>{const v=c&&c.v!==undefined?c.v:c;return {v:(v==null||v==='')?'—':String(v),c:c&&c.c,lines:wrap(v,8.6,'F1',cw[i]-10)};});
+const rh=Math.max.apply(null,cells.map(c=>c.lines.length))*10.6+9;
+if(Y-rh<64){np();head();}
+if(ri%2===1)box(X0,Y-rh,W,rh,COL.zebra,null);
+let x=X0;
+cells.forEach((c,i)=>{box(x,Y-rh,cw[i],rh,null,1);
+c.lines.forEach((l,j)=>{const bas=Y-13.5-j*10.6;
+if(c.a==='r'){const tx=x+cw[i]-5-wS(l,'F1',8.6);cur.push('BT /F1 8.6 Tf '+(c.c?COR[c.c]:COL.body)+' 1 0 0 1 '+tx.toFixed(1)+' '+bas.toFixed(1)+' Tm ('+esc(latin(l))+') Tj ET');}
+else cur.push('BT /F1 8.6 Tf '+(c.c?COR[c.c]:COL.body)+' 1 0 0 1 '+(x+5).toFixed(1)+' '+bas.toFixed(1)+' Tm ('+esc(latin(l))+') Tj ET');});
+x+=cw[i];});
+Y-=rh;});
+Y-=8;}
+function iaBloco(txt){if(!txt)return;const paras=String(txt).split(/\n{2,}/).map(s2=>wrap(s2,9.6,'F3',W-16));
+const nl=paras.reduce((a2,p2)=>a2+p2.length,0)+paras.length-1;
+const ih=20+Math.max(1,nl)*14.2+8;need(ih);
+box(X0,Y-ih,3,ih,COL.gold,null);
+cur.push('BT /F2 7.6 Tf '+COL.gold+' 1 0 0 1 '+(X0+12)+' '+(Y-11).toFixed(1)+' Tm ('+esc(latin('RESUMO DA INTELIGÊNCIA ARTIFICIAL'))+') Tj ET');
+let yy=Y-26;
+paras.forEach(ls=>{ls.forEach(l=>{cur.push('BT /F3 9.6 Tf '+COL.body+' 1 0 0 1 '+(X0+12)+' '+yy.toFixed(1)+' Tm ('+esc(latin(l))+') Tj ET');yy-=14.2;});yy-=6;});
+Y-=ih+8;}
+function assinaturas(){need(70);Y-=34;
+[[X0,'Responsável pelo estúdio'],[X0+250,'Data / aprovação']].forEach(a2=>{
+cur.push('0.5 w '+a2[0].toFixed(1)+' '+Y.toFixed(1)+' m '+(a2[0]+185).toFixed(1)+' '+Y.toFixed(1)+' l S');
+cur.push('BT /F1 8 Tf '+COL.sub+' 1 0 0 1 '+a2[0].toFixed(1)+' '+(Y-13).toFixed(1)+' Tm ('+esc(latin(a2[1]))+') Tj ET');});
+Y-=16;}
+/* ── cabeçalho estilo do modelo ── */
+np();
+box(0,0,12,PH,COL.band,null);box(12,0,1.6,PH,COL.gold,null);
+const nomeCli=k.cliente&&k.cliente.nome?k.cliente.nome:'';
+T(X0,k.cid?'Relatório Individual da Cliente':'Relatório Geral da Clínica','F2',19,COL.ink);Y-=24;
+T(X0,k.clinica+(nomeCli?' · '+nomeCli:''),'F2',9.5,COL.body);Y-=15;
+T(X0,'Gerado em '+k.geradoEm+(k.cid?'':' | Clientes: '+k.cli.length+' | Pacotes: '+k.pks.length),'F1',8.8,COL.sub);Y-=12;
+box(X0,Y,W,2.2,COL.gold,null);Y-=14;
+/* ── seções (respeita o personalizado R24) ── */
+const S=(function(){try{return JSON.parse(localStorage.getItem('fenix_relsecs')||'{}')||{}}catch(e){return{}}})();
+const on=t=>!relPers||S[t]!==false;
+const pend=k.ses.length-k.feitas;
+const mon=((Number(k.emAberto)||0)>0)?'o':((Number(k.emAberto)||0)===0?'g':null);
+if(on('resumo')){sec('Resumo');
+p(k.cid?('Este relatório reúne a situação de '+nomeCli+': '+k.pks.length+' pacote(s) e '+k.ses.length+' sessão(ões) — '+k.feitas+' realizada(s) e '+pend+' pendente(s). Valores em reais.'):(k.clinica+' reúne hoje '+k.cli.length+' cliente(s), '+k.pks.length+' pacote(s) e '+k.ses.length+' sessão(ões) — '+k.feitas+' realizada(s) e '+pend+' pendente(s). Valores em reais.'));
+iaBloco(relIaTexto);
+kpis(k.cid?[{v:k.pks.length,l:'PACOTES'},{v:k.feitas,l:'SESSÕES REALIZADAS',c:COR.g},{v:pend,l:'PENDENTES',c:COR.o},{v:fmtBRL(k.emAberto),l:'EM ABERTO',c:mon?COR[mon]:COL.ink}]:[{v:k.cli.length,l:'CLIENTES'},{v:k.pks.length,l:'PACOTES'},{v:k.feitas,l:'SESSÕES REALIZADAS',c:COR.g},{v:pend,l:'PENDENTES',c:COR.o},{v:fmtBRL(k.emAberto),l:'EM ABERTO',c:mon?COR[mon]:COL.ink}]);}
+if(on('fin')){sec('Financeiro');
+kpis([{v:fmtBRL(k.contratado),l:'CONTRATADO'},{v:fmtBRL(k.recebido),l:'RECEBIDO',c:COR.g},{v:fmtBRL(k.emAberto),l:'EM ABERTO',c:mon?COR[mon]:COL.ink}]);
+if(!k.cid&&k.fins.length){cap('Caixa da clínica');
+kpis([{v:fmtBRL(k.finIn),l:'ENTRADAS',c:COR.g},{v:fmtBRL(k.finOut),l:'SAÍDAS',c:COR.o},{v:fmtBRL(k.finIn-k.finOut),l:'SALDO'}]);}
+if(k.pks.length){cap('Situação por pacote');
+tabela(['Pacote','Cliente','Valor','Pago','Falta','Status'],[.24,.20,.13,.13,.13,.17],
+k.pks.map(pc=>{const pg=k.pays.filter(x=>x.pacoteId===pc.id).reduce((s,x)=>s+(Number(x.valor)||0),0);
+const falta=Math.max(0,(Number(pc.valor)||0)-pg);
+return [pc.nome,k.cliNome(pc.clientId),{v:fmtBRL(pc.valor),a:'r'},{v:fmtBRL(pg),a:'r'},{v:falta?fmtBRL(falta):'—',a:'r',c:falta?'o':null},{v:falta?'Deve':'Quitado',c:falta?'o':'g'}];}));}}
+if(on('cli')&&!k.cid&&k.cli.length){sec('Clientes');
+tabela(['Cliente','Telefone','Pacotes','Sessões','Pago','Em aberto'],[.24,.17,.27,.10,.11,.11],
+k.cli.map(c=>{const ps=k.pks.filter(x=>x.clientId===c.id);
+const pg=k.pays.filter(x=>x.clientId===c.id).reduce((s,x)=>s+(Number(x.valor)||0),0);
+const ct=ps.reduce((s,x)=>s+(Number(x.valor)||0),0);
+const ss=k.ses.filter(x=>x.clientId===c.id);const sf=ss.filter(x=>x.feita).length;
+const ab=Math.max(0,ct-pg);
+return [c.nome||'—',c.tel||'—',ps.length?ps.map(x=>x.nome).join(', '):'—',{v:sf+'/'+ss.length,a:'r'},{v:fmtBRL(pg),a:'r'},{v:ab?fmtBRL(ab):'—',a:'r',c:ab?'o':'g'}];}));}
+if(on('pac')&&k.pks.length){sec('Pacotes');
+tabela(['Pacote','Cliente','Sessões','Concluído','Valor','Falta','Status'],[.22,.19,.12,.11,.12,.12,.12],
+k.pks.map(pc=>{const ss=k.ses.filter(s=>s.pacoteId===pc.id);const sf=ss.filter(s=>s.feita).length;
+const pg=k.pays.filter(x=>x.pacoteId===pc.id).reduce((s,x)=>s+(Number(x.valor)||0),0);
+const falta=Math.max(0,(Number(pc.valor)||0)-pg);
+const pct=pc.sessoes?Math.min(100,Math.round(sf/pc.sessoes*100)):0;
+return [pc.nome,k.cliNome(pc.clientId),{v:sf+'/'+(pc.sessoes||ss.length),a:'r'},{v:pct+'%',a:'r'},{v:fmtBRL(pc.valor),a:'r'},{v:falta?fmtBRL(falta):'—',a:'r',c:falta?'o':null},{v:falta?'Em curso':'Quitado',c:falta?'o':'g'}];}));}
+if(on('ses')){sec('Sessões');
+cap('Próximas sessões');
+tabela(['Data','Cliente','Pacote','Sessão','Observação'],[.14,.24,.24,.10,.28],
+k.prox.length?k.prox.slice(0,15).map(s=>[{v:fmtDate(s.data)},{v:k.cliNome(s.clientId)},{v:k.pacNome(s.pacoteId)},{v:'#'+s.num,a:'r'},{v:s.obs||'—'}]):[['Nenhuma sessão futura agendada.','','','','']]);
+cap('Realizadas recentemente');
+tabela(['Data','Cliente','Pacote','Sessão','Observação'],[.14,.24,.24,.10,.28],
+k.rea.length?k.rea.slice(0,15).map(s=>[{v:fmtDate(s.data)},{v:k.cliNome(s.clientId)},{v:k.pacNome(s.pacoteId)},{v:'#'+s.num,a:'r'},{v:s.obs||'—'}]):[['Nenhuma sessão realizada ainda.','','','','']]);}
+if(on('ag')&&!k.cid){sec('Agenda');
+tabela(['Data','Hora','Cliente','Procedimento'],[.15,.11,.32,.42],
+k.agsProx.length?k.agsProx.slice(0,15).map(a2=>[{v:fmtDate(a2.data)},{v:a2.hora||'—'},{v:a2.cliente||'—'},{v:a2.proc||'—'}]):[['Nenhum compromisso futuro.','','','']]);}
+if(on('pag')){sec('Pagamentos');
+tabela(['Data','Cliente','Valor','Forma'],[.15,.37,.16,.32],
+k.pagos.length?k.pagos.slice(0,15).map(pg=>[{v:pg.data?fmtDate(pg.data):'—'},{v:k.cliNome(pg.clientId)},{v:fmtBRL(pg.valor),a:'r',c:'g'},{v:pg.metodo||'—'}]):[['Nenhum pagamento registrado.','','','']]);}
+assinaturas();
+/* ── rodapé com paginação ── */
+const nPag=pages.length;
+pages.forEach((pg,i)=>{pg.push('BT /F1 7.3 Tf '+COL.sub+' 1 0 0 1 '+X0+' 28 Tm ('+esc(latin('Gerado pelo Fênix Estética · '+k.geradoEm))+') Tj ET');
+const pr='Página '+(i+1)+' de '+nPag;
+pg.push('BT /F1 7.3 Tf '+COL.sub+' 1 0 0 1 '+(X1-wS(pr,'F1',7.3)).toFixed(1)+' 28 Tm ('+esc(latin(pr))+') Tj ET');});
+const streams=pages.map(pg=>pg.join('\n')+'\n');
+let kids='';for(let i=0;i<nPag;i++)kids+=(7+2*i)+' 0 R ';
+const objs=['<< /Type /Catalog /Pages 2 0 R >>','<< /Type /Pages /Kids ['+kids.trim()+'] /Count '+nPag+' >>',
+'<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>','<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>','<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding >>'];
+streams.forEach((st,i)=>{objs.push('<< /Length '+st.length+' >>\nstream\n'+st+'endstream');
+objs.push('<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents '+(6+2*i)+' 0 R >>');});
+const header='%PDF-1.4\n%'+String.fromCharCode(0xE2,0xE3,0xCF,0xD3)+'\n';
+let total=header.length;const offs=[];
+objs.forEach((ob,i)=>{offs.push(total);total+=((i+1)+' 0 obj\n'+ob+'\nendobj\n').length;});
+let xref='xref\n0 '+(objs.length+1)+'\n0000000000 65535 f \n';
+offs.forEach(ob=>{xref+=String(ob).padStart(10,'0')+' 00000 n \n';});
+xref+='trailer\n<< /Size '+(objs.length+1)+' /Root 1 0 R >>\nstartxref\n'+total+'\n%%EOF';
+return header+objs.map((ob,i)=>(i+1)+' 0 obj\n'+ob+'\nendobj\n').join('')+xref;}
 /* R24 — personalizado: filtros por seção (prévia, documento e PDF) */
 const REL_TITULOS={'RESUMO GERAL':'resumo','FINANCEIRO':'fin','CLIENTES':'cli','PACOTES':'pac','SESSÕES':'ses','AGENDA':'ag','PAGAMENTOS':'pag'};
 function relTxtFiltrado(txt){if(!relPers)return txt;const S=relSecsAtivas();const L=String(txt).split('\n');const out=[];let pula=false;
@@ -6286,7 +6414,8 @@ if(relCoreCache){if(relPers){relLastDoc=relFiltraDoc(relDocHTML(relCoreCache));r
 try{relPaint()}catch(e){}}
 $('btnRelIa').addEventListener('click',()=>{if(!relLastTxt)return msg($('relMsg'),'Monte o relatório primeiro.','err');if(relIaBusy)return;relIaTexto='';relIaAuto();});
 $('btnRelPdfDl').addEventListener('click',()=>{if(!relLastTxt)return msg($('relMsg'),'Monte o relatório primeiro.','err');
-try{const b=relPdfBytes(relLastTxt);
+let b=null;try{b=relPdfModelo(relCoreCache);}catch(x){console.warn('pdf modelo:',x);}if(!b)b=relPdfBytes(relLastTxt);
+try{void b;
 const u=URL.createObjectURL(new Blob([Uint8Array.from(b,ch=>ch.charCodeAt(0)&0xff)],{type:'application/pdf'}));
 const a=document.createElement('a');a.href=u;a.download='relatorio-'+(relCoreCache.cid?'cliente':'clinica')+'-'+new Date().toISOString().slice(0,10)+'.pdf';
 document.body.appendChild(a);a.click();a.remove();
@@ -6935,7 +7064,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.51';
+const APP_VERSAO='1.6.52';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{

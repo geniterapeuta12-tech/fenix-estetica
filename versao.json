@@ -1,10 +1,10 @@
 {
-  "versao": "1.6.51",
-  "r": "R71",
+  "versao": "1.6.52",
+  "r": "R73",
   "melhorias": [
-    "✍️ NOVO: I.A nos Documentos — «Gerar documento» (diga o que precisa e a I.A escreve o rascunho) + nos documentos abertos: ✨ Melhorar, 📜 Resumir e 🩹 Corrigir (funciona no texto todo ou só no trecho selecionado); você revisa e salva",
-    "✏️ NOVO: Editor de Posts no Studio — toque pra selecionar, arraste pra mover, toque 2× pra editar o texto; A+ A−, cor da marca, duplicar, apagar e ⬇️ Baixar PNG",
-    "🔗 O Gerador de Posts agora tem «✏️ Editar no Studio»: mande o post da I.A direto pro Editor pra ajustar do seu jeito (+ 💾 salvar e 📂 reabrir designs)"
+    "📄 NOVO: «Baixar PDF» dos relatórios agora gera PDF PROFISSIONAL no estilo documento corporativo — título grande, seções numeradas, tabelas organizadas com linhas e cores, cartões de números e linhas de assinatura no fim",
+    "✨ O Resumo da I.A agora vai EMBUTIDO no PDF (com barra dourada), junto com tudo que você escolher no relatório personalizado",
+    "📑 PDF com rodapé «Página X de Y» e pronto pra enviar no WhatsApp ou imprimir"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }

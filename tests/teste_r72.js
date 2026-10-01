@@ -31,7 +31,7 @@ T('20. v1 SEM foto de fundo (fundo é cor, não imagem)', !/edCard[\s\S]{0,200}b
 T('21. chat/gerador intactos (portas viewIa/viewPosts)', W.includes("$('viewIa').classList.toggle")&&W.includes("$('viewPosts').classList.toggle"));
 T('22. worker IA_DOC (sem promessa médica)', WK.includes('IA_DOC')&&WK.includes('NUNCA dê orientação médica')&&WK.includes("modo==='doc'"));
 T('23. resumo R66 intacto', /sc\[0\]==='resumo'\?relIaBloco\(\):''/.test(W));
-T('24. versão 1.6.51 + versao.json', W.includes("APP_VERSAO='1.6.51'")&&VJ.versao==='1.6.51'&&VJ.r==='R71'&&(VJ.melhorias||[]).length>=3);
+T('24. versão 1.6.52 + versao.json', W.includes("APP_VERSAO='1.6.52'")&&VJ.versao==='1.6.52'&&VJ.r==='R73'&&(VJ.melhorias||[]).length>=3);
 T('25. JS válido', (()=>{try{new Function(W.match(/<script>([\s\S]*)<\/script>/)[1]);return true}catch(e){return false}})());
 T('26. worker sintaxe (node --check)', (()=>{try{require('child_process').execSync('node --check "'+path.join(__dirname,'..','supabase','worker-live-backup.js')+'"',{stdio:'pipe'});return true}catch(e){return false}})());
 console.log(fail?('FALHAS: '+fail):('TUDO OK ('+ok+'/26)'));

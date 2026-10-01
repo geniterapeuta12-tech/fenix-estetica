@@ -1,0 +1,27 @@
+/* R73 — PDF profissional dos relatórios (modelo do dono) */
+const fs=require('fs'),path=require('path');
+let ok=0,fail=0;const T=(n,c)=>{if(c){ok++;}else{fail++;console.log('  ✗ '+n);}};
+const W=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
+const VJ=JSON.parse(fs.readFileSync(path.join(__dirname,'..','versao.json'),'utf8'));
+T('1. motor novo existe (relPdfModelo)', W.includes('function relPdfModelo(k)'));
+T('2. botão Baixar PDF usa o motor novo', /relPdfModelo\(relCoreCache\)/.test(W));
+T('3. fallback pro motor antigo se falhar', W.includes('b=relPdfBytes(relLastTxt)'));
+T('4. fontes Helvetica (3 variações)', W.includes('/BaseFont /Helvetica ')&&W.includes('/Helvetica-Bold')&&W.includes('/Helvetica-Oblique'));
+T('5. título estilo modelo (19pt bold + sub + data)', W.includes("'Relatório Individual da Cliente':'Relatório Geral da Clínica'")&&W.includes("F2',19"));
+T('6. seções numeradas (secN)', /function sec\(t\)\{secN\+\+/.test(W));
+T('7. tabelas zebradas com grade (nth-even fill + células)', W.includes('COL.zebra')&&/box\(x,Y-rh,cw\[i\],rh,null,1\)/.test(W));
+T('8. cartões de números (kpis com moldura)', W.includes('function kpis(items)'));
+T('9. resumo da I.A embutido (barra dourada + itálico)', W.includes('function iaBloco(txt)')&&W.includes('RESUMO DA INTELIGÊNCIA ARTIFICIAL')&&W.includes('F3 9.6'));
+T('10. linhas de assinatura no fim', W.includes('Responsável pelo estúdio')&&W.includes('Data / aprovação'));
+T('11. rodapé Página X de Y', W.includes("'Página '+(i+1)+' de '+nPag"));
+T('12. cores de status (verde/vermelho/laranja)', /COR=\{g:.+,r:.+,o:/.test(W));
+T('13. tabela quebra de página com cabeçalho repetido', /if\(Y-rh<64\)\{np\(\);head\(\);\}/.test(W));
+T('14. cores do em aberto (verde zerado, vermelho devendo)', /mon\=\(\(Number\(k\.emAberto\)\|\|0\)>0\)\?'o'/m.test(W));
+T('15. valores alinhados à direita nas tabelas', /a==='r'/.test(W));
+T('16. respeita relatório personalizado (chips R24)', /const on=t=>!relPers\|\|S\[t\]!==false/.test(W));
+T('17. versão 1.6.52 + versao.json (3+ melhorias)', W.includes("APP_VERSAO='1.6.52'")&&VJ.versao==='1.6.52'&&VJ.r==='R73'&&(VJ.melhorias||[]).length>=3);
+T('18. JS válido', (()=>{try{new Function(W.match(/<script>([\s\S]*)<\/script>/)[1]);return true}catch(e){return false}})());
+T('19. resumo/relatórios seguem no Laboratório (R68)', /data-sview="relatorios" data-area="lab"/.test(W));
+T('20. nada da I.A quebrou (4 funções)', ['gpGera','iaDocGera','edFromPost','relIaAuto'].every(f=>W.includes(f)));
+console.log(fail?('FALHAS: '+fail):('TUDO OK ('+ok+'/20)'));
+process.exit(fail?1:0);
