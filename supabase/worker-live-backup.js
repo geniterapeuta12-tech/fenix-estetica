@@ -27,6 +27,22 @@ const enc = new TextEncoder();
 function b64u(b) { let s = btoa(String.fromCharCode(...new Uint8Array(b))); return s.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
 function b64uS(s) { return b64u(enc.encode(s)); }
 function ub64u(s) { s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '='; const bin = atob(s); return Uint8Array.from(bin, c => c.charCodeAt(0)); }
+/* R61 — IA: Workers AI (binding, sem chave) + Groq (se GROQ_KEY existir) */
+const IA_SYS='Você é o Assistente Fênix, assistente de um estúdio de estética. Responda em português do Brasil, de forma curta (máximo 120 palavras), direta e amigável. Baseie-se SOMENTE nos dados fornecidos; nunca invente números; se algo não estiver nos dados, diga com franqueza que não tem essa informação.';
+async function aiChat(env,msgs){
+  try{
+    const r=await env.AI.run('@cf/meta/llama-3.3-70b-instruct-fp8-fast',{messages:msgs,max_tokens:400,temperature:0.4});
+    return {resposta:(r&&r.response)||''};
+  }catch(e){
+    const r=await env.AI.run('@cf/meta/llama-3.1-8b-instruct-fast',{messages:msgs,max_tokens:400,temperature:0.4});
+    return {resposta:(r&&r.response)||''};
+  }
+}
+async function groqChat(key,msgs){
+  const r=await fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'authorization':'Bearer '+key,'content-type':'application/json'},body:JSON.stringify({model:'llama-3.3-70b-versatile',messages:msgs,max_tokens:400,temperature:0.4})});
+  const d=await r.json().catch(()=>null);
+  return {resposta:(d&&d.choices&&d.choices[0]&&d.choices[0].message&&d.choices[0].message.content)||''};
+}
 /* R60 — R2: fotos e arquivos no balde fenix-arquivos (D1 fica só c/ dados + fotos antigas) */
 const R2_AC='022e146199d99c7fc5785f2d9c620a9b';
 const R2_BUCKET='fenix-arquivos';
@@ -510,6 +526,34 @@ export default {
         return j({ message: 'Successfully deleted' });
       }
 
+      if (p === '/ia-ok') { /* diagnóstico público: pergunta fixa, sem dado de cliente */
+        try{
+          const t0=Date.now();
+          let motor='workers-ai',out=null;
+          if(env.GROQ_KEY){motor='groq';out=await groqChat(env.GROQ_KEY,[{role:'user',content:'Responda em UMA frase curta em português: está tudo funcionando?'}]);}
+          if(!out||!out.resposta){motor='workers-ai';out=await aiChat(env,[{role:'user',content:'Responda em UMA frase curta em português: está tudo funcionando?'}]);}
+          return j({ok:!!out.resposta,motor,resposta:out.resposta,ms:Date.now()-t0});
+        }catch(e){return j({ok:false,erro:String(e&&e.message||e).slice(0,200)})}
+      }
+      if (p === '/ia' && req.method === 'POST') {
+        const auth = req.headers.get('authorization') || '';
+        const pl = await verifyJWT(auth.replace(/^Bearer /i, ''), secret);
+        if (!pl) return jerr('Invalid API key', 401, 'invalid_api_key');
+        const b = await req.json().catch(()=>null);
+        const q = String(b&&b.pergunta||'').slice(0,600);
+        const ctx = String(b&&b.contexto||'').slice(0,6000);
+        if(!q) return jerr('pergunta vazia',400);
+        const hist=Array.isArray(b.historico)?b.historico.slice(-10).filter(h=>h&&(h.role==='user'||h.role==='assistant')&&typeof h.content==='string').map(h=>({role:h.role,content:h.content.slice(0,2000)})):[];
+        const msgs=[{role:'system',content:IA_SYS+'\n\nDADOS ATUAIS DA CLÍNICA:\n'+ctx}].concat(hist).concat([{role:'user',content:q}]);
+        let motor='workers-ai',out=null;
+        try{
+          if(env.GROQ_KEY){motor='groq';out=await groqChat(env.GROQ_KEY,msgs);}
+          if(!out||!out.resposta){motor='workers-ai';out=await aiChat(env,msgs);}
+        }catch(e){
+          try{motor='workers-ai';out=await aiChat(env,msgs);}catch(e2){return jerr('IA indisponível: '+String(e2&&e2.message||e2).slice(0,120),502)}
+        }
+        return j({resposta:(out&&out.resposta)||'',motor});
+      }
       if (p === '/r2-ok') return j({ ok: true, r2: !!env.R2_TOKEN });
 
       return jerr('Not found: ' + p, 404, 'not_found');
