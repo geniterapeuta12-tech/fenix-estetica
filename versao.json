@@ -1,10 +1,10 @@
 {
-  "versao": "1.6.57",
-  "r": "R78",
+  "versao": "1.6.58",
+  "r": "R79",
   "melhorias": [
-    "🎨 Fênix I.A com visual novo estilo Claude: barra lateral escura de conversas com a marca em cima, botão «Nova conversa» e a lista enxuta — ela esconde e mostra por um botãozinho na borda",
-    "🖥️ Fim do quadrado apertado: o chat ocupa a tela inteira, sem card e SEM botões no topo — a resposta da I.A vira texto corrido largo e a sua pergunta fica numa bolha",
-    "💬 Campo de mensagem novo embaixo: caixinha arredondada com o 📎 de anexo e o botão de enviar dentro dela (no celular a barra vira gaveta que desliza)"
+    "💭 A Fênix I.A agora mostra o PENSAMENTO dela: cada resposta ganha um botãozinho «💭 Pensamento» que abre o raciocínio dela de forma organizada (é só clicar pra ver ou esconder)",
+    "📚 BIBLIOTECA na barra lateral da Fênix I.A: segunda aba ao lado de «Conversas» onde ficam guardados todos os arquivos criados — abre, edita e apaga quando quiser",
+    "✦ Funções na conversa com CANVAS: escolhe Texto ou PDF, o arquivo nasce na Biblioteca e abre um painel limpo de escrita que salva sozinho — e o PDF sai bonito (título grande, sem letra de máquina de escrever) no botão «Gerar PDF»"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }

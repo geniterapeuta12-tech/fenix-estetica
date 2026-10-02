@@ -687,7 +687,9 @@ export default {
         const hist=Array.isArray(b.historico)?b.historico.slice(-10).filter(h=>h&&(h.role==='user'||h.role==='assistant')&&typeof h.content==='string').map(h=>({role:h.role,content:h.content.slice(0,2000)})):[];
         const modo=String(b&&b.modo||'').slice(0,20);
         const sysBase=(modo==='resumo')?(IA_RESUMO+'\n\nRELATÓRIO:\n'+ctx):(modo==='post')?(IA_POST+'\n\nCONTEXTO DO ESTÚDIO:\n'+ctx):(modo==='doc')?(IA_DOC+'\n\nCONTEXTO DO ESTÚDIO:\n'+ctx):(modo==='rel')?(IA_REL+'\n\nRELATÓRIO:\n'+ctx):(IA_SYS+'\n\nDADOS ATUAIS DA CLÍNICA:\n'+ctx);
-        const msgs=[{role:'system',content:sysBase}].concat(hist).concat([{role:'user',content:q}]);
+        const ehGeral=!(modo==='resumo'||modo==='post'||modo==='doc'||modo==='rel');
+        const sysFinal=ehGeral?(sysBase+'\n\nFORMATO OBRIGATÓRIO da resposta: escreva PRIMEIRO entre <pensamento> e </pensamento> o seu raciocínio curto (2 a 4 frases, em português, honesto — sem inventar dados) sobre como vai responder; DEPOIS escreva entre <resposta> e </resposta> a resposta final pronta pro dono. Não escreva NADA fora dessas duas partes.'):sysBase;
+        const msgs=[{role:'system',content:sysFinal}].concat(hist).concat([{role:'user',content:q}]);
         let motor='workers-ai',out=null;
         try{
           if(env.GROQ_KEY){motor='groq';out=await groqChat(env.GROQ_KEY,msgs);}
@@ -695,6 +697,11 @@ export default {
         }catch(e){
           try{motor='workers-ai';out=await aiChat(env,msgs);}catch(e2){return jerr('IA indisponível: '+String(e2&&e2.message||e2).slice(0,120),502)}
         }
+        let resp=(out&&out.resposta)||'',pensa='';
+        if(ehGeral){const mp=resp.match(/<pensamento>[\s\S]*?<\/pensamento>/i);
+          if(mp){pensa=mp[0].replace(/<\/?pensamento>/gi,'').trim();resp=resp.replace(/<pensamento>[\s\S]*?<\/pensamento>/i,'');}
+          resp=resp.replace(/<\/?resposta>/gi,'').trim();
+          return j({resposta:resp,pensamento:pensa,motor});}
         return j({resposta:(out&&out.resposta)||'',motor});
       }
       if (p === '/r2-ok') return j({ ok: true, r2: !!env.R2_TOKEN });

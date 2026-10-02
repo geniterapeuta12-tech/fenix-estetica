@@ -19,7 +19,7 @@ T('13. tabela quebra de página com cabeçalho repetido', /if\(Y-rh<64\)\{np\(\)
 T('14. cores do em aberto (verde zerado, vermelho devendo)', /mon\=\(\(Number\(k\.emAberto\)\|\|0\)>0\)\?'o'/m.test(W));
 T('15. valores alinhados à direita nas tabelas', /a==='r'/.test(W));
 T('16. respeita relatório personalizado (chips R24)', /const on=t=>!relPers\|\|S\[t\]!==false/.test(W));
-T('17. versão 1.6.56 + versao.json (3+ melhorias)', W.includes("APP_VERSAO='1.6.57'")&&VJ.versao==='1.6.57'&&VJ.r==='R78'&&(VJ.melhorias||[]).length>=3);
+T('17. versão 1.6.56 + versao.json (3+ melhorias)', W.includes("APP_VERSAO='1.6.58'")&&VJ.versao==='1.6.58'&&VJ.r==='R79'&&(VJ.melhorias||[]).length>=3);
 T('18. JS válido', (()=>{try{new Function(W.match(/<script>([\s\S]*)<\/script>/)[1]);return true}catch(e){return false}})());
 T('19. resumo/relatórios seguem no Laboratório (R68)', /data-sview="relatorios" data-area="lab"/.test(W));
 T('20. nada da I.A quebrou (4 funções)', ['gpGera','iaDocGera','edFromPost','relIaAuto'].every(f=>W.includes(f)));
