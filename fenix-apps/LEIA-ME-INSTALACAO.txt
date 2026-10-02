@@ -24,7 +24,7 @@ DETALHES
 • Login e senha: os mesmos. Celular e PC sincronizados
   (mesmo banco na nuvem).
 • Zoom das telas: menu Dados > Sistema (80% a 125%).
-• Novidade v1.6.58: BIBLIOTECA na barra da Fênix I.A (tudo que ela cria fica guardado lá) · função ✦ Canvas na conversa (cria arquivo de Texto ou PDF com painel de escrita que salva sozinho e PDF bonito) · botão 💭 Pensamento mostra o raciocínio da I.A de forma organizada
+• Novidade v1.6.59: a Fênix I.A agora VÊ TUDO da clínica (clientes, valores pagos e que falta pagar, pacotes, catálogo com preços, sessões e agenda — só leitura, ela nunca mexe em nada) · «Nova conversa» é nova de verdade · peça «cria um PDF…» e a própria I.A escreve o arquivo (estilo Canvas do Gemini), que cai na Biblioteca
 
 • Atualização futura: recebe uma pasta nova e substitui.
 • Links de WhatsApp abrem no app certo do Windows.
