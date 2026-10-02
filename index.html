@@ -264,23 +264,87 @@ button.iconbtn.on{color:#8dffb0;border-color:rgba(141,255,176,.55)}
 .calc-pad button.op{color:var(--gold)}
 .calc-pad button.eq{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border-color:transparent}
 body.no-widgets .widget,body.no-widgets .dock{display:none!important}
-.ia-wrap{display:grid;grid-template-columns:minmax(200px,240px) 1fr;gap:16px;align-items:start;transition:grid-template-columns .18s}
-.ia-wrap.sem{grid-template-columns:0 1fr;gap:0}
-.ia-wrap.sem .ia-side{display:none}
-.ia-side{min-width:0}
-@media(max-width:860px){.ia-wrap{grid-template-columns:1fr}.ia-wrap.sem{grid-template-columns:1fr}.ia-wrap.sem .ia-side{display:none}}
-.ia-box{height:min(72vh,760px);overflow:auto;padding:6px 4px;display:flex;flex-direction:column;gap:10px}
-.ia-big .ia-box{height:80vh}
-.ia-msg{display:flex;flex-direction:column;gap:4px;max-width:86%}
-.ia-msg .who{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.ia-msg .b{padding:11px 14px;border-radius:14px;border:1px solid var(--line);background:#141414;font-size:.88rem;line-height:1.6;white-space:pre-wrap;word-break:break-word}
-.ia-msg.user{align-self:flex-end;align-items:flex-end}
-.ia-msg.user .b{background:rgba(212,175,55,.14);border-color:rgba(212,175,55,.4)}
-.ia-msg.ia .b{background:#101010}
+/* R78 — Fênix I.A: visual novo (barra lateral de conversas + chat amplo de ponta a ponta) */
+#viewIa{max-width:none;gap:0;margin:-26px calc(-1*clamp(18px,4vw,44px)) -70px;height:100vh;height:100dvh}
+.ia-wrap{display:flex;height:100%;min-height:0;position:relative;overflow:hidden;background:radial-gradient(900px 420px at 60% -10%,rgba(212,175,55,.08),transparent 60%),#0d0d0d}
+.ia-side{width:266px;flex:none;display:flex;flex-direction:column;background:#121212;border-right:1px solid var(--line);transition:margin-left .22s ease}
+.ia-wrap.sem .ia-side{margin-left:-266px}
+.ia2head{display:flex;align-items:center;padding:16px 14px 10px}
+.ia2brand{display:flex;align-items:center;gap:10px}
+.ia2brand .logo{width:34px;flex:none;animation:glow 3s ease-in-out infinite}
+.ia2brand h3{margin:0;font-family:'Playfair Display',serif;font-size:1.02rem;font-weight:500;color:var(--gold);letter-spacing:.06em}
+.ia2new{margin:2px 12px 12px;display:flex;align-items:center;gap:8px;padding:11px 12px;border-radius:12px;border:1px solid rgba(212,175,55,.38);background:linear-gradient(135deg,rgba(212,175,55,.17),rgba(212,175,55,.05));color:var(--gold);font:600 .84rem Montserrat;letter-spacing:.03em;cursor:pointer;transition:.18s}
+.ia2new:hover{border-color:var(--gold);background:linear-gradient(135deg,rgba(212,175,55,.26),rgba(212,175,55,.08))}
+.ia2new .ic{width:15px;height:15px;flex:none}
+.ia2lab{padding:4px 18px 2px;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.ia2cnt{margin:0 18px 8px;font-size:.66rem;color:var(--muted)}
+.ia-list{flex:1;overflow-y:auto;min-height:0;margin:0;padding:2px 8px 10px;list-style:none;display:flex;flex-direction:column;gap:2px}
+.ia-item{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:10px;border:1px solid transparent;cursor:pointer;color:var(--txt);font:500 .8rem Montserrat}
+.ia-item .ic{width:14px;height:14px;flex:none;color:var(--muted)}
+.ia-item:hover{background:#1b1b1b}
+.ia-item.on{background:rgba(212,175,55,.1);border-color:rgba(212,175,55,.35)}
+.ia-item.on .ic{color:var(--gold)}
+.ia-item .t{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ia-item .x{flex:none;display:flex;align-items:center;justify-content:center;width:24px;height:24px;border:0;border-radius:7px;background:none;color:var(--muted);cursor:pointer;opacity:0;transition:.15s}
+.ia-item:hover .x{opacity:1}
+.ia-item .x:hover{color:#ff8080;background:rgba(255,128,128,.12)}
+.ia-item .x .ic{width:13px;height:13px}
+.ia-foot{display:flex;align-items:center;gap:8px;padding:10px 12px;border-top:1px solid var(--line)}
+.ia-foot .badge{font-size:.58rem;flex:none}
+.ia-cfgbtn{flex:1;display:flex;align-items:center;gap:7px;padding:8px 10px;border:0;border-radius:10px;background:none;color:var(--muted);font:600 .74rem Montserrat;cursor:pointer;transition:.15s}
+.ia-cfgbtn:hover{color:var(--txt);background:#1b1b1b}
+.ia-cfgbtn .ic{width:14px;height:14px}
+.ia-main{flex:1;min-width:0;position:relative;display:flex;flex-direction:column}
+.ia-fold{position:absolute;top:12px;left:10px;z-index:14;width:30px;height:30px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:9px;background:#161616;color:var(--muted);cursor:pointer;transition:.15s}
+.ia-fold:hover{color:var(--gold);border-color:rgba(212,175,55,.5)}
+.ia-fold .ic{width:15px;height:15px;transform:rotate(180deg);transition:transform .22s}
+.ia-wrap.sem .ia-fold .ic{transform:rotate(0)}
+.ia-top{padding:12px 56px 6px 52px;min-height:38px}
+.ia-top h4{margin:0;font:500 .88rem Montserrat;letter-spacing:.05em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ia-box{flex:1;overflow-y:auto;min-height:0;width:100%;max-width:860px;margin:0 auto;padding:14px 22px 26px;display:flex;flex-direction:column;gap:18px}
+.ia-hello{margin:auto;text-align:center;padding:30px 8px}
+.ia-hello .logo{width:84px;margin:0 auto 14px;color:var(--gold);animation:glow 3s ease-in-out infinite}
+.ia-hello h3{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,4vw,1.9rem);margin:0 0 8px;color:var(--txt)}
+.ia-hello p{margin:0 auto;max-width:470px;color:var(--muted);font-size:.86rem;line-height:1.6}
+.ia-msg{display:flex;flex-direction:column;gap:5px;max-width:100%}
+.ia-msg .who{font-size:.58rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.ia-msg .b{padding:0 2px;font-size:.92rem;line-height:1.7;white-space:pre-wrap;word-break:break-word}
+.ia-msg.user{align-self:flex-end;align-items:flex-end;max-width:80%}
+.ia-msg.user .b{background:#1d1d1d;border:1px solid var(--line);border-radius:16px;padding:11px 15px}
+.ia-msg.ia .b{background:none;border:0;padding:0}
 .ia-msg .b code{background:rgba(212,175,55,.14);padding:1px 5px;border-radius:5px;font-size:.82em}
-.ia-msg .b pre{background:#0b0b0b;border:1px solid var(--line);border-radius:10px;padding:10px;overflow:auto;margin:8px 0;font-size:.8rem;white-space:pre-wrap}
-.ia-in{display:flex;gap:10px;align-items:flex-end;margin-top:12px}
-.ia-in textarea{min-height:52px;max-height:160px;flex:1}
+.ia-msg .b pre{background:#0b0b0b;border:1px solid var(--line);border-radius:10px;padding:12px;overflow:auto;margin:8px 0;font-size:.8rem;white-space:pre-wrap}
+.ia-in{flex:none;padding:8px 18px 16px}
+.ia-inwrap{max-width:860px;margin:0 auto}
+.ia-comp{display:flex;align-items:flex-end;gap:8px;background:#181818;border:1px solid var(--line);border-radius:18px;padding:8px;box-shadow:0 10px 34px rgba(0,0,0,.4);transition:border-color .18s}
+.ia-comp:focus-within{border-color:rgba(212,175,55,.55)}
+.ia-comp textarea{flex:1;min-height:42px;max-height:180px;background:none;border:0;outline:none;resize:none;color:var(--txt);font:500 .9rem Montserrat;line-height:1.55;padding:10px 4px}
+.ia-comp textarea::placeholder{color:var(--muted)}
+.ia-clip,.ia-go{flex:none;width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:13px;cursor:pointer;transition:.15s}
+.ia-clip{border:1px solid var(--line);background:#141414;color:var(--muted);font-size:1.05rem}
+.ia-clip:hover{color:var(--gold);border-color:rgba(212,175,55,.5)}
+.ia-go{border:0;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#141414}
+.ia-go .ic{width:17px;height:17px}
+.ia-go:hover{filter:brightness(1.08)}
+#iaCfgCard{position:absolute;top:48px;right:14px;z-index:20;width:min(440px,calc(100% - 28px));max-height:calc(100% - 66px);overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+#iaCfgCard.collap.closed{display:none}
+.ia-typing{display:inline-flex;gap:4px;align-items:center;color:var(--muted);font-size:.78rem}
+.ia-typing i{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 1.1s infinite}
+.ia-typing i:nth-child(2){animation-delay:.18s}.ia-typing i:nth-child(3){animation-delay:.36s}
+@media(max-width:900px){
+.ia-side{position:absolute;left:0;top:0;bottom:0;z-index:12;width:min(300px,85vw);margin-left:0!important;box-shadow:14px 0 44px rgba(0,0,0,.55);transform:translateX(-105%);transition:transform .22s}
+.ia-wrap.sem .ia-side{transform:translateX(-105%)}
+.ia-wrap:not(.sem) .ia-side{transform:none}
+}
+html[data-theme="light"] .ia-wrap{background:#f6f1e2}
+html[data-theme="light"] .ia-side{background:#efe8d5}
+html[data-theme="light"] .ia-item:hover,html[data-theme="light"] .ia-cfgbtn:hover{background:#e6ddc4}
+html[data-theme="light"] .ia-item.on{background:rgba(212,175,55,.18)}
+html[data-theme="light"] .ia-comp{background:#fffdf6;box-shadow:0 10px 34px rgba(80,60,0,.08)}
+html[data-theme="light"] .ia-clip{background:#f6f1e3}
+html[data-theme="light"] .ia-fold{background:#fffdf6}
+html[data-theme="light"] .ia-msg.user .b{background:#fffdf6}
+html[data-theme="light"] .ia-msg .b pre{background:#f1ead6;border-color:var(--line)}
 .ia-typing{display:inline-flex;gap:4px;align-items:center;color:var(--muted);font-size:.78rem}
 .ia-typing i{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 1.1s infinite}
 .ia-typing i:nth-child(2){animation-delay:.18s}.ia-typing i:nth-child(3){animation-delay:.36s}
@@ -295,7 +359,7 @@ body.no-widgets .widget,body.no-widgets .dock{display:none!important}
 html[data-theme="light"]{--line:rgba(60,50,20,.16);--txt:#241f13;--muted:#6d6553;--logo-cut:#fffdf6}
 html[data-theme="light"] body{background:radial-gradient(1100px 550px at 50% -10%,rgba(212,175,55,.16),transparent 60%),#f3efe4}
 html[data-theme="light"] .logo,html[data-theme="light"] .watermark{color:#18140c}
-html[data-theme="light"] .card,html[data-theme="light"] .panelcard,html[data-theme="light"] .client,html[data-theme="light"] .appt,html[data-theme="light"] .txn,html[data-theme="light"] .fileitem,html[data-theme="light"] .sess,html[data-theme="light"] .stat,html[data-theme="light"] .when,html[data-theme="light"] .tabs,html[data-theme="light"] .mode-opt,html[data-theme="light"] .pmodal-card,html[data-theme="light"] .sess-body,html[data-theme="light"] .hero,html[data-theme="light"] .menulist li,html[data-theme="light"] .cal-day,html[data-theme="light"] .dock,html[data-theme="light"] .dock-item,html[data-theme="light"] .widget,html[data-theme="light"] .ia-msg .b,html[data-theme="light"] .calc-pad button,html[data-theme="light"] .calc-disp{background:#fffdf6;border-color:var(--line)}
+html[data-theme="light"] .card,html[data-theme="light"] .panelcard,html[data-theme="light"] .client,html[data-theme="light"] .appt,html[data-theme="light"] .txn,html[data-theme="light"] .fileitem,html[data-theme="light"] .sess,html[data-theme="light"] .stat,html[data-theme="light"] .when,html[data-theme="light"] .tabs,html[data-theme="light"] .mode-opt,html[data-theme="light"] .pmodal-card,html[data-theme="light"] .sess-body,html[data-theme="light"] .hero,html[data-theme="light"] .menulist li,html[data-theme="light"] .cal-day,html[data-theme="light"] .dock,html[data-theme="light"] .dock-item,html[data-theme="light"] .widget,html[data-theme="light"] .ia-msg.user .b,html[data-theme="light"] .calc-pad button,html[data-theme="light"] .calc-disp{background:#fffdf6;border-color:var(--line)}
 html[data-theme="light"] .widget>header,html[data-theme="light"] .dock>header{background:#f6f1e3}
 html[data-theme="light"] .calc-pad button{background:#f6f1e3}
 html[data-theme="light"] .menulist li:hover,html[data-theme="light"] .calc-pad button:hover,html[data-theme="light"] .dock-item:hover,html[data-theme="light"] .sess-head:hover{background:#f6efdd}
@@ -1436,22 +1500,28 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 
 <!-- ================= STUDIO I.A ================= -->
 <section id="viewIa" class="view hidden">
-<div class="hero">
-<svg class="logo" viewBox="0 0 1440 960"><use href="#phoenix"/></svg>
-<div><h3>Fênix I.A</h3>
-<p>Fale com a inteligência artificial do estúdio: peça ideias de posts, textos para clientes, sugestões e tire dúvidas do dia a dia. As conversas ficam salvas na nuvem.</p>
-<span class="badge b-gold" style="margin-top:12px;display:inline-block">Fênix I.A</span></div>
+<div class="ia-wrap" id="iaWrap">
+<aside class="ia-side" id="iaSide">
+<div class="ia2head"><div class="ia2brand"><svg class="logo" viewBox="0 0 1440 960"><use href="#phoenix"/></svg><h3>Fênix I.A</h3></div></div>
+<button class="ia2new" id="btnIaNew" type="button"><svg class="ic"><use href="#i-plus"/></svg>Nova conversa</button>
+<div class="ia2lab">Conversas</div>
+<p class="ia2cnt" id="iaConvCount"></p>
+<ul class="ia-list" id="iaConvList"></ul>
+<div class="ia-foot"><span class="badge b-gold" id="iaStatus">Fênix I.A</span><button class="ia-cfgbtn" id="btnIaCfg" type="button"><svg class="ic"><use href="#i-id"/></svg>Configurações</button></div>
+</aside>
+<main class="ia-main">
+<button class="ia-fold" id="btnIaSide" type="button" title="Mostrar ou esconder a barra de conversas"><svg class="ic"><use href="#i-chev"/></svg></button>
+<div class="ia-top"><h4 id="iaConvTitle">Nova conversa</h4><span class="sub" id="iaConvSub" hidden></span></div>
+<div class="ia-box" id="iaBox"></div>
+<div class="ia-in"><div class="ia-inwrap">
+<div id="iaAnexoChip" class="hidden" style="margin:0 0 8px;font-size:.75rem;color:#d4af37">📎 <span id="iaAnexoNome"></span> <button id="iaAnexoX" type="button" style="background:none;border:none;color:#8a7f68;cursor:pointer;margin-left:6px">✕</button></div>
+<div class="ia-comp">
+<button class="ia-clip" id="btnIaAnexo" type="button" title="Anexar foto ou arquivo pra a I.A ler"><svg viewBox="0 0 24 24" style="width:17px;height:17px" fill="currentColor"><path d="M16.5 6.5l-7.1 7.1a2 2 0 002.8 2.8l7.5-7.5a4 4 0 10-5.7-5.7l-7.7 7.7a6 6 0 108.5 8.5l7.1-7.1 1.4 1.4-7.1 7.1a8 8 0 11-11.3-11.3l7.7-7.7a6 6 0 118.5 8.5l-7.1 7.1a4 4 0 01-5.7-5.7l7.1-7.1 1.5 1.4z"/></svg></button>
+<input type="file" id="iaAnexo" accept="image/*,.txt,.md,.csv,.pdf,.doc,.docx,.json,.log" class="hidden">
+<textarea id="iaInput" placeholder="Pergunte qualquer coisa… (Enter envia · Shift+Enter quebra linha)"></textarea>
+<button class="ia-go" id="btnIaSend" type="button" title="Enviar"><svg class="ic"><use href="#i-send"/></svg></button>
 </div>
-<div class="panelcard">
-<div class="sec-head">
-<div><h3 id="iaConvTitle">Nova conversa</h3><p class="sub" id="iaConvSub">Escreva abaixo para começar.</p></div>
-<div class="rowbtns" style="margin:0">
-<span class="badge b-gold" id="iaStatus">offline</span>
-<button class="btn small ghost" id="btnIaCfg" type="button"><svg class="ic"><use href="#i-id"/></svg>Configurações</button>
-<button class="btn small ghost" id="btnIaSide" type="button" title="Mostrar ou esconder a lista de conversas"><svg class="ic"><use href="#i-layers"/></svg>Conversas</button>
-<button class="btn small" id="btnIaNew" type="button"><svg class="ic"><use href="#i-plus"/></svg>Nova conversa</button>
 </div></div>
-</div>
 <div class="panelcard collap closed" id="iaCfgCard">
 <button class="pc-head" type="button"><span class="pc-tt"><h3>Configurações da I.A</h3>
 <p class="sub">O app JÁ VEM com a Fênix I.A ligada (roda na nossa nuvem, sem chave). Opcional: se quiser usar uma API própria compatível com OpenAI, preencha abaixo — a chave fica só neste navegador.</p></span>
@@ -1471,22 +1541,7 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <button class="btn small ghost" id="btnIaTest" type="button"><svg class="ic"><use href="#i-play"/></svg>Testar conexão</button></div>
 </div>
 </div>
-<div class="ia-wrap" id="iaWrap">
-<div class="panelcard ia-side" style="padding:18px">
-<h3 style="font-size:1.05rem">Conversas</h3><p class="sub" id="iaConvCount"></p>
-<ul class="list" id="iaConvList" style="margin-top:12px"></ul>
-</div>
-<div class="panelcard" style="padding:18px">
-<div class="ia-box" id="iaBox"></div>
-<div class="ia-in">
-<div id="iaAnexoChip" class="hidden" style="margin:0 0 6px;font-size:.75rem;color:#d4af37">📎 <span id="iaAnexoNome"></span> <button id="iaAnexoX" type="button" style="background:none;border:none;color:#8a7f68;cursor:pointer;margin-left:6px">✕</button></div>
-<div style="display:flex;gap:8px;align-items:flex-end">
-<button class="btn small ghost" id="btnIaAnexo" type="button" title="Anexar foto ou arquivo pra a I.A ler" style="margin:0;height:52px;flex:none">📎</button>
-<input type="file" id="iaAnexo" accept="image/*,.txt,.md,.csv,.pdf,.doc,.docx,.json,.log" class="hidden">
-<textarea id="iaInput" placeholder="Escreva sua pergunta… (Enter envia · Shift+Enter quebra linha)"></textarea>
-<button class="btn small" id="btnIaSend" type="button" style="margin:0;height:52px"><svg class="ic"><use href="#i-send"/></svg>Enviar</button>
-</div>
-</div>
+</main>
 </div>
 </section>
 
@@ -4000,19 +4055,21 @@ $('iaConvSub').textContent=c?('criada em '+esc(c.criadoEm)):'Escreva abaixo para
 const all=getIac().slice().sort((a,b)=>b.ts-a.ts);
 $('iaConvCount').textContent=all.length+' conversa(s) salva(s)';
 $('iaConvList').innerHTML=all.length?all.map(x=>{const n=msgsOf(x.id).length;
-return '<li class="client clickable" data-conv="'+x.id+'"'+(x.id===state.iaConv?' style="border-color:rgba(212,175,55,.55)"':'')+'>'+
-'<span class="avatar file"><svg class="ic"><use href="#i-ai"/></svg></span>'+
-'<div class="cinfo"><strong>'+esc(x.titulo)+'</strong><small>'+n+' mensagem(ns) · '+esc(x.criadoEm)+'</small></div>'+
-'<button class="iconbtn del" data-act="delconv" data-id="'+x.id+'" title="Apagar conversa"><svg class="ic"><use href="#i-trash"/></svg></button></li>';}).join('')
+return '<li class="ia-item'+(x.id===state.iaConv?' on':'')+'" data-conv="'+x.id+'" title="'+esc(x.titulo)+' · '+n+' mensagem(ns) · '+esc(x.criadoEm)+'">'+
+'<svg class="ic"><use href="#i-ai"/></svg><span class="t">'+esc(x.titulo)+'</span>'+
+'<button class="x" data-act="delconv" data-id="'+x.id+'" title="Apagar conversa"><svg class="ic"><use href="#i-trash"/></svg></button></li>';}).join('')
 :'<li class="empty">Nenhuma conversa ainda.</li>';
-renderIaMsgs();}
+renderIaMsgs();iaFit();}
 function iaFmt(t){let s=esc(t);
 s=s.replace(/```([\s\S]*?)```/g,(m,code)=>'<pre>'+code.replace(/^\n/,'')+'</pre>');
 s=s.replace(/`([^`]+)`/g,'<code>$1</code>');
 s=s.replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>');return s;}
+function iaFit(){try{const v=$('viewIa');if(!v||v.classList.contains('hidden'))return;
+const t=v.getBoundingClientRect().top;v.style.height=Math.max(430,window.innerHeight-t)+'px';}catch(e){}}
+window.addEventListener('resize',iaFit);
 function renderIaMsgs(){const box=$('iaBox');if(!box)return;
 const ms=state.iaConv?msgsOf(state.iaConv):[];
-if(!ms.length){box.innerHTML='<div class="empty" style="margin:auto">Pergunte qualquer coisa sobre o seu negócio — a Fênix I.A responde com base nos seus dados (sem precisar de chave).</div>';return;}
+if(!ms.length){box.innerHTML='<div class="ia-hello"><svg class="logo" viewBox="0 0 1440 960"><use href="#phoenix"/></svg><h3>Como posso ajudar hoje?</h3><p>Pergunte qualquer coisa sobre o seu negócio — ideias de posts, textos pra clientes, dúvidas do dia a dia. A Fênix I.A responde com base nos seus dados, sem precisar de chave.</p></div>';return;}
 box.innerHTML=ms.map(m=>'<div class="ia-msg '+m.papel+'"><span class="who">'+(m.papel==='user'?'Você':'I.A')+'</span>'+
 '<div class="b">'+iaFmt(m.texto)+'</div></div>').join('')+
 (state.iaBusy?'<div class="ia-msg ia"><span class="who">I.A</span><div class="b"><span class="ia-typing"><i></i><i></i><i></i>&nbsp;pensando…</span></div></div>':'');
@@ -4138,8 +4195,8 @@ msg($('cMsg'),'✔ Contatos salvos — já aparecem no espaço da cliente!','ok'
 }catch(e){msg($('cMsg'),'⚠ '+((e&&e.message)||'erro')+' — tenta de novo.','err');}});
 
 $('btnIaSide').addEventListener('click',()=>{const w=$('iaWrap');if(!w)return;
-w.classList.toggle('sem');try{localStorage.setItem('fenix_iaside',w.classList.contains('sem')?'1':'');}catch(e){}});
-try{if(localStorage.getItem('fenix_iaside')==='1'){const w=$('iaWrap');if(w)w.classList.add('sem');}}catch(e){}
+w.classList.toggle('sem');try{localStorage.setItem('fenix_iaside',w.classList.contains('sem')?'1':'0');}catch(e){}});
+try{const _p=localStorage.getItem('fenix_iaside');if(_p==='1'||(window.innerWidth<=900&&_p!=='0')){const w=$('iaWrap');if(w)w.classList.add('sem');}}catch(e){}
 $('btnIaSend').addEventListener('click',iaSend);
 $('iaInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();iaSend();}});
 
@@ -7311,7 +7368,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.56';
+const APP_VERSAO='1.6.57';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{

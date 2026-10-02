@@ -1,10 +1,10 @@
 {
-  "versao": "1.6.56",
-  "r": "R77",
+  "versao": "1.6.57",
+  "r": "R78",
   "melhorias": [
-    "🏷️ A conversa no Laboratório agora se chama «Fênix I.A» (antes «Conversar com a I.A»)",
-    "📎 Anexo DE VERDADE: ela LÊ PDF, Word (docx), texto, CSV e fotos — anexe e pergunte (o 📎 fica preso pra você continuar perguntando sobre o arquivo)",
-    "🖥️ Tela do chat muito maior (aguenta conversas longas sem rolar demais) e a barra «Conversas» agora ABRE E FECHA num botão"
+    "🎨 Fênix I.A com visual novo estilo Claude: barra lateral escura de conversas com a marca em cima, botão «Nova conversa» e a lista enxuta — ela esconde e mostra por um botãozinho na borda",
+    "🖥️ Fim do quadrado apertado: o chat ocupa a tela inteira, sem card e SEM botões no topo — a resposta da I.A vira texto corrido largo e a sua pergunta fica numa bolha",
+    "💬 Campo de mensagem novo embaixo: caixinha arredondada com o 📎 de anexo e o botão de enviar dentro dela (no celular a barra vira gaveta que desliza)"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }
