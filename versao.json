@@ -1,11 +1,10 @@
 {
-  "versao": "1.6.55",
-  "r": "R76",
+  "versao": "1.6.56",
+  "r": "R77",
   "melhorias": [
-    "🎨 O «Gerar post» agora vem COMPLETO: a I.A cria o texto E pinta o fundo sozinha, no tema do post (fundo junto da imagem, como você pediu) — dá pra trocar depois se quiser",
-    "❓ NOVO nos Relatórios: «Pergunte à I.A sobre ESTE relatório» — pergunta tipo «quem deve mais?» e ela responde olhando o relatório",
-    "📎 NOVO no chat do Lab: anexe FOTO ou PDF e a I.A lê, resume e responde perguntas",
-    "📱 App da CLIENTE: nasceu a ✦ Assistente — a cliente pergunta «quantas sessões fiz?», «quando é a próxima?» e a I.A responde com os dados DELA (não agenda nada — indica falar com o estúdio) + seus contatos (WhatsApp/Instagram) aparecem pra ela"
+    "🏷️ A conversa no Laboratório agora se chama «Fênix I.A» (antes «Conversar com a I.A»)",
+    "📎 Anexo DE VERDADE: ela LÊ PDF, Word (docx), texto, CSV e fotos — anexe e pergunte (o 📎 fica preso pra você continuar perguntando sobre o arquivo)",
+    "🖥️ Tela do chat muito maior (aguenta conversas longas sem rolar demais) e a barra «Conversas» agora ABRE E FECHA num botão"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }

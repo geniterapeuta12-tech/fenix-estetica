@@ -252,6 +252,37 @@ function b642ab(b64) {
   return arr.buffer;
 }
 
+async function zipLer(bytes){ /* parser ZIP mínimo: só entradas sem compressão e deflate */
+const dv=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength);
+const out=[]; let i=bytes.length-22;
+while(i>=0&&dv.getUint32(i,true)!==0x06054b50) i--;
+if(i<0) return out;
+const n=dv.getUint16(i+10,true); let p=dv.getUint32(i+16,true);
+const td=new TextDecoder();
+for(let k=0;k<n;k++){
+  if(dv.getUint32(p,true)!==0x02014b50) break;
+  const metodo=dv.getUint16(p+10,true);
+  const tamComp=dv.getUint32(p+20,true);
+  const nl=dv.getUint16(p+28,true); const el=dv.getUint16(p+30,true); const cl=dv.getUint16(p+32,true);
+  const offLocal=dv.getUint32(p+42,true);
+  const nome=td.decode(bytes.subarray(p+46,p+46+nl));
+  if(dv.getUint32(offLocal,true)===0x04034b50){
+    const nl2=dv.getUint16(offLocal+26,true); const el2=dv.getUint16(offLocal+28,true);
+    const ini=offLocal+30+nl2+el2;
+    const dados=bytes.subarray(ini,ini+tamComp);
+    if(metodo===0) out.push({nome,dados});
+    else if(metodo===8){ try{ out.push({nome,dados:await inflarRaw(dados,tamComp)}); }catch(e){} }
+  }
+  p+=46+nl+el+cl;
+}
+return out;
+}
+async function inflarRaw(dados,tamOrig){ /* RFC1951 via DecompressionStream nativo */
+const ds=new DecompressionStream('deflate-raw');
+const stream=new Blob([dados]).stream().pipeThrough(ds);
+const buf=await new Response(stream).arrayBuffer();
+return new Uint8Array(buf);
+}
 export default {
   async fetch(req, env) {
     const url = new URL(req.url);
@@ -541,6 +572,42 @@ export default {
           if(!out||!out.resposta){motor='workers-ai';out=await aiChat(env,[{role:'user',content:'Responda em UMA frase curta em português: está tudo funcionando?'}]);}
           return j({ok:!!out.resposta,motor,resposta:out.resposta,ms:Date.now()-t0});
         }catch(e){return j({ok:false,erro:String(e&&e.message||e).slice(0,200)})}
+      }
+      if (p === '/doc-texto' && req.method === 'POST') {
+        const auth = req.headers.get('authorization') || '';
+        const pl = await verifyJWT(auth.replace(/^Bearer /i, ''), secret);
+        if (!pl) return jerr('Invalid API key', 401, 'invalid_api_key');
+        try{
+          const b = await req.json().catch(()=>null);
+          const b64 = String(b&&b.b64||'');
+          const nome = String(b&&b.nome||'').slice(0,120);
+          if(!b64||b64.length>9500000) return jerr('Arquivo grande demais (limite ~7 MB).',400);
+          const bin = atob(b64); const bytes = new Uint8Array(bin.length);
+          for(let i=0;i<bin.length;i++) bytes[i]=bin.charCodeAt(i);
+          let texto='';
+          if(bytes[0]===0x50&&bytes[1]===0x4b){ /* ZIP (docx/odt) */
+            const files=await zipLer(bytes);
+            const dec=new TextDecoder('utf-8',{fatal:false});
+            let xml='';
+            for(const nm of ['word/document.xml','content.xml']){ const f=files.find(x=>x.nome===nm); if(f){ xml=dec.decode(f.dados); break; } }
+            if(!xml) throw new Error('Formato de documento não reconhecido.');
+            xml=xml.replace(/<\/w:p>/g,'\n').replace(/<w:tab[^>]*\/>/g,' ').replace(/<\/text:p>/g,'\n').replace(/<text:tab[^>]*\/>/g,' ');
+            texto=xml.replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/[ \t]{2,}/g,' ').replace(/\n{3,}/g,'\n\n').trim();
+          }else if(bytes[0]===0x25&&bytes[1]===0x50&&bytes[2]===0x44&&bytes[3]===0x46){ /* PDF */
+            const raw=new TextDecoder('latin1').decode(bytes);
+            const chunks=[]; const re=/\(((?:\\.|[^\\()])*)\)\s*T[jJ]/g; let m;
+            while((m=re.exec(raw))!==null){ let t=m[1];
+              t=t.replace(/\\(\d{3})/g,(x,o)=>String.fromCharCode(parseInt(o,8)));
+              t=t.replace(/\\([()\\])/g,'$1').replace(/\\n/g,'\n').replace(/\\r/g,'');
+              chunks.push(t); }
+            texto=chunks.join(' ').replace(/\s{2,}/g,' ').trim();
+            if(texto.length<20) throw new Error('PDF sem texto extraível (só imagem) — tira um print e anexa a foto.');
+          }else{
+            texto=new TextDecoder('utf-8',{fatal:false}).decode(bytes);
+          }
+          if(!texto.trim()) throw new Error('Não achei texto legível nesse arquivo.');
+          return j({texto:texto.slice(0,60000),nome:nome});
+        }catch(e){ return jerr('Não consegui ler o documento: '+String(e&&e.message||e).slice(0,120),422); }
       }
       if (p === '/ia-cliente' && req.method === 'POST') {
         try{

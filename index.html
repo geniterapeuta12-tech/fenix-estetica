@@ -264,9 +264,13 @@ button.iconbtn.on{color:#8dffb0;border-color:rgba(141,255,176,.55)}
 .calc-pad button.op{color:var(--gold)}
 .calc-pad button.eq{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border-color:transparent}
 body.no-widgets .widget,body.no-widgets .dock{display:none!important}
-.ia-wrap{display:grid;grid-template-columns:minmax(200px,240px) 1fr;gap:16px;align-items:start}
-@media(max-width:860px){.ia-wrap{grid-template-columns:1fr}}
-.ia-box{height:min(56vh,460px);overflow:auto;padding:6px 4px;display:flex;flex-direction:column;gap:10px}
+.ia-wrap{display:grid;grid-template-columns:minmax(200px,240px) 1fr;gap:16px;align-items:start;transition:grid-template-columns .18s}
+.ia-wrap.sem{grid-template-columns:0 1fr;gap:0}
+.ia-wrap.sem .ia-side{display:none}
+.ia-side{min-width:0}
+@media(max-width:860px){.ia-wrap{grid-template-columns:1fr}.ia-wrap.sem{grid-template-columns:1fr}.ia-wrap.sem .ia-side{display:none}}
+.ia-box{height:min(72vh,760px);overflow:auto;padding:6px 4px;display:flex;flex-direction:column;gap:10px}
+.ia-big .ia-box{height:80vh}
 .ia-msg{display:flex;flex-direction:column;gap:4px;max-width:86%}
 .ia-msg .who{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .ia-msg .b{padding:11px 14px;border-radius:14px;border:1px solid var(--line);background:#141414;font-size:.88rem;line-height:1.6;white-space:pre-wrap;word-break:break-word}
@@ -1187,7 +1191,7 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <button class="navbtn" data-sview="planilha" data-area="studio"><svg class="ic"><use href="#i-fold"/></svg>Planilha</button>
 <button class="navbtn" data-sview="relatorios" data-area="lab"><svg class="ic"><use href="#i-spark"/></svg>Relatórios</button>
 <button class="navbtn" data-sview="posts" data-area="lab"><svg class="ic"><use href="#i-spark"/></svg>Gerador de Posts</button>
-<button class="navbtn" data-sview="ia" data-area="lab"><svg class="ic"><use href="#i-ai"/></svg>Conversar com a I.A</button>
+<button class="navbtn" data-sview="ia" data-area="lab"><svg class="ic"><use href="#i-ai"/></svg>Fênix I.A</button>
 <p class="navnote" id="sareaNote">Documentos estilo Word e formulários da clínica, tudo em um lugar.</p>
 </nav>
 <nav class="sidenav hidden" id="navCatalogo">
@@ -1434,7 +1438,7 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <section id="viewIa" class="view hidden">
 <div class="hero">
 <svg class="logo" viewBox="0 0 1440 960"><use href="#phoenix"/></svg>
-<div><h3>Conversar com a I.A</h3>
+<div><h3>Fênix I.A</h3>
 <p>Fale com a inteligência artificial do estúdio: peça ideias de posts, textos para clientes, sugestões e tire dúvidas do dia a dia. As conversas ficam salvas na nuvem.</p>
 <span class="badge b-gold" style="margin-top:12px;display:inline-block">Fênix I.A</span></div>
 </div>
@@ -1444,6 +1448,7 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <div class="rowbtns" style="margin:0">
 <span class="badge b-gold" id="iaStatus">offline</span>
 <button class="btn small ghost" id="btnIaCfg" type="button"><svg class="ic"><use href="#i-id"/></svg>Configurações</button>
+<button class="btn small ghost" id="btnIaSide" type="button" title="Mostrar ou esconder a lista de conversas"><svg class="ic"><use href="#i-layers"/></svg>Conversas</button>
 <button class="btn small" id="btnIaNew" type="button"><svg class="ic"><use href="#i-plus"/></svg>Nova conversa</button>
 </div></div>
 </div>
@@ -1466,8 +1471,8 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <button class="btn small ghost" id="btnIaTest" type="button"><svg class="ic"><use href="#i-play"/></svg>Testar conexão</button></div>
 </div>
 </div>
-<div class="ia-wrap">
-<div class="panelcard" style="padding:18px">
+<div class="ia-wrap" id="iaWrap">
+<div class="panelcard ia-side" style="padding:18px">
 <h3 style="font-size:1.05rem">Conversas</h3><p class="sub" id="iaConvCount"></p>
 <ul class="list" id="iaConvList" style="margin-top:12px"></ul>
 </div>
@@ -1477,7 +1482,7 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <div id="iaAnexoChip" class="hidden" style="margin:0 0 6px;font-size:.75rem;color:#d4af37">📎 <span id="iaAnexoNome"></span> <button id="iaAnexoX" type="button" style="background:none;border:none;color:#8a7f68;cursor:pointer;margin-left:6px">✕</button></div>
 <div style="display:flex;gap:8px;align-items:flex-end">
 <button class="btn small ghost" id="btnIaAnexo" type="button" title="Anexar foto ou arquivo pra a I.A ler" style="margin:0;height:52px;flex:none">📎</button>
-<input type="file" id="iaAnexo" accept="image/*,.txt,.pdf" class="hidden">
+<input type="file" id="iaAnexo" accept="image/*,.txt,.md,.csv,.pdf,.doc,.docx,.json,.log" class="hidden">
 <textarea id="iaInput" placeholder="Escreva sua pergunta… (Enter envia · Shift+Enter quebra linha)"></textarea>
 <button class="btn small" id="btnIaSend" type="button" style="margin:0;height:52px"><svg class="ic"><use href="#i-send"/></svg>Enviar</button>
 </div>
@@ -3573,7 +3578,7 @@ function computeTitle(){
 if(state.mode==='studio'){if(state.sview==='relatorios')return 'Laboratório I.A · Relatórios';
 if(state.sview==='editor')return 'Studio · Editor';
 if(state.sview==='posts')return 'Laboratório I.A · Gerador de Posts';
-if(state.sview==='ia')return 'Laboratório I.A · Conversar';
+if(state.sview==='ia')return 'Laboratório I.A · Fênix I.A';
 if(state.sview==='doc'){const d=docById(state.docId);return 'Studio · '+(d?d.titulo:'Novo documento');}
 if(state.sview==='forms')return 'Studio · Formulários';
 if(state.sview==='planilha')return 'Studio · Planilha';
@@ -4053,10 +4058,9 @@ if(!cfg.key){ /* R61: motor FÊNIX na nossa nuvem — sem chave */
 const hist=msgsOf(state.iaConv).slice(-10).map(m=>({role:m.papel==='user'?'user':'assistant',content:m.texto}));
 const temImg=!!iaAnexoImg,temTxt=!!iaAnexoTxt;
 pushMsg('user',txt+(temImg?' 📎[foto]':temTxt?' 📎[anexo]':''));ta.value='';state.iaBusy=true;renderIA();
-iaAnexoClear();
 try{
 if(temImg){
-const r2=await fetch(NUVEM_URL+'/ia-vis',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SB_TOKEN||'')},body:JSON.stringify({imagem:iaAnexoImg,pergunta:(txt||'O que há nesta imagem? Descreva o que importa para um estúdio de estética.').slice(0,600)})});
+const r2=await fetch(NUVEM_URL+'/ia-vis',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SB_TOKEN||'')},body:JSON.stringify({imagem:iaAnexoImg,pergunta:(txt||'Leia o texto e o conteúdo desta imagem e descreva tudo que importa para um estúdio de estética.').slice(0,600)})});
 const j2=await r2.json().catch(()=>null);
 if(!r2.ok||!j2||!j2.resposta)throw new Error((j2&&j2.erro)||('HTTP '+r2.status));
 pushMsg('ia',j2.resposta);
@@ -4103,6 +4107,14 @@ iaAnexoImg=null;iaAnexoTxt='';
 try{
 if((f.type||'').indexOf('image/')===0){iaAnexoImg=await leImagemReduzP(f);if(!iaAnexoImg)throw new Error('imagem inválida');}
 else if((f.type||'')==='application/pdf'||/\.pdf$/i.test(f.name||'')){iaAnexoTxt=await pdfTexto(f);}
+else if(/\.(docx?|odt)$/i.test(f.name||'')||(f.type||'').indexOf('word')>=0){
+const buf=await f.arrayBuffer();const bytes=new Uint8Array(buf);let bin='';
+for(let i=0;i<bytes.length;i+=8192)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+8192));
+const b64=btoa(bin);
+const rr=await fetch(NUVEM_URL+'/doc-texto',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SB_TOKEN||'')},body:JSON.stringify({b64,nome:String(f.name||'').slice(0,80)})});
+const jj=await rr.json().catch(()=>null);
+if(!rr.ok||!jj||!jj.texto)throw new Error((jj&&jj.erro)||'não consegui ler esse documento');
+iaAnexoTxt=String(jj.texto).slice(0,60000);}
 else{iaAnexoTxt=(await f.text()).slice(0,60000);}
 $('iaAnexoNome').textContent=String(f.name||'anexo').slice(0,40);
 $('iaAnexoChip').classList.remove('hidden');
@@ -4125,6 +4137,9 @@ if(!r.ok||!j||!j.ok)throw new Error((j&&j.erro)||('HTTP '+r.status));
 msg($('cMsg'),'✔ Contatos salvos — já aparecem no espaço da cliente!','ok');
 }catch(e){msg($('cMsg'),'⚠ '+((e&&e.message)||'erro')+' — tenta de novo.','err');}});
 
+$('btnIaSide').addEventListener('click',()=>{const w=$('iaWrap');if(!w)return;
+w.classList.toggle('sem');try{localStorage.setItem('fenix_iaside',w.classList.contains('sem')?'1':'');}catch(e){}});
+try{if(localStorage.getItem('fenix_iaside')==='1'){const w=$('iaWrap');if(w)w.classList.add('sem');}}catch(e){}
 $('btnIaSend').addEventListener('click',iaSend);
 $('iaInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();iaSend();}});
 
@@ -7296,7 +7311,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.55';
+const APP_VERSAO='1.6.56';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{
