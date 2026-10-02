@@ -24,7 +24,7 @@ DETALHES
 • Login e senha: os mesmos. Celular e PC sincronizados
   (mesmo banco na nuvem).
 • Zoom das telas: menu Dados > Sistema (80% a 125%).
-• Novidade v1.6.55: post nasce COMPLETO (texto + fundo I.A juntos) · pergunte à I.A sobre o relatório · anexos no chat · assistente I.A no app da cliente + seus contatos
+• Novidade v1.6.56: «Fênix I.A» · lê anexos de verdade (PDF, Word, texto, foto) · chat maior · barra de conversas abre/fecha
 
 • Atualização futura: recebe uma pasta nova e substitui.
 • Links de WhatsApp abrem no app certo do Windows.
