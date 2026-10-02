@@ -5,11 +5,11 @@ const W=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const WK=fs.readFileSync(path.join(__dirname,'..','supabase','worker-live-backup.js'),'utf8');
 const VJ=JSON.parse(fs.readFileSync(path.join(__dirname,'..','versao.json'),'utf8'));
 /* app */
-T('1. APP_VERSAO 1.6.41', W.includes("APP_VERSAO='1.6.58'"));
+T('1. APP_VERSAO 1.6.41', W.includes("APP_VERSAO='1.6.59'"));
 T('2. viewIa existe (Studio I.A)', W.includes('id="viewIa"'));
 T('3. iaSend chama o worker /ia sem chave', /if\(!cfg\.key\)[\s\S]{0,1700}NUVEM_URL\+'\/ia'/.test(W));
 T('4. envia autenticado (Bearer SB_TOKEN)', /NUVEM_URL\+'\/ia'[\s\S]{0,300}Bearer '\+\(SB_TOKEN/.test(W));
-T('5. buildIaCtx monta contexto dos dados', W.includes('function buildIaCtx')&&/buildIaCtx[\s\S]{0,400}DB\.cli\.length/.test(W));
+T('5. buildIaCtx monta contexto dos dados', W.includes('function buildIaCtx')&&/buildIaCtx[\s\S]{0,900}DB\.cli\.length/.test(W));
 T('6. contexto tem previsão de retorno (sem sessão há mais tempo)', W.includes('Sem sessão há mais tempo'));
 T('7. contexto tem aniversariantes', W.includes('Aniversariantes do mês'));
 T('8. contexto tem faturamento do mês', W.includes('total recebido R$'));
@@ -29,7 +29,7 @@ T('20. worker: histórico limitado a 10 turnos', WK.includes('b.historico')&&WK.
 T('21. worker: sistema em pt-BR sem inventar dados', WK.includes('nunca invente números'));
 T('22. worker: R60 intacto (R2)', WK.includes('/r2-ok')&&WK.includes('r2Put'));
 /* versao.json */
-T('23. versao.json 1.6.49/R70', VJ.versao==='1.6.58'&&VJ.r==='R79');
+T('23. versao.json 1.6.49/R70', VJ.versao==='1.6.59'&&VJ.r==='R80');
 T('24. melhorias ≥3', (VJ.melhorias||[]).length>=3);
 T('25. Center 1.8.0 intocado', fs.readFileSync(path.join(__dirname,'..','center-src','www','index.html'),'utf8').includes("CENTER_V='1.8.0'"));
 console.log(fail?('FALHAS: '+fail):('TUDO OK ('+ok+'/25)'));

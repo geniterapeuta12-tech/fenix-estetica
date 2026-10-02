@@ -25,7 +25,7 @@ T('15. elementos do editor acima do véu (z-index)', W.includes('style="position
 T('16. fonte esperada antes de desenhar (document.fonts)', /await prontoFontes\(\)/.test(W));
 /* nada quebrou */
 T('17. gerador/melhorar/documentos/pdf/chat intactos', ['function gpAplica(j){','async function gpMelhora(){','iaDocGera','relPdfModelo',"$('viewIa').classList.toggle"].every(f=>W.includes(f)));
-T('18. versão 1.6.56 + versao.json R75 (3+ melhorias)', W.includes("APP_VERSAO='1.6.58'")&&VJ.versao==='1.6.58'&&VJ.r==='R79'&&(VJ.melhorias||[]).length>=3);
+T('18. versão 1.6.56 + versao.json R75 (3+ melhorias)', W.includes("APP_VERSAO='1.6.59'")&&VJ.versao==='1.6.59'&&VJ.r==='R80'&&(VJ.melhorias||[]).length>=3);
 T('19. JS válido', (()=>{try{new Function(W.match(/<script>([\s\S]*)<\/script>/)[1]);return true}catch(e){return false}})());
 T('20. worker sintaxe (node --check)', (()=>{try{require('child_process').execSync('node --check "'+path.join(__dirname,'..','supabase','worker-live-backup.js')+'"',{stdio:'pipe'});return true}catch(e){return false}})());
 console.log(fail?('FALHAS: '+fail):('TUDO OK ('+ok+'/20)'));

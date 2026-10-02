@@ -8,7 +8,7 @@ const VJ=JSON.parse(fs.readFileSync(path.join(__dirname,'..','versao.json'),'utf
 T('1. worker: IA lê o arquivo (modo geral)', WK.includes('const ehGeral=')&&WK.includes("modo==='doc'||modo==='rel'"));
 T('2. worker: formato <pensamento>+<resposta>', WK.includes('FORMATO OBRIGATÓRIO')&&WK.includes('<pensamento>')&&WK.includes('pensamento:pensa'));
 T('3. worker: modos rel/doc/post/resumo SEM pensamento (intactos)', (WK.match(/return j\(\{resposta:\(out&&out\.resposta\)\|\|'',motor\}\);/g)||[]).length===1);
-T('4. app: pushMsg guarda o pensamento', W.includes('function pushMsg(papel,texto,pensa)')&&W.includes("pushMsg('ia',j.resposta,j.pensamento)"));
+T('4. app: pushMsg guarda o pensamento', W.includes('function pushMsg(papel,texto,pensa')&&W.includes("pushMsg('ia',rt,pc,arq)"));
 T('5. app: bolha 💭 Pensamento abre o raciocínio', W.includes('class="ia-pensa-btn"')&&W.includes('class="ia-pensa-corpo"')&&W.includes("b.textContent=ab?'💭 Esconder pensamento':'💭 Pensamento'"));
 T('6. worker sintaxe + 6 cérebros intactos', (()=>{try{require('child_process').execSync('node --check "'+path.join(__dirname,'..','supabase','worker-live-backup.js')+'"',{stdio:'pipe'});return['const IA_POST','const IA_DOC','const IA_SYS','const IA_RESUMO','const IA_CLIENTE','const IA_REL','/ia-imagem','/ia-cliente','/ia-vis','/clinic-contato','/doc-texto'].every(k=>WK.includes(k))&&WK.split('async function aiChat(').length===2;}catch(e){return false}})());
 /* biblioteca */
@@ -24,7 +24,7 @@ T('14. PDF do canvas: título grande + SEM Courier (regra do dono)', (()=>{const
 T('15. canvas NÃO usa o /doc-texto nem altera anexo', W.includes("NUVEM_URL+'/doc-texto'")&&W.includes('id="btnIaAnexo"')&&W.includes('id="iaAnexoChip"'));
 /* intactos */
 T('16. chat/rel/posts/documentos intactos', ['iaSend','relIaAuto','gpAplica','iaDocGera','relPdfModelo','buildIaCtx'].every(f=>W.includes(f)));
-T('17. versão 1.6.58 + versao.json R79 (3+)', W.includes("APP_VERSAO='1.6.58'")&&VJ.versao==='1.6.58'&&VJ.r==='R79'&&(VJ.melhorias||[]).length>=3);
+T('17. versão 1.6.58 + versao.json R79 (3+)', W.includes("APP_VERSAO='1.6.59'")&&VJ.versao==='1.6.59'&&VJ.r==='R80'&&(VJ.melhorias||[]).length>=3);
 T('18. JS válido', (()=>{try{new Function(W.match(/<script>([\s\S]*)<\/script>/)[1]);return true}catch(e){return false}})());
 T('19. worker aceita modo vazio (chat) com pensamento e rota /ia única', WK.includes("const modo=String(b&&b.modo||'').slice(0,20);")&&WK.split("p === '/ia'").length===2);
 T('20. cliente não afetada (só conversa)', (()=>{try{return fs.readFileSync(path.join(__dirname,'..','clients','index.html'),'utf8').includes('/ia-cliente')}catch(e){return true}})());

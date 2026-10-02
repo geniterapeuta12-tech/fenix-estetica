@@ -399,6 +399,11 @@ html[data-theme="light"] .ia-pop,html[data-theme="light"] .ia-modal-card{backgro
 html[data-theme="light"] .ia-pop button:hover{background:#f1ead9}
 html[data-theme="light"] .ia-can-tips button{background:#f6f1e3}
 html[data-theme="light"] .ia-canvas{background:#f6f1e2}
+/* R80 — cartão de canvas criado pela I.A */
+.ia-arq{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;margin-top:4px;border:1px solid rgba(212,175,55,.45);background:rgba(212,175,55,.08);color:var(--gold);border-radius:12px;padding:9px 14px;font:600 .78rem Montserrat;cursor:pointer;transition:.15s}
+.ia-arq:hover{background:rgba(212,175,55,.16);border-color:var(--gold)}
+.ia-arq .ic{width:15px;height:15px;flex:none}
+html[data-theme="light"] .ia-arq{background:#fffdf6}
 .soon{text-align:center;padding:40px 20px}
 .soon .mico.big{width:76px;height:76px;margin:0 auto 16px;border-radius:22px}
 .soon .mico.big .ic{width:36px;height:36px}
@@ -4125,9 +4130,7 @@ if(!r.ok||j.error)throw new Error((j.error&&(j.error.message||j.error.code))||('
 msg($('iaCfgMsg'),'✔ Conexão ok com '+c.model,'ok');
 }catch(err){msg($('iaCfgMsg'),'⚠ '+((err&&err.message)||'falha na conexão'),'err');}});
 function ensureConv(){if(state.iaConv&&convById(state.iaConv))return state.iaConv;
-const list=getIac();
-if(list.length){state.iaConv=list.slice().sort((a,b)=>b.ts-a.ts)[0].id;return state.iaConv;}
-return newConv(false);}
+return newConv(false);} /* R80: «Nova conversa» é NOVA de verdade — nunca adotar uma antiga */
 function newConv(render){const c={id:uid(),titulo:'Nova conversa',criadoEm:nowLabel(),ts:Date.now()};
 const list=getIac();list.unshift(c);setIac(list);state.iaConv=c.id;
 if(render!==false)renderIA();return c.id;}
@@ -4139,7 +4142,7 @@ function renderIA(){paintIaCfg();
 const c=state.iaConv?convById(state.iaConv):null;
 $('iaConvTitle').textContent=c?c.titulo:'Nova conversa';
 $('iaConvSub').textContent=c?('criada em '+esc(c.criadoEm)):'Escreva abaixo para começar — a conversa é salva ao enviar.';
-const all=getIac().slice().sort((a,b)=>b.ts-a.ts);
+const all=getIac().slice().sort((a,b)=>b.ts-a.ts).filter(x=>msgsOf(x.id).length>0||x.titulo!=='Nova conversa');
 $('iaConvCount').textContent=all.length+' conversa(s) salva(s)';
 $('iaConvList').innerHTML=all.length?all.map(x=>{const n=msgsOf(x.id).length;
 return '<li class="ia-item'+(x.id===state.iaConv?' on':'')+'" data-conv="'+x.id+'" title="'+esc(x.titulo)+' · '+n+' mensagem(ns) · '+esc(x.criadoEm)+'">'+
@@ -4160,7 +4163,8 @@ const ms=state.iaConv?msgsOf(state.iaConv):[];
 if(!ms.length){box.innerHTML='<div class="ia-hello"><svg class="logo" viewBox="0 0 1440 960"><use href="#phoenix"/></svg><h3>Como posso ajudar hoje?</h3><p>Pergunte qualquer coisa sobre o seu negócio — ideias de posts, textos pra clientes, dúvidas do dia a dia. A Fênix I.A responde com base nos seus dados, sem precisar de chave.</p></div>';return;}
 box.innerHTML=ms.map(m=>'<div class="ia-msg '+m.papel+'"><span class="who">'+(m.papel==='user'?'Você':'I.A')+'</span>'+
 (m.pensa?'<button class="ia-pensa-btn" type="button">💭 Pensamento</button><div class="ia-pensa-corpo">'+esc(m.pensa)+'</div>':'')+
-'<div class="b">'+iaFmt(m.texto)+'</div></div>').join('')+
+'<div class="b">'+iaFmt(m.texto)+'</div>'+
+(m.arq?'<button class="ia-arq" type="button" data-canabrir="'+esc(m.arq.id)+'"><svg class="ic"><use href="#'+(m.arq.tipo==='pdf'?'i-dl':'i-doc')+'"/></svg>'+esc(m.arq.titulo)+' · abrir no canvas</button>':'')+'</div>').join('')+
 (state.iaBusy?'<div class="ia-msg ia"><span class="who">I.A</span><div class="b"><span class="ia-typing"><i></i><i></i><i></i>&nbsp;pensando…</span></div></div>':'');
 box.scrollTop=box.scrollHeight;}
 $('iaConvList').addEventListener('click',e=>{
@@ -4169,31 +4173,67 @@ if(del){armDelete(del,()=>{const id=del.dataset.id;
 setIam(getIam().filter(m=>m.conversaId!==id));setIac(getIac().filter(c=>c.id!==id));
 if(state.iaConv===id)state.iaConv=null;renderIA();});return;}
 const li=e.target.closest('[data-conv]');if(li){state.iaConv=li.dataset.conv;renderIA();}});
-function pushMsg(papel,texto,pensa){const list=getIam();
-list.push({id:uid(),conversaId:state.iaConv,papel,texto,pensa:pensa||'',ts:Date.now()});setIam(list);
+function pushMsg(papel,texto,pensa,arq){const list=getIam();
+list.push({id:uid(),conversaId:state.iaConv,papel,texto,pensa:pensa||'',arq:arq||null,ts:Date.now()});setIam(list);
 const c=convById(state.iaConv);
 if(c){c.ts=Date.now();if(papel==='user'&&c.titulo==='Nova conversa')renameConv(state.iaConv);}
 return list[list.length-1];}
-function buildIaCtx(){ /* R61: contexto com os dados que o app já carregou */
+function buildIaCtx(){ /* R80: contexto COMPLETO da clínica — a I.A VÊ tudo, SOMENTE LEITURA */
 try{
 const hoje=new Date();const dd=n=>String(n).padStart(2,'0');
 const mesStr=dd(hoje.getMonth()+1)+'/'+hoje.getFullYear();
+const brl=v=>'R$ '+(Number(v)||0).toFixed(2).replace('.',',');
+const nomeCli=id=>{const c=DB.cli.find(x=>x.id===id);return c?c.nome:'(sem cliente)'};
 const L=[];
+L.push('=== DADOS COMPLETOS DA CLÍNICA (SOMENTE LEITURA — você NÃO pode mexer nem alterar nada, só informar; se pedirem pra alterar, diga que o dono faz isso no app) ===');
 L.push('Hoje é '+hoje.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'2-digit',year:'numeric'})+'.');
-L.push('Clientes cadastradas: '+DB.cli.length+'.');
-L.push('Pacotes cadastrados: '+DB.pkg.length+'.');
 const payMes=DB.pay.filter(p=>String(p.data||'').indexOf(mesStr)>=0);
-const totMes=payMes.reduce((s,p)=>s+(Number(p.valor)||0),0);
-L.push('Pagamentos no mês corrente: '+payMes.length+' · total recebido R$ '+totMes.toFixed(2).replace('.',',')+'.');
+L.push('RESUMO DO MÊS: '+DB.cli.length+' cliente(s) · '+DB.pkg.length+' pacote(s) · total recebido R$ '+(Number(payMes.reduce((s,p)=>s+(Number(p.valor)||0),0))).toFixed(2).replace('.',',')+' em '+payMes.length+' pagamento(s) · sessões pendentes de fazer: '+DB.ses.filter(s=>!s.feita).length+'.');
 const ult={};
 DB.ses.forEach(s=>{if(s.feita&&s.data){if(!ult[s.clientId]||s.data>ult[s.clientId])ult[s.clientId]=s.data;}});
-L.push('Sessões pendentes de fazer: '+DB.ses.filter(s=>!s.feita).length+'.');
 const semVolta=Object.keys(ult).map(id=>{const c=DB.cli.find(x=>x.id===id);return c?{nome:c.nome,u:ult[id]}:null}).filter(Boolean).sort((x,y)=>x.u<y.u?-1:1).slice(0,5).map(x=>x.nome+' ('+x.u+')');
 if(semVolta.length)L.push('Sem sessão há mais tempo: '+semVolta.join(', ')+'.');
 const mm=dd(hoje.getMonth()+1);
 const anv=DB.cli.filter(c=>{const p=String(c.nasc||'').split(/[-\/]/);return p.length>=2&&p[1]===mm;}).map(c=>c.nome);
 if(anv.length)L.push('Aniversariantes do mês: '+anv.join(', ')+'.');
-if(DB.ag&&DB.ag.length){const h=String(hoje.getFullYear())+'-'+mm+'-'+dd(hoje.getDate());L.push('Compromissos na agenda de hoje: '+DB.ag.filter(x=>String(x.data||'').slice(0,10)===h).length+'.');}
+/* CLIENTES + pago + falta + pendências */
+L.push('=== CLIENTES ('+DB.cli.length+') ===');
+DB.cli.slice(0,80).forEach(c=>{
+const pk=DB.pkg.filter(p=>p.clientId===c.id);
+const totPk=pk.reduce((s,p)=>s+(Number(p.valor)||0),0);
+const pg=DB.pay.filter(p=>p.clientId===c.id);
+const totPg=pg.reduce((s,p)=>s+(Number(p.valor)||0),0);
+const pend=DB.ses.filter(s=>s.clientId===c.id&&!s.feita).length;
+L.push('- '+c.nome+(c.tel?(' · tel '+c.tel):'')+(c.nasc?(' · nasc '+c.nasc):'')+' · pago '+brl(totPg)+' · em pacotes '+brl(totPk)+(totPk>totPg?(' · FALTA pagar '+brl(totPk-totPg)):'')+(pend?(' · '+pend+' sessão(ões) pendente(s)'):'')+(c.info?(' · obs: '+String(c.info).slice(0,80)):''));
+});
+if(DB.cli.length>80)L.push('(mais '+(DB.cli.length-80)+' cliente(s) não listadas)');
+/* PACOTES */
+if(DB.pkg.length){
+L.push('=== PACOTES ('+DB.pkg.length+') ===');
+DB.pkg.slice(0,50).forEach(p=>{const pg=DB.pay.filter(x=>x.pacoteId===p.id).reduce((s,x)=>s+(Number(x.valor)||0),0);
+L.push('- '+p.nome+' · '+nomeCli(p.clientId)+' · valor '+brl(p.valor)+' · pago '+brl(pg)+(Number(p.valor)>pg?(' · FALTA '+brl(p.valor-pg)):' · quitado')+(p.sessoes?(' · '+p.sessoes+' sessão(ões)'):'')+(p.criadoEm?(' · desde '+p.criadoEm):''));});}
+/* PAGAMENTOS */
+const payOrd=DB.pay.slice().sort((a,b)=>String(b.data||'').localeCompare(String(a.data||''))).slice(0,60);
+if(payOrd.length){L.push('=== PAGAMENTOS ('+DB.pay.length+' no total; últimos '+payOrd.length+') ===');
+payOrd.forEach(p=>{L.push('- '+p.data+' · '+brl(p.valor)+' · '+(p.clientId?nomeCli(p.clientId):(p.pacoteId?'(pacote)':'—')));});}
+/* SESSÕES */
+const sesPend=DB.ses.filter(s=>!s.feita).slice(0,40);
+const sesFeitas=DB.ses.filter(s=>s.feita).sort((a,b)=>String(b.data||'').localeCompare(String(a.data||''))).slice(0,40);
+if(sesPend.length){L.push('=== SESSÕES PENDENTES ('+sesPend.length+') ===');
+sesPend.forEach(s=>{L.push('- '+s.data+' · '+nomeCli(s.clientId)+' · '+(s.obs||'procedimento')+(s.valor?(' · '+brl(s.valor)):''));});}
+if(sesFeitas.length){L.push('=== ÚLTIMAS SESSÕES FEITAS ('+sesFeitas.length+') ===');
+sesFeitas.forEach(s=>{L.push('- '+s.data+' · '+nomeCli(s.clientId)+' · '+(s.obs||'procedimento')+(s.valor?(' · '+brl(s.valor)):''));});}
+/* CATÁLOGO */
+if(DB.cat.length||DB.kit.length){
+L.push('=== CATÁLOGO ('+DB.cat.length+' item(ns) · '+DB.kit.length+' kit(s)) ===');
+DB.cat.forEach(x=>{L.push('- ['+(x.tipo==='produto'?'produto':'procedimento')+'] '+x.nome+(x.preco!=null?(' · '+brl(x.preco)):' · sem preço')+(x.descr?(' — '+String(x.descr).slice(0,70)):''));});
+DB.kit.forEach(k=>{const soma=(k.itens||[]).reduce((s,id)=>{const it=DB.cat.find(x=>x.id===id);return s+(it&&it.preco!=null?it.preco:0);},0);
+L.push('- [KIT] '+k.nome+' · '+(k.preco!=null?brl(k.preco):(soma?brl(soma)+' (soma dos itens)':'sem preço'))+' · itens: '+((k.itens||[]).map(id=>{const it=DB.cat.find(x=>x.id===id);return it?it.nome:'?';}).join(', ')||'—'));});}
+/* AGENDA */
+const hojeISO=String(hoje.getFullYear())+'-'+mm+'-'+dd(hoje.getDate());
+const agFut=(DB.ag||[]).filter(a=>String(a.data||'')>=hojeISO).sort((a,b)=>String(a.data+(a.hora||'')).localeCompare(String(b.data+(b.hora||'')))).slice(0,30);
+if(agFut.length){L.push('=== AGENDA (próximos '+agFut.length+') ===');
+agFut.forEach(a=>{L.push('- '+a.data+' '+(a.hora||'')+' · '+(a.proc||'procedimento')+' · '+(a.cliente||nomeCli(a.clientId))+(a.obs?(' · '+a.obs):''));});}
 return L.join('\n');
 }catch(e){return '';}}
 async function iaSend(){const ta=$('iaInput');const txt=ta.value.trim();
@@ -4216,8 +4256,16 @@ if(temTxt)ctx+='\n\nANEXO ENVIADO PELA CLÍNICA (responda considerando o anexo s
 const perguntaFinal=txt||'Leia o anexo e me faça um resumo.';
 const r=await fetch(NUVEM_URL+'/ia',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SB_TOKEN||'')},body:JSON.stringify({pergunta:perguntaFinal,contexto:ctx,historico:hist})});
 const j=await r.json().catch(()=>null);
-if(!r.ok||!j||!j.resposta)throw new Error((j&&j.erro)||('HTTP '+r.status));
-pushMsg('ia',j.resposta,j.pensamento);
+if(!r.ok||!j||(!j.resposta&&!j.canvas))throw new Error((j&&j.erro)||('HTTP '+r.status));
+let rt=String(j.resposta||''),pc=j.pensamento||'',arq=null;
+let cvm=rt.match(/<canvas\s+tipo="(texto|pdf)"\s+titulo="([^"]*)">([\s\S]*?)<\/canvas>/i);
+if(!cvm&&j.canvas&&j.canvas.conteudo)cvm=[null,(j.canvas.tipo||'texto'),(j.canvas.titulo||'Canvas da I.A'),j.canvas.conteudo];
+if(cvm){if(cvm[0])rt=rt.replace(cvm[0],'').trim();
+const novo={id:uid(),tipo:cvm[1]==='pdf'?'pdf':'texto',titulo:String(cvm[2]||'Canvas da I.A').slice(0,80),texto:String(cvm[3]||''),criadoEm:nowLabel(),ts:Date.now(),geradoEm:'',ia:true};
+const Lc=getCans();Lc.unshift(novo);setCans(Lc);
+arq={id:novo.id,titulo:novo.titulo,tipo:novo.tipo};
+if(!rt)rt='Criei o arquivo «'+arq.titulo+'» — abre aí embaixo. 👇';}
+pushMsg('ia',rt,pc,arq);
 }
 }catch(err){pushMsg('ia','⚠ Não consegui falar com a I.A agora ('+((err&&err.message)||'erro')+'). Confere a internet e tenta de novo.');}
 state.iaBusy=false;renderIA();return;}
@@ -4286,7 +4334,8 @@ msg($('cMsg'),'✔ Contatos salvos — já aparecem no espaço da cliente!','ok'
 $('btnIaSide').addEventListener('click',()=>{const w=$('iaWrap');if(!w)return;
 w.classList.toggle('sem');try{localStorage.setItem('fenix_iaside',w.classList.contains('sem')?'1':'0');}catch(e){}});
 try{const _p=localStorage.getItem('fenix_iaside');if(_p==='1'||(window.innerWidth<=900&&_p!=='0')){const w=$('iaWrap');if(w)w.classList.add('sem');}}catch(e){}
-$('iaBox').addEventListener('click',e=>{const b=e.target.closest('.ia-pensa-btn');if(!b)return;
+$('iaBox').addEventListener('click',e=>{const abrir=e.target.closest('[data-canabrir]');if(abrir){openCanvas(abrir.dataset.canabrir);return;}
+const b=e.target.closest('.ia-pensa-btn');if(!b)return;
 const c=b.nextElementSibling;if(!c)return;const ab=c.classList.toggle('aberta');
 b.textContent=ab?'💭 Esconder pensamento':'💭 Pensamento';});
 
@@ -7547,7 +7596,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.58';
+const APP_VERSAO='1.6.59';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{

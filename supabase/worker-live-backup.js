@@ -688,7 +688,7 @@ export default {
         const modo=String(b&&b.modo||'').slice(0,20);
         const sysBase=(modo==='resumo')?(IA_RESUMO+'\n\nRELATÓRIO:\n'+ctx):(modo==='post')?(IA_POST+'\n\nCONTEXTO DO ESTÚDIO:\n'+ctx):(modo==='doc')?(IA_DOC+'\n\nCONTEXTO DO ESTÚDIO:\n'+ctx):(modo==='rel')?(IA_REL+'\n\nRELATÓRIO:\n'+ctx):(IA_SYS+'\n\nDADOS ATUAIS DA CLÍNICA:\n'+ctx);
         const ehGeral=!(modo==='resumo'||modo==='post'||modo==='doc'||modo==='rel');
-        const sysFinal=ehGeral?(sysBase+'\n\nFORMATO OBRIGATÓRIO da resposta: escreva PRIMEIRO entre <pensamento> e </pensamento> o seu raciocínio curto (2 a 4 frases, em português, honesto — sem inventar dados) sobre como vai responder; DEPOIS escreva entre <resposta> e </resposta> a resposta final pronta pro dono. Não escreva NADA fora dessas duas partes.'):sysBase;
+        const sysFinal=ehGeral?(sysBase+'\n\nFORMATO OBRIGATÓRIO da resposta: escreva PRIMEIRO entre <pensamento> e </pensamento> o seu raciocínio curto (2 a 4 frases, em português, honesto — sem inventar dados) sobre como vai responder; DEPOIS escreva entre <resposta> e </resposta> a resposta final pronta pro dono. Não escreva NADA fora dessas duas partes.\n\nCRIAR ARQUIVOS (CANVAS): se o dono pedir pra você criar/escrever um documento, arquivo, PDF, contrato, roteiro, carta ou texto pronto (ou disser «cria um canvas»), DEPOIS das duas partes acrescente UM bloco no formato <canvas tipo="texto" titulo="Título curto">CONTEÚDO COMPLETO do documento, em texto simples e organizado, com quebras de linha</canvas> — use tipo="pdf" quando ele pedir PDF. O conteúdo do bloco é o arquivo inteiro, caprichado; fora do bloco, responda curto avisando que criou.'):sysBase;
         const msgs=[{role:'system',content:sysFinal}].concat(hist).concat([{role:'user',content:q}]);
         let motor='workers-ai',out=null;
         try{
@@ -701,7 +701,10 @@ export default {
         if(ehGeral){const mp=resp.match(/<pensamento>[\s\S]*?<\/pensamento>/i);
           if(mp){pensa=mp[0].replace(/<\/?pensamento>/gi,'').trim();resp=resp.replace(/<pensamento>[\s\S]*?<\/pensamento>/i,'');}
           resp=resp.replace(/<\/?resposta>/gi,'').trim();
-          return j({resposta:resp,pensamento:pensa,motor});}
+          let canvas=null;
+          const mc=resp.match(/<canvas\s+tipo="(texto|pdf)"\s+titulo="([^"]*)">([\s\S]*?)<\/canvas>/i);
+          if(mc){canvas={tipo:mc[1],titulo:mc[2].trim().slice(0,120),conteudo:mc[3].trim()};resp=resp.replace(/<canvas[\s\S]*?<\/canvas>/i,'').trim();}
+          return j({resposta:resp,pensamento:pensa,canvas,motor});}
         return j({resposta:(out&&out.resposta)||'',motor});
       }
       if (p === '/r2-ok') return j({ ok: true, r2: !!env.R2_TOKEN });
