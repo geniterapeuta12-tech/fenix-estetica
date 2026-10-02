@@ -1,11 +1,11 @@
 {
-  "versao": "1.6.54",
-  "r": "R75",
+  "versao": "1.6.55",
+  "r": "R76",
   "melhorias": [
-    "🖼️ NOVO: POST REAL — fundos lindos de estética no Gerador e no Editor: Mármore, Seda Dourada, Folhas & Ouro, Fumaça Dourada e Pedras de Spa (toque e o post já nasce com cara de Instagram)",
-    "📸 Use a FOTO da sua galeria como fundo (seu estúdio de verdade!) — com véu escuro automático pra o texto ficar perfeitamente legível",
-    "🎨 FUNDO I.A: ela pinta um fundo exclusivo no tema do seu post (mármore, fumaça, bokeh…) — saiu feio? gera outro, é de graça",
-    "📏 PNG novo: o que você vê no cartão é EXATAMENTE o que baixa — texto encaixadinho nas zonas, sem distorção, com sombra suave"
+    "🎨 O «Gerar post» agora vem COMPLETO: a I.A cria o texto E pinta o fundo sozinha, no tema do post (fundo junto da imagem, como você pediu) — dá pra trocar depois se quiser",
+    "❓ NOVO nos Relatórios: «Pergunte à I.A sobre ESTE relatório» — pergunta tipo «quem deve mais?» e ela responde olhando o relatório",
+    "📎 NOVO no chat do Lab: anexe FOTO ou PDF e a I.A lê, resume e responde perguntas",
+    "📱 App da CLIENTE: nasceu a ✦ Assistente — a cliente pergunta «quantas sessões fiz?», «quando é a próxima?» e a I.A responde com os dados DELA (não agenda nada — indica falar com o estúdio) + seus contatos (WhatsApp/Instagram) aparecem pra ela"
   ],
   "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
 }

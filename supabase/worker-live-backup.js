@@ -31,6 +31,8 @@ function ub64u(s) { s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length
 const IA_SYS='Você é o Assistente Fênix, assistente de um estúdio de estética. Responda em português do Brasil, de forma curta (máximo 120 palavras), direta e amigável. Baseie-se SOMENTE nos dados fornecidos; nunca invente números; se algo não estiver nos dados, diga com franqueza que não tem essa informação. Conhecimento de estética: procedimentos comuns incluem limpeza de pele, peeling, massagem modeladora, drenagem linfática, design de sobrancelhas e nail design; foque em benefícios e bem-estar e NUNCA prometa resultado médico ou curativo; quando pedirem textos criativos (posts, legendas, mensagens para clientes), escreva com tom acolhedor e elegante.';
 const IA_RESUMO='Você é a assistente pessoal de um estúdio de estética. Escreva um RESUMO ELEGANTE, caloroso e profissional do relatório abaixo, em português do Brasil. Use 2 a 4 parágrafos curtos, com linguagem humana e acolhedora, como quem conhece o negócio de perto. Destaque com sutileza as conquistas (faturamento, clientes fiéis, sessões realizadas), aponte com delicadeza o que merece atenção e feche com 1 ou 2 sugestões práticas e otimistas. NUNCA use tabelas nem listas com marcadores. NUNCA invente números: use apenas os do relatório. Não comece com saudação: vá direto ao texto.';
 const IA_POST='Você cria posts de Instagram para um estúdio de estética. Responda SOMENTE com um JSON válido, sem nenhum texto fora dele, exatamente neste formato: {"titulo":"...","chamada":"...","beneficios":["..."],"legenda":"..."}. REGRAS OBRIGATÓRIAS: (0) MELHORAR ROTEIRO: se o pedido começar com «MELHORAR ROTEIRO DO USUÁRIO», NÃO invente tema novo: preserve as ideias, o nome EXATO dos serviços e a ordem do texto do usuário, apenas melhore a escrita (ortografia, clareza, emojis e hashtags) e devolva o mesmo JSON. (1) FIDELIDADE AO PEDIDO — use EXATAMENTE o serviço/termo que o usuário escreveu, com as mesmas palavras; se ele escreveu «ozônio terapia capilar», o título e a legenda devem conter «Ozônio Terapia Capilar» — NUNCA troque por termo genérico tipo «cuidar dos cabelos» ou «tratamento capilar». (2) titulo: o nome do serviço/oferta do pedido, até 6 palavras. (3) chamada: 1 frase curta de apoio (máximo 110 caracteres), citando o serviço exato. (4) beneficios: SEMPRE inclua 3 ou 4 benefícios REAIS e ESPECÍFICOS do serviço exato, cada um com até 5 palavras, sem ponto final — exemplo para ozônio terapia capilar: ["Fortalece os fios","Reduz a queda","Brilho intenso","Estimula o crescimento"]; só devolva lista vazia [] se o pedido não for sobre um serviço ou tratamento. (5) legenda: comece com o nome EXATO do serviço; depois 1 ou 2 frases; depois a linha «✨ Benefícios:» e cada benefício em linha própria começando com ✅; termine chamando para agendar e coloque 6 a 10 hashtags ESPECÍFICAS do serviço (ex.: #ozonioterapiacapilar #saudecapilar) mais 2 ou 3 gerais; use 2 a 4 emojis. Estilo: elegante, acolhedor, sofisticado. Conhecimento de estética: limpeza de pele, massagem modeladora, drenagem linfática, design de sobrancelhas, nail design, ozônio terapia e tratamentos capilares em geral; foque em benefícios e bem-estar; NUNCA prometa resultado médico ou curativo.';
+const IA_CLIENTE='Você é a assistente virtual do espaço da cliente de um estúdio de estética. Responda APENAS com base nos DADOS DA CLIENTE abaixo — nunca invente números, datas ou valores. Se a informação não estiver nos dados, diga que não sabe e sugira falar com o estúdio. NUNCA agende, remarque ou cancele nada: se a cliente pedir isso, responda que para agendar ela deve falar direto com o estúdio (informe o contato se houver). Responda em português, curtinho (2 a 5 frases), tom acolhedor.';
+const IA_REL='Você responde perguntas SOBRE O RELATÓRIO de um estúdio de estética que está no texto abaixo. Use SOMENTE os números e nomes do relatório — nunca invente. Se a resposta não estiver no relatório, diga claramente que o relatório não tem essa informação. Responda em português, direto ao ponto, podendo usar pequenos tópicos.';
 const IA_DOC='Você escreve e melhora textos e documentos para um estúdio de estética: mensagens para clientes, orientações de cuidados pós-procedimento, descrições de serviços, listas de preços, avisos e contratos simples. Responda SOMENTE com o texto final, pronto para usar, sem comentários e sem explicações. Se pedirem para melhorar: mantenha as informações e deixe mais claro, elegante e bem escrito. Se pedirem para resumir: encurte mantendo o essencial. Se pedirem para corrigir: corrija ortografia e gramática sem mudar o estilo da pessoa. Use o nome exato dos serviços que aparecerem no pedido. Tom acolhedor e profissional. NUNCA dê orientação médica nem prometa resultado curativo; em orientações de cuidados use linguagem de bem-estar e, se houver reação adversa, recomende procurar o estúdio ou um profissional.';
 async function aiChat(env,msgs){
   try{
@@ -185,7 +187,7 @@ async function rpcClientePub(env, pId) {
   const c = await db.prepare('SELECT id, nome, clinic_id, acesso, ctabs FROM clientes WHERE id = ?').bind(pId).first();
   if (!c) return null;
   if (c.acesso === 0 || c.acesso === false || String(c.acesso)==='false' || String(c.acesso)==='fals' || String(c.acesso)==='0') return { erro: 'sem_acesso' };
-  const clin = await db.prepare('SELECT nome FROM clinics WHERE id = ?').bind(c.clinic_id).first();
+  const clin = await db.prepare('SELECT nome, wa, insta FROM clinics WHERE id = ?').bind(c.clinic_id).first();
   const pt = await db.prepare('SELECT COALESCE(SUM(valor),0) t FROM pagamentos WHERE cliente_id = ?').bind(pId).first();
   const pacotes = await db.prepare(`
     SELECT json_group_array(json_object(
@@ -226,6 +228,8 @@ async function rpcClientePub(env, pId) {
   return {
     cliente: (() => { let ct = null; try { const p = JSON.parse(c.ctabs || 'null'); if (Array.isArray(p) && p.length) { const okk = ['res','pac','ses','pag','doc'].filter(k => p.indexOf(k) >= 0); if (okk.length) ct = okk; } } catch (e) {} return { nome: c.nome, ctabs: ct }; })(),
     clinica: clin ? clin.nome : null,
+    wa: (clin && clin.wa) || null,
+    insta: (clin && clin.insta) || null,
     pago_total: pt ? pt.t : 0,
     pacotes: jsafe(pacotes) || [],
     proximas: jsafe(proximas) || [],
@@ -538,6 +542,59 @@ export default {
           return j({ok:!!out.resposta,motor,resposta:out.resposta,ms:Date.now()-t0});
         }catch(e){return j({ok:false,erro:String(e&&e.message||e).slice(0,200)})}
       }
+      if (p === '/ia-cliente' && req.method === 'POST') {
+        try{
+          const b = await req.json().catch(()=>null);
+          const pid = String(b&&b.p_id||'').slice(0,64);
+          const q = String(b&&b.pergunta||'').slice(0,500).trim();
+          if(!pid||!q) return jerr('Pedido inválido.',400);
+          const ip = req.headers.get('cf-connecting-ip')||'x';
+          const winG = globalThis.__fxThro = globalThis.__fxThro || new Map();
+          const now = Date.now(); const arr = (winG.get(ip)||[]).filter(t=>now-t<3600000);
+          if(arr.length>=40) return jerr('Muitas perguntas seguidas — tenta de novo mais tarde.',429);
+          arr.push(now); winG.set(ip,arr);
+          const d = await rpcClientePub(env, pid);
+          if(!d||!d.cliente) return jerr('Cliente não encontrada.',404);
+          if(d.erro==='sem_acesso') return jerr('Acesso pausado pela clínica.',403);
+          const hist=Array.isArray(b.historico)?b.historico.slice(-6).filter(h=>h&&(h.role==='user'||h.role==='assistant')).map(h=>({role:h.role,content:String(h.content||'').slice(0,800)})):[];
+          const ctxCli='CLIENTE: '+String(d.cliente.nome||'')+'\nCLÍNICA: '+String(d.clinica||'')+'\nPACOTES: '+JSON.stringify(d.pacotes)+'\nPRÓXIMAS SESSÕES: '+JSON.stringify(d.proximas)+'\nREALIZADAS (últimas): '+JSON.stringify(d.realizadas)+'\nPAGAMENTOS: '+JSON.stringify(d.pagamentos)+'\nTOTAL PAGO: '+String(d.pago_total);
+          const contato=d.wa?('WhatsApp do estúdio: '+d.wa+'. '):'';
+          const msgs=[{role:'system',content:IA_CLIENTE+'\n'+contato+(d.insta?('Instagram: @'+d.insta+'. '):'')+'\n\nDADOS DA CLIENTE:\n'+ctxCli}].concat(hist).concat([{role:'user',content:q}]);
+          let out=null; try{ out=await aiChat(env,msgs); }catch(e){ return jerr('IA indisponível agora.',502); }
+          if(!out||!out.resposta) return jerr('IA não respondeu agora.',502);
+          return j({resposta:out.resposta});
+        }catch(e){ return jerr('Falhou — tenta de novo.',500); }
+      }
+      if (p === '/ia-vis' && req.method === 'POST') {
+        const auth = req.headers.get('authorization') || '';
+        const pl = await verifyJWT(auth.replace(/^Bearer /i, ''), secret);
+        if (!pl) return jerr('Invalid API key', 401, 'invalid_api_key');
+        try{
+          const b = await req.json().catch(()=>null);
+          const img = String(b&&b.imagem||'');
+          const q = String(b&&b.pergunta||'Descreva esta imagem e o que nela importa para um estúdio de estética.').slice(0,600);
+          if(img.indexOf('data:image/')!==0||img.length>2600000) return jerr('Imagem inválida ou grande demais.',400);
+          const r=await env.AI.run('@cf/llava-hf/llava-1.5-7b-hf',{image_url:img,prompt:q,max_tokens:512});
+          const txt=(r&&r.description)||(r&&r.result)||'';
+          if(!txt) return jerr('A I.A não conseguiu ler a imagem — manda outra ou escreve a dúvida.',502);
+          return j({resposta:String(txt)});
+        }catch(e){ return jerr('Não consegui ler a imagem agora — tenta de novo.',500); }
+      }
+      if (p === '/clinic-contato' && (req.method === 'POST' || req.method === 'GET')) {
+        const auth = req.headers.get('authorization') || '';
+        const pl = await verifyJWT(auth.replace(/^Bearer /i, ''), secret);
+        if (!pl) return jerr('Invalid API key', 401, 'invalid_api_key');
+        const uid = pl.sub || pl.id || pl.user_id;
+        if(!uid) return jerr('Sessão inválida.',401);
+        if(req.method==='GET'){
+          const r0 = await env.DB.prepare('SELECT wa, insta FROM clinics WHERE id = ?').bind(uid).first();
+          return j({wa:(r0&&r0.wa)||'', insta:(r0&&r0.insta)||''});
+        }
+        const b = await req.json().catch(()=>null);
+        const wa=String(b&&b.wa||'').slice(0,40).trim(), insta=String(b&&b.insta||'').replace(/^@/,'').slice(0,60).trim();
+        await env.DB.prepare('UPDATE clinics SET wa = ?, insta = ? WHERE id = ?').bind(wa||null, insta||null, uid).run();
+        return j({ok:true,wa:wa,insta:insta});
+      }
       if (p === '/ia-imagem' && req.method === 'POST') {
         const auth = req.headers.get('authorization') || '';
         const pl = await verifyJWT(auth.replace(/^Bearer /i, ''), secret);
@@ -562,7 +619,7 @@ export default {
         if(!q) return jerr('pergunta vazia',400);
         const hist=Array.isArray(b.historico)?b.historico.slice(-10).filter(h=>h&&(h.role==='user'||h.role==='assistant')&&typeof h.content==='string').map(h=>({role:h.role,content:h.content.slice(0,2000)})):[];
         const modo=String(b&&b.modo||'').slice(0,20);
-        const sysBase=(modo==='resumo')?(IA_RESUMO+'\n\nRELATÓRIO:\n'+ctx):(modo==='post')?(IA_POST+'\n\nCONTEXTO DO ESTÚDIO:\n'+ctx):(modo==='doc')?(IA_DOC+'\n\nCONTEXTO DO ESTÚDIO:\n'+ctx):(IA_SYS+'\n\nDADOS ATUAIS DA CLÍNICA:\n'+ctx);
+        const sysBase=(modo==='resumo')?(IA_RESUMO+'\n\nRELATÓRIO:\n'+ctx):(modo==='post')?(IA_POST+'\n\nCONTEXTO DO ESTÚDIO:\n'+ctx):(modo==='doc')?(IA_DOC+'\n\nCONTEXTO DO ESTÚDIO:\n'+ctx):(modo==='rel')?(IA_REL+'\n\nRELATÓRIO:\n'+ctx):(IA_SYS+'\n\nDADOS ATUAIS DA CLÍNICA:\n'+ctx);
         const msgs=[{role:'system',content:sysBase}].concat(hist).concat([{role:'user',content:q}]);
         let motor='workers-ai',out=null;
         try{

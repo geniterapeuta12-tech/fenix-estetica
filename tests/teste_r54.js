@@ -51,7 +51,7 @@ T('19. landing: passos 1-2-3 e reveal no scroll', (land.match(/class="step rv"/g
 
 // ===== R54.6 — LINK NO APP =====
 T('20. link do Center no app aponta pra página de marca', html.includes('geniterapeuta12-tech.github.io/fenix-estetica/center/" target') || fs.readFileSync('/home/user/index.html','utf-8').includes('fenix-estetica/center/" target'));
-T('21. versão 1.6.54 no app', w.eval("APP_VERSAO")==='1.6.54');
+T('21. versão 1.6.55 no app', w.eval("APP_VERSAO")==='1.6.55');
 
 console.log(falhas?('FALHAS: '+falhas):'TUDO OK (21/21)');
 process.exit(falhas?1:0);

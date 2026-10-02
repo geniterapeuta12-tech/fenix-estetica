@@ -17,8 +17,8 @@ T('8. gpData guarda benefícios (gbf)', /const gbf=Array\.isArray\(g\.beneficios
 T('9. título vira 2 linhas quando tem benefícios (cabe no cartão)', /slice\(0,bf\.length\?2:3\)/.test(W));
 T('10. benefícios limitados a 4 e 42 caracteres', /slice\(0,42\)\)\.slice\(0,4\)/.test(W));
 T('11. placeholder ensina pedir benefícios', W.includes('ozônio terapia capilar com os benefícios'));
-T('12. versão 1.6.52', W.includes("APP_VERSAO='1.6.54'"));
-T('13. versao.json 1.6.50/R70.1 (3+ melhorias)', VJ.versao==='1.6.54'&&VJ.r==='R75'&&(VJ.melhorias||[]).length>=3);
+T('12. versão 1.6.52', W.includes("APP_VERSAO='1.6.55'"));
+T('13. versao.json 1.6.50/R70.1 (3+ melhorias)', VJ.versao==='1.6.55'&&VJ.r==='R76'&&(VJ.melhorias||[]).length>=3);
 /* nada quebrou */
 T('14. chat R69 intacto', W.includes("$('viewIa').classList.toggle('hidden',!(studio&&state.sview==='ia'))"));
 T('15. resumo R66 intacto', /sc\[0\]==='resumo'\?relIaBloco\(\):''/.test(W));

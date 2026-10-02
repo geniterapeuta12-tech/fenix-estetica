@@ -85,6 +85,10 @@ td{max-width:0;overflow-wrap:anywhere;word-break:break-word}
 *::-webkit-scrollbar-track{background:transparent}
 *::-webkit-scrollbar-thumb{background:rgba(212,175,55,.3);border-radius:99px}
 @media(hover:none){*{scrollbar-width:none}*::-webkit-scrollbar{width:0;height:0}}
+/* ia chat */
+#fcIaMsgs .iamsg{max-width:86%;padding:10px 12px;border-radius:12px;margin:6px 0;font-size:.92rem;line-height:1.55;word-wrap:break-word}
+#fcIaMsgs .iamsg.user{margin-left:auto;background:var(--acc,#d4af37);color:#141414}
+#fcIaMsgs .iamsg.ia{background:#26221a;color:#efe8d6;border:1px solid #3a3428}
 </style>
 </head>
 <body>
@@ -105,6 +109,7 @@ td{max-width:0;overflow-wrap:anywhere;word-break:break-word}
   <button class="tab" type="button" data-go="f-ses"><svg class="ic"><use href="#i-cal"/></svg>Sessões</button>
   <button class="tab" type="button" data-go="f-pag"><svg class="ic"><use href="#i-fin"/></svg>Pagamentos</button>
   <button class="tab" type="button" data-go="f-doc"><svg class="ic"><use href="#i-doc"/></svg>Documentos</button>
+  <button class="tab" type="button" data-go="f-ia">✦ I.A</button>
 </div></nav>
 <div class="wrap" id="fcBody"><p class="estado">Carregando seu espaço…</p></div>
 <p class="rodape">Fênix Estética · espaço do cliente</p>
@@ -148,6 +153,7 @@ function render(d){
   '<div class="grande">Olá, '+esc(nome)+'<span>!</span></div>'+
   '<p class="fsub">Este é o seu espaço — aqui você acompanha tudo com a '+esc(clin)+'.</p>'+
   (prox.length?'<div class="prox"><small>Próxima sessão</small><b>'+dataBR(prox[0].data)+'</b><span>'+esc(prox[0].pacote||'Sessão')+(prox[0].num!=null?' · #'+prox[0].num:'')+'</span></div>':'<div class="prox"><small>Agenda</small><b>Nada agendado por enquanto</b><span>Fale com a clínica para agendar.</span></div>')+
+  ((d.wa||d.insta)?'<div class="prox" style="margin-top:10px"><small>Fale com a clínica</small><b style="display:flex;gap:12px;flex-wrap:wrap">'+(d.wa?'<a href="https://wa.me/55'+String(d.wa).replace(/\D/g,'')+'" target="_blank" rel="noopener" style="color:var(--acc,#d4af37);text-decoration:none">💬 '+esc(d.wa)+'</a>':'')+(d.insta?'<a href="https://instagram.com/'+esc(String(d.insta).replace(/^@/,''))+'" target="_blank" rel="noopener" style="color:var(--acc,#d4af37);text-decoration:none">📸 @'+esc(String(d.insta).replace(/^@/,''))+'</a>':'')+'</b><span>agendamentos e dúvidas por aí</span></div>':'')+
   '</div>')+'</div>');
  h+=P2('pac','<div class="fcpanel" id="f-pac">'+
   sec('pacc','Pacotes & Avulsas',
@@ -174,9 +180,14 @@ function render(d){
   (docs.length?'<p class="fsub" style="margin-bottom:6px">Documentos que a clínica enviou pra você — toque para ler.</p>'+docs.map(function(dd,i){return '<details class="doc"'+(i===0&&docs.length===1?' open':'')+'><summary><span>'+esc(dd.t)+'</span><small>'+dataBR(dd.dt)+'</small></summary><div class="dtexto">'+dd.x+'</div></details>';}).join('')
   :'<p class="fdempty">Nenhum documento enviado pela clínica ainda.<br>Quando ela mandar (contrato, anamnese, prescrição…), aparece aqui.</p>'))+'</div>');
  var tb=document.querySelectorAll('#fcTabs .tab');for(var i=0;i<tb.length;i++){var g=tb[i].getAttribute('data-go').replace('f-','');tb[i].style.display=perm.indexOf(g)>=0?'':'none';}
+ h+='<div class="fcpanel" id="f-ia">'+sec('iac','✦ Assistente da clínica',
+  '<div id="fcIaMsgs" style="min-height:110px;max-height:46vh;overflow-y:auto;padding:4px"></div>'+
+  '<div style="display:flex;gap:8px;margin-top:10px"><input id="fcIaIn" placeholder="Ex.: quantas sessões já fiz?" style="flex:1;padding:12px;border-radius:12px;border:1px solid #3a3428;background:#1d1a14;color:#efe8d6;font-family:inherit;font-size:.95rem"><button id="fcIaGo" style="padding:12px 16px;border-radius:12px;border:none;background:var(--acc,#d4af37);color:#141414;font-weight:700">Enviar</button></div>'+
+  '<p class="fsub" style="margin-top:8px">Ela responde com base nos SEUS dados (sessões, pacotes, pagamentos). Para agendar ou remarcar, fale com a clínica.</p>')+'</div>';
  document.getElementById('fcBody').innerHTML=h;
  if(perm.indexOf('res')<0)vai('f-'+perm[0]);
  document.getElementById('fcTabs').style.display='flex';
+ try{iaWire();}catch(e){}
 }
 /* navegação por abas */
 function vai(go){
@@ -196,6 +207,22 @@ fetch(API+'/rest/v1/rpc/fenix_cliente_pub',{method:'POST',headers:{'Content-Type
  if(!d||!d.cliente){estado('<b>Link inválido ou cliente não encontrada.</b><br>Confira o endereço ou peça um novo link à clínica.');document.getElementById('fcClin').textContent='—';return;}
  render(d);})
 .catch(function(){estado('<b>Sem conexão agora.</b><br>Verifique a internet e recarregue a página.');});
+
+/* ✦ I.A da cliente */
+var iaHist=[];
+function iaRender(){var bx=document.getElementById('fcIaMsgs');if(!bx)return;
+ bx.innerHTML=iaHist.length?iaHist.map(function(m){return '<div class="iamsg '+m.p+'">'+esc(m.t).replace(/\n/g,'<br>')+'</div>';}).join(''):'<p class="fempty">Pergunta à vontade — ex.: «quantas sessões já fiz?» · «quando é minha próxima?» · «quanto já paguei?»</p>';
+ try{bx.scrollTop=bx.scrollHeight;}catch(e){}}
+function iaPerg(){var inp=document.getElementById('fcIaIn');if(!inp)return;var t=(inp.value||'').trim();if(!t)return;
+ inp.value='';iaHist.push({p:'user',t:t});iaRender();
+ var bx=document.getElementById('fcIaMsgs');bx.insertAdjacentHTML('beforeend','<div class="iamsg ia" id="fcIaWait">✍️ pensando…</div>');bx.scrollTop=bx.scrollHeight;
+ fetch(API+'/ia-cliente',{method:'POST',headers:{'Content-Type':'application/json','apikey':KEY},body:JSON.stringify({p_id:id,pergunta:t,historico:iaHist.slice(-6).map(function(m){return {role:m.p==='user'?'user':'assistant',content:m.t};})})})
+ .then(function(r){return r.json().then(function(j2){return {ok:r.ok,j:j2};});})
+ .then(function(o){var w=document.getElementById('fcIaWait');if(w&&w.parentNode)w.parentNode.removeChild(w);
+  iaHist.push({p:'ia',t:(o.ok&&o.j&&o.j.resposta)?o.j.resposta:('⚠ '+((o.j&&o.j.erro)||'não consegui responder agora — tenta de novo'))});iaRender();})
+ .catch(function(){var w=document.getElementById('fcIaWait');if(w&&w.parentNode)w.parentNode.removeChild(w);iaHist.push({p:'ia',t:'⚠ Sem internet agora — tenta de novo.'});iaRender();});}
+function iaWire(){var b=document.getElementById('fcIaGo'),i2=document.getElementById('fcIaIn');if(!b)return;
+ b.addEventListener('click',iaPerg);i2.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();iaPerg();}});iaRender();}
 })();
 </script>
 </body>

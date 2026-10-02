@@ -1474,6 +1474,10 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <div class="panelcard" style="padding:18px">
 <div class="ia-box" id="iaBox"></div>
 <div class="ia-in">
+<div id="iaAnexoChip" class="hidden" style="margin:0 0 6px;font-size:.75rem;color:#d4af37">📎 <span id="iaAnexoNome"></span> <button id="iaAnexoX" type="button" style="background:none;border:none;color:#8a7f68;cursor:pointer;margin-left:6px">✕</button></div>
+<div style="display:flex;gap:8px;align-items:flex-end">
+<button class="btn small ghost" id="btnIaAnexo" type="button" title="Anexar foto ou arquivo pra a I.A ler" style="margin:0;height:52px;flex:none">📎</button>
+<input type="file" id="iaAnexo" accept="image/*,.txt,.pdf" class="hidden">
 <textarea id="iaInput" placeholder="Escreva sua pergunta… (Enter envia · Shift+Enter quebra linha)"></textarea>
 <button class="btn small" id="btnIaSend" type="button" style="margin:0;height:52px"><svg class="ic"><use href="#i-send"/></svg>Enviar</button>
 </div>
@@ -1857,6 +1861,14 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <button class="btn" id="btnRelPdfDl" type="button"><svg class="ic"><use href="#i-dl"/></svg>Baixar PDF</button>
 <button class="btn ghost" id="btnRelIa" type="button" title="A I.A escreve um resumo deste relatório">✨ Resumo da I.A</button>
 </div>
+<div style="border-top:1px solid var(--line);margin-top:14px;padding-top:12px">
+<label>❓ Pergunte à I.A sobre ESTE relatório</label>
+<div class="rowbtns" style="margin-top:8px;flex-wrap:wrap">
+<input class="input" id="relQ" style="flex:1;min-width:220px" placeholder="Ex.: quem deve mais? quantas sessões futuras tenho?">
+<button class="btn small" id="relAsk" type="button">Perguntar</button>
+</div>
+<div id="relAns" class="hidden" style="margin-top:10px"></div>
+</div>
 </div>
 </section>
 
@@ -1971,6 +1983,16 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 </div>
 </section>
 <section id="viewSistema" class="view hidden">
+<div class="panelcard">
+<h3>Contatos do estúdio (aparecem no app da cliente)</h3>
+<p class="sub">WhatsApp e Instagram que a cliente vê no espaço dela — e a I.A da cliente usa pra indicar onde agendar.</p>
+<div class="grid3" style="margin-top:10px">
+<div><label>WhatsApp</label><input class="input" id="cWa" placeholder="(31) 9 8888-0000"></div>
+<div><label>Instagram</label><input class="input" id="cInsta" placeholder="meuestudio"></div>
+</div>
+<div class="rowbtns" style="margin-top:10px"><button class="btn small" id="btnContato" type="button">Salvar contatos</button></div>
+<p class="msg" id="cMsg"></p>
+</div>
 <div class="panelcard" id="updBox">
 <h3>Atualização</h3>
 <p class="sub">A versão que você está usando e as novidades da mais recente.</p>
@@ -4029,14 +4051,27 @@ ensureConv();
 const cfg=iaCfg();
 if(!cfg.key){ /* R61: motor FÊNIX na nossa nuvem — sem chave */
 const hist=msgsOf(state.iaConv).slice(-10).map(m=>({role:m.papel==='user'?'user':'assistant',content:m.texto}));
-pushMsg('user',txt);ta.value='';state.iaBusy=true;renderIA();
+const temImg=!!iaAnexoImg,temTxt=!!iaAnexoTxt;
+pushMsg('user',txt+(temImg?' 📎[foto]':temTxt?' 📎[anexo]':''));ta.value='';state.iaBusy=true;renderIA();
+iaAnexoClear();
 try{
-const r=await fetch(NUVEM_URL+'/ia',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SB_TOKEN||'')},body:JSON.stringify({pergunta:txt,contexto:buildIaCtx(),historico:hist})});
+if(temImg){
+const r2=await fetch(NUVEM_URL+'/ia-vis',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SB_TOKEN||'')},body:JSON.stringify({imagem:iaAnexoImg,pergunta:(txt||'O que há nesta imagem? Descreva o que importa para um estúdio de estética.').slice(0,600)})});
+const j2=await r2.json().catch(()=>null);
+if(!r2.ok||!j2||!j2.resposta)throw new Error((j2&&j2.erro)||('HTTP '+r2.status));
+pushMsg('ia',j2.resposta);
+}else{
+let ctx=buildIaCtx();
+if(temTxt)ctx+='\n\nANEXO ENVIADO PELA CLÍNICA (responda considerando o anexo se a pergunta se referir a ele):\n'+iaAnexoTxt.slice(0,6000);
+const perguntaFinal=txt||'Leia o anexo e me faça um resumo.';
+const r=await fetch(NUVEM_URL+'/ia',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SB_TOKEN||'')},body:JSON.stringify({pergunta:perguntaFinal,contexto:ctx,historico:hist})});
 const j=await r.json().catch(()=>null);
 if(!r.ok||!j||!j.resposta)throw new Error((j&&j.erro)||('HTTP '+r.status));
 pushMsg('ia',j.resposta);
+}
 }catch(err){pushMsg('ia','⚠ Não consegui falar com a I.A agora ('+((err&&err.message)||'erro')+'). Confere a internet e tenta de novo.');}
 state.iaBusy=false;renderIA();return;}
+if(iaAnexoImg||iaAnexoTxt){iaAnexoClear();pushMsg('ia','📎 Anexo funciona no motor Fênix (padrão). Na chave personalizada, cole o texto direto.');renderIA();return;}
 pushMsg('user',txt);ta.value='';renderIA();
 state.iaBusy=true;renderIA();
 try{const sys=cfg.sys?[{role:'system',content:cfg.sys}]:[];
@@ -4049,6 +4084,47 @@ if(!r.ok||j.error)throw new Error((j.error&&(j.error.message||j.error.code))||('
 pushMsg('ia',(j.choices&&j.choices[0]&&j.choices[0].message&&j.choices[0].message.content)||'(sem resposta)');
 }catch(err){pushMsg('ia','⚠ Erro na requisição: '+((err&&err.message)||'desconhecido'));}
 state.iaBusy=false;renderIA();}
+let iaAnexoImg=null,iaAnexoTxt='';
+const leImagemReduzP=f=>new Promise(res=>{try{leImagemReduz(f,res);}catch(e){res(null);}});
+async function pdfTexto(f){
+if(!window.pdfjsLib){await new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';s.onload=res;s.onerror=()=>rej(new Error('sem internet pra baixar o leitor de PDF'));document.head.appendChild(s);});try{window.pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';}catch(e){}}
+const buf=await f.arrayBuffer();
+const pdf=await window.pdfjsLib.getDocument({data:buf}).promise;
+let t='';const n=Math.min(8,pdf.numPages);
+for(let i=1;i<=n;i++){const pg=await pdf.getPage(i);const c=await pg.getTextContent();t+=' '+c.items.map(x=>x.str).join(' ');}
+t=t.replace(/\s+/g,' ').trim();
+if(!t)throw new Error('esse PDF parece ser só imagem — tira um print e anexa a foto');
+return t.slice(0,60000);}
+function iaAnexoClear(){iaAnexoImg=null;iaAnexoTxt='';try{$('iaAnexoChip').classList.add('hidden');$('iaAnexo').value='';}catch(e){}}
+$('btnIaAnexo').addEventListener('click',()=>$('iaAnexo').click());
+$('iaAnexoX').addEventListener('click',iaAnexoClear);
+$('iaAnexo').addEventListener('change',async function(){const f=this.files&&this.files[0];this.value='';if(!f)return;
+iaAnexoImg=null;iaAnexoTxt='';
+try{
+if((f.type||'').indexOf('image/')===0){iaAnexoImg=await leImagemReduzP(f);if(!iaAnexoImg)throw new Error('imagem inválida');}
+else if((f.type||'')==='application/pdf'||/\.pdf$/i.test(f.name||'')){iaAnexoTxt=await pdfTexto(f);}
+else{iaAnexoTxt=(await f.text()).slice(0,60000);}
+$('iaAnexoNome').textContent=String(f.name||'anexo').slice(0,40);
+$('iaAnexoChip').classList.remove('hidden');
+}catch(e){iaAnexoClear();pushMsg('ia','⚠ Não consegui abrir o anexo ('+((e&&e.message)||'erro')+'). Confere o arquivo e tenta de novo.');renderIA();}});
+
+/* R76 — contatos do estúdio p/ o app da cliente */
+(async()=>{if(!REMOTE||!SB_TOKEN)return;
+try{const r=await fetch(NUVEM_URL+'/clinic-contato',{headers:{'Authorization':'Bearer '+(SB_TOKEN||'')}});
+const j=await r.json().catch(()=>null);
+if(r.ok&&j){try{$('cWa').value=j.wa||'';$('cInsta').value=j.insta||'';}catch(e){}}
+}catch(e){}})();
+$('btnContato').addEventListener('click',async()=>{
+if(!REMOTE||!SB_TOKEN)return msg($('cMsg'),'Sem nuvem agora — entre com a conta e tente de novo.','err');
+const wa=$('cWa').value.trim().slice(0,40),insta=$('cInsta').value.trim().replace(/^@/,'').slice(0,60);
+msg($('cMsg'),'⏳ Salvando…','');
+try{
+const r=await fetch(NUVEM_URL+'/clinic-contato',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SB_TOKEN||'')},body:JSON.stringify({wa,insta})});
+const j=await r.json().catch(()=>null);
+if(!r.ok||!j||!j.ok)throw new Error((j&&j.erro)||('HTTP '+r.status));
+msg($('cMsg'),'✔ Contatos salvos — já aparecem no espaço da cliente!','ok');
+}catch(e){msg($('cMsg'),'⚠ '+((e&&e.message)||'erro')+' — tenta de novo.','err');}});
+
 $('btnIaSend').addEventListener('click',iaSend);
 $('iaInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();iaSend();}});
 
@@ -6016,9 +6092,9 @@ function leImagemReduz(file,cb){const r=new FileReader();r.onload=()=>{const im=
 if(s<1){const cv=document.createElement('canvas');cv.width=Math.round(im.width*s);cv.height=Math.round(im.height*s);cv.getContext('2d').drawImage(im,0,0,cv.width,cv.height);cb(cv.toDataURL('image/jpeg',.85));}else cb(r.result);};im.onerror=()=>cb(null);im.src=r.result;};r.onerror=()=>cb(null);r.readAsDataURL(file);}
 function fundoLabel(){return !gpFundo?'Escuro':gpFundo.tipo==='pac'?({marmore:'Mármore',seda:'Seda',folhas:'Folhas',fumaca:'Fumaça',pedras:'Pedras'})[gpFundo.id]||'Pacote':gpFundo.tipo==='foto'?'Sua foto':'Fundo I.A';}
 let gpFundoBusy=false;
-async function gpFundoIA(){if(gpFundoBusy)return;
-if(!SB_TOKEN)return msg($('gpMsg'),'Entre com sua conta pra usar a I.A.','err');
-gpFundoBusy=true;msg($('gpMsg'),'🎨 A I.A está pintando um fundo no tema do seu post…');
+async function gpFundoIA(auto){if(gpFundoBusy)return;
+if(!SB_TOKEN){if(!auto)return msg($('gpMsg'),'Entre com sua conta pra usar a I.A.','err');return;}
+gpFundoBusy=true;if(!auto)msg($('gpMsg'),'🎨 A I.A está pintando um fundo no tema do seu post…');else msg($('gpMsg'),'🎨 Criando também o fundo do post com I.A…');
 try{
 const tema=($('gpCmd').value.trim()||(gpData&&gpData.titulo)||'fundo elegante para estúdio de estética');
 const r=await fetch(NUVEM_URL+'/ia-imagem',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SB_TOKEN||'')},body:JSON.stringify({tema})});
@@ -6026,8 +6102,9 @@ const j=await r.json().catch(()=>null);
 if(!r.ok||!j||!j.img)throw new Error((j&&j.erro)||('HTTP '+r.status));
 gpFundo={tipo:'ia',dataURL:'data:image/jpeg;base64,'+j.img};gpFundoPersist();
 if(gpData){$('gpCard').innerHTML=gpCardHTML(gpData);}
-msg($('gpMsg'),'✔ Fundo criado pela I.A! Gerou feio? Toque de novo que sai outro.','ok');
-}catch(e){msg($('gpMsg'),'⚠ '+((e&&e.erro)||'a I.A de imagem falhou — tenta de novo em instantes'),'err');}
+if(!auto)msg($('gpMsg'),'✔ Fundo criado pela I.A! Gerou feio? Toque de novo que sai outro.','ok');
+else msg($('gpMsg'),'✔ Post completo: texto + fundo criado pela I.A — agora é só baixar o PNG!','ok');
+}catch(e){if(!auto)msg($('gpMsg'),'⚠ '+((e&&e.erro)||'a I.A de imagem falhou — tenta de novo em instantes'),'err');}
 gpFundoBusy=false;}
 let gpBusy=false,gpData=null;
 function gpWrap(t,n){const p=String(t||'').trim().split(/\s+/);const L=[];let cur='';
@@ -6188,7 +6265,7 @@ try{
 const r=await fetch(NUVEM_URL+'/ia',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SB_TOKEN||'')},body:JSON.stringify({modo:'post',pergunta:'MELHORAR ROTEIRO DO USUÁRIO: '+txt,contexto:buildIaCtx()})});
 const j=await r.json().catch(()=>null);
 if(!r.ok||!j||!j.resposta)throw new Error((j&&j.erro)||('HTTP '+r.status));
-gpAplica(j);
+gpAplica(j);if(!gpFundo)gpFundoIA(true);
 }catch(e){msg($('gpMsg'),'⚠ '+((e&&e.message)||'erro')+' — tenta de novo em instantes.','err');}
 $('gpMelhora').disabled=false;gpBusy=false;}
 $('gpMelhora').addEventListener('click',gpMelhora);
@@ -6201,7 +6278,7 @@ try{
 const r=await fetch(NUVEM_URL+'/ia',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SB_TOKEN||'')},body:JSON.stringify({modo:'post',pergunta:cmd,contexto:buildIaCtx()})});
 const j=await r.json().catch(()=>null);
 if(!r.ok||!j||!j.resposta)throw new Error((j&&j.erro)||('HTTP '+r.status));
-gpAplica(j);
+gpAplica(j);if(!gpFundo)gpFundoIA(true);
 }catch(e){msg($('gpMsg'),'⚠ '+((e&&e.message)||'erro')+' — tenta de novo em instantes.','err');}
 $('gpGo').disabled=false;gpBusy=false;}
 $('gpGo').addEventListener('click',gpGera);
@@ -6549,6 +6626,25 @@ relIaPend=false;relIaBusy=false;
 if(relCoreCache){if(relPers){relLastDoc=relFiltraDoc(relDocHTML(relCoreCache));relLastTxt=relTxtFiltrado(relTxt(relCoreCache));}else{relLastDoc=relDocHTML(relCoreCache);relLastTxt=relTxt(relCoreCache);}}
 try{relPaint()}catch(e){}}
 $('btnRelIa').addEventListener('click',()=>{if(!relLastTxt)return msg($('relMsg'),'Monte o relatório primeiro.','err');if(relIaBusy)return;relIaTexto='';relIaAuto();});
+let relAskBusy=false;
+$('relAsk').addEventListener('click',async()=>{if(relAskBusy)return;const q=$('relQ').value.trim();
+if(!relLastTxt)return msg($('relMsg'),'Monte o relatório primeiro.','err');
+if(!q)return msg($('relMsg'),'Escreva a sua pergunta sobre o relatório.','err');
+if(!SB_TOKEN)return msg($('relMsg'),'Entre com sua conta pra usar a I.A.','err');
+relAskBusy=true;$('relAsk').disabled=true;
+const box=$('relAns');box.classList.remove('hidden');
+box.style.cssText='margin-top:10px;border-left:3px solid rgba(212,175,55,.65);padding:10px 14px;font-family:Georgia,serif;font-style:italic;color:#6d6146';
+box.textContent='✍️ A I.A está olhando o relatório…';
+try{
+const r=await fetch(NUVEM_URL+'/ia',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SB_TOKEN||'')},body:JSON.stringify({modo:'rel',pergunta:q.slice(0,500),contexto:String(relLastTxt).slice(0,6000)})});
+const j=await r.json().catch(()=>null);
+if(!r.ok||!j||!j.resposta)throw new Error((j&&j.erro)||('HTTP '+r.status));
+box.style.cssText='margin-top:10px;border-left:3px solid rgba(212,175,55,.65);padding:10px 14px';
+box.innerHTML='<p style="font-family:Montserrat,sans-serif;font-size:.72rem;letter-spacing:.07em;font-weight:700;color:#8a6d1c;margin:0 0 6px">✨ RESPOSTA DA I.A</p>'+j.resposta.split(/\n{2,}/).map(p=>'<p style="font-family:Georgia,serif;line-height:1.65;margin:0 0 8px">'+esc(p).replace(/\n/g,'<br>')+'</p>').join('');
+}catch(e){box.textContent='⚠ '+((e&&e.message)||'erro')+' — tenta de novo.';}
+$('relAsk').disabled=false;relAskBusy=false;});
+$('relQ').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();try{$('relAsk').click();}catch(x){}}});
+
 $('btnRelPdfDl').addEventListener('click',()=>{if(!relLastTxt)return msg($('relMsg'),'Monte o relatório primeiro.','err');
 let b=null;try{b=relPdfModelo(relCoreCache);}catch(x){console.warn('pdf modelo:',x);}if(!b)b=relPdfBytes(relLastTxt);
 try{void b;
@@ -7200,7 +7296,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.54';
+const APP_VERSAO='1.6.55';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{
