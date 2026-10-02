@@ -24,7 +24,7 @@ DETALHES
 • Login e senha: os mesmos. Celular e PC sincronizados
   (mesmo banco na nuvem).
 • Zoom das telas: menu Dados > Sistema (80% a 125%).
-• Novidade v1.6.56: «Fênix I.A» · lê anexos de verdade (PDF, Word, texto, foto) · chat maior · barra de conversas abre/fecha
+• Novidade v1.6.57: Fênix I.A com visual novo estilo Claude — barra lateral de conversas que esconde/mostra, chat amplo de ponta a ponta sem quadradinho e sem botões no topo, campo de mensagem novo embaixo (no celular a barra vira gaveta)
 
 • Atualização futura: recebe uma pasta nova e substitui.
 • Links de WhatsApp abrem no app certo do Windows.
