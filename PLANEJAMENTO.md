@@ -62,6 +62,8 @@ SIM — 6 modelos na MESMA cota grátis (10.000 neurons/dia, sem cartão). Troca
 | **@cf/bytedance/stable-diffusion-xl-lightning** | o mais rápido (2 passos) | pra rascunho rápido |
 | **@cf/lykon/dreamshaper-8-lcm** | estilo artístico/pintura | barato e charmoso |
 
+**Letra no post — onde sai NÍTIDA (dono perguntou: «qual letra sai mais nítida se o texto for junto?»)**: nenhuma fonte é nítida DENTRO da imagem de I.A — o modelo «pinta» as letras como desenho, não como tipografia. Os melhores nisso (Ideogram, Flux Pro 1.1, GPT Image, US$ 0,03–0,19) ainda erram MUITO português com acento (ã, ç, é) — sobrevivem só palavras curtas em CAIXA ALTA sem acento, fonte grossa sans-serif (estilo Montserrat); script/fina/serifada quebra sempre. **Por isso o R86 mantém: ARTE pela I.A + LETRA desenhada pelo app POR CIMA** (vetor, resolução total do celular, 100% nítida, acentos perfeitos, editável) — Playfair Display nos títulos (elegância) + Montserrat nas informações (preço/telefone, legível no celular). Se um dia quiser uma palavra decorativa DENTRO da arte: 1 palavra, curta, CAIXA, sem acento, e aceitar re-gerar quando sair errado.
+
 **Plano atualizado (R86)**: seletor de MODELO no gerador de arte — padrão Flux Schnell + opção Lucid Origin/Phoenix/SDXL num toque (mesma chamada, muda 1 string) · e botão «gera nos 2 e você escolhe» (Flux × Lucid) quando quiser comparar. Cota segue GRÁTIS em todos (~230-500+ img/dia, dependendo do modelo).
 
 ### A6 · Complemento — pesquisa de serviços (pedido do dono 03/10/2026: «gerador de imagem bom e barato com API»)
