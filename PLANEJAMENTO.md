@@ -39,6 +39,17 @@ Prioridades marcadas pelo dono: **1, 2, 4**
 - **✅ R80 — I.A VÊ TUDO (SÓ LEITURA) + CANVAS PELA I.A** (pedido direto do dono 02/10/2026): ela responde com valores reais (pagos/falta pagar, catálogo c/ preços, sessões, agenda) e NUNCA mexe em nada · «Nova conversa» de verdade · ela mesma cria o arquivo texto/PDF (estilo Gemini) — entregue na 1.6.59
 - Depois: 3a protocolos · 5 (a definir) · 3b pesquisa web (não recomendado agora)
 
+## 🆕 A6 — ARTE COM I.A NO GERADOR DE POSTS (proposta do dono 03/10/2026)
+**Fala do dono**: «os posts estão feios, não adianta o fundo que você colocou — devemos incluir um modelo de geração de imagem».
+**Por que ele tem razão (diagnóstico honesto)**: os fundos atuais são GRADIENTES/texturas planas — não importam os temas, não tem profundidade. Post bonito precisa de ARTE (matéria, luz, textura real). A outra metade do «feio» é tipografia/layout — passa junto.
+**Proposta**: botão «🖼️ Gerar arte com I.A» no Gerador (e no Editor) — a I.A cria a ARTE do post; o texto continua sendo composto POR CIMA pelo app (título, preço, telefone na nossa tipografia — texto por I.A sai quebrado, NUNCA texto na imagem).
+- **6 estilos prontos**: Luxo escuro+dourado · Mármore & ouro · Orquídea macro · Seda dourada · Bokeh spa · Botânico (a arte acompanha o assunto se quiser, ex.: «depilação a laser» → luz/laser abstrato)
+- **Custo: GRÁTIS de verdade** (verificado na Cloudflare 03/10/2026): flux-1-schnell ≈ 4,8 neurons/tile 512px → **~500 imagens/dia** nos 10.000 neurons grátis (estimativa antiga da mesa CONFIRMADA) · quando estoura, bloqueia sem cobrar
+- **Regras PERMANENTES mantidas**: SEM pessoas/rostos/texto na imagem gerada · a arte vira o fundo do post (caminho da galeria da R75 reusado) · cota própria por clínica (img: 30/dia, tipoCota novo) · worker novo /ia-img (~30 linhas, base64 direto, sem R2)
+- **Junto**: polida rápida nos moldes do post (título maior, contraste, ouro) — a outra metade do «feio»
+- **Sinergia A5**: depois que o Modo Agente existir, ele usa ISSO pra montar campanha inteira (arte + texto + legenda) sozinho
+**Esforço**: Pequeno-médio · **Risco**: Baixo · **Nota**: 9 · **Sugestão**: FAZER (R86) — resolve a dor «posts feios» na raiz
+
 ## 🆕 A5 — MODO AGENTE no canvas (proposta do dono 03/10/2026)
 **Ideia do dono**: «colocar junto no canvas a função de modo agente» — a I.A para de responder só e passa a EXECUTAR missões em várias etapas, entregando arquivos prontos.
 **Como funciona**: o dono liga 🤖 Modo Agente no chat → escreve a missão → a I.A pensa (💭), divide em etapas, mostra o progresso e entrega VÁRIOS canvases prontos na Biblioteca no fim.
