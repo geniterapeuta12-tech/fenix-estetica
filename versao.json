@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.63",
-  "r": "R84",
+  "versao": "1.6.64",
+  "r": "R85",
   "quando": "03/10/2026",
   "melhorias": [
-    "Fênix I.A com acesso REAL a tudo: clientes, gastos e pagamentos, pacotes, catálogo, sessões, agenda e agora também os DOCUMENTOS",
-    "Respostas com números exatos: ela usa os totais já calculados pelo app (nada de soma errada)",
-    "Multimodal de verdade: mande uma foto e ela descreve E responde com os dados da clínica na mesma conversa",
-    "Canvas agora é só da I.A: peça «cria um PDF…» ou «cria um texto…» e o arquivo nasce pronto na Biblioteca",
-    "Conserto de tela: coisas que ficavam mais pra baixo / fora do lugar depois da atualização anterior — layout voltou ao ponto ✅"
+    "Catálogo do pacote: cada venda agora tem botão de EDITAR o valor pago (e data/descrição) — lápis verde na lista",
+    "Vendas do catálogo CONTAM no financeiro de verdade: somam no «Pago» do pacote e no total pago da cliente",
+    "«Em aberto» do pacote passa a descontar o que entrou por vendas do catálogo",
+    "O «Pago» do pacote mostra quanto veio de catálogo — ex.: Pago: R$ 200,00 (catálogo: R$ 150,00)",
+    "Catálogo da cliente também com botão de editar valor pago"
   ]
 }

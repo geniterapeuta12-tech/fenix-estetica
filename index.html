@@ -2625,7 +2625,7 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <div id="cliFinanceiro" class="hidden">
 
 <div class="stats">
-<div class="stat"><b id="fcTotal">R$ 0,00</b><span>Total (pacotes + avulsas)</span></div>
+<div class="stat"><b id="fcTotal">R$ 0,00</b><span>Total (pacotes + avulsas + catálogo)</span></div>
 <div class="stat"><b id="fcPago" style="color:#8dffb0">R$ 0,00</b><span>Total pago</span></div>
 <div class="stat"><b id="fcSaldo" class="money">R$ 0,00</b><span>Em aberto</span></div>
 </div>
@@ -3204,8 +3204,9 @@ return{total,paid,saldo:Math.max(0,total-paid),
 st:(total>0&&paid>=total)?['Pago','b-green']:paid>0?['Parcial','b-gold']:['Em aberto','b-red']};}
 const cliTotals=id=>{const t=cliPkgs(id).reduce((s,p)=>s+p.valor,0);
 const avT=cliAvulsas(id).reduce((s,x)=>s+(x.valor||0),0);
-const paid=cliPays(id).reduce((s,x)=>s+x.valor,0);
-return{total:t+avT,paid,saldo:(t+avT)-paid};};
+const catT=catVendasCli(id);
+const paid=cliPays(id).reduce((s,x)=>s+x.valor,0)+catT;
+return{total:t+avT+catT,paid,saldo:(t+avT+catT)-paid};};
 function payTargetLabel(p){if(p.pacoteId){const pk=pkgById(p.pacoteId);return pk?pk.nome:'Pacote';}
 if(p.sessaoId){const s=sesById(p.sessaoId);return s?('Avulsa: '+(s.obs||'')):'Avulsa';}
 return 'Geral';}
@@ -5622,9 +5623,10 @@ renderCliente();renderStats();});return;}
 const li=e.target.closest('.clickable');if(li)openPacote(li.dataset.id);});
 function renderPacote(){const p=pkgById(state.pacoteId);if(!p){openSub('pacotes');return;}
 const ses=pkgSes(p.id).slice().sort((a,b)=>a.num-b.num),done=ses.filter(s=>s.feita).length;
-const pays=pkgPays(p.id),paid=pays.reduce((s,x)=>s+x.valor,0);
+const pays=pkgPays(p.id);let paid=pays.reduce((s,x)=>s+x.valor,0);
+const catPk=catVendasPkg(p.id);paid+=catPk;
 const files=pkgFilesOf(p.id),docs=pkgDocs(p.id);
-$('pkgMeta').textContent='Valor: '+(p.valor>0?fmtBRL(p.valor):'sem preço definido')+' · Pago: '+fmtBRL(paid)+' · Em aberto: '+fmtBRL(Math.max(0,p.valor-paid))+(p.itens&&p.itens.length?(' · '+p.itens.length+' item(ns) no pacote ('+p.itens.filter(x=>x.tipo==='produto').length+' produto(s))'):'');
+$('pkgMeta').textContent='Valor: '+(p.valor>0?fmtBRL(p.valor):'sem preço definido')+' · Pago: '+fmtBRL(paid)+(catPk>0?(' (catálogo: '+fmtBRL(catPk)+')'):'')+' · Em aberto: '+fmtBRL(Math.max(0,p.valor-paid))+(p.itens&&p.itens.length?(' · '+p.itens.length+' item(ns) no pacote ('+p.itens.filter(x=>x.tipo==='produto').length+' produto(s))'):'');
 const pct=ses.length?Math.min(100,Math.round(done/ses.length*100)):0;
 $('pkgBarFill').style.width=pct+'%';
 $('pkgProg').textContent=done+' de '+ses.length+' sessões realizadas ('+pct+'%)';
@@ -5724,7 +5726,7 @@ $('payCliPkg').innerHTML='<option value="">Escolha…</option>'+
 (avsAberto.length?'<optgroup label="Avulsas em aberto">'+avsAberto.map(x=>'<option value="s:'+x.id+'">'+esc(x.obs||'Avulsa')+' — falta '+fmtBRL(avTotals(x).saldo)+'</option>').join('')+'</optgroup>':'');
 if(!pkgs.length&&!avsAberto.length)$('payCliPkg').innerHTML='<option value="">Nada em aberto — crie pacote ou avulsa</option>';
 const avs=cliAvulsas(c);
-const htmlP=pkgs.map(p=>{const paid=pkgPays(p.id).reduce((s,x)=>s+x.valor,0);
+const htmlP=pkgs.map(p=>{const paid=pkgPays(p.id).reduce((s,x)=>s+x.valor,0)+catVendasPkg(p.id);
 const st=paid>=p.valor?['Pago','b-green']:paid>0?['Parcial','b-gold']:['Aberto','b-red'];
 return '<li class="txn"><span class="avatar file"><svg class="ic"><use href="#i-box"/></svg></span>'+
 '<div class="cinfo"><strong>'+esc(p.nome)+'</strong><small>'+fmtBRL(paid)+' de '+fmtBRL(p.valor)+'</small></div>'+
@@ -6154,7 +6156,7 @@ if(desc.length<2)return msg($('efMsg'),'Informe a descrição.','err');
 if(!isFinite(valor)||valor<=0)return msg($('efMsg'),'Valor inválido.','err');
 Object.assign(f,{tipo:$('efTipo').value,desc,valor,data:$('efData').value||todayISO(),obs:$('efObs').value.trim()});
 setFin(getFin().slice());$('editFinModal').classList.add('hidden');
-renderFin();renderStats();if(state.view==='cliente'&&state.sub==='financeiro')renderCliente();});
+renderFin();renderStats();if(state.view==='cliente')renderCliente();});
 bindDel('agCliList',getAg,setAg,()=>{renderCliente();renderStats();paintCal('ag');refreshWidgets();});
 
 /* ===================== STATS ===================== */
@@ -7457,6 +7459,9 @@ if(REMOTE&&origem!=='nuvem'){msgLiga();if(origem!=='eu')msgPuxa();}}
 function renderEqMsgsLista(){ /* repinta só a lista (sem perder foco do input) */ }
 /* ===== R48 — Catálogo vinculado (pacote/avulsa/cliente) · Termos ===== */
 function catDe(tipo,id){return getFin().filter(f=>f.origem==='cat'&&f.link&&f.link.tipo===tipo&&f.link.id===id);}
+/* R85: venda do catálogo é dinheiro que ENTROU — conta no pago do pacote e nos totais da cliente */
+const catVendasPkg=pid=>catDe('pacote',pid).reduce((s,f)=>s+(Number(f.valor)||0),0);
+const catVendasCli=cid=>getFin().filter(f=>f.origem==='cat'&&f.link&&f.link.clientId===cid).reduce((s,f)=>s+(Number(f.valor)||0),0);
 let SELL_NOVO=false;
 function sellVincPinta(prefer){const sel=$('sellVinc');if(!sel)return;
 const ops=[['cliente:','Só na cliente (sem vínculo)']];
@@ -7470,13 +7475,13 @@ SELL_NOVO=false;$('sellNovoBox').classList.add('hidden');
 sellVincPinta(prefer||'cliente:');paintSell();$('sellModal').classList.remove('hidden');}
 function renderPkgCat(){const p=pkgById(state.pacoteId);if(!p)return;
 const L=catDe('pacote',p.id).sort((a,b)=>String(b.data||'').localeCompare(String(a.data||'')));
-$('pkgCatList').innerHTML=L.length?L.map(f=>'<li class="txn"><span class="dot in"></span><div class="cinfo"><strong>'+esc(f.desc)+'</strong><small>'+fmtDate(f.data)+' · '+fmtBRL(f.valor)+' · cai no financeiro normalmente</small></div><button class="iconbtn del" data-id="'+f.id+'" title="Apagar venda"><svg class="ic"><use href="#i-trash"/></svg></button></li>').join(''):'<li class="empty">Nenhuma venda do catálogo neste pacote ainda.</li>';}
+$('pkgCatList').innerHTML=L.length?L.map(f=>'<li class="txn"><span class="dot in"></span><div class="cinfo"><strong>'+esc(f.desc)+'</strong><small>'+fmtDate(f.data)+' · '+fmtBRL(f.valor)+' · cai no financeiro normalmente</small></div><button class="iconbtn" data-act="finedit" data-id="'+f.id+'" title="Editar valor pago"><svg class="ic"><use href="#i-edit"/></svg></button><button class="iconbtn del" data-id="'+f.id+'" title="Apagar venda"><svg class="ic"><use href="#i-trash"/></svg></button></li>').join(''):'<li class="empty">Nenhuma venda do catálogo neste pacote ainda.</li>';}
 function renderCatCli(){const c=state.clientId;
 const L=getFin().filter(f=>f.origem==='cat'&&f.link&&f.link.clientId===c).sort((a,b)=>String(b.data||'').localeCompare(String(a.data||'')));
 $('cliCatList').innerHTML=L.length?L.map(f=>{let onde='só na cliente';
 if(f.link.tipo==='pacote'){const p=pkgById(f.link.id);onde='pacote '+(p?('“'+p.nome+'”'):'');}
 else if(f.link.tipo==='avulsa'){const s=sesById(f.link.id);onde='sessão avulsa'+(s&&s.data?(' · '+fmtDate(s.data)):'');}
-return '<li class="txn"><span class="dot in"></span><div class="cinfo"><strong>'+esc(f.desc)+'</strong><small>'+fmtDate(f.data)+' · vinculada: '+onde+'</small></div><span class="badge b-green">'+fmtBRL(f.valor)+'</span><button class="iconbtn del" data-id="'+f.id+'" title="Apagar venda"><svg class="ic"><use href="#i-trash"/></svg></button></li>';}).join(''):'<li class="empty">Nenhuma venda do catálogo ainda — use “Adicionar do catálogo”.</li>';}
+return '<li class="txn"><span class="dot in"></span><div class="cinfo"><strong>'+esc(f.desc)+'</strong><small>'+fmtDate(f.data)+' · vinculada: '+onde+'</small></div><span class="badge b-green">'+fmtBRL(f.valor)+'</span><button class="iconbtn" data-act="finedit" data-id="'+f.id+'" title="Editar valor pago"><svg class="ic"><use href="#i-edit"/></svg></button><button class="iconbtn del" data-id="'+f.id+'" title="Apagar venda"><svg class="ic"><use href="#i-trash"/></svg></button></li>';}).join(''):'<li class="empty">Nenhuma venda do catálogo ainda — use “Adicionar do catálogo”.</li>';}
 if(!window._r48Ligado){window._r48Ligado=1;
 $('btnCatSell').addEventListener('click',()=>openSellModal('cliente:'));
 $('btnCliCatAdd').addEventListener('click',()=>openSellModal('cliente:'));
@@ -7736,7 +7741,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.63';
+const APP_VERSAO='1.6.64';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{
