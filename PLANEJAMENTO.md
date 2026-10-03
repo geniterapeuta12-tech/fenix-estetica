@@ -116,6 +116,23 @@ Preços verificados em 03/10/2026 (fontes: Cloudflare, NodeTool, TokenMix, Model
 **Limites (mantidos, SEMPRE)**: ela NÃO mexe nos dados (continua só-leitura — cria ARQUIVO, não altera cliente/pagamento) · NÃO manda mensagem sozinha (gera o texto, o dono envia) · NÃO pesquisa na internet · SÓ no app do dono (I.A da cliente segue só-conversa).
 **Esforço**: Médio (worker: extrair VÁRIOS canvases por resposta + tipoCota «agente» gastando mais; app: botão 🤖 + lista de etapas/progresso) · **Risco**: Baixo-médio (cota grátis da Workers AI — missão gasta ~3-6x um chat; sugestão: 20 missões/dia) · **Nota**: 9 · **Sugestão**: FAZER (R86)
 
+## ✅ PLANILHA DE CONFIRMAÇÃO (03/10/2026) — DONO CONFIRMOU: 1, 2, 4 e 5 → R86
+
+**✅ R86 ENTREGUE (v1.6.65)**: 1 ✅ Arte I.A (6 estilos × 6 motores) · 2 ✅ Modo Agente (prova real: 1 missão → 3 arquivos) · 4 ✅ Protocolos · 5 ✅ Logo no PDF · **ficam na mesa**: 3 (OpenRouter) e 6 (acervo na nuvem)
+**Confirmados**: 1 (Arte I.A) · 2 (Modo Agente) · 4 (Protocolos) · 5 (Logo no PDF) · **Na mesa**: 3 (OpenRouter) e 6 (Nuvem acervo)
+**Responda com os números: ex. «confirmo 1 e 2», «1, 2, 3 e 6» ou «só o 1».**
+
+| # | Ideia | Resumo | Esforço | Custo | Nota |
+|---|---|---|---|---|---|
+| **1** | 🖼️ **A6 — Arte com I.A no Gerador** (sua ideia: «posts estão feios») | Botão «Gerar arte» + 6 estilos (mármore, seda, ouro…) + 6 modelos (Flux, **Leonardo Lucid**…) + moldes polidos + letra nítida do app por cima | Médio | **R$ 0** (Cloudflare) · opcional: Together US$5 = saldo eterno | 9 |
+| **2** | 🤖 **A5 — Modo Agente no canvas** (sua ideia) | Ela divide em etapas e entrega VÁRIOS arquivos prontos (protocolo completo, campanha, análise do mês) | Médio | R$ 0 (gasta cota de chat) | 9 |
+| **3** | 🔑 **OpenRouter opcional** (sua ideia) | 1 chave sua = chat turbo c/ ~500 modelos (grátis 50-1.000/dia c/ US$10 de crédito; imagem paga ~1 cent) | Pequeno | R$ 0 (ou você decide) | 7 |
+| **4** | 📄 **3a — Protocolos no Lab** | Molde de protocolo (etapas/cuidados/intervalos) reusando a I.A dos Documentos | Pequeno-médio | R$ 0 | 7,5 |
+| **5** | 🖨️ **A1 — Logo no PDF** dos relatórios | Sua logo saindo no cabeçalho do PDF (precisa você me mandar a logo) | Pequeno | R$ 0 | 8 |
+| **6** | ☁️ **A3 — Designs + acervo na nuvem** | Designs do Editor e fotos da clínica guardados no R2 (10GB grátis cabem ~2.000 fotos; +10GB ≈ R$ 0,80/mês se um dia precisar) | Médio | R$ 0 (grátis dá e sobra) | 8 |
+
+**Não esquecer (meu recado)**: 5a coluna da mesa abaixo · VERSOES.md backfill · «Copiar link» do espaço da cliente (5 min, cabe em qualquer release)
+
 ## 📋 FILA ATUAL (pós-R85 — 03/10/2026)
 
 > **Dono consultado (03/10/2026)**: «nada ainda» — nada entra em produção até a próxima ordem. Fila pronta e esperando.
