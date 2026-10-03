@@ -50,6 +50,17 @@ Prioridades marcadas pelo dono: **1, 2, 4**
 - **Sinergia A5**: depois que o Modo Agente existir, ele usa ISSO pra montar campanha inteira (arte + texto + legenda) sozinho
 **Esforço**: Pequeno-médio · **Risco**: Baixo · **Nota**: 9 · **Sugestão**: FAZER (R86) — resolve a dor «posts feios» na raiz
 
+### A6 · Complemento 3 — OPENROUTER como chave única do dono (dono sugeriu 03/10/2026, «sem pressa»)
+Verificado 03/10/2026 (docs OpenRouter/qualquerdevtool/aireiter): um cadastro, uma chave → ~500 modelos de texto E imagem.
+
+| Uso | No OpenRouter | Custo |
+|---|---|---|
+| Chat grátis (Llama, DeepSeek, Qwen…) | 50 req/dia · **1.000 req/dia se depositar US$ 10** | R$ 0 (mas provedores atrás dos modelos grátis podem TREINAR — mesmo problema LGPD do Gemini) |
+| Chat pago (GPT, Claude, sem treino, c/ filtro de política de dados) | preço do provedor + taxa de 5,5% na compra de créditos | centavos/req |
+| **Imagem** | ~20 modelos, US$ 0,006–0,13/img · precisa saldo > US$ 1 | **não tem imagem grátis** |
+
+**Minha opinião**: GOSTO — é a evolução natural da A4 (GROQ_KEY): o worker passa a aceitar **GROQ_KEY OU OPENROUTER_KEY** (mesmo padrão: chave só no worker, nunca no app) e uma chave única destrava chat turbo + imagem turbo. MAS: (1) pra IMAGEM o OpenRouter não é grátis — nossos planos A/B (Cloudflare 6 modelos R$0 · Together R$0,015) seguem na frente; (2) pra CHAT grátis os provedores podem treinar → só com ciência do dono ou pagando c/ filtro «sem treino». **Padrão do app segue Cloudflare (R$ 0, sem treino).** Esforço quando aprovado: pequeno (~40 linhas no worker, endpoint OpenAI-compatible igual Groq).
+
 ### A6 · Complemento 2 — MODELOS DE IMAGEM DENTRO do Cloudflare (dono perguntou: «não tem outros melhores?»)
 SIM — 6 modelos na MESMA cota grátis (10.000 neurons/dia, sem cartão). Trocar de modelo não custa dinheiro:
 
