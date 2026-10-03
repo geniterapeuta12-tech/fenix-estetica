@@ -50,6 +50,20 @@ Prioridades marcadas pelo dono: **1, 2, 4**
 - **Sinergia A5**: depois que o Modo Agente existir, ele usa ISSO pra montar campanha inteira (arte + texto + legenda) sozinho
 **Esforço**: Pequeno-médio · **Risco**: Baixo · **Nota**: 9 · **Sugestão**: FAZER (R86) — resolve a dor «posts feios» na raiz
 
+### A6 · Complemento 2 — MODELOS DE IMAGEM DENTRO do Cloudflare (dono perguntou: «não tem outros melhores?»)
+SIM — 6 modelos na MESMA cota grátis (10.000 neurons/dia, sem cartão). Trocar de modelo não custa dinheiro:
+
+| Modelo no Workers AI | Fama | Observação |
+|---|---|---|
+| **@cf/black-forest-labs/flux-1-schnell** | melhor geral/fotorrealista, 4 passos | ⭐ padrão do plano (rápido, ~2-4s) |
+| **@cf/leonardo/lucid-origin** | ★ NOVO 2025 — Leonardo AI, estética de arte premiada | o «chique» pra post bonito |
+| **@cf/leonardo/phoenix-1.0** | Leonardo AI variante | alternativa ao Lucid |
+| **@cf/stabilityai/stable-diffusion-xl-base-1.0** | clássico SDXL | mais lento (10-30s), visual clássico |
+| **@cf/bytedance/stable-diffusion-xl-lightning** | o mais rápido (2 passos) | pra rascunho rápido |
+| **@cf/lykon/dreamshaper-8-lcm** | estilo artístico/pintura | barato e charmoso |
+
+**Plano atualizado (R86)**: seletor de MODELO no gerador de arte — padrão Flux Schnell + opção Lucid Origin/Phoenix/SDXL num toque (mesma chamada, muda 1 string) · e botão «gera nos 2 e você escolhe» (Flux × Lucid) quando quiser comparar. Cota segue GRÁTIS em todos (~230-500+ img/dia, dependendo do modelo).
+
 ### A6 · Complemento — pesquisa de serviços (pedido do dono 03/10/2026: «gerador de imagem bom e barato com API»)
 Preços verificados em 03/10/2026 (fontes: Cloudflare, NodeTool, TokenMix, ModelsLab — preços por imagem 1MP):
 
