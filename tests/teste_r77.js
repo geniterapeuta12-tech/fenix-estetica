@@ -21,7 +21,7 @@ T('11. chip do anexo NÃO some após enviar (fica pra continuar perguntando)', (
 T('12. OCR: foto pede leitura de texto tb', W.includes('Leia o texto e o conteúdo desta imagem'));
 /* intactos */
 T('13. chat/resumo/posts/documentos ok', ['iaSend','relIaAuto','gpAplica','iaDocGera','relPdfModelo'].every(f=>W.includes(f)));
-T('14. versão 1.6.56 + versao.json R77 (3+)', W.includes("APP_VERSAO='1.6.60'")&&VJ.versao==='1.6.60'&&VJ.r==='R81'&&(VJ.melhorias||[]).length>=3);
+T('14. versão 1.6.56 + versao.json R77 (3+)', W.includes("APP_VERSAO='1.6.61'")&&VJ.versao==='1.6.61'&&VJ.r==='R82'&&(VJ.melhorias||[]).length>=3);
 T('15. JS válido', (()=>{try{new Function(W.match(/<script>([\s\S]*)<\/script>/)[1]);return true}catch(e){return false}})());
 T('16. worker sintaxe (node --check)', (()=>{try{require('child_process').execSync('node --check "'+path.join(__dirname,'..','supabase','worker-live-backup.js')+'"',{stdio:'pipe'});return true}catch(e){return false}})());
 console.log(fail?('FALHAS: '+fail):('TUDO OK ('+ok+'/16)'));

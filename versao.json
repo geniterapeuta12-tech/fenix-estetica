@@ -1,13 +1,12 @@
 {
-  "versao": "1.6.60",
-  "r": "R81",
-  "quando": "02/10/2026",
+  "versao": "1.6.61",
+  "r": "R82",
+  "quando": "03/10/2026",
   "melhorias": [
-    "Cores de tema: 7 novas paletas (Roxo Coral, Verde Limão, Roxo e Vermelho, Azul e Cinza, Rosa e Vermelho, Azul e Vermelho, Vermelho Lava) — cada pessoa escolhe a sua, e agora TUDO no app muda junto",
-    "Mensagens da equipe em tela cheia — acabou o card limitado",
-    "Termos de uso com as regras da comunidade + aceite no primeiro acesso",
-    "Limites da Fênix I.A por clínica (cotas diárias generosas, reset à meia-noite) com aviso amigável",
-    "Dados › Uso e limites: medidor novo do banco (cota de 250 MB por clínica) + cotas da I.A do dia",
-    "Fundo do app personalizável com uma imagem do seu aparelho (fica só no aparelho)"
+    "Espaço da cliente: produtos do catálogo agora mostram se estão PAGOS — e qualquer pagamento registrado diminui o valor que falta (mesmo sem marcar o pacote)",
+    "Fundo do app funcionando de verdade (antes ficava escondido atrás das telas)",
+    "Modo claro dos temas novos: nunca mais fundo preto",
+    "Canvas da I.A: ela escreve e o PDF já sai PRONTO pra baixar na hora",
+    "Fênix I.A dentro do espaço da cliente com nome próprio — e só responde assuntos dela"
   ]
 }

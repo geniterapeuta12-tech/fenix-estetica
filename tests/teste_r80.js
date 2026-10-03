@@ -24,7 +24,7 @@ T('14. CSS do cartão', W.includes('.ia-arq{align-self:flex-start')&&W.includes(
 /* intactos */
 T('15. pensamento/anexo/canvas manual intactos', W.includes('class="ia-pensa-corpo"')&&W.includes('id="iaAnexoChip"')&&W.includes("id=\"btnIaCanCriar\"")&&W.includes('function iaCanPdfBytes'));
 T('16. relatórios/posts/documentos/clientes intactos', ['relPdfModelo','gpAplica','iaDocGera','buildIaCtx'].every(f=>W.includes(f)));
-T('17. versão 1.6.60 + versao.json R80 (3+)', W.includes("APP_VERSAO='1.6.60'")&&VJ.versao==='1.6.60'&&VJ.r==='R81'&&(VJ.melhorias||[]).length>=3);
+T('17. versão 1.6.61 + versao.json R80 (3+)', W.includes("APP_VERSAO='1.6.61'")&&VJ.versao==='1.6.61'&&VJ.r==='R82'&&(VJ.melhorias||[]).length>=3);
 T('18. JS válido', (()=>{try{new Function(W.match(/<script>([\s\S]*)<\/script>/)[1]);return true}catch(e){return false}})());
 T('19. worker sintaxe ok', (()=>{try{require('child_process').execSync('node --check "'+path.join(__dirname,'..','supabase','worker-live-backup.js')+'"',{stdio:'pipe'});return true}catch(e){return false}})());
 T('20. canvas manual continua (modal + tipos)', W.includes('id="iaCanModal"')&&W.includes('data-cantipo="pdf"')&&W.includes("id=\"btnIaCanPdf\""));

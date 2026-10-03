@@ -31,7 +31,7 @@ function ub64u(s) { s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length
 const IA_SYS='Você é o Assistente Fênix, assistente de um estúdio de estética. Responda em português do Brasil, de forma curta (máximo 120 palavras), direta e amigável. Baseie-se SOMENTE nos dados fornecidos; nunca invente números; se algo não estiver nos dados, diga com franqueza que não tem essa informação. Conhecimento de estética: procedimentos comuns incluem limpeza de pele, peeling, massagem modeladora, drenagem linfática, design de sobrancelhas e nail design; foque em benefícios e bem-estar e NUNCA prometa resultado médico ou curativo; quando pedirem textos criativos (posts, legendas, mensagens para clientes), escreva com tom acolhedor e elegante.';
 const IA_RESUMO='Você é a assistente pessoal de um estúdio de estética. Escreva um RESUMO ELEGANTE, caloroso e profissional do relatório abaixo, em português do Brasil. Use 2 a 4 parágrafos curtos, com linguagem humana e acolhedora, como quem conhece o negócio de perto. Destaque com sutileza as conquistas (faturamento, clientes fiéis, sessões realizadas), aponte com delicadeza o que merece atenção e feche com 1 ou 2 sugestões práticas e otimistas. NUNCA use tabelas nem listas com marcadores. NUNCA invente números: use apenas os do relatório. Não comece com saudação: vá direto ao texto.';
 const IA_POST='Você cria posts de Instagram para um estúdio de estética. Responda SOMENTE com um JSON válido, sem nenhum texto fora dele, exatamente neste formato: {"titulo":"...","chamada":"...","beneficios":["..."],"legenda":"..."}. REGRAS OBRIGATÓRIAS: (0) MELHORAR ROTEIRO: se o pedido começar com «MELHORAR ROTEIRO DO USUÁRIO», NÃO invente tema novo: preserve as ideias, o nome EXATO dos serviços e a ordem do texto do usuário, apenas melhore a escrita (ortografia, clareza, emojis e hashtags) e devolva o mesmo JSON. (1) FIDELIDADE AO PEDIDO — use EXATAMENTE o serviço/termo que o usuário escreveu, com as mesmas palavras; se ele escreveu «ozônio terapia capilar», o título e a legenda devem conter «Ozônio Terapia Capilar» — NUNCA troque por termo genérico tipo «cuidar dos cabelos» ou «tratamento capilar». (2) titulo: o nome do serviço/oferta do pedido, até 6 palavras. (3) chamada: 1 frase curta de apoio (máximo 110 caracteres), citando o serviço exato. (4) beneficios: SEMPRE inclua 3 ou 4 benefícios REAIS e ESPECÍFICOS do serviço exato, cada um com até 5 palavras, sem ponto final — exemplo para ozônio terapia capilar: ["Fortalece os fios","Reduz a queda","Brilho intenso","Estimula o crescimento"]; só devolva lista vazia [] se o pedido não for sobre um serviço ou tratamento. (5) legenda: comece com o nome EXATO do serviço; depois 1 ou 2 frases; depois a linha «✨ Benefícios:» e cada benefício em linha própria começando com ✅; termine chamando para agendar e coloque 6 a 10 hashtags ESPECÍFICAS do serviço (ex.: #ozonioterapiacapilar #saudecapilar) mais 2 ou 3 gerais; use 2 a 4 emojis. Estilo: elegante, acolhedor, sofisticado. Conhecimento de estética: limpeza de pele, massagem modeladora, drenagem linfática, design de sobrancelhas, nail design, ozônio terapia e tratamentos capilares em geral; foque em benefícios e bem-estar; NUNCA prometa resultado médico ou curativo.';
-const IA_CLIENTE='Você é a assistente virtual do espaço da cliente de um estúdio de estética. Responda APENAS com base nos DADOS DA CLIENTE abaixo — nunca invente números, datas ou valores. Se a informação não estiver nos dados, diga que não sabe e sugira falar com o estúdio. NUNCA agende, remarque ou cancele nada: se a cliente pedir isso, responda que para agendar ela deve falar direto com o estúdio (informe o contato se houver). Responda em português, curtinho (2 a 5 frases), tom acolhedor.';
+const IA_CLIENTE='Você é a assistente virtual do espaço da cliente de um estúdio de estética. Responda APENAS com base nos DADOS DA CLIENTE abaixo — nunca invente números, datas ou valores. Se a informação não estiver nos dados, diga que não sabe e sugira falar com o estúdio. NUNCA agende, remarque ou cancele nada: se a cliente pedir isso, responda que para agendar ela deve falar direto com o estúdio (informe o contato se houver). Fale APENAS de assuntos relacionados a esta cliente e aos dados dela listados acima. Se perguntarem qualquer outra coisa (curiosidades, notícias, receitas, assuntos alheios ao espaço dela), recuse com gentileza em 1 frase e ofereça ajuda com os dados dela (sessões, pacotes, pagamentos). Responda em português, curtinho (2 a 5 frases), tom acolhedor.';
 const IA_REL='Você responde perguntas SOBRE O RELATÓRIO de um estúdio de estética que está no texto abaixo. Use SOMENTE os números e nomes do relatório — nunca invente. Se a resposta não estiver no relatório, diga claramente que o relatório não tem essa informação. Responda em português, direto ao ponto, podendo usar pequenos tópicos.';
 const IA_DOC='Você escreve e melhora textos e documentos para um estúdio de estética: mensagens para clientes, orientações de cuidados pós-procedimento, descrições de serviços, listas de preços, avisos e contratos simples. Responda SOMENTE com o texto final, pronto para usar, sem comentários e sem explicações. Se pedirem para melhorar: mantenha as informações e deixe mais claro, elegante e bem escrito. Se pedirem para resumir: encurte mantendo o essencial. Se pedirem para corrigir: corrija ortografia e gramática sem mudar o estilo da pessoa. Use o nome exato dos serviços que aparecerem no pedido. Tom acolhedor e profissional. NUNCA dê orientação médica nem prometa resultado curativo; em orientações de cuidados use linguagem de bem-estar e, se houver reação adversa, recomende procurar o estúdio ou um profissional.';
 /* R81 — cotas de uso da I.A por clínica/dia (reset à meia-noite de Brasília) */
@@ -203,14 +203,21 @@ async function rpcClientePub(env, pId) {
   if (c.acesso === 0 || c.acesso === false || String(c.acesso)==='false' || String(c.acesso)==='fals' || String(c.acesso)==='0') return { erro: 'sem_acesso' };
   const clin = await db.prepare('SELECT nome, wa, insta FROM clinics WHERE id = ?').bind(c.clinic_id).first();
   const pt = await db.prepare('SELECT COALESCE(SUM(valor),0) t FROM pagamentos WHERE cliente_id = ?').bind(pId).first();
-  const pacotes = await db.prepare(`
-    SELECT json_group_array(json_object(
-      'nome', p.nome, 'valor', p.valor, 'qtd', p.sessoes,
-      'itens', CASE WHEN p.itens IS NULL OR p.itens = '' THEN json('[]') ELSE json(p.itens) END,
-      'feitas', (SELECT COUNT(*) FROM sessoes s WHERE s.pacote_id = p.id AND s.feita IN (1,'1','true','tru')),
-      'pago', (SELECT COALESCE(SUM(pg.valor),0) FROM pagamentos pg WHERE pg.pacote_id = p.id)
-    )) x FROM (SELECT * FROM pacotes WHERE cliente_id = ? ORDER BY criado_em) p
-  `).bind(pId).first();
+  /* R82 — «pago» por pacote: pagamentos vinculados + distribuição FIFO dos SEM vínculo
+     (assim QUALQUER pagamento registrado diminui o valor que falta pro pacote acabar) */
+  const prows = await db.prepare('SELECT id, nome, valor, sessoes, itens FROM pacotes WHERE cliente_id = ? ORDER BY criado_em').bind(pId).all();
+  const pgall = await db.prepare('SELECT pacote_id, valor FROM pagamentos WHERE cliente_id = ? ORDER BY data').bind(pId).all();
+  const feitasMap = {};
+  try { const fr = await db.prepare("SELECT pacote_id pid, COUNT(*) n FROM sessoes WHERE cliente_id = ? AND feita IN (1,'1','true','tru') GROUP BY pacote_id").bind(pId).all(); (fr.results || []).forEach(f => { feitasMap[f.pid] = f.n; }); } catch (e) {}
+  let fila = (pgall.results || []).filter(x => !x.pacote_id).map(x => Number(x.valor) || 0);
+  const pagoDir = {}; (pgall.results || []).forEach(x => { if (x.pacote_id) pagoDir[x.pacote_id] = (pagoDir[x.pacote_id] || 0) + (Number(x.valor) || 0); });
+  let pacotes = (prows.results || []).map(p => {
+    let pago = pagoDir[p.id] || 0;
+    let falta = Math.max(0, (Number(p.valor) || 0) - pago);
+    for (let i = 0; i < fila.length && falta > 0; ) { const usa = Math.min(fila[i], falta); fila[i] -= usa; falta -= usa; pago += usa; if (fila[i] <= 0.005) fila.splice(i, 1); else i++; }
+    let itens = []; try { itens = p.itens ? JSON.parse(p.itens) : []; } catch (e) { itens = []; }
+    return { nome: p.nome, valor: p.valor, qtd: p.sessoes, itens: itens, feitas: feitasMap[p.id] || 0, pago: pago };
+  });
   const proximas = await db.prepare(`
     SELECT json_group_array(json_object(
       'data', s.data, 'pacote', p.nome, 'obs', s.obs, 'num', s.num
@@ -245,7 +252,7 @@ async function rpcClientePub(env, pId) {
     wa: (clin && clin.wa) || null,
     insta: (clin && clin.insta) || null,
     pago_total: pt ? pt.t : 0,
-    pacotes: jsafe(pacotes) || [],
+    pacotes: Array.isArray(pacotes) ? pacotes : (jsafe(pacotes) || []),
     proximas: jsafe(proximas) || [],
     realizadas: jsafe(realizadas) || [],
     pagamentos: jsafe(pagamentos) || [],

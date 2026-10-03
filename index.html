@@ -564,6 +564,22 @@ html[data-accent="azul_vermelho"] body{background:radial-gradient(1100px 550px a
 html:not([data-theme="light"])[data-accent="lava"]{background:#0e0706}
 html[data-accent="lava"] .brand span,html[data-accent="lava"] .side-brand span{color:#fca5a5}
 html[data-accent="lava"] body{background:radial-gradient(1100px 550px at 50% -10%,rgba(239,68,68,.13),transparent 60%),radial-gradient(820px 420px at 92% 110%,rgba(249,115,22,.10),transparent 60%),#0e0706}
+/* R82 — claros dos temas novos: fundo marfim com brasa da cor (NUNCA preto) */
+html[data-theme="light"][data-accent="roxo_coral"]{background:#f3efe4}
+html[data-theme="light"][data-accent="roxo_coral"] body{background:radial-gradient(1100px 550px at 50% -10%,rgba(139,92,246,.14),transparent 60%),#f3efe4}
+html[data-theme="light"][data-accent="limao"]{background:#f3efe4}
+html[data-theme="light"][data-accent="limao"] body{background:radial-gradient(1100px 550px at 50% -10%,rgba(132,204,22,.14),transparent 60%),#f3efe4}
+html[data-theme="light"][data-accent="roxo_vermelho"]{background:#f3efe4}
+html[data-theme="light"][data-accent="roxo_vermelho"] body{background:radial-gradient(1100px 550px at 50% -10%,rgba(139,92,246,.14),transparent 60%),#f3efe4}
+html[data-theme="light"][data-accent="azul_cinza"]{background:#f3efe4}
+html[data-theme="light"][data-accent="azul_cinza"] body{background:radial-gradient(1100px 550px at 50% -10%,rgba(91,141,239,.14),transparent 60%),#f3efe4}
+html[data-theme="light"][data-accent="rosa_vermelho"]{background:#f3efe4}
+html[data-theme="light"][data-accent="rosa_vermelho"] body{background:radial-gradient(1100px 550px at 50% -10%,rgba(236,72,153,.14),transparent 60%),#f3efe4}
+html[data-theme="light"][data-accent="azul_vermelho"]{background:#f3efe4}
+html[data-theme="light"][data-accent="azul_vermelho"] body{background:radial-gradient(1100px 550px at 50% -10%,rgba(59,130,246,.14),transparent 60%),#f3efe4}
+html[data-theme="light"][data-accent="lava"]{background:#f3efe4}
+html[data-theme="light"][data-accent="lava"] body{background:radial-gradient(1100px 550px at 50% -10%,rgba(239,68,68,.14),transparent 60%),#f3efe4}
+
 
 html:not([data-theme="light"])[data-accent="lilas"]{background:#0a0812}
 html[data-theme="light"][data-accent="terraco"]{--gold:#a04e22}
@@ -1640,6 +1656,7 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <input id="iaCanTitulo" type="text" maxlength="80" placeholder="Título do arquivo">
 <span class="badge b-gold" id="iaCanTipo">Texto</span>
 <button class="ia-cact" id="btnIaCanPdf" type="button" title="Baixar este canvas como PDF"><svg class="ic"><use href="#i-dl"/></svg>Gerar PDF</button>
+<button class="ia-cact" id="btnIaCanBaixar" type="button" title="Baixar o PDF que a I.A já deixou pronto" style="display:none">📥 PDF pronto</button>
 <button class="ia-cact perigo" id="btnIaCanDel" type="button" title="Apagar este canvas"><svg class="ic"><use href="#i-trash"/></svg></button>
 </div>
 <div class="ia-cbody"><textarea id="iaCanTexto" placeholder="Escreva aqui — o canvas salva sozinho…" spellcheck="false"></textarea></div>
@@ -3221,7 +3238,7 @@ const d=$('themeDark'),l=$('themeLight');
 if(d)d.classList.toggle('current',t==='dark');
 if(l)l.classList.toggle('current',t==='light');
 try{document.querySelectorAll('.txtfix').forEach(x=>x.classList.remove('txtfix'));}catch(e){}
-try{consertaContraste();}catch(e){}try{applyAccent(currentAccent());}catch(e){}}
+try{consertaContraste();}catch(e){}try{applyAccent(currentAccent());}catch(e){}try{applyFundo();}catch(e){}}
 function currentTheme(){try{return localStorage.getItem('fenix_theme')||'dark'}catch(e){return 'dark'}}
 function applyPerf(m){if(!['baixa','media','alta','bruta'].includes(m))m='baixa';
 document.documentElement.dataset.perf=m;
@@ -3266,8 +3283,12 @@ const rv=$('btnReverTermos');if(rv&&!rv.dataset.b){rv.dataset.b='1';rv.addEventL
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',checarTermosAceite);}else{checarTermosAceite();}
 /* R81 — fundo personalizável do app (fica só no aparelho) */
 function applyFundo(){let u=null;try{u=localStorage.getItem('fenix_fundo')}catch(e){}
-const st=document.documentElement.style;
-if(u){st.backgroundImage='linear-gradient(rgba(8,7,5,.8),rgba(8,7,5,.8)),url("'+u+'")';st.backgroundSize='cover';st.backgroundPosition='center';st.backgroundAttachment='fixed';st.backgroundRepeat='no-repeat';}
+const hr=document.documentElement.style;
+['background-image','background-size','background-position','background-attachment','background-repeat'].forEach(k=>hr.removeProperty(k)); /* R82: fundo sai do html (ficava atrás do body) */
+const st=document.body?document.body.style:null;
+if(!st)return;
+const escuro=document.documentElement.dataset.theme!=='light';
+if(u){st.backgroundImage='linear-gradient('+(escuro?'rgba(8,7,5,.8),rgba(8,7,5,.8)':'rgba(243,239,228,.88),rgba(243,239,228,.88)')+'),url("'+u+'")';st.backgroundSize='cover';st.backgroundPosition='center';st.backgroundAttachment='fixed';st.backgroundRepeat='no-repeat';}
 else{st.removeProperty('background-image');st.removeProperty('background-size');st.removeProperty('background-position');st.removeProperty('background-attachment');st.removeProperty('background-repeat');}
 const t=$('fundoEstado');if(t)t.textContent=u?'fundo ativo neste aparelho':'nenhuma imagem — padrão Fênix';
 const rm=$('fundoRemover');if(rm)rm.disabled=!u;}
@@ -4388,9 +4409,10 @@ let cvm=rt.match(/<canvas\s+tipo="(texto|pdf)"\s+titulo="([^"]*)">([\s\S]*?)<\/c
 if(!cvm&&j.canvas&&j.canvas.conteudo)cvm=[null,(j.canvas.tipo||'texto'),(j.canvas.titulo||'Canvas da I.A'),j.canvas.conteudo];
 if(cvm){if(cvm[0])rt=rt.replace(cvm[0],'').trim();
 const novo={id:uid(),tipo:cvm[1]==='pdf'?'pdf':'texto',titulo:String(cvm[2]||'Canvas da I.A').slice(0,80),texto:String(cvm[3]||''),criadoEm:nowLabel(),ts:Date.now(),geradoEm:'',ia:true};
+if(novo.tipo==='pdf'){try{novo.pdf=iaCanPdfBytes(novo.titulo,novo.texto||'');novo.geradoEm=nowLabel();}catch(e){}} /* R82 — a I.A entrega o PDF PRONTO */
 const Lc=getCans();Lc.unshift(novo);setCans(Lc);
-arq={id:novo.id,titulo:novo.titulo,tipo:novo.tipo};
-if(!rt)rt='Criei o arquivo «'+arq.titulo+'» — abre aí embaixo. 👇';}
+arq={id:novo.id,titulo:novo.titulo,tipo:novo.tipo,pronto:!!novo.pdf};
+if(!rt)rt=(novo.pdf?'Criei o PDF «'+arq.titulo+'» — pronto pra baixar. 👇':'Criei o arquivo «'+arq.titulo+'» — abre aí embaixo. 👇');}
 pushMsg('ia',rt,pc,arq);
 }
 }catch(err){pushMsg('ia','⚠ Não consegui falar com a I.A agora ('+((err&&err.message)||'erro')+'). Confere a internet e tenta de novo.');}
@@ -4507,6 +4529,7 @@ function openCanvas(id){const c=canById(id);if(!c)return;state.iaCan=id;
 $('iaCanTitulo').value=c.titulo;$('iaCanTexto').value=c.texto||'';
 $('iaCanTipo').textContent=c.tipo==='pdf'?'PDF':'Texto';
 $('btnIaCanPdf').style.display=c.tipo==='pdf'?'':'none';
+$('btnIaCanBaixar').style.display=c.pdf?'':'none';
 $('iaCanSalvo').textContent=c.geradoEm?('PDF gerado em '+c.geradoEm+' · continua editando'):('criado em '+c.criadoEm+' · salva sozinho');
 $('iaCanvas').classList.remove('hidden');try{renderIaBib();}catch(e){}}
 function closeCanvas(){state.iaCan=null;$('iaCanvas').classList.add('hidden');try{renderIaBib();}catch(e){}}
@@ -4523,6 +4546,10 @@ const a=document.createElement('a');a.href=u;a.download=(($('iaCanTitulo').value
 document.body.appendChild(a);a.click();a.remove();
 c.geradoEm=nowLabel();c.ts=Date.now();setCans(getCans());
 $('iaCanSalvo').textContent='✔ PDF gerado em '+c.geradoEm+' — confere nos seus downloads';}catch(e){$('iaCanSalvo').textContent='⚠ Não deu pra gerar o PDF agora ('+((e&&e.message)||'erro')+').';}});
+$('btnIaCanBaixar').addEventListener('click',()=>{const c=canById(state.iaCan);if(!c||!c.pdf)return;
+try{const u=URL.createObjectURL(new Blob([Uint8Array.from(c.pdf,ch=>ch.charCodeAt(0)&0xff)],{type:'application/pdf'}));
+const a=document.createElement('a');a.href=u;a.download=((c.titulo||'canvas').toLowerCase().replace(/[^a-z0-9]+/gi,'-').replace(/^-+|-+$/g,'')||'canvas')+'.pdf';
+document.body.appendChild(a);a.click();a.remove();}catch(e){$('iaCanSalvo').textContent='⚠ Não deu pra baixar agora — tenta de novo.';}});
 function iaCanPdfBytes(titulo,texto){ /* R79 — PDF do canvas: Helvetica NUNCA Courier (regra R73), título grande + parágrafos */
 const esc=s=>String(s).replace(/\\/g,'\\\\').replace(/\(/g,'\\(').replace(/\)/g,'\\)');
 const latin=s=>{let o='';for(let i=0;i<s.length;i++){const c=s.codePointAt(i);const M={8226:149,8212:151,8211:150,8216:145,8217:146,8220:147,8221:148,8230:133};const bb=c>255?((M[c]!==undefined)?M[c]:32):c;o+=String.fromCharCode(bb);}return o;};
@@ -7729,7 +7756,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.60';
+const APP_VERSAO='1.6.61';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{
