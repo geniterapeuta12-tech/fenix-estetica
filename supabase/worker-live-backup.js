@@ -34,6 +34,20 @@ const IA_POST='Você cria posts de Instagram para um estúdio de estética. Resp
 const IA_CLIENTE='Você é a assistente virtual do espaço da cliente de um estúdio de estética. Responda APENAS com base nos DADOS DA CLIENTE abaixo — nunca invente números, datas ou valores. Se a informação não estiver nos dados, diga que não sabe e sugira falar com o estúdio. NUNCA agende, remarque ou cancele nada: se a cliente pedir isso, responda que para agendar ela deve falar direto com o estúdio (informe o contato se houver). Responda em português, curtinho (2 a 5 frases), tom acolhedor.';
 const IA_REL='Você responde perguntas SOBRE O RELATÓRIO de um estúdio de estética que está no texto abaixo. Use SOMENTE os números e nomes do relatório — nunca invente. Se a resposta não estiver no relatório, diga claramente que o relatório não tem essa informação. Responda em português, direto ao ponto, podendo usar pequenos tópicos.';
 const IA_DOC='Você escreve e melhora textos e documentos para um estúdio de estética: mensagens para clientes, orientações de cuidados pós-procedimento, descrições de serviços, listas de preços, avisos e contratos simples. Responda SOMENTE com o texto final, pronto para usar, sem comentários e sem explicações. Se pedirem para melhorar: mantenha as informações e deixe mais claro, elegante e bem escrito. Se pedirem para resumir: encurte mantendo o essencial. Se pedirem para corrigir: corrija ortografia e gramática sem mudar o estilo da pessoa. Use o nome exato dos serviços que aparecerem no pedido. Tom acolhedor e profissional. NUNCA dê orientação médica nem prometa resultado curativo; em orientações de cuidados use linguagem de bem-estar e, se houver reação adversa, recomende procurar o estúdio ou um profissional.';
+/* R81 — cotas de uso da I.A por clínica/dia (reset à meia-noite de Brasília) */
+const IA_COTAS={chat:100,post:30,doc:30,rel:30,cliente:30};
+const IA_COTAS_ROTULO={chat:'Fênix I.A (chat)',post:'Gerador de Posts',doc:'I.A dos Documentos',rel:'I.A dos Relatórios',cliente:'I.A da cliente'};
+const USO_COTA_DB=262144000; /* cota amigável do banco por clínica: 250 MB */
+async function cotaBate(env,cli,tipo){
+  try{
+    const dia=new Date(Date.now()-3*3600e3).toISOString().slice(0,10);
+    const lim=IA_COTAS[tipo]||30;
+    const r=await env.DB.prepare('INSERT INTO uso_ia (clinic_id,dia,tipo,qtd) VALUES (?1,?2,?3,1) ON CONFLICT (clinic_id,dia,tipo) DO UPDATE SET qtd=qtd+1 RETURNING qtd').bind(cli,dia,tipo).first();
+    const qtd=(r&&r.qtd)||1;
+    return {ok:qtd<=lim,qtd,limite:lim,dia};
+  }catch(e){return {ok:true,qtd:0,limite:(IA_COTAS[tipo]||30),dia:'',aberto:true};}
+}
+function cotaJerr(tipo,c){return jerr('A cota de hoje acabou ('+(IA_COTAS_ROTULO[tipo]||tipo)+': '+c.limite+'/dia por clínica). O contador zera à meia-noite — amanhã volta normal.',429,'cota');}
 async function aiChat(env,msgs){
   try{
     const r=await env.AI.run('@cf/meta/llama-3.3-70b-instruct-fp8-fast',{messages:msgs,max_tokens:400,temperature:0.4});
@@ -425,10 +439,47 @@ export default {
         const auth = req.headers.get('authorization') || '';
         const pl = await verifyJWT(auth.replace(/^Bearer /i, ''), secret);
         if (!pl) return jerr('Invalid API key', 401, 'invalid_api_key');
+        const uid = pl.sub || pl.id || pl.user_id;
+        if(!uid) return jerr('Sessão inválida.',401);
+        /* R81 — bytes reais da clínica: soma das colunas de texto por tabela (WHERE clinic_id) */
+        const TABELAS=[
+          ['arquivos','url','nome'],
+          ['mensagens','texto','nome'],
+          ['documentos','titulo','texto','guias'],
+          ['formularios','titulo','descr','estrutura'],
+          ['clientes','nome','cpf','nasc','tel','email','end','obs'],
+          ['pagamentos','metodo','obs'],
+          ['sessoes','obs'],
+          ['pacotes','nome'],
+          ['catalogo_itens','nome','descr','foto'],
+          ['catalogo_kits','nome','descr','itens','foto'],
+          ['alarmes','label','som','data'],
+          ['usuarios','username','nome','info'],
+          ['workspaces','nome','descr']
+        ];
+        let bytes=0;
+        try{
+          for(const t of TABELAS){
+            const sql='SELECT COALESCE(SUM('+t.slice(1).map(c=>"COALESCE(LENGTH(\""+c+"\"),0)").join('+')+'),0) AS b FROM "'+t[0]+'" WHERE clinic_id = ?';
+            const r=await env.DB.prepare(sql).bind(uid).first();
+            bytes+=((r&&r.b)||0);
+          }
+        }catch(e){bytes=0;}
         const r0 = await env.DB.prepare('SELECT id FROM mensagens LIMIT 1').run();
-        const bytes = (r0.meta && r0.meta.size_after) || 0;
-        const quota = 5368709120;
-        return j({ bytes, quota, gatilho: 3758096384, pct: +(bytes / quota * 100).toFixed(3), atualizado_em: new Date().toISOString() });
+        const total_db = (r0.meta && r0.meta.size_after) || 0;
+        return j({ bytes, quota: USO_COTA_DB, pct: +(bytes / USO_COTA_DB * 100).toFixed(3), total_db, atualizado_em: new Date().toISOString() });
+      }
+      if (p === '/ia-uso' && req.method === 'GET') { /* R81 — cotas da I.A usadas hoje */
+        const auth = req.headers.get('authorization') || '';
+        const pl = await verifyJWT(auth.replace(/^Bearer /i, ''), secret);
+        if (!pl) return jerr('Invalid API key', 401, 'invalid_api_key');
+        const uid = pl.sub || pl.id || pl.user_id;
+        if(!uid) return jerr('Sessão inválida.',401);
+        const dia=new Date(Date.now()-3*3600e3).toISOString().slice(0,10);
+        const uso={};
+        try{const r=await env.DB.prepare('SELECT tipo,qtd FROM uso_ia WHERE clinic_id = ? AND dia = ?').bind(uid,dia).all();
+          (r.results||[]).forEach(x=>{uso[x.tipo]=x.qtd;});}catch(e){}
+        return j({ dia, cotas: IA_COTAS, uso, atualizado_em: new Date().toISOString() });
       }
 
       /* ============ REST ============ */
@@ -615,6 +666,9 @@ export default {
           const pid = String(b&&b.p_id||'').slice(0,64);
           const q = String(b&&b.pergunta||'').slice(0,500).trim();
           if(!pid||!q) return jerr('Pedido inválido.',400);
+          /* R81 — cota diária da I.A da cliente (por clínica) */
+          try{const rc=await env.DB.prepare('SELECT clinic_id FROM clientes WHERE id = ?').bind(pid).first();
+            if(rc&&rc.clinic_id){const cc=await cotaBate(env,rc.clinic_id,'cliente'); if(!cc.ok) return cotaJerr('cliente',cc);}}catch(e){}
           const ip = req.headers.get('cf-connecting-ip')||'x';
           const winG = globalThis.__fxThro = globalThis.__fxThro || new Map();
           const now = Date.now(); const arr = (winG.get(ip)||[]).filter(t=>now-t<3600000);
@@ -636,6 +690,8 @@ export default {
         const auth = req.headers.get('authorization') || '';
         const pl = await verifyJWT(auth.replace(/^Bearer /i, ''), secret);
         if (!pl) return jerr('Invalid API key', 401, 'invalid_api_key');
+        /* R81 — cota (conta como I.A dos Documentos) */
+        {const uidV=pl.sub||pl.id||pl.user_id; if(uidV){const cv=await cotaBate(env,uidV,'doc'); if(!cv.ok) return cotaJerr('doc',cv);}}
         try{
           const b = await req.json().catch(()=>null);
           const img = String(b&&b.imagem||'');
@@ -666,6 +722,8 @@ export default {
         const auth = req.headers.get('authorization') || '';
         const pl = await verifyJWT(auth.replace(/^Bearer /i, ''), secret);
         if (!pl) return jerr('Invalid API key', 401, 'invalid_api_key');
+        /* R81 — cota (conta como Gerador de Posts) */
+        {const uidI=pl.sub||pl.id||pl.user_id; if(uidI){const ci=await cotaBate(env,uidI,'post'); if(!ci.ok) return cotaJerr('post',ci);}}
         try{
           const b = await req.json().catch(()=>null);
           const t = String(b&&b.tema||'').slice(0,200).trim();
@@ -686,6 +744,10 @@ export default {
         if(!q) return jerr('pergunta vazia',400);
         const hist=Array.isArray(b.historico)?b.historico.slice(-10).filter(h=>h&&(h.role==='user'||h.role==='assistant')&&typeof h.content==='string').map(h=>({role:h.role,content:h.content.slice(0,2000)})):[];
         const modo=String(b&&b.modo||'').slice(0,20);
+        /* R81 — cota de I.A (por clínica/dia) */
+        const tipoC=(modo==='resumo'||modo==='rel')?'rel':((modo==='post'||modo==='doc')?modo:'chat');
+        const cliIdC=pl.sub||pl.id||pl.user_id;
+        if(cliIdC){const cota=await cotaBate(env,cliIdC,tipoC); if(!cota.ok) return cotaJerr(tipoC,cota);}
         const sysBase=(modo==='resumo')?(IA_RESUMO+'\n\nRELATÓRIO:\n'+ctx):(modo==='post')?(IA_POST+'\n\nCONTEXTO DO ESTÚDIO:\n'+ctx):(modo==='doc')?(IA_DOC+'\n\nCONTEXTO DO ESTÚDIO:\n'+ctx):(modo==='rel')?(IA_REL+'\n\nRELATÓRIO:\n'+ctx):(IA_SYS+'\n\nDADOS ATUAIS DA CLÍNICA:\n'+ctx);
         const ehGeral=!(modo==='resumo'||modo==='post'||modo==='doc'||modo==='rel');
         const sysFinal=ehGeral?(sysBase+'\n\nFORMATO OBRIGATÓRIO da resposta: escreva PRIMEIRO entre <pensamento> e </pensamento> o seu raciocínio curto (2 a 4 frases, em português, honesto — sem inventar dados) sobre como vai responder; DEPOIS escreva entre <resposta> e </resposta> a resposta final pronta pro dono. Não escreva NADA fora dessas duas partes.\n\nCRIAR ARQUIVOS (CANVAS): se o dono pedir pra você criar/escrever um documento, arquivo, PDF, contrato, roteiro, carta ou texto pronto (ou disser «cria um canvas»), DEPOIS das duas partes acrescente UM bloco no formato <canvas tipo="texto" titulo="Título curto">CONTEÚDO COMPLETO do documento, em texto simples e organizado, com quebras de linha</canvas> — use tipo="pdf" quando ele pedir PDF. O conteúdo do bloco é o arquivo inteiro, caprichado; fora do bloco, responda curto avisando que criou.'):sysBase;

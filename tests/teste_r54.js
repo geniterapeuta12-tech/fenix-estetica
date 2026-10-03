@@ -33,7 +33,7 @@ T('9. blur do relatório é regra GLOBAL (única, fora do @media de celular)', (
 T('10. relatório nasce com .blur no HTML', html.includes('<div id="relBody" class="blur"'));
 
 // ===== R54.3 — FIM DA BARRA CINZA DE ROLAGEM =====
-T('11. scrollbar elegante no app (dourada fina, some no toque)', html.includes('rolagem elegante (fim da barra cinza)') && html.includes('@media(hover:none){*{scrollbar-width:none}') && html.includes('scrollbar-color:rgba(212,175,55,.32) transparent'));
+T('11. scrollbar elegante no app (dourada fina, some no toque)', html.includes('rolagem elegante (fim da barra cinza)') && html.includes('@media(hover:none){*{scrollbar-width:none}') && html.includes('scrollbar-color:rgba(var(--glow-c),.32) transparent'));
 
 // ===== R54.4 — APP DA CLIENTE: NADA SAI DO QUADRO =====
 const cli=fs.readFileSync('/home/user/clients/index.html','utf-8');
@@ -51,7 +51,7 @@ T('19. landing: passos 1-2-3 e reveal no scroll', (land.match(/class="step rv"/g
 
 // ===== R54.6 — LINK NO APP =====
 T('20. link do Center no app aponta pra página de marca', html.includes('geniterapeuta12-tech.github.io/fenix-estetica/center/" target') || fs.readFileSync('/home/user/index.html','utf-8').includes('fenix-estetica/center/" target'));
-T('21. versão 1.6.59 no app', w.eval("APP_VERSAO")==='1.6.59');
+T('21. versão 1.6.60 no app', w.eval("APP_VERSAO")==='1.6.60');
 
 console.log(falhas?('FALHAS: '+falhas):'TUDO OK (21/21)');
 process.exit(falhas?1:0);

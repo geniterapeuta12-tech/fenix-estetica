@@ -1,82 +1,74 @@
-# 🎛️ FÊNIX ESTÉTICA — MANUAL DE GESTÃO DO SITE
-*Fase iniciada em 26/09/2026 · Infraestrutura: 100% Cloudflare · Versão: R48 (v1.6.33)*
-
----
-
-## 🔗 Links oficiais (sempre válido)
-- **Repositório**: https://github.com/geniterapeuta12-tech/fenix-estetica
-- **Histórico de versões** (cada atualização = 1 registro): https://github.com/geniterapeuta12-tech/fenix-estetica/commits/main
-- **Downloads (EXE/APK)**: https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest
-- **Site no ar**: https://geniterapeuta12-tech.github.io/fenix-estetica/
-- **Nuvem**: https://dash.cloudflare.com → Storage & Databases → D1 → fenix-estetica
-
-*Regra da casa: toda versão nova é publicada no repositório (commit próprio) e o link é re-passado aqui na conversa.*
-
-## 🗺️ Mapa do sistema (quem é quem)
-
-| Peça | O que é | Endereço / onde vive |
-|---|---|---|
-| **Site** | A página do app (fachada) | https://geniterapeuta12-tech.github.io/fenix-estetica/ |
-| **Servidor** | Worker `fenix-api` (Cloudflare) — login, dados, fotos, link público | https://fenix-api.geniterapeuta12.workers.dev |
-| **Banco** | D1 `fenix-estetica` (Cloudflare) — 5 GB grátis | ligado ao Worker |
-| **Downloads** | EXE + APK na release v1.6.9 do GitHub (EXE auto-atualizável c/ app v1.6.9; relatório PDF personalizado; Mensagens estilo Telegram) | github.com/geniterapeuta12-tech/fenix-estetica/releases/latest |
-| **Repositório** | Fonte de tudo (app, servidor, SQLs, dumps) | github.com/geniterapeuta12-tech/fenix-estetica (branch main) |
-| **APK** | Android — carrega o site do Pages (se atualiza sozinho) | release v1.6 |
-
-## 📊 Raio-X da primeira ronda (26/09/2026)
-- Servidor: HTTP 200 · 88 ms ✅
-- Banco: 6,5 MB de 5.120 MB (**0,13%**) ✅
-- Dados: 18 clientes · 22 pacotes · 135 sessões · 24 pagamentos · 9 documentos · 49 fotos ✅
-- Fotos: **49/49 no armazém · 0 em base64 no banco** (migração R16 concluída sozinha) 🌟
-- Login da clínica: `clinicaprincipal@clinicas.fenix.app` (senha definida por você no 1º acesso)
-
-## 🔁 Como as atualizações fluem
-**Mudança no app** (telas, textos, funções):
-1. Editar `index.html` → rodar os 451 testes → copiar pra `fenix-estetica.html` e `tests/`
-2. Publicar no GitHub → Pages atualiza sozinho → **site e APK pegam na hora**
-3. EXE: injetar o novo `index.html` no zip da release
-
-**Mudança no servidor** (Worker — regras de nuvem, fotos, login):
-1. Editar `fenix-cloudflare/worker.js` → deploy via API da Cloudflare
-2. Espelhar em `supabase/cloudflare-worker.js` + commit
-
-**Pedidos prontos que você pode me fazer a qualquer momento:**
-- *"Como está o site?"* → rodo o raio-X completo (1 min)
-- *"Quanto o banco está usando?"* → consulta na hora
-- *"Atualiza o app com X"* → edito, testo 451 checks e publico
-- *"Backups estão sendo feitos?"* → confiro a tabela `backups` da nuvem
-- *"Cadastra/ajusta algo nos dados"* → comando SQL direto no D1
-
-## 🚨 Plano de emergência (torcemos pra nunca usar)
-- **Banco corrompido/apagado?** → `supabase/cloudflare-schema.sql` (23 tabelas) + `supabase/cloudflare-import.sql` (todos os dados + fotos) reconstroem tudo em minutos
-- **Worker fora?** → redeploy do `fenix-cloudflare/worker.js` (1 comando, guardado no repo)
-- **Site fora?** → Pages redesenha sozinho do repo a cada push
-- **Chave interna do servidor**: `fenix-cloudflare/fenix-secret.txt` (não compartilhar)
-
-## 💳 Custos
-Tudo em plano grátis: **R$ 0/mês**. Plano pago da Cloudflare (US$ 5/mês ≈ R$ 30) só se um dia quiser backup noturno no servidor (cron) — não é necessário hoje.
-
-## 📈 Limites atuais (e o quanto usamos)
-| Limite free | Uso hoje |
-|---|---|
-| 5 GB no banco | 0,13% |
-| 100 mil req/dia no servidor | <1% |
-| 5 mi leituras/dia no banco | ~0,1% |
-| Sem pausa automática | — (nunca) |
-
-*Quando pedir "como está o site?", eu comparo com esta tabela e aponto qualquer desvio.*
-
-## 📜 Regra das versões (desde R23)
-**Release nunca é apagada** — cada versão é adicionada à lista em `VERSOES.md` (repositório) e à release do GitHub. Links de download (`/releases/latest/...`) são fixos para sempre.
-- **EXE desde v1.6.8:** se atualiza sozinho (carrega a nuvem; sem internet usa a versão interna). Só reinjeta pacote se o próprio app avisar.
-
-## 🔔 Regra da versão (desde R28)
-Em CADA versão nova: (1) atualizar `APP_VERSAO` no index.html; (2) atualizar `versao.json` no repo (versão + melhorias) — é ele que o app consulta pra avisar de atualização.
-## R36 (27/09/2026) — app do cliente + planilha + conserto de dados
-- **App da cliente (clients/index.html) refeito**: navegação por ABAS (Início/Pacotes/Sessões/Pagamentos) com os SVGs idênticos aos da gestão (i-home/i-box/i-cal/i-fin); SEM barra lateral e SEM os itens travados "🔒 clínica"; mantém cli=, ate=, sem_acesso; impressão mostra todas as abas.
-- **Planilha**: renomear (✏️ inline, sem prompt() — Electron proíbe); selecionar linha/coluna pelos cabeçalhos (números 1-2-3 / letras A-B-C, plnLetra) com realce dourado; – Linha/– Coluna apagam a SELEÇÃO (sem seleção = última, como antes).
-- **CONSERTE DE DADOS (import)**: booleans foram importados como TEXTO e truncados ('true'→'tru', 'false'→'fals') — isso fazia TODA sessão aparecer feita ("8/8") e cliente pausada aparecer ativa. Corrigido no D1 (sessoes.feita/pago, clientes.acesso, alarmes.ativa, documentos.fav → inteiros 1/0; conferido com CSV: 81 feitas/54 não). Worker: RPC fenix_cliente_pub aceita 1/'true'/'tru' etc.; app: mapSess/mapCliente blindados (texto 'false' NÃO é mais truthy; acesso 0/'fals'/'0' = pausado). NÃO re-importar sem converter booleans!
-- **FRAGILIDADE SNAPSHOT**: zip de ~101 MB em fenix-apps/ pode corromper/retroceder no snapshot (teto ~128 MB). Fonte da verdade = release no GitHub; se o zip local estiver estranho, re-baixar de releases/download/v1.6.X/ antes de usar como base.
+## R59 — FIM DO SERVICE WORKER ZUMBI (30/09/2026, commit 933eb20)
+- DIAGNÓSTICO DEFINITIVO do «não funciona nada» intermitente: aparelhos que usaram o Center como PWA/abriram /center/ no navegador (era v1.2/v1.3) têm o service worker fenix-center-v4/v5 REGISTRADO PRA SEMPRE; sw deletado do repo (R53.2) → 404 no update → SW velho CONTINUA → servia o app v1.3 (loja) CACHE-FIRST: sem Account, sem voltar, UI velha, «nada funciona» — nenhuma correção desde R53 chegava nesses aparelhos.
+- FIX: center/sw.js NO AR = EXTERMINADOR (install skipWaiting · activate: caches.keys→delete ALL→registration.unregister()→clients.navigate(reload)) → browser atualiza o SW na próxima visita → zumbi morto, caches limpos, rede direta. CONFIRMADO servindo (200, caches.delete+unregister).
+- UI mestra 1.8.0: REMOVIDO o serviceWorker.register (sobrou do PWA; era inócuo no file:// mas sujeira). BOLINHA do oficial ESTÁTICA (era pulse 2.2s infinite — o dono estranhou o piscar).
+- v1.8.0: APK vc11 (sha d28e6a5c…) + EXE (sha 3cb3d6f4…) na release · app.html = 1.8.0.
+- TESTES: r56 19/19 (sem SW na mestra, exterminador presente, bolinha estática) · r55 26/26.
+- SE O DONO AINDA VIR APP VELHO: abrir geniterapeuta12-tech.github.io/fenix-estetica/center/ UMA vez no navegador do aparelho (dispara o exterminador) e depois abrir o APK. O APK vc11 já nasce limpo.
+## R58 — BLINDAGEM total do Center v1.7.0 (30/09/2026, commit a6f61bf)
+- SINTOMA do dono: «não dá pra clicar em nada / abre direto no card Fênix Estética / sem botão de voltar» = JS MORRENDO na inicialização no WebView: todos os binds eram sequenciais (um throw → nenhum handler depois → app inteiro inerte, página estática visível).
+- FIX ESTRUTURAL: helper on(id,ev,fn) — bind individual com try/catch + null-check; TODOS os onclick/addEventListener convertidos; bloco inteiro nunca mais derruba os outros. localStorage via lsGet/lsSet (fallback em memória) — WebView que bloqueia file:// storage não mata mais o boot. pintaTema/pintaConta chamados c/ try.
+- TYPO R57 corrigido: if(window.__fenixBack2) → __fenixFirst (item Início do ⊞ não navegava).
+- v1.7.0: APK vc10 (sha 2340d034…) + EXE (sha 7b66673c…) na release · app.html fonte viva 1.7.0 (auto-update entrega pra 1.6.x sem reinstalar).
+- TESTES: r56 16/16 (+ blindagem: binds novos funcionam, acUser reage, ⊞ Início navega) · r55 26/26.
+- LIÇÃO: NUNCA amarrar handlers em sequência solta no topo do script; sempre on() + storage seguro em WebView (file://). Se o dono relatar 'nada clicável', é JS morto no boot — procurar o throw.
+## R57 — consertos do Center v1.6.2 (30/09/2026, commit acad80f)
+- BUG 1 (Account 'não funciona/abre no início'): .view.esconde{display:none} NÃO EXISTIA no CSS desde a v1.4 'tudo junto' → as views nunca escondiam de verdade; Account renderizava ABAIXO do Início. FIX: regra adicionada.
+- BUG 2 (múltiplos selecionados na sidebar): botão Início tinha class='navbtn active' FIXO no HTML e abreView só mexia no navAccount → 2+ itens marcados. FIX: id=navInicio + abreView marca SÓ a ativa (navInicio quando início, navAccount quando account).
+- BUG 3 (voltar não saía do app): onBackPressed usava canGoBack()/goBack() — o auto-update (asset→live swap) cria HISTÓRICO no WebView → goBack quicava entre páginas. FIX: __fenixBack false → finish() direto (app single-page); onPageFinished→clearHistory (higiene). Item 'Início' do ⊞ agora também volta ao início (__fenixFirst).
+- APK vc9 (1.6.2, sha bc6d39ce…) + EXE 1.6.2 (sha 2c6830fe…) na release v1.6.38 · app.html=1.6.2 (auto-update entrega pros 1.6.x em minutos).
+- TESTES: r56 13/13 (3 novos: esconde-view, seleção única nos 2 sentidos, voltar some) · r55 26/26 (1.6.2).
+- LIÇÃO: qdo mover views de lugar, CONFERIR que o CSS .esconde veio junto; testes de CSS por grep de REGRA (não só classes no HTML).
+## R56.1 — v1.6.1: auto-update demonstrado AO VIVO (30/09/2026, commit 31dfe10)
+- Publicada 1.6.1 na fonte viva center/app.html → TODO Center 1.6.0 instalado se atualiza sozinho no próximo abrir (ou ao voltar pro app). O próprio ciclo desta rodada foi a prova.
+- NOVO na 1.6.1: (a) toast «✔ Fênix Center atualizado pra vX ✓ tudo seu continua aqui» após o swap (lê/grava localStorage center_ultima_v); (b) checaUiNova TAMBÉM no visibilitychange (voltar pro app) — além de abrir + 30min.
+- CORS do Pages CONFIRMADO: access-control-allow-origin: * (fetch do EXE e do WebView funcionam). Cache 10min — o ?t=Date.now() contorna.
+- APK vc8 (1.6.1, sha b2566477…) e EXE 1.6.1 (sha 7b96a62e…) substituídos na release v1.6.38. Java CENTER_V="1.6.1" (baseline do nativo).
+- IMPORTANTE: versões ANTERIORES à 1.6.0 (1.5.x) NÃO têm o atualizador → precisam de UMA instalação manual da 1.6.0+. A partir daí, automático pra sempre.
+- TESTES: r56 10/10 · r55 26/26 (expects 1.6.1).
+## R56 — Center SE ATUALIZA SOZINHO (29/09/2026, commit cbcf3bf)
+- MECANISMO: a UI do Center vive PUBLICADA em center/app.html (repo → Pages, commit cbcf3bf). Apps instalados consultam a fonte viva e entram na versão nova SEM reinstalar.
+- APK vc7 (1.6.0, sha 0b1d745b…): atualizador NATIVO no MainActivity — carregar(): baixa LIVE_UI (timeout 4s/6s, no-cache), extrai CENTER_V via regex, compara com maisNova() (NUNCA rebaixa), salva filesDir/center-live.html com <base href> injetado e carrega; sem internet/igual → asset interno. onCreate→carregar().
+- EXE 1.6.0 (sha 28cd0893…) + JS checaUiNova na UI (2ª camada p/ APK): fetch app.html?t= → versão > atual → injeta <base href> e faz document.open/write/close (swap imediato); ao abrir + setInterval 30min. uiMaisNova() guarda contra downgrade (Pages com lag).
+- O QUE SOBREVIVE À ATUALIZAÇÃO: temas (center_tema/center_accent), conta local (center_conta/center_contas) — localStorage. O que atualiza: TODA a UI/funcões.
+- FLUXO P/ FUTURO: editar center-src/www/index.html → cp p/ center/app.html → commit+push (Pages ~2-3min) → INSTALADOS se atualizam sozinhos no próximo abrir. Rebuild APK/EXE só quando mudar MainActivity/ícone (senão os assets da release podem ficar na UI anterior — os apps se atualizam sozinhos de qualquer jeito).
+- TESTES: r56 10/10 (estáticos + comportamental c/ fetch stub: sem resposta ok:false abre normal, 1.5.9 no ar NÃO rebaixa, 1.7.0 no ar entra sozinho, conta sobrevive) · r55 26/26 (expect → 1.6.0).
+- ARMADILHAS: (1) build APK usa /tmp/cprj/src — RE-COPIAR MainActivity depois de editar center-src (javac usou classe velha → dex sem atualizador, pego pelo grep 'center-live.html' no dex); (2) edição Python no Java deixou chave dupla → erro 'class, interface, or enum expected'; (3) /tmp persistiu entre turnos desta vez (classes velhas de vc6).
+## R55 — Center v1.5.0: VOLTAR + ACCOUNT (29/09/2026, commit 3263795)
+- BOTÃO DE VOLTAR: ‹ Voltar no topbar (aparece em popup aberto/Account) + tecla ESC + botão voltar do ANDROID: MainActivity.onBackPressed → evaluateJavascript window.__fenixBack() (fecha popup → volta tela → se nada, canGoBack/finish). __fenixBack global na UI.
+- ACCOUNT na barra lateral (+ item no ⊞): estilo Gmail DO NOSSO JEITO — handle usuario@fenix.app (prévia ao digitar). Card do perfil: avatar inicial dourada, nome, handle, USUÁRIO e SENHA (👁 mostra/oculta). Form criar/trocar com validação RÍGIDA: vazio / <3 caracteres ('precisa conter…') / só [a-z0-9._] ('formato e-mail Fênix') / ponto sequência-início-fim recusado / «este nome de usuário JÁ EXISTE» (lista center_contas, exceto a própria atual) / senha ≥4. Conta salva em localStorage (center_conta + center_contas) — CONTA LOCAL «por enquanto»: aviso diz que o @fenix.app de verdade vem por aí (dono: 'ainda não vai funcionar').
+- DISTRIBUIÇÃO: Fenix-Center.apk vc6 (1.5.0, sha 7c67bbc8…) e Fenix-Center-Windows.zip (1.5.0, sha 695a72d6…) SUBSTITUÍDOS na release v1.6.38 (links latest/download seguem válidos). Landing /center/ intocada.
+- CORRUPÇÃO DETECTADA+RESOLVIDA: center-src/www/index.html tinha 'Fênix' → 'FM-CM-*nix' (snapshot corrompeu); RESTAURADO extraindo assets/www/index.html do APK vc5 assinado (sempre possível: o binário da release é a fonte da verdade).
+- GIT: .git local tinha PERDIDO o commit R54 (2f8b703) → push rejeitado; resolvido com clone fresco + commit do delta (padrão: se push divergir, re-clonar e re-commitar o delta, nunca force).
+- TESTES: teste_r55.js 26/26 (voltar, popup-first, ESC, __fenixBack, validações rígidas todas, conta criada, avatar, 👁, JÁ EXISTE, troca de senha da conta ATUAL — de outra conta é bloqueado por design) · r54 21/21 · r52 23/23 · r43 16/16 · funcionais 11/11.
+## R54 — v1.6.38: mensagens sempre + página de marca (29/09/2026, commit 2f8b703)
+- MENSAGENS (causa raiz das 'não chegam'): (a) cursor gt('ts',lastTs) usava relógio do REMETENTE → relógio atrasado = msg perdida pra sempre. AGORA: janela TG_MARGEM=300000 (5min de sobreposição) + dedupe por id (Set tenho) + lastTs=max. (b) 1ª carga era order asc limit 300 = as MAIS ANTIGAS; agora desc limit 200 janela 24h + reverse. Usa SÓ .gt (compatível c/ stubs antigos — gte quebrou o stub do r43, detectado pelos testes).
+- RELATÓRIO: #relBody.blur era regra DENTRO do @media(max-width:600px) → só celular desfocava. Regra GLOBAL agora (a do media removida).
+- SCROLLBAR cinza: CSS global *{scrollbar-width:thin;scrollbar-color:gold .32 transparent} + webkit 7px thumb dourado + @media(hover:none){esconde}. No app da cliente também.
+- CLIENTE (clients/index.html): td{max-width:0;overflow-wrap:anywhere} + .panelcard{overflow-x:auto} + .bar min-width 60 → números nunca mais estouram o quadro. (sem versão própria — vai pelo Pages)
+- PÁGINA DE MARCA center/index.html NO AR (/center/ 200, 18KB): hero c/ fênix+shine+aurora+grão+wm flutuante, 6 features do Estética, destaque Fênix Center c/ download SÓ do Center (APK/EXE via releases/latest/download), selo tec (versão ao vivo API, assinado, sha-256), 3 passos, reveal IntersectionObserver. App de estética linka pra ela (Dados›Sistema).
+- RELEASE v1.6.38 id 399669232 (6 assets): apk vc18 sha 9a4f51b2…, zip EXE sha 2779c43f…, checksums, LEIA-ME (bullet 1.6.38), Fenix-Center.apk 5b3743e7…, Fenix-Center-Windows.zip d6339300… (assets do Center COPIADOS pra release nova — links latest/download apontam pra ela! NÃO esquecer na v1.6.39+).
+- versao.json 1.6.38 (5 melhorias) · VERSOES.md linha v1.6.38 (tabela! formato | **v1.6.38 (R54)** | …) · apk-manifest-vc18.xml.
+- BATERIA: r54 21/21 (NOVO: teste comportamental de msgPuxa c/ stub gravador q ORDENA DESC como servidor real) · r52 23/23 · r43 16/16 · r51 10/10 · r50 16/16 · equipe 14/14 · test_novo 274 · auditoria limpa.
+- LIÇÃO: stubs fake de supabase DEVEM ordenar desc quando o código usa order descending (senão o reverse do app inverte a ordem nos testes). E nunca usar .gte no app (stubs antigos não têm).
+## R53.2 — Center é APP, não página (29/09/2026, commit 45946c4)
+- DONO: «não é pra apagar o APK, é pra apagar o index» → PÁGINA WEB DO CENTER REMOVIDA (center/index.html, manifest.json, sw.js deletados do repo; /center/ agora 404). Center existe SÓ como APP: Fenix-Center.apk (br.fenix.center vc5 1.4.0, sha 5b3743e7…) e Fenix-Center-Windows.zip (1.4.0, sha d6339300…), ambos NA RELEASE v1.6.37 (6 assets).
+- UI do Center (v1.4.0 «tudo junto»): uma tela só — Fênix Estética com Instalar Android (APK) + Instalar Windows (EXE) + Abrir o instalado (ponte/fenix://) + Novidades + Todas as versões (instala por versão). NENHUMA função de baixar o Center dentro do Center. Sidebar/temas 7/⊞ mantidos. Dentro do APK/EXE (isApp) esconde botão PWA.
+- FONTE do Center agora é SÓ workspace: center-src/ (www/index.html = UI mestra, br/fenix/center/MainActivity.java, Fenix-Center.apk). center-src/ NO .gitignore (não commita — qualquer arquivo no repo vira página pública).
+- Link do Center no app de estética (Dados›Sistema, linha ~1958) → https://github.com/…/releases/latest (antes apontava p/ /center/ que morreu). fenix-estetica.html e tests/ sincronizadas. SEM bump de versão (hotfix de link no hospedado).
+- checksums-sha256.txt REFEITO c/ os 4 binários (apk bd6a7851…, zip 90cfe8f7…, center apk 5b3743e7…, center win d6339300…) e re-subido na release. LEIA-ME não cita Center.
+- Testes: t20 reescrito (Center=APP sem web), t21 lê center-src/www/index.html · 23/23 · r51 10/10 (fixes de expects CSS pendentes commitados agora) · r50 16/16 (1.6.37 commitado).
+- ARMADILHA CONFIRMADA: .git/config NÃO persiste entre turnos (excluído do snapshot) → remote origin e user config somem SEMPRE que o workspace recicla → recriar: git config user.email/name + git remote add origin https://TOKEN@github.com/… antes de push. Commit 45946c4 = amend de a8cc7a1 (não pushado) + staged deletion.
+## R53 — Center = LOJA DE APPS, UI do app de estética (29/09/2026)
+- center/index.html REFEITO (v1.3.0, commit b8aaba3): SIDEBAR como no app de estética (side-logo c/ ícone, FÊNIX CENTER Playfair, navbtn c/ barra dourada inset 3px, side-foot v1.3.0); FUNDO c/ marca d'água do ícone fênix (.wm opacity .055, invert no claro); TEMAS: Escuro/Claro × 7 acentos IGUAIS ao app (gold d4af37, coral 1fa37c/17755a, rosa cd8f7d/a5685a, mostarda d6a418/9a7309, terraco c96a3b/a04e22, acqua 2ba3b0/1c7c88, lilas 8b7bd8/6a5cc0) — html[data-theme][data-accent], localStorage center_tema/center_accent; popup ⊞ no celular (sidebar some <720px, como no app).
+- INÍCIO = prateleira de apps (cards Fênix Estética + Fênix Center). Clique no card → '#/app/<id>' PÁGINA DO APP estilo Microsoft Store: ícone 104 + nome + dev + descrição + pills, botões Instalar Android/Windows + «Abrir o app instalado», seção Novidades, TODAS AS VERSÕES c/ botão instalar por versão (APK+ZIP de cada release). Voltar: ‹ no topbar + botão voltar do celular (hash routing).
+- isApp = window.FenixCenterApp || UA Electron → DENTRO do app NÃO oferece instalar o Center (card diz «este app» + Procurar atualização); no navegador mantém instalação (APK/PWA/Windows).
+- APK Center vc4 (1.3.0, code 4, sha b9bfef06…) · Windows Center 1.3.0 (asset release, sha fa89a0bc…) · sw cache fenix-center-v4 · links ?v=4.
+## R52.3 — Center v1.2 c/ auto-atualização (29/09/2026)
+- center/index.html: + card DESTAQUE «última versão do app» (baixa direto Android/Windows), + AUTO-ATUALIZAÇÃO (compara commit de center/index.html vs CENTER_BUILD; >24h → barra 🔄 com botão Atualizar → baixa fenix-center.apk), + DownloadListener no MainActivity (APKs/ZIPs abrem no navegador p/ instalar), deslizador animado nas abas desktop, metal gradient (f6e27a→d4af37→b08a2a) no título/badge/botões, entrada escalonada, vinheta, rodapé mostra v1.2.0.
+- APK Center vc3 (1.2.0, sha e8b8f15e…) · Windows Center 1.2.0 (sha 679c2280…) — ambos na Pages/release.
+- COMMIT 50f80cb. sw cache = fenix-center-v3; links ?v=3.
+- Workspace enxugado: fenix-apps/*.zip GRANDES removidos (re-download: releases/latest/download/<nome>; FENIX-Estetica-Windows.zip 1.6.37 sha 90cfe8f7… · Fenix-Center-Windows.zip 1.2.0 sha 679c2280…). KEYSORE FICA.
 ## R52.1 — Fênix Center como APP (29/09/2026)
 - center/index.html REFEITO: design premium (Playfair+Montserrat, aurora dourada, cards vidro, timeline de versões com linha, toasts, reveal) — SEM svg phoenix do app (ícone PNG próprio).
 - PWA: manifest.json + sw.js (cache-first) → instalável pelo navegador também.
@@ -192,3 +184,201 @@ Em CADA versão nova: (1) atualizar `APP_VERSAO` no index.html; (2) atualizar `v
 - **Gatilho da migração (combinado com o dono):** banco D1 chegar a **~3,5 GB (70% dos 5 GB grátis)** — ou começar a dar erro de gravação por limite. Nesse momento: avisar o dono e iniciar a migração pro Fly.io.
 - **Rotina de vigília:** conferir o tamanho do banco (API Cloudflare D1, campo file_size) em TODA sessão de trabalho e comentar com o dono. Referência 27/09/2026: **7,05 MB = 0,14% do grátis** (ritmo atual = anos até o gatilho).
 - **Plano Fly.io (pronto p/ executar quando o gatilho disparar):** conta fly.io do dono + token de API; máquina Postgres + máquina da API na região gru; mesmas rotas do worker atual; migrar dados por export SQL do D1 → Postgres; testar em paralelo sem derrubar nada; só depois redirecionar o app (release v1.6.20+). Custo estimado: US$ 6–14/mês fixo (máquina banco + máquina API + disco; snapshots 10 GB grátis).
+
+## R60 — Cloudflare R2 + anexos 10 MB (30/09/2026) — commit 17a9be1 + 85aa257 · release v1.6.39 (id 400505792)
+- **R2 no ar**: balde `fenix-arquivos` (conta 022e1461…) operando 100% via worker fenix-api com binding REST (`R2_TOKEN` = token cfat_ R2 do dono, guardado como SECRET no worker). Teste direto: PUT/GET objeto via API REST R2 → ok, limpo depois.
+- **Worker fenix-api (27,8 KB) — novas rotas/comportamentos**:
+  - POST `/storage/v1/object/fenix-arquivos/{path}` → **R2 primeiro** (Bearer R2_TOKEN); cai pro D1 (tabela fotos) se R2 falhar; limite 12 MB; exige JWT.
+  - GET `/storage/v1/object/public/fenix-arquivos/{path}` → **R2 primeiro, D1 fallback** (fotos antigas continuam abrindo).
+  - DELETE (rota JWT e rest/v1 com t=mensagens) → apaga R2 **e** D1; no cleanup de mensagens (24h) o worker pré-seleciona URLs e apaga os objetos R2 juntos (try/catch: falha R2 NUNCA bloqueia o banco).
+  - GET `/r2-ok` → diagnóstico `{ok:true,r2:true}` (sem auth).
+- **App 1.6.39**: anexos do chat até **10 MB** (TG_MAXR2=10485760); ≤1,4 MB continua inline (data:URL); maiores → upload `tgSobeR2()` via worker (Bearer SB_TOKEN; chave nunca no app) → mensagem guarda URL `/storage/v1/object/public/fenix-arquivos/anexos/{ts}-{uid}-{nome}`; foto >1 MB comprime (1280px/q.72) e, se ainda >1,4 MB, original vai pro R2; render usa `tgEhImgUrl()` (data: OU URL pública c/ ext. imagem). Sem SB_TOKEN → fallback com aviso antigo (1 MB).
+- **Deploy worker (receita que funcionou)**: secret via `PUT /workers/scripts/fenix-api/secrets {"name":"R2_TOKEN",...}` (persiste sozinho); script via `PUT multipart` com `-F "worker.js=@arq;filename=worker.js;type=application/javascript+module"` — **filename TEM que ser worker.js** (sem isso: erro "No such module"); metadata bindings = só `[{"type":"d1","name":"DB","id":"1b449f18-…"}]`; FENIX_SECRET e R2_TOKEN sobrevivem (não listar). Propagação ~3-4s.
+- **Token cfat_ (R2)**: NÃO acessa API de Workers (só endpoints /r2/) — confirmado; deploy continua com cfut_cJmd. Token R2 funciona p/ listar/PUT/GET/DELETE objetos via api.cloudflare.com/client/v4/accounts/{acct}/r2/buckets/… (Bearing cfat_).
+- **APK Estética vc19** (1.6.39, 467954B, sha 47651e70164af1bd…): aapt2 de build-tools_r34 + android.jar de platform-33 (re-baixados); javac precisa **-encoding UTF-8**; mipmaps extraídos do vc18; assinado fenix2026. EXE 1.6.39 (101552858B, sha cf478b6d207bcce8…): base v1.6.38 conferida (2779c43f…) → resources/app/index.html + package.json + LEIA-ME trocados → zip -r -X.
+- **Release v1.6.39**: 6 assets (2 Estética novos + 2 Center RE-ENVIADOS iguais pra não quebrar links latest + checksums + LEIA-ME). Criação de release com target_commitish=sha curto deu 422 → usar **"main"**. shas na release conferidos por download de volta (47651e70 ✓).
+- **Live pós-push**: app 1.6.39 ✓ · versao.json 1.6.39/R60 ✓ · worker /r2-ok ✓ · auth 200 ✓ · RPC Fátima 200 ✓.
+- **IA (próximo round)**: aguardando chave Groq do dono (console.groq.com) p/ #40 Assistente Fênix + #41 previsão de retorno. Caminho app→worker→IA; chave só no worker.
+
+## R60.1 — MIGRAÇÃO COMPLETA pro R2 (30/09/2026) — EXECUTADA, sem mudança de app
+- **Backup antes**: `backups/d1-full-2026-09-30.json` (9,6 MB, 22 tabelas, 438 linhas) no workspace E no balde (`backups/d1-full-2026-09-30.json`). Rollback: fotos/arquivos/catálogo reconstruíveis dele.
+- **Inventário**: fotos=56 linhas/7,5 MB (b64, paths {clinic}/{uuid}.jpeg, referenciadas por arquivos.url) · catalogo_itens.foto=26 data:URLs/205 KB · backups=2,1 MB (payloads do próprio app — INTENCIONALMENTE não migrados) · sessoes/documentos/clientes = sem fotos embutidas.
+- **Fase A**: 56 fotos → R2 (PUT REST, key = path original c/ encodeURIComponent) → verificação tamanho byte a byte → teste pela URL PÚBLICA do worker (56/56) → DELETE da tabela fotos no D1 (0 linhas). arquivos.url NÃO mudou (worker já serve R2-first). Prova: apagada 1 linha do D1 antes das demais e a foto abriu do R2.
+- **Fase B**: 26 fotos do catálogo → R2 em `catalogo/{id}.{ext}` (mime detectado do data:URL) → GET de verificação → UPDATE catalogo_itens SET foto = URL pública (26/26 changes=1). App renderiza via <img src> — aceita http sem patch.
+- **Resultado**: D1 9,7 MB → **2,3 MB** (−76%) · zero data:image residual fora de backups · /r2-ok ✓ · RPC Fátima 200 ✓ · app 200 ✓.
+- **Armadilha descoberta**: Cloudflare workers.dev bloqueia com **403 User-Agent de clientes "robotizados"** (python-urllib default) — SEMPRE mandar UA de navegador nos testes; app WebView não é afetado. Estragou 1 rodada de testes (56×403 falsos).
+- **file_size do D1**: caiu na hora (métrica refletiu sem precisar de vacuum).
+- **Manifestos**: backups/migracao-manifesto.json (56) · backups/migracao-catalogo-manifesto.json (26).
+
+## R61 — FÊNIX I.A NO AR (30/09/2026) — commits a58f01f + 4567915 · release v1.6.40 (id 400533522)
+- **Motor SEM chave do dono**: binding `{"type":"ai","name":"AI"}` (Workers AI) no deploy do fenix-api — grátis (cota diária de neurons), deploy igual (bindings=[d1 DB, ai AI]; secrets sobrevivem). Modelos: `@cf/meta/llama-3.3-70b-instruct-fp8-fast` c/ fallback `@cf/meta/llama-3.1-8b-instruct-fast` (função aiChat). Groq opcional: secret `GROQ_KEY` (quando o dono mandar, vira motor prioritário automaticamente — groqChat já implementado, model llama-3.3-70b-versatile).
+- **Rotas novas no worker**: GET `/ia-ok` (público, pergunta fixa sem dado de cliente — diagnóstico) · POST `/ia` (JWT obrigatório) {pergunta ≤600, contexto ≤6000, historico ≤10 turnos} → {resposta, motor}. IA_SYS em pt-BR: curto, só dados fornecidos, nunca inventar.
+- **App (1.6.40)**: Studio I.A JÁ EXISTIA (viewIA, renderIA, conversas em ia_conversas/ia_mensagens SINCRONIZADAS — estava "modo offline" esperando chave OpenAI). Patch: `iaSend` sem cfg.key → fetch NUVEM_URL/ia c/ Bearer SB_TOKEN + `buildIaCtx()` (hoje, n clientes, n pacotes, pagamentos do mês + total R$, sessões pendentes, top-5 sem sessão há mais tempo, aniversariantes do mês, agenda do dia — dos arrays DB.cli/ses/pay/ag JÁ carregados) + historico (últimos 10). cfg.key (API própria) segue como override. Badge: 'Fênix I.A' (gold) ou 'online (própria)' (green).
+- **E2E real com token decodificado**: senha da equipe em usuarios.senha formato `fx1:` = base64 "fx|usuario|senha" (decodificável!) → login /auth/v1/token grant=password email=clinicaprincipal@clinicas.fenix.app → JWT → POST /ia c/ contexto real → "Quem devo chamar pra voltar?" → **"Stephany Braga (12/09)"** ✓ (motor workers-ai, ~2s).
+- **Release v1.6.40**: APK vc20 (467954B, sha 916d4074…) + EXE (101553681B, sha a126f63e…) + Center re-enviado (d28e6a5c/3cb3d6f4) + checksums + LEIA-ME · latest ✓ · APK baixado de volta = sha ✓.
+- **GIT — NOVO RITUAL OBRIGATÓRIO**: cp de .git mIstura refs (commit nasceu com pai ERRADO 933eb20 → push não-FF; objeto 85aa257 "unknown revision" local). Ritual correto: clone fresco EM /tmp/fresh2 → conferir `git log -1` DENTRO do clone (= ls-remote) → cp dos arquivos mudados PRA DENTRO → commit LÁ (git config user antes!) → push → aí sim cp -r .git de volta pro workspace. tests/ é gitignore → SEMPRE `git add -f`.
+- **/tmp estoura fácil (993M)**: build-tools+platform (~135M extraído) + EXE base (101M zip + ~250M extraído) + EXE novo (101M) = estoura. Ordem segura: buildar APK → rm -rf /tmp/apkb /tmp/extract → baixar EXE base → zipar → rm base.zip. 
+- **Pendência IA (dono)**: chave Groq (console.groq.com) — quando chegar: `PUT /workers/scripts/fenix-api/secrets {"name":"GROQ_KEY","text":...}` → motor vira groq sozinho (workers-ai cai pra reserva). Mais IA futura: resumo do dia automático, #41 refinado.
+
+## R62 — A PORTA DA IA (30/09/2026) — commits 983be3d + ms0e2824 · release v1.6.41 (id 400561866)
+- **DONO PERGUNTOU "onde acesso a IA" e a resposta era NENHUM LUGAR**: a viewIA (R61 e anteriores) nunca teve botão — nenhum nav apontava pra ela. Lição: TELA SEM BOTÃO = FEATURE INEXISTENTE pro usuário. Ao criar view nova, CRIAR O ATALHO no mesmo round e testar com assert de nav.
+- **Fix**: seção renomeada `viewIA`→`viewIa` (o toggle genérico `$('view'+cap(x))` produz 'viewIa' — JS é case-sensitive e NUNCA acharia 'viewIA') · 'ia' entra em VIEWS + titles ('Fênix I.A') · botão `data-view="ia"` com ícone #i-ai no navGestao (após Arquivos) · renderApp: `else if(state.view==='ia'){try{renderIA()}catch(e){}}` · dono map: viewIa:'gestao' · versao.json 1.6.41/R62.
+- **Release v1.6.41**: APK vc21 (467954B, sha 90bfd3eb…) — badging vc21/1.6.41, data-view="ia" dentro do APK ✓ · EXE (101553693B, sha 62effb22…) base v1.6.40 conferida (a126f63e…) · Center re-enviado (d28e6a5c/3cb3d6f4) · 6 assets, latest ✓, APK de volta = sha ✓.
+- **Live**: app 1.6.41 c/ data-view="ia" (1 ocorrência no HTML) ✓ · /ia-ok workers-ai ✓.
+- **d8 sem bin wrapper**: extração do build-tools morreu no meio (disk full) → bin/d8 sumiu mas lib/d8.jar funciona: `java -cp lib/d8.jar com.android.tools.r8.D8 --min-api 24 --output . $(find classes -name '*.class')`.
+
+## R63 — FÊNIX I.A NO STUDIO (dono pediu p/ tirar da Gestão) (01/10/2026) — commits 151c875 + (checksums) · release v1.6.42 (id 400567117)
+- **Regra do dono**: atalho da IA fica na BARRA DO STUDIO (não na da Gestão). PERMANENTE.
+- **Wiring completo do Studio (padrão p/ qualquer tela nova no Studio)**: botão `data-sview="ia"` no navStudio (após Formulários) · `dono` map `viewIa:'studio'` · st-map `viewIa:'ia'` · render studio `if(state.sview==='ia')renderIA();` (1º no try) · handler navStudio `navigate(()=>{state.sview='ia';try{renderIA()}catch(e){}})` · computeTitle `'Studio · Fênix I.A'` · REMOVER vestígios da Gestão (botão data-view, VIEWS 'ia', titles, branch renderApp).
+- **ATENÇÃO p/ teste**: código usa `state.sview='ia'` (ATRIBUIÇÃO, um =) — regex de teste com `===` não casa.
+- **Release v1.6.42**: APK vc22 (sha a912cb24…, badging 22/1.6.42, data-sview="ia" no APK ✓) · EXE (sha 33138049…, base 1.6.41=62effb22 ✓) · Center re-enviado · 6 assets · latest ✓ · APK de volta = sha ✓.
+- **/tmp encheu 2×**: lld write error na extração do build-tools → limpar restos da release ANTERIOR (/tmp/exew, zips) ANTES de buildar; android.jar re-baixado; d8 via lib/d8.jar.
+- **Owner report**: "não tem o fênix i.a ainda" = aparelho dele na versão antiga (Android exige instalar APK novo; Windows/PWA atualiza sozinhos). Instrução dada: Studio → Fênix I.A.
+
+## R64 — IA NOS RELATÓRIOS, CHAT FORA (pedido do dono) (01/10/2026) — commits 7cf3a89 + (checksums) · release v1.6.43 (id 400576134)
+- **Regra do dono**: IA não é chat — vive DENTRO dos relatórios, escrevendo resumo bonito «com fala própria». PERMANENTE. Botão FÊNIX I.A/handler/título REMOVIDOS do Studio; viewIa fica no HTML como base das funções (renderIA/elementos referenciados no boot — NUNCA remover a seção: null no boot = app morto, R58) com dono map viewIa:'studio' inofensivo.
+- **Como funciona**: Studio › Relatórios › Montar relatório → card «✨ Resumo da I.A» → btnRelIa → relIaGera() manda {modo:'resumo', contexto: relLastTxt.slice(0,6000)} pro /ia → render em parágrafos esc() com serifa+traço dourado → btnRelIaCopy copia. relIaBusy trava 2º clique. Montar novo relatório esconde/reseta o card.
+- **Worker**: IA_RESUMO (assistente pessoal, 2-4 parágrafos, calorosa, sem tabelas, nunca inventar, sem saudação) + `modo` na rota /ia (resumo → IA_RESUMO+RELATÓRIO:ctx; resto → IA_SYS normal).
+- **E2E real**: resumo de relatório-exemplo saiu PERFEITO (3 parágrafos: faturamento+confiança, Fatima 3 pacotes, delicadeza c/ ausentes, sugestão de campanha de reativação) — 12s no workers-ai.
+- **Release v1.6.43**: APK vc23 (sha cb928af3…, btnRelIa no APK ✓) · EXE (sha 1a03f58b…, base 1.6.42=33138049 ✓) · Center re-enviado · 6 assets · latest ✓ · APK de volta ✓ · Pages 1.6.43 c/ btnRelIa e SEM data-sview="ia" ✓.
+- **zipalign precisa lib64/libc++.so** (LD_LIBRARY_PATH=android-14/lib64) — na limpeza de disco NÃO apagar lib64; ou re-extrair só "android-14/lib64/*" do zip.
+- **/tmp fluxo ideal (~700M úteis)**: tools (157M) → APK → rm tools → EXE base+patch+zip (pico ~450M) → uploads → rm tudo.
+
+## R66 — RESUMO DA I.A EMBUTIDO NO RELATÓRIO (01/10/2026) — commits d3fe822 + (checksums) · release v1.6.45 (id 400594669)
+- **Dono**: «continua não aparecendo… pode ser padrão nos relatórios completos por cliente e personalizado». REDECORTE: FIM do card — o resumo da I.A é PARTE DA SEÇÃO RESUMO do relatório em TODOS os escopos. Regra PERMANENTE: IA vive dentro do relatório (prévia + PDF + txt).
+- **Wiring**: relIaBloco() (3 estados: pendente «✍️ escrevendo…», texto em parágrafos esc()+serifa, vazio=invisível) injetada em 3 pontos: relPaint (folha resumo: `+(sc[0]==='resumo'?relIaBloco():'')`) · relDocHTML (após cartões do resumo geral, antes de secDoc Financeiro) · relTxt (`--- RESUMO DA I.A ---` antes de sec FINANCEIRO). relIaAuto(): montar → pend → POST /ia modo=resumo c/ relLastTxt → chegada: regenera relLastDoc/relLastTxt (relPers→relFiltraDoc/relTxtFiltrado) + relPaint. Botão pequeno btnRelIa no rowbtns (retry/regenerar). Card relIaCard/Box/Msg/Acts e relIaGera REMOVIDOS.
+- **Lição R65 reforçada**: UI "extra" que depende de um fluxo mostrá-la SEMPRE falha — embutir no artefato principal é à prova de falhas.
+- **Release v1.6.45**: APK vc25 (sha 7025e101…, 3× relIaBloco no APK ✓) · EXE (sha bc92d10b…, base 1.6.44=7df21014 ✓) · Center re-enviado · 6 assets · latest ✓ · APK de volta ✓.
+- **Live**: Pages 1.6.45 c/ relIaBloco ✓ · /ia-ok ✓.
+
+## R67 — AUTO-UPDATE REAL EXE+APK (01/10/2026) — commits 80e1b94 + (checksums) · release v1.6.46 (id 400906589)
+- **Dono**: «nossos exe e apk não se atualizam automaticamente — conserte». CAUSA CONFIRMADA: APK só carregava android_asset; EXE só loadFile interno («EXE carrega hospedado» da memória estava ERRADO — o main.js era só loadFile). Memória corrigida.
+- **APK (padrão Center, comprovado)**: onCreate carrega filesDir/app-live.html se existir (senão asset) + Thread checaNova(): versao.json no-cache → extrai \"versao\" → maisNova(remoto, versionName do PackageManager — SEM hardcode) → baixa index.html (app é AUTOCONTIDO: supabase de CDN, zero deps relativas — conferido) → openFileOutput app-live.html → runOnUiThread recarrega. Offline: try/catch geral, carrega o que tem. REGRA: app-live.html é sempre ≥ asset (maisNova nunca rebaixa).
+- **EXE**: main.js agora NUVEM loadURL + Cache-Control no-cache; did-fail-load/catch → loadFile interno. Fonte versionada em exe-src/ (main.js + package.json) — ATUALIZAR exe-src SEMPRE que mudar o wrapper.
+- **Flutter do versionName**: o updater usa getPackageInfo().versionName — a versão de COMPARAÇÃO é a do manifest (vc26=1.6.46), não APP_VERSAO do JS. Manter os dois alinhados em cada release.
+- **Release v1.6.46**: APK vc26 (sha 53f70cb9…, app-live no dex ✓ 2 strings) · EXE (sha 8ad3e03c…, loadURL(NUVEM dentro, base 1.6.45=bc92d10b ✓) · Center re-enviado · 6 assets · latest ✓ · APK de volta ✓.
+- **Java escape**: regex em string Java = `\\s` no FONTE (dupla barreira); re.sub com replacement contendo \\ precisa lambda.
+- **Mensagem ao dono**: instalar v1.6.46 É A ÚLTIMA VEZ na mão — depois o APK se mantém atualizado sozinho.
+
+## R68 — ÁREAS NO STUDIO: 🎓 Studio · 🧪 Laboratório I.A (01/10/2026) — commits 162f61b + (checksums) · release v1.6.47 (id 400924834)
+- **Pedido do dono**: «adicione uma coisa chamada área dentro do studio, tipo um modo, que dá pra alterar na barra lateral do studio; a área é Laboratório I.A e mova o Relatório pra dentro dessa nova área e tire do Studio. Vai ter a área Studio e a área Laboratório I.A». IMPLEMENTADO EXATAMENTE ISSO. PERMANENTE: Relatórios mora no LAB, não no Studio.
+- **Wiring**: CSS `.areatoggle/.areabtn(.on)` (var --gold) · navStudio = alternador (🎓 Studio | 🧪 Laboratório I.A) + itens com `data-area` (docs/forms/planilha=studio; relatorios=lab) + `#sareaNote` por área · `state.sarea` ('studio'|'lab', persistido em fenix_sarea, carregado no boot c/ try) · `pintaSarea()` (toggle .on + display none nos itens da outra área + nota) chamada no branch `if(studio){` do renderApp · clique na área navega pro 1º item (lab→relatorios, studio→docs) · clique num ITEM sincroniza a área · título `Laboratório I.A · Relatórios`.
+- **Release v1.6.47**: APK vc27 (sha 8a2d5f40…, sareaTgl no APK ✓) · EXE (sha c8218cb1…, base 1.6.46=8ad3e03c ✓) · Center re-enviado · 6 assets · latest ✓ · APK de volta ✓ · Pages 1.6.47 c/ data-sarea="lab" ✓.
+- **A partir daqui**: dono já tem auto-update (1.6.46+) — releases chegarem sozinhas no Windows e no APK instalado.
+
+## R69 — 🤖 CONVERSAR COM A I.A NO LABORATÓRIO (01/10/2026) — commits ee9a625 + (checksums) · release v1.6.48 (id 401005580)
+- **Roadmap APROVADO pelo dono («pode fazer tudo», nessa ordem)**: (1) chat ✓ESTA · (2) Gerador de Posts (card+legenda+PNG+Editar no Studio) · (3) I.A nos Documentos (4 botões: Gerar/Melhorar/Resumir/Corrigir) · (4) Editor canva no Studio (v1 limpa, sem foto de fundo; nome «Editor»; PNG via SVG→canvas rasterize; formato «design» compartilhado IA↔Editor↔PNG). Gerador: moldes fixos + IA preenche textos + cérebro estético.
+- **Chat**: guardado desde R64 ACORDOU no Lab — item data-sview=ia data-area=lab (após Relatórios) · handler/render/título ('Laboratório I.A · Conversar') · hero 'Conversar com a I.A' + badge Fênix I.A · nota do Lab 'converse com a IA e gere relatórios...'. Motor: worker /ia (buildIaCtx + historico, R61) · sync ia_conversas/ia_mensagens intacto.
+- **Worker**: IA_SYS + CÉREBRO ESTÉTICO (procedimentos do setor, benefícios/bem-estar, NUNCA promessa médica/curativa, tom acolhedor pra textos criativos) — deploy ok.
+- **Release v1.6.48**: APK vc28 (sha 186fefa3…, data-sview="ia" no APK ✓) · EXE (sha 1915d74b…, base 1.6.47=c8218cb1 ✓) · Center re-enviado · 6 assets · latest ✓ · APK de volta ✓ · Pages 1.6.48 c/ 'Conversar com a I.A' ✓ · 9 SUÍTES VERDES (r69 19/19 nova).
+- **r68 teste 11**: nota do Lab mudou no R69 → pin atualizado (lembrar: mudar texto de nota ⇒ conferir asserts que o citam).
+
+## R70 — FIX PORTA DO CHAT + GERADOR DE POSTS (01/10/2026) — commits 5ca244c + (checksums) · release v1.6.49 (id 401021006)
+- **Dono**: «no I.A não tem nada, não chegou o gerador». CAUSA: viewIa nascia hidden e renderApp NUNCA recebeu o toggle (R69 chamava renderIA() mas a seção nunca aparecia). FIX: linhas `$('viewIa'/'viewPosts').classList.toggle('hidden',!(studio&&sview…))` no renderApp. LIÇÃO (2ª vez!): SEÇÃO NOVA = (1) section HTML (2) toggle no renderApp (3) handler do nav (4) título (5) teste jsdom do caminho completo. Um sem o outro = função invisível.
+- **Gerador de Posts (Lab, entre Relatórios e Conversar)**: viewPosts · gpCmd (comando livre) → /ia modo=post → worker IA_POST (JSON estrito {titulo,chamada,legenda} + cérebro estético + NUNCA promessa médica) → gpData → gpCardHTML (preview 420px escuro+dourado+Playfair+monograma+nome da clínica via #appClinic) + gpLeg + gpCopy · gpPng: gpSVG(1080) data-url → Image → canvas → toBlob PNG 'post-fenix.png' (wrap título 24-26 chars/3 linhas, chamada 34-38/4). PARSE DUPLA: resposta pode vir objeto (workers-ai às vezes já parseia) ou string — tratar os 2!
+- **E2E real**: «promoção limpeza de pele» → {titulo:'Pele Perfeita', chamada, legenda com 7 hashtags} ✓.
+- **Release v1.6.49**: APK vc29 (sha 7f8df39b…, gpGera no APK ✓) · EXE (sha 42485946…, base 1.6.48=1915d74b ✓) · Center re-enviado · 6 assets · latest ✓ · APK de volta ✓ · 10 SUÍTES VERDES.
+- **Próximas etapas do roadmap aprovado**: (3) I.A nos Documentos (4 botões) · (4) Editor canva no Studio (abre design do gerador; PNG compartilhado).
+
+## R70.1 — GERADOR DE POSTS TURBINADO (01/10/2026) — commits 32b608b + (checksums) · release v1.6.50 (id 401038696)
+- **Dono**: «ele faz um padrão nas palavras: falo ozônio terapia capilar e só coloca cuidar dos cabelos; peço benefícios e não coloca nem na legenda nem no post». FIX DUPLO:
+- **Worker IA_POST v2 (deployado)**: REGRA 1 FIDELIDADE — usa o termo EXATO escrito (NUNCA genérico); beneficios[] SEMPRE 3-4 REAIS e ESPECÍFICOS (só [] se não for serviço); legenda = nome exato + «✨ Benefícios:» c/ ✅ em linhas + CTA + 6-10 hashtags ESPECÍFICAS (#ozonioterapiacapilar). Exemplo capilar embutido no prompt (few-shot).
+- **App**: benefícios desenhados NO CARD — preview (✓ dourado .85rem, até 4) E PNG (gpSVG: título 80px/2 linhas qdo tem benefícios, ✓ 40px gold, layout empilhado desde y=340, cabe até 4×62px antes da linha 960) · gpData.beneficios (gbf: filter string→trim→42 chars→4) · placeholder ensina «ozônio terapia capilar com os benefícios».
+- **E2E real**: «ozonio terapia capilar coloca os beneficios» → titulo 'Ozônio Terapia Capilar' · beneficios [Fortalece os fios, Reduz a queda, Brilho intenso, Estimula o crescimento] · legenda c/ ✅ e #ozonioterapiacapilar ✓.
+- **Release v1.6.50**: APK vc30 (sha 0b586a1b…, beneficios:gbf no APK ✓) · EXE (sha 52968528…, base 1.6.49=42485946 ✓) · Center re-enviado · 6 assets · latest ✓ · APK de volta ✓ · 11 SUÍTES VERDES (r71 18/18 nova; teste r71 #18 usa node --check p/ worker módulo — new Function não engole import/export).
+- **Bases EXE**: 1.6.45→bc92d10b · 1.6.46→8ad3e03c · 1.6.47→c8218cb1 · 1.6.48→1915d74b · 1.6.49→42485946. Próxima: **1.6.51/R71 (I.A nos Documentos, 4 botões), APK vc31**.
+
+## R71+R72 — I.A NOS DOCUMENTOS + EDITOR (01/10/2026) — commits 95d0c9e + (checksums) · release v1.6.51 (id 401072246)
+- **Dono**: «nos documentos ainda não chegou as funções… e as outras funções de editor, conectado e etc também não tem». ENTREGUE OS 2 DE UMA VEZ + ligação gerador→editor («conectado»).
+- **I.A nos Documentos** (viewDocs/viewDocEd, FORA da cliente): painel ddCmd/ddGo/ddMsg (comando livre → cria rascunho novo e ABRE no editor com msg 'revise e SALVE') + 3 botões VISÍVEIS sobre o textarea (docIaM/R/C) que agem no texto todo OU no trecho selecionado (selectionStart/End) → resultado substitui e marca 'Alterações não salvas' (dono revisa/salva). Worker IA_DOC: SÓ texto final, nome exato dos serviços, NUNCA orientação médica.
+- **Editor (Studio → ✏️ Editor, v1 limpa, SEM foto)**: edData.els[{id,texto,x%,y%,s(1080-space),c(paleta)}] · card 1:1 com monograma/linha fixos · tocar seleciona, arrastar move (pointer events, clamp 2-92/2-94, edRenderSoft), toque duplo <350ms OU ✏️ Texto → prompt edita · A± clamp 18-150 · 🎨 cicla ED_CORES ['#d4af37','#f0e6c0','#ffffff','#cfc9bb'] · ⧉ duplicar · 🗑 apagar (mín 1 el) · ⬇️ PNG edSVG→canvas→'design-fenix.png' · 💾/📂 designs em localStorage 'fenix_designs' (LOCAL v1 — UI avisa 'fica neste aparelho') · ✨ novo.
+- **Ligação**: gpEdit '✏️ Editar no Studio' no gerador → edFromPost(gpData) → navigate sview='editor'.
+- **PORTAS conferidas no jsdom ANTES de publicar** (lição R69/R70): viewEditor hidden=false + 5 el desenhados + 10 botões + nav; ddCmd/ddGo; docIaM/R/C; viewIa false.
+- **⚠️ ACIDENTE E PEGO PELOS TESTES**: patch IA_DOC usou re.sub de `const IA_POST='.*?';` e SUBSTITUIU a IA_POST (deploy 1º falhou por duplicata de aiChat — novo string tinha o `async function aiChat` — corrigido; 2º deploy OK mas SEM IA_POST = posts quebrariam em runtime). r70/r71 falharam → IA_POST v2 restaurada ANTES do commit; deploy final com IA_POST+IA_DOC; E2E: post exato+4 benefícios · 'corrija agendamentu…' corrigido. **LIÇÃO: re.sub de const NOMEADA: no máximo 1 por patch e SEMPRE assert de TODAS as consts irmãs depois (IA_SYS/IA_RESUMO/IA_POST/IA_DOC).**
+- **Release v1.6.51**: APK vc31 (sha 1fd359cf…, edFromPost no APK ✓) · EXE (sha a83bf1b2…, base 1.6.50=52968528 ✓) · Center re-enviado · 6 assets · latest ✓ · APK de volta ✓ · 12 SUÍTES VERDES (r72 26/26 nova).
+- **Bases EXE**: …1.6.50→52968528. Próxima: **1.6.52** — roadmap IA DO LAB INTEIRO ENTREGUE (chat+posts+docs+editor); sugerir ao dono: foto de fundo no Editor (v2), migração designs p/ nuvem, GROQ_KEY opcional.
+
+## R73 — PDF PROFISSIONAL DOS RELATÓRIOS (01/10/2026) — commits e8a436e + (checksums) · release v1.6.52 (id 401084357)
+- **Dono mandou modelo** (uploads/Relatório Profissional.pdf — título grande, sub, seções numeradas, tabela grade+zebra, assinaturas) e pediu «relatórios gere um pdf que nem esse organizado bonitinho».
+- **Antes**: «Baixar PDF» usava relPdfBytes(relLastTxt) = TEXTO PURO em Courier. **Agora**: relPdfModelo(k) desenha dos DADOS (relCoreCache) em Helvetica (F1/F2-bold/F3-oblique), PDF 1.4 puro sem lib: capa (título 19pt bold, sub c/ clínica·cliente, linha dourada 2.2, faixa lateral cinza+dourada), secN numerada, p() parágrafos, cap() subtítulos, kpis() cartões moldurados (largura por count, z adaptativo), tabela(hs,wts,rows) c/ head() cinza + grade 0.6 + zebra ímpar* + números à direita + cores COR{g,r,o} + quebra de página REPETE cabeçalho, iaBloco() (barra dourada 3pt + 'RESUMO DA INTELIGÊNCIA ARTIFICIAL' + F3 itálico, usa relIaTexto), assinaturas() (2 linhas), rodapé 'Página X de Y'. Respeita chips R24 (on=...relPers). Fallback: se relPdfModelo lançar → relPdfBytes antigo.
+- **E2E REAL**: motor extraído p/ /tmp/motor.js → node c/ dados de exemplo → pymupdf abre ✓ → RENDERIZADO e conferido VISUALMENTE 2 págs (lindo, idêntico ao modelo). FIX pego no E2E: head() referenciava hs/cw de dentro de tabela() → movido p/ closure interna. RE-EXTRAIR o motor do index.html se precisar rever (regex '/\* R73 — PDF profissional[\s\S]*?(?=/\* R24').
+- **Release v1.6.52**: APK vc32 (sha 376cb174…, relPdfModelo no APK ✓) · EXE (sha fb9083f2…, base 1.6.51=a83bf1b2 ✓) · Center re-enviado · 6 assets · latest ✓ · APK de volta ✓ · 13 SUÍTES VERDES (r73 20/20 nova; jsdom reinstall de novo p/ r54/56/55).
+- **Bases EXE**: …1.6.51→a83bf1b2. Próxima: **1.6.53** (aguardar dono). PDF prancha: fonte embarcada custom (futuro), logo no PDF (futuro), PDF do cliente no app Fênix Clients (futuro).
+
+## R74 — «MELHORAR MEU TEXTO» (01/10/2026) — commits d51da2c + (checksums) · release v1.6.53 (id 401093372)
+- **Dono perguntou**: «colocar I.A generativa só pra melhorar os posts, já com o roteiro pronto, ela só melhoraria? o que acha». Respondido SIM + entregue no mesmo dia: dono no controle (roteiro dele), I.A só aperta qualidade.
+- **Worker IA_POST REGRA (0) MELHORAR ROTEIRO (deployado)**: pedido começando com «MELHORAR ROTEIRO DO USUÁRIO» → NÃO inventa tema; preserva ideias, nome EXATO dos serviços e ordem; só melhora escrita/emojis/hashtags; mesmo JSON. E2E: roteiro cru → 'Ozônio Terapia Capilar' + benefícios + #ozonioterapiacapilar ✓. **Checklist pós-patch worker (SEMPRE): assert const IA_POST + IA_DOC + IA_SYS + IA_RESUMO presentes.**
+- **App**: bloco no gerador (gpMeu textarea + gpMelhora ghost) · gpGera refactorado → gpAplica(j) compartilhado (parse+pintura; mesmo card/legenda/PNG/Editar no Studio) · prefixo 'MELHORAR ROTEIRO DO USUÁRIO: '+txt · gpBusy trava. Cuidado commit: `$('viewIa')` na mensagem sofreu command substitution do bash (inofensivo; mensagens longas: preferir aspas simples no heredoc).
+- **Release v1.6.53**: APK vc33 (sha 78700bac…, gpMelhora no APK ✓) · EXE (sha 5c82f084…, base 1.6.52=fb9083f2 ✓) · Center re-enviado · 6 assets · latest ✓ · APK de volta ✓ · 14 SUÍTES VERDES (r74 14/14 nova).
+- **Bases EXE**: …1.6.52→fb9083f2. Próxima: **1.6.54** (aguardar dono — ideias na mesa: logo no PDF, foto de fundo no Editor v2, designs na nuvem).
+
+## R75 — POST REAL (01/10/2026) — commits 1475772 + (checksums) · release v1.6.54 (id 401438496)
+- **Nota do dono (ideia 1, prioridade 1)**: «melhorar a geração de post… o post REAL… encaixa o texto em lugar certo sem distorção». Dono aprovou discussão (fundos+galeria+I.A imagem+motor) e mandou executar todas.
+- **Worker /ia-imagem (deployado)**: POST, verifyJWT, tema≤200 → prompt SEM pessoas/faces/texto/logo → env.AI.run flux-1-schnell {prompt,steps:4} (2026: SEM width/height — erro 5006 «unevaluated properties»!) → {img:base64}. E2E: mármore dourado 1024² em ~3s ✓. Cota: 10k neurons/dia ≈ 500 fundos. **Fluxo do dono p/ Cloudflare pago**: R$27/mês, NÃO precisa agora.
+- **App**: GP_FUNDOS_PAC 5 fundos base64 (~900KB) · gpFundo (pac|foto|ia|null) persiste só pac · montaFundoRow (5 thumbs+📸+🎨+⬛; outline dourado no ativo) no Gerador e Editor · gpFundoIA (tema=gpCmd||gpData.titulo) · edFundoIA (prompt tema) · leImagemReduz (galeria→1080 jpeg .85) · gpDesenha/edDesenha no canvas (fundo cover + VEU 300→1080 + zonas: kicker 27px ls14 / título fitLines 92→46 / chamada / benefícios ancorados 952-46 / rodapé F+nome; sombra se fundo) · gpPngV2/edPngV2 (prontoFontes→canvas→toBlob) · preview = mesmo desenho (gpCardHTML c/ véu; edRender fimg+véu+els z-index 2). gpSVG/edSVG REMOVIDOS.
+- **⚠️ 2 acidentes PEGOS**: (1) splice gpSVG→gpAplica levou as funções do seletor (reInsetidas; a ordem no arquivo é gpCardHTML→[seletor]→gpAplica — entre R74 e R75 o bloco do seletor ficava ENTRE gpSVG e gpAplica); (2) parte-2 tinha inserido cabeçalho errado (gpMelhora no lugar do gpAplica) + $(gpFoto) sem aspas — corrigidos ANTES do commit; jsdom porta: script inteiro carrega + 8 botões de fundo nos 2 lugares.
+- **Release v1.6.54**: APK vc34 (sha 94fe2785…, gpFundoIA no APK ✓) · EXE 102273839B (sha 0e9a7025…, base 1.6.53=5c82f084 ✓) · Center re-enviado · 6 assets · latest ✓ · APK de volta ✓ · 16 SUÍTES VERDES (r75 20/20 nova).
+- **Bases EXE**: …1.6.53→5c82f084. **Fila aprovada (nota do dono, ordem 1→2→4)**: ✅R75 POST REAL → **PRÓXIMA R76: I.A DA CLIENTE (SÓ CONVERSA — SEM ALTERAR NADA; + dados da clínica no app dela, ideia 6)** → R77: I.A lê relatório (botão perguntar) + anexos no chat. Depois: 3a protocolos · 5 (dono vai explicar) · 3b pesquisa web (NÃO fazer). fundos/AMOSTRA-fundos.png = referência visual.
+
+## TESTE NÃO OFICIAL — APENAS-TESTE (02/10/2026) · release tag «teste» (id 401444959, PRERELEASE)
+- **Dono**: «versão não oficial nossa, só pra mandar pra um amigo testar; nada fica salvo; mas com as funções».
+- **APENAS-TESTE.html** (workspace; NÃO commitado, NÃO é o index oficial): clone da 1.6.54 com: NO_NUVEM (NUVEM_URL/NUVEM_KEY=null → SB=null → REMOTE=false → TUDO LOCAL, sync não existe) · título «VERSÃO DE TESTE» · botão «🎬 ENTRAR NA DEMONSTRAÇÃO» no splash → demoEntrar(): limpa localStorage (menos tema), semeia DEMO (6 clientes, 8 procedimentos, 10 pacotes, ~67 sessões, 10 pagamentos, 7 agenda — IDs d+rand), clínica 'Estúdio DEMONSTRAÇÃO', alert explicando. Chaves REAIS do DB: cli/cat/pkg/ses/pay/ag (LEGACY p/ persistir local).
+- **Verificado no jsdom**: REMOTE=false · app abre · dados falsos certos · Gerador c/ 8 botões de fundo · card pinta com mármore · Editor ok · 8 SUÍTES passam no arquivo de teste (r75..r68).
+- **Publicada como PRERELEASE tag «teste»** (NÃO vira «latest» — oficial v1.6.54 intocado, conferido): assets FENIX-Teste-Windows.zip (Electron 1.6.54-teste, productName «FENIX Estetica (Teste)») + LEIA-ME-TESTE.txt. **APK de teste NÃO feito** (instalaria por cima do oficial do amigo — mesmo package br.fenix.estetica! Se o dono insistir, MUDAR package id).
+- **Segurança**: supabase.js continua embutido mas createClient não roda (guard NUVEM_URL). JWT/I.A.: /ia e /ia-imagem exigem token — demo SEM login → I.A de escrita dá «Entre com sua conta» — AMIGO TESTA A ESTRUTURA, não a I.A. (ok p/ dono? se quiser I.A no teste: rota pública de demo OU login demo no worker — decidir depois).
+
+## R76 — FUNDO JUNTO + I.A LÊ TUDO + ASSISTENTE DA CLIENTE (02/10/2026) — commits 13d52a6 + (checksums) · release v1.6.55 (id 401449636)
+- **Dono**: «conserte tudo… a i.a não gera fundo separado, o fundo é junto da imagem… isso é na versão original» = executar TODAS as ideias aprovadas na nota. ENTREGUE:
+- **FUNDO AUTO**: gpGera E gpMelhora → gpAplica(j) + `if(!gpFundo)gpFundoIA(true)` — post nasce completo (texto + fundo I.A no tema); não sobrescreve escolha; auto é silencioso na falha. gpFundoIA(auto) firma nova.
+- **/ia modo=rel** (IA_REL: só números do relatório): painel relQ/relAsk/relAns nos Relatórios. E2E real: 'quem deve mais?' → 'Ana deve R$380.'
+- **ANEXOS no chat do Lab**: 📎 (foto→/ia-vis llava-1.5-7b-hf {image_url:dataURL,prompt}; txt→ctx 'ANEXO ENVIADO PELA CLÍNICA'; pdf→pdf.js 3.11 cdnjs preguiçoso, aviso se só-imagem; chip removível; custom-key → aviso 'só motor Fênix').
+- **I.A DA CLIENTE (SÓ CONVERSA)**: /ia-cliente PÚBLICO (freio 40/h por IP via globalThis.__fxThro) — contexto SÓ da cliente via rpcClientePub + IA_CLIENTE (NUNCA agenda; wa/insta no prompt). E2E real: Evelyn → 4 sessões + 'fale direto com o estúdio' ✓. Clients app: aba ✦ I.A (data-go=f-ia, painel sempre visível, chat c/ histórico local, .iamsg user gold/ia dark).
+- **CONTATOS**: D1 clinics +wa +insta (ALTER via REST) · /clinic-contato GET/POST (verifyJWT, uid=pl.sub) · dono cadastra em Dados›Sistema (cWa/cInsta/btnContato; carrega no boot) · rpc fenix_cliente_pub devolve wa/insta · clients herói: 💬 wa.me/55<digits> + 📸 instagram.
+- **⚠️ lições**: (1) rotas novas podem 404 por ~1s pós-deploy (propagação) — retestar antes de debugar; (2) python '\n' dentro de JS single-quote vira quebra REAL — usar \\n no patch; (3) string com ''' no python: dividir patch e/ou usar arquivo /tmp p/ JS.
+- **Release v1.6.55**: APK vc35 (sha a1f81a5f…, gpFundoIA(true) no APK ✓) · EXE (sha 9203ea0a…, base 1.6.54=0e9a7025 ✓) · Center re-enviado · 6 assets · latest ✓ · APK de volta ✓ · clients/ ao vivo c/ f-ia ✓ · 16 SUÍTES VERDES (r76 22/22 nova; pin r61 janela 1700 chars).
+- **Bases EXE**: …1.6.54→0e9a7025. **Todas as ideias da nota (1,2,4,6) ENTREGUES.** Fila restante: 3a protocolos (depois) · 5 (dono vai explicar) · 3b pesquisa web (NÃO) · I.A de teste na demo não-oficial (se dono quiser).
+
+## R81 — TEMAS DE COR + MENSAGENS TELA CHEIA + TERMOS/ACEITE + COTAS DA I.A + USO E LIMITES + FUNDO (03/10/2026) — release v1.6.60
+- **Dono**: PDF «novas alterações» com 6 alterações — TODAS aprovadas (dono respondeu as dúvidas: sem banimento real por enquanto; cotas aprovadas; tema individual por aparelho; 1 release única).
+- **TEMAS (motor novo)**: 189 `rgba(212,175,55,x)` → `rgba(var(--glow-c),x)` + 39 `#d4af37`/7 `#7a5f14`/4 `#b3902a`/2 `#cdb98a` → vars. `:root` ganhou --gold-deep/--gold-dark/--gold-soft/--glow-c. `applyAccent` REESCRITO: registro `FX_TEMAS` (14 paletas: 7 antigas + roxo_coral/limao/roxo_vermelho/azul_cinza/rosa_vermelho/azul_vermelho/lava) grava as vars direto no style do html (accent-classes CSS antigas continuam como fallback). Tema claro usa `t.la` (tom mais escuro). applyTheme re-aplica o accent. PROTEGIDOS da var-ização: canvas do logo (5 fillStyle), ROL_CORES/ED_CORES (paletas de conteúdo), '#2b5278','#7a5f14' (array roleta).
+- **MENSAGENS TELA CHEIA**: `.chatwrap` perdeu max-width:1060px/borda/raio/sombra (2 regras) + `#eqMsgs{width:calc(100% + 2*clamp(18px,4vw,44px));margin-left:calc(-1*…)}` (mesmo escape do #viewIa do R78).
+- **COTAS I.A (worker R81)**: consts `IA_COTAS={chat:100,post:30,doc:30,rel:30,cliente:30}` + `USO_COTA_DB=262144000` (250 MB) + `cotaBate()` (UPSERT `INSERT … ON CONFLICT DO UPDATE SET qtd=qtd+1 RETURNING qtd` na tabela D1 **uso_ia** (clinic_id,dia,tipo) — NOVA tabela, `backups` NUNCA tocada) + `cotaJerr()` → 429 code «cota» c/ msg amigável. Guardas: /ia (tipo por modo), /ia-vis (doc), /ia-imagem (post), /ia-cliente (cliente, lookup clinic_id do p_id). Dia de Brasília: `Date.now()-3*3600e3`. Endpoint NOVO `/ia-uso` (GET): cotas+uso do dia. **/uso REESCRITO**: bytes REAIS da clínica (SUM de LENGTH das colunas de texto de 13 tabelas WHERE clinic_id — sequencial `.first()`, **DB.batch devolva resultado errado**, e SUM é obrigatório) + total_db.
+- **COTAS (app)**: `msgCota(j)` → todos os 9 sítios de parse da I.A usam `j.erro||msgCota(j)`. renderUso novo: /uso + /ia-uso em paralelo, % da cota de 250 MB, alerta >80% (sem talk de migração), painel «🎲 Cotas da Fênix I.A — hoje» c/ 5 barras. Medidor antigo de Arquivos saiu (linha virou contagem+aponta pra Dados›Uso).
+- **TERMOS**: cláusulas do dono como seção «3A. Regras da comunidade» (1 usuário por pessoa · nome ofensivo · arquivo ofensivo → banimento temporário · limites da I.A + sem multi-contas) + modal `#termosAceite` no 1º acesso (checkbox → botão habilita c/ opacidade) + «Reler os termos» (btnReverTermos). Chave: fenix_termos_v1.
+- **FUNDO**: painel «Fundo do app» na Aparência — arquivo do aparelho → canvas 1600px JPEG q.72/.5 → localStorage fenix_fundo (≤700KB) → `applyFundo()` põe `linear-gradient(rgba(8,7,5,.8)…)+url()` no html com backgroundAttachment fixed. «Fica só neste aparelho».
+- **⚠️ lições**: (1) heredoc python c/ `''` SQL dentro → aspas embaralhadas (worker 10021) — escrever SQL sem literal vazio (COALESCE(LENGTH(col),0)); (2) Cloudflare valida como ESM: multipart part TEM que se chamar worker.js; (3) D1 DB.batch com N SELECTs devolveu baselist vazio/errado → loop de .first(); (4) SUM sem agregador pegava 1ª linha (1601 vs 21360 bytes); (5) fotos Playwright: screenshot() trava em rAF infinito → CDP Page.captureScreenshot; addInitScript stubando versao.json c/ MESMA versão local mata o modal de atualização; #welcomeModal é .pmodal-soft (fora do seletor .pmodal).
+- **Testes**: suíte teste_r81 (25/25) + funcional jsdom (18/18: lava/roxo/dourado, msgCota, aceite completo, fundo liga/ Remove) · cânon r54–r80 24/24 verde (pins 1.6.60/R81; r54 scrollbar pin atualizado p/ var) · r50/51/52/62 legado falha igual antes. E2E worker: 429 «cota» real c/ semente 30/30 (depois limpa) · /ia-uso · /uso {bytes:21360, quota:262144000}.
+- **Entregas**: APK vc40 sha f9d51c65… · EXE sha ea952719… (base 1.6.59 85d29171 conferida) · Center 1.8.0/vc11 INALTERADO (d28e6a5c…/3cb3d6f4…) · checksums+LEIA-ME @1.6.60 · suítes pinned @1.6.60.
+
+## R80 — I.A VÊ TUDO (SÓ LEITURA) + NOVA CONVERSA DE VERDADE + CANVAS PELA I.A (02/10/2026) — commits dd98cc4 + e01eb6d · release v1.6.59 (id 401875740)
+- **Dono**: «conserta que a I.A é sem informação sobre valores pagos etc; ela deve ter acesso a tudo que acontece sem poder mexer ou alterar, sabendo do catálogo e etc; conserta que quando inicia uma nova conversa e manda mensagem ela vai ao outro chat existente; conserte o canvas pra a I.A conseguir criar arquivo texto ou pdf, não agente, tipo o canvas do Gemini».
+- **CONTEXTO COMPLETO (buildIaCtx reescrito, app)**: cabeçalho «SOMENTE LEITURA — NUNCA mexe/altera; se pedirem mudança manda fazer no app» · por cliente: pago / em pacotes / **FALTA pagar** (valor pacotes − pago) / sessões pendentes / tel/nasc/obs · pacotes: valor, pago, FALTA ou quitado · últimos 60 pagamentos · sessões pendentes (40) e últimas feitas (40) · **CATÁLOGO c/ preços + KITs c/ soma dos itens** · agenda futura (30) · RESUMO DO MÊS + «Sem sessão há mais tempo» (r61 voltou a passar depois de restaurar essa linha + «total recebido R$» e janela do regex 400→900).
+- **NOVA CONVERSA (bug)**: ensureConv ADOTAVA a conversa mais recente quando state.iaConv era null (botão «Nova conversa» só limpava state) → msg nova caía no chat antigo. Agora: ensureConv SÓ CRIA (`return newConv(false);`) + renderIA esconde conversas vazias «Nova conversa» da lista.
+- **CANVAS PELA I.A**: worker (modo geral, depois de pensamento/resposta) instrui bloco `<canvas tipo="texto|pdf" titulo="…">CONTEÚDO</canvas>` e extrai → `j({resposta,pensamento,canvas:{tipo,titulo,conteudo},motor})` (outros modos intactos). app: iaSend lê `j.canvas` OU bloco cru na resposta, cria arquivo na Biblioteca (`ia:true`), responde curto («Criei o arquivo «X» — abre aí embaixo») e injeta CARTÃO dourado `.ia-arq` na msg (`m.arq`) que abre o canvas pela delegação no #iaBox (`data-canabrir`). pushMsg ganhou 4º param arq.
+- **E2E REAIS pós-deploy**: «cria um PDF do roteiro» → I.A criou {tipo:'pdf', titulo:'Roteiro de Post - Limpeza de Pele 20% Off', conteúdo caprichado} e resposta limpa ✓ · «Quem ainda deve e quanto?» c/ ctx de teste → 'Apenas Ana Souza ainda deve, um total de R$ 380,00.' c/ pensamento ✓ · modo rel SEM pensamento/canvas ✓ · /ia-cliente intacta ✓. Digest do asset no GitHub = sha do build (tamanho igual ao vc38 foi coincidência de compressão — SEMPRE conferir o campo digest).
+- **lições**: (1) teste jsdom: funções `const` do app NÃO ficam em window → usar `w.eval('buildIaCtx()')` (binding léxico global); (2) sed multi-linha em linha com aspas duplas embaralha — usar python linha-a-linha p/ consertar teste; (3) simulação: resposta mock precisa bater com o formato novo ({resposta,pensamento,canvas}); (4) r61 pinava strings do ctx antigo — restaurar comportamento testado (sem-sessão-há-mais-tempo) quando possível antes de mudar o teste.
+- **Entregas**: APK vc39 sha dfccca93… · EXE sha 85d29171… (base 1.6.58 b0a4ed5d conferida) · Center 1.8.0/vc11 INALTERADO · checksums+LEIA-ME @1.6.59 · Pages 1.6.59 ✓ · latest/download sha ✓ · 20 suítes (r80 20/20 nova) · sim jsdom 17/17 (removida) · provas ui-r80-*.png (valores+catálogo c/ pensamento, cartão do canvas, canvas aberto).
+## R79 — BIBLIOTECA + CANVAS + PENSAMENTO na Fênix I.A (02/10/2026) — commits 3ea30bc + 1b12571 · release v1.6.58 (id 401841089)
+- **Dono**: «adiciona na barra lateral da I.A função de biblioteca onde ficam todas as coisas criadas; função canvas com botão na conversa (seleciona tipo text ou pdf e cria o arquivo); e o pensamento dela de forma organizada e bonita».
+- **PENSAMENTO (worker)**: /ia SÓ no modo geral (ehGeral = modo≠resumo/post/doc/rel) pede `FORMATO OBRIGATÓRIO <pensamento>+<resposta>` e separa → `j({resposta,pensamento,motor})`; **rel/doc/post/resumo e /ia-cliente INTACTOS**. **BUG PEGO NO E2E**: `sysBase+='…'` em const → «Assignment to constant variable» 500 → fix `const sysFinal=ehGeral?(sysBase+…):sysBase`. **E2E REAIS pós-deploy**: geral c/ pensamento ✓ · modo rel SEM ✓ · /doc-texto docx ✓ · /ia-cliente Evelyn ✓.
+- **app**: pushMsg(papel,texto,pensa) guarda m.pensa · renderIaMsgs injeta pílula `.ia-pensa-btn` «💭 Pensamento» + `.ia-pensa-corpo` (itálico, filete dourado, fechado por padrão) · toggle por delegação no #iaBox (label alterna Pensamento↔Esconder).
+- **BIBLIOTECA**: `.ia2tabs` Conversas|📚 Biblioteca na barra · acervo POR CLÍNICA `fenix_ia_can_<currentKey>` (getCans/setCans/canById) · «+ Novo canvas» · lista .ia-item c/ ícone por tipo (i-doc/i-dl) + ✕ apagar (armDelete) · contador.
+- **CANVAS**: botão ✦ `.ia-fun` no compositor → popover `.ia-pop` (Canvas + «em breve») → modal `.ia-modal` c/ cartões Texto|PDF (iaCanTipoSel) → cria `{id,tipo,titulo,texto,criadoEm,ts,geradoEm}` → abre `.ia-canvas` (painel de escrita: título editável, badge do tipo, «Gerar PDF» só p/ tipo pdf, lixeira c/ armDelete, «salva sozinho») · autosave debounce 400ms (canSave) · «Gerar PDF» = `iaCanPdfBytes()` PRÓPRIO: A4, Helvetica+Bold (NUNCA Courier, regra R73), marca dourada, título grande, parágrafos, rodapé c/ data+paginação; download `titulo-slug-data.pdf`. **PDF PROVADO**: extraído da página real → node gera → pymupdf render: título/corpo ok, fontes [Helvetica, Helvetica-Bold], sem Courier, emoji → espaço (63→32).
+- **⚠️ BUG DE PERSISTÊNCIA (pego pela simulação 18)**: canSave/gerarPDF mutavam objeto de UM parse e depois `setCans(getCans())` gravava OUTRO parse (sem mutações) → biblioteca não salvava nada («salvo às» aparecia, reabrir vinha vazio) → SEMPRE achar na MESMA lista (`const L=getCans();const c=L.find(…);…;setCans(L)`). Esse padrão vale pra qualquer storage novo.
+- **lições**: (1) âncora de pushMsg do /ia era `pushMsg('ia',j.resposta)` ÚNICA (o /ia-vis tem outro formato); (2) placeholder do iaInput agora DENTRO do iaFit (roda em render+resize; o bloco de boot se perdeu num patch abortado); (3) manifest template continua vc18/1.6.38 — sed SEMPRE de 18→N (ancorar em 37 falha); (4) testes de grep precisam olhar SÓ o bloco novo (Courier existe no motor ANTIGO dos relatórios — fatiar por indexOf('function iaCanPdfBytes'));
+- **Entregas**: APK vc38 sha 8549fe62… · EXE sha b0a4ed5d… (base 1.6.57 6222b54c conferida) · Center 1.8.0/vc11 INALTERADO · checksums+LEIA-ME @1.6.58 · Pages 1.6.58 ✓ · latest/download sha ✓ · 19 suítes (r79 20/20 nova) · sim jsdom 18/18 (removida) · provas visuais ui-r79-*.png (pensamento desktop/celular, funções, canvas, biblioteca).
+## R78 — UI DA FÊNIX I.A NO ESTILO CLAUDE (02/10/2026) — commits d48379e + f1f5cc5 · release v1.6.57 (id 401796957)
+- **Pedido do dono**: «quero que copie exatamente a ui do claude, copiar mesmo a barra lateral do claude etc, tirando aquela limitação de card no chat e tirando os botões de cima». UI escrita DO ZERO (código 100% nosso, só o padrão visual de chat moderno — sem copiar código de fora), cores escuro+dourado mantidas.
+- **BARRA LATERAL PRÓPRIA** (.ia-side 266px): marca Fênix em cima (ia2brand), botão «+ Nova conversa» dourado (btnIaNew MUDOU pra dentro da barra), rótulo CONVERSAS + contador, lista enxuta (.ia-item com ícone, título com elipsis, ✕ de apagar aparece no hover), rodapé = badge de status + botão Configurações (btnIaCfg). Some/volta pelo BOTÃOZINHO na borda do chat (.ia-fold = btnIaSide, ícone #i-chev que gira); preferência fenix_iaside agora '1'/'0'; NO CELULAR (≤900px) a barra vira GAVETA (position absolute, desliza por cima, box-shadow) e COMEÇA ESCONDIDA.
+- **CHAT DE PONTA A PONTA**: #viewIa max-width:none + margens negativas cobrindo o conteúdo (height 100dvh ajustada por **iaFit()** que mede getBoundingClientRect().top — sem isso o compositor saía da tela); .ia-box flex:1 SEM altura fixa, coluna de leitura max-width:860px centrada; RESPOSTA DA I.A SEM CARD (texto corrido: .ia-msg.ia .b sem fundo/borda) e SEM hero/sec-head no topo (só .ia-top com o título da conversa); pergunta do dono em bolha #1d1d1d arredondada à direita; tela vazia = boas-vindas centralizadas (.ia-hello «Como posso ajudar hoje?» com a fênix).
+- **COMPOSITOR EMBAIXO** (.ia-comp): caixinha arredondada 18px com borda que acende no focus, clipe SVG dentro (btnIaAnexo — emoji trocado por SVG), textarea sem borda e botão de enviar dourado quadrado-arredondado (btnIaSend com #i-send); chip do anexo continua acima (📎 preso + ✕). Configurações (iaCfgCard) virou PAINEL FLUTUANTE (absolute top-right; escondida quando .closed — antes o cabeçalho ficava flutuando).
+- **NÃO mudou**: worker (zero deploy), função iaSend/anexos/histórico, clients/index.html, APENAS-TESTE.html. 18 suítes verdes (pins 1.6.57/R78; r78 nova 18/18) + simulação jsdom do caminho completo 15/15 (simula78 removida pós-uso) + provas visuais Chromium (ui-r78-*.png: desktop aberta/fechada/config, celular, gaveta).
+- **⚠️ lições**: (1) `/tmp` tmpfs lota (993M) — build do APK + EXE + clone não cabem juntos: copiar ARTEFATO pro workspace ANTES de limpar qualquer diretório (perdi o 1º APK vc37 por limpar /tmp/and; reconstruído); (2) `cp -r .git` de volta SOBRE .git existente cria `.git/.git` e mantém ref velha — usar clone fresh + `mv` (git perde objetos e fica no commit antigo); (3) foto no Chromium: esconder splash/auth/modais via evaluate + simular versao.json (route) senão o aviso de atualização recarrega a página no meio do roteiro; (4) view de tela cheia com barra de título do app em cima exige medir top real (iaFit), 100vh puro corta o rodapé.
+- **Entregas**: APK vc37 sha 00fd353c… · EXE sha 6222b54c… · Center 1.8.0/vc11 INALTERADO (sha d28e6a5c…/3cb3d6f4…) · checksums + LEIA-ME @1.6.57 · Pages 1.6.57 ✓ · latest/download sha conferido ✓. BASE EXE 1.6.56 = 9ab643ea (conferida antes).
+## R77 — FÊNIX I.A + ANEXO LÊ DE VERDADE + UI AMPLA (02/10/2026) — commits c2aba23 + (checksums) · release v1.6.56 (id 401765513)
+- **Dono (vamos aos poucos, etapa 1 = chat)**: (a) tirar «Conversar com a I.A» → **Fênix I.A** (item/hero/título); (b) ela NÃO lia arquivos → AGORA LÊ; (c) UI: acabar o quadrado apertado + barra de conversas fecha/abre.
+- **UI**: .ia-box min(72vh,760px) · .ia-wrap(.sem) grid 0 1fr esconde .ia-side · botão «Conversas» (btnIaSide) toggle + preferência fenix_iaside. jsdom: clique esconde/mostra ✓.
+- **ANEXO REAL**: accept ampliado; DOCX/ODT → **/doc-texto** (worker): parser ZIP MÍNIMO PRÓPRIO (EOCD 0x06054b50, central 0x02014b50, local 0x04034b50; método 8 → **DecompressionStream('deflate-raw')** nativo — inflate manual abandonado (bugado); word/document.xml|content.xml → tira tags preservando \\n de </w:p>) · PDF texto (Tj/WinAnsi + octais) no worker · txt/csv/md/json/log → .text() · foto → /ia-vis (prompt pede ler texto tb). E2E REAIS: DOCX criado na hora → texto extraído com linhas ✓; PDF orçamento → extraído ✓. **Chip 📎 FICA após enviar** (removido o iaAnexoClear do envio; ✕ limpa).
+- **⚠️ lições**: (1) PATCH DE VERSÃO tem que conferir DEPOIS — o passo APP_VERSAO 1.6.56 não rodou na 1ª tentativa (âncora já trocada) e só peguei pelos testes; (2) inflate manual em JS puro = NÃO fazer — DecompressionStream resolve; (3) regex de teste com `[^>]*>` engole o `<svg>` do meio — preferir includes de strings exatas.
+- **Release v1.6.56**: APK vc36 (sha bc6ee1bb…, btnIaSide no APK ✓) · EXE (sha 9ab643ea…, base 1.6.55=9203ea0a ✓) · Center re-enviado · 6 assets · latest ✓ · APK de volta ✓ · **17 SUÍTES VERDES** (r77 16/16 nova).
+- **Bases EXE**: …1.6.55→9203ea0a. **Próximas etapas «aos poucos» (dono comanda)**: melhorias na Fênix I.A conforme feedback.

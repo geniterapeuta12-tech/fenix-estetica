@@ -1,10 +1,13 @@
 {
-  "versao": "1.6.59",
-  "r": "R80",
+  "versao": "1.6.60",
+  "r": "R81",
+  "quando": "02/10/2026",
   "melhorias": [
-    "🔓 Fênix I.A agora VÊ TUDO da clínica (somente leitura): clientes com valores pagos e que falta pagar, pacotes, catálogo com preços, kits, sessões feitas/pendentes, pagamentos e agenda — ela responde com os números reais e NUNCA mexe em nada",
-    "🐛 «Nova conversa» é NOVA de verdade: mandar mensagem depois dela não cai mais dentro de um chat antigo",
-    "🎨 Canvas pela própria I.A: peça «cria um PDF do roteiro do post» e ela escreve o arquivo prontinho — aparece um cartão na conversa pra abrir e o arquivo entra na Biblioteca (texto ou PDF)"
-  ],
-  "link": "https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest"
+    "Cores de tema: 7 novas paletas (Roxo Coral, Verde Limão, Roxo e Vermelho, Azul e Cinza, Rosa e Vermelho, Azul e Vermelho, Vermelho Lava) — cada pessoa escolhe a sua, e agora TUDO no app muda junto",
+    "Mensagens da equipe em tela cheia — acabou o card limitado",
+    "Termos de uso com as regras da comunidade + aceite no primeiro acesso",
+    "Limites da Fênix I.A por clínica (cotas diárias generosas, reset à meia-noite) com aviso amigável",
+    "Dados › Uso e limites: medidor novo do banco (cota de 250 MB por clínica) + cotas da I.A do dia",
+    "Fundo do app personalizável com uma imagem do seu aparelho (fica só no aparelho)"
+  ]
 }
