@@ -63,6 +63,7 @@ Preços verificados em 03/10/2026 (fontes: Cloudflare, NodeTool, TokenMix, Model
 | **Groq** | — não gera imagem (só texto) | — | ❌ a GROQ_KEY (A4) serve só pro chat |
 | Gemini/Imagen | grátis c/ limites | — | ❌ LGPD (treina com prompts) — dono já rejeitou |
 
+**Detalhe prático (dono perguntou «é 1 dólar por 370?»)**: SIM — US$ 0,0027/imagem = ~370 imagens por dólar (~1,5 centavo cada). MAS a Together exige **mínimo de US$ 5 pré-pagos pra começar** (~R$ 27–28 → ~1.850 imagens, que não expiram; cartão obrigatório, sem teste grátis — política de jul/2025). Créditos acabou, para até recarregar (sem fatura surpresa).
 **Chave técnica pro caso do estúdio**: nossa arte é ABSTRATA (textura, luz, matéria — sem pessoas, sem texto na imagem). Pra isso, os modelos «baratos» (schnell) são ótimos — não é economia que piora o resultado.
 **Plano de integração**: R86 nasce no Cloudflare GRÁTIS (regra permanente) · se a qualidade não agradar, Together AI entra como «turbo opcional» com chave PRÓPRIA do dono no worker (mesmo padrão da GROQ_KEY/A4 — chave NUNCA no app) · LGPD: conferir política de dados da Together antes de ligar (se duvidar, fica só no Cloudflare).
 
