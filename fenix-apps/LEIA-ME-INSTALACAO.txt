@@ -24,7 +24,7 @@ DETALHES
 • Login e senha: os mesmos. Celular e PC sincronizados
   (mesmo banco na nuvem).
 • Zoom das telas: menu Dados > Sistema (80% a 125%).
-• Novidade v1.6.61: consertos — espaço da cliente mostra se o produto do catálogo está PAGO e qualquer pagamento diminui o valor que falta · fundo do app funcionando de verdade · modo claro dos temas novos sem fundo preto · Canvas da I.A entrega o PDF PRONTO pra baixar · Fênix I.A no espaço da cliente (só assuntos dela)
+• Novidade v1.6.63: consertos — espaço da cliente mostra se o produto do catálogo está PAGO e qualquer pagamento diminui o valor que falta · fundo do app funcionando de verdade · modo claro dos temas novos sem fundo preto · Canvas da I.A entrega o PDF PRONTO pra baixar · Fênix I.A no espaço da cliente (só assuntos dela)
 
 • Atualização futura: recebe uma pasta nova e substitui.
 • Links de WhatsApp abrem no app certo do Windows.

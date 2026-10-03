@@ -1,0 +1,20 @@
+const fs=require('fs');
+const {chromium}=require('playwright-core');
+const cr=require('@sparticuz/chromium');
+(async()=>{
+const exe=await cr.executablePath();
+const b=await chromium.launch({executablePath:exe,args:cr.args,headless:true});
+const pg=await b.newPage({viewport:{width:540,height:960},deviceScaleFactor:2});
+const cdp=await pg.context().newCDPSession(pg);
+const shot=async(f)=>{const r=await cdp.send('Page.captureScreenshot',{format:'png'});fs.writeFileSync(f,Buffer.from(r.data,'base64'));};
+await pg.goto('file:///home/user/FENIX-REELS-60s.html',{waitUntil:'domcontentloaded'});
+await pg.waitForTimeout(800);
+await pg.click('#go');
+await pg.waitForTimeout(3000); await shot('/home/user/reels-t03.png');
+await pg.waitForTimeout(9000); await shot('/home/user/reels-t12.png');
+await pg.waitForTimeout(25000); await shot('/home/user/reels-t37.png');
+await pg.waitForTimeout(19000); await shot('/home/user/reels-t56.png');
+await b.close();
+console.log('fotos reels ok');
+process.exit(0);
+})().catch(e=>{console.error('ERRO:',e.message);process.exit(1);});

@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.62",
+  "versao": "1.6.63",
   "r": "R84",
   "quando": "03/10/2026",
   "melhorias": [
-    "Fênix I.A com acesso REAL a tudo: clientes, gastos e pagamentos, pacotes, catálogo, sessões, agenda e agora também os DOCUMENTOS (antes o contexto era cortado no meio)",
+    "Fênix I.A com acesso REAL a tudo: clientes, gastos e pagamentos, pacotes, catálogo, sessões, agenda e agora também os DOCUMENTOS",
     "Respostas com números exatos: ela usa os totais já calculados pelo app (nada de soma errada)",
     "Multimodal de verdade: mande uma foto e ela descreve E responde com os dados da clínica na mesma conversa",
-    "Canvas agora é só da I.A: peça «cria um PDF…» ou «cria um texto…» e o arquivo nasce pronto na Biblioteca (criação manual e botão Gerar PDF removidos)",
-    "Arquivos PDF da I.A com mais espaço pra conteúdo completo"
+    "Canvas agora é só da I.A: peça «cria um PDF…» ou «cria um texto…» e o arquivo nasce pronto na Biblioteca",
+    "Conserto de tela: coisas que ficavam mais pra baixo / fora do lugar depois da atualização anterior — layout voltou ao ponto ✅"
   ]
 }

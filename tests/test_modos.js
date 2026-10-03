@@ -1,0 +1,34 @@
+const fs=require('fs');
+const {JSDOM}=require('jsdom');
+const html=fs.readFileSync('/home/user/tests/fenix-estetica.html','utf8');
+const dom=new JSDOM(html,{runScripts:'dangerously',url:'https://fenix.test/',pretendToBeVisual:true});
+const w=dom.window,d=w.document;const ev=s=>w.eval(s);
+let pass=0,fail=0;
+const ok=(c,l)=>{if(c){pass++;console.log('  ✔ '+l);}else{fail++;console.log('  ✘ FALHOU: '+l);}};
+setTimeout(()=>{try{
+ev(`entrarLocal({nome:'Clínica Teste'},'teste')`);
+console.log('— Modo Catálogo —');
+ok(!ev(`'catalogo' in MODES`)===false,'MODES.catalogo existe');
+d.getElementById('btnModo').click();
+const opts=[...d.querySelectorAll('.mode-opt')];
+ok(opts.some(o=>o.dataset.mode==='catalogo'),'Catálogo aparece no seletor de modos');
+ok(!opts.some(o=>o.dataset.mode==='studioia'),'Studio I.A NÃO aparece mais no seletor');
+d.querySelector('.mode-opt[data-mode="catalogo"]').click();
+ok(ev(`state.mode`)==='catalogo','Modo Catálogo ativado');
+ok(!d.getElementById('navCatalogo').classList.contains('hidden'),'Lateral do Catálogo visível');
+ok(d.getElementById('viewTitle').textContent==='Catálogo','Título "Catálogo"');
+ok(d.getElementById('modeName').textContent==='Catálogo','Nome no botão de modo = Catálogo');
+ok(d.getElementById('navGestao').classList.contains('hidden'),'Nav da Gestão escondida');
+ok(d.getElementById('dock').classList.contains('hidden'),'Widgets escondidos');
+ok(ev(`state.view`)==='catalogo','state.view=catalogo (placeholder vazio, sem views da gestão)');
+console.log('— Studio I.A removido —');
+ev(`setMode('studioia')`);
+ok(ev(`state.mode`)==='gestao','setMode("studioia") cai no Gestão (modo antigo salvo é saneado)');
+ok(ev(`$('navStudioIA')`)===null,'Elemento navStudioIA não existe mais');
+console.log('— Estabilidade dos demais modos —');
+['gestao','studio','catalogo','equipe','dados'].forEach(m=>{
+  ev(`setMode('`+m+`')`);
+  ok(ev(`MODES[state.mode].nome`)===({gestao:'Gestão',studio:'Studio',catalogo:'Catálogo',equipe:'Equipe',dados:'Dados'})[m],'Modo '+m+' ok');});
+console.log('\nRESULTADO: '+pass+' passaram, '+fail+' falharam');
+process.exit(fail?1:0);
+}catch(e){console.error('ERRO NO TESTE:',e);process.exit(2);}},300);
