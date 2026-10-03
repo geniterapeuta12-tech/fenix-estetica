@@ -50,6 +50,11 @@ Prioridades marcadas pelo dono: **1, 2, 4**
 - **Sinergia A5**: depois que o Modo Agente existir, ele usa ISSO pra montar campanha inteira (arte + texto + legenda) sozinho
 **Esforço**: Pequeno-médio · **Risco**: Baixo · **Nota**: 9 · **Sugestão**: FAZER (R86) — resolve a dor «posts feios» na raiz
 
+### 💰 Nota de custos — R2 do Cloudflare (dono perguntou 03/10/2026: «quanto custa adicionar 10GB?»)
+R2 não vende «pacote de 10GB» — é medido por uso: **os primeiros 10GB são GRÁTIS todo mês**, o que passar disso custa **US$ 0,015/GB/mês** (verificado 03/10/2026). Conta: +10GB guardados por 1 mês inteiro = US$ 0,15 ≈ **R$ 0,80/mês** · guardar 10GB por só 1 dia ≈ R$ 0,03 (cobra proporcional à hora). Egress (download) = grátis sempre.
+**No nosso app hoje**: arquivos ≤10MB com expiração em 24h → nunca saímos dos 10GB grátis → **R$ 0, não precisa comprar nada**.
+**Se o desejo for guardar arquivos PRA SEMPRE** (ex.: A3 — designs do Editor na nuvem, fotos da cliente): os 10GB grátis/mês já cabem ~2.000 fotos de 5MB — e ativação do R2 pede cartão mesmo no grátis (regra «Cloudflare GRÁTIS» mantida: nada muda sem ordem do dono). Ultrapassar 10GB permanentes custaria ~R$ 0,08/GB/mês.
+
 ### A6 · Complemento 3 — OPENROUTER como chave única do dono (dono sugeriu 03/10/2026, «sem pressa»)
 Verificado 03/10/2026 (docs OpenRouter/qualquerdevtool/aireiter): um cadastro, uma chave → ~500 modelos de texto E imagem.
 
