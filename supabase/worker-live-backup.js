@@ -35,8 +35,10 @@ const IA_CLIENTE='Você é a assistente virtual do espaço da cliente de um est�
 const IA_REL='Você responde perguntas SOBRE O RELATÓRIO de um estúdio de estética que está no texto abaixo. Use SOMENTE os números e nomes do relatório — nunca invente. Se a resposta não estiver no relatório, diga claramente que o relatório não tem essa informação. Responda em português, direto ao ponto, podendo usar pequenos tópicos.';
 const IA_DOC='Você escreve e melhora textos e documentos para um estúdio de estética: mensagens para clientes, orientações de cuidados pós-procedimento, descrições de serviços, listas de preços, avisos e contratos simples. Responda SOMENTE com o texto final, pronto para usar, sem comentários e sem explicações. Se pedirem para melhorar: mantenha as informações e deixe mais claro, elegante e bem escrito. Se pedirem para resumir: encurte mantendo o essencial. Se pedirem para corrigir: corrija ortografia e gramática sem mudar o estilo da pessoa. Use o nome exato dos serviços que aparecerem no pedido. Tom acolhedor e profissional. NUNCA dê orientação médica nem prometa resultado curativo; em orientações de cuidados use linguagem de bem-estar e, se houver reação adversa, recomende procurar o estúdio ou um profissional.';
 /* R81 — cotas de uso da I.A por clínica/dia (reset à meia-noite de Brasília) */
-const IA_COTAS={chat:100,post:30,doc:30,rel:30,cliente:30};
-const IA_COTAS_ROTULO={chat:'Fênix I.A (chat)',post:'Gerador de Posts',doc:'I.A dos Documentos',rel:'I.A dos Relatórios',cliente:'I.A da cliente'};
+const IA_COTAS={chat:100,post:30,doc:30,rel:30,cliente:30,agente:20};
+/* R86 — Modo Agente: missão em etapas com VÁRIOS arquivos prontos */
+const IA_AGENTE='Você é o MODO AGENTE da Fênix, assistente do estúdio de estética. Recebe UMA MISSÃO e EXECUTA sozinho em etapas. Regras: use SÓ os DADOS fornecidos (nunca invente números); não dê conselho médico; português simples; você NÃO altera dados do app — você CRIA ARQUIVOS. FORMATO OBRIGATÓRIO: (1) <pensamento>…</pensamento> com o PLANO em etapas numeradas curtas (ex.: «1. vou olhar os dados… 2. vou montar… 3. vou criar os arquivos…»); (2) depois CRIE de 2 a 4 ARQUIVOS completos, cada um num bloco próprio: <canvas tipo="texto" titulo="Nome claro do arquivo">conteúdo completo do arquivo</canvas> — use tipo="pdf" para documento formal (protocolo, contrato, tabela de preços). Arquivos CAPRICHADOS e completos (títulos, seções, listas, prontos pra usar). (3) Termine com resposta curta dizendo o que entregou.';
+const IA_COTAS_ROTULO={chat:'Fênix I.A (chat)',post:'Gerador de Posts',doc:'I.A dos Documentos',rel:'I.A dos Relatórios',cliente:'I.A da cliente',agente:'Modo Agente'};
 const USO_COTA_DB=262144000; /* cota amigável do banco por clínica: 250 MB */
 async function cotaBate(env,cli,tipo){
   try{
@@ -48,17 +50,17 @@ async function cotaBate(env,cli,tipo){
   }catch(e){return {ok:true,qtd:0,limite:(IA_COTAS[tipo]||30),dia:'',aberto:true};}
 }
 function cotaJerr(tipo,c){return jerr('A cota de hoje acabou ('+(IA_COTAS_ROTULO[tipo]||tipo)+': '+c.limite+'/dia por clínica). O contador zera à meia-noite — amanhã volta normal.',429,'cota');}
-async function aiChat(env,msgs){
+async function aiChat(env,msgs,maxTokens){
   try{
-    const r=await env.AI.run('@cf/meta/llama-3.3-70b-instruct-fp8-fast',{messages:msgs,max_tokens:1200,temperature:0.4});
+    const r=await env.AI.run('@cf/meta/llama-3.3-70b-instruct-fp8-fast',{messages:msgs,max_tokens:maxTokens||1200,temperature:0.4});
     return {resposta:(r&&r.response)||''};
   }catch(e){
-    const r=await env.AI.run('@cf/meta/llama-3.1-8b-instruct-fast',{messages:msgs,max_tokens:1200,temperature:0.4});
+    const r=await env.AI.run('@cf/meta/llama-3.1-8b-instruct-fast',{messages:msgs,max_tokens:maxTokens||1200,temperature:0.4});
     return {resposta:(r&&r.response)||''};
   }
 }
-async function groqChat(key,msgs){
-  const r=await fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'authorization':'Bearer '+key,'content-type':'application/json'},body:JSON.stringify({model:'llama-3.3-70b-versatile',messages:msgs,max_tokens:1200,temperature:0.4})});
+async function groqChat(key,msgs,maxTokens){
+  const r=await fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'authorization':'Bearer '+key,'content-type':'application/json'},body:JSON.stringify({model:'llama-3.3-70b-versatile',messages:msgs,max_tokens:maxTokens||1200,temperature:0.4})});
   const d=await r.json().catch(()=>null);
   return {resposta:(d&&d.choices&&d.choices[0]&&d.choices[0].message&&d.choices[0].message.content)||''};
 }
@@ -734,9 +736,15 @@ export default {
         try{
           const b = await req.json().catch(()=>null);
           const t = String(b&&b.tema||'').slice(0,200).trim();
+          const estilo=String(b&&b.estilo||'luxo').slice(0,20);
+          const modelo=String(b&&b.modelo||'flux').slice(0,20);
+          const ESTILOS={luxo:'dark black base with gold accents, luxury golden light, premium jewelry tones',marmore:'white marble texture with delicate gold veins, bright elegant spa mood',orquidea:'macro orchid petals close-up, soft cream and blush tones, dew drops, luxury botanical beauty',seda:'flowing golden silk fabric waves, warm champagne light, smooth elegant cloth texture',bokeh:'warm spa bokeh lights, candles and stones blurred, zen wellness mood',botanico:'eucalyptus and tropical leaves on dark background, botanical luxury, gold dust particles'};
+          const st=ESTILOS[estilo]||ESTILOS.luxo;
+          const MOD={flux:'@cf/black-forest-labs/flux-1-schnell',lucid:'@cf/leonardo/lucid-origin',phoenix:'@cf/leonardo/phoenix-1.0',sdxl:'@cf/stabilityai/stable-diffusion-xl-base-1.0',lightning:'@cf/bytedance/stable-diffusion-xl-lightning',dream:'@cf/lykon/dreamshaper-8-lcm'};
+          const mdl=MOD[modelo]||MOD.flux;
+          const prompt='Elegant beauty salon background art, '+st+'. About: '+t+'. Abstract textures only — NO people, NO faces, NO hands, NO text, NO letters, NO words, NO logos, NO watermark. Premium aesthetic, professional lighting, smooth depth, high detail.';
           if(!t) return jerr('Diga o tema do fundo.',400);
-          const prompt='Elegant luxury beauty salon background art. Dark black base with gold accents: '+t+'. Abstract textures, soft golden light, premium spa aesthetic, smooth gradients. Absolutely no people, no faces, no hands, no text, no letters, no logo, no watermark.';
-          const r=await env.AI.run('@cf/black-forest-labs/flux-1-schnell',{prompt,steps:4});
+          const r=await env.AI.run(mdl,{prompt,steps:4});
           if(!r||!r.image) return jerr('A I.A de imagem não respondeu — tenta de novo.',502);
           return j({img:r.image});
         }catch(e){return jerr('Falhou a geração do fundo — tenta de novo em instantes.',500)}
@@ -752,28 +760,29 @@ export default {
         const hist=Array.isArray(b.historico)?b.historico.slice(-10).filter(h=>h&&(h.role==='user'||h.role==='assistant')&&typeof h.content==='string').map(h=>({role:h.role,content:h.content.slice(0,2000)})):[];
         const modo=String(b&&b.modo||'').slice(0,20);
         /* R81 — cota de I.A (por clínica/dia) */
-        const tipoC=(modo==='resumo'||modo==='rel')?'rel':((modo==='post'||modo==='doc')?modo:'chat');
+        const tipoC=(modo==='resumo'||modo==='rel')?'rel':((modo==='post'||modo==='doc')?modo:(modo==='agente'?'agente':'chat'));
         const cliIdC=pl.sub||pl.id||pl.user_id;
         if(cliIdC){const cota=await cotaBate(env,cliIdC,tipoC); if(!cota.ok) return cotaJerr(tipoC,cota);}
-        const sysBase=(modo==='resumo')?(IA_RESUMO+'\n\nRELATÓRIO:\n'+ctx):(modo==='post')?(IA_POST+'\n\nCONTEXTO DO ESTÚDIO:\n'+ctx):(modo==='doc')?(IA_DOC+'\n\nCONTEXTO DO ESTÚDIO:\n'+ctx):(modo==='rel')?(IA_REL+'\n\nRELATÓRIO:\n'+ctx):(IA_SYS+'\n\nDADOS ATUAIS DA CLÍNICA:\n'+ctx+'\n\nIMPORTANTE: os totais, somas e contagens JÁ VÊM CALCULADOS nos DADOS acima (RESUMO DO MÊS, «pago», «FALTA pagar», contagens entre parênteses). Use SEMPRE esses números prontos — NUNCA tente somar ou recalcular listas. Se o número não estiver nos dados, diga que não está.');
-        const ehGeral=!(modo==='resumo'||modo==='post'||modo==='doc'||modo==='rel');
+        const sysBase=(modo==='resumo')?(IA_RESUMO+'\n\nRELATÓRIO:\n'+ctx):(modo==='post')?(IA_POST+'\n\nCONTEXTO DO ESTÚDIO:\n'+ctx):(modo==='doc')?(IA_DOC+'\n\nCONTEXTO DO ESTÚDIO:\n'+ctx):(modo==='rel')?(IA_REL+'\n\nRELATÓRIO:\n'+ctx):(modo==='agente')?(IA_AGENTE+'\n\nDADOS ATUAIS DA CLÍNICA:\n'+ctx):(IA_SYS+'\n\nDADOS ATUAIS DA CLÍNICA:\n'+ctx+'\n\nIMPORTANTE: os totais, somas e contagens JÁ VÊM CALCULADOS nos DADOS acima (RESUMO DO MÊS, «pago», «FALTA pagar», contagens entre parênteses). Use SEMPRE esses números prontos — NUNCA tente somar ou recalcular listas. Se o número não estiver nos dados, diga que não está.');
+        const ehGeral=!(modo==='resumo'||modo==='post'||modo==='doc'||modo==='rel'); /* agente JÁ cai no grupo geral (pensamento + canvases) */
         const sysFinal=ehGeral?(sysBase+'\n\nFORMATO OBRIGATÓRIO da resposta: escreva PRIMEIRO entre <pensamento> e </pensamento> o seu raciocínio curto (2 a 4 frases, em português, honesto — sem inventar dados) sobre como vai responder; DEPOIS escreva entre <resposta> e </resposta> a resposta final pronta pro dono. Não escreva NADA fora dessas duas partes.\n\nCRIAR ARQUIVOS (CANVAS): se o dono pedir pra você criar/escrever um documento, arquivo, PDF, contrato, roteiro, carta ou texto pronto (ou disser «cria um canvas»), DEPOIS das duas partes acrescente UM bloco no formato <canvas tipo="texto" titulo="Título curto">CONTEÚDO COMPLETO do documento, em texto simples e organizado, com quebras de linha</canvas> — use tipo="pdf" quando ele pedir PDF. O conteúdo do bloco é o arquivo inteiro, caprichado; fora do bloco, responda curto avisando que criou.'):sysBase;
         const msgs=[{role:'system',content:sysFinal}].concat(hist).concat([{role:'user',content:q}]);
         let motor='workers-ai',out=null;
         try{
-          if(env.GROQ_KEY){motor='groq';out=await groqChat(env.GROQ_KEY,msgs);}
-          if(!out||!out.resposta){motor='workers-ai';out=await aiChat(env,msgs);}
+          if(env.GROQ_KEY){motor='groq';out=await groqChat(env.GROQ_KEY,msgs,modo==='agente'?2000:1200);}
+          if(!out||!out.resposta){motor='workers-ai';out=await aiChat(env,msgs,modo==='agente'?2000:1200);}
         }catch(e){
-          try{motor='workers-ai';out=await aiChat(env,msgs);}catch(e2){return jerr('IA indisponível: '+String(e2&&e2.message||e2).slice(0,120),502)}
+          try{motor='workers-ai';out=await aiChat(env,msgs,modo==='agente'?2000:1200);}catch(e2){return jerr('IA indisponível: '+String(e2&&e2.message||e2).slice(0,120),502)}
         }
         let resp=(out&&out.resposta)||'',pensa='';
         if(ehGeral){const mp=resp.match(/<pensamento>[\s\S]*?<\/pensamento>/i);
           if(mp){pensa=mp[0].replace(/<\/?pensamento>/gi,'').trim();resp=resp.replace(/<pensamento>[\s\S]*?<\/pensamento>/i,'');}
           resp=resp.replace(/<\/?resposta>/gi,'').trim();
-          let canvas=null;
-          const mc=resp.match(/<canvas\s+tipo="(texto|pdf)"\s+titulo="([^"]*)">([\s\S]*?)<\/canvas>/i);
-          if(mc){canvas={tipo:mc[1],titulo:mc[2].trim().slice(0,120),conteudo:mc[3].trim()};resp=resp.replace(/<canvas[\s\S]*?<\/canvas>/i,'').trim();}
-          return j({resposta:resp,pensamento:pensa,canvas,motor});}
+          let canvas=null;const canvasLista=[];
+          const reC=/<canvas\s+tipo="(texto|pdf)"\s+titulo="([^"]*)">([\s\S]*?)<\/canvas>/gi;let mc;
+          while((mc=reC.exec(resp))){const c={tipo:mc[1],titulo:mc[2].trim().slice(0,120),conteudo:mc[3].trim()};canvasLista.push(c);if(!canvas)canvas=c;}
+          if(canvasLista.length)resp=resp.replace(/<canvas[\s\S]*?<\/canvas>/gi,'').trim();
+          return j({resposta:resp,pensamento:pensa,canvas,canvasLista,motor});}
         return j({resposta:(out&&out.resposta)||'',motor});
       }
       if (p === '/r2-ok') return j({ ok: true, r2: !!env.R2_TOKEN });

@@ -6,7 +6,7 @@ const WK=fs.readFileSync(path.join(__dirname,'..','supabase','worker-live-backup
 const CL=fs.readFileSync(path.join(__dirname,'..','clients','index.html'),'utf8');
 const VJ=JSON.parse(fs.readFileSync(path.join(__dirname,'..','versao.json'),'utf8'));
 /* 1) versão */
-T('1. versão 1.6.64 + versao.json R82 (5 melhorias)', W.includes("APP_VERSAO='1.6.64'")&&VJ.versao==='1.6.64'&&VJ.r==='R85'&&(VJ.melhorias||[]).length>=5);
+T('1. versão 1.6.65 + versao.json R82 (5 melhorias)', W.includes("APP_VERSAO='1.6.65'")&&VJ.versao==='1.6.65'&&VJ.r==='R86'&&(VJ.melhorias||[]).length>=5);
 /* 2) financeiro na cliente: FIFO no worker */
 T('2. worker: pago por pacote = vínculo + FIFO dos sem vínculo', WK.includes('R82 — «pago» por pacote: pagamentos vinculados + distribuição FIFO')&&WK.includes('let fila = (pgall.results || []).filter(x => !x.pacote_id)')&&WK.includes('pago += usa'));
 T('3. worker: feitas por mapa + itens parse seguro', WK.includes('feitasMap[p.id] || 0')&&WK.includes('itens = p.itens ? JSON.parse(p.itens) : []'));
@@ -25,7 +25,7 @@ T('11. painel «Fênix I.A» no espaço da cliente', CL.includes("sec('iac','�
 T('12. worker: guarda de assunto (só dados dela)', WK.includes('Fale APENAS de assuntos relacionados a esta cliente')&&WK.includes('recuse com gentileza em 1 frase'));
 T('13. cliente: aviso de cota amigável no chat', CL.includes("o.j.code==='cota'?o.j.message:null"));
 /* 7) intactos */
-T('14. R81 intacta: 14 temas + cotas + aceite', W.includes('const FX_TEMAS={')&&W.includes('id="termosAceite"')&&WK.includes('const IA_COTAS={chat:100,post:30,doc:30,rel:30,cliente:30};'));
+T('14. R81 intacta: 14 temas + cotas + aceite', W.includes('const FX_TEMAS={')&&W.includes('id="termosAceite"')&&WK.includes('const IA_COTAS={chat:100,post:30,doc:30,rel:30,cliente:30,agente:20};'));
 T('15. canvas/biblioteca/I.A leitura intactos', W.includes('class="ia-arq" type="button" data-canabrir=')&&W.includes('SOMENTE LEITURA')&&W.includes('function iaCanPdfBytes'));
 T('16. JS válido', (()=>{try{const re=/<script[^>]*>([\s\S]*?)<\/script>/g,m=[];let x;while((x=re.exec(W)))m.push(x[1]);new Function(m.join('\n;\n'));return true}catch(e){console.log('    '+e.message.slice(0,80));return false}})());
 T('17. JS clients válido', (()=>{try{const re=/<script[^>]*>([\s\S]*?)<\/script>/g,m=[];let x;while((x=re.exec(CL)))m.push(x[1]);new Function(m.join('\n;\n'));return true}catch(e){return false}})());

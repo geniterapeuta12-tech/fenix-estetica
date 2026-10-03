@@ -5,7 +5,7 @@ const W=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const WK=fs.readFileSync(path.join(__dirname,'..','supabase','worker-live-backup.js'),'utf8');
 const VJ=JSON.parse(fs.readFileSync(path.join(__dirname,'..','versao.json'),'utf8'));
 /* 1) versão */
-T('1. versão 1.6.64 + versao.json R81 (6 melhorias)', W.includes("APP_VERSAO='1.6.64'")&&VJ.versao==='1.6.64'&&VJ.r==='R85'&&(VJ.melhorias||[]).length>=5);
+T('1. versão 1.6.65 + versao.json R81 (6 melhorias)', W.includes("APP_VERSAO='1.6.65'")&&VJ.versao==='1.6.65'&&VJ.r==='R86'&&(VJ.melhorias||[]).length>=5);
 /* 2) temas */
 T('2. registro com 14 paletas (7 antigas + 7 novas)', (W.match(/const FX_TEMAS=\{[\s\S]*?\}\};/)||[''])[0].split('\n').filter(l=>/\{a:'#/.test(l)).length===14);
 T('3. as 7 novas presentes: roxo_coral, limao, roxo_vermelho, azul_cinza, rosa_vermelho, azul_vermelho, lava', ['roxo_coral:','limao:','roxo_vermelho:','azul_cinza:','rosa_vermelho:','azul_vermelho:','lava:{'].every(k=>W.includes(k)));
@@ -18,7 +18,7 @@ T('9. dourado literal só onde deve (root, canvas do logo e paletas de conteúdo
 /* 3) mensagens tela cheia */
 T('10. chat da equipe sem card limitado (tela cheia: sem raio/sombra/largura + escape do .view)', W.includes('.chatwrap{display:flex;height:calc(100dvh - 235px);min-height:470px;max-width:none;border-radius:0;overflow:hidden;border-left:0;border-right:0;box-shadow:none')&&W.includes('#eqMsgs{width:calc(100% + 2*clamp(18px,4vw,44px))')&&!W.includes('.chatwrap{display:flex;height:calc(100dvh - 235px);min-height:470px;max-width:1060px'));
 /* 4) cotas no worker */
-T('11. worker: cotas por clínica/dia (chat 100 · post/doc/rel/cliente 30)', WK.includes('const IA_COTAS={chat:100,post:30,doc:30,rel:30,cliente:30};'));
+T('11. (R86) cotas por clínica/dia (chat 100 · post/doc/rel/cliente 30 · agente 20)', WK.includes('const IA_COTAS={chat:100,post:30,doc:30,rel:30,cliente:30,agente:20};'));
 T('12. worker: contador diário UPSERT + erro 429 «cota» amigável', WK.includes('ON CONFLICT (clinic_id,dia,tipo) DO UPDATE SET qtd=qtd+1 RETURNING qtd')&&WK.includes("429,'cota'")&&WK.includes('zera à meia-noite'));
 T('13. worker: guarda em TODOS os usos de I.A (5 pontos)', (WK.match(/cotaBate\(env,/g)||[]).length>=5&&WK.includes('cotaJerr')&&WK.indexOf("p === '/ia-cliente'")<WK.indexOf("rc.clinic_id,'cliente'"));
 T('14. worker: /uso com bytes reais por clínica (SUM LENGTH por tabela) + /ia-uso novo', WK.includes('const TABELAS=[')&&WK.includes('COALESCE(SUM(')&&WK.includes("USO_COTA_DB=262144000")&&WK.includes("p === '/ia-uso'"));

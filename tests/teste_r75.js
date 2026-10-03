@@ -12,7 +12,7 @@ T('3. escolha persiste (fenix_gpfundo)', W.includes("localStorage.getItem('fenix
 T('4. foto da galeria (file input + leitura reduzida)', W.includes('id="gpFoto"')&&W.includes('id="edFoto"')&&W.includes('function leImagemReduz('));
 T('5. seletor nos dois lugares (gpFundos + edFundos)', W.includes('id="gpFundos"')&&W.includes('id="edFundos"')&&/montaFundoRow\('gpFundos','gpFoto',false\)/.test(W)&&/montaFundoRow\('edFundos','edFoto',true\)/.test(W));
 T('6. Fundo I.A no app (gpFundoIA + edFundoIA)', /async function gpFundoIA\(/.test(W)&&/function edFundoIA\(\)/.test(W)&&W.includes("NUVEM_URL+'/ia-imagem'"));
-T('7. worker: rota /ia-imagem com flux + sem pessoas/texto', WK.includes("p === '/ia-imagem'")&&WK.includes('@cf/black-forest-labs/flux-1-schnell')&&WK.includes('no people, no faces')&&WK.includes('no text'));
+T('7. (R86) worker: rota /ia-imagem c/ 6 motores + guarda sem gente/texto', WK.includes("p === '/ia-imagem'")&&WK.includes('env.AI.run(mdl,{prompt,steps:4})')&&WK.includes('@cf/leonardo/lucid-origin')&&WK.includes('NO people, NO faces'));
 T('8. worker: IA de imagem exige login (verifyJWT)', WK.includes("if (p === '/ia-imagem' && req.method === 'POST') {")&&WK.split('/ia-imagem')[1].slice(0,400).includes('verifyJWT'));
 /* motor de encaixe */
 T('9. véu de legibilidade no PNG e no preview', W.includes('function veu(ctx)')&&W.includes('linear-gradient(180deg,rgba(8,8,8,.24)'));
@@ -25,7 +25,7 @@ T('15. elementos do editor acima do véu (z-index)', W.includes('style="position
 T('16. fonte esperada antes de desenhar (document.fonts)', /await prontoFontes\(\)/.test(W));
 /* nada quebrou */
 T('17. gerador/melhorar/documentos/pdf/chat intactos', ['function gpAplica(j){','async function gpMelhora(){','iaDocGera','relPdfModelo',"$('viewIa').classList.toggle"].every(f=>W.includes(f)));
-T('18. versão 1.6.56 + versao.json R75 (3+ melhorias)', W.includes("APP_VERSAO='1.6.64'")&&VJ.versao==='1.6.64'&&VJ.r==='R85'&&(VJ.melhorias||[]).length>=3);
+T('18. versão 1.6.56 + versao.json R75 (3+ melhorias)', W.includes("APP_VERSAO='1.6.65'")&&VJ.versao==='1.6.65'&&VJ.r==='R86'&&(VJ.melhorias||[]).length>=3);
 T('19. JS válido', (()=>{try{new Function(W.match(/<script>([\s\S]*)<\/script>/)[1]);return true}catch(e){return false}})());
 T('20. worker sintaxe (node --check)', (()=>{try{require('child_process').execSync('node --check "'+path.join(__dirname,'..','supabase','worker-live-backup.js')+'"',{stdio:'pipe'});return true}catch(e){return false}})());
 console.log(fail?('FALHAS: '+fail):('TUDO OK ('+ok+'/20)'));
