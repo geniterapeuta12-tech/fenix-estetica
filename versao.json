@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.61",
-  "r": "R82",
+  "versao": "1.6.62",
+  "r": "R84",
   "quando": "03/10/2026",
   "melhorias": [
-    "Espaço da cliente: produtos do catálogo agora mostram se estão PAGOS — e qualquer pagamento registrado diminui o valor que falta (mesmo sem marcar o pacote)",
-    "Fundo do app funcionando de verdade (antes ficava escondido atrás das telas)",
-    "Modo claro dos temas novos: nunca mais fundo preto",
-    "Canvas da I.A: ela escreve e o PDF já sai PRONTO pra baixar na hora",
-    "Fênix I.A dentro do espaço da cliente com nome próprio — e só responde assuntos dela"
+    "Fênix I.A com acesso REAL a tudo: clientes, gastos e pagamentos, pacotes, catálogo, sessões, agenda e agora também os DOCUMENTOS (antes o contexto era cortado no meio)",
+    "Respostas com números exatos: ela usa os totais já calculados pelo app (nada de soma errada)",
+    "Multimodal de verdade: mande uma foto e ela descreve E responde com os dados da clínica na mesma conversa",
+    "Canvas agora é só da I.A: peça «cria um PDF…» ou «cria um texto…» e o arquivo nasce pronto na Biblioteca (criação manual e botão Gerar PDF removidos)",
+    "Arquivos PDF da I.A com mais espaço pra conteúdo completo"
   ]
 }

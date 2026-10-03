@@ -50,15 +50,15 @@ async function cotaBate(env,cli,tipo){
 function cotaJerr(tipo,c){return jerr('A cota de hoje acabou ('+(IA_COTAS_ROTULO[tipo]||tipo)+': '+c.limite+'/dia por clínica). O contador zera à meia-noite — amanhã volta normal.',429,'cota');}
 async function aiChat(env,msgs){
   try{
-    const r=await env.AI.run('@cf/meta/llama-3.3-70b-instruct-fp8-fast',{messages:msgs,max_tokens:400,temperature:0.4});
+    const r=await env.AI.run('@cf/meta/llama-3.3-70b-instruct-fp8-fast',{messages:msgs,max_tokens:1200,temperature:0.4});
     return {resposta:(r&&r.response)||''};
   }catch(e){
-    const r=await env.AI.run('@cf/meta/llama-3.1-8b-instruct-fast',{messages:msgs,max_tokens:400,temperature:0.4});
+    const r=await env.AI.run('@cf/meta/llama-3.1-8b-instruct-fast',{messages:msgs,max_tokens:1200,temperature:0.4});
     return {resposta:(r&&r.response)||''};
   }
 }
 async function groqChat(key,msgs){
-  const r=await fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'authorization':'Bearer '+key,'content-type':'application/json'},body:JSON.stringify({model:'llama-3.3-70b-versatile',messages:msgs,max_tokens:400,temperature:0.4})});
+  const r=await fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'authorization':'Bearer '+key,'content-type':'application/json'},body:JSON.stringify({model:'llama-3.3-70b-versatile',messages:msgs,max_tokens:1200,temperature:0.4})});
   const d=await r.json().catch(()=>null);
   return {resposta:(d&&d.choices&&d.choices[0]&&d.choices[0].message&&d.choices[0].message.content)||''};
 }
@@ -747,7 +747,7 @@ export default {
         if (!pl) return jerr('Invalid API key', 401, 'invalid_api_key');
         const b = await req.json().catch(()=>null);
         const q = String(b&&b.pergunta||'').slice(0,600);
-        const ctx = String(b&&b.contexto||'').slice(0,6000);
+        const ctx = String(b&&b.contexto||'').slice(0,30000); /* R84: contexto completo — 6.000 cortava PAGAMENTOS/AGENDA e a I.A ficava «sem acesso» */
         if(!q) return jerr('pergunta vazia',400);
         const hist=Array.isArray(b.historico)?b.historico.slice(-10).filter(h=>h&&(h.role==='user'||h.role==='assistant')&&typeof h.content==='string').map(h=>({role:h.role,content:h.content.slice(0,2000)})):[];
         const modo=String(b&&b.modo||'').slice(0,20);
@@ -755,7 +755,7 @@ export default {
         const tipoC=(modo==='resumo'||modo==='rel')?'rel':((modo==='post'||modo==='doc')?modo:'chat');
         const cliIdC=pl.sub||pl.id||pl.user_id;
         if(cliIdC){const cota=await cotaBate(env,cliIdC,tipoC); if(!cota.ok) return cotaJerr(tipoC,cota);}
-        const sysBase=(modo==='resumo')?(IA_RESUMO+'\n\nRELATÓRIO:\n'+ctx):(modo==='post')?(IA_POST+'\n\nCONTEXTO DO ESTÚDIO:\n'+ctx):(modo==='doc')?(IA_DOC+'\n\nCONTEXTO DO ESTÚDIO:\n'+ctx):(modo==='rel')?(IA_REL+'\n\nRELATÓRIO:\n'+ctx):(IA_SYS+'\n\nDADOS ATUAIS DA CLÍNICA:\n'+ctx);
+        const sysBase=(modo==='resumo')?(IA_RESUMO+'\n\nRELATÓRIO:\n'+ctx):(modo==='post')?(IA_POST+'\n\nCONTEXTO DO ESTÚDIO:\n'+ctx):(modo==='doc')?(IA_DOC+'\n\nCONTEXTO DO ESTÚDIO:\n'+ctx):(modo==='rel')?(IA_REL+'\n\nRELATÓRIO:\n'+ctx):(IA_SYS+'\n\nDADOS ATUAIS DA CLÍNICA:\n'+ctx+'\n\nIMPORTANTE: os totais, somas e contagens JÁ VÊM CALCULADOS nos DADOS acima (RESUMO DO MÊS, «pago», «FALTA pagar», contagens entre parênteses). Use SEMPRE esses números prontos — NUNCA tente somar ou recalcular listas. Se o número não estiver nos dados, diga que não está.');
         const ehGeral=!(modo==='resumo'||modo==='post'||modo==='doc'||modo==='rel');
         const sysFinal=ehGeral?(sysBase+'\n\nFORMATO OBRIGATÓRIO da resposta: escreva PRIMEIRO entre <pensamento> e </pensamento> o seu raciocínio curto (2 a 4 frases, em português, honesto — sem inventar dados) sobre como vai responder; DEPOIS escreva entre <resposta> e </resposta> a resposta final pronta pro dono. Não escreva NADA fora dessas duas partes.\n\nCRIAR ARQUIVOS (CANVAS): se o dono pedir pra você criar/escrever um documento, arquivo, PDF, contrato, roteiro, carta ou texto pronto (ou disser «cria um canvas»), DEPOIS das duas partes acrescente UM bloco no formato <canvas tipo="texto" titulo="Título curto">CONTEÚDO COMPLETO do documento, em texto simples e organizado, com quebras de linha</canvas> — use tipo="pdf" quando ele pedir PDF. O conteúdo do bloco é o arquivo inteiro, caprichado; fora do bloco, responda curto avisando que criou.'):sysBase;
         const msgs=[{role:'system',content:sysFinal}].concat(hist).concat([{role:'user',content:q}]);

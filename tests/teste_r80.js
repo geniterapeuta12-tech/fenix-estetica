@@ -22,11 +22,11 @@ T('12. arquivo criado pela I.A entra na Biblioteca', W.includes('const Lc=getCan
 T('13. cartão do arquivo no chat abre o canvas', W.includes('class="ia-arq" type="button" data-canabrir=')&&W.includes('openCanvas(abrir.dataset.canabrir)'));
 T('14. CSS do cartão', W.includes('.ia-arq{align-self:flex-start')&&W.includes('html[data-theme="light"] .ia-arq'));
 /* intactos */
-T('15. pensamento/anexo/canvas manual intactos', W.includes('class="ia-pensa-corpo"')&&W.includes('id="iaAnexoChip"')&&W.includes("id=\"btnIaCanCriar\"")&&W.includes('function iaCanPdfBytes'));
+T('15. pensamento/anexo intactos (canvas manual saiu no R84)', W.includes('class="ia-pensa-corpo"')&&W.includes('id="iaAnexoChip"')&&!W.includes('id="btnIaCanCriar"'));
 T('16. relatórios/posts/documentos/clientes intactos', ['relPdfModelo','gpAplica','iaDocGera','buildIaCtx'].every(f=>W.includes(f)));
-T('17. versão 1.6.61 + versao.json R80 (3+)', W.includes("APP_VERSAO='1.6.61'")&&VJ.versao==='1.6.61'&&VJ.r==='R82'&&(VJ.melhorias||[]).length>=3);
+T('17. versão 1.6.62 + versao.json R80 (3+)', W.includes("APP_VERSAO='1.6.62'")&&VJ.versao==='1.6.62'&&VJ.r==='R84'&&(VJ.melhorias||[]).length>=3);
 T('18. JS válido', (()=>{try{new Function(W.match(/<script>([\s\S]*)<\/script>/)[1]);return true}catch(e){return false}})());
 T('19. worker sintaxe ok', (()=>{try{require('child_process').execSync('node --check "'+path.join(__dirname,'..','supabase','worker-live-backup.js')+'"',{stdio:'pipe'});return true}catch(e){return false}})());
-T('20. canvas manual continua (modal + tipos)', W.includes('id="iaCanModal"')&&W.includes('data-cantipo="pdf"')&&W.includes("id=\"btnIaCanPdf\""));
+T('20. (R84) Biblioteca guarda arquivos criados PELA I.A (sem criação manual)', W.includes("id=\"btnIaCanBaixar\"")&&!W.includes('iaCanModal'));
 console.log(fail?('FALHAS: '+fail):('TUDO OK ('+ok+'/20)'));
 process.exit(fail?1:0);

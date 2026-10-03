@@ -1614,7 +1614,6 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <ul class="ia-list" id="iaConvList"></ul>
 </div>
 <div id="iaBibWrap" class="hidden">
-<button class="ia2new menor" id="btnIaCanNovo" type="button"><svg class="ic"><use href="#i-plus"/></svg>Novo canvas</button>
 <p class="ia2cnt" id="iaBibCount"></p>
 <ul class="ia-list" id="iaBibList"></ul>
 </div>
@@ -1627,27 +1626,12 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <div class="ia-in"><div class="ia-inwrap">
 <div id="iaAnexoChip" class="hidden" style="margin:0 0 8px;font-size:.75rem;color:var(--gold)">📎 <span id="iaAnexoNome"></span> <button id="iaAnexoX" type="button" style="background:none;border:none;color:#8a7f68;cursor:pointer;margin-left:6px">✕</button></div>
 <div class="ia-comp">
-<button class="ia-fun" id="btnIaFun" type="button" title="Funções"><svg class="ic"><use href="#i-spark"/></svg></button>
-<div class="ia-pop hidden" id="iaFunPop">
-<button data-fun="canvas" type="button"><svg class="ic"><use href="#i-doc"/></svg><span><b>Canvas</b><small>Cria um arquivo de texto ou PDF</small></span></button>
-<div class="ia-pop-mais">em breve: mais funções</div>
-</div>
 <button class="ia-clip" id="btnIaAnexo" type="button" title="Anexar foto ou arquivo pra a I.A ler"><svg viewBox="0 0 24 24" style="width:17px;height:17px" fill="currentColor"><path d="M16.5 6.5l-7.1 7.1a2 2 0 002.8 2.8l7.5-7.5a4 4 0 10-5.7-5.7l-7.7 7.7a6 6 0 108.5 8.5l7.1-7.1 1.4 1.4-7.1 7.1a8 8 0 11-11.3-11.3l7.7-7.7a6 6 0 118.5 8.5l-7.1 7.1a4 4 0 01-5.7-5.7l7.1-7.1 1.5 1.4z"/></svg></button>
 <input type="file" id="iaAnexo" accept="image/*,.txt,.md,.csv,.pdf,.doc,.docx,.json,.log" class="hidden">
 <textarea id="iaInput" placeholder="Pergunte qualquer coisa… (Enter envia · Shift+Enter quebra linha)"></textarea>
 <button class="ia-go" id="btnIaSend" type="button" title="Enviar"><svg class="ic"><use href="#i-send"/></svg></button>
 </div>
 </div></div>
-<div class="ia-modal hidden" id="iaCanModal">
-<div class="ia-modal-card">
-<h3>Novo canvas</h3>
-<p class="sub">Escolhe o tipo de arquivo que vai ser criado na Biblioteca.</p>
-<div class="ia-can-tips">
-<button class="on" data-cantipo="texto" type="button"><svg class="ic"><use href="#i-doc"/></svg><span><b>Texto</b><small>Pra escrever direto, guardar e editar depois</small></span></button>
-<button data-cantipo="pdf" type="button"><svg class="ic"><use href="#i-dl"/></svg><span><b>PDF</b><small>Pra escrever e baixar como PDF pronto</small></span></button>
-</div>
-<div class="rowbtns"><button class="btn small" id="btnIaCanCriar" type="button"><svg class="ic"><use href="#i-plus"/></svg>Criar canvas</button>
-<button class="btn small ghost" id="btnIaCanCanc" type="button">Cancelar</button></div>
 </div>
 </div>
 <div class="ia-canvas hidden" id="iaCanvas">
@@ -1655,7 +1639,6 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <button class="ia-cback" id="btnIaCanBack" type="button"><svg class="ic"><use href="#i-chev"/></svg>Conversa</button>
 <input id="iaCanTitulo" type="text" maxlength="80" placeholder="Título do arquivo">
 <span class="badge b-gold" id="iaCanTipo">Texto</span>
-<button class="ia-cact" id="btnIaCanPdf" type="button" title="Baixar este canvas como PDF"><svg class="ic"><use href="#i-dl"/></svg>Gerar PDF</button>
 <button class="ia-cact" id="btnIaCanBaixar" type="button" title="Baixar o PDF que a I.A já deixou pronto" style="display:none">📥 PDF pronto</button>
 <button class="ia-cact perigo" id="btnIaCanDel" type="button" title="Apagar este canvas"><svg class="ic"><use href="#i-trash"/></svg></button>
 </div>
@@ -4381,6 +4364,12 @@ const hojeISO=String(hoje.getFullYear())+'-'+mm+'-'+dd(hoje.getDate());
 const agFut=(DB.ag||[]).filter(a=>String(a.data||'')>=hojeISO).sort((a,b)=>String(a.data+(a.hora||'')).localeCompare(String(b.data+(b.hora||'')))).slice(0,30);
 if(agFut.length){L.push('=== AGENDA (próximos '+agFut.length+') ===');
 agFut.forEach(a=>{L.push('- '+a.data+' '+(a.hora||'')+' · '+(a.proc||'procedimento')+' · '+(a.cliente||nomeCli(a.clientId))+(a.obs?(' · '+a.obs):''));});}
+/* DOCUMENTOS (R84 — a I.A lê os documentos da clínica: contratos, prescrições, protocolos…) */
+if(DB.doc.length){
+const docOrd=DB.doc.slice().sort((a,b)=>String(b.atualizadoEm||b.criadoEm||b.ts||'').localeCompare(String(a.atualizadoEm||a.criadoEm||a.ts||''))).slice(0,15);
+L.push('=== DOCUMENTOS ('+DB.doc.length+' no total; '+docOrd.length+' mais recentes) ===');
+docOrd.forEach(d=>{const who=d.clientId?nomeCli(d.clientId):'—';const txt=String(d.texto||'').replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim().slice(0,350);
+L.push('- '+(d.titulo||'sem título')+' · cliente: '+who+' · '+txt+(String(d.texto||'').length>350?' (…)':''));});}
 return L.join('\n');
 }catch(e){return '';}}
 async function iaSend(){const ta=$('iaInput');const txt=ta.value.trim();
@@ -4393,10 +4382,25 @@ const temImg=!!iaAnexoImg,temTxt=!!iaAnexoTxt;
 pushMsg('user',txt+(temImg?' 📎[foto]':temTxt?' 📎[anexo]':''));ta.value='';state.iaBusy=true;renderIA();
 try{
 if(temImg){
+/* R84 — multimodal de verdade: 1) visão descreve a imagem · 2) o CÉREBRO principal responde com acesso a TUDO */
 const r2=await fetch(NUVEM_URL+'/ia-vis',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SB_TOKEN||'')},body:JSON.stringify({imagem:iaAnexoImg,pergunta:(txt||'Leia o texto e o conteúdo desta imagem e descreva tudo que importa para um estúdio de estética.').slice(0,600)})});
 const j2=await r2.json().catch(()=>null);
 if(!r2.ok||!j2||!j2.resposta)throw new Error((j2&&(j2.erro||msgCota(j2)))||('HTTP '+r2.status));
-pushMsg('ia',j2.resposta);
+const ctx=buildIaCtx()+'\n\nIMAGEM ANEXADA PELO DONO (descrição gerada por visão computacional — responda considerando-a junto com os dados da clínica):\n'+String(j2.resposta).slice(0,4000);
+const perguntaFinal=txt||'Leia a imagem anexada e me diga o que importa nela pra minha clínica.';
+const r=await fetch(NUVEM_URL+'/ia',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SB_TOKEN||'')},body:JSON.stringify({pergunta:perguntaFinal,contexto:ctx,historico:hist})});
+const j=await r.json().catch(()=>null);
+if(!r.ok||!j||(!j.resposta&&!j.canvas))throw new Error((j&&(j.erro||msgCota(j)))||('HTTP '+r.status));
+let rt=String(j.resposta||''),pc=j.pensamento||'',arq=null;
+let cvm=rt.match(/<canvas\s+tipo="(texto|pdf)"\s+titulo="([^"]*)">([\s\S]*?)<\/canvas>/i);
+if(!cvm&&j.canvas&&j.canvas.conteudo)cvm=[null,(j.canvas.tipo||'texto'),(j.canvas.titulo||'Canvas da I.A'),j.canvas.conteudo];
+if(cvm){if(cvm[0])rt=rt.replace(cvm[0],'').trim();
+const novo={id:uid(),tipo:cvm[1]==='pdf'?'pdf':'texto',titulo:String(cvm[2]||'Canvas da I.A').slice(0,80),texto:String(cvm[3]||''),criadoEm:nowLabel(),ts:Date.now(),geradoEm:'',ia:true};
+if(novo.tipo==='pdf'){try{novo.pdf=iaCanPdfBytes(novo.titulo,novo.texto||'');novo.geradoEm=nowLabel();}catch(e){}}
+const Lc=getCans();Lc.unshift(novo);setCans(Lc);
+arq={id:novo.id,titulo:novo.titulo,tipo:novo.tipo,pronto:!!novo.pdf};
+if(!rt)rt=(novo.pdf?'Criei o PDF «'+arq.titulo+'» — pronto pra baixar. 👇':'Criei o arquivo «'+arq.titulo+'» — abre aí embaixo. 👇');}
+pushMsg('ia',rt,pc,arq);
 }else{
 let ctx=buildIaCtx();
 if(temTxt)ctx+='\n\nANEXO ENVIADO PELA CLÍNICA (responda considerando o anexo se a pergunta se referir a ele):\n'+iaAnexoTxt.slice(0,6000);
@@ -4491,14 +4495,12 @@ b.textContent=ab?'💭 Esconder pensamento':'💭 Pensamento';});
 function getCans(){try{return JSON.parse(localStorage.getItem('fenix_ia_can_'+(currentKey||'local'))||'[]')}catch(e){return[]}}
 function setCans(v){try{localStorage.setItem('fenix_ia_can_'+(currentKey||'local'),JSON.stringify(v))}catch(e){}}
 function canById(id){return getCans().find(c=>c.id===id);}
-let iaCanTipoSel='texto';
 function setIaTab(t){try{
 $('iaTabConv').classList.toggle('on',t==='conv');$('iaTabBib').classList.toggle('on',t==='bib');
 $('iaConvWrap').classList.toggle('hidden',t!=='conv');$('iaBibWrap').classList.toggle('hidden',t!=='bib');
 if(t==='bib')renderIaBib();}catch(e){}}
 $('iaTabConv').addEventListener('click',()=>setIaTab('conv'));
 $('iaTabBib').addEventListener('click',()=>setIaTab('bib'));
-$('btnIaCanNovo').addEventListener('click',()=>{$('iaCanModal').classList.remove('hidden');});
 function renderIaBib(){const L=getCans().slice().sort((a,b)=>b.ts-a.ts);
 $('iaBibCount').textContent=L.length+' arquivo(s) criado(s) na Fênix I.A';
 $('iaBibList').innerHTML=L.length?L.map(x=>'<li class="ia-item" data-can="'+x.id+'" title="'+esc(x.titulo)+' · '+esc(x.criadoEm)+'">'+
@@ -4511,16 +4513,6 @@ if(del){armDelete(del,()=>{const id=del.dataset.id;setCans(getCans().filter(c=>c
 if(state.iaCan===id){state.iaCan=null;const cv=$('iaCanvas');if(cv)cv.classList.add('hidden');}
 renderIaBib();});return;}
 const li=e.target.closest('[data-can]');if(li)openCanvas(li.dataset.can);});
-$('btnIaFun').addEventListener('click',e=>{e.stopPropagation();$('iaFunPop').classList.toggle('hidden');});
-document.addEventListener('click',e=>{try{if(!e.target.closest('#iaFunPop')&&!e.target.closest('#btnIaFun'))$('iaFunPop').classList.add('hidden');}catch(x){}});
-$('iaFunPop').addEventListener('click',e=>{const b=e.target.closest('[data-fun="canvas"]');if(b){$('iaFunPop').classList.add('hidden');$('iaCanModal').classList.remove('hidden');}});
-$('btnIaCanCanc').addEventListener('click',()=>$('iaCanModal').classList.add('hidden'));
-$('iaCanModal').addEventListener('click',e=>{if(e.target===$('iaCanModal'))$('iaCanModal').classList.add('hidden');});
-document.querySelectorAll('#iaCanModal [data-cantipo]').forEach(b=>b.addEventListener('click',()=>{
-iaCanTipoSel=b.dataset.cantipo;document.querySelectorAll('#iaCanModal [data-cantipo]').forEach(x=>x.classList.toggle('on',x===b));}));
-$('btnIaCanCriar').addEventListener('click',()=>{
-const c={id:uid(),tipo:iaCanTipoSel,titulo:iaCanTipoSel==='pdf'?'Documento PDF':'Documento de texto',texto:'',criadoEm:nowLabel(),ts:Date.now(),geradoEm:''};
-const L=getCans();L.unshift(c);setCans(L);$('iaCanModal').classList.add('hidden');setIaTab('bib');openCanvas(c.id);});
 let iaCanTmr=null;
 function canSave(){const L=getCans();const c=L.find(x=>x.id===state.iaCan);if(!c)return;
 c.titulo=$('iaCanTitulo').value.trim()||'Sem título';c.texto=$('iaCanTexto').value;c.ts=Date.now();setCans(L);
@@ -4528,7 +4520,6 @@ $('iaCanSalvo').textContent='salvo às '+new Date().toLocaleTimeString('pt-BR',{
 function openCanvas(id){const c=canById(id);if(!c)return;state.iaCan=id;
 $('iaCanTitulo').value=c.titulo;$('iaCanTexto').value=c.texto||'';
 $('iaCanTipo').textContent=c.tipo==='pdf'?'PDF':'Texto';
-$('btnIaCanPdf').style.display=c.tipo==='pdf'?'':'none';
 $('btnIaCanBaixar').style.display=c.pdf?'':'none';
 $('iaCanSalvo').textContent=c.geradoEm?('PDF gerado em '+c.geradoEm+' · continua editando'):('criado em '+c.criadoEm+' · salva sozinho');
 $('iaCanvas').classList.remove('hidden');try{renderIaBib();}catch(e){}}
@@ -4537,15 +4528,6 @@ $('btnIaCanBack').addEventListener('click',closeCanvas);
 $('iaCanTitulo').addEventListener('input',()=>{clearTimeout(iaCanTmr);iaCanTmr=setTimeout(canSave,400);});
 $('iaCanTexto').addEventListener('input',()=>{clearTimeout(iaCanTmr);iaCanTmr=setTimeout(canSave,400);});
 $('btnIaCanDel').addEventListener('click',function(){armDelete(this,()=>{setCans(getCans().filter(c=>c.id!==state.iaCan));closeCanvas();});});
-$('btnIaCanPdf').addEventListener('click',()=>{const c=canById(state.iaCan);if(!c)return;
-const t=$('iaCanTexto').value.trim();
-if(!t){$('iaCanSalvo').textContent='⚠ Escreve algo no canvas antes de gerar o PDF.';return;}
-try{const b=iaCanPdfBytes($('iaCanTitulo').value.trim()||c.titulo,t);
-const u=URL.createObjectURL(new Blob([Uint8Array.from(b,ch=>ch.charCodeAt(0)&0xff)],{type:'application/pdf'}));
-const a=document.createElement('a');a.href=u;a.download=(($('iaCanTitulo').value.trim()||'canvas').toLowerCase().replace(/[^a-z0-9]+/gi,'-').replace(/^-+|-+$/g,'')||'canvas')+'-'+new Date().toISOString().slice(0,10)+'.pdf';
-document.body.appendChild(a);a.click();a.remove();
-c.geradoEm=nowLabel();c.ts=Date.now();setCans(getCans());
-$('iaCanSalvo').textContent='✔ PDF gerado em '+c.geradoEm+' — confere nos seus downloads';}catch(e){$('iaCanSalvo').textContent='⚠ Não deu pra gerar o PDF agora ('+((e&&e.message)||'erro')+').';}});
 $('btnIaCanBaixar').addEventListener('click',()=>{const c=canById(state.iaCan);if(!c||!c.pdf)return;
 try{const u=URL.createObjectURL(new Blob([Uint8Array.from(c.pdf,ch=>ch.charCodeAt(0)&0xff)],{type:'application/pdf'}));
 const a=document.createElement('a');a.href=u;a.download=((c.titulo||'canvas').toLowerCase().replace(/[^a-z0-9]+/gi,'-').replace(/^-+|-+$/g,'')||'canvas')+'.pdf';
@@ -7756,7 +7738,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.61';
+const APP_VERSAO='1.6.62';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{

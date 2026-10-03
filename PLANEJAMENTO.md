@@ -61,6 +61,10 @@ Uma release única **R81 = v1.6.60**. Status: **✅ ENTREGUE (03/10/2026)** — 
 ## R82 — consertos pedidos pelo dono (03/10/2026) — ✅ ENTREGUE v1.6.61
 Fora da mesa original (lista de consertos por voz): (1) cliente/catálogo — «pago» por pacote agora soma vínculo + distribuição FIFO dos pagamentos sem vínculo; itens do catálogo mostram ✓ pago / ⏳ falta; (2) fundo dos Dados funcionando (ia no body, camada adaptativa); (3) modo claro dos 7 temas novos sem fundo preto (regras marfim); (4) Canvas da I.A entrega PDF PRONTO; (5) Fênix I.A na cliente (só assunto dela). Commit/push na hora — release v1.6.61 (id 402271843).
 
+## R84 — I.A com acesso real + multimodal + canvas só da I.A (03/10/2026) — ✅ v1.6.62
+- **(1) Acesso a TUDO**: causa raiz era o corte do contexto em 6.000 chars no worker → 30.000 + DOCUMENTOS no buildIaCtx + instrução «use os totais já calculados» (fim da soma inventada; E2E provou com valor exato).
+- **(2) Canvas da I.A**: geração EXCLUSIVA da I.A (PDF ou texto) — criação manual e «Gerar PDF» removidos do app.
+- **(3) Multimodal**: foto no chat → descrição por visão entra no contexto → resposta única com os dados da clínica.
 ## R83 — hotfix: Fênix I.A INVISÍVEL na cliente (03/10/2026) — ✅ commit d31db20
 - **Dono**: «a fenix i.a não está dentro da cliente». CAUSA: a aba f-ia existia, mas o filtro de permissões (ctabs = res/pac/ses/pag/doc) escondia — «ia» nunca está na lista → invisível pra 100%. CONCERTO: aba fora da régua (sempre visível) + rótulo «💛 Fênix I.A». Web-only: Pages serve em ~2min (nada pra instalar). **Painel novo de contatos/pers. e ctabs NÃO mexidos.**
 - **BÔNUS em andamento**: FENIX-REELS-60s.html — vídeo de 1 min (9:16, Instagram) mostrando as funções do app, tudo feito por nós (zero asset de fora).
