@@ -50,6 +50,22 @@ Prioridades marcadas pelo dono: **1, 2, 4**
 - **Sinergia A5**: depois que o Modo Agente existir, ele usa ISSO pra montar campanha inteira (arte + texto + legenda) sozinho
 **Esforço**: Pequeno-médio · **Risco**: Baixo · **Nota**: 9 · **Sugestão**: FAZER (R86) — resolve a dor «posts feios» na raiz
 
+### A6 · Complemento — pesquisa de serviços (pedido do dono 03/10/2026: «gerador de imagem bom e barato com API»)
+Preços verificados em 03/10/2026 (fontes: Cloudflare, NodeTool, TokenMix, ModelsLab — preços por imagem 1MP):
+
+| Serviço | Preço/imagem | Custo pro dono | Veredito |
+|---|---|---|---|
+| **Cloudflare Workers AI (flux-schnell)** | **R$ 0** (10k neurons/dia grátis ≈ 500 img/dia) | R$ 0 | ★ **PLANO A — já é nossa infra, sem cartão** |
+| **Together AI (FLUX.1 schnell)** | US$ 0,0027 ≈ **R$ 0,015** (370 img por dólar) | ~R$ 0,45/30 img | ★ **PLANO B** — melhor custo/qualidade pago, API séria, paga-só-o-usar |
+| Fireworks / fal.ai / Replicate (schnell) | US$ 0,0014–0,003 | ~R$ 0,02 | equivalentes; sem vantagem pro nosso volume |
+| FLUX.1 **dev** (qualidade maior) | US$ 0,025 ≈ R$ 0,14 | ~R$ 4/30 img | só se a arte abstrata do schnell decepcionar (improvável) |
+| OpenAI GPT Image / Ideogram / Midjourney | US$ 0,04–0,19 | 10–40x mais caro | ❌ não vale (e não precisamos de texto na imagem) |
+| **Groq** | — não gera imagem (só texto) | — | ❌ a GROQ_KEY (A4) serve só pro chat |
+| Gemini/Imagen | grátis c/ limites | — | ❌ LGPD (treina com prompts) — dono já rejeitou |
+
+**Chave técnica pro caso do estúdio**: nossa arte é ABSTRATA (textura, luz, matéria — sem pessoas, sem texto na imagem). Pra isso, os modelos «baratos» (schnell) são ótimos — não é economia que piora o resultado.
+**Plano de integração**: R86 nasce no Cloudflare GRÁTIS (regra permanente) · se a qualidade não agradar, Together AI entra como «turbo opcional» com chave PRÓPRIA do dono no worker (mesmo padrão da GROQ_KEY/A4 — chave NUNCA no app) · LGPD: conferir política de dados da Together antes de ligar (se duvidar, fica só no Cloudflare).
+
 ## 🆕 A5 — MODO AGENTE no canvas (proposta do dono 03/10/2026)
 **Ideia do dono**: «colocar junto no canvas a função de modo agente» — a I.A para de responder só e passa a EXECUTAR missões em várias etapas, entregando arquivos prontos.
 **Como funciona**: o dono liga 🤖 Modo Agente no chat → escreve a missão → a I.A pensa (💭), divide em etapas, mostra o progresso e entrega VÁRIOS canvases prontos na Biblioteca no fim.
