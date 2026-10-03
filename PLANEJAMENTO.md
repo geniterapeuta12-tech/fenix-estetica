@@ -39,6 +39,20 @@ Prioridades marcadas pelo dono: **1, 2, 4**
 - **✅ R80 — I.A VÊ TUDO (SÓ LEITURA) + CANVAS PELA I.A** (pedido direto do dono 02/10/2026): ela responde com valores reais (pagos/falta pagar, catálogo c/ preços, sessões, agenda) e NUNCA mexe em nada · «Nova conversa» de verdade · ela mesma cria o arquivo texto/PDF (estilo Gemini) — entregue na 1.6.59
 - Depois: 3a protocolos · 5 (a definir) · 3b pesquisa web (não recomendado agora)
 
+## 📋 FILA ATUAL (pós-R85 — 03/10/2026)
+
+> **Dono consultado (03/10/2026)**: «nada ainda» — nada entra em produção até a próxima ordem. Fila pronta e esperando.
+| # | Ideia | Esforço | Nota | Sugestão |
+|---|---|---|---|---|
+| 3a | PROTOCOLOS no Lab (molde: etapas, cuidados, intervalos — reusa a I.A dos Documentos) | Pequeno-médio | 7,5 | **PRÓXIMA da fila** |
+| A1 | Logo do estúdio no PDF dos relatórios (dono pediu p/ reconfirmar) | Pequeno | 8 | FAZER |
+| A2 | Editor v2 (foto de fundo no Editor) | Médio | 7 | DEPOIS |
+| A3 | Designs do Editor salvos na NUVEM | Médio | 7 | DEPOIS |
+| A4 | Chave Groq grátis (GROQ_KEY) p/ turbinar a I.A | Pequeno | 6 | Opcional (só configurar) |
+| 5 | «Recomendar programas de gestão… mandar ela… tarefas» | — | ? | **DONO EXPLICA MELHOR** |
+| — | VERSOES.md backfill 1.6.41–1.6.64 (higiene interna) | Pequeno | — | cabe em qualquer rodada |
+| — | «Copiar link» do espaço da cliente (compartilhar o app dela) | Pequeno | 7 | bom pra mostrar pra cliente |
+
 ## Entregado até aqui (contexto)
 ✅ chat I.A no Lab · ✅ Gerador de Posts (gerar + MELHORAR MEU TEXTO + PNG + Editar no Studio) · ✅ I.A nos Documentos (4 botões) · ✅ Editor v1 · ✅ PDF profissional dos relatórios · v1.6.53 no ar
 
@@ -60,6 +74,9 @@ Uma release única **R81 = v1.6.60**. Status: **✅ ENTREGUE (03/10/2026)** — 
 
 ## R82 — consertos pedidos pelo dono (03/10/2026) — ✅ ENTREGUE v1.6.61
 Fora da mesa original (lista de consertos por voz): (1) cliente/catálogo — «pago» por pacote agora soma vínculo + distribuição FIFO dos pagamentos sem vínculo; itens do catálogo mostram ✓ pago / ⏳ falta; (2) fundo dos Dados funcionando (ia no body, camada adaptativa); (3) modo claro dos 7 temas novos sem fundo preto (regras marfim); (4) Canvas da I.A entrega PDF PRONTO; (5) Fênix I.A na cliente (só assunto dela). Commit/push na hora — release v1.6.61 (id 402271843).
+
+## R85 — Catálogo do pacote: editar valor pago + conta no financeiro (03/10/2026) — ✅ v1.6.64
+- ✏️ editar valor pago nas vendas do catálogo (pacote e cliente) · 💰 catálogo conta no «Pago» do pacote (c/ desglose) e nos totais da cliente · prova funcional 13/13 (teste_r85_func) · hotfix de tela 1.6.63 antes (2 </div> extras).
 
 ## R84 — I.A com acesso real + multimodal + canvas só da I.A (03/10/2026) — ✅ v1.6.62
 - **(1) Acesso a TUDO**: causa raiz era o corte do contexto em 6.000 chars no worker → 30.000 + DOCUMENTOS no buildIaCtx + instrução «use os totais já calculados» (fim da soma inventada; E2E provou com valor exato).
