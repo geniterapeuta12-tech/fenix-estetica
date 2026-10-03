@@ -39,6 +39,22 @@ Prioridades marcadas pelo dono: **1, 2, 4**
 - **✅ R80 — I.A VÊ TUDO (SÓ LEITURA) + CANVAS PELA I.A** (pedido direto do dono 02/10/2026): ela responde com valores reais (pagos/falta pagar, catálogo c/ preços, sessões, agenda) e NUNCA mexe em nada · «Nova conversa» de verdade · ela mesma cria o arquivo texto/PDF (estilo Gemini) — entregue na 1.6.59
 - Depois: 3a protocolos · 5 (a definir) · 3b pesquisa web (não recomendado agora)
 
+## 🆕 A5 — MODO AGENTE no canvas (proposta do dono 03/10/2026)
+**Ideia do dono**: «colocar junto no canvas a função de modo agente» — a I.A para de responder só e passa a EXECUTAR missões em várias etapas, entregando arquivos prontos.
+**Como funciona**: o dono liga 🤖 Modo Agente no chat → escreve a missão → a I.A pensa (💭), divide em etapas, mostra o progresso e entrega VÁRIOS canvases prontos na Biblioteca no fim.
+**O que o Modo Agente PODERIA FAZER** (missões prontas de estúdio de estética):
+| Missão (o dono escreve) | O agente entrega |
+|---|---|
+| «Monta o protocolo completo do procedimento X» | 📄 Protocolo (etapas/cuidados/intervalos) + PDF + post de divulgação — 3 arquivos (cobre a ideia 3a!) |
+| «Faz minha campanha do Dia das Mães» | Post + stories + legenda com hashtags + roteiro de reels — 4 arquivos |
+| «Analisa meu mês e me diz o que melhorar» | Relatório com os números REAIS + PDF + lista de ações — 2-3 arquivos |
+| «Prepara minha semana» | Resumo da agenda + mensagens de retorno pra quem sumiu + lembretes pra copiar e mandar no WhatsApp |
+| «Prepara os documentos da cliente nova» | Contrato + termo de consentimento + anamnese (moldes) — 3 arquivos |
+| «Revisa meus preços» | Lê catálogo+pagamentos e sugere tabela nova em PDF |
+**Minha opinião honesta**: EXCELENTE encaixe — o canvas já existe, a I.A já cria arquivo, a Biblioteca já guarda. O agente multiplica o valor usando o que já tem. E de quebra resolve a ideia 3a (protocolos) junto.
+**Limites (mantidos, SEMPRE)**: ela NÃO mexe nos dados (continua só-leitura — cria ARQUIVO, não altera cliente/pagamento) · NÃO manda mensagem sozinha (gera o texto, o dono envia) · NÃO pesquisa na internet · SÓ no app do dono (I.A da cliente segue só-conversa).
+**Esforço**: Médio (worker: extrair VÁRIOS canvases por resposta + tipoCota «agente» gastando mais; app: botão 🤖 + lista de etapas/progresso) · **Risco**: Baixo-médio (cota grátis da Workers AI — missão gasta ~3-6x um chat; sugestão: 20 missões/dia) · **Nota**: 9 · **Sugestão**: FAZER (R86)
+
 ## 📋 FILA ATUAL (pós-R85 — 03/10/2026)
 
 > **Dono consultado (03/10/2026)**: «nada ainda» — nada entra em produção até a próxima ordem. Fila pronta e esperando.
