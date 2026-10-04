@@ -396,6 +396,14 @@
 - **PROTOCOLOS**: botão 📋 Protocolo ao lado do «✨ Gerar documento» → preenche ddCmd com o molde completo (pré/etapas c/ tempo/pós/intervalo/sessões + aviso não-médico) e chama iaDocGera.
 - **LOGO NO PDF**: painel Sistema › Logo do estúdio no PDF (fenix_logo {d,w,h} jpeg ≤400KB) · relPdfModelo: XObject DCTDecode (obj 6+2nPag, stream binário string-safe), Resources da pág.1 c/ /Im1, draw `q W 0 0 H x (PH-46) cm /Im1 Do Q` no topo direito.
 - **Testes**: teste_r86 20/20 novo · pins atualizados (r75#7 motores, r80#2/3/11 canvasLista, r81#11+r82#14 cotas agente, r84#4/#6 maxTokens/modo) · cânon **32 verdes** (só r50/51/52/62 legados) · aninhamento 0 · checagem jsdom ok.
+## R89 — PERMISSÃO DE TODOS OS ARQUIVOS NO APK (04/10/2026) — v1.6.68
+- **Pedido do dono**: «será que não tem como no celular colocar a permissão de acesso a todos os arquivos?» — SIM: **MANAGE_EXTERNAL_STORAGE** (APK sideload, sem Play Store, pode).
+- **Manifest (apk-manifest-vc48.xml NOVO, fonte do build)**: `<uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>` + `android:requestLegacyExternalStorage="true"` + versionCode 48 / versionName 1.6.68.
+- **MainActivity**: `abreTodosArq()` (Intent MANAGE_APP_ALL_FILES_ACCESS_PERMISSION + package URI, fallback ACTION_MANAGE_ALL_FILES) · `pedirPerms()` pede UMA vez (prefs «pediuTodos») se SDK≥30 e ainda não é external storage manager · Ponte ganhou `pedirTodosArq()` · statusPerms devolve `"todos":isExternalStorageManager()`.
+- **App**: painel Permissões ganhou botão «🗂️ Permitir TODOS os arquivos» (chama a Ponte; fora do celular explica que não precisa) + status «🗂️ Todos os arquivos: permitido ✓/bloqueado ⚠».
+- **Testes**: teste_r89 17/17 · pins 1.6.67→1.6.68 + VJ.r→R89 · cânon verde · aninhamento 0/0 · JS ✓.
+- **Release**: v1.6.68 (APK vc48 + EXE + checksums) · FENIX-TESTE-LOCAL regenerado. **Nota**: a permissão SÓ vale com o APK vc48 instalado (auto-update da nuvem não dá permissão nova).
+
 ## R88 — ARQUIVO .TXT → PDF + BOTÕES DE ARQUIVO NO CELULAR (04/10/2026) — v1.6.67
 - **2 pedidos do dono**: (1) «a função nova de texto pra PDF na verdade é: ARQUIVO texto para arquivo PDF» · (2) «no celular no app não dá pra interagir com botões de adicionar arquivo e etc».
 - **ARQUIVO → PDF**: card/caixa das extras virou «📄 Arquivo de texto em PDF» — `#txtPdfArq` (accept .txt/.md/.csv, fhid) + `#btnTxtArq` + `#txtPdfNome` (nome+tamanho) · FileReader readAsText utf-8 → enche o textarea, título sai do nome do arquivo (se vazio) · gerar segue no pdfBonitoBytes (2 call-sites intactos).

@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.67",
-  "r": "R88",
+  "versao": "1.6.68",
+  "r": "R89",
   "quando": "04/10/2026",
   "melhorias": [
-    "📄 Conserto: a função nova das extras é ARQUIVO DE TEXTO → PDF — escolhe o arquivo .txt (ou .md/.csv) e baixa em PDF bonito, sem copiar e colar",
-    "📱 Conserto no celular: os botões de adicionar arquivo (foto da cliente, anexos da I.A, arte, importar backup…) não respondiam no app do Android — voltaram a funcionar",
-    "📲 APK novo (vc47) com o seletor de arquivos aceitando escolher VÁRIOS de uma vez (ex.: Arquivos, até 12 MB cada)",
-    "🗂️ Campos de arquivo ficam invisíveis do jeito certo p/ o navegador do celular (funciona também no iPhone e no navegador)",
-    "✏️ Antes de gerar o PDF dá pra conferir e editar o título e o texto — e o nome do arquivo escolhido aparece na tela"
+    "🗂️ Permissão de TODOS OS ARQUIVOS no app do celular — o Android pergunta na 1ª abertura do APK novo, é só ligar a chave do Fênix",
+    "📁 Painel de Permissões (Dados › Sistema) agora mostra «🗂️ Todos os arquivos: permitido ✓» e tem botão que abre essa tela quando você quiser",
+    "📲 APK novo (vc48) — instalando por cima, ele já traz a permissão nova declarada",
+    "🔐 Com a chave ligada, o app lê e salva arquivos sem tropeço nenhum (Downloads, anexos, fotos, backup)",
+    "💻 No Windows e no navegador nada muda — lá não existe essa permissão"
   ]
 }

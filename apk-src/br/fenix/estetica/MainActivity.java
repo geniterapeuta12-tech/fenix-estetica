@@ -154,7 +154,9 @@ public class MainActivity extends Activity {
                 boolean arq;
                 if (Build.VERSION.SDK_INT >= 33) arq = temPerm("android.permission.READ_MEDIA_IMAGES");
                 else arq = temPerm("android.permission.READ_EXTERNAL_STORAGE");
-                return "{\"noti\":" + noti + ",\"arq\":" + arq + "}";
+                boolean todos = true;
+                if (Build.VERSION.SDK_INT >= 30) todos = Environment.isExternalStorageManager();
+                return "{\"noti\":" + noti + ",\"arq\":" + arq + ",\"todos\":" + todos + "}";
             } catch (Exception e) { return "{\"noti\":false,\"arq\":false}"; }
         }
         @JavascriptInterface public void abrirConfig() {
@@ -164,6 +166,9 @@ public class MainActivity extends Activity {
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
             } catch (Exception e) { try { startActivity(new Intent(Settings.ACTION_SETTINGS)); } catch (Exception e2) {} }
+        }
+        @JavascriptInterface public void pedirTodosArq() {
+            runOnUiThread(new Runnable() { public void run() { abreTodosArq(); } });
         }
         @JavascriptInterface public void baixar(final String url, final String nome) {
             runOnUiThread(new Runnable() { public void run() {
@@ -187,6 +192,19 @@ public class MainActivity extends Activity {
                 requestPermissions(new String[]{"android.permission.READ_EXTERNAL_STORAGE", "android.permission.WRITE_EXTERNAL_STORAGE"}, RC_PERM);
             }
         } catch (Exception e) {}
+        /* R89 — «Todos os arquivos»: pede UMA vez a chave do sistema (MANAGE_EXTERNAL_STORAGE) */
+        try {
+            if (Build.VERSION.SDK_INT >= 30 && !Environment.isExternalStorageManager()) {
+                android.content.SharedPreferences sp = getSharedPreferences("fenix", MODE_PRIVATE);
+                if (!sp.getBoolean("pediuTodos", false)) { sp.edit().putBoolean("pediuTodos", true).apply(); abreTodosArq(); }
+            }
+        } catch (Exception e) {}
+    }
+
+    /* R89 — abre a tela do Android que liga a chave «Todos os arquivos» */
+    void abreTodosArq() {
+        try { Intent i = new Intent("android.settings.MANAGE_APP_ALL_FILES_ACCESS_PERMISSION"); i.setData(Uri.fromParts("package", getPackageName(), null)); startActivity(i); }
+        catch (Exception e) { try { startActivity(new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)); } catch (Exception e2) {} }
     }
 
     @Override protected void onActivityResult(int rq, int rc, Intent data) {

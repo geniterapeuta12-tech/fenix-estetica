@@ -156,6 +156,9 @@ Preços verificados em 03/10/2026 (fontes: Cloudflare, NodeTool, TokenMix, Model
 - **Cloudflare pago (R$27/mês)**: explicado; DONO decidiu ficar no grátis por enquanto (suficiente: ~500 fundos I.A/dia).
 - **Ordem aprovada**: ✅R75 Post REAL → R76 I.A da cliente (+ ideia 6 embutida) → R77 I.A lê relatório/anexos.
 
+## R89 — permissão de TODOS os arquivos no celular (04/10/2026) — ✅ ENTREGUE v1.6.68
+✅ MANAGE_EXTERNAL_STORAGE no APK vc48 (o Android pergunta na 1ª abertura — é só ligar a chave) · painel de Permissões mostra o status «🗂️ Todos os arquivos» com botão pra abrir a tela da chave quando quiser. No Windows/navegador nada muda.
+
 ## R88 — consertos: arquivo .txt→PDF + botões de arquivo no celular (04/10/2026) — ✅ ENTREGUE v1.6.67
 1. ✅ Função das extras agora é ARQUIVO de texto → PDF (escolhe .txt/.md/.csv, título sai do nome, confere e baixa em PDF bonito) · 2. ✅ Botões de adicionar arquivo voltaram a funcionar no app do Android (inputs .fhid offscreen — display:none travava o WebView — + APK vc47 com seletor múltiplo).
 
