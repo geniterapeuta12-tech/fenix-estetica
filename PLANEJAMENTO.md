@@ -1,5 +1,24 @@
 # Mesa de planejamento — Fênix Estética
 
+## 🎨 UI 2.0 — Repaginação estilo CLAUDE (04/10/2026) — DECIDIDO, aguarda «puxa»
+**O sonho do dono**: «uma UI parecida com a do Claude, da Anthropic, aquela bonita limpa».
+
+**Decisões cravadas (dono respondeu as 3)**:
+1. **Claro PAPEL como padrão** — fundo bege morno, texto tinta, exatamente a sensação do Claude. O escuro+ouro de hoje NÃO morre: vira tema escolhível em Aparência.
+2. **Destaque CORAL do Claude** (terracota ~#D97757) — troca o ouro nos botões/detalhes; a identidade vira «papel + tinta + coral + serifa».
+3. **Só o Estética agora** — a Center atual não se mexe; a Center nova (P2 da plataforma) JÁ NASCE nessa UI.
+
+**A receita (o que faz ser «cara Claude»)**: fundo papel morno (não cinza) · texto tinta suave · TÍTULOS SERIFADOS (serifa do próprio aparelho — Georgia — zero download, funciona offline) · UMA cor de destaque só, resto neutro · muito respiro, cantos redondos, bordas fininhas, quase zero sombra · chat em estilo conversa com o pensamento visível (já temos!).
+
+**Viabilidade confirmada**: a CSS inteira bebe de UM `:root` de tokens + sistema de tema/acento que já existe (13 acentos, dataset.theme light/dark). Troca a pele inteira SEM tocar em ID, fluxo, função ou tela.
+
+**Etapas**:
+- **UI-A — Fundação**: tokens novos (papel/tinta/coral) + tipografia serifada nos títulos + componentes de base (cards, botões, campos, modais, badges, barras) → o app inteiro muda de cara de uma vez.
+- **UI-B — Polida fina**: Chat da Fênix I.A em estilo conversa · Cliente · Financeiro · Painel · funções extras.
+- **Regras**: ZERO função nova · testes têm que continuar verdes (eles checam IDs/funções, não CSS) · checador de aninhamento obrigatório · escuro+ouro vira tema em Aparência · FENIX-TESTE-LOCAL acompanha.
+
+**Ordem sugerida**: UI 2.0 ANTES da P1 da plataforma — assim as contas Fênix e a Center nova já nascem na casa nova.
+
 ## 🏛️ R90+ — PLATAFORMA FÊNIX: a CENTER no coração de tudo (04/10/2026) — DESENHO APROVADO PELO DONO
 
 **A ideia do dono**: uma conta única (tipo um gmail nosso) e a Central mandando em tudo — «a central automatizar tudo, sério mesmo, tudo; o app só poder ser acessado por lá».
