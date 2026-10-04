@@ -76,7 +76,12 @@ public class MainActivity extends Activity {
         setContentView(wv);
         /* R67 — AUTO-UPDATE: se já baixou versão nova da nuvem, carrega ela; senão a cópia interna */
         java.io.File live = new java.io.File(getFilesDir(), "app-live.html");
-        wv.loadUrl(live.exists() ? ("file://" + getFilesDir() + "/app-live.html") : "file:///android_asset/www/index.html");
+        String base = live.exists() ? ("file://" + getFilesDir() + "/app-live.html") : "file:///android_asset/www/index.html";
+        /* R92 — abriu por dentro da CENTER (fenix://abrir?token=…): entra JÁ LOGADO */
+        try { android.net.Uri d = getIntent() != null ? getIntent().getData() : null;
+            if (d != null && "fenix".equals(d.getScheme())) { String t = d.getQueryParameter("token");
+                if (t != null && t.length() > 10) base = base + "?fx=" + java.net.URLEncoder.encode(t, "UTF-8"); } } catch (Exception e) {}
+        wv.loadUrl(base);
         pedirPerms();
         new Thread(new Runnable() { public void run() { checaNova(); } }).start();
     }
@@ -205,6 +210,16 @@ public class MainActivity extends Activity {
     void abreTodosArq() {
         try { Intent i = new Intent("android.settings.MANAGE_APP_ALL_FILES_ACCESS_PERMISSION"); i.setData(Uri.fromParts("package", getPackageName(), null)); startActivity(i); }
         catch (Exception e) { try { startActivity(new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)); } catch (Exception e2) {} }
+    }
+
+    @Override protected void onNewIntent(Intent i2) {
+        super.onNewIntent(i2);
+        /* R92 — Center pediu abrir já logado com o app em aberto */
+        try { android.net.Uri d = i2 != null ? i2.getData() : null;
+            if (d != null && "fenix".equals(d.getScheme()) && wv != null) { String t = d.getQueryParameter("token");
+                if (t != null && t.length() > 10) { String u2 = wv.getUrl();
+                    u2 = (u2 == null ? "file:///android_asset/www/index.html" : u2.split("\?")[0]);
+                    wv.loadUrl(u2 + "?fx=" + java.net.URLEncoder.encode(t, "UTF-8")); } } } catch (Exception e) {}
     }
 
     @Override protected void onActivityResult(int rq, int rc, Intent data) {

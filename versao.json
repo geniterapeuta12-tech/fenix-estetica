@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.69",
-  "r": "R90",
+  "versao": "1.6.70",
+  "r": "R92",
   "quando": "04/10/2026",
   "melhorias": [
-    "🎨 REPAGINAÇÃO estilo CLAUDE: app agora nasce no CLARO PAPEL (fundo creme morno, texto tinta) — a sensação calma e limpa que você pediu",
-    "🟠 Cor de destaque nova: TERRACOTA (o coral do Claude) nos botões, abas e detalhes — o dourado clássico continua, agora como opção",
-    "✒️ Títulos com SERIFA elegante (tipo livro) no tema claro — a cara de estética refinada",
-    "🃏 Cards, botões, campos e modais repaginados: cantos mais redondos, bordas fininhas, zero sombra pesada",
-    "🖤 O ESCURO+OURO de sempre NÃO sumiu: continua lá em Aparência › Escuro, junto com os 13 temas"
+    "🏛️ Central Fênix NOVA (v2.0): a Central virou a porta de tudo — entre com a CONTA FÊNIX (o mesmo email e senha de sempre)",
+    "👥 O dono cria e bloqueia contas na hora pela Central — bloqueou, o acesso corta em todos os apps",
+    "🚀 «Abrir o Estética JÁ LOGADO»: da Central o app abre sem digitar nada (convite seguro de 10 minutos, de 1 uso)",
+    "🔐 No Estética: botão «Entrar pela conta Fênix» na tela de login — e quem abrir pelo convite da Central entra direto",
+    "📲 APK vc50: no Android, abriu pela Central = entra logado na hora (abertura especial fenix://)"
   ]
 }

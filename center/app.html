@@ -1,535 +1,264 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Fênix Center — Central de apps</title>
-<meta name="description" content="A central oficial do Fênix Estética: baixe, atualize e abra o app da sua clínica.">
-<meta name="theme-color" content="#0b0a07">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Fênix Center">
-<link rel="manifest" href="manifest.json?v=5">
-<link rel="icon" href="icone-192.png?v=4">
-<link rel="apple-touch-icon" href="icone-192.png?v=4">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<!-- ═══════════════════════════════════════════════════════════════
+  FÊNIX CENTER — v2.0 (Plataforma Fênix · P2)
+  A Central no coração de tudo: conta Fênix única, contas das clínicas,
+  abrir o Estética JÁ LOGADO. UI papel+terracota (estilo Claude).
+════════════════════════════════════════════════════════════════ -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fênix Center — Plataforma</title>
 <style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-/* ═══ TEMAS (igual app de estética) ═══ */
-html{--gold:#d4af37;background:#0a0906;min-height:100%}
-html[data-accent="coral"]{--gold:#1fa37c;background:#0a0d0b}
-html[data-accent="rosa"]{--gold:#cd8f7d;background:#0d0a09}
-html[data-accent="mostarda"]{--gold:#d6a418;background:#0d0b06}
-html[data-accent="terraco"]{--gold:#c96a3b;background:#0d0906}
-html[data-accent="acqua"]{--gold:#2ba3b0;background:#080b0c}
-html[data-accent="lilas"]{--gold:#8b7bd8;background:#0b0a0e}
-html[data-theme="light"]{background:#f3efe4}
-html[data-theme="light"][data-accent="coral"]{--gold:#17755a}
-html[data-theme="light"][data-accent="rosa"]{--gold:#a5685a}
-html[data-theme="light"][data-accent="mostarda"]{--gold:#9a7309}
-html[data-theme="light"][data-accent="terraco"]{--gold:#a04e22}
-html[data-theme="light"][data-accent="acqua"]{--gold:#1c7c88}
-html[data-theme="light"][data-accent="lilas"]{--gold:#6a5cc0}
-:root{
-  --line:rgba(240,220,160,.15);--line2:rgba(240,220,160,.3);
-  --txt:#f4efe1;--muted:#a89d84;--card:rgba(255,255,255,.035);--card2:rgba(255,255,255,.06);
-  --serif:'Playfair Display',Georgia,serif;--sans:Montserrat,system-ui,sans-serif;
-}
-html[data-theme="light"]{--line:rgba(80,62,20,.16);--line2:rgba(80,62,20,.32);--txt:#241d0e;--muted:#6d6553;--card:rgba(255,253,246,.8);--card2:#fffdf6}
-html[data-theme="light"] .topbar,html[data-theme="light"] .side,html[data-theme="light"] .pmenu,html[data-theme="light"] .tmodal,html[data-theme="light"] .toast{background:#fffdf6}
-html[data-theme="light"] .wm{opacity:.09;filter:invert(1)}
-body{margin:0;color:var(--txt);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow:hidden;height:100dvh}
-.fundo{position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(1000px 500px at 50% -8%,color-mix(in srgb,var(--gold) 14%,transparent),transparent 62%),radial-gradient(700px 400px at 105% 10%,color-mix(in srgb,var(--gold) 7%,transparent),transparent 55%)}
-.wm{position:fixed;inset:0;margin:auto;width:min(88vw,760px);max-height:88vh;opacity:.055;pointer-events:none;z-index:0}
-.app{position:relative;z-index:1;height:100dvh;display:flex}
-
-/* ═══ SIDEBAR ═══ */
-.side{flex:none;width:216px;display:flex;flex-direction:column;border-right:1px solid var(--line);background:rgba(10,9,6,.55);backdrop-filter:blur(10px)}
-html[data-theme="light"] .side{background:rgba(255,253,246,.6)}
-.side-logo{padding:24px 16px 16px;text-align:center;border-bottom:1px solid var(--line)}
-.side-logo img{width:84px;border-radius:20px;border:1px solid var(--line2);box-shadow:0 8px 26px rgba(0,0,0,.4)}
-html[data-theme="light"] .side-logo img{box-shadow:0 8px 22px rgba(80,62,20,.18)}
-.side-brand{font-family:var(--serif);letter-spacing:.16em;font-size:.92rem;margin-top:10px}
-.side-brand span{color:var(--gold)}
-.side-clinic{font:600 .58rem var(--sans);letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-top:3px}
-.snav{padding:14px 12px;display:flex;flex-direction:column;gap:4px}
-.navbtn{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;border:0;background:none;color:var(--muted);border-radius:12px;font:600 .9rem var(--sans);letter-spacing:.03em;cursor:pointer;transition:.2s}
-.navbtn svg{width:19px;height:19px;flex:none}
-.navbtn:hover{color:var(--txt);background:var(--card)}
-.navbtn.active{color:var(--gold);background:linear-gradient(90deg,color-mix(in srgb,var(--gold) 15%,transparent),transparent);box-shadow:inset 3px 0 0 var(--gold)}
-.side-foot{margin-top:auto;padding:14px 16px;border-top:1px solid var(--line);color:var(--muted);font:600 .62rem var(--sans);letter-spacing:.18em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
-.side-foot i{width:7px;height:7px;border-radius:50%;background:#7ec97e;box-shadow:0 0 8px #7ec97e}
-.side-foot button{margin-left:auto;border:1px solid var(--line2);background:none;color:var(--gold);border-radius:9px;padding:6px 9px;font:700 .78rem var(--sans);cursor:pointer}
-
-/* ═══ CORPO ═══ */
-.corpo{flex:1;display:flex;flex-direction:column;min-width:0}
-.topbar{flex:none;display:flex;align-items:center;gap:10px;padding:13px 18px;border-bottom:1px solid var(--line);background:rgba(10,9,6,.55);backdrop-filter:blur(10px)}
-html[data-theme="light"] .topbar{background:rgba(255,253,246,.6)}
-.titulo{font:700 1.12rem var(--serif);letter-spacing:.02em}
-.topbar .live{margin-left:auto;display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font:600 .6rem var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
-.topbar .live i{width:7px;height:7px;border-radius:50%;background:#7ec97e;box-shadow:0 0 8px #7ec97e}/* R59: estática — sem piscar */
-.bmenu{display:none;border:1px solid var(--line2);background:var(--card);color:var(--gold);border-radius:11px;padding:8px 12px;font:800 .95rem var(--sans);cursor:pointer}
-
-main{flex:1;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:0 20px 34px;scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--gold) 40%,transparent) transparent}
-main::-webkit-scrollbar{width:8px}
-main::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--gold) 30%,transparent);border-radius:99px}
-.view{max-width:860px;margin:0 auto;animation:vfade .28s ease}
-.view.esconde{display:none}/* R57: faltava — Account "abria" embaixo do Início */
-@keyframes vfade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-@keyframes sobe{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-
-/* ═══ O APP (tudo junto na Início) ═══ */
-.chamada{padding:24px 2px 2px;animation:sobe .4s .02s both}
-.chamada h1{font:800 1.6rem/1.15 var(--serif);margin:0}
-.chamada h1 em{font-style:italic;color:var(--gold)}
-.chamada p{margin:5px 0 0;color:var(--muted);font:500 .86rem var(--sans)}
-.dhero{display:flex;gap:20px;align-items:flex-start;padding:18px 20px;margin-top:14px;border:1px solid var(--line);border-radius:24px;background:var(--card);backdrop-filter:blur(8px);flex-wrap:wrap;animation:sobe .45s .08s both}
-.dhero .dico{width:100px;height:100px;flex:none;border-radius:23px;border:1px solid var(--line2);overflow:hidden;box-shadow:0 18px 44px rgba(0,0,0,.4)}
-.dhero .dico img{width:100%;height:100%;object-fit:cover;display:block}
-.dhero .info{flex:1;min-width:230px}
-.dhero h2{margin:2px 0 0;font:800 1.7rem/1.1 var(--serif)}
-.dhero .dev{margin-top:5px;font:700 .68rem var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
-.dhero .ddesc{margin:8px 0 0;color:var(--muted);font:500 .86rem/1.6 var(--sans);max-width:560px}
-.dhero .meta{display:flex;gap:8px;margin-top:11px;flex-wrap:wrap}
-.pill{border:1px solid var(--line2);color:var(--txt);border-radius:999px;padding:4px 11px;font:700 .64rem var(--sans);letter-spacing:.06em}
-.pill.ver{color:var(--gold);border-color:var(--gold)}
-.pill.of{color:var(--muted)}
-.dacts{display:flex;gap:9px;margin-top:15px;flex-wrap:wrap}
-.bto{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line2);border-radius:12px;padding:11px 16px;color:var(--txt);text-decoration:none;font:700 .8rem var(--sans);cursor:pointer;background:none;transition:.15s}
-.bto:hover{border-color:var(--gold);color:var(--gold)}
-.bto.pri{background:var(--gold);color:#171204;border-color:transparent;font-weight:800}
-.bto.pri:hover{filter:brightness(1.08);color:#171204}
-#btoPwa{display:none}
-#btoPwa.show{display:inline-flex}
-
-/* ═══ seções ═══ */
-.sec{margin-top:22px;animation:sobe .45s .14s both}
-.sec > h2{display:flex;align-items:baseline;gap:12px;font:700 1.18rem var(--serif);margin:0 0 12px}
-.sec > h2 .rule{flex:1;height:1px;background:linear-gradient(90deg,var(--line2),transparent)}
-.news{border:1px solid var(--line);border-radius:18px;padding:16px 19px;background:var(--card)}
-.news ul{margin:0;padding:0;list-style:none}
-.news li{position:relative;padding:4px 0 4px 20px;color:var(--txt);font:500 .85rem/1.55 var(--sans)}
-.news li::before{content:'✦';position:absolute;left:0;color:var(--gold);font-size:.7rem;top:8px}
-.vrow{border:1px solid var(--line);border-radius:16px;padding:15px 17px;background:var(--card);margin-bottom:10px;animation:sobe .4s both}
-.vrow .vh{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
-.vrow .vt{font:700 1.02rem var(--serif);color:var(--gold)}
-.vrow .dt{margin-left:auto;color:var(--muted);font:600 .7rem var(--sans)}
-.vrow ul{margin:8px 0 0;padding:0;list-style:none}
-.vrow ul li{position:relative;padding:2px 0 2px 18px;color:var(--muted);font:500 .8rem/1.5 var(--sans)}
-.vrow ul li::before{content:'✦';position:absolute;left:0;color:var(--gold);font-size:.62rem;top:6px}
-.vrow .vb{display:flex;gap:7px;margin-top:11px;flex-wrap:wrap}
-.bto.mini{padding:8px 12px;font-size:.72rem;border-radius:10px}
-.badge{border:1px solid var(--gold);color:var(--gold);border-radius:999px;font:700 .56rem var(--sans);letter-spacing:.18em;padding:4px 10px;text-transform:uppercase;background:color-mix(in srgb,var(--gold) 8%,transparent)}
-.badge.gray{border-color:var(--line2);color:var(--muted);background:none}
-.skel{border:1px dashed var(--line2);border-radius:16px;padding:20px;text-align:center;color:var(--muted);font:500 .84rem var(--sans)}
-.nota{color:var(--muted);font:500 .78rem var(--sans);margin:10px 2px 0}
-footer{margin-top:26px;padding-top:16px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:5px;align-items:center;color:var(--muted);font:500 .74rem var(--sans);text-align:center}
-footer .f1{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center}
-footer img{width:19px;height:19px;border-radius:6px}
-footer b{color:var(--gold2,#f1d27a);color:color-mix(in srgb,var(--gold) 70%,#fff)}
-footer .vc{font:600 .66rem var(--sans);letter-spacing:.14em;text-transform:uppercase;opacity:.75}
-
-/* ═══ POPUPS ═══ */
-.painel{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);padding:20px}
-.painel.show{display:flex}
-.pmenu,.tmodal{width:min(340px,92vw);border:1px solid var(--line2);border-radius:22px;padding:18px;background:rgba(16,14,9,.98);box-shadow:0 30px 90px rgba(0,0,0,.7);animation:tin .2s ease}
-.pmenu h4,.tmodal h4{margin:2px 4px 12px;font:700 1.05rem var(--serif)}
-.pmenu h4 span,.tmodal h4 span{color:var(--gold)}
-.mitem{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 13px;border:0;background:none;color:var(--txt);border-radius:12px;font:600 .9rem var(--sans);cursor:pointer}
-.mitem:hover{background:var(--card2)}
-.mitem svg{width:18px;height:18px;color:var(--gold)}
-.mitem small{margin-left:auto;color:var(--muted);font:600 .68rem var(--sans)}
-.segthemes{display:flex;gap:4px;padding:4px;border:1px solid var(--line);border-radius:12px;margin-bottom:14px}
-.segthemes button{flex:1;border:0;background:none;color:var(--muted);font:700 .74rem var(--sans);padding:9px;border-radius:9px;cursor:pointer;text-transform:uppercase;letter-spacing:.08em}
-.segthemes button.on{background:color-mix(in srgb,var(--gold) 18%,transparent);color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}
-.sws{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
-.sw{border:2px solid transparent;border-radius:13px;padding:8px 4px;background:var(--card);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--muted);font:600 .58rem var(--sans);text-transform:uppercase;letter-spacing:.06em}
-.sw i{width:26px;height:26px;border-radius:50%}
-.sw.on{border-color:var(--gold);color:var(--txt)}
-.sw-gold i{background:#d4af37}.sw-coral i{background:linear-gradient(135deg,#1fa37c,#cd8f7d)}.sw-rosa i{background:#cd8f7d}.sw-mostarda i{background:#d6a418}.sw-terraco i{background:#c96a3b}.sw-acqua i{background:#2ba3b0}.sw-lilas i{background:#8b7bd8}
-
-#toasts{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:60;display:flex;flex-direction:column;gap:8px;width:min(440px,92vw)}
-.toast{background:rgba(16,14,9,.97);border:1px solid var(--line2);border-left:3px solid var(--gold);color:var(--txt);border-radius:14px;padding:12px 15px;font:600 .82rem/1.45 var(--sans);box-shadow:0 20px 60px rgba(0,0,0,.6);animation:tin .22s ease;white-space:pre-line}
-html[data-theme="light"] .toast{background:#fffdf6}
-@keyframes tin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-
-
-/* ═══ R55 — voltar + Account (estilo Gmail do nosso jeito) ═══ */
-.btnv{display:none;align-items:center;gap:6px;border:1px solid var(--line2);background:var(--card);color:var(--txt);border-radius:11px;padding:9px 14px;font:700 .8rem var(--sans);cursor:pointer}
-.btnv.show{display:inline-flex}
-.btnv:hover{color:var(--gold);border-color:var(--gold)}
-.ac-card{border:1px solid var(--line);border-radius:22px;padding:22px;background:var(--card);backdrop-filter:blur(8px);margin-top:16px;animation:sobe .45s both}
-.ac-head{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
-.ac-av{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:800 1.6rem var(--serif);color:#171204;background:linear-gradient(135deg,var(--gold2),var(--gold));box-shadow:0 10px 26px rgba(212,175,55,.3)}
-.ac-head h3{margin:0;font:800 1.35rem var(--serif)}
-.ac-head .handle{color:var(--gold);font:600 .84rem var(--sans);margin-top:3px}
-.ac-head .local{margin-left:auto;border:1px dashed var(--line2);color:var(--muted);border-radius:999px;padding:5px 12px;font:600 .6rem var(--sans);letter-spacing:.12em;text-transform:uppercase}
-.ac-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:14px}
-.ac-item{flex:1;min-width:200px;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:rgba(255,255,255,.02)}
-.ac-item small{display:block;color:var(--muted);font:600 .6rem var(--sans);letter-spacing:.16em;text-transform:uppercase}
-.ac-item .val{display:flex;align-items:center;gap:8px;margin-top:5px;font:700 .95rem var(--sans)}
-.ac-item .olho{margin-left:auto;border:0;background:none;color:var(--muted);cursor:pointer;font:800 .9rem var(--sans);padding:2px 4px}
-.ac-item .olho:hover{color:var(--gold)}
-.ac-card h3.ft{margin:0 0 4px;font:700 1.1rem var(--serif)}
-.ac-field{margin-top:12px}
-.ac-field label{display:block;font:600 .68rem var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
-.ac-field input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--line2);border-radius:12px;color:var(--txt);font:600 .92rem var(--sans);padding:12px 14px;outline:none}
-.ac-field input:focus{border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 15%,transparent)}
-.handle-prev{margin-top:7px;color:var(--gold);font:600 .8rem var(--sans)}
-.ac-msg{margin-top:10px;font:600 .82rem/1.45 var(--sans);min-height:18px;white-space:pre-line}
-.ac-msg.err{color:#ff8f8f}
-.ac-msg.ok{color:#7ec97e}
-.ac-salvar{margin-top:8px;border:0;border-radius:12px;background:var(--gold);color:#171204;font:800 .84rem var(--sans);letter-spacing:.06em;padding:12px 20px;cursor:pointer;text-transform:uppercase}
-.ac-salvar:hover{filter:brightness(1.08)}
-.ac-aviso{margin:14px 0 0;color:var(--muted);font:500 .78rem/1.6 var(--sans);border-top:1px solid var(--line);padding-top:12px}
-
-@media(max-width:719px){
- .side{display:none}
- .bmenu{display:inline-flex}
- .dhero h2{font-size:1.45rem}
- main{padding:0 14px 26px}
- .dhero{padding:16px}
-}
-@media(min-width:720px){.bmenu{display:none}}
+:root{--papel:#FAF9F5;--card:#FFFFFF;--tinta:#3D3929;--mute:#8E8878;--terra:#D97757;--terra2:#C05B3B;--linha:rgba(61,57,41,.12);--verde:#2f7d5b;--verm:#b4443c}
+*{box-sizing:border-box;margin:0}
+body{background:var(--papel);color:var(--tinta);font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;min-height:100vh;padding:26px 16px 60px}
+.h1{font-family:Georgia,'Times New Roman',serif;font-weight:600;letter-spacing:.01em}
+.wrap{max-width:720px;margin:0 auto}
+.topo{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.marca{font-family:Georgia,serif;font-size:1.5rem}
+.marca b{color:var(--terra)}
+.sub{color:var(--mute);font-size:.86rem}
+.card{background:var(--card);border:1px solid var(--linha);border-radius:16px;padding:20px;margin:14px 0}
+.card h3{font-family:Georgia,serif;font-weight:600;font-size:1.05rem;margin-bottom:6px}
+input,select{width:100%;background:#fff;border:1px solid var(--linha);border-radius:12px;padding:12px 13px;font-size:1rem;color:var(--tinta);outline:none;margin:4px 0 10px}
+input:focus{border-color:var(--terra)}
+label{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--mute);font-weight:700}
+.btn{display:inline-block;border:0;border-radius:12px;padding:12px 18px;font:600 .95rem inherit;cursor:pointer;background:var(--terra);color:#fff;margin-top:6px}
+.btn:hover{background:var(--terra2)}
+.btn.ghost{background:#fff;color:var(--tinta);border:1px solid var(--linha)}
+.btn.min{padding:8px 12px;font-size:.82rem;margin:0}
+.btn.verm{background:var(--verm)}.btn.verm:hover{background:#93362f}
+.linhaf{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.conta{display:flex;align-items:center;gap:12px;padding:12px 4px;border-bottom:1px solid var(--linha);flex-wrap:wrap}
+.conta:last-child{border-bottom:0}
+.av{width:40px;height:40px;border-radius:50%;background:#F2CDBC;color:#8A3D22;display:flex;align-items:center;justify-content:center;font:700 1rem Georgia,serif;flex-shrink:0}
+.ci{flex:1;min-width:180px}
+.ci b{display:block;font-size:.95rem}
+.ci small{color:var(--mute);font-size:.78rem}
+.tag{border-radius:999px;padding:3px 10px;font-size:.7rem;font-weight:700;letter-spacing:.05em}
+.tag.dono{background:#F2CDBC;color:#8A3D22}
+.tag.clinica{background:#e8ecdf;color:#4d5c34}
+.tag.equipe{background:#e3e9f2;color:#3c5a7d}
+.tag.ok{background:#dcefe4;color:var(--verde)}
+.tag.blk{background:#f6dedb;color:var(--verm)}
+.msg{min-height:1.3em;font-size:.86rem;margin:6px 0;color:var(--verm)}
+.msg.ok{color:var(--verde)}
+.hidden{display:none!important}
+.rodape{text-align:center;color:var(--mute);font-size:.74rem;margin-top:30px}
+.separa{display:flex;align-items:center;gap:10px;color:var(--mute);font-size:.8rem;margin:16px 0 4px}
+.separa:before,.separa:after{content:'';flex:1;height:1px;background:var(--linha)}
+.convidew{position:fixed;inset:0;background:rgba(61,57,41,.45);display:flex;align-items:center;justify-content:center;padding:16px;z-index:50}
+.convidew .card{max-width:520px;width:100%;margin:0}
+code{background:#F4F1EA;border:1px solid var(--linha);border-radius:8px;padding:8px 10px;display:block;font-size:.72rem;word-break:break-all;margin:8px 0}
+@media(max-width:480px){body{padding:18px 12px 40px}.card{padding:16px}}
 </style>
 </head>
 <body>
-<div class="fundo"></div>
-<img class="wm" src="icone-512.png?v=4" alt="" aria-hidden="true">
-<div class="app">
-
-<!-- ═══ SIDEBAR ═══ -->
-<aside class="side">
-  <div class="side-logo">
-    <img src="icone-512.png?v=4" alt="Fênix Center">
-    <div class="side-brand">FÊNIX <span>CENTER</span></div>
-    <div class="side-clinic">central de apps</div>
+<div class="wrap">
+  <div class="topo">
+    <div style="flex:1">
+      <div class="marca h1">Fênix <b>Center</b></div>
+      <div class="sub" id="topoSub">A central da Plataforma Fênix — uma conta pra tudo</div>
+    </div>
+    <button class="btn ghost min hidden" id="btnSair" type="button">Sair</button>
   </div>
-  <nav class="snav">
-    <button class="navbtn active" id="navInicio" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Início</button>
-    <button class="navbtn" id="navAccount" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-5.5 8-5.5s6.5 1.5 8 5.5"/></svg>Account</button>
-    <button class="navbtn" id="navTemas" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="8.5" cy="10" r="1.2" fill="currentColor" stroke="none"/><circle cx="12" cy="7.5" r="1.2" fill="currentColor" stroke="none"/><circle cx="15.5" cy="10" r="1.2" fill="currentColor" stroke="none"/><path d="M12 21a9 9 0 0 0 0-18"/><path d="M12 21c-4 0-4.5-3.5-2-5"/></svg>Aparência</button>
-  </nav>
-  <div class="side-foot"><i></i>v1.8.0<button id="btnSobre" type="button" title="Sobre">ⓘ</button></div>
-</aside>
 
-<!-- ═══ CORPO ═══ -->
-<div class="corpo">
-<header class="topbar">
-  <button class="bmenu" id="btnMenu" type="button" title="Menu">⊞</button>
-  <button class="btnv" id="btnVoltar" type="button">‹ <span>Voltar</span></button>
-  <div class="titulo" id="titulo">Fênix Center</div>
-  <div class="live"><i></i>oficial</div>
-</header>
-
-<main id="scroller">
-  <section class="view" id="view-inicio">
-    <div class="chamada">
-      <h1>O <em>app</em> da sua clínica</h1>
-      <p>Baixe, atualize e abra o Fênix Estética — tudo aqui, sempre a versão oficial.</p>
+  <!-- LOGIN -->
+  <div id="vLogin">
+    <div class="card">
+      <h3>🏛️ Entrar com a conta Fênix</h3>
+      <p class="sub" style="margin-bottom:10px">O login único: o mesmo email e senha em todos os apps Fênix.</p>
+      <label>Email da conta Fênix</label>
+      <input id="fxEmail" type="email" placeholder="ex.: ana@clinicabelle" autocomplete="username">
+      <label>Senha</label>
+      <input id="fxSenha" type="password" placeholder="••••••••" autocomplete="current-password">
+      <p class="msg" id="loginMsg"></p>
+      <button class="btn" id="btnEntrar" type="button" style="width:100%">Entrar</button>
+      <p class="sub" style="margin-top:12px">É a mesma senha que a clínica já usa no app — entrou uma vez, é a conta pra sempre.</p>
     </div>
-
-    <!-- ═══ O APP: FÊNIX ESTÉTICA (APK e EXE) ═══ -->
-    <div class="dhero">
-      <div class="dico"><img src="icone-512.png?v=4" alt="Fênix Estética"></div>
-      <div class="info">
-        <h2>Fênix Estética</h2>
-        <div class="dev">Fênix · oficial</div>
-        <p class="ddesc">O app da sua clínica: clientes, agenda, financeiro, equipe, catálogo, mensagens, pacotes e mais. Atualizar por cima nunca apaga seus dados.</p>
-        <div class="meta">
-          <span class="pill ver" id="pillVer">versão …</span>
-          <span class="pill of">Windows · Android</span>
-          <span class="pill of">português (BR)</span>
-        </div>
-        <div class="dacts">
-          <a class="bto pri" href="https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest/download/FENIX-Estetica.apk">⬇ Instalar Android (APK)</a>
-          <a class="bto pri" href="https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest/download/FENIX-Estetica-Windows.zip">⬇ Instalar Windows (EXE)</a>
-          <button class="bto" id="btnAbrir" type="button">Abrir o app instalado ›</button>
-          <button class="bto" id="btoPwa" type="button">Instalar o Center no aparelho</button>
-        </div>
+    <div class="card">
+      <h3>📲 Apps Fênix</h3>
+      <div class="linhaf">
+        <button class="btn ghost min" id="btnAbrirApp" type="button">Abrir o Estética instalado ›</button>
+        <a class="btn ghost min" style="text-decoration:none" href="https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest/download/FENIX-Estetica.apk">Baixar o Estética (Android)</a>
+        <a class="btn ghost min" style="text-decoration:none" href="https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest/download/Fenix-Center.apk">Baixar o Center (Android)</a>
       </div>
     </div>
+  </div>
 
-    <!-- ═══ NOVIDADES ═══ -->
-    <div class="sec">
-      <h2>Novidades da última versão<span class="rule"></span></h2>
-      <div class="news" id="news"><div class="skel" style="border:0">Buscando novidades…</div></div>
+  <!-- PAINEL DONO -->
+  <div id="vDono" class="hidden">
+    <div class="card">
+      <h3>👋 Olá, <span id="donoNome">dono</span></h3>
+      <p class="sub">Você cuida da Plataforma Fênix: <b id="dResumo">…</b></p>
     </div>
-
-    <!-- ═══ TODAS AS VERSÕES ═══ -->
-    <div class="sec">
-      <h2>Todas as versões<span class="rule"></span></h2>
-      <p class="nota">Pode instalar qualquer uma — todas são oficiais e assinadas. Recomendamos sempre a mais recente.</p>
-      <div id="vlist"><div class="skel">Consultando as versões…</div></div>
-    </div>
-
-    <footer>
-      <div class="f1"><img src="icone-192.png?v=4" alt=""><span>Feito com 💛 pela <b>Fênix</b></span></div>
-      <span class="vc">Fênix Center v1.8.0</span>
-    </footer>
-  </section>
-
-  <!-- ═══ ACCOUNT (R55 — estilo Gmail do nosso jeito; por enquanto conta local) ═══ -->
-  <section class="view esconde" id="view-account">
-    <div class="chamada">
-      <h1>Sua <em>conta</em></h1>
-      <p>O acesso do Fênix Center, do nosso jeito — formato e-mail Fênix.</p>
-    </div>
-
-    <div class="ac-card" id="acPerfil">
-      <div class="ac-head">
-        <div class="ac-av" id="acAv">?</div>
-        <div>
-          <h3 id="acNome">Sem conta ainda</h3>
-          <div class="handle" id="acHandleTxt">—</div>
-        </div>
-        <span class="local">conta local · por enquanto</span>
+    <div class="card">
+      <h3>➕ Criar conta pra uma clínica</h3>
+      <div class="linhaf">
+        <div style="flex:1;min-width:200px"><label>Email (nome@clinica)</label><input id="ncEmail" type="email" placeholder="ex.: ana@clinicabelle"></div>
+        <div style="flex:1;min-width:150px"><label>Nome da clínica</label><input id="ncNome" placeholder="Clínica Belle"></div>
       </div>
-      <div class="ac-row">
-        <div class="ac-item"><small>Usuário</small><div class="val" id="acUserVal">—</div></div>
-        <div class="ac-item"><small>Senha</small><div class="val"><span id="acPassVal">—</span><button class="olho" id="acOlho" type="button" title="mostrar/ocultar">👁</button></div></div>
+      <div class="linhaf">
+        <div style="flex:1;min-width:150px"><label>Senha inicial</label><input id="ncSenha" type="text" placeholder="mín. 6 caracteres"></div>
+        <div style="min-width:130px"><label>Papel</label><select id="ncPapel"><option value="clinica">Clínica</option><option value="equipe">Equipe</option><option value="dono">Dono Fênix</option></select></div>
+        <div style="min-width:120px"><label>ID da clínica (opcional)</label><input id="ncCid" placeholder="uuid"></div>
       </div>
+      <p class="msg" id="ncMsg"></p>
+      <button class="btn" id="btnCriarConta" type="button">Criar conta</button>
     </div>
+    <div class="card">
+      <h3>👥 Contas da plataforma</h3>
+      <p class="sub">Bloquear corta o acesso na hora — em todos os apps.</p>
+      <div id="listaContas"><p class="sub">Carregando…</p></div>
+      <p class="msg" id="admMsg"></p>
+    </div>
+  </div>
 
-    <div class="ac-card">
-      <h3 class="ft" id="acFormTitle">Criar conta</h3>
-      <div class="ac-field">
-        <label>Nome de usuário</label>
-        <input id="acUser" placeholder="ex.: fatima.silva" autocomplete="off" spellcheck="false">
-        <div class="handle-prev" id="acHandlePrev">→ seunome@fenix.app</div>
+  <!-- PAINEL CLÍNICA/EQUIPE -->
+  <div id="vCli" class="hidden">
+    <div class="card">
+      <h3>👋 Olá, <span id="cliNome">tudo bem</span></h3>
+      <p class="sub">Sua conta Fênix está ligada ao app da sua clínica.</p>
+      <div class="linhaf" style="margin-top:10px">
+        <button class="btn" id="btnAbrirLogado" type="button">🚀 Abrir o Estética já logado</button>
+        <button class="btn ghost min" id="btnAbrirApp2" type="button">Abrir o app instalado ›</button>
       </div>
-      <div class="ac-field">
-        <label>Senha</label>
-        <input id="acPass" type="password" placeholder="mínimo 4 caracteres">
-      </div>
-      <div class="ac-msg" id="acMsg"></div>
-      <button class="ac-salvar" id="acSalvar" type="button">Salvar conta</button>
-      <p class="ac-aviso">⚠ <b>Por enquanto</b> sua conta fica salva só neste aparelho. O login de verdade — e-mail <b style="color:var(--gold)">@fenix.app</b> funcionando em qualquer lugar, estilo Gmail mas do nosso jeito — vem por aí. Este espaço já está pronto pra ele.</p>
+      <p class="sub" style="margin-top:8px">No Android, «já logado» abre o app sem digitar nada. No computador, abre o app na web já dentro.</p>
     </div>
-  </section>
-</main>
-</div>
+    <div class="card">
+      <h3>📲 Instalar / atualizar</h3>
+      <div class="linhaf">
+        <a class="btn ghost min" style="text-decoration:none" href="https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest/download/FENIX-Estetica.apk">Estética (Android)</a>
+        <a class="btn ghost min" style="text-decoration:none" href="https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest/download/FENIX-Estetica-Windows.zip">Estética (Windows)</a>
+      </div>
+    </div>
+  </div>
+
+  <p class="rodape">Fênix Center v2.0.0 · Plataforma Fênix · a conta única que abre tudo</p>
 </div>
 
-<!-- ═══ popup ⊞ (celular) ═══ -->
-<div class="painel" id="painelMenu">
-  <div class="pmenu">
-    <h4>Fênix <span>Center</span></h4>
-    <button class="mitem" type="button" onclick="document.getElementById('painelMenu').classList.remove('show');if(window.__fenixFirst)__fenixFirst()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Início</button>
-    <button class="mitem" id="miAccount" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-5.5 8-5.5s6.5 1.5 8 5.5"/></svg>Account<small id="miAcUser">—</small></button>
-    <button class="mitem" id="miTemas" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="8.5" cy="10" r="1.2" fill="currentColor" stroke="none"/><circle cx="12" cy="7.5" r="1.2" fill="currentColor" stroke="none"/><circle cx="15.5" cy="10" r="1.2" fill="currentColor" stroke="none"/><path d="M12 21a9 9 0 0 0 0-18"/></svg>Aparência<small id="miTema">escuro</small></button>
-    <button class="mitem" id="miSobre" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>Sobre este app<small>v1.8.0</small></button>
+<!-- CONVITE (abrir já logado) -->
+<div id="conviteW" class="convidew hidden">
+  <div class="card">
+    <h3>🚀 Abrir o Estética já logado</h3>
+    <p class="sub" id="conviteSub">Convite de 10 minutos, de 1 uso — seguro.</p>
+    <div class="linhaf" style="margin-top:8px">
+      <button class="btn" id="btnConvApp" type="button">📱 Abrir no app (Android)</button>
+      <button class="btn ghost min" id="btnConvWeb" type="button">💻 Abrir no navegador</button>
+      <button class="btn ghost min" id="btnConvCopy" type="button">📋 Copiar convite</button>
+    </div>
+    <code id="conviteLink"></code>
+    <p class="msg" id="conviteMsg"></p>
+    <button class="btn ghost min" id="btnConvFechar" type="button">Fechar</button>
   </div>
 </div>
 
-<!-- ═══ popup Aparência ═══ -->
-<div class="painel" id="painelTema">
-  <div class="tmodal">
-    <h4>Aparência</h4>
-    <div class="segthemes">
-      <button id="segEsc" class="on" type="button">🌙 Escuro</button>
-      <button id="segCla" type="button">☀️ Claro</button>
-    </div>
-    <div class="sws">
-      <button class="sw sw-gold on" data-accent="gold" type="button"><i></i>gold</button>
-      <button class="sw sw-coral" data-accent="coral" type="button"><i></i>coral</button>
-      <button class="sw sw-rosa" data-accent="rosa" type="button"><i></i>rosa</button>
-      <button class="sw sw-mostarda" data-accent="mostarda" type="button"><i></i>mostarda</button>
-      <button class="sw sw-terraco" data-accent="terraco" type="button"><i></i>terracota</button>
-      <button class="sw sw-acqua" data-accent="acqua" type="button"><i></i>acqua</button>
-      <button class="sw sw-lilas" data-accent="lilas" type="button"><i></i>lilás</button>
-    </div>
-  </div>
-</div>
-
-<div id="toasts"></div>
 <script>
-const REPO='geniterapeuta12-tech/fenix-estetica';
-const CENTER_V='1.8.0';
-const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
-function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
-function toast(t){const el=document.createElement('div');el.className='toast';el.textContent=t;$('#toasts').appendChild(el);setTimeout(()=>{try{el.remove()}catch(e){}},5200)}
-/* R58 — BLINDAGEM: um erro em uma parte NUNCA mais mata o app inteiro */
-const _mem={};
-function lsGet(k,d){try{const v=localStorage.getItem(k);return v===null?d:v}catch(e){return (k in _mem)?_mem[k]:d}}
-function lsSet(k,v){try{localStorage.setItem(k,v)}catch(e){_mem[k]=v}}
-function on(id,ev,fn){try{const el=document.getElementById(id);if(el)el.addEventListener(ev,fn);}catch(e){}}
-
-/* dentro do app Center instalado (APK/EXE)? aí NÃO oferece instalar o Center */
-const isApp=(!!window.FenixCenterApp)||/Electron/i.test(navigator.userAgent);
-if(!isApp){try{const b=$('#btoPwa');b.classList.add('show');}catch(e){}}
-
-/* ═══ temas ═══ */
-function pintaTema(){
- const t=lsGet('center_tema','dark'), a=lsGet('center_accent','gold');
- document.documentElement.dataset.theme=(t==='light'?'light':'');
- document.documentElement.dataset.accent=a;
- $$('.sw').forEach(b=>b.classList.toggle('on',b.dataset.accent===a));
- $('#segEsc').classList.toggle('on',t!=='light');$('#segCla').classList.toggle('on',t==='light');
- const m=$('#miTema');if(m)m.textContent=t==='light'?'claro':'escuro';
- try{document.querySelector('meta[name=theme-color]').setAttribute('content',t==='light'?'#f3efe4':'#0b0a07');}catch(e){}
-}
-on('segEsc','click',()=>{lsSet('center_tema','dark');pintaTema()});
-on('segCla','click',()=>{lsSet('center_tema','light');pintaTema()});
-try{$$('.sw').forEach(b=>b.addEventListener('click',()=>{lsSet('center_accent',b.dataset.accent);pintaTema();}));}catch(e){}
-function abreTemas(){$('#painelTema').classList.add('show')}
-on('navTemas','click',abreTemas);
-on('miTemas','click',()=>{$('#painelMenu').classList.remove('show');abreTemas();});
-on('btnMenu','click',()=>$('#painelMenu').classList.add('show'));
-/* ═══ navegação com voltar (R55) ═══ */
-let VISTA='inicio';
-function abreView(v){
-  VISTA=v;
-  $('#view-inicio').classList.toggle('esconde',v!=='inicio');
-  $('#view-account').classList.toggle('esconde',v!=='account');
-  /* R57: seleção ÚNICA na barra lateral */
-  const ni=$('#navInicio'),na=$('#navAccount');
-  if(ni)ni.classList.toggle('active',v==='inicio');
-  if(na)na.classList.toggle('active',v==='account');
-  $('#btnVoltar').classList.toggle('show',v!=='inicio');
-  $('#titulo').textContent=v==='account'?'Account':'Fênix Center';
-  $('#scroller').scrollTop=0;
-}
-function __fenixBack(){
-  const aberto=document.querySelector('.painel.show');
-  if(aberto){$$('.painel').forEach(p=>p.classList.remove('show'));return true;}
-  if(VISTA!=='inicio'){abreView('inicio');return true;}
-  return false;
-}
-window.__fenixBack=__fenixBack;
-function __fenixFirst(){abreView('inicio');}
-window.__fenixFirst=__fenixFirst;
-on('btnVoltar','click',__fenixBack);
-on('navAccount','click',()=>{try{abreView('account');pintaConta();}catch(e){}});
-on('miAccount','click',()=>{try{$$('.painel').forEach(p=>p.classList.remove('show'));abreView('account');pintaConta();}catch(e){}});
-try{document.addEventListener('keydown',e=>{if(e.key==='Escape'){try{if(__fenixBack())e.preventDefault();}catch(e){}}});}catch(e){}
-try{$$('.painel').forEach(p=>p.addEventListener('click',e=>{if(e.target===p)p.classList.remove('show')}));}catch(e){}
-on('btnSobre','click',()=>{$('#painelMenu').classList.remove('show');
- toast('Fênix Center v'+CENTER_V+'\n'+(isApp?'Você está dentro do app instalado ✓':'Rodando no navegador')+'\nAtualiza sozinho quando sai versão nova.');});
-on('miSobre','click',()=>{$('#painelMenu').classList.remove('show');
- toast('Fênix Center v'+CENTER_V+'\n'+(isApp?'Você está dentro do app instalado ✓':'Rodando no navegador')+'\nAtualiza sozinho quando sai versão nova.');});
-try{pintaTema();}catch(e){}
-
-/* ═══ ACCOUNT (R55) — conta local, validação rígida, formato e-mail Fênix ═══ */
-function contasLista(){try{return JSON.parse(lsGet('center_contas','[]')||'[]')}catch(e){return []}}
-function contaAtual(){try{return JSON.parse(lsGet('center_conta','null')||'null')}catch(e){return null}}
-const DOMINIO='@fenix.app';
-let mostraSenha=false;
-function pintaConta(){
-  const c=contaAtual();
-  $('#acAv').textContent=c?(c.usuario.charAt(0).toUpperCase()):'?';
-  $('#acNome').textContent=c?c.usuario:'Sem conta ainda';
-  $('#acHandleTxt').textContent=c?('→ '+c.usuario+DOMINIO):'crie sua conta abaixo';
-  $('#acUserVal').textContent=c?c.usuario:'—';
-  $('#acPassVal').textContent=c?(mostraSenha?c.senha:'•'.repeat(Math.min(10,Math.max(4,(c.senha||'').length)))):'—';
-  $('#acFormTitle').textContent=c?'Trocar conta':'Criar conta';
-  const m=$('#miAcUser');if(m)m.textContent=c?c.usuario:'—';
-}
-on('acOlho','click',()=>{mostraSenha=!mostraSenha;pintaConta();});
-on('acUser','input',()=>{const v=$('#acUser').value.trim().toLowerCase();$('#acHandlePrev').textContent='→ '+(v||'seunome')+DOMINIO;const m=$('#acMsg');m.textContent='';m.className='ac-msg';});
-function acErro(t){const m=$('#acMsg');m.textContent=t;m.className='ac-msg err';}
-on('acSalvar','click',()=>{
-  const u=$('#acUser').value.trim().toLowerCase(), p=$('#acPass').value;
-  const atual=contaAtual();
-  /* validação RÍGIDA (pedido do dono) */
-  if(!u)return acErro('⚠ Digite um nome de usuário.');
-  if(u.length<3)return acErro('⚠ O nome de usuário precisa conter pelo menos 3 caracteres.');
-  if(!/^[a-z0-9._]+$/.test(u))return acErro('⚠ Use só letras minúsculas, números e ponto (.) — formato e-mail Fênix.');
-  if(u.indexOf('..')>=0||u.charAt(0)==='.'||u.charAt(u.length-1)==='.')return acErro('⚠ O ponto não pode começar, terminar ou vir em sequência.');
-  if(!(atual&&u===atual.usuario)&&contasLista().indexOf(u)>=0)return acErro('⚠ Este nome de usuário JÁ EXISTE. Escolha outro.');
-  if(!p)return acErro('⚠ Digite uma senha.');
-  if(p.length<4)return acErro('⚠ A senha precisa de pelo menos 4 caracteres.');
-  const L=contasLista();if(L.indexOf(u)<0){L.push(u);lsSet('center_contas',JSON.stringify(L.slice(0,20)));}
-  lsSet('center_conta',JSON.stringify({usuario:u,senha:p,ts:Date.now()}));
-  const m=$('#acMsg');m.textContent='✔ Conta salva: '+u+DOMINIO;m.className='ac-msg ok';
-  $('#acPass').value='';
-  pintaConta();
-  toast('✔ Conta salva neste aparelho\n'+u+DOMINIO+'\n(em breve: conta Fênix de verdade, em qualquer lugar)');
-});
-try{pintaConta();}catch(e){}
-
-/* ═══ abrir o Fênix instalado ═══ */
-function abreFenix(){
- try{if(window.FenixCenterApp&&window.FenixCenterApp.abrirFenix){window.FenixCenterApp.abrirFenix();return;}}catch(e){}
- let ok=false;const t=setTimeout(()=>{if(!ok)toast('O app não respondeu.\nInstale o Fênix Estética pelos botões acima — depois este botão abre direto.');},1700);
- window.addEventListener('blur',()=>{ok=true;clearTimeout(t)},{once:true});
- try{window.location.href='fenix://abrir';}catch(e){clearTimeout(t);}
-}
-on('btnAbrir','click',abreFenix);
-
-/* ═══ instalar o Center pelo navegador (PWA) ═══ */
-let promptInstalar=null;
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();promptInstalar=e;});
-on('btoPwa','click',async()=>{
- if(!promptInstalar){toast('Para instalar: menu do navegador › «Adicionar à tela inicial» / «Instalar app».');return;}
- promptInstalar.prompt();
- try{const r=await promptInstalar.userChoice;if(r&&r.outcome==='accepted')toast('✔ Fênix Center instalado! Procure o ícone na tela inicial.');}catch(e){}
- promptInstalar=null;
-});
-
-/* ═══ versões (GitHub) ═══ */
-function assets(v){const a={};(v.assets||[]).forEach(x=>{a[x.name]=x.browser_download_url});return a}
-function limpa(md){return String(md||'').replace(/\r/g,'').split('\n')
- .filter(l=>l.trim()&&l.indexOf('## Instala')<0&&l.indexOf('## Arquivos')<0&&l.indexOf('releases/latest')<0&&l.indexOf('geniterapeuta12-tech.github.io')<0)
- .filter(l=>!/^\s*[-*]\s*\[/.test(l))
- .map(l=>l.replace(/^\s*[-*]\s*/,'').replace(/\*\*/g,'').replace(/^#+\s*/,'').replace(/^ABRIR A FÊNIX CENTER\s*$/i,'').trim())
- .filter(l=>l.length>3)}
-function dtn(v){return (v.published_at||'').slice(0,10).split('-').reverse().join('/')}
-function linhaVersao(v,i){
- const a=assets(v),it=limpa(v.body).slice(0,4);
- return '<div class="vrow" style="animation-delay:'+(0.04*i)+'s"><div class="vh">'
-  +'<span class="vt">'+esc(v.tag_name)+'</span>'
-  +(i===0?'<span class="badge">mais recente</span>':'<span class="badge gray">arquivo</span>')
-  +'<span class="dt">'+esc(dtn(v))+'</span></div>'
-  +(it.length?'<ul>'+it.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul>':'')
-  +'<div class="vb">'
-  +(a['FENIX-Estetica.apk']?'<a class="bto mini pri" href="'+esc(a['FENIX-Estetica.apk'])+'">⬇ Instalar (Android)</a>':'')
-  +(a['FENIX-Estetica-Windows.zip']?'<a class="bto mini" href="'+esc(a['FENIX-Estetica-Windows.zip'])+'">⬇ Instalar (Windows)</a>':'')
-  +(a['checksums-sha256.txt']?'<a class="bto mini" href="'+esc(a['checksums-sha256.txt'])+'">checksums</a>':'')
-  +'</div></div>';
-}
-(async function(){
- try{
-  const r=await fetch('https://api.github.com/repos/'+REPO+'/releases?per_page=30');
-  if(!r.ok)throw 0;
-  const list=await r.json();
-  if(!Array.isArray(list)||!list.length)throw 0;
-  const v0=list[0];
-  $('#pillVer').textContent='versão '+String(v0.tag_name||'').replace('v','');
-  const nov=limpa(v0.body).slice(0,5);
-  $('#news').innerHTML=nov.length?'<ul>'+nov.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul>':'<div class="skel" style="border:0">Sem novidades registradas.</div>';
-  $('#vlist').innerHTML=list.map(linhaVersao).join('');
- }catch(e){
-  $('#news').innerHTML='<div class="skel" style="border:0">Sem internet agora — as novidades aparecem quando conectar.</div>';
-  $('#vlist').innerHTML='<div class="skel">Sem internet agora — mas os botões de instalar lá em cima funcionam sempre.</div>';
- }
-})();
-/* ═══ AUTO-ATUALIZAÇÃO (R56) — o Center se atualiza sozinho ═══ */
+const CENTER_V='2.0.0';
+const FXAPI='https://fenix-api.geniterapeuta12.workers.dev';
+const PAGES='https://geniterapeuta12-tech.github.io/fenix-estetica/index.html';
 const LIVE_UI='https://geniterapeuta12-tech.github.io/fenix-estetica/center/app.html';
-function uiMaisNova(a,b){const pa=String(a).split('.'),pb=String(b).split('.');for(let i=0;i<Math.max(pa.length,pb.length);i++){const x=+pa[i]||0,y=+pb[i]||0;if(x!==y)return x>y;}return false;}
-async function checaUiNova(){
- try{
-  const r=await fetch(LIVE_UI+'?t='+Date.now(),{cache:'no-store'});
-  if(!r.ok)return;
-  const h=await r.text();
-  const m=h.match(/CENTER_V='([0-9.]+)'/);
-  if(m&&uiMaisNova(m[1],CENTER_V)){
-   const inj=/<base\s+href/i.test(h)?h:h.replace(/<head>/i,'<head><base href="https://geniterapeuta12-tech.github.io/fenix-estetica/center/">');
-   document.open();document.write(inj);document.close();
-  }
- }catch(e){}
-}
-checaUiNova();setInterval(checaUiNova,30*60*1000);
-document.addEventListener('visibilitychange',()=>{if(!document.hidden)checaUiNova();});
-/* avisa com carinho quando entrou numa versão nova (após o swap) */
-(function(){try{const u=lsGet('center_ultima_v',null);
-if(u&&u!==CENTER_V)setTimeout(()=>toast('✔ Fênix Center atualizado pra v'+CENTER_V+' ✓\ntudo seu continua aqui.'),900);
-lsSet('center_ultima_v',CENTER_V);}catch(e){}})();
-/* ═══ PWA ═══ */
-/* R59: sem service worker — o Center é APP (APK/EXE); o sw antigo foi exterminado via center/sw.js */
+const _mem={};
+function lsGet(k){try{return localStorage.getItem(k)}catch(e){return (k in _mem)?_mem[k]:null}}
+function lsSet(k,v){try{localStorage.setItem(k,v)}catch(e){_mem[k]=v}}
+function lsDel(k){try{localStorage.removeItem(k)}catch(e){delete _mem[k]}}
+const $=id=>document.getElementById(id);
+function uiMaisNova(a,b){const pa=String(a||'').split('.').map(Number),pb=String(b||'').split('.').map(Number);
+for(let i=0;i<Math.max(pa.length,pb.length);i++){const x=pa[i]||0,y=pb[i]||0;if(x!==y)return x>y}return false}
+/* ═══ AUTO-ATUALIZAÇÃO — o Center se atualiza sozinho do Pages ═══ */
+async function checaUiNova(){try{
+const r=await fetch(LIVE_UI+'?t='+Date.now(),{cache:'no-store'});if(!r.ok)return;
+const h=await r.text();const m=h.match(/CENTER_V='([0-9.]+)'/);
+if(m&&uiMaisNova(m[1],CENTER_V)){
+const inj=/<base\s+href/i.test(h)?h:h.replace(/<head>/i,'<head><base href="https://geniterapeuta12-tech.github.io/fenix-estetica/center/">');
+document.open();document.write(inj);document.close();}
+}catch(e){}}
+checaUiNova();setInterval(checaUiNova,30*60*1000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)checaUiNova();});
+/* ═══ estado ═══ */
+let FX=null;
+function mostra(v){['vLogin','vDono','vCli'].forEach(x=>$(x).classList.toggle('hidden',x!==v));$('btnSair').classList.toggle('hidden',v==='vLogin');}
+function msg(id,t,ok){const e=$(id);if(e){e.textContent=t||'';e.className='msg'+(ok?' ok':'');}}
+async function confere(){try{
+if(!FX||!FX.token)return false;
+const r=await fetch(FXAPI+'/auth-fenix/confere?token='+encodeURIComponent(FX.token));
+const jj=await r.json();
+if(!r.ok||!jj.ok){lsDel('fenix_center_fx');FX=null;return false;}
+FX.conta=jj.conta;return true;
+}catch(e){return false}}
+function pinta(){
+const c=FX&&FX.conta;if(!c){mostra('vLogin');return;}
+$('topoSub').textContent='Logado: '+(c.email||'')+' · '+(c.papel==='dono'?'dono da plataforma':(c.papel||'clínica'));
+if(c.papel==='dono'){$('donoNome').textContent=c.nome||'dono';mostra('vDono');lista();resumo();}
+else{$('cliNome').textContent=c.nome||'tudo bem';mostra('vCli');}}
+async function resumo(){try{
+const r=await fetch(FXAPI+'/auth-fenix/lista',{headers:{'x-fenix-sessao':FX.token}});
+const jj=await r.json();
+if(r.ok&&jj.ok){const n=(jj.contas||[]).length,a=(jj.contas||[]).filter(x=>x.status==='ativa').length;
+$('dResumo').textContent=n+' conta(s) · '+a+' ativa(s) · bloqueio na hora';}
+}catch(e){}}
+async function lista(){try{
+const r=await fetch(FXAPI+'/auth-fenix/lista',{headers:{'x-fenix-sessao':FX.token}});
+const jj=await r.json();
+if(!r.ok||!jj.ok){$('listaContas').innerHTML='<p class="sub">Não deu pra carregar agora.</p>';return;}
+const L=jj.contas||[];
+$('listaContas').innerHTML=L.length?L.map(c=>'<div class="conta"><div class="av">'+String(c.nome||c.email||'?').charAt(0).toUpperCase()+'</div><div class="ci"><b>'+esc(c.email)+'</b><small>'+esc(c.nome||'')+' · desde '+(c.criada_em||'').slice(0,10)+'</small></div><span class="tag '+esc(c.papel)+'">'+(c.papel==='dono'?'dono':esc(c.papel))+'</span><span class="tag '+(c.status==='ativa'?'ok':'blk')+'">'+(c.status==='ativa'?'ativa':'bloqueada')+'</span>'+(c.papel==='dono'?'':'<button class="btn '+(c.status==='ativa'?'verm':'ghost')+' min" data-blk="'+esc(c.email)+'" data-st="'+(c.status==='ativa'?'bloqueada':'ativa')+'" type="button">'+(c.status==='ativa'?'Bloquear':'Liberar')+'</button>')+'</div>').join(''):'<p class="sub">Nenhuma conta ainda — cria a primeira aí em cima.</p>';
+$('listaContas').querySelectorAll('[data-blk]').forEach(b=>b.addEventListener('click',async()=>{
+b.disabled=true;msg('admMsg','');
+try{const r2=await fetch(FXAPI+'/auth-fenix/bloquear',{method:'POST',headers:{'Content-Type':'application/json','x-fenix-sessao':FX.token},body:JSON.stringify({email:b.dataset.blk,status:b.dataset.st})});
+const j2=await r2.json();
+if(r2.ok&&j2.ok){msg('admMsg','✔ Conta '+(j2.status==='ativa'?'liberada':'bloqueada')+' — vale em todos os apps.',true);lista();resumo();}
+else{b.disabled=false;msg('admMsg',(j2.message||'Não deu agora.'));}
+}catch(e){b.disabled=false;msg('admMsg','Sem conexão — tenta de novo.');}}));
+}catch(e){}}
+function esc(x){return String(x==null?'':x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')}
+/* ═══ login ═══ */
+$('btnEntrar').addEventListener('click',async()=>{
+const em=$('fxEmail').value.trim().toLowerCase(),ps=$('fxSenha').value;
+if(!em||!ps)return msg('loginMsg','Preenche email e senha.');
+msg('loginMsg','⏳ Conferindo na Central…');
+$('btnEntrar').disabled=true;
+try{
+const r=await fetch(FXAPI+'/auth-fenix/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em,password:ps})});
+const jj=await r.json();
+if(!r.ok||!jj.ok){$('btnEntrar').disabled=false;return msg('loginMsg',(jj.message||'Não deu pra entrar — confere email e senha.'));}
+FX={token:jj.token,conta:jj.conta};lsSet('fenix_center_fx',JSON.stringify(FX));
+$('btnEntrar').disabled=false;$('fxSenha').value='';msg('loginMsg','');pinta();
+}catch(e){$('btnEntrar').disabled=false;msg('loginMsg','Sem conexão com a Central — tenta de novo.');}});
+$('btnSair').addEventListener('click',()=>{FX=null;lsDel('fenix_center_fx');mostra('vLogin');});
+/* ═══ criar conta (dono) ═══ */
+$('btnCriarConta').addEventListener('click',async()=>{
+const email=$('ncEmail').value.trim().toLowerCase(),senha=$('ncSenha').value,nome=$('ncNome').value.trim(),papel=$('ncPapel').value,cid=$('ncCid').value.trim();
+if(!email.includes('@'))return msg('ncMsg','Email no formato nome@clinica.');
+if(senha.length<6)return msg('ncMsg','Senha inicial de pelo menos 6 caracteres.');
+msg('ncMsg','⏳ Criando…');
+try{const r=await fetch(FXAPI+'/auth-fenix/criar-conta',{method:'POST',headers:{'Content-Type':'application/json','x-fenix-sessao':FX.token},body:JSON.stringify({email,password:senha,nome,papel,clinica_id:cid})});
+const jj=await r.json();
+if(r.ok&&jj.ok){msg('ncMsg','✔ Conta criada: '+email+' — já pode entrar no app com ela.',true);
+$('ncEmail').value='';$('ncSenha').value='';$('ncNome').value='';$('ncCid').value='';lista();resumo();}
+else msg('ncMsg',(jj.message||'Não deu pra criar agora.'));
+}catch(e){msg('ncMsg','Sem conexão — tenta de novo.');}});
+/* ═══ abrir já logado (convite de 1 uso) ═══ */
+async function convida(){try{
+msg('conviteMsg','⏳ Gerando convite…');
+const r=await fetch(FXAPI+'/auth-fenix/abrir',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:FX.token,alvo:'estetica'})});
+const jj=await r.json();
+if(!r.ok||!jj.ok)return msg('conviteMsg',(jj.message||'Não deu pra gerar o convite agora.'));
+const t=jj.token_abrir;
+$('conviteLink').textContent=PAGES+'?fx='+t;
+$('conviteW').classList.remove('hidden');msg('conviteMsg','✔ Convite pronto (10 min, 1 uso).',true);
+$('btnConvApp').onclick=()=>{try{window.location.href='fenix://abrir?token='+encodeURIComponent(t);}catch(e){msg('conviteMsg','Esse botão funciona no celular com o app instalado.','');}};
+$('btnConvWeb').onclick=()=>{try{window.open(PAGES+'?fx='+encodeURIComponent(t),'_blank');}catch(e){msg('conviteMsg','Não abriu — usa o copiar e cola no navegador.','');}};
+$('btnConvCopy').onclick=()=>{try{navigator.clipboard.writeText(PAGES+'?fx='+encodeURIComponent(t));msg('conviteMsg','📋 Convite copiado — cola no navegador do aparelho da clínica.',true);}catch(e){msg('conviteMsg','Copia da caixinha aí embaixo manualmente.');}};
+}catch(e){msg('conviteMsg','Sem conexão — tenta de novo.');}}
+$('btnAbrirLogado').addEventListener('click',convida);
+function abreApp(){try{window.location.href='fenix://abrir';}catch(e){}}
+$('btnAbrirApp').addEventListener('click',abreApp);
+$('btnAbrirApp2').addEventListener('click',abreApp);
+$('btnConvFechar').addEventListener('click',()=>{$('conviteW').classList.add('hidden');});
+/* ═══ boot ═══ */
+(function(){try{FX=JSON.parse(lsGet('fenix_center_fx')||'null');}catch(e){FX=null;}
+(async function(){if(FX){const ok=await confere();if(ok){pinta();return;}}mostra('vLogin');})();})();
 </script>
 </body>
 </html>

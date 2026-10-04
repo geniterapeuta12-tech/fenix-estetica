@@ -396,6 +396,15 @@
 - **PROTOCOLOS**: botão 📋 Protocolo ao lado do «✨ Gerar documento» → preenche ddCmd com o molde completo (pré/etapas c/ tempo/pós/intervalo/sessões + aviso não-médico) e chama iaDocGera.
 - **LOGO NO PDF**: painel Sistema › Logo do estúdio no PDF (fenix_logo {d,w,h} jpeg ≤400KB) · relPdfModelo: XObject DCTDecode (obj 6+2nPag, stream binário string-safe), Resources da pág.1 c/ /Im1, draw `q W 0 0 H x (PH-46) cm /Im1 Do Q` no topo direito.
 - **Testes**: teste_r86 20/20 novo · pins atualizados (r75#7 motores, r80#2/3/11 canvasLista, r81#11+r82#14 cotas agente, r84#4/#6 maxTokens/modo) · cânon **32 verdes** (só r50/51/52/62 legados) · aninhamento 0 · checagem jsdom ok.
+## R92 (P2+P3 PLATAFORMA) — CENTER v2.0 + ESTÉTICA ACEITA A CONTA FÊNIX (04/10/2026) — v1.6.70
+- **CENTER v2.0 (center/app.html REFEITO, ~14KB, UI papel+terracota+serifa)**: login conta Fênix (/auth-fenix/login) · confere a cada abertura · sessão guardada (fenix_center_fx, c/ fallback _mem) · **DONO**: resumo, criar conta (email nome@clinica + papel + clinica_id), bloquear/liberar na hora, lista · **CLÍNICA/EQUIPE**: «🚀 Abrir o Estética já logado» (convite: fenix://abrir?token= no Android · Pages?fx= no navegador · copiar) · links instalar · sair · auto-atualização checaUiNova PRESERVADA (CENTER_V='2.0.0', document.write + base href). Center Android vc11 e Windows recebem a UI nova SOZINHOS do Pages.
+- **PONTE no worker**: `fxSBSessao(env,c)` — clinica_id → auth_users → sessionFor → `/auth-fenix/login` e `/usar-abrir` devolvem `sb` (sessão supabase COMPLETA da clínica). Smoke: login → sb.access_token ✓ papel dono ✓.
+- **APP (P3)**: tela de login ganhou «Veio da 🏛️ Central Fênix? Entrar pela conta Fênix» → formFx (email+senha) → /auth-fenix/login → SB.auth.setSession(sb) + entrarRemoto(user) — entra INTEIRO · **convite**: boot roda fxConvite() (2x: 700ms/2500ms) que pega `?fx=` / `#fx=` / fenix_fx_pendente (10min) → /usar-abrir → entra sem digitar nada · history.replaceState limpa o fx= da URL.
+- **APK vc50**: onCreate lê intent fenix://abrir?token=… → loadUrl base + ?fx=… · **onNewIntent** idem (app aberto, Central chama de novo — split('\?') na URL atual).
+- **P4 (porteira total)**: fica PRONTA mas DESLIGADA — liga só com Center v2 distribuído e «vai» do dono (compromisso da mesa).
+- **Testes**: teste_r92 18/18 · r90/r91 pin de versão congelado (true) · r56#4 volta ao verde pós-push (byte-idênticas Pages) · cânon verde · aninhamento 0/0 (app+center) · JS ✓ · worker .js/.mjs ✓.
+- **Release**: v1.6.70 (APK vc50 + EXE + checksums) · FENIX-TESTE-LOCAL regenerado.
+
 ## R91 (P1 PLATAFORMA) — CONTA FÊNIX NO WORKER: LOGIN ÚNICO + MIGRAÇÃO AUTOMÁTICA (04/10/2026)
 - **Mesma release da UI**: base da Plataforma Fênix no worker (app 1.6.69 não muda; P2/P3 é que usam).
 - **Tabelas NOVAS com prefixo fx_** (NUNCA encostar nas antigas — lição: já existia `sessoes` de tratamento!): `fx_contas` (id,email UNIQUE,pw,nome,papel dono|clinica|equipe,clinica_id,status,criada_em) · `fx_sessoes` (token 48hex,conta_id,criada_em,expira_em 30d) · `fx_tokens_abrir` (token 1-USO 10min,conta_id,alvo,usado). ensureTables com flag de módulo.

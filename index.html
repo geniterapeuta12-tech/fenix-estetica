@@ -1335,6 +1335,19 @@ html[data-theme="light"] .mode-opt.current,html[data-theme="light"] .mode-opt:ho
 <button class="btn" id="btnEntrar" type="submit">Entrar na plataforma</button>
 <p class="hint">Acesso exclusivo para clínicas cadastradas · <a href="#" id="lnkCadastro" style="color:var(--gold);text-decoration:none;font-weight:700">criar conta</a></p>
 <p class="hint" style="margin-top:6px">Esqueceu a senha? Entre na clínica e troque em <b>Dados › Sistema</b>. Sem conexão, o app entra no modo local com a senha que você usa no dia a dia.</p>
+<p class="hint" style="margin-top:6px">Veio da <b>🏛️ Central Fênix</b>? <a href="#" id="lnkFx" style="color:var(--gold);text-decoration:none;font-weight:700">Entrar pela conta Fênix</a></p>
+</form>
+<form id="formFx" class="panel" novalidate>
+<h2 style="font-family:Georgia,'Times New Roman',serif;font-size:1.08rem;margin:4px 0 2px">🏛️ Conta Fênix</h2>
+<p class="hint" style="margin:2px 0 8px">O login único da Plataforma Fênix — o mesmo email que a Central criou pra você (formato <b>nome@clinica</b>).</p>
+<label>Email da conta Fênix</label>
+<div class="field"><input id="fxEmail" type="email" placeholder="ex.: ana@clinicabelle" autocomplete="username"></div>
+<label>Senha</label>
+<div class="field"><input id="fxSenha" type="password" placeholder="••••••••" autocomplete="current-password">
+<button type="button" class="eye" data-target="fxSenha"><svg class="ic"><use href="#i-eye"/></svg></button></div>
+<p class="msg" id="fxMsg"></p>
+<button class="btn" id="btnFxOk" type="submit">🏛️ Entrar pela conta Fênix</button>
+<p class="hint">É a mesma senha de sempre · <a href="#" id="lnkFxVoltar" style="color:var(--gold);text-decoration:none;font-weight:700">voltar</a></p>
 </form>
 <footer class="foot">© 2026 Fênix Estética · Dados sincronizados na nuvem</footer>
 </div>
@@ -5417,6 +5430,48 @@ $('cloudBadge').classList.add('hidden');
 $('appScreen').classList.add('hidden');$('authScreen').classList.remove('hidden');
 try{localStorage.removeItem('fenix_user_ativo');}catch(e){}
 $('loginSenha').value='';$('authScreen').scrollTop=0;});
+/* ═══ R92 — CONTA FÊNIX (Plataforma): entrar pela Central · abrir já logado (fx=) ═══ */
+const FXAPI='https://fenix-api.geniterapeuta12.workers.dev';
+function travaFx(t){const b=$('btnFxOk');if(b){b.disabled=t;b.textContent=t?'Entrando…':'🏛️ Entrar pela conta Fênix';}}
+async function fxEntrar(sbSess){
+if(!REMOTE||!SB||!sbSess||!sbSess.access_token){travaFx(false);return msg($('fxMsg'),'Sem conexão com a nuvem agora — a conta Fênix precisa de internet.','err');}
+try{await SB.auth.setSession({access_token:sbSess.access_token,refresh_token:sbSess.refresh_token});}catch(e){}
+try{localStorage.setItem(S,(sbSess.user.email||'').split('@')[0].toLowerCase());}catch(e){}
+const f1=$('formLogin'),f2=$('formCadastro'),f3=$('formFx');
+if(f1)f1.classList.remove('active');if(f2)f2.classList.remove('active');if(f3)f3.classList.remove('active');
+const m=$('loginMsg');if(m)m.textContent='';travaFx(false);
+try{history.replaceState(null,'',location.pathname+location.search.replace(/([?&])fx=[^&]*/,'$1')+location.hash.replace(/^#fx=[^&]*/,''));}catch(e){}
+await entrarRemoto(sbSess.user);}
+$('lnkFx')&&$('lnkFx').addEventListener('click',e=>{e.preventDefault();
+$('formLogin').classList.remove('active');$('formCadastro').classList.remove('active');$('formFx').classList.add('active');
+$('loginMsg').textContent='';});
+$('lnkFxVoltar')&&$('lnkFxVoltar').addEventListener('click',e=>{e.preventDefault();
+$('formFx').classList.remove('active');$('formLogin').classList.add('active');$('fxMsg').textContent='';});
+$('formFx')&&$('formFx').addEventListener('submit',async e=>{e.preventDefault();
+if(!REMOTE)return msg($('fxMsg'),'Sem conexão com a nuvem agora — a conta Fênix precisa de internet.','err');
+const em=$('fxEmail').value.trim().toLowerCase(),ps=$('fxSenha').value;
+if(!em||!ps)return msg($('fxMsg'),'Preenche o email e a senha da conta Fênix.','err');
+travaFx(true);msg($('fxMsg'),'⏳ Conferindo na Central Fênix…','');
+try{const r=await fetch(FXAPI+'/auth-fenix/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em,password:ps})});
+const jj=await r.json();
+if(!r.ok||!jj.ok){travaFx(false);return msg($('fxMsg'),(jj.message||'Não deu pra entrar pela conta Fênix — confere email e senha.'),'err');}
+msg($('fxMsg'),'✔ Conta confirmada na Central! Entrando…','ok');
+await fxEntrar(jj.sb);}catch(err){travaFx(false);msg($('fxMsg'),'Sem conexão com a Central agora — tenta de novo em instantes.','err');}});
+async function fxConvite(){ /* abriu o app por dentro da Central: entra sem digitar nada */
+try{
+const u=new URL(location.href);
+let tk=u.searchParams.get('fx')||'';
+if(!tk&&location.hash.indexOf('#fx=')===0)tk=decodeURIComponent(location.hash.slice(4));
+if(!tk){try{const pnd=JSON.parse(localStorage.getItem('fenix_fx_pendente')||'null');if(pnd&&pnd.t&&Date.now()-(pnd.ts||0)<6e5)tk=pnd.t;}catch(e){}}
+if(!tk)return;
+try{localStorage.setItem('fenix_fx_pendente',JSON.stringify({t:tk,ts:Date.now()}));}catch(e){}
+const r=await fetch(FXAPI+'/auth-fenix/usar-abrir',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token_abrir:tk})});
+const jj=await r.json();
+try{localStorage.removeItem('fenix_fx_pendente');}catch(e){}
+if(!r.ok||!jj.ok||!jj.sb)return;
+await fxEntrar(jj.sb);
+}catch(e){}}
+if(!window._fxConvLig){window._fxConvLig=1;setTimeout(fxConvite,700);setTimeout(fxConvite,2500);}
 function entrarUI(nome,key){
 try{$('authScreen').classList.add('hidden');$('appScreen').classList.remove('hidden');
 $('welcomeName').textContent=nome;$('appClinic').textContent=nome;
@@ -7910,7 +7965,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.69';
+const APP_VERSAO='1.6.70';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{

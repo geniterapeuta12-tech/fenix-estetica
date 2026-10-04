@@ -320,6 +320,11 @@ const fxToken = () => [...crypto.getRandomValues(new Uint8Array(24))].map(b => b
 const fxLimite = new Map();
 function fxPorteira(ip) { const n = (fxLimite.get(ip) || 0) + 1; fxLimite.set(ip, n); setTimeout(() => fxLimite.delete(ip), 60000); return n <= 12; }
 async function fxContaPub(c) { return { email: c.email, nome: c.nome || '', papel: c.papel, clinica_id: c.clinica_id || null, status: c.status }; }
+async function fxSBSessao(env, c) { /* R92 — ponte: conta Fênix → sessão supabase da clínica (o app entra inteiro) */
+  if (!c || !c.clinica_id) return null;
+  const u = await env.DB.prepare('SELECT * FROM auth_users WHERE id = ?').bind(c.clinica_id).first();
+  return u ? await sessionFor(u, env.FENIX_SECRET) : null;
+}
 async function fxAbrirSessao(env, contaId) {
   const t = fxToken(), agora = Date.now();
   await env.DB.prepare('INSERT INTO fx_sessoes (token,conta_id,criada_em,expira_em) VALUES (?,?,?,?)')
@@ -357,8 +362,9 @@ export default {
             c = await env.DB.prepare('SELECT * FROM fx_contas WHERE id = ?').bind(id).first();
           } else if (!(await checkPass(pass, c.pw))) return jerr('Email ou senha errados.', 401, 'invalid_credentials');
           if (c.status !== 'ativa') return jerr('Essa conta está bloqueada — fala com o suporte Fênix.', 403, 'bloqueada');
+          const sbx = await fxSBSessao(env, c);
           const token = await fxAbrirSessao(env, c.id);
-          return j({ ok: true, token, conta: await fxContaPub(c) });
+          return j({ ok: true, token, sb: sbx, conta: await fxContaPub(c) });
         }
         /* conferir sessão (os apps chamam isso a cada abertura) */
         if (p === '/auth-fenix/confere') {
@@ -389,8 +395,9 @@ export default {
           await env.DB.prepare('UPDATE fx_tokens_abrir SET usado = 1 WHERE token = ?').bind(t.token).run();
           const c = await env.DB.prepare('SELECT * FROM fx_contas WHERE id = ?').bind(t.conta_id).first();
           if (!c || c.status !== 'ativa') return jerr('Conta bloqueada.', 403, 'bloqueada');
+          const sbx = await fxSBSessao(env, c);
           const token = await fxAbrirSessao(env, c.id);
-          return j({ ok: true, token, conta: await fxContaPub(c) });
+          return j({ ok: true, token, sb: sbx, conta: await fxContaPub(c) });
         }
         /* a partir daqui: só DONO */
         const authH = String(req.headers.get('x-fenix-sessao') || '');
