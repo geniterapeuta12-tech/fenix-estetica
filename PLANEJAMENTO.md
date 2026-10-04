@@ -12,6 +12,7 @@
 
 ### Conta Fênix (o «gmail» nosso)
 - 1 conta por pessoa: email + senha · guarda o papel (dono Fênix / clínica / equipe) e a clínica dela.
+- **Formato escolhido pelo dono: POR CLÍNICA** — apelido interno `ana@clinicaprincipal` desde já; quando o domínio for comprado (~US$14/ano, só dependerá do dono), vira `ana@clinicaprincipal.fenixestetica.app` **sem migrar nada** (só acrescenta o sobrenome). Domínio: **depois** (dono preferiu não gastar agora). Domínios livres conferidos hoje: fenixestetica.app ✓ · fenixapp.app ✓ · meufenix.app ✓ · fenixsuite.app ✓ (fenix.app ocupado).
 - Logou 1 vez, **todos** os apps já sabem quem é, qual clínica, o que pode ver.
 - Senha **nunca** circula no app nem fica no aparelho — o worker é quem confere (criptografada).
 - As clínicas que já usam **viram contas Fênix automaticamente** (mesmo email, mesma senha) — ninguém cadastra nada de novo.
