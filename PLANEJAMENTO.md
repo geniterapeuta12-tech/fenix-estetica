@@ -48,4 +48,4 @@
 - A tela nova (P2/P3) chega sozinha pelo auto-update que já existe; mudança de comportamento do Android (P4) sempre pede APK novo.
 - Regras de sempre valem: tabela `backups` NUNCA · cliente NUNCA mexe no banco · credencial NUNCA no app · Cloudflare GRÁTIS (aguenta).
 
-**Status**: mesa aberta — o dono dá o «puxa» e começa pela **P1**.
+**Status**: ✅ «PUXA» dado (04/10) — execução EM ORDEM: UI 2.0 → P1 → P2 → P3 → P4.

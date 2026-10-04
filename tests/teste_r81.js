@@ -5,9 +5,9 @@ const W=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const WK=fs.readFileSync(path.join(__dirname,'..','supabase','worker-live-backup.js'),'utf8');
 const VJ=JSON.parse(fs.readFileSync(path.join(__dirname,'..','versao.json'),'utf8'));
 /* 1) versão */
-T('1. versão 1.6.68 + versao.json R81 (6 melhorias)', W.includes("APP_VERSAO='1.6.68'")&&VJ.versao==='1.6.68'&&VJ.r==='R89'&&(VJ.melhorias||[]).length>=5);
+T('1. versão 1.6.69 + versao.json R81 (6 melhorias)', W.includes("APP_VERSAO='1.6.69'")&&VJ.versao==='1.6.69'&&VJ.r==='R90'&&(VJ.melhorias||[]).length>=5);
 /* 2) temas */
-T('2. registro com 14 paletas (7 antigas + 7 novas)', (W.match(/const FX_TEMAS=\{[\s\S]*?\}\};/)||[''])[0].split('\n').filter(l=>/\{a:'#/.test(l)).length===14);
+T('2. registro com 15 paletas (14 + terracota R90)', (W.match(/const FX_TEMAS=\{[\s\S]*?\}\};/)||[''])[0].split('\n').filter(l=>/\{a:'#/.test(l)).length===15);
 T('3. as 7 novas presentes: roxo_coral, limao, roxo_vermelho, azul_cinza, rosa_vermelho, azul_vermelho, lava', ['roxo_coral:','limao:','roxo_vermelho:','azul_cinza:','rosa_vermelho:','azul_vermelho:','lava:{'].every(k=>W.includes(k)));
 T('4. botões + swatches + listeners dos 7 novos', ['accRoxoCoral','accLimao','accRoxoVerm','accAzulCinza','accRosaVerm','accAzulVerm','accLava'].every(id=>W.includes('id="'+id+'"'))&&['.sw-roxo_coral{','.sw-limao{','.sw-lava{'].every(c=>W.includes(c))&&W.includes("$('accLava').addEventListener('click',()=>applyAccent('lava'));"));
 T('5. applyAccent controla as variáveis (gold/gold2/deep/dark/soft/glow-c) + tom claro', W.includes("st.setProperty('--gold',claro?t.la:t.a)")&&W.includes("st.setProperty('--glow-c',t.g.join(','))")&&W.includes('--gold-deep')&&W.includes('--gold-soft'));

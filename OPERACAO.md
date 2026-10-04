@@ -396,6 +396,15 @@
 - **PROTOCOLOS**: botão 📋 Protocolo ao lado do «✨ Gerar documento» → preenche ddCmd com o molde completo (pré/etapas c/ tempo/pós/intervalo/sessões + aviso não-médico) e chama iaDocGera.
 - **LOGO NO PDF**: painel Sistema › Logo do estúdio no PDF (fenix_logo {d,w,h} jpeg ≤400KB) · relPdfModelo: XObject DCTDecode (obj 6+2nPag, stream binário string-safe), Resources da pág.1 c/ /Im1, draw `q W 0 0 H x (PH-46) cm /Im1 Do Q` no topo direito.
 - **Testes**: teste_r86 20/20 novo · pins atualizados (r75#7 motores, r80#2/3/11 canvasLista, r81#11+r82#14 cotas agente, r84#4/#6 maxTokens/modo) · cânon **32 verdes** (só r50/51/52/62 legados) · aninhamento 0 · checagem jsdom ok.
+## R90 — UI 2.0 ESTILO CLAUDE: PAPEL + TERRACOTA + SERIFA (04/10/2026) — v1.6.69
+- **Sonho do dono**: «uma UI parecida com a do Claude, da Anthropic» — respondeu 3 perguntas: claro PAPEL padrão · destaque CORAL do Claude · só o Estética agora (Center nova já nasce assim na P2).
+- **Adescas**: FX_TEMAS 'coral' já era VERDE (nome antigo) → criou acento **'terraco'** = #D97757 (a:#D97757 b:#E8A58D d:#C05B3B k:#8A3D22 s:#F2CDBC la:#C05B3B) · botão «Terracota — novo padrão» na Aparência (accTerraco + sw-terraco + par no applyAccent).
+- **Padrões novos**: applyTheme default **'light'** (quem nunca escolheu ganha papel; quem escolheu escuro MANTÉM) · currentAccent default **'terraco'**.
+- **Camada de refinamento CSS** (última no <style>, vence por ordem): fundo #FAF9F5 · body tinta #3D3929 · h1-h3 Georgia serif · panelcard branco c/ borda fininha rgba(61,57,41,.10) raio 16 sem sombra · btn raio 12 e .btn.gold CORAL · campos raio 12 · balão do usuário do chat #F2CDBC · modal raio 18 · selection/scrollbar terracota · mode-opt hover coral. 237 regras light existentes intactas por baixo.
+- **Imagens de conceito aprovadas pelo dono**: ui20-desktop.png + ui20-celular.png (geradas antes da execução).
+- **Testes**: teste_r90 15/15 · pins: r81 14→15 paletas · r89 manifesto volta a 1.6.68 (nome do arquivo vc48) e aviso do APK idem · cânon verde · aninhamento 0/0 · JS ✓.
+- **Release**: v1.6.69 (APK vc49 + EXE + checksums) · FENIX-TESTE-LOCAL regenerado.
+
 ## R89 — PERMISSÃO DE TODOS OS ARQUIVOS NO APK (04/10/2026) — v1.6.68
 - **Pedido do dono**: «será que não tem como no celular colocar a permissão de acesso a todos os arquivos?» — SIM: **MANAGE_EXTERNAL_STORAGE** (APK sideload, sem Play Store, pode).
 - **Manifest (apk-manifest-vc48.xml NOVO, fonte do build)**: `<uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>` + `android:requestLegacyExternalStorage="true"` + versionCode 48 / versionName 1.6.68.

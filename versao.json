@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.68",
-  "r": "R89",
+  "versao": "1.6.69",
+  "r": "R90",
   "quando": "04/10/2026",
   "melhorias": [
-    "🗂️ Permissão de TODOS OS ARQUIVOS no app do celular — o Android pergunta na 1ª abertura do APK novo, é só ligar a chave do Fênix",
-    "📁 Painel de Permissões (Dados › Sistema) agora mostra «🗂️ Todos os arquivos: permitido ✓» e tem botão que abre essa tela quando você quiser",
-    "📲 APK novo (vc48) — instalando por cima, ele já traz a permissão nova declarada",
-    "🔐 Com a chave ligada, o app lê e salva arquivos sem tropeço nenhum (Downloads, anexos, fotos, backup)",
-    "💻 No Windows e no navegador nada muda — lá não existe essa permissão"
+    "🎨 REPAGINAÇÃO estilo CLAUDE: app agora nasce no CLARO PAPEL (fundo creme morno, texto tinta) — a sensação calma e limpa que você pediu",
+    "🟠 Cor de destaque nova: TERRACOTA (o coral do Claude) nos botões, abas e detalhes — o dourado clássico continua, agora como opção",
+    "✒️ Títulos com SERIFA elegante (tipo livro) no tema claro — a cara de estética refinada",
+    "🃏 Cards, botões, campos e modais repaginados: cantos mais redondos, bordas fininhas, zero sombra pesada",
+    "🖤 O ESCURO+OURO de sempre NÃO sumiu: continua lá em Aparência › Escuro, junto com os 13 temas"
   ]
 }
