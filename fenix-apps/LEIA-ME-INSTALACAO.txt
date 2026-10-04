@@ -24,7 +24,7 @@ DETALHES
 • Login e senha: os mesmos. Celular e PC sincronizados
   (mesmo banco na nuvem).
 • Zoom das telas: menu Dados > Sistema (80% a 125%).
-• Novidade v1.6.65: consertos — espaço da cliente mostra se o produto do catálogo está PAGO e qualquer pagamento diminui o valor que falta · fundo do app funcionando de verdade · modo claro dos temas novos sem fundo preto · Canvas da I.A entrega o PDF PRONTO pra baixar · Fênix I.A no espaço da cliente (só assuntos dela)
+• Novidade v1.6.66: Modo Agente entrega ATÉ 5 arquivos numa missão e organiza arquivos num PDF único (O principal/Observações/Resumo) · PDFs da I.A no estilo novo dos relatórios · catálogo da cliente agora conta pago e falta (com «pago agora» na venda) · ✨ pagamento distribuído sozinho (menor falta primeiro) · pacote somativo (soma sessões no valor total) · texto→PDF e Documentos baixando em .txt/.pdf/.doc
 
 • Atualização futura: recebe uma pasta nova e substitui.
 • Links de WhatsApp abrem no app certo do Windows.
