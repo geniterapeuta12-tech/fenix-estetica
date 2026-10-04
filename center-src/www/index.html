@@ -70,8 +70,8 @@ code{background:#F4F1EA;border:1px solid var(--linha);border-radius:8px;padding:
       <h3>🏛️ Entrar na Central</h3>
       <p class="sub" style="margin-bottom:10px">É a MESMA senha que você usa no app. Pode digitar o nome da clínica ou o email da conta Fênix.</p>
       <form id="fLogin">
-      <label>Clínica ou email</label>
-      <input id="fxEmail" type="text" placeholder="seu email" autocomplete="username">
+      <label>Usuário ou email</label>
+      <input id="fxEmail" type="text" placeholder="ex.: ana  ·  (sem @ vira ana@fenix.com)" autocomplete="username">
       <label>Senha</label>
       <input id="fxSenha" type="password" placeholder="••••••••" autocomplete="current-password">
       <p class="msg" id="loginMsg"></p>
@@ -85,10 +85,10 @@ code{background:#F4F1EA;border:1px solid var(--linha);border-radius:8px;padding:
   <!-- CRIAR CONTA -->
   <div class="card">
     <h3>✨ Primeira vez? Criar conta</h3>
-    <p class="sub">Conta estilo Gmail: só o seu email e uma senha — e você já entra, pronta pra usar o app.</p>
+    <p class="sub">Só um nome de usuário e uma senha — a conta vira <b>nome@fenix.com</b> sozinha.</p>
     <form id="fCad">
-    <label>Seu email (pode ser Gmail)</label>
-    <input id="ccEmail" type="email" placeholder="ex.: ana@gmail.com" autocomplete="email" inputmode="email">
+    <label>Seu usuário</label>
+    <input id="ccEmail" type="text" placeholder="ex.: ana  ·  (vira ana@fenix.com)" autocomplete="username">
     <label>Senha (mín. 6 letras)</label>
     <input id="ccSenha" type="password" placeholder="••••••••" autocomplete="new-password">
     <p class="msg" id="ccMsg"></p>
@@ -164,7 +164,7 @@ code{background:#F4F1EA;border:1px solid var(--linha);border-radius:8px;padding:
 </div>
 
 <script>
-const CENTER_V='2.2.1';
+const CENTER_V='2.3.0';
 const FXAPI='https://fenix-api.geniterapeuta12.workers.dev';
 const PAGES='https://geniterapeuta12-tech.github.io/fenix-estetica/index.html';
 const LIVE_UI='https://geniterapeuta12-tech.github.io/fenix-estetica/center/app.html';
@@ -234,6 +234,7 @@ const jj=await r.json();
 if(!r.ok||!jj.ok){$('btnEntrar').disabled=false;return msg('loginMsg',(jj.message||'Não deu pra entrar — confere email e senha.'));}
 FX={token:jj.token,conta:jj.conta};lsSet('fenix_center_fx',JSON.stringify(FX));
 $('btnEntrar').disabled=false;$('fxSenha').value='';msg('loginMsg','');pinta();
+abreAppDireto();
 }catch(e){$('btnEntrar').disabled=false;msg('loginMsg','Sem conexão com a Central — tenta de novo.');}}
 $('fLogin').addEventListener('submit',e=>{e.preventDefault();fazLogin();});
 $('btnEntrar').addEventListener('click',()=>fazLogin());
@@ -243,7 +244,7 @@ $('btnSair').addEventListener('click',()=>{FX=null;lsDel('fenix_center_fx');most
 async function fazCadastro(){
 const em=$('ccEmail').value.trim().toLowerCase(),ps=$('ccSenha').value;
 const nome=em.split('@')[0];
-if(!em.includes('@')||em.indexOf('@')!==em.lastIndexOf('@'))return msg('ccMsg','Confere o email aí (ex.: ana@gmail.com).');
+if(em.length<2)return msg('ccMsg','Escolhe um usuário (ex.: ana).');
 if(ps.length<6)return msg('ccMsg','A senha precisa de pelo menos 6 caracteres.');
 msg('ccMsg','⏳ Criando a conta da clínica…');
 $('btnCriarClinica').disabled=true;
@@ -254,6 +255,7 @@ $('btnCriarClinica').disabled=false;
 if(!r.ok||!jj.ok)return msg('ccMsg',(jj.message||'Não deu pra criar agora — tenta de novo.'));
 FX={token:jj.token,conta:jj.conta};lsSet('fenix_center_fx',JSON.stringify(FX));
 $('ccSenha').value='';msg('ccMsg','');pinta();
+abreAppDireto();
 }catch(e){$('btnCriarClinica').disabled=false;msg('ccMsg','Sem conexão — tenta de novo.');}}
 $('fCad').addEventListener('submit',e=>{e.preventDefault();fazCadastro();});
 $('btnCriarClinica').addEventListener('click',()=>fazCadastro());
@@ -271,6 +273,19 @@ $('ncEmail').value='';$('ncSenha').value='';$('ncNome').value='';$('ncCid').valu
 else msg('ncMsg',(jj.message||'Não deu pra criar agora.'));
 }catch(e){msg('ncMsg','Sem conexão — tenta de novo.');}});
 /* ═══ abrir já logado (convite de 1 uso) ═══ */
+async function abreAppDireto(ddd){ /* R95 — entrou? já cai no app */
+try{
+msg('conviteMsg','⏳ Preparando o app…');
+const r=await fetch(FXAPI+'/auth-fenix/abrir',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:FX.token,alvo:'estetica'})});
+const jj=await r.json();
+if(!r.ok||!jj.ok){$('conviteW').classList.remove('hidden');return msg('conviteMsg',(jj.message||'Não deu pra abrir o app agora — usa os botões.'));}
+const t=jj.token_abrir;
+$('conviteLink').textContent=PAGES+'?fx='+t;
+$('conviteW').classList.remove('hidden');
+msg('conviteMsg','🚀 Abrindo o app… se não abrir sozinho, usa um botão aí embaixo.',true);
+try{window.location.href='fenix://abrir?token='+encodeURIComponent(t);}catch(e){}
+try{setTimeout(()=>{try{window.open(PAGES+'?fx='+encodeURIComponent(t),'_blank');}catch(e){}},800);}catch(e){}
+}catch(e){try{$('conviteW').classList.remove('hidden');}catch(e2){}}}
 async function convida(){try{
 msg('conviteMsg','⏳ Gerando convite…');
 const r=await fetch(FXAPI+'/auth-fenix/abrir',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:FX.token,alvo:'estetica'})});
@@ -289,7 +304,7 @@ const ba2=$('btnAbrirApp2');if(ba2)ba2.addEventListener('click',abreApp);
 $('btnConvFechar').addEventListener('click',()=>{$('conviteW').classList.add('hidden');});
 /* ═══ boot ═══ */
 (function(){try{FX=JSON.parse(lsGet('fenix_center_fx')||'null');}catch(e){FX=null;}
-(async function(){if(FX){const ok=await confere();if(ok){pinta();return;}}mostra('vLogin');})();})();
+(async function(){if(FX){const ok=await confere();if(ok){pinta();abreAppDireto();return;}}mostra('vLogin');})();})();
 </script>
 </body>
 </html>

@@ -20,6 +20,6 @@ T('14. versão 1.6.49', W.includes("APP_VERSAO='1.6.70'"));
 T('15. Resumo da I.A no relatório intacto (R66)', /sc\[0\]==='resumo'\?relIaBloco\(\):''/.test(W));
 T('16. versao.json 1.6.49/R70', VJ.versao==='1.6.70'&&VJ.r==='R92'&&(VJ.melhorias||[]).length>=3);
 T('17. JS válido', (()=>{try{new Function(W.match(/<script>([\s\S]*)<\/script>/)[1]);return true}catch(e){return false}})());
-T('18. Center 2.0.0 intocado (UI nova da Plataforma)', fs.readFileSync(path.join(__dirname,'..','center-src','www','index.html'),'utf8').includes("CENTER_V='2.2.1'"));
+T('18. Center 2.0.0 intocado (UI nova da Plataforma)', fs.readFileSync(path.join(__dirname,'..','center-src','www','index.html'),'utf8').includes("CENTER_V='2.3.0'"));
 console.log(fail?('FALHAS: '+fail):('TUDO OK ('+ok+'/18)'));
 process.exit(fail?1:0);

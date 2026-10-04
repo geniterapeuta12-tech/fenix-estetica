@@ -349,18 +349,30 @@ export default {
           if (!fxPorteira(ip)) return jerr('Muitas tentativas — espera um minutinho.', 429, 'rate_limited');
           const b = await req.json();
           let email = String(b.email || '').trim().toLowerCase(), pass = String(b.password || '');
-          if (email && email.indexOf('@') < 0) email = email + '@clinicas.fenix.app'; /* R93 — aceita só o nome da clínica */
+          if (email && email.indexOf('@') < 0) email = email + '@fenix.com'; /* R95 — só o nome → nome@fenix.com (cai pro antigo abaixo se não achar) */
           if (!email || !pass) return jerr('Preenche email e senha.', 400, 'validation');
           let c = await env.DB.prepare('SELECT * FROM fx_contas WHERE email = ?').bind(email).first();
+          if (!c && email.indexOf('@') >= 0) {
+            const apelido = email.split('@')[0];
+            const c2 = await env.DB.prepare('SELECT * FROM fx_contas WHERE email = ?').bind(apelido + '@fenix.com').first();
+            if (c2) c = c2; /* R95 — criou pelo nome, entrou pelo nome (qualquer variação) */
+          }
           if (!c) {
             const u = await env.DB.prepare('SELECT * FROM auth_users WHERE email = ?').bind(email).first();
-            if (!u || !(await checkPass(pass, u.pw))) return jerr('Email ou senha errados.', 401, 'invalid_credentials');
+            let u2 = u;
+            if (!u2 && email.indexOf('@') >= 0) u2 = await env.DB.prepare('SELECT * FROM auth_users WHERE email = ?').bind(email.split('@')[0] + '@clinicas.fenix.app').first();
+            const uu = u2;
+            if (!uu || !(await checkPass(pass, uu.pw))) return jerr('Email ou senha errados.', 401, 'invalid_credentials');
+            const cEx = await env.DB.prepare('SELECT * FROM fx_contas WHERE email = ?').bind(uu.email).first();
+            if (cEx) { c = cEx; }
+            else {
             const c1 = await env.DB.prepare('SELECT id FROM clinics LIMIT 1').first();
-            const papel = (c1 && u.id === c1.id) ? 'dono' : 'clinica';
+            const papel = (c1 && uu.id === c1.id) ? 'dono' : 'clinica';
             const id = crypto.randomUUID();
             await env.DB.prepare('INSERT INTO fx_contas (id,email,pw,nome,papel,clinica_id,status,criada_em) VALUES (?,?,?,?,?,?,?,?)')
-              .bind(id, email, u.pw, email.split('@')[0], papel, u.id, 'ativa', new Date().toISOString()).run();
+              .bind(id, uu.email, uu.pw, (uu.email||'').split('@')[0], papel, uu.id, 'ativa', new Date().toISOString()).run();
             c = await env.DB.prepare('SELECT * FROM fx_contas WHERE id = ?').bind(id).first();
+            }
           } else if (!(await checkPass(pass, c.pw))) return jerr('Email ou senha errados.', 401, 'invalid_credentials');
           if (c.status !== 'ativa') return jerr('Essa conta está bloqueada — fala com o suporte Fênix.', 403, 'bloqueada');
           const sbx = await fxSBSessao(env, c);
@@ -371,9 +383,10 @@ export default {
         if (req.method === 'POST' && p === '/auth-fenix/criar-clinica') {
           if (!fxPorteira(ip)) return jerr('Muitas tentativas — espera um minutinho.', 429, 'rate_limited');
           const b = await req.json();
-          const email = String(b.email || '').trim().toLowerCase(), pass = String(b.password || '');
-          const nome = String(b.nome || '').trim().slice(0, 80) || email.split('@')[0]; /* R94 — estilo Gmail: nome sai do email */
-          if (!email.includes('@') || email.indexOf('@') !== email.lastIndexOf('@')) return jerr('Email inválido — confere aí (ex.: ana@gmail.com).', 400, 'validation');
+          let email = String(b.email || '').trim().toLowerCase(), pass = String(b.password || '');
+          if (email && email.indexOf('@') < 0) email = email + '@fenix.com'; /* R95 — só o nome → nome@fenix.com */
+          const nome = String(b.nome || '').trim().slice(0, 80) || email.split('@')[0]; /* R94 — nome sai do email */
+          if (!email.includes('@') || email.indexOf('@') !== email.lastIndexOf('@')) return jerr('Email ou usuário inválido — confere aí.', 400, 'validation');
           if (pass.length < 6) return jerr('A senha precisa de pelo menos 6 caracteres.', 400, 'validation');
           const ex = await env.DB.prepare('SELECT id FROM fx_contas WHERE email = ?').bind(email).first();
           if (ex) return jerr('Já existe conta com esse email — é só entrar.', 422, 'ja_existe');

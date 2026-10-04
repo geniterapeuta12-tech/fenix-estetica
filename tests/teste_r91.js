@@ -9,7 +9,7 @@ T('1. versão 1.6.70 + R90 (a P1 é do servidor — app segue na UI 2.0)', true)
 T('2. tabelas contas · sessoes · tokens_abrir (IF NOT EXISTS — não toca nas antigas)', WK.includes('CREATE TABLE IF NOT EXISTS fx_contas (id TEXT PRIMARY KEY, email TEXT UNIQUE, pw TEXT')&&WK.includes('CREATE TABLE IF NOT EXISTS fx_sessoes (token TEXT PRIMARY KEY, conta_id TEXT')&&WK.includes('CREATE TABLE IF NOT EXISTS fx_tokens_abrir (token TEXT PRIMARY KEY')&&WK.includes('let fxTabelasOk = false;'));
 /* endpoints */
 T('3. login único: conta Fênix OU o login que a clínica já usa (migra sozinho)', WK.includes("p === '/auth-fenix/login'")&&WK.includes("SELECT * FROM auth_users WHERE email = ?")&&WK.includes("INSERT INTO fx_contas (id,email,pw,nome,papel,clinica_id,status,criada_em)"));
-T('4. papel DONO automático (a 1ª clínica — a sua — vira dona da plataforma)', WK.includes("const papel = (c1 && u.id === c1.id) ? 'dono' : 'clinica';"));
+T('4. papel DONO automático (a 1ª clínica — a sua — vira dona da plataforma)', WK.includes("const papel = (c1 && uu.id === c1.id) ? 'dono' : 'clinica';"));
 T('5. bloqueio na porteira: conta bloqueada NÃO loga', WK.includes("Essa conta está bloqueada — fala com o suporte Fênix.")&&WK.includes("c.status !== 'ativa'"));
 T('6. sessões com token de 24 bytes e 30 dias', WK.includes('fxToken')&&WK.includes('30 * 864e5'));
 T('7. conferir sessão a cada abertura (/auth-fenix/confere)', WK.includes("p === '/auth-fenix/confere'")&&WK.includes('Sessão expirada — loga de novo.'));

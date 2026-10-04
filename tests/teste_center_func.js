@@ -19,12 +19,13 @@ await new Promise(r=>setTimeout(r,300));
 T('1. tela começa no LOGIN com «Criar conta» visível (sem apps antes)', !d.getElementById('vLogin').classList.contains('hidden')&&!d.getElementById('ccEmail').closest('.card').classList.contains('hidden')&&d.getElementById('conviteW').classList.contains('hidden'));
 T('2. nada de botão de ABRIR APP antes de entrar', !d.getElementById('btnAbrirApp'));
 /* criar conta preenchido e clicado */
-d.getElementById('ccEmail').value='ana@clinicabelle';
+d.getElementById('ccEmail').value='belle';
 d.getElementById('ccSenha').value='belle123';
 d.getElementById('btnCriarClinica').click();
 await new Promise(r=>setTimeout(r,400));
-T('3. clicou em criar → chamou /auth-fenix/criar-clinica com os dados', chamadas.some(c=>c.u.includes('/auth-fenix/criar-clinica')&&c.body&&c.body.email==='ana@clinicabelle'));
+T('3. clicou em criar → chamou /auth-fenix/criar-clinica com os dados', chamadas.some(c=>c.u.includes('/auth-fenix/criar-clinica')&&c.body&&c.body.email==='belle'));
 T('4. criou e ENTROU direto (painel da clínica à vista, login escondido)', !d.getElementById('vCli').classList.contains('hidden')&&d.getElementById('vLogin').classList.contains('hidden'));
+T('4b. cadastro JÁ ABRIU O APP direto (convite automático à vista)', !d.getElementById('conviteW').classList.contains('hidden'));
 T('5. painel da clínica mostra «já logado» e os apps AGORA', !!d.getElementById('btnAbrirLogado')&&d.body.textContent.includes('Estética (Android)'));
 /* entrar: validar fluxo de erro e sucesso */
 d.getElementById('btnSair').click();
@@ -44,6 +45,6 @@ d.getElementById('fxEmail').value='terceira@gmail.com';d.getElementById('fxSenha
 d.getElementById('btnEntrar').click();
 await new Promise(r=>setTimeout(r,300));
 T('9. CLIQUE PURO no botão Entrar funciona (3 caminhos: clique · submit · Enter)', chamadas.filter(c=>c.u.includes('/auth-fenix/login')).length===3);
-console.log(fail?('FALHAS: '+fail):('TUDO OK ('+ok+'/9)'));
+console.log(fail?('FALHAS: '+fail):('TUDO OK ('+ok+'/10)'));
 process.exit(fail?1:0);
 })().catch(e=>{console.log('ERRO:',e.message);process.exit(1);});
