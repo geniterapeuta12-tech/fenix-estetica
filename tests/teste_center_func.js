@@ -39,6 +39,11 @@ d.getElementById('fxEmail').value='outra@gmail.com';d.getElementById('fxSenha').
 d.getElementById('fLogin').dispatchEvent(new w.Event('submit',{bubbles:true,cancelable:true}));
 await new Promise(r=>setTimeout(r,300));
 T('8. ENTER no teclado também entra (form submit)', chamadas.filter(c=>c.u.includes('/auth-fenix/login')).length===2);
-console.log(fail?('FALHAS: '+fail):('TUDO OK ('+ok+'/8)'));
+d.getElementById('btnSair').click();
+d.getElementById('fxEmail').value='terceira@gmail.com';d.getElementById('fxSenha').value='teste123';
+d.getElementById('btnEntrar').click();
+await new Promise(r=>setTimeout(r,300));
+T('9. CLIQUE PURO no botão Entrar funciona (3 caminhos: clique · submit · Enter)', chamadas.filter(c=>c.u.includes('/auth-fenix/login')).length===3);
+console.log(fail?('FALHAS: '+fail):('TUDO OK ('+ok+'/9)'));
 process.exit(fail?1:0);
 })().catch(e=>{console.log('ERRO:',e.message);process.exit(1);});

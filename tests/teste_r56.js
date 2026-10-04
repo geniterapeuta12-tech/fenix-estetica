@@ -5,7 +5,7 @@ let html=fs.readFileSync('/home/user/center-src/www/index.html','utf-8');
 let falhas=0;const T=(n,c)=>{console.log((c?'  ✔ ':'  ✘ ')+n);if(!c)falhas++;};
 
 /* ===== estáticos ===== */
-T('1. UI mestra: versão 2.0.0 (Plataforma Fênix)', html.includes("CENTER_V='2.2.0'") && html.includes('v2.0.0'));
+T('1. UI mestra: versão 2.0.0 (Plataforma Fênix)', html.includes("CENTER_V='2.2.1'") && html.includes('v2.0.0'));
 T('2. auto-atualização na UI (checa ao abrir + a cada 30min + nunca rebaixa)', html.includes('async function checaUiNova') && html.includes('setInterval(checaUiNova,30*60*1000)') && html.includes('function uiMaisNova') && html.includes("document.open();document.write(inj);document.close();"));
 T('3. base href injetado no swap (ícones resolvem)', html.includes('<base href="https://geniterapeuta12-tech.github.io/fenix-estetica/center/">'));
 T('4. UI mestra = center/app.html publicada (byte-idênticas)', fs.readFileSync('/home/user/center/app.html','utf-8')===html);
@@ -52,7 +52,7 @@ T('14. convite de abrir-logado começa fechado', d2.getElementById('conviteW').c
 /* ===== R59 — fim do service worker zumbi + bolinha estática ===== */
 T('17. UI mestra NÃO registra mais service worker (Center é app)', !html.includes('serviceWorker.register'));
 T('18. sw.js EXTERMINADOR no ar: apaga todos os caches e se desregistra', (()=>{const sw=fs.readFileSync('/home/user/center/sw.js','utf-8');return sw.includes('caches.delete')&&sw.includes('unregister')&&sw.includes('EXTERMINADOR');})());
-T('19. bolinha do oficial ESTÁTICA (sem piscar)', !html.includes('animation:pulse') && html.includes("CENTER_V='2.2.0'"));
+T('19. bolinha do oficial ESTÁTICA (sem piscar)', !html.includes('animation:pulse') && html.includes("CENTER_V='2.2.1'"));
 console.log(falhas?('FALHAS: '+falhas):'TUDO OK (19/19)');
 process.exit(falhas?1:0);
 })().catch(e=>{console.error('ERRO:',e.stack||e.message);process.exit(1);});

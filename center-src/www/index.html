@@ -164,11 +164,12 @@ code{background:#F4F1EA;border:1px solid var(--linha);border-radius:8px;padding:
 </div>
 
 <script>
-const CENTER_V='2.2.0';
+const CENTER_V='2.2.1';
 const FXAPI='https://fenix-api.geniterapeuta12.workers.dev';
 const PAGES='https://geniterapeuta12-tech.github.io/fenix-estetica/index.html';
 const LIVE_UI='https://geniterapeuta12-tech.github.io/fenix-estetica/center/app.html';
 const _mem={};
+window.onerror=function(ms,arq,l){try{let b=document.getElementById('fxerr');if(!b){b=document.createElement('div');b.id='fxerr';b.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:999;background:#b4443c;color:#fff;font:600 12px system-ui;padding:8px 10px;border-radius:10px';document.body.appendChild(b);}b.textContent='⚠ Erro na tela: '+String(ms).slice(0,120);document.title='⚠ Fênix Center';}catch(e){}};
 function lsGet(k){try{return localStorage.getItem(k)}catch(e){return (k in _mem)?_mem[k]:null}}
 function lsSet(k,v){try{localStorage.setItem(k,v)}catch(e){_mem[k]=v}}
 function lsDel(k){try{localStorage.removeItem(k)}catch(e){delete _mem[k]}}
@@ -222,7 +223,7 @@ else{b.disabled=false;msg('admMsg',(j2.message||'Não deu agora.'));}
 }catch(e){}}
 function esc(x){return String(x==null?'':x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')}
 /* ═══ login ═══ */
-$('fLogin').addEventListener('submit',async e=>{e.preventDefault();
+async function fazLogin(){
 const em=$('fxEmail').value.trim().toLowerCase(),ps=$('fxSenha').value;
 if(!em||!ps)return msg('loginMsg','Preenche email e senha.');
 msg('loginMsg','⏳ Conferindo na Central…');
@@ -233,10 +234,13 @@ const jj=await r.json();
 if(!r.ok||!jj.ok){$('btnEntrar').disabled=false;return msg('loginMsg',(jj.message||'Não deu pra entrar — confere email e senha.'));}
 FX={token:jj.token,conta:jj.conta};lsSet('fenix_center_fx',JSON.stringify(FX));
 $('btnEntrar').disabled=false;$('fxSenha').value='';msg('loginMsg','');pinta();
-}catch(e){$('btnEntrar').disabled=false;msg('loginMsg','Sem conexão com a Central — tenta de novo.');}});
+}catch(e){$('btnEntrar').disabled=false;msg('loginMsg','Sem conexão com a Central — tenta de novo.');}}
+$('fLogin').addEventListener('submit',e=>{e.preventDefault();fazLogin();});
+$('btnEntrar').addEventListener('click',()=>fazLogin());
+$('fxSenha').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();fazLogin();}});
 $('btnSair').addEventListener('click',()=>{FX=null;lsDel('fenix_center_fx');mostra('vLogin');});
 /* ═══ R93 — criar conta da clínica (self-signup) ═══ */
-$('fCad').addEventListener('submit',async e=>{e.preventDefault();
+async function fazCadastro(){
 const em=$('ccEmail').value.trim().toLowerCase(),ps=$('ccSenha').value;
 const nome=em.split('@')[0];
 if(!em.includes('@')||em.indexOf('@')!==em.lastIndexOf('@'))return msg('ccMsg','Confere o email aí (ex.: ana@gmail.com).');
@@ -250,7 +254,10 @@ $('btnCriarClinica').disabled=false;
 if(!r.ok||!jj.ok)return msg('ccMsg',(jj.message||'Não deu pra criar agora — tenta de novo.'));
 FX={token:jj.token,conta:jj.conta};lsSet('fenix_center_fx',JSON.stringify(FX));
 $('ccSenha').value='';msg('ccMsg','');pinta();
-}catch(e){$('btnCriarClinica').disabled=false;msg('ccMsg','Sem conexão — tenta de novo.');}});
+}catch(e){$('btnCriarClinica').disabled=false;msg('ccMsg','Sem conexão — tenta de novo.');}}
+$('fCad').addEventListener('submit',e=>{e.preventDefault();fazCadastro();});
+$('btnCriarClinica').addEventListener('click',()=>fazCadastro());
+$('ccSenha').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();fazCadastro();}});
 /* ═══ criar conta (dono) ═══ */
 $('btnCriarConta').addEventListener('click',async()=>{
 const email=$('ncEmail').value.trim().toLowerCase(),senha=$('ncSenha').value,nome=$('ncNome').value.trim(),papel=$('ncPapel').value,cid=$('ncCid').value.trim();

@@ -19,7 +19,7 @@ T('7. app: FXAPI aponta pro worker e limpa o fx= da URL depois de usar', W.inclu
 T('8. APK: onCreate trata fenix://abrir?token=… → ?fx= no WebView', MJ.includes('"fenix".equals(d.getScheme())')&&MJ.includes('d.getQueryParameter("token")')&&MJ.includes('base = base + "?fx=" + java.net.URLEncoder.encode(t, "UTF-8")'));
 T('9. APK: onNewIntent também (app aberto e a Central chama de novo)', MJ.includes('protected void onNewIntent(Intent i2)')&&MJ.includes('u2.split("\\\\?")[0]'));
 /* Center v2.0 */
-T('10. Center v2.1: login conta Fênix + confere na abertura + sessão guardada', CJ.includes("CENTER_V='2.2.0'")&&CJ.includes("fetch(FXAPI+'/auth-fenix/login'")&&CJ.includes("'/auth-fenix/confere?token='")&&CJ.includes('fenix_center_fx'));
+T('10. Center v2.1: login conta Fênix + confere na abertura + sessão guardada', CJ.includes("CENTER_V='2.2.1'")&&CJ.includes("fetch(FXAPI+'/auth-fenix/login'")&&CJ.includes("'/auth-fenix/confere?token='")&&CJ.includes('fenix_center_fx'));
 T('11. Center v2.0: dono — criar conta · bloquear/liberar · lista', CJ.includes("'/auth-fenix/criar-conta'")&&CJ.includes("'/auth-fenix/bloquear'")&&CJ.includes("'/auth-fenix/lista'")&&CJ.includes('Bloquear'));
 T('12. Center v2.0: abrir Estética JÁ LOGADO (convite 1 uso: app fenix:// · navegador ?fx= · copiar)', CJ.includes("'/auth-fenix/abrir'")&&CJ.includes("'fenix://abrir?token='+encodeURIComponent(t)")&&CJ.includes("PAGES+'?fx='")&&CJ.includes('navigator.clipboard.writeText'));
 T('13. Center v2.0: auto-atualização do Pages preservada (checaUiNova + base href)', CJ.includes('async function checaUiNova()')&&CJ.includes("uiMaisNova(m[1],CENTER_V)")&&CJ.includes('<base href="https://geniterapeuta12-tech.github.io/fenix-estetica/center/">'));
