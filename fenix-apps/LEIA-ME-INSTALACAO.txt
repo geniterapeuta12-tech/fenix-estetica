@@ -24,7 +24,7 @@ DETALHES
 • Login e senha: os mesmos. Celular e PC sincronizados
   (mesmo banco na nuvem).
 • Zoom das telas: menu Dados > Sistema (80% a 125%).
-• Novidade v1.6.68: permissão de TODOS OS ARQUIVOS no app do celular (APK novo vc48 — o Android pergunta na 1ª abertura, é só ligar a chave do Fênix) · painel de Permissões mostra o status e tem botão pra abrir essa tela
+• Novidade v1.6.69: REPAGINAÇÃO estilo Claude — app nasce no CLARO PAPEL (fundo creme, texto tinta), destaque TERRACOTA nos botões e TÍTULOS COM SERIFA. O escuro+ouro de sempre continua: é só ir em Aparência › Escuro
 
 • Atualização futura: recebe uma pasta nova e substitui.
 • Links de WhatsApp abrem no app certo do Windows.
