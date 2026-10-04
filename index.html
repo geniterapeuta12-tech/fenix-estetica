@@ -31,7 +31,10 @@ html[data-theme="light"]{background:#f3efe4}
 html:not([data-theme="light"])[data-accent="coral"]{background:#0a0d0b}
 html:not([data-theme="light"])[data-accent="rosa"]{background:#0d0a09}
 html:not([data-theme="light"])[data-accent="mostarda"]{background:#0c0a06}
-.hidden{display:none!important}.ic{width:20px;height:20px;display:block;flex-shrink:0}
+.hidden{display:none!important}
+/* R88 — inputs de arquivo: escondidos OFFSCREEN (e não display:none) p/ o seletor abrir no celular */
+.fhid{display:block!important;position:fixed!important;left:-9999px!important;top:0!important;width:1px!important;height:1px!important;max-width:1px!important;max-height:1px!important;opacity:0!important;margin:0!important;padding:0!important;border:0!important}
+.ic{width:20px;height:20px;display:block;flex-shrink:0}
 .screen{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:28px 20px 64px;overflow-y:auto}
 .screen>.card{margin:auto}
 .watermark{position:fixed;inset:0;margin:auto;width:min(92vw,880px);opacity:.05;pointer-events:none;z-index:0;color:#fff}
@@ -1587,7 +1590,7 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <span class="avatar file" id="catFotoWrap" style="width:64px;height:64px;overflow:hidden"><svg class="ic"><use href="#i-spark"/></svg></span>
 <div><label style="margin:0">Foto (opcional)</label>
 <div class="rowbtns" style="margin-top:6px">
-<label class="upload" style="margin:0"><svg class="ic"><use href="#i-up"/></svg>Escolher imagem<input type="file" id="catFotoInput" accept="image/*" hidden></label>
+<label class="upload" style="margin:0"><svg class="ic"><use href="#i-up"/></svg>Escolher imagem<input type="file" id="catFotoInput" accept="image/*" class="fhid"></label>
 <button class="btn small ghost" id="btnCatFotoDel" type="button">Remover</button>
 </div></div>
 </div>
@@ -1630,7 +1633,7 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <div id="iaAnexoChip" class="hidden" style="margin:0 0 8px;font-size:.75rem;color:var(--gold)">📎 <span id="iaAnexoNome"></span> <button id="iaAnexoX" type="button" style="background:none;border:none;color:#8a7f68;cursor:pointer;margin-left:6px">✕</button></div>
 <div class="ia-comp">
 <button class="ia-clip" id="btnIaAnexo" type="button" title="Anexar foto ou arquivo pra a I.A ler"><svg viewBox="0 0 24 24" style="width:17px;height:17px" fill="currentColor"><path d="M16.5 6.5l-7.1 7.1a2 2 0 002.8 2.8l7.5-7.5a4 4 0 10-5.7-5.7l-7.7 7.7a6 6 0 108.5 8.5l7.1-7.1 1.4 1.4-7.1 7.1a8 8 0 11-11.3-11.3l7.7-7.7a6 6 0 118.5 8.5l-7.1 7.1a4 4 0 01-5.7-5.7l7.1-7.1 1.5 1.4z"/></svg></button>
-<input type="file" id="iaAnexo" accept="image/*,.txt,.md,.csv,.pdf,.doc,.docx,.json,.log" class="hidden">
+<input type="file" id="iaAnexo" accept="image/*,.txt,.md,.csv,.pdf,.doc,.docx,.json,.log" class="fhid">
 <button class="ia-clip" id="btnIaAgente" type="button" title="Modo Agente" style="font-size:15px;line-height:1">🤖</button>
 <textarea id="iaInput" placeholder="Pergunte qualquer coisa… (Enter envia · Shift+Enter quebra linha)"></textarea>
 <button class="ia-go" id="btnIaSend" type="button" title="Enviar"><svg class="ic"><use href="#i-send"/></svg></button>
@@ -1711,7 +1714,7 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 </div>
 </section>
 </div>
-<input type="file" id="tgFile" class="hidden" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv">
+<input type="file" id="tgFile" class="fhid" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv">
 <p class="msg" id="tgMsg"></p>
 </div>
 </section>
@@ -1912,14 +1915,16 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 
 <div class="sec-head"><div class="pc-tt"><h3>Funções extras</h3><p class="sub">Ferramentas a mais da clínica — toque para abrir.</p></div></div>
 <div class="fng">
-<button class="fncard" id="txtOpen" type="button"><span class="fnico">📄</span><span class="fnmeta"><b>Texto em PDF</b><small>Transforma um texto em PDF bonito pra baixar</small></span><span class="fnchev">›</span></button>
+<button class="fncard" id="txtOpen" type="button"><span class="fnico">📄</span><span class="fnmeta"><b>Arquivo de texto em PDF</b><small>Escolhe um arquivo .txt e transforma em PDF bonito pra baixar</small></span><span class="fnchev">›</span></button>
 <button class="fncard" id="rolOpen" type="button"><span class="fnico">🎡</span><span class="fnmeta"><b>Roleta</b><small>Sorteio com nomes ou números, com giro animado</small></span><span class="fngo">Abrir ›</span></button>
 </div>
 <div id="txtPdfBox" class="hidden" style="margin-top:14px">
 <div class="panelcard">
 <button class="btn small ghost" id="btnTxtBack" type="button">← Voltar às funções</button>
-<h3 style="margin-top:10px">📄 Texto em PDF</h3>
-<p class="sub">Cole ou escreva o texto, dê um título e baixe em PDF bonito — linhas terminando em «:» viram título de seção automaticamente.</p>
+<h3 style="margin-top:10px">📄 Arquivo de texto em PDF</h3>
+<p class="sub">Escolha o arquivo de texto, confere o conteúdo e baixa em PDF bonito — linhas terminando em «:» viram título de seção automaticamente.</p>
+<label>Arquivo de texto (.txt, .md ou .csv)</label><div class="rowbtns" style="margin-top:6px;align-items:center;gap:10px;flex-wrap:wrap"><button class="btn small ghost" id="btnTxtArq" type="button">📎 Escolher arquivo</button><span class="sub" id="txtPdfNome"></span></div>
+<input type="file" id="txtPdfArq" accept=".txt,.md,.csv,text/plain,text/markdown,text/csv" class="fhid">
 <input class="input" id="txtPdfTi" placeholder="Título do documento" style="width:100%;margin-top:10px">
 <textarea class="input" id="txtPdfIn" rows="10" placeholder="Cole ou escreva o texto aqui…" style="width:100%;margin-top:10px"></textarea>
 <div class="rowbtns" style="margin-top:12px"><button class="btn" id="btnTxtPdf" type="button">⬇️ Gerar PDF</button></div>
@@ -1948,14 +1953,14 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <button class="mode-opt" data-rolkind="numeros" type="button"><span class="mico">🔢</span><div class="cinfo"><strong>Números</strong><small>Digite ou importe um .txt</small></div></button>
 </div>
 <div class="rowbtns hidden" id="rolTxtRow" style="flex-wrap:wrap;gap:8px;align-items:center">
-<label class="btn small ghost" style="cursor:pointer">📄 Importar números de arquivo .txt<input type="file" id="rolTxt" accept=".txt,text/plain" class="hidden"></label>
+<label class="btn small ghost" style="cursor:pointer">📄 Importar números de arquivo .txt<input type="file" id="rolTxt" accept=".txt,text/plain" class="fhid"></label>
 <small class="sub" style="margin:0">ou digite um número por vez abaixo</small>
 </div>
 <div class="rowbtns" style="flex-wrap:wrap;gap:8px"><input class="input" id="rolItNome" placeholder="Nome (ex.: Ana, Brinde, 10% OFF)" style="max-width:240px"><button class="btn small" id="rolAdd" type="button">Adicionar</button></div>
 <div id="rolChips" style="margin-top:8px"></div>
 <hr class="frule">
 <div class="rowbtns" style="flex-wrap:wrap;gap:8px;align-items:center">
-<label class="btn small ghost" style="cursor:pointer">🖼 Imagem no centro<input type="file" id="rolImg" accept="image/*" class="hidden"></label>
+<label class="btn small ghost" style="cursor:pointer">🖼 Imagem no centro<input type="file" id="rolImg" accept="image/*" class="fhid"></label>
 <button class="btn small ghost" id="rolImgClear" type="button">Tirar imagem</button>
 </div>
 <p class="msg" id="rolMsg2"></p>
@@ -2098,7 +2103,7 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <label style="display:block;margin-top:10px;font:600 .78rem Montserrat,sans-serif;letter-spacing:.08em;color:var(--gold)">MOTOR DA ARTE</label>
 <div class="rowbtns" id="gpModelos" style="gap:8px;flex-wrap:wrap;margin-top:6px"></div>
 <div class="rowbtns" id="gpFundos" style="gap:8px;flex-wrap:wrap;margin-top:8px"></div>
-<input type="file" id="gpFoto" accept="image/*" class="hidden">
+<input type="file" id="gpFoto" accept="image/*" class="fhid">
 </div>
 <div style="border-top:1px solid var(--line);margin:14px 0 4px;padding-top:12px">
 <label>Já escreveu o seu? Cole o roteiro que a I.A só melhora (suas ideias ficam)</label>
@@ -2145,7 +2150,7 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <div style="border-top:1px solid var(--line);margin-top:14px;padding-top:12px;text-align:left">
 <label>Fundo do design</label>
 <div class="rowbtns" id="edFundos" style="gap:8px;flex-wrap:wrap;margin-top:8px"></div>
-<input type="file" id="edFoto" accept="image/*" class="hidden">
+<input type="file" id="edFoto" accept="image/*" class="fhid">
 </div>
 <p class="msg" id="edMsg" style="text-align:center"></p>
 <div id="edSaved" class="hidden" style="margin-top:10px"><ul class="list" id="edSavedList"></ul></div>
@@ -2264,7 +2269,7 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <button class="btn small" id="btnBkpNow" type="button"><svg class="ic"><use href="#i-save"/></svg>Verificar e salvar agora</button>
 <button class="btn small ghost" id="btnExport" type="button"><svg class="ic"><use href="#i-dl"/></svg>Baixar .json</button>
 <label class="upload" style="margin:0"><svg class="ic"><use href="#i-up"/></svg>Importar arquivo
-<input type="file" id="importInput" accept=".json,application/json" hidden></label>
+<input type="file" id="importInput" accept=".json,application/json" class="fhid"></label>
 </div>
 <p class="sub" style="margin-top:6px">Os backups guardam os <b>dados</b> (clientes, pacotes, sessões, pagamentos…). As fotos ficam salvas na aba <b>Arquivos</b> do banco, num armazém próprio — por isso o banco não enche mais.</p>
 <p class="msg" id="importMsg"></p>
@@ -2299,7 +2304,7 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 </div>
 <p class="sub" style="margin-top:10px">No celular, se algo ficar bloqueado, use <b>⚙️ Abrir configuração do aparelho</b> › Permissões e ligue <b>Arquivos/fotos</b> e <b>Notificações</b>.</p>
 <p class="msg" id="permsMsg"></p>
-<input type="file" id="arqTesteInput" class="hidden">
+<input type="file" id="arqTesteInput" class="fhid">
 </div>
 </div>
 <div class="rowbtns"><button class="btn small" id="btnSyncNow" type="button"><svg class="ic"><use href="#i-refresh"/></svg>Atualizar agora</button></div>
@@ -2348,7 +2353,7 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <button class="btn small ghost" id="fundoEscolher" type="button">🖼 Escolher imagem…</button>
 <button class="btn small ghost" id="fundoRemover" type="button" disabled>Remover fundo</button>
 <span class="sub" id="fundoEstado" style="margin:0">nenhuma imagem — padrão Fênix</span>
-<input type="file" id="fundoArquivo" accept="image/*" style="display:none">
+<input type="file" id="fundoArquivo" accept="image/*" class="fhid">
 </div>
 </div>
 <div class="panelcard">
@@ -4573,6 +4578,11 @@ msg($('pacSMsg'),'✔ Sessão '+n+' adicionada: +'+fmtBRL(v)+' — pacote agora 
 /* R87 — TEXTO EM PDF (funções extras) */
 $('txtOpen').addEventListener('click',()=>{$('txtPdfBox').classList.remove('hidden');$('txtPdfIn').focus();});
 $('btnTxtBack').addEventListener('click',()=>{$('txtPdfBox').classList.add('hidden');});
+$('btnTxtArq').addEventListener('click',()=>{$('txtPdfArq').click();});
+$('txtPdfArq').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;
+const rd=new FileReader();rd.onload=()=>{$('txtPdfIn').value=String(rd.result||'');if(!$('txtPdfTi').value.trim())$('txtPdfTi').value=f.name.replace(/\.[^.]*$/,'');$('txtPdfNome').textContent='📄 '+f.name+' ('+Math.max(1,Math.round(f.size/1024))+' KB)';msg($('txtPdfMsg'),'✔ Arquivo carregado — agora é só gerar o PDF.','ok');};
+rd.onerror=()=>msg($('txtPdfMsg'),'Não consegui ler esse arquivo — tenta de novo.','err');
+rd.readAsText(f,'utf-8');e.target.value='';});
 $('btnTxtPdf').addEventListener('click',()=>{const tx=$('txtPdfIn').value.trim();if(tx.length<2)return msg($('txtPdfMsg'),'Cole o texto primeiro.','err');
 const tt=$('txtPdfTi').value.trim()||'Documento';
 try{const b=pdfBonitoBytes(tt,tx);const u=URL.createObjectURL(new Blob([Uint8Array.from(b,ch=>ch.charCodeAt(0)&0xff)],{type:'application/pdf'}));const a=document.createElement('a');a.href=u;a.download=(tt.toLowerCase().replace(/[^a-z0-9]+/gi,'-').replace(/^-+|-+$/g,'')||'documento')+'.pdf';document.body.appendChild(a);a.click();a.remove();msg($('txtPdfMsg'),'✔ PDF pronto — confere nos seus downloads!','ok');}catch(e){msg($('txtPdfMsg'),'Não deu pra gerar agora — tenta de novo.','err');}});
@@ -7874,7 +7884,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.66';
+const APP_VERSAO='1.6.67';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{

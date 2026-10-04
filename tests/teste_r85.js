@@ -3,7 +3,7 @@ const fs=require('fs'),path=require('path');
 let ok=0,fail=0;const T=(n,c)=>{if(c){ok++;}else{fail++;console.log('  ✗ '+n);}};
 const W=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const VJ=JSON.parse(fs.readFileSync(path.join(__dirname,'..','versao.json'),'utf8'));
-T('1. versão 1.6.66 + versao.json R85 (4 melhorias)', W.includes("APP_VERSAO='1.6.66'")&&VJ.versao==='1.6.66'&&VJ.r==='R87'&&(VJ.melhorias||[]).length>=4);
+T('1. versão 1.6.67 + versao.json R85 (4 melhorias)', W.includes("APP_VERSAO='1.6.67'")&&VJ.versao==='1.6.67'&&VJ.r==='R88'&&(VJ.melhorias||[]).length>=4);
 /* helpers novos */
 T('2. helpers catVendasPkg/catVendasCli existem (catálogo = dinheiro que entrou)', W.includes('const catVendasPkg=pid=>catDe(\'pacote\',pid).reduce((s,f)=>s+(Number(f.pago!=null?f.pago:f.valor)||0),0);')&&W.includes('const catVendasCli=cid=>getFin().filter(f=>f.origem===\'cat\'&&f.link&&f.link.clientId===cid).reduce((s,f)=>s+(Number(f.valor)||0),0);'));
 /* conta no financeiro */

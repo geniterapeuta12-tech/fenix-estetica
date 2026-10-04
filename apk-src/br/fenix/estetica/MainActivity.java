@@ -46,6 +46,8 @@ public class MainActivity extends Activity {
                     Intent i = new Intent(Intent.ACTION_GET_CONTENT);
                     i.addCategory(Intent.CATEGORY_OPENABLE);
                     i.setType("*/*");
+                    /* R88 — aceita ESCOLHER VÁRIOS quando o campo pede (ex.: Arquivos) */
+                    try { if (p.getMode() == android.webkit.WebChromeClient.FileChooserParams.MODE_OPEN_MULTIPLE) i.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true); } catch (Exception e2) {}
                     startActivityForResult(Intent.createChooser(i, "Escolher arquivo"), RC_FILE);
                 } catch (Exception e) { fileCb = null; return false; }
                 return true;
@@ -191,7 +193,15 @@ public class MainActivity extends Activity {
         if (rq == RC_FILE) {
             if (fileCb != null) {
                 Uri[] out = null;
-                if (rc == RESULT_OK && data != null && data.getData() != null) out = new Uri[]{data.getData()};
+                if (rc == RESULT_OK && data != null) {
+                    /* R88 — vários arquivos (ClipData) ou um só */
+                    android.content.ClipData clip = data.getClipData();
+                    if (clip != null) {
+                        java.util.ArrayList<Uri> ls = new java.util.ArrayList<>();
+                        for (int i2 = 0; i2 < clip.getItemCount(); i2++) { Uri u2 = clip.getItemAt(i2).getUri(); if (u2 != null) ls.add(u2); }
+                        if (!ls.isEmpty()) out = ls.toArray(new Uri[0]);
+                    } else if (data.getData() != null) out = new Uri[]{data.getData()};
+                }
                 fileCb.onReceiveValue(out);
                 fileCb = null;
             }

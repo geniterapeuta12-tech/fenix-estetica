@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.66",
-  "r": "R87",
-  "quando": "03/10/2026",
+  "versao": "1.6.67",
+  "r": "R88",
+  "quando": "04/10/2026",
   "melhorias": [
-    "🤖 Modo Agente agora entrega ATÉ 5 ARQUIVOS numa missão só — e quando você pede pra organizar arquivos, ela junta tudo num documento único com O principal, Observações e Resumo organizado (vira PDF bonito)",
-    "📄 PDFs e arquivos criados pela I.A agora saem no ESTILO NOVO dos relatórios: capa com faixa, títulos dourados e rodapé com página — em tudo que você baixa",
-    "💰 Catálogo dentro da cliente agora CONTA de verdade: mostra o que já foi pago e o que falta, dá pra lançar quanto pagou na venda e ajustar depois no financeiro",
-    "✨ Pagamento esperto na cliente: recebe um valor sem dizer de quem é e o app distribui sozinho, quitando as menores faltas primeiro (a sobra fica como avulso)",
-    "➕ Pacote somativo (vai somando sessões ao valor total) + 📄 Texto em PDF nas funções extras + Documentos que baixam em .txt, .pdf e .doc (Word)"
+    "📄 Conserto: a função nova das extras é ARQUIVO DE TEXTO → PDF — escolhe o arquivo .txt (ou .md/.csv) e baixa em PDF bonito, sem copiar e colar",
+    "📱 Conserto no celular: os botões de adicionar arquivo (foto da cliente, anexos da I.A, arte, importar backup…) não respondiam no app do Android — voltaram a funcionar",
+    "📲 APK novo (vc47) com o seletor de arquivos aceitando escolher VÁRIOS de uma vez (ex.: Arquivos, até 12 MB cada)",
+    "🗂️ Campos de arquivo ficam invisíveis do jeito certo p/ o navegador do celular (funciona também no iPhone e no navegador)",
+    "✏️ Antes de gerar o PDF dá pra conferir e editar o título e o texto — e o nome do arquivo escolhido aparece na tela"
   ]
 }

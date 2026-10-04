@@ -4,7 +4,7 @@ let ok=0,fail=0;const T=(n,c)=>{if(c){ok++;}else{fail++;console.log('  ✗ '+n);
 const W=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const WK=fs.readFileSync(path.join(__dirname,'..','supabase','worker-live-backup.js'),'utf8');
 const VJ=JSON.parse(fs.readFileSync(path.join(__dirname,'..','versao.json'),'utf8'));
-T('1. versão 1.6.66 + versao.json R87 (5 melhorias)', W.includes("APP_VERSAO='1.6.66'")&&VJ.versao==='1.6.66'&&VJ.r==='R87'&&(VJ.melhorias||[]).length===5);
+T('1. versão 1.6.67 + versao.json R87 (5 melhorias)', W.includes("APP_VERSAO='1.6.67'")&&VJ.versao==='1.6.67'&&VJ.r==='R88'&&(VJ.melhorias||[]).length===5);
 /* worker */
 T('2. worker: agente limitado a 5 arquivos (cap canvasLista)', WK.includes('if(canvasLista.length>=5)break;'));
 T('3. worker: dica de organizar → UM canvas consolidado (O principal/Observações/Resumo organizado)', WK.includes('NÃO crie vários: gere UM ÚNICO canvas consolidado')&&WK.includes('«O principal», «Observações» e «Resumo organizado»'));
@@ -25,7 +25,7 @@ T('14. app: ramo auto — menor falta primeiro, sobra vira avulso', W.includes("
 /* pacote somativo */
 T('15. app: pacote somativo — sessão soma no VALOR do pacote', W.includes('id="btnPacSoma"')&&W.includes('pp.valor=Math.round(((Number(pp.valor)||0)+v)*100)/100;setPkg(P2);')&&W.includes('Pacote somativo'));
 /* texto→PDF + docs export */
-T('16. app: Texto em PDF nas funções extras (card + caixa)', W.includes('id="txtOpen"')&&W.includes('id="btnTxtBack"')&&W.includes('id="btnTxtPdf"')&&W.includes('id="txtPdfBox"')&&W.includes('Transforma um texto em PDF bonito'));
+T('16. app: Texto em PDF nas funções extras (card + caixa)', W.includes('id="txtOpen"')&&W.includes('id="btnTxtBack"')&&W.includes('id="btnTxtPdf"')&&W.includes('id="txtPdfBox"')&&W.includes('Escolhe um arquivo .txt e transforma em PDF bonito'));
 T('17. app: documentos baixam .txt, .pdf (bonito) e .doc', W.includes('data-gact="extxt"')&&W.includes('data-gact="expdf"')&&W.includes('data-gact="exdoc"')&&W.includes("type:'application/msword'")&&W.includes("act==='extxt'||act==='expdf'||act==='exdoc'"));
 /* intactos */
 T('18. R84/R85/R86 intactos (contexto 30k · catVendas · agente · arte)', WK.includes('slice(0,30000)')&&W.includes('const catVendasPkg=')&&W.includes('id="btnIaAgente"')&&WK.includes('canvasLista,motor')&&W.includes('id="ddProto"'));

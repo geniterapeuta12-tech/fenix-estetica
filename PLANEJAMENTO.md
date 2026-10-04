@@ -156,6 +156,9 @@ Preços verificados em 03/10/2026 (fontes: Cloudflare, NodeTool, TokenMix, Model
 - **Cloudflare pago (R$27/mês)**: explicado; DONO decidiu ficar no grátis por enquanto (suficiente: ~500 fundos I.A/dia).
 - **Ordem aprovada**: ✅R75 Post REAL → R76 I.A da cliente (+ ideia 6 embutida) → R77 I.A lê relatório/anexos.
 
+## R88 — consertos: arquivo .txt→PDF + botões de arquivo no celular (04/10/2026) — ✅ ENTREGUE v1.6.67
+1. ✅ Função das extras agora é ARQUIVO de texto → PDF (escolhe .txt/.md/.csv, título sai do nome, confere e baixa em PDF bonito) · 2. ✅ Botões de adicionar arquivo voltaram a funcionar no app do Android (inputs .fhid offscreen — display:none travava o WebView — + APK vc47 com seletor múltiplo).
+
 ## R87 — 8 pedidos do dono por voz (03/10/2026) — ✅ ENTREGUE v1.6.66
 1. ✅ Modo Agente entrega ATÉ 5 arquivos por missão (cap no worker) · 2. ✅ «organize esses arquivos» → agente gera UM canvas consolidado (O principal/Observações/Resumo organizado) que vira PDF bonito · 3. ✅ PDFs/arquivos da I.A no ESTILO NOVO do relatório (pdfBonitoBytes nos 2 canvases) · 4. ✅ conserto: catálogo dentro da cliente agora CONTA (pago/falta + «pago agora» na venda + edição) · 5. ✅ pacote somativo (sessão soma no valor total e entra no financeiro) · 6. ✅ pagamento não específico: ✨ distribui sozinho quitando a menor falta primeiro (sobra vira avulso) · 7. ✅ logo do relatório REMOVIDA (desfez o A1 do R86 — pedido do dono; sem citar logo nas notas) · 8. ✅ texto→PDF nas funções extras + Documentos baixam .txt/.pdf/.doc.
 - **Na mesa (só registra, sem pressa)**: 3 OpenRouter · 6 acervo na nuvem.
