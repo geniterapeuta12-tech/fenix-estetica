@@ -5,7 +5,7 @@ let falhas=0;const T=(n,c)=>{console.log((c?'  ✔ ':'  ✘ ')+n);if(!c)falhas++
 const html=fs.readFileSync(path.join('/home/user','center-src','www','index.html'),'utf-8');
 const dom=new JSDOM(html,{runScripts:'dangerously',url:'https://geniterapeuta12-tech.github.io/fenix-estetica/center/app.html',pretendToBeVisual:true});
 const {window}=dom;const d=window.document;
-T('1. é a CENTER v2.0 (Plataforma Fênix)', html.includes("CENTER_V='2.0.0'")&&!!d.querySelector('.marca')&&d.querySelector('.marca').textContent.includes('Center'));
+T('1. é a CENTER v2.0 (Plataforma Fênix)', html.includes("CENTER_V='2.1.0'")&&!!d.querySelector('.marca')&&d.querySelector('.marca').textContent.includes('Center'));
 T('2. login: email + senha + botão Entrar (conta Fênix)', !!d.getElementById('fxEmail')&&!!d.getElementById('fxSenha')&&!!d.getElementById('btnEntrar'));
 T('3. auto-atualização viva (checaUiNova + nunca rebaixa)', html.includes('async function checaUiNova')&&html.includes('setInterval(checaUiNova,30*60*1000)')&&html.includes('function uiMaisNova'));
 T('4. base href injetado no swap (ícones resolvem)', html.includes('<base href="https://geniterapeuta12-tech.github.io/fenix-estetica/center/">'));

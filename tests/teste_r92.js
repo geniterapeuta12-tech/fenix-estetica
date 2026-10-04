@@ -9,7 +9,7 @@ const VJ=JSON.parse(fs.readFileSync(path.join(__dirname,'..','versao.json'),'utf
 T('1. versão 1.6.70 + versao.json R92 (5 melhorias)', W.includes("APP_VERSAO='1.6.70'")&&VJ.versao==='1.6.70'&&VJ.r==='R92'&&(VJ.melhorias||[]).length===5);
 /* worker: ponte sb */
 T('2. worker: fxSBSessao — conta Fênix vira sessão supabase da clínica', WK.includes('async function fxSBSessao(env, c)')&&WK.includes("SELECT * FROM auth_users WHERE id = ?")&&WK.includes('return u ? await sessionFor(u, env.FENIX_SECRET) : null;'));
-T('3. worker: login e usar-abrir devolvem sb (2 respostas)', (WK.match(/const sbx = await fxSBSessao\(env, c\);/g)||[]).length===2&&(WK.match(/return j\(\{ ok: true, token, sb: sbx, conta: await fxContaPub\(c\) \}\);/g)||[]).length===2);
+T('3. worker: login e usar-abrir devolvem sb (2 respostas)', (WK.match(/const sbx = await fxSBSessao\(env, c\);/g)||[]).length===3&&(WK.match(/return j\(\{ ok: true, token, sb: sbx, conta: await fxContaPub\(c\) \}\);/g)||[]).length===2);
 /* app: porta da Central */
 T('4. app: painel «🏛️ Conta Fênix» no login (formFx + link + voltar)', W.includes('<form id="formFx" class="panel" novalidate>')&&W.includes('id="lnkFx"')&&W.includes('id="lnkFxVoltar"')&&W.includes('Veio da <b>🏛️ Central Fênix</b>?'));
 T('5. app: entrar pela conta Fênix → /auth-fenix/login → setSession + entrarRemoto', W.includes("fetch(FXAPI+'/auth-fenix/login'")&&W.includes('SB.auth.setSession({access_token:sbSess.access_token,refresh_token:sbSess.refresh_token})')&&W.includes('await entrarRemoto(sbSess.user);'));
@@ -19,7 +19,7 @@ T('7. app: FXAPI aponta pro worker e limpa o fx= da URL depois de usar', W.inclu
 T('8. APK: onCreate trata fenix://abrir?token=… → ?fx= no WebView', MJ.includes('"fenix".equals(d.getScheme())')&&MJ.includes('d.getQueryParameter("token")')&&MJ.includes('base = base + "?fx=" + java.net.URLEncoder.encode(t, "UTF-8")'));
 T('9. APK: onNewIntent também (app aberto e a Central chama de novo)', MJ.includes('protected void onNewIntent(Intent i2)')&&MJ.includes('u2.split("\\\\?")[0]'));
 /* Center v2.0 */
-T('10. Center v2.0: login conta Fênix + confere na abertura + sessão guardada', CJ.includes("CENTER_V='2.0.0'")&&CJ.includes("fetch(FXAPI+'/auth-fenix/login'")&&CJ.includes("'/auth-fenix/confere?token='")&&CJ.includes('fenix_center_fx'));
+T('10. Center v2.1: login conta Fênix + confere na abertura + sessão guardada', CJ.includes("CENTER_V='2.1.0'")&&CJ.includes("fetch(FXAPI+'/auth-fenix/login'")&&CJ.includes("'/auth-fenix/confere?token='")&&CJ.includes('fenix_center_fx'));
 T('11. Center v2.0: dono — criar conta · bloquear/liberar · lista', CJ.includes("'/auth-fenix/criar-conta'")&&CJ.includes("'/auth-fenix/bloquear'")&&CJ.includes("'/auth-fenix/lista'")&&CJ.includes('Bloquear'));
 T('12. Center v2.0: abrir Estética JÁ LOGADO (convite 1 uso: app fenix:// · navegador ?fx= · copiar)', CJ.includes("'/auth-fenix/abrir'")&&CJ.includes("'fenix://abrir?token='+encodeURIComponent(t)")&&CJ.includes("PAGES+'?fx='")&&CJ.includes('navigator.clipboard.writeText'));
 T('13. Center v2.0: auto-atualização do Pages preservada (checaUiNova + base href)', CJ.includes('async function checaUiNova()')&&CJ.includes("uiMaisNova(m[1],CENTER_V)")&&CJ.includes('<base href="https://geniterapeuta12-tech.github.io/fenix-estetica/center/">'));

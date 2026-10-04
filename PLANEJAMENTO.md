@@ -48,4 +48,5 @@
 - A tela nova (P2/P3) chega sozinha pelo auto-update que já existe; mudança de comportamento do Android (P4) sempre pede APK novo.
 - Regras de sempre valem: tabela `backups` NUNCA · cliente NUNCA mexe no banco · credencial NUNCA no app · Cloudflare GRÁTIS (aguenta).
 
-**Status**: ✅ **UI 2.0 (v1.6.69)** · ✅ **P1** (contas no ar) · ✅ **P2** (Center v2.0 no Pages — dono cria/bloqueia contas e abre o Estética já logado) · ✅ **P3** (Estética aceita a conta: botão na tela de login + convite fx= + APK vc50 c/ fenix://) · ⏳ **P4 (porteira total)**: desenhada, DESLIGADA de propósito — liga quando o dono der o «vai» (com Center v2 já rodando em todo mundo).
+**Status**: ✅ **UI 2.0 (v1.6.69)** · ✅ **P1** (contas no ar) · ✅ **P2** (Center v2.0 no Pages — dono cria/bloqueia contas e abre o Estética já logado) · ✅ **P3** (Estética aceita a conta: botão na tela de login + convite fx= + APK vc50 c/ fenix://) · ⏳ **P4 (porteira total)**: desenhada, DESLIGADA de propósito — liga quando o dono der o «vai».
+- **R93 (04/10)**: consertos da Center pedidos pelo dono — criar conta PÚBLICO (self-signup c/ provisioning completo), login aceita só o nome da clínica, tela inicial limpa (apps/abrir só depois de entrar). Center v2.1.0 no Pages.

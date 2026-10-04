@@ -348,7 +348,8 @@ export default {
         if (req.method === 'POST' && p === '/auth-fenix/login') {
           if (!fxPorteira(ip)) return jerr('Muitas tentativas — espera um minutinho.', 429, 'rate_limited');
           const b = await req.json();
-          const email = String(b.email || '').trim().toLowerCase(), pass = String(b.password || '');
+          let email = String(b.email || '').trim().toLowerCase(), pass = String(b.password || '');
+          if (email && email.indexOf('@') < 0) email = email + '@clinicas.fenix.app'; /* R93 — aceita só o nome da clínica */
           if (!email || !pass) return jerr('Preenche email e senha.', 400, 'validation');
           let c = await env.DB.prepare('SELECT * FROM fx_contas WHERE email = ?').bind(email).first();
           if (!c) {
@@ -365,6 +366,31 @@ export default {
           const sbx = await fxSBSessao(env, c);
           const token = await fxAbrirSessao(env, c.id);
           return j({ ok: true, token, sb: sbx, conta: await fxContaPub(c) });
+        }
+        /* R93 — CRIAR CONTA público (a clínica se cadastra sozinha na Center): já cria tudo pra entrar no app na hora */
+        if (req.method === 'POST' && p === '/auth-fenix/criar-clinica') {
+          if (!fxPorteira(ip)) return jerr('Muitas tentativas — espera um minutinho.', 429, 'rate_limited');
+          const b = await req.json();
+          const email = String(b.email || '').trim().toLowerCase(), pass = String(b.password || '');
+          const nome = String(b.nome || '').trim().slice(0, 80);
+          if (!email.includes('@') || email.indexOf('@') !== email.lastIndexOf('@')) return jerr('Email no formato nome@clinica.', 400, 'validation');
+          if (pass.length < 6) return jerr('A senha precisa de pelo menos 6 caracteres.', 400, 'validation');
+          if (nome.length < 2) return jerr('Diz o nome da clínica.', 400, 'validation');
+          const ex = await env.DB.prepare('SELECT id FROM fx_contas WHERE email = ?').bind(email).first();
+          if (ex) return jerr('Já existe conta com esse email — é só entrar.', 422, 'ja_existe');
+          const exu = await env.DB.prepare('SELECT id FROM auth_users WHERE email = ?').bind(email).first();
+          if (exu) return jerr('Já existe conta com esse email — é só entrar.', 422, 'ja_existe');
+          const id1 = crypto.randomUUID(), pw1 = await hashPass(pass);
+          await env.DB.prepare('INSERT INTO fx_contas (id,email,pw,nome,papel,clinica_id,status,criada_em) VALUES (?,?,?,?,?,?,?,?)')
+            .bind(id1, email, pw1, nome, 'clinica', id1, 'ativa', new Date().toISOString()).run();
+          await env.DB.prepare('INSERT INTO auth_users (id,email,pw,meta,criado_em) VALUES (?,?,?,?,?)')
+            .bind(id1, email, pw1, JSON.stringify({ nome }), new Date().toISOString()).run();
+          try { await env.DB.prepare('INSERT INTO clinics (id,key,nome) VALUES (?,?,?)')
+            .bind(id1, email.split('@')[0], nome).run(); } catch (e) {}
+          const c = await env.DB.prepare('SELECT * FROM fx_contas WHERE id = ?').bind(id1).first();
+          const sbx = await fxSBSessao(env, c);
+          const token = await fxAbrirSessao(env, c.id);
+          return j({ ok: true, token, sb: sbx, conta: await fxContaPub(c), msg: 'Conta criada! Já pode usar o app com ela.' });
         }
         /* conferir sessão (os apps chamam isso a cada abertura) */
         if (p === '/auth-fenix/confere') {

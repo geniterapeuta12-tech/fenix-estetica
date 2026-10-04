@@ -67,24 +67,31 @@ code{background:#F4F1EA;border:1px solid var(--linha);border-radius:8px;padding:
   <!-- LOGIN -->
   <div id="vLogin">
     <div class="card">
-      <h3>🏛️ Entrar com a conta Fênix</h3>
-      <p class="sub" style="margin-bottom:10px">O login único: o mesmo email e senha em todos os apps Fênix.</p>
-      <label>Email da conta Fênix</label>
-      <input id="fxEmail" type="email" placeholder="ex.: ana@clinicabelle" autocomplete="username">
+      <h3>🏛️ Entrar na Central</h3>
+      <p class="sub" style="margin-bottom:10px">É a MESMA senha que você usa no app. Pode digitar o nome da clínica ou o email da conta Fênix.</p>
+      <label>Clínica ou email</label>
+      <input id="fxEmail" type="text" placeholder="ex.: Clínica Belle" autocomplete="username">
       <label>Senha</label>
       <input id="fxSenha" type="password" placeholder="••••••••" autocomplete="current-password">
       <p class="msg" id="loginMsg"></p>
       <button class="btn" id="btnEntrar" type="button" style="width:100%">Entrar</button>
+      <p class="sub" style="margin-top:8px">Ainda não tem conta? Cria aí embaixo 👇</p>
       <p class="sub" style="margin-top:12px">É a mesma senha que a clínica já usa no app — entrou uma vez, é a conta pra sempre.</p>
     </div>
-    <div class="card">
-      <h3>📲 Apps Fênix</h3>
-      <div class="linhaf">
-        <button class="btn ghost min" id="btnAbrirApp" type="button">Abrir o Estética instalado ›</button>
-        <a class="btn ghost min" style="text-decoration:none" href="https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest/download/FENIX-Estetica.apk">Baixar o Estética (Android)</a>
-        <a class="btn ghost min" style="text-decoration:none" href="https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest/download/Fenix-Center.apk">Baixar o Center (Android)</a>
-      </div>
-    </div>
+  </div>
+
+  <!-- CRIAR CONTA -->
+  <div class="card">
+    <h3>✨ Primeira vez? Criar conta da clínica</h3>
+    <p class="sub">Cria a conta Fênix da clínica na hora — e você já entra, pronta pra usar o app.</p>
+    <label>Nome da clínica</label>
+    <input id="ccNome" placeholder="ex.: Clínica Belle">
+    <label>Email da conta (nome@clinica)</label>
+    <input id="ccEmail" type="email" placeholder="ex.: ana@clinicabelle">
+    <label>Senha (mín. 6 letras)</label>
+    <input id="ccSenha" type="password" placeholder="••••••••">
+    <p class="msg" id="ccMsg"></p>
+    <button class="btn" id="btnCriarClinica" type="button" style="width:100%">✨ Criar minha conta</button>
   </div>
 
   <!-- PAINEL DONO -->
@@ -155,7 +162,7 @@ code{background:#F4F1EA;border:1px solid var(--linha);border-radius:8px;padding:
 </div>
 
 <script>
-const CENTER_V='2.0.0';
+const CENTER_V='2.1.0';
 const FXAPI='https://fenix-api.geniterapeuta12.workers.dev';
 const PAGES='https://geniterapeuta12-tech.github.io/fenix-estetica/index.html';
 const LIVE_UI='https://geniterapeuta12-tech.github.io/fenix-estetica/center/app.html';
@@ -226,6 +233,22 @@ FX={token:jj.token,conta:jj.conta};lsSet('fenix_center_fx',JSON.stringify(FX));
 $('btnEntrar').disabled=false;$('fxSenha').value='';msg('loginMsg','');pinta();
 }catch(e){$('btnEntrar').disabled=false;msg('loginMsg','Sem conexão com a Central — tenta de novo.');}});
 $('btnSair').addEventListener('click',()=>{FX=null;lsDel('fenix_center_fx');mostra('vLogin');});
+/* ═══ R93 — criar conta da clínica (self-signup) ═══ */
+$('btnCriarClinica').addEventListener('click',async()=>{
+const nome=$('ccNome').value.trim(),em=$('ccEmail').value.trim().toLowerCase(),ps=$('ccSenha').value;
+if(nome.length<2)return msg('ccMsg','Diz o nome da clínica.');
+if(!em.includes('@'))return msg('ccMsg','Email no formato nome@clinica (ex.: ana@clinicabelle).');
+if(ps.length<6)return msg('ccMsg','A senha precisa de pelo menos 6 caracteres.');
+msg('ccMsg','⏳ Criando a conta da clínica…');
+$('btnCriarClinica').disabled=true;
+try{
+const r=await fetch(FXAPI+'/auth-fenix/criar-clinica',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em,password:ps,nome})});
+const jj=await r.json();
+$('btnCriarClinica').disabled=false;
+if(!r.ok||!jj.ok)return msg('ccMsg',(jj.message||'Não deu pra criar agora — tenta de novo.'));
+FX={token:jj.token,conta:jj.conta};lsSet('fenix_center_fx',JSON.stringify(FX));
+$('ccSenha').value='';msg('ccMsg','');pinta();
+}catch(e){$('btnCriarClinica').disabled=false;msg('ccMsg','Sem conexão — tenta de novo.');}});
 /* ═══ criar conta (dono) ═══ */
 $('btnCriarConta').addEventListener('click',async()=>{
 const email=$('ncEmail').value.trim().toLowerCase(),senha=$('ncSenha').value,nome=$('ncNome').value.trim(),papel=$('ncPapel').value,cid=$('ncCid').value.trim();
@@ -253,8 +276,7 @@ $('btnConvCopy').onclick=()=>{try{navigator.clipboard.writeText(PAGES+'?fx='+enc
 }catch(e){msg('conviteMsg','Sem conexão — tenta de novo.');}}
 $('btnAbrirLogado').addEventListener('click',convida);
 function abreApp(){try{window.location.href='fenix://abrir';}catch(e){}}
-$('btnAbrirApp').addEventListener('click',abreApp);
-$('btnAbrirApp2').addEventListener('click',abreApp);
+const ba2=$('btnAbrirApp2');if(ba2)ba2.addEventListener('click',abreApp);
 $('btnConvFechar').addEventListener('click',()=>{$('conviteW').classList.add('hidden');});
 /* ═══ boot ═══ */
 (function(){try{FX=JSON.parse(lsGet('fenix_center_fx')||'null');}catch(e){FX=null;}
