@@ -24,7 +24,7 @@ DETALHES
 • Login e senha: os mesmos. Celular e PC sincronizados
   (mesmo banco na nuvem).
 • Zoom das telas: menu Dados > Sistema (80% a 125%).
-• Novidade v1.6.69: REPAGINAÇÃO estilo Claude — app nasce no CLARO PAPEL (fundo creme, texto tinta), destaque TERRACOTA nos botões e TÍTULOS COM SERIFA. O escuro+ouro de sempre continua: é só ir em Aparência › Escuro
+• Novidade v1.6.70 — PLATAFORMA FÊNIX: a Central vira a porta de tudo (login com a CONTA FÊNIX) · «Abrir o Estética JÁ LOGADO» pela Central · no app, botão «Entrar pela conta Fênix» na tela de login
 
 • Atualização futura: recebe uma pasta nova e substitui.
 • Links de WhatsApp abrem no app certo do Windows.

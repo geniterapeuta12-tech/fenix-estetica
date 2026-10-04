@@ -218,7 +218,7 @@ public class MainActivity extends Activity {
         try { android.net.Uri d = i2 != null ? i2.getData() : null;
             if (d != null && "fenix".equals(d.getScheme()) && wv != null) { String t = d.getQueryParameter("token");
                 if (t != null && t.length() > 10) { String u2 = wv.getUrl();
-                    u2 = (u2 == null ? "file:///android_asset/www/index.html" : u2.split("\?")[0]);
+                    u2 = (u2 == null ? "file:///android_asset/www/index.html" : u2.split("\\?")[0]);
                     wv.loadUrl(u2 + "?fx=" + java.net.URLEncoder.encode(t, "UTF-8")); } } } catch (Exception e) {}
     }
 
