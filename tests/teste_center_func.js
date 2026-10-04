@@ -16,15 +16,14 @@ return{ok:true,json:async()=>({ok:true})};};
 (async()=>{
 await new Promise(r=>{if(w.document.readyState==='complete')return r();w.addEventListener('load',r);setTimeout(r,5000);});
 await new Promise(r=>setTimeout(r,300));
-T('1. tela começa no LOGIN com «Criar conta» visível (sem apps antes)', !d.getElementById('vLogin').classList.contains('hidden')&&!d.getElementById('ccNome').closest('.card').classList.contains('hidden')&&d.getElementById('conviteW').classList.contains('hidden'));
+T('1. tela começa no LOGIN com «Criar conta» visível (sem apps antes)', !d.getElementById('vLogin').classList.contains('hidden')&&!d.getElementById('ccEmail').closest('.card').classList.contains('hidden')&&d.getElementById('conviteW').classList.contains('hidden'));
 T('2. nada de botão de ABRIR APP antes de entrar', !d.getElementById('btnAbrirApp'));
 /* criar conta preenchido e clicado */
-d.getElementById('ccNome').value='Clínica Belle';
 d.getElementById('ccEmail').value='ana@clinicabelle';
 d.getElementById('ccSenha').value='belle123';
 d.getElementById('btnCriarClinica').click();
 await new Promise(r=>setTimeout(r,400));
-T('3. clicou em criar → chamou /auth-fenix/criar-clinica com os dados', chamadas.some(c=>c.u.includes('/auth-fenix/criar-clinica')&&c.body&&c.body.email==='ana@clinicabelle'&&c.body.nome==='Clínica Belle'));
+T('3. clicou em criar → chamou /auth-fenix/criar-clinica com os dados', chamadas.some(c=>c.u.includes('/auth-fenix/criar-clinica')&&c.body&&c.body.email==='ana@clinicabelle'));
 T('4. criou e ENTROU direto (painel da clínica à vista, login escondido)', !d.getElementById('vCli').classList.contains('hidden')&&d.getElementById('vLogin').classList.contains('hidden'));
 T('5. painel da clínica mostra «já logado» e os apps AGORA', !!d.getElementById('btnAbrirLogado')&&d.body.textContent.includes('Estética (Android)'));
 /* entrar: validar fluxo de erro e sucesso */
@@ -36,6 +35,10 @@ d.getElementById('btnEntrar').click();
 await new Promise(r=>setTimeout(r,300));
 T('6. entrar com nome → chamou /auth-fenix/login', chamadas.some(c=>c.u.includes('/auth-fenix/login')&&c.body&&c.body.email==='clinicaprincipal'));
 T('7. entrou de novo (sessão guardada)', !d.getElementById('vCli').classList.contains('hidden'));
-console.log(fail?('FALHAS: '+fail):('TUDO OK ('+ok+'/7)'));
+d.getElementById('fxEmail').value='outra@gmail.com';d.getElementById('fxSenha').value='teste123';
+d.getElementById('fLogin').dispatchEvent(new w.Event('submit',{bubbles:true,cancelable:true}));
+await new Promise(r=>setTimeout(r,300));
+T('8. ENTER no teclado também entra (form submit)', chamadas.filter(c=>c.u.includes('/auth-fenix/login')).length===2);
+console.log(fail?('FALHAS: '+fail):('TUDO OK ('+ok+'/8)'));
 process.exit(fail?1:0);
 })().catch(e=>{console.log('ERRO:',e.message);process.exit(1);});

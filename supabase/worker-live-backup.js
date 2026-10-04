@@ -372,10 +372,9 @@ export default {
           if (!fxPorteira(ip)) return jerr('Muitas tentativas — espera um minutinho.', 429, 'rate_limited');
           const b = await req.json();
           const email = String(b.email || '').trim().toLowerCase(), pass = String(b.password || '');
-          const nome = String(b.nome || '').trim().slice(0, 80);
-          if (!email.includes('@') || email.indexOf('@') !== email.lastIndexOf('@')) return jerr('Email no formato nome@clinica.', 400, 'validation');
+          const nome = String(b.nome || '').trim().slice(0, 80) || email.split('@')[0]; /* R94 — estilo Gmail: nome sai do email */
+          if (!email.includes('@') || email.indexOf('@') !== email.lastIndexOf('@')) return jerr('Email inválido — confere aí (ex.: ana@gmail.com).', 400, 'validation');
           if (pass.length < 6) return jerr('A senha precisa de pelo menos 6 caracteres.', 400, 'validation');
-          if (nome.length < 2) return jerr('Diz o nome da clínica.', 400, 'validation');
           const ex = await env.DB.prepare('SELECT id FROM fx_contas WHERE email = ?').bind(email).first();
           if (ex) return jerr('Já existe conta com esse email — é só entrar.', 422, 'ja_existe');
           const exu = await env.DB.prepare('SELECT id FROM auth_users WHERE email = ?').bind(email).first();

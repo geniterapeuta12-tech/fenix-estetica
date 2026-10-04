@@ -69,12 +69,14 @@ code{background:#F4F1EA;border:1px solid var(--linha);border-radius:8px;padding:
     <div class="card">
       <h3>🏛️ Entrar na Central</h3>
       <p class="sub" style="margin-bottom:10px">É a MESMA senha que você usa no app. Pode digitar o nome da clínica ou o email da conta Fênix.</p>
+      <form id="fLogin">
       <label>Clínica ou email</label>
-      <input id="fxEmail" type="text" placeholder="ex.: Clínica Belle" autocomplete="username">
+      <input id="fxEmail" type="text" placeholder="seu email" autocomplete="username">
       <label>Senha</label>
       <input id="fxSenha" type="password" placeholder="••••••••" autocomplete="current-password">
       <p class="msg" id="loginMsg"></p>
-      <button class="btn" id="btnEntrar" type="button" style="width:100%">Entrar</button>
+      <button class="btn" id="btnEntrar" type="submit" style="width:100%">Entrar</button>
+      </form>
       <p class="sub" style="margin-top:8px">Ainda não tem conta? Cria aí embaixo 👇</p>
       <p class="sub" style="margin-top:12px">É a mesma senha que a clínica já usa no app — entrou uma vez, é a conta pra sempre.</p>
     </div>
@@ -82,16 +84,16 @@ code{background:#F4F1EA;border:1px solid var(--linha);border-radius:8px;padding:
 
   <!-- CRIAR CONTA -->
   <div class="card">
-    <h3>✨ Primeira vez? Criar conta da clínica</h3>
-    <p class="sub">Cria a conta Fênix da clínica na hora — e você já entra, pronta pra usar o app.</p>
-    <label>Nome da clínica</label>
-    <input id="ccNome" placeholder="ex.: Clínica Belle">
-    <label>Email da conta (nome@clinica)</label>
-    <input id="ccEmail" type="email" placeholder="ex.: ana@clinicabelle">
+    <h3>✨ Primeira vez? Criar conta</h3>
+    <p class="sub">Conta estilo Gmail: só o seu email e uma senha — e você já entra, pronta pra usar o app.</p>
+    <form id="fCad">
+    <label>Seu email (pode ser Gmail)</label>
+    <input id="ccEmail" type="email" placeholder="ex.: ana@gmail.com" autocomplete="email" inputmode="email">
     <label>Senha (mín. 6 letras)</label>
-    <input id="ccSenha" type="password" placeholder="••••••••">
+    <input id="ccSenha" type="password" placeholder="••••••••" autocomplete="new-password">
     <p class="msg" id="ccMsg"></p>
-    <button class="btn" id="btnCriarClinica" type="button" style="width:100%">✨ Criar minha conta</button>
+    <button class="btn" id="btnCriarClinica" type="submit" style="width:100%">✨ Criar minha conta</button>
+    </form>
   </div>
 
   <!-- PAINEL DONO -->
@@ -162,7 +164,7 @@ code{background:#F4F1EA;border:1px solid var(--linha);border-radius:8px;padding:
 </div>
 
 <script>
-const CENTER_V='2.1.0';
+const CENTER_V='2.2.0';
 const FXAPI='https://fenix-api.geniterapeuta12.workers.dev';
 const PAGES='https://geniterapeuta12-tech.github.io/fenix-estetica/index.html';
 const LIVE_UI='https://geniterapeuta12-tech.github.io/fenix-estetica/center/app.html';
@@ -220,7 +222,7 @@ else{b.disabled=false;msg('admMsg',(j2.message||'Não deu agora.'));}
 }catch(e){}}
 function esc(x){return String(x==null?'':x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')}
 /* ═══ login ═══ */
-$('btnEntrar').addEventListener('click',async()=>{
+$('fLogin').addEventListener('submit',async e=>{e.preventDefault();
 const em=$('fxEmail').value.trim().toLowerCase(),ps=$('fxSenha').value;
 if(!em||!ps)return msg('loginMsg','Preenche email e senha.');
 msg('loginMsg','⏳ Conferindo na Central…');
@@ -234,10 +236,10 @@ $('btnEntrar').disabled=false;$('fxSenha').value='';msg('loginMsg','');pinta();
 }catch(e){$('btnEntrar').disabled=false;msg('loginMsg','Sem conexão com a Central — tenta de novo.');}});
 $('btnSair').addEventListener('click',()=>{FX=null;lsDel('fenix_center_fx');mostra('vLogin');});
 /* ═══ R93 — criar conta da clínica (self-signup) ═══ */
-$('btnCriarClinica').addEventListener('click',async()=>{
-const nome=$('ccNome').value.trim(),em=$('ccEmail').value.trim().toLowerCase(),ps=$('ccSenha').value;
-if(nome.length<2)return msg('ccMsg','Diz o nome da clínica.');
-if(!em.includes('@'))return msg('ccMsg','Email no formato nome@clinica (ex.: ana@clinicabelle).');
+$('fCad').addEventListener('submit',async e=>{e.preventDefault();
+const em=$('ccEmail').value.trim().toLowerCase(),ps=$('ccSenha').value;
+const nome=em.split('@')[0];
+if(!em.includes('@')||em.indexOf('@')!==em.lastIndexOf('@'))return msg('ccMsg','Confere o email aí (ex.: ana@gmail.com).');
 if(ps.length<6)return msg('ccMsg','A senha precisa de pelo menos 6 caracteres.');
 msg('ccMsg','⏳ Criando a conta da clínica…');
 $('btnCriarClinica').disabled=true;
