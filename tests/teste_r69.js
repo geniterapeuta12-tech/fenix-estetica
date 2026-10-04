@@ -22,6 +22,6 @@ T('15. R66 intacto: resumo no relatório', /sc\[0\]==='resumo'\?relIaBloco\(\):'
 T('16. R68 intacto: áreas do Studio', W.includes('id="sareaTgl"')&&W.includes('data-sarea="lab"'));
 T('17. versao.json 1.6.49/R70', VJ.versao==='1.6.70'&&VJ.r==='R92'&&(VJ.melhorias||[]).length>=3);
 T('18. JS válido', (()=>{try{new Function(W.match(/<script>([\s\S]*)<\/script>/)[1]);return true}catch(e){return false}})());
-T('19. Center 1.8.0 intocado', fs.readFileSync(path.join(__dirname,'..','center-src','www','index.html'),'utf8').includes("CENTER_V='1.8.0'"));
+T('19. Center 2.0.0 intocado (UI nova da Plataforma)', fs.readFileSync(path.join(__dirname,'..','center-src','www','index.html'),'utf8').includes("CENTER_V='2.0.0'"));
 console.log(fail?('FALHAS: '+fail):('TUDO OK ('+ok+'/19)'));
 process.exit(fail?1:0);

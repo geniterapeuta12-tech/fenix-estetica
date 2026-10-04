@@ -20,6 +20,6 @@ T('13. worker: modo resumo com prompt elegante', WK.includes('IA_RESUMO')&&WK.in
 T('14. JS válido', (()=>{try{new Function(W.match(/<script>([\s\S]*)<\/script>/)[1]);return true}catch(e){return false}})());
 T('15. versao.json 1.6.45/R66', VJ.versao==='1.6.70'&&VJ.r==='R92'&&v_j_ok());
 function v_j_ok(){try{return (VJ.melhorias||[]).length>=3}catch(e){return false}}
-T('16. Center 1.8.0 intocado', fs.readFileSync(path.join(__dirname,'..','center-src','www','index.html'),'utf8').includes("CENTER_V='1.8.0'"));
+T('16. Center 2.0.0 intocado (UI nova da Plataforma)', fs.readFileSync(path.join(__dirname,'..','center-src','www','index.html'),'utf8').includes("CENTER_V='2.0.0'"));
 console.log(fail?('FALHAS: '+fail):('TUDO OK ('+ok+'/16)'));
 process.exit(fail?1:0);

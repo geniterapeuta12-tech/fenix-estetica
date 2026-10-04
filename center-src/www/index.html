@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<!-- ═══════════════════════════════════════════════════════════════
+  FÊNIX CENTER — v2.0 (Plataforma Fênix · P2)
+  A Central no coração de tudo: conta Fênix única, contas das clínicas,
+  abrir o Estética JÁ LOGADO. UI papel+terracota (estilo Claude).
+════════════════════════════════════════════════════════════════ -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fênix Center — Plataforma</title>
+<style>
+:root{--papel:#FAF9F5;--card:#FFFFFF;--tinta:#3D3929;--mute:#8E8878;--terra:#D97757;--terra2:#C05B3B;--linha:rgba(61,57,41,.12);--verde:#2f7d5b;--verm:#b4443c}
+*{box-sizing:border-box;margin:0}
+body{background:var(--papel);color:var(--tinta);font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;min-height:100vh;padding:26px 16px 60px}
+.h1{font-family:Georgia,'Times New Roman',serif;font-weight:600;letter-spacing:.01em}
+.wrap{max-width:720px;margin:0 auto}
+.topo{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.marca{font-family:Georgia,serif;font-size:1.5rem}
+.marca b{color:var(--terra)}
+.sub{color:var(--mute);font-size:.86rem}
+.card{background:var(--card);border:1px solid var(--linha);border-radius:16px;padding:20px;margin:14px 0}
+.card h3{font-family:Georgia,serif;font-weight:600;font-size:1.05rem;margin-bottom:6px}
+input,select{width:100%;background:#fff;border:1px solid var(--linha);border-radius:12px;padding:12px 13px;font-size:1rem;color:var(--tinta);outline:none;margin:4px 0 10px}
+input:focus{border-color:var(--terra)}
+label{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--mute);font-weight:700}
+.btn{display:inline-block;border:0;border-radius:12px;padding:12px 18px;font:600 .95rem inherit;cursor:pointer;background:var(--terra);color:#fff;margin-top:6px}
+.btn:hover{background:var(--terra2)}
+.btn.ghost{background:#fff;color:var(--tinta);border:1px solid var(--linha)}
+.btn.min{padding:8px 12px;font-size:.82rem;margin:0}
+.btn.verm{background:var(--verm)}.btn.verm:hover{background:#93362f}
+.linhaf{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.conta{display:flex;align-items:center;gap:12px;padding:12px 4px;border-bottom:1px solid var(--linha);flex-wrap:wrap}
+.conta:last-child{border-bottom:0}
+.av{width:40px;height:40px;border-radius:50%;background:#F2CDBC;color:#8A3D22;display:flex;align-items:center;justify-content:center;font:700 1rem Georgia,serif;flex-shrink:0}
+.ci{flex:1;min-width:180px}
+.ci b{display:block;font-size:.95rem}
+.ci small{color:var(--mute);font-size:.78rem}
+.tag{border-radius:999px;padding:3px 10px;font-size:.7rem;font-weight:700;letter-spacing:.05em}
+.tag.dono{background:#F2CDBC;color:#8A3D22}
+.tag.clinica{background:#e8ecdf;color:#4d5c34}
+.tag.equipe{background:#e3e9f2;color:#3c5a7d}
+.tag.ok{background:#dcefe4;color:var(--verde)}
+.tag.blk{background:#f6dedb;color:var(--verm)}
+.msg{min-height:1.3em;font-size:.86rem;margin:6px 0;color:var(--verm)}
+.msg.ok{color:var(--verde)}
+.hidden{display:none!important}
+.rodape{text-align:center;color:var(--mute);font-size:.74rem;margin-top:30px}
+.separa{display:flex;align-items:center;gap:10px;color:var(--mute);font-size:.8rem;margin:16px 0 4px}
+.separa:before,.separa:after{content:'';flex:1;height:1px;background:var(--linha)}
+.convidew{position:fixed;inset:0;background:rgba(61,57,41,.45);display:flex;align-items:center;justify-content:center;padding:16px;z-index:50}
+.convidew .card{max-width:520px;width:100%;margin:0}
+code{background:#F4F1EA;border:1px solid var(--linha);border-radius:8px;padding:8px 10px;display:block;font-size:.72rem;word-break:break-all;margin:8px 0}
+@media(max-width:480px){body{padding:18px 12px 40px}.card{padding:16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topo">
+    <div style="flex:1">
+      <div class="marca h1">Fênix <b>Center</b></div>
+      <div class="sub" id="topoSub">A central da Plataforma Fênix — uma conta pra tudo</div>
+    </div>
+    <button class="btn ghost min hidden" id="btnSair" type="button">Sair</button>
+  </div>
+
+  <!-- LOGIN -->
+  <div id="vLogin">
+    <div class="card">
+      <h3>🏛️ Entrar com a conta Fênix</h3>
+      <p class="sub" style="margin-bottom:10px">O login único: o mesmo email e senha em todos os apps Fênix.</p>
+      <label>Email da conta Fênix</label>
+      <input id="fxEmail" type="email" placeholder="ex.: ana@clinicabelle" autocomplete="username">
+      <label>Senha</label>
+      <input id="fxSenha" type="password" placeholder="••••••••" autocomplete="current-password">
+      <p class="msg" id="loginMsg"></p>
+      <button class="btn" id="btnEntrar" type="button" style="width:100%">Entrar</button>
+      <p class="sub" style="margin-top:12px">É a mesma senha que a clínica já usa no app — entrou uma vez, é a conta pra sempre.</p>
+    </div>
+    <div class="card">
+      <h3>📲 Apps Fênix</h3>
+      <div class="linhaf">
+        <button class="btn ghost min" id="btnAbrirApp" type="button">Abrir o Estética instalado ›</button>
+        <a class="btn ghost min" style="text-decoration:none" href="https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest/download/FENIX-Estetica.apk">Baixar o Estética (Android)</a>
+        <a class="btn ghost min" style="text-decoration:none" href="https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest/download/Fenix-Center.apk">Baixar o Center (Android)</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAINEL DONO -->
+  <div id="vDono" class="hidden">
+    <div class="card">
+      <h3>👋 Olá, <span id="donoNome">dono</span></h3>
+      <p class="sub">Você cuida da Plataforma Fênix: <b id="dResumo">…</b></p>
+    </div>
+    <div class="card">
+      <h3>➕ Criar conta pra uma clínica</h3>
+      <div class="linhaf">
+        <div style="flex:1;min-width:200px"><label>Email (nome@clinica)</label><input id="ncEmail" type="email" placeholder="ex.: ana@clinicabelle"></div>
+        <div style="flex:1;min-width:150px"><label>Nome da clínica</label><input id="ncNome" placeholder="Clínica Belle"></div>
+      </div>
+      <div class="linhaf">
+        <div style="flex:1;min-width:150px"><label>Senha inicial</label><input id="ncSenha" type="text" placeholder="mín. 6 caracteres"></div>
+        <div style="min-width:130px"><label>Papel</label><select id="ncPapel"><option value="clinica">Clínica</option><option value="equipe">Equipe</option><option value="dono">Dono Fênix</option></select></div>
+        <div style="min-width:120px"><label>ID da clínica (opcional)</label><input id="ncCid" placeholder="uuid"></div>
+      </div>
+      <p class="msg" id="ncMsg"></p>
+      <button class="btn" id="btnCriarConta" type="button">Criar conta</button>
+    </div>
+    <div class="card">
+      <h3>👥 Contas da plataforma</h3>
+      <p class="sub">Bloquear corta o acesso na hora — em todos os apps.</p>
+      <div id="listaContas"><p class="sub">Carregando…</p></div>
+      <p class="msg" id="admMsg"></p>
+    </div>
+  </div>
+
+  <!-- PAINEL CLÍNICA/EQUIPE -->
+  <div id="vCli" class="hidden">
+    <div class="card">
+      <h3>👋 Olá, <span id="cliNome">tudo bem</span></h3>
+      <p class="sub">Sua conta Fênix está ligada ao app da sua clínica.</p>
+      <div class="linhaf" style="margin-top:10px">
+        <button class="btn" id="btnAbrirLogado" type="button">🚀 Abrir o Estética já logado</button>
+        <button class="btn ghost min" id="btnAbrirApp2" type="button">Abrir o app instalado ›</button>
+      </div>
+      <p class="sub" style="margin-top:8px">No Android, «já logado» abre o app sem digitar nada. No computador, abre o app na web já dentro.</p>
+    </div>
+    <div class="card">
+      <h3>📲 Instalar / atualizar</h3>
+      <div class="linhaf">
+        <a class="btn ghost min" style="text-decoration:none" href="https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest/download/FENIX-Estetica.apk">Estética (Android)</a>
+        <a class="btn ghost min" style="text-decoration:none" href="https://github.com/geniterapeuta12-tech/fenix-estetica/releases/latest/download/FENIX-Estetica-Windows.zip">Estética (Windows)</a>
+      </div>
+    </div>
+  </div>
+
+  <p class="rodape">Fênix Center v2.0.0 · Plataforma Fênix · a conta única que abre tudo</p>
+</div>
+
+<!-- CONVITE (abrir já logado) -->
+<div id="conviteW" class="convidew hidden">
+  <div class="card">
+    <h3>🚀 Abrir o Estética já logado</h3>
+    <p class="sub" id="conviteSub">Convite de 10 minutos, de 1 uso — seguro.</p>
+    <div class="linhaf" style="margin-top:8px">
+      <button class="btn" id="btnConvApp" type="button">📱 Abrir no app (Android)</button>
+      <button class="btn ghost min" id="btnConvWeb" type="button">💻 Abrir no navegador</button>
+      <button class="btn ghost min" id="btnConvCopy" type="button">📋 Copiar convite</button>
+    </div>
+    <code id="conviteLink"></code>
+    <p class="msg" id="conviteMsg"></p>
+    <button class="btn ghost min" id="btnConvFechar" type="button">Fechar</button>
+  </div>
+</div>
+
+<script>
+const CENTER_V='2.0.0';
+const FXAPI='https://fenix-api.geniterapeuta12.workers.dev';
+const PAGES='https://geniterapeuta12-tech.github.io/fenix-estetica/index.html';
+const LIVE_UI='https://geniterapeuta12-tech.github.io/fenix-estetica/center/app.html';
+const _mem={};
+function lsGet(k){try{return localStorage.getItem(k)}catch(e){return (k in _mem)?_mem[k]:null}}
+function lsSet(k,v){try{localStorage.setItem(k,v)}catch(e){_mem[k]=v}}
+function lsDel(k){try{localStorage.removeItem(k)}catch(e){delete _mem[k]}}
+const $=id=>document.getElementById(id);
+function uiMaisNova(a,b){const pa=String(a||'').split('.').map(Number),pb=String(b||'').split('.').map(Number);
+for(let i=0;i<Math.max(pa.length,pb.length);i++){const x=pa[i]||0,y=pb[i]||0;if(x!==y)return x>y}return false}
+/* ═══ AUTO-ATUALIZAÇÃO — o Center se atualiza sozinho do Pages ═══ */
+async function checaUiNova(){try{
+const r=await fetch(LIVE_UI+'?t='+Date.now(),{cache:'no-store'});if(!r.ok)return;
+const h=await r.text();const m=h.match(/CENTER_V='([0-9.]+)'/);
+if(m&&uiMaisNova(m[1],CENTER_V)){
+const inj=/<base\s+href/i.test(h)?h:h.replace(/<head>/i,'<head><base href="https://geniterapeuta12-tech.github.io/fenix-estetica/center/">');
+document.open();document.write(inj);document.close();}
+}catch(e){}}
+checaUiNova();setInterval(checaUiNova,30*60*1000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)checaUiNova();});
+/* ═══ estado ═══ */
+let FX=null;
+function mostra(v){['vLogin','vDono','vCli'].forEach(x=>$(x).classList.toggle('hidden',x!==v));$('btnSair').classList.toggle('hidden',v==='vLogin');}
+function msg(id,t,ok){const e=$(id);if(e){e.textContent=t||'';e.className='msg'+(ok?' ok':'');}}
+async function confere(){try{
+if(!FX||!FX.token)return false;
+const r=await fetch(FXAPI+'/auth-fenix/confere?token='+encodeURIComponent(FX.token));
+const jj=await r.json();
+if(!r.ok||!jj.ok){lsDel('fenix_center_fx');FX=null;return false;}
+FX.conta=jj.conta;return true;
+}catch(e){return false}}
+function pinta(){
+const c=FX&&FX.conta;if(!c){mostra('vLogin');return;}
+$('topoSub').textContent='Logado: '+(c.email||'')+' · '+(c.papel==='dono'?'dono da plataforma':(c.papel||'clínica'));
+if(c.papel==='dono'){$('donoNome').textContent=c.nome||'dono';mostra('vDono');lista();resumo();}
+else{$('cliNome').textContent=c.nome||'tudo bem';mostra('vCli');}}
+async function resumo(){try{
+const r=await fetch(FXAPI+'/auth-fenix/lista',{headers:{'x-fenix-sessao':FX.token}});
+const jj=await r.json();
+if(r.ok&&jj.ok){const n=(jj.contas||[]).length,a=(jj.contas||[]).filter(x=>x.status==='ativa').length;
+$('dResumo').textContent=n+' conta(s) · '+a+' ativa(s) · bloqueio na hora';}
+}catch(e){}}
+async function lista(){try{
+const r=await fetch(FXAPI+'/auth-fenix/lista',{headers:{'x-fenix-sessao':FX.token}});
+const jj=await r.json();
+if(!r.ok||!jj.ok){$('listaContas').innerHTML='<p class="sub">Não deu pra carregar agora.</p>';return;}
+const L=jj.contas||[];
+$('listaContas').innerHTML=L.length?L.map(c=>'<div class="conta"><div class="av">'+String(c.nome||c.email||'?').charAt(0).toUpperCase()+'</div><div class="ci"><b>'+esc(c.email)+'</b><small>'+esc(c.nome||'')+' · desde '+(c.criada_em||'').slice(0,10)+'</small></div><span class="tag '+esc(c.papel)+'">'+(c.papel==='dono'?'dono':esc(c.papel))+'</span><span class="tag '+(c.status==='ativa'?'ok':'blk')+'">'+(c.status==='ativa'?'ativa':'bloqueada')+'</span>'+(c.papel==='dono'?'':'<button class="btn '+(c.status==='ativa'?'verm':'ghost')+' min" data-blk="'+esc(c.email)+'" data-st="'+(c.status==='ativa'?'bloqueada':'ativa')+'" type="button">'+(c.status==='ativa'?'Bloquear':'Liberar')+'</button>')+'</div>').join(''):'<p class="sub">Nenhuma conta ainda — cria a primeira aí em cima.</p>';
+$('listaContas').querySelectorAll('[data-blk]').forEach(b=>b.addEventListener('click',async()=>{
+b.disabled=true;msg('admMsg','');
+try{const r2=await fetch(FXAPI+'/auth-fenix/bloquear',{method:'POST',headers:{'Content-Type':'application/json','x-fenix-sessao':FX.token},body:JSON.stringify({email:b.dataset.blk,status:b.dataset.st})});
+const j2=await r2.json();
+if(r2.ok&&j2.ok){msg('admMsg','✔ Conta '+(j2.status==='ativa'?'liberada':'bloqueada')+' — vale em todos os apps.',true);lista();resumo();}
+else{b.disabled=false;msg('admMsg',(j2.message||'Não deu agora.'));}
+}catch(e){b.disabled=false;msg('admMsg','Sem conexão — tenta de novo.');}}));
+}catch(e){}}
+function esc(x){return String(x==null?'':x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')}
+/* ═══ login ═══ */
+$('btnEntrar').addEventListener('click',async()=>{
+const em=$('fxEmail').value.trim().toLowerCase(),ps=$('fxSenha').value;
+if(!em||!ps)return msg('loginMsg','Preenche email e senha.');
+msg('loginMsg','⏳ Conferindo na Central…');
+$('btnEntrar').disabled=true;
+try{
+const r=await fetch(FXAPI+'/auth-fenix/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em,password:ps})});
+const jj=await r.json();
+if(!r.ok||!jj.ok){$('btnEntrar').disabled=false;return msg('loginMsg',(jj.message||'Não deu pra entrar — confere email e senha.'));}
+FX={token:jj.token,conta:jj.conta};lsSet('fenix_center_fx',JSON.stringify(FX));
+$('btnEntrar').disabled=false;$('fxSenha').value='';msg('loginMsg','');pinta();
+}catch(e){$('btnEntrar').disabled=false;msg('loginMsg','Sem conexão com a Central — tenta de novo.');}});
+$('btnSair').addEventListener('click',()=>{FX=null;lsDel('fenix_center_fx');mostra('vLogin');});
+/* ═══ criar conta (dono) ═══ */
+$('btnCriarConta').addEventListener('click',async()=>{
+const email=$('ncEmail').value.trim().toLowerCase(),senha=$('ncSenha').value,nome=$('ncNome').value.trim(),papel=$('ncPapel').value,cid=$('ncCid').value.trim();
+if(!email.includes('@'))return msg('ncMsg','Email no formato nome@clinica.');
+if(senha.length<6)return msg('ncMsg','Senha inicial de pelo menos 6 caracteres.');
+msg('ncMsg','⏳ Criando…');
+try{const r=await fetch(FXAPI+'/auth-fenix/criar-conta',{method:'POST',headers:{'Content-Type':'application/json','x-fenix-sessao':FX.token},body:JSON.stringify({email,password:senha,nome,papel,clinica_id:cid})});
+const jj=await r.json();
+if(r.ok&&jj.ok){msg('ncMsg','✔ Conta criada: '+email+' — já pode entrar no app com ela.',true);
+$('ncEmail').value='';$('ncSenha').value='';$('ncNome').value='';$('ncCid').value='';lista();resumo();}
+else msg('ncMsg',(jj.message||'Não deu pra criar agora.'));
+}catch(e){msg('ncMsg','Sem conexão — tenta de novo.');}});
+/* ═══ abrir já logado (convite de 1 uso) ═══ */
+async function convida(){try{
+msg('conviteMsg','⏳ Gerando convite…');
+const r=await fetch(FXAPI+'/auth-fenix/abrir',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:FX.token,alvo:'estetica'})});
+const jj=await r.json();
+if(!r.ok||!jj.ok)return msg('conviteMsg',(jj.message||'Não deu pra gerar o convite agora.'));
+const t=jj.token_abrir;
+$('conviteLink').textContent=PAGES+'?fx='+t;
+$('conviteW').classList.remove('hidden');msg('conviteMsg','✔ Convite pronto (10 min, 1 uso).',true);
+$('btnConvApp').onclick=()=>{try{window.location.href='fenix://abrir?token='+encodeURIComponent(t);}catch(e){msg('conviteMsg','Esse botão funciona no celular com o app instalado.','');}};
+$('btnConvWeb').onclick=()=>{try{window.open(PAGES+'?fx='+encodeURIComponent(t),'_blank');}catch(e){msg('conviteMsg','Não abriu — usa o copiar e cola no navegador.','');}};
+$('btnConvCopy').onclick=()=>{try{navigator.clipboard.writeText(PAGES+'?fx='+encodeURIComponent(t));msg('conviteMsg','📋 Convite copiado — cola no navegador do aparelho da clínica.',true);}catch(e){msg('conviteMsg','Copia da caixinha aí embaixo manualmente.');}};
+}catch(e){msg('conviteMsg','Sem conexão — tenta de novo.');}}
+$('btnAbrirLogado').addEventListener('click',convida);
+function abreApp(){try{window.location.href='fenix://abrir';}catch(e){}}
+$('btnAbrirApp').addEventListener('click',abreApp);
+$('btnAbrirApp2').addEventListener('click',abreApp);
+$('btnConvFechar').addEventListener('click',()=>{$('conviteW').classList.add('hidden');});
+/* ═══ boot ═══ */
+(function(){try{FX=JSON.parse(lsGet('fenix_center_fx')||'null');}catch(e){FX=null;}
+(async function(){if(FX){const ok=await confere();if(ok){pinta();return;}}mostra('vLogin');})();})();
+</script>
+</body>
+</html>
