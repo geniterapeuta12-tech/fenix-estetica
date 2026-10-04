@@ -1,6 +1,6 @@
-# Fênix Estética — checksums SHA-256 da release v1.6.66 (R87) — 03/10/2026
+# Fênix Estética — checksums SHA-256 da release v1.6.67 (R88) — 04/10/2026
 # Confira depois de baixar:  certutil -hashfile ARQUIVO SHA256   (Windows)
-c16fd3c1fe0da1ec2cdc88fc1d1b2e93f58c2a4fc39488632a7bf26d990f9f83  FENIX-Estetica.apk           (Android · vc46 · versão 1.6.66)
-49f1e9a1b034f90991a8e0755bf768083ca57a4a8a47fe9022ef6b4bcb581b7a  FENIX-Estetica-Windows.zip   (Windows · versão 1.6.66)
+258f4a6512a752daa28cd037f47b347305f6a6ed6b0007d1d2ea2810de7f97fa  FENIX-Estetica.apk           (Android · vc47 · versão 1.6.67)
+0cec0e7f2622c5b728caebd0cdcfdd5a76c180e2a51c548402e1f3f6d229e508  FENIX-Estetica-Windows.zip   (Windows · versão 1.6.67)
 d28e6a5c87a89db9db81ba409212324c1e2b02eee5a825acca3f4f06bbb5b1e2  Fenix-Center.apk             (Center Android · 1.8.0/vc11 — inalterado)
 3cb3d6f450624b21b52e5e539393521bfcfe447cee5203547ef5788ec3ee1357  Fenix-Center-Windows.zip     (Center Windows · 1.8.0/vc11 — inalterado)

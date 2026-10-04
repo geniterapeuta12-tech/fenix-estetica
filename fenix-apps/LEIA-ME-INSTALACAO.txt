@@ -24,7 +24,7 @@ DETALHES
 • Login e senha: os mesmos. Celular e PC sincronizados
   (mesmo banco na nuvem).
 • Zoom das telas: menu Dados > Sistema (80% a 125%).
-• Novidade v1.6.66: Modo Agente entrega ATÉ 5 arquivos numa missão e organiza arquivos num PDF único (O principal/Observações/Resumo) · PDFs da I.A no estilo novo dos relatórios · catálogo da cliente agora conta pago e falta (com «pago agora» na venda) · ✨ pagamento distribuído sozinho (menor falta primeiro) · pacote somativo (soma sessões no valor total) · texto→PDF e Documentos baixando em .txt/.pdf/.doc
+• Novidade v1.6.67: função das extras virou ARQUIVO DE TEXTO → PDF (escolhe o .txt e baixa em PDF bonito) · botões de adicionar arquivo (fotos, anexos, arte, backup) voltaram a funcionar no app do celular (APK novo vc47, aceita escolher vários de uma vez)
 
 • Atualização futura: recebe uma pasta nova e substitui.
 • Links de WhatsApp abrem no app certo do Windows.
