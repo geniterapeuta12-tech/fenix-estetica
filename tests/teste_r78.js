@@ -25,7 +25,7 @@ T('14. celular: barra vira gaveta que desliza', W.includes('@media(max-width:900
 T('15. Configurações flutua sobre o chat', W.includes('#iaCfgCard{position:absolute;top:48px;right:14px;'));
 /* intactos */
 T('16. funções de antes intactas', ['iaSend','relIaAuto','gpAplica','iaDocGera','relPdfModelo','iaAnexoClear','buildIaCtx'].every(f=>W.includes(f)));
-T('17. versão 1.6.57 + versao.json R78 (3+)', W.includes("APP_VERSAO='1.6.70'")&&VJ.versao==='1.6.70'&&VJ.r==='R92'&&(VJ.melhorias||[]).length>=3);
+T('17. versão 1.6.57 + versao.json R78 (3+)', W.includes("APP_VERSAO='1.6.71'")&&VJ.versao==='1.6.71'&&VJ.r==='R97'&&(VJ.melhorias||[]).length>=3);
 T('18. JS válido', (()=>{try{new Function(W.match(/<script>([\s\S]*)<\/script>/)[1]);return true}catch(e){return false}})());
 console.log(fail?('FALHAS: '+fail):('TUDO OK ('+ok+'/18)'));
 process.exit(fail?1:0);

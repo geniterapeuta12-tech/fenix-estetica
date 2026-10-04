@@ -5,7 +5,7 @@ const W=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const WK=fs.readFileSync(path.join(__dirname,'..','supabase','worker-live-backup.js'),'utf8');
 const VJ=JSON.parse(fs.readFileSync(path.join(__dirname,'..','versao.json'),'utf8'));
 const MJ=fs.readFileSync(path.join(__dirname,'..','apk-src','br','fenix','estetica','MainActivity.java'),'utf8');
-T('1. versão 1.6.70 + versao.json R88 (5 melhorias)', W.includes("APP_VERSAO='1.6.70'")&&VJ.versao==='1.6.70'&&VJ.r==='R92'&&(VJ.melhorias||[]).length===5);
+T('1. versão 1.6.71 + versao.json R88 (5 melhorias)', W.includes("APP_VERSAO='1.6.71'")&&VJ.versao==='1.6.71'&&VJ.r==='R97'&&(VJ.melhorias||[]).length===5);
 /* arquivo de texto → PDF */
 T('2. extras: função é ARQUIVO de texto → PDF (card + caixa)', W.includes('<b>Arquivo de texto em PDF</b>')&&W.includes('<h3 style="margin-top:10px">📄 Arquivo de texto em PDF</h3>'));
 T('3. extras: campo de arquivo .txt/.md/.csv (fhid) + botão escolher + nome aparece', W.includes('id="txtPdfArq" accept=".txt,.md,.csv')&&W.includes('id="btnTxtArq"')&&W.includes('id="txtPdfNome"'));

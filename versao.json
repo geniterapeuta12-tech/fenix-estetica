@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.70",
-  "r": "R92",
+  "versao": "1.6.71",
+  "r": "R97",
   "quando": "04/10/2026",
   "melhorias": [
-    "🏛️ Central Fênix NOVA (v2.0): a Central virou a porta de tudo — entre com a CONTA FÊNIX (o mesmo email e senha de sempre)",
-    "👥 O dono cria e bloqueia contas na hora pela Central — bloqueou, o acesso corta em todos os apps",
-    "🚀 «Abrir o Estética JÁ LOGADO»: da Central o app abre sem digitar nada (convite seguro de 10 minutos, de 1 uso)",
-    "🔐 No Estética: botão «Entrar pela conta Fênix» na tela de login — e quem abrir pelo convite da Central entra direto",
-    "📲 APK vc50: no Android, abriu pela Central = entra logado na hora (abertura especial fenix://)"
+    "🎨 O app agora abre NO ESTILO DAS MOCKUPS: papel claro + terracota + saudação grande («Boa tarde, Ana») — o escuro antigo era ligado sozinho; se você preferir escuro, é só escolher na Aparência que fica pra sempre",
+    "🧮 Cartões de resumo repaginados: borda terracota e números grandes serifados, igual ao desenho que você aprovou",
+    "🔘 Menu lateral com a pílula terracota na aba ativa e botões em formato de pílula («Nova venda»)",
+    "🚀 Entrar pela Central ficou À PROVA DE FALHAS: mesmo com a internet lenta, o convite não se perde e você cai dentro do app logado (tentou por 9 segundos até conseguir)",
+    "🔐 Corrigido no servidor: o convite de abertura só é consumido DEPOIS que a sessão nasce de verdade — fim do «piscou e caiu no login»"
   ]
 }

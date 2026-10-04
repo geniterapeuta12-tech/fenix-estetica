@@ -1238,6 +1238,27 @@ html[data-theme="light"] *::-webkit-scrollbar-thumb{background:rgba(61,57,41,.18
 html[data-theme="light"] *{scrollbar-color:rgba(61,57,41,.18) transparent}
 html[data-theme="light"] .faq{border-radius:14px}
 html[data-theme="light"] .mode-opt.current,html[data-theme="light"] .mode-opt:hover{border-color:#D97757}
+
+/* ══════════ R97 — UI 2.0 FINAL (igual às mockups do dono: saudação grande serifada, cartões de borda terracota com número grande, pílula terracota no menu, botões pílula) ══════════ */
+html[data-theme="light"] .hero{background:transparent;border:0;box-shadow:none;padding:14px 4px 6px;gap:22px}
+html[data-theme="light"] .hero .logo{color:#D97757;animation:none;width:96px}
+html[data-theme="light"] .hero h3{font-family:Georgia,'Times New Roman',serif;font-size:clamp(1.6rem,6vw,2.3rem);color:#3D3929;margin:0 0 4px}
+html[data-theme="light"] .hero p{color:#8E8878;font-size:.95rem}
+html[data-theme="light"] .stats .stat{background:#fff;border:1.5px solid rgba(217,119,87,.55);border-radius:16px;box-shadow:none}
+html[data-theme="light"] .stats .stat b{color:#3D3929;font-size:2.1rem;font-family:Georgia,'Times New Roman',serif}
+html[data-theme="light"] .stats .stat b.money{font-size:1.5rem}
+html[data-theme="light"] .stats .stat span{color:#8E8878}
+html[data-theme="light"] .navbtn{border-radius:12px}
+html[data-theme="light"] .navbtn .ic{color:currentColor}
+html[data-theme="light"] .navbtn.active{color:#fff;background:#D97757;box-shadow:none}
+html[data-theme="light"] .navbtn.active .ic{color:#fff}
+html[data-theme="light"] .btn{border-radius:999px;background:#D97757;border-color:#D97757;color:#fff;box-shadow:none;font-weight:700}
+html[data-theme="light"] .btn:hover{background:#C05B3B;border-color:#C05B3B}
+html[data-theme="light"] .btn.small.ghost{background:transparent;border-color:rgba(61,57,41,.16);color:#3D3929}
+html[data-theme="light"] .btn.small.ghost:hover{background:#f1ead9}
+html[data-theme="light"] .dock,html[data-theme="light"] .widget{border-radius:20px}
+html[data-theme="light"] .dock>header .ic,html[data-theme="light"] .dock-item .ic,html[data-theme="light"] .widget>header .ic{color:#C05B3B}
+html[data-theme="light"] .pmodal-card h3,html[data-theme="light"] .modal-card h3{font-family:Georgia,'Times New Roman',serif}
 </style>
 </head>
 <body>
@@ -2436,7 +2457,7 @@ html[data-theme="light"] .mode-opt.current,html[data-theme="light"] .mode-opt:ho
 <section id="viewInicio" class="view">
 <div class="hero">
 <svg class="logo" viewBox="0 0 1440 960"><use href="#phoenix"/></svg>
-<div><h3>Bem-vindo(a), <span id="welcomeName"></span>!</h3>
+<div><h3><span id="welcomeOla">Bem-vindo(a)</span>, <span id="welcomeName"></span>!</h3>
 <p>Gerencie clientes, pacotes, agenda, financeiro e arquivos em um só lugar.</p>
 <button class="btn" id="btnNovoCliente"><svg class="ic"><use href="#i-plus"/></svg>Registrar cliente</button></div>
 </div>
@@ -3293,7 +3314,7 @@ if(d)d.classList.toggle('current',t==='dark');
 if(l)l.classList.toggle('current',t==='light');
 try{document.querySelectorAll('.txtfix').forEach(x=>x.classList.remove('txtfix'));}catch(e){}
 try{consertaContraste();}catch(e){}try{applyAccent(currentAccent());}catch(e){}try{applyFundo();}catch(e){}}
-function currentTheme(){try{return localStorage.getItem('fenix_theme')||'dark'}catch(e){return 'dark'}}
+function currentTheme(){try{return localStorage.getItem('fenix_theme')||'light'}catch(e){return 'light'}}
 function applyPerf(m){if(!['baixa','media','alta','bruta'].includes(m))m='baixa';
 document.documentElement.dataset.perf=m;
 try{localStorage.setItem('fenix_perf',m)}catch(e){}
@@ -5303,8 +5324,8 @@ $('tabPkg').className='btn small'+(t==='pkg'?'':' ghost');
 $('tabAv').className='btn small'+(t==='av'?'':' ghost');}
 $('tabPkg').addEventListener('click',()=>setAreaTab('pkg'));
 $('tabAv').addEventListener('click',()=>setAreaTab('av'));
-$('themeDark').addEventListener('click',()=>applyTheme('dark'));
-$('themeLight').addEventListener('click',()=>applyTheme('light'));
+$('themeDark').addEventListener('click',()=>{try{localStorage.setItem('fenix_theme_escolheu','1')}catch(e){}applyTheme('dark')});
+$('themeLight').addEventListener('click',()=>{try{localStorage.setItem('fenix_theme_escolheu','1')}catch(e){}applyTheme('light')});
 
 $('sideFixed').addEventListener('click',()=>applySide('fixed'));
 $('sideAuto').addEventListener('click',()=>applySide('auto'));
@@ -5457,8 +5478,10 @@ const jj=await r.json();
 if(!r.ok||!jj.ok){travaFx(false);return msg($('fxMsg'),(jj.message||'Não deu pra entrar pela conta Fênix — confere email e senha.'),'err');}
 msg($('fxMsg'),'✔ Conta confirmada na Central! Entrando…','ok');
 await fxEntrar(jj.sb);}catch(err){travaFx(false);msg($('fxMsg'),'Sem conexão com a Central agora — tenta de novo em instantes.','err');}});
-async function fxConvite(){ /* abriu o app por dentro da Central: entra sem digitar nada */
+async function fxConvite(){ /* abriu o app por dentro da Central: entra sem digitar nada (R97: espera a nuvem pronta + não queima o convite) */
 try{
+if(window._fxConvFeito)return;
+if(!REMOTE||!SB)return; /* nuvem ainda carregando — os retries chamam de novo */
 const u=new URL(location.href);
 let tk=u.searchParams.get('fx')||'';
 if(!tk&&location.hash.indexOf('#fx=')===0)tk=decodeURIComponent(location.hash.slice(4));
@@ -5467,14 +5490,16 @@ if(!tk)return;
 try{localStorage.setItem('fenix_fx_pendente',JSON.stringify({t:tk,ts:Date.now()}));}catch(e){}
 const r=await fetch(FXAPI+'/auth-fenix/usar-abrir',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token_abrir:tk})});
 const jj=await r.json();
+if(!r.ok||!jj.ok||!jj.sb)return; /* R97 — falhou, o convite CONTINVA guardado (o worker só queima depois que a sessão nasceu) */
+window._fxConvFeito=1;
 try{localStorage.removeItem('fenix_fx_pendente');}catch(e){}
-if(!r.ok||!jj.ok||!jj.sb)return;
 await fxEntrar(jj.sb);
 }catch(e){}}
-if(!window._fxConvLig){window._fxConvLig=1;setTimeout(fxConvite,700);setTimeout(fxConvite,2500);}
+if(!window._fxConvLig){window._fxConvLig=1;[700,1500,2500,4000,6000,9000].forEach(function(fxms){setTimeout(fxConvite,fxms);});}
 function entrarUI(nome,key){
 try{$('authScreen').classList.add('hidden');$('appScreen').classList.remove('hidden');
 $('welcomeName').textContent=nome;$('appClinic').textContent=nome;
+try{const fxh=new Date().getHours();$('welcomeOla').textContent=fxh<6?'Boa noite':(fxh<12?'Bom dia':(fxh<18?'Boa tarde':'Boa noite'));}catch(e){}
 const d=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 $('todayLabel').textContent=d.charAt(0).toUpperCase()+d.slice(1);
 $('agData').value=todayISO();$('finData').value=todayISO();
@@ -7965,7 +7990,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.70';
+const APP_VERSAO='1.6.71';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{
@@ -8098,7 +8123,9 @@ const oque=PLNSEL.t==='r'?('da linha '+(PLNSEL.i+1)):('da coluna '+plnLetra(PLNS
 PLNSEL=null;plnSalva();renderPlanilha();msg($('plnMsg'),'Conteúdo '+oque+' limpo — a estrutura continua lá.','ok');});
 
 /* ===================== BOOTSTRAP ===================== */
-applyTheme(currentTheme());
+(function(){ /* R97 — UI 2.0 no ar: o «dark» gravado era o padrão automático antigo (salvo sem o dono escolher); migra UMA vez pro claro papel+terracota. Escolhendo Escuro na Aparência, fica no escuro pra sempre. */
+let tt=currentTheme(),fxEsc=false;try{fxEsc=localStorage.getItem('fenix_theme_escolheu')==='1'}catch(e){}
+if(!fxEsc&&tt==='dark')tt='light';applyTheme(tt);})();
 applyAccent(currentAccent());
 applySide(currentSide());
 repararIdsLegado();

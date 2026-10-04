@@ -4,7 +4,7 @@ let ok=0,fail=0;const T=(n,c)=>{if(c){ok++;}else{fail++;console.log('  ✗ '+n);
 const W=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const WK=fs.readFileSync(path.join(__dirname,'..','supabase','worker-live-backup.js'),'utf8');
 const VJ=JSON.parse(fs.readFileSync(path.join(__dirname,'..','versao.json'),'utf8'));
-T('1. versão 1.6.70 + versao.json R87 (5 melhorias)', W.includes("APP_VERSAO='1.6.70'")&&VJ.versao==='1.6.70'&&VJ.r==='R92'&&(VJ.melhorias||[]).length>=5);
+T('1. versão 1.6.71 + versao.json R87 (5 melhorias)', W.includes("APP_VERSAO='1.6.71'")&&VJ.versao==='1.6.71'&&VJ.r==='R97'&&(VJ.melhorias||[]).length>=5);
 /* worker: agente */
 T('2. worker: 7 irmãs (6 antigas + IA_AGENTE)', ['IA_SYS','IA_POST','IA_DOC','IA_RESUMO','IA_CLIENTE','IA_REL','IA_AGENTE'].every(k=>WK.includes('const '+k+'=')));
 T('3. worker: cota do agente (20/dia) + rótulo', WK.includes('cliente:30,agente:20')&&WK.includes("agente:'Modo Agente'"));

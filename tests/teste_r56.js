@@ -9,7 +9,7 @@ T('1. UI mestra: versão 2.0.0 (Plataforma Fênix)', html.includes("CENTER_V='2.
 T('2. auto-atualização na UI (checa ao abrir + a cada 30min + nunca rebaixa)', html.includes('async function checaUiNova') && html.includes('setInterval(checaUiNova,30*60*1000)') && html.includes('function uiMaisNova') && html.includes("document.open();document.write(inj);document.close();"));
 T('3. base href injetado no swap (ícones resolvem)', html.includes('<base href="https://geniterapeuta12-tech.github.io/fenix-estetica/center/">'));
 T('4. UI mestra = center/app.html publicada (byte-idênticas)', fs.readFileSync('/home/user/center/app.html','utf-8')===html);
-T('5. Java: carregar() nativo + nunca rebaixa (maisNova) + base', (()=>{const j=fs.readFileSync('/home/user/center-src/br/fenix/center/MainActivity.java','utf-8');return j.includes('private void carregar()')&&j.includes('maisNova')&&j.includes('center-live.html')&&j.includes('CENTER_V = "1.8.0"')&&j.includes('LIVE_UI')&&j.includes('finish();')&&!j.includes('wv.goBack()');})());
+T('5. Java: carregar() nativo + nunca rebaixa (maisNova) + base', (()=>{const j=fs.readFileSync('/home/user/center-src/br/fenix/center/MainActivity.java','utf-8');return j.includes('private void carregar()')&&j.includes('maisNova')&&j.includes('center-live.html')&&j.includes('CENTER_V = "2.4.0"')&&j.includes('LIVE_UI')&&j.includes('finish();')&&!j.includes('wv.goBack()');})());
 T('6. landing da marca intacta (não confundir com o app)', fs.existsSync('/home/user/center/index.html') && fs.readFileSync('/home/user/center/index.html','utf-8').includes('bem-vindo à fênix'));
 
 /* ===== comportamental: recebe versão ANTIGA → NÃO troca; nova → troca ===== */

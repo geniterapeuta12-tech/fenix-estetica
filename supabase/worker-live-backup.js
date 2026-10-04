@@ -430,11 +430,11 @@ export default {
           const b = await req.json();
           const t = await env.DB.prepare('SELECT * FROM fx_tokens_abrir WHERE token = ?').bind(String(b.token_abrir || '')).first();
           if (!t || t.usado || new Date(t.expira_em) < new Date()) return jerr('Token de abertura inválido ou vencido.', 401, 'token_invalido');
-          await env.DB.prepare('UPDATE fx_tokens_abrir SET usado = 1 WHERE token = ?').bind(t.token).run();
           const c = await env.DB.prepare('SELECT * FROM fx_contas WHERE id = ?').bind(t.conta_id).first();
           if (!c || c.status !== 'ativa') return jerr('Conta bloqueada.', 403, 'bloqueada');
           const sbx = await fxSBSessao(env, c);
           const token = await fxAbrirSessao(env, c.id);
+          await env.DB.prepare('UPDATE fx_tokens_abrir SET usado = 1 WHERE token = ?').bind(t.token).run(); /* R97 — só queima o convite DEPOIS que a sessão nasceu (antes queimava e o app caía no login) */
           return j({ ok: true, token, sb: sbx, conta: await fxContaPub(c) });
         }
         /* a partir daqui: só DONO */

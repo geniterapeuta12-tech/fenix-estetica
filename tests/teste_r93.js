@@ -5,7 +5,7 @@ const W=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const WK=fs.readFileSync(path.join(__dirname,'..','supabase','worker-live-backup.js'),'utf8');
 const CJ=fs.readFileSync(path.join(__dirname,'..','center','app.html'),'utf8');
 const VJ=JSON.parse(fs.readFileSync(path.join(__dirname,'..','versao.json'),'utf8'));
-T('1. Estética segue 1.6.70 (esse conserto é da Center + worker)', W.includes("APP_VERSAO='1.6.70'")&&VJ.versao==='1.6.70'&&VJ.r==='R92');
+T('1. Estética segue 1.6.71 (esse conserto é da Center + worker)', W.includes("APP_VERSAO='1.6.71'")&&VJ.versao==='1.6.71'&&VJ.r==='R97');
 /* worker */
 T('2. login aceita SÓ O NOME (expande @fenix.com + cai pro antigo @clinicas.fenix.app)', WK.includes("if (email && email.indexOf('@') < 0) email = email + '@fenix.com';")&&WK.includes("email.split('@')[0] + '@clinicas.fenix.app'"));
 T('3. /auth-fenix/criar-clinica PÚBLICO (self-signup, fora do gate do dono)', WK.includes("p === '/auth-fenix/criar-clinica'")&&WK.indexOf("'/auth-fenix/criar-clinica'")<WK.indexOf('ehDono'));
@@ -22,7 +22,7 @@ T('12. login aceita usuário ou email (campo único, sem @ vira @fenix.com)', CJ
 T('13. depois que cadastrar continua tudo (abrir já logado · instalar · dono)', CJ.includes('🚀 Abrir o Estética já logado')&&CJ.includes('btnAbrirLogado')&&CJ.includes("'/auth-fenix/criar-conta'")&&CJ.includes("'/auth-fenix/bloquear'"));
 T('14. criar conta JÁ LOGA e ABRE O APP direto (guarda sessão + convite auto)', /btnCriarClinica[\s\S]{0,900}fenix_center_fx[\s\S]{0,120}pinta\(\);/.test(CJ));
 /* intactos */
-T('15. P1/P2/P3 intactos (fx_ rotas · ponte sb · fenix:// · porta no app)', WK.includes('CREATE TABLE IF NOT EXISTS fx_contas')&&WK.includes('fxSBSessao')&&W.includes("fetch(FXAPI+'/auth-fenix/login'")&&W.includes('setTimeout(fxConvite,700)'));
+T('15. P1/P2/P3 intactos (fx_ rotas · ponte sb · fenix:// · porta no app)', WK.includes('CREATE TABLE IF NOT EXISTS fx_contas')&&WK.includes('fxSBSessao')&&W.includes("fetch(FXAPI+'/auth-fenix/login'")&&W.includes('setTimeout(fxConvite,fxms)'));
 T('16. 7 irmãs + cap 5 + organizador intactos', ['IA_SYS','IA_POST','IA_DOC','IA_RESUMO','IA_CLIENTE','IA_REL','IA_AGENTE'].every(k=>WK.includes('const '+k+'='))&&WK.includes('if(canvasLista.length>=5)break;'));
 T('17. aninhamento Center 0 erros', (()=>{try{const {execSync}=require('child_process');return true}catch(e){return false}})());
 T('18. JS válido (checado externamente)', (()=>{try{const {execSync}=require('child_process');return true}catch(e){return false}})());

@@ -6,14 +6,14 @@ const WK=fs.readFileSync(path.join(__dirname,'..','supabase','worker-live-backup
 const CJ=fs.readFileSync(path.join(__dirname,'..','center','app.html'),'utf8');
 const MJ=fs.readFileSync(path.join(__dirname,'..','apk-src','br','fenix','estetica','MainActivity.java'),'utf8');
 const VJ=JSON.parse(fs.readFileSync(path.join(__dirname,'..','versao.json'),'utf8'));
-T('1. versão 1.6.70 + versao.json R92 (5 melhorias)', W.includes("APP_VERSAO='1.6.70'")&&VJ.versao==='1.6.70'&&VJ.r==='R92'&&(VJ.melhorias||[]).length===5);
+T('1. versão 1.6.71 + versao.json R92 (5 melhorias)', W.includes("APP_VERSAO='1.6.71'")&&VJ.versao==='1.6.71'&&VJ.r==='R97'&&(VJ.melhorias||[]).length===5);
 /* worker: ponte sb */
 T('2. worker: fxSBSessao — conta Fênix vira sessão supabase da clínica', WK.includes('async function fxSBSessao(env, c)')&&WK.includes("SELECT * FROM auth_users WHERE id = ?")&&WK.includes('return u ? await sessionFor(u, env.FENIX_SECRET) : null;'));
 T('3. worker: login e usar-abrir devolvem sb (2 respostas)', (WK.match(/const sbx = await fxSBSessao\(env, c\);/g)||[]).length===3&&(WK.match(/return j\(\{ ok: true, token, sb: sbx, conta: await fxContaPub\(c\) \}\);/g)||[]).length===2);
 /* app: porta da Central */
 T('4. app: painel «🏛️ Conta Fênix» no login (formFx + link + voltar)', W.includes('<form id="formFx" class="panel" novalidate>')&&W.includes('id="lnkFx"')&&W.includes('id="lnkFxVoltar"')&&W.includes('Veio da <b>🏛️ Central Fênix</b>?'));
 T('5. app: entrar pela conta Fênix → /auth-fenix/login → setSession + entrarRemoto', W.includes("fetch(FXAPI+'/auth-fenix/login'")&&W.includes('SB.auth.setSession({access_token:sbSess.access_token,refresh_token:sbSess.refresh_token})')&&W.includes('await entrarRemoto(sbSess.user);'));
-T('6. app: convite da Central (?fx= / #fx= / pendente) → usar-abrir → entra direto', W.includes('searchParams.get(\'fx\')')&&W.includes("fetch(FXAPI+'/auth-fenix/usar-abrir'")&&W.includes('fenix_fx_pendente')&&W.includes('setTimeout(fxConvite,700)'));
+T('6. app: convite da Central (?fx= / #fx= / pendente) → usar-abrir → entra direto', W.includes('searchParams.get(\'fx\')')&&W.includes("fetch(FXAPI+'/auth-fenix/usar-abrir'")&&W.includes('fenix_fx_pendente')&&W.includes('setTimeout(fxConvite,fxms)'));
 T('7. app: FXAPI aponta pro worker e limpa o fx= da URL depois de usar', W.includes("const FXAPI='https://fenix-api.geniterapeuta12.workers.dev'")&&W.includes("history.replaceState(null,'',location.pathname"));
 /* APK vc50 */
 T('8. APK: onCreate trata fenix://abrir?token=… → ?fx= no WebView', MJ.includes('"fenix".equals(d.getScheme())')&&MJ.includes('d.getQueryParameter("token")')&&MJ.includes('base = base + "?fx=" + java.net.URLEncoder.encode(t, "UTF-8")'));
