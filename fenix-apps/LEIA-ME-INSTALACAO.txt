@@ -24,7 +24,7 @@ DETALHES
 • Login e senha: os mesmos. Celular e PC sincronizados
   (mesmo banco na nuvem).
 • Zoom das telas: menu Dados > Sistema (80% a 125%).
-• Novidade v1.6.67: função das extras virou ARQUIVO DE TEXTO → PDF (escolhe o .txt e baixa em PDF bonito) · botões de adicionar arquivo (fotos, anexos, arte, backup) voltaram a funcionar no app do celular (APK novo vc47, aceita escolher vários de uma vez)
+• Novidade v1.6.68: permissão de TODOS OS ARQUIVOS no app do celular (APK novo vc48 — o Android pergunta na 1ª abertura, é só ligar a chave do Fênix) · painel de Permissões mostra o status e tem botão pra abrir essa tela
 
 • Atualização futura: recebe uma pasta nova e substitui.
 • Links de WhatsApp abrem no app certo do Windows.
