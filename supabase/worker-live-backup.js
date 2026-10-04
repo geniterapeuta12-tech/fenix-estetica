@@ -233,7 +233,7 @@ async function rpcClientePub(env, pId) {
     SELECT json_group_array(json_object(
       'data', s.data, 'pacote', p.nome, 'obs', s.obs, 'num', s.num
     )) x FROM (
-      SELECT * FROM sessoes WHERE cliente_id = ? AND feita IN (1,'1','true','tru') AND data IS NOT NULL
+      SELECT * FROM fx_sessoes WHERE cliente_id = ? AND feita IN (1,'1','true','tru') AND data IS NOT NULL
       ORDER BY data DESC LIMIT 30
     ) s LEFT JOIN pacotes p ON p.id = s.pacote_id
   `).bind(pId).first();
@@ -306,6 +306,26 @@ const stream=new Blob([dados]).stream().pipeThrough(ds);
 const buf=await new Response(stream).arrayBuffer();
 return new Uint8Array(buf);
 }
+
+/* ═══════════ P1 — PLATAFORMA FÊNIX: CONTA ÚNICA (contas + sessões) ═══════════ */
+let fxTabelasOk = false;
+async function fxTabelas(env) {
+  if (fxTabelasOk) return;
+  await env.DB.exec(`CREATE TABLE IF NOT EXISTS fx_contas (id TEXT PRIMARY KEY, email TEXT UNIQUE, pw TEXT, nome TEXT DEFAULT '', papel TEXT DEFAULT 'clinica', clinica_id TEXT, status TEXT DEFAULT 'ativa', criada_em TEXT);
+CREATE TABLE IF NOT EXISTS fx_sessoes (token TEXT PRIMARY KEY, conta_id TEXT, criada_em TEXT, expira_em TEXT);
+CREATE TABLE IF NOT EXISTS fx_tokens_abrir (token TEXT PRIMARY KEY, conta_id TEXT, alvo TEXT DEFAULT 'estetica', criada_em TEXT, expira_em TEXT, usado INTEGER DEFAULT 0);`);
+  fxTabelasOk = true;
+}
+const fxToken = () => [...crypto.getRandomValues(new Uint8Array(24))].map(b => b.toString(16).padStart(2, '0')).join('');
+const fxLimite = new Map();
+function fxPorteira(ip) { const n = (fxLimite.get(ip) || 0) + 1; fxLimite.set(ip, n); setTimeout(() => fxLimite.delete(ip), 60000); return n <= 12; }
+async function fxContaPub(c) { return { email: c.email, nome: c.nome || '', papel: c.papel, clinica_id: c.clinica_id || null, status: c.status }; }
+async function fxAbrirSessao(env, contaId) {
+  const t = fxToken(), agora = Date.now();
+  await env.DB.prepare('INSERT INTO fx_sessoes (token,conta_id,criada_em,expira_em) VALUES (?,?,?,?)')
+    .bind(t, contaId, new Date(agora).toISOString(), new Date(agora + 30 * 864e5).toISOString()).run();
+  return t;
+}
 export default {
   async fetch(req, env) {
     const url = new URL(req.url);
@@ -315,6 +335,93 @@ export default {
     if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: CORS });
 
     try {
+      /* ============ P1 — CONTA FÊNIX (login único da Plataforma) ============ */
+      if (p.startsWith('/auth-fenix/')) {
+        await fxTabelas(env);
+        const ip = req.headers.get('cf-connecting-ip') || 'x';
+        /* login: aceita conta Fênix OU o login que a clínica já usa (migra sozinho) */
+        if (req.method === 'POST' && p === '/auth-fenix/login') {
+          if (!fxPorteira(ip)) return jerr('Muitas tentativas — espera um minutinho.', 429, 'rate_limited');
+          const b = await req.json();
+          const email = String(b.email || '').trim().toLowerCase(), pass = String(b.password || '');
+          if (!email || !pass) return jerr('Preenche email e senha.', 400, 'validation');
+          let c = await env.DB.prepare('SELECT * FROM fx_contas WHERE email = ?').bind(email).first();
+          if (!c) {
+            const u = await env.DB.prepare('SELECT * FROM auth_users WHERE email = ?').bind(email).first();
+            if (!u || !(await checkPass(pass, u.pw))) return jerr('Email ou senha errados.', 401, 'invalid_credentials');
+            const c1 = await env.DB.prepare('SELECT id FROM clinics LIMIT 1').first();
+            const papel = (c1 && u.id === c1.id) ? 'dono' : 'clinica';
+            const id = crypto.randomUUID();
+            await env.DB.prepare('INSERT INTO fx_contas (id,email,pw,nome,papel,clinica_id,status,criada_em) VALUES (?,?,?,?,?,?,?,?)')
+              .bind(id, email, u.pw, email.split('@')[0], papel, u.id, 'ativa', new Date().toISOString()).run();
+            c = await env.DB.prepare('SELECT * FROM fx_contas WHERE id = ?').bind(id).first();
+          } else if (!(await checkPass(pass, c.pw))) return jerr('Email ou senha errados.', 401, 'invalid_credentials');
+          if (c.status !== 'ativa') return jerr('Essa conta está bloqueada — fala com o suporte Fênix.', 403, 'bloqueada');
+          const token = await fxAbrirSessao(env, c.id);
+          return j({ ok: true, token, conta: await fxContaPub(c) });
+        }
+        /* conferir sessão (os apps chamam isso a cada abertura) */
+        if (p === '/auth-fenix/confere') {
+          const t = url.searchParams.get('token') || '';
+          const s2 = await env.DB.prepare('SELECT * FROM fx_sessoes WHERE token = ?').bind(t).first();
+          if (!s2 || new Date(s2.expira_em) < new Date()) return jerr('Sessão expirada — loga de novo.', 401, 'sessao_invalida');
+          const c = await env.DB.prepare('SELECT * FROM fx_contas WHERE id = ?').bind(s2.conta_id).first();
+          if (!c || c.status !== 'ativa') return jerr('Conta bloqueada.', 403, 'bloqueada');
+          return j({ ok: true, conta: await fxContaPub(c) });
+        }
+        /* gerar token de 1 USO (10 min) pra abrir um app já logado */
+        if (req.method === 'POST' && p === '/auth-fenix/abrir') {
+          const b = await req.json();
+          const s2 = await env.DB.prepare('SELECT * FROM fx_sessoes WHERE token = ?').bind(String(b.token || '')).first();
+          if (!s2 || new Date(s2.expira_em) < new Date()) return jerr('Sessão expirada.', 401, 'sessao_invalida');
+          const c = await env.DB.prepare('SELECT * FROM fx_contas WHERE id = ?').bind(s2.conta_id).first();
+          if (!c || c.status !== 'ativa') return jerr('Conta bloqueada.', 403, 'bloqueada');
+          const t = fxToken();
+          await env.DB.prepare('INSERT INTO fx_tokens_abrir (token,conta_id,alvo,criada_em,expira_em,usado) VALUES (?,?,?,?,?,0)')
+            .bind(t, c.id, String(b.alvo || 'estetica'), new Date().toISOString(), new Date(Date.now() + 6e5).toISOString()).run();
+          return j({ ok: true, token_abrir: t, expira_em: new Date(Date.now() + 6e5).toISOString() });
+        }
+        /* usar o token de 1 uso (o app chama ao abrir por dentro da Center) */
+        if (req.method === 'POST' && p === '/auth-fenix/usar-abrir') {
+          const b = await req.json();
+          const t = await env.DB.prepare('SELECT * FROM fx_tokens_abrir WHERE token = ?').bind(String(b.token_abrir || '')).first();
+          if (!t || t.usado || new Date(t.expira_em) < new Date()) return jerr('Token de abertura inválido ou vencido.', 401, 'token_invalido');
+          await env.DB.prepare('UPDATE fx_tokens_abrir SET usado = 1 WHERE token = ?').bind(t.token).run();
+          const c = await env.DB.prepare('SELECT * FROM fx_contas WHERE id = ?').bind(t.conta_id).first();
+          if (!c || c.status !== 'ativa') return jerr('Conta bloqueada.', 403, 'bloqueada');
+          const token = await fxAbrirSessao(env, c.id);
+          return j({ ok: true, token, conta: await fxContaPub(c) });
+        }
+        /* a partir daqui: só DONO */
+        const authH = String(req.headers.get('x-fenix-sessao') || '');
+        const sD = await env.DB.prepare('SELECT s.token AS tk, s.expira_em AS expira_em, c.papel AS papel, c.status AS status, c.id AS id FROM fx_sessoes s JOIN fx_contas c ON c.id = s.conta_id WHERE s.token = ?').bind(authH).first();
+        const ehDono = sD && sD.papel === 'dono' && sD.status === 'ativa' && new Date(sD.expira_em || 0) > new Date();
+        if (!ehDono) return jerr('Só o dono Fênix faz isso.', 403, 'so_dono');
+        if (req.method === 'GET' && p === '/auth-fenix/lista') {
+          const rs = await env.DB.prepare('SELECT id,email,nome,papel,clinica_id,status,criada_em FROM fx_contas ORDER BY criada_em DESC LIMIT 500').all();
+          return j({ ok: true, contas: rs.results || [] });
+        }
+        if (req.method === 'POST' && p === '/auth-fenix/criar-conta') {
+          const b = await req.json();
+          const email = String(b.email || '').trim().toLowerCase(), pass = String(b.password || '');
+          if (!email.includes('@') || pass.length < 6) return jerr('Email válido e senha de 6+ caracteres.', 400, 'validation');
+          const ex = await env.DB.prepare('SELECT id FROM fx_contas WHERE email = ?').bind(email).first();
+          if (ex) return jerr('Já existe conta com esse email.', 422, 'ja_existe');
+          const papel = ['dono', 'clinica', 'equipe'].includes(b.papel) ? b.papel : 'clinica';
+          const id = crypto.randomUUID();
+          await env.DB.prepare('INSERT INTO fx_contas (id,email,pw,nome,papel,clinica_id,status,criada_em) VALUES (?,?,?,?,?,?,?,?)')
+            .bind(id, email, await hashPass(pass), String(b.nome || '').slice(0, 80), papel, String(b.clinica_id || '') || null, 'ativa', new Date().toISOString()).run();
+          return j({ ok: true, id });
+        }
+        if (req.method === 'POST' && p === '/auth-fenix/bloquear') {
+          const b = await req.json();
+          const st = b.status === 'ativa' ? 'ativa' : 'bloqueada';
+          const r2 = await env.DB.prepare('UPDATE fx_contas SET status = ? WHERE email = ?').bind(st, String(b.email || '').trim().toLowerCase()).run();
+          if (st === 'bloqueada') await env.DB.prepare('DELETE FROM fx_sessoes WHERE conta_id IN (SELECT id FROM fx_contas WHERE email = ?)').bind(String(b.email || '').trim().toLowerCase()).run();
+          return j({ ok: true, status: st, mudou: r2.meta && r2.meta.changes || 0 });
+        }
+        return jerr('Rota da conta Fênix não encontrada.', 404, 'not_found');
+      }
       /* ============ AUTH ============ */
       if (p.startsWith('/auth/v1/')) {
         if (req.method === 'GET' && p === '/auth/v1/settings') {
