@@ -75,7 +75,7 @@ code{background:#F4F1EA;border:1px solid var(--linha);border-radius:8px;padding:
       <label>Senha</label>
       <input id="fxSenha" type="password" placeholder="••••••••" autocomplete="current-password">
       <p class="msg" id="loginMsg"></p>
-      <button class="btn" id="btnEntrar" type="submit" style="width:100%">Entrar</button>
+      <button class="btn" id="btnEntrar" type="button" style="width:100%">Entrar</button>
       </form>
       <p class="sub" style="margin-top:8px">Ainda não tem conta? Cria aí embaixo 👇</p>
       <p class="sub" style="margin-top:12px">É a mesma senha que a clínica já usa no app — entrou uma vez, é a conta pra sempre.</p>
@@ -92,7 +92,7 @@ code{background:#F4F1EA;border:1px solid var(--linha);border-radius:8px;padding:
     <label>Senha (mín. 6 letras)</label>
     <input id="ccSenha" type="password" placeholder="••••••••" autocomplete="new-password">
     <p class="msg" id="ccMsg"></p>
-    <button class="btn" id="btnCriarClinica" type="submit" style="width:100%">✨ Criar minha conta</button>
+    <button class="btn" id="btnCriarClinica" type="button" style="width:100%">✨ Criar minha conta</button>
     </form>
   </div>
 
@@ -164,7 +164,7 @@ code{background:#F4F1EA;border:1px solid var(--linha);border-radius:8px;padding:
 </div>
 
 <script>
-const CENTER_V='2.3.0';
+const CENTER_V='2.4.0';
 const FXAPI='https://fenix-api.geniterapeuta12.workers.dev';
 const PAGES='https://geniterapeuta12-tech.github.io/fenix-estetica/index.html';
 const LIVE_UI='https://geniterapeuta12-tech.github.io/fenix-estetica/center/app.html';
@@ -224,39 +224,41 @@ else{b.disabled=false;msg('admMsg',(j2.message||'Não deu agora.'));}
 function esc(x){return String(x==null?'':x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')}
 /* ═══ login ═══ */
 async function fazLogin(){
+if(window._fxLogAnd)return;window._fxLogAnd=true;
 const em=$('fxEmail').value.trim().toLowerCase(),ps=$('fxSenha').value;
-if(!em||!ps)return msg('loginMsg','Preenche email e senha.');
+if(!em||!ps){window._fxLogAnd=false;return msg('loginMsg','Preenche email e senha.');}
 msg('loginMsg','⏳ Conferindo na Central…');
 $('btnEntrar').disabled=true;
 try{
 const r=await fetch(FXAPI+'/auth-fenix/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em,password:ps})});
 const jj=await r.json();
-if(!r.ok||!jj.ok){$('btnEntrar').disabled=false;return msg('loginMsg',(jj.message||'Não deu pra entrar — confere email e senha.'));}
+if(!r.ok||!jj.ok){window._fxLogAnd=false;$('btnEntrar').disabled=false;return msg('loginMsg',(jj.message||'Não deu pra entrar — confere email e senha.'));}
 FX={token:jj.token,conta:jj.conta};lsSet('fenix_center_fx',JSON.stringify(FX));
-$('btnEntrar').disabled=false;$('fxSenha').value='';msg('loginMsg','');pinta();
+window._fxLogAnd=false;$('btnEntrar').disabled=false;$('fxSenha').value='';msg('loginMsg','');pinta();
 abreAppDireto();
-}catch(e){$('btnEntrar').disabled=false;msg('loginMsg','Sem conexão com a Central — tenta de novo.');}}
+}catch(e){$('btnEntrar').disabled=false;window._fxLogAnd=false;$('btnEntrar').disabled=false;msg('loginMsg','Sem conexão com a Central — tenta de novo.');}}
 $('fLogin').addEventListener('submit',e=>{e.preventDefault();fazLogin();});
 $('btnEntrar').addEventListener('click',()=>fazLogin());
 $('fxSenha').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();fazLogin();}});
-$('btnSair').addEventListener('click',()=>{FX=null;lsDel('fenix_center_fx');mostra('vLogin');});
+$('btnSair').addEventListener('click',()=>{FX=null;lsDel('fenix_center_fx');window._fxLogAnd=false;window._fxCadAnd=false;mostra('vLogin');});
 /* ═══ R93 — criar conta da clínica (self-signup) ═══ */
 async function fazCadastro(){
+if(window._fxCadAnd)return;window._fxCadAnd=true;
 const em=$('ccEmail').value.trim().toLowerCase(),ps=$('ccSenha').value;
 const nome=em.split('@')[0];
-if(em.length<2)return msg('ccMsg','Escolhe um usuário (ex.: ana).');
-if(ps.length<6)return msg('ccMsg','A senha precisa de pelo menos 6 caracteres.');
+if(em.length<2){window._fxCadAnd=false;return msg('ccMsg','Escolhe um usuário (ex.: ana).');}
+if(ps.length<6){window._fxCadAnd=false;return msg('ccMsg','A senha precisa de pelo menos 6 caracteres.');}
 msg('ccMsg','⏳ Criando a conta da clínica…');
 $('btnCriarClinica').disabled=true;
 try{
 const r=await fetch(FXAPI+'/auth-fenix/criar-clinica',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em,password:ps,nome})});
 const jj=await r.json();
-$('btnCriarClinica').disabled=false;
+window._fxCadAnd=false;$('btnCriarClinica').disabled=false;
 if(!r.ok||!jj.ok)return msg('ccMsg',(jj.message||'Não deu pra criar agora — tenta de novo.'));
 FX={token:jj.token,conta:jj.conta};lsSet('fenix_center_fx',JSON.stringify(FX));
-$('ccSenha').value='';msg('ccMsg','');pinta();
+window._fxCadAnd=false;$('ccSenha').value='';msg('ccMsg','');pinta();
 abreAppDireto();
-}catch(e){$('btnCriarClinica').disabled=false;msg('ccMsg','Sem conexão — tenta de novo.');}}
+}catch(e){window._fxCadAnd=false;$('btnCriarClinica').disabled=false;msg('ccMsg','Sem conexão — tenta de novo.');}}
 $('fCad').addEventListener('submit',e=>{e.preventDefault();fazCadastro();});
 $('btnCriarClinica').addEventListener('click',()=>fazCadastro());
 $('ccSenha').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();fazCadastro();}});
@@ -281,10 +283,9 @@ const jj=await r.json();
 if(!r.ok||!jj.ok){$('conviteW').classList.remove('hidden');return msg('conviteMsg',(jj.message||'Não deu pra abrir o app agora — usa os botões.'));}
 const t=jj.token_abrir;
 $('conviteLink').textContent=PAGES+'?fx='+t;
-$('conviteW').classList.remove('hidden');
-msg('conviteMsg','🚀 Abrindo o app… se não abrir sozinho, usa um botão aí embaixo.',true);
-try{window.location.href='fenix://abrir?token='+encodeURIComponent(t);}catch(e){}
-try{setTimeout(()=>{try{window.open(PAGES+'?fx='+encodeURIComponent(t),'_blank');}catch(e){}},800);}catch(e){}
+try{$('conviteW').classList.add('hidden');}catch(e2){}
+try{window.fxUltimoAbrir=t;}catch(e2){}
+try{window.location.href=PAGES+'?fx='+encodeURIComponent(t);}catch(e2){}
 }catch(e){try{$('conviteW').classList.remove('hidden');}catch(e2){}}}
 async function convida(){try{
 msg('conviteMsg','⏳ Gerando convite…');
@@ -294,12 +295,12 @@ if(!r.ok||!jj.ok)return msg('conviteMsg',(jj.message||'Não deu pra gerar o conv
 const t=jj.token_abrir;
 $('conviteLink').textContent=PAGES+'?fx='+t;
 $('conviteW').classList.remove('hidden');msg('conviteMsg','✔ Convite pronto (10 min, 1 uso).',true);
-$('btnConvApp').onclick=()=>{try{window.location.href='fenix://abrir?token='+encodeURIComponent(t);}catch(e){msg('conviteMsg','Esse botão funciona no celular com o app instalado.','');}};
-$('btnConvWeb').onclick=()=>{try{window.open(PAGES+'?fx='+encodeURIComponent(t),'_blank');}catch(e){msg('conviteMsg','Não abriu — usa o copiar e cola no navegador.','');}};
+$('btnConvApp').onclick=()=>{try{if(window.FenixCenterApp&&window.FenixCenterApp.statusFenix&&window.FenixCenterApp.statusFenix()==='1'){window.FenixCenterApp.abrirFenix();return;}window.location.href='fenix://abrir?token='+encodeURIComponent(t);}catch(e){msg('conviteMsg','Abre o app Estética direto no aparelho e entra com a MESMA senha.','');}};
+$('btnConvWeb').onclick=()=>{try{window.location.href=PAGES+'?fx='+encodeURIComponent(t);}catch(e){msg('conviteMsg','Não abriu — usa o copiar e cola no navegador.','');}};
 $('btnConvCopy').onclick=()=>{try{navigator.clipboard.writeText(PAGES+'?fx='+encodeURIComponent(t));msg('conviteMsg','📋 Convite copiado — cola no navegador do aparelho da clínica.',true);}catch(e){msg('conviteMsg','Copia da caixinha aí embaixo manualmente.');}};
 }catch(e){msg('conviteMsg','Sem conexão — tenta de novo.');}}
 $('btnAbrirLogado').addEventListener('click',convida);
-function abreApp(){try{window.location.href='fenix://abrir';}catch(e){}}
+function abreApp(){try{if(window.FenixCenterApp&&window.FenixCenterApp.statusFenix&&window.FenixCenterApp.statusFenix()==='1'){window.FenixCenterApp.abrirFenix();return;}window.location.href='fenix://abrir';}catch(e){}}
 const ba2=$('btnAbrirApp2');if(ba2)ba2.addEventListener('click',abreApp);
 $('btnConvFechar').addEventListener('click',()=>{$('conviteW').classList.add('hidden');});
 /* ═══ boot ═══ */

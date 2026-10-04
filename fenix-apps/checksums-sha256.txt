@@ -2,6 +2,6 @@
 # Confira depois de baixar:  certutil -hashfile ARQUIVO SHA256   (Windows)
 175b5d3a98c80947cc4956c8226a4e2cff07c3a3641ab721f814185188cb2e8d  FENIX-Estetica.apk           (Android · vc50 · versão 1.6.70 — plataforma)
 68bf7b84becd4a9bd107cd27e67d7694913fec2e1063c1bae8f349842c6c54c2  FENIX-Estetica-Windows.zip   (Windows · versão 1.6.70 — plataforma)
-7f2cc7bd6bbd2f862a7256a6455e6b48c3509eeaf8f2c3a54196d4ced8b0de7e  Fenix-Center.apk             (Center Android · vc15 · v2.3.0 — sem @ (vira @fenix.com) · entra e cai no app direto)
-0a7992253e6ef127f7655cff3ce5487d3810b1ab7d69327d0177de97089a84e7  Fenix-Center-Windows.zip     (Center Windows · v2.3.0 — idem)
+dd3eb4bbb62b2d25c584bf27aa74ec5c4b58c27513b6d1a165874e20c5109ccd  Fenix-Center.apk             (Center Android · vc16 · v2.4.0 — entra e CAI NO APP na mesma janela · sem fenix:// automático)
+dde2189485204406684fecbbb21cdaab8940e06020eb65fbc29d38e641805745  Fenix-Center-Windows.zip     (Center Windows · v2.4.0 — idem)
 # Histórico: Center vc13/2.2.0 (eceb7002…) e vc12/2.1.0 (47333835…/5e3b6de4…) no git · Center 1.8.0/vc11 (d28e6a5c…/3cb3d6f4…) na release v1.6.66

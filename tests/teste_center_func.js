@@ -11,6 +11,7 @@ const url=String(u);
 if(url.includes('/auth-fenix/criar-clinica'))return{ok:true,json:async()=>({ok:true,token:'tok123',sb:{access_token:'a'},conta:{email:'ana@clinicabelle',nome:'Clínica Belle',papel:'clinica'}})};
 if(url.includes('/auth-fenix/login'))return{ok:true,json:async()=>({ok:true,token:'tok456',sb:{access_token:'a'},conta:{email:'x@y',nome:'X',papel:'clinica'}})};
 if(url.includes('/auth-fenix/confere'))return{ok:false,json:async()=>({ok:false,message:'sem sessão'})};
+if(url.includes('/auth-fenix/abrir'))return{ok:true,json:async()=>({ok:true,token_abrir:'tk-teste-123'})};
 if(url.includes('/auth-fenix/lista'))return{ok:true,json:async()=>({ok:true,contas:[]})};
 return{ok:true,json:async()=>({ok:true})};};
 (async()=>{
@@ -25,7 +26,7 @@ d.getElementById('btnCriarClinica').click();
 await new Promise(r=>setTimeout(r,400));
 T('3. clicou em criar → chamou /auth-fenix/criar-clinica com os dados', chamadas.some(c=>c.u.includes('/auth-fenix/criar-clinica')&&c.body&&c.body.email==='belle'));
 T('4. criou e ENTROU direto (painel da clínica à vista, login escondido)', !d.getElementById('vCli').classList.contains('hidden')&&d.getElementById('vLogin').classList.contains('hidden'));
-T('4b. cadastro JÁ ABRIU O APP direto (convite automático à vista)', !d.getElementById('conviteW').classList.contains('hidden'));
+T('4b. cadastro JÁ VAI PRO APP direto (navega com o convite — sem modal, sem fenix://)', !!d.defaultView.fxUltimoAbrir&&d.getElementById('conviteW').classList.contains('hidden'));
 T('5. painel da clínica mostra «já logado» e os apps AGORA', !!d.getElementById('btnAbrirLogado')&&d.body.textContent.includes('Estética (Android)'));
 /* entrar: validar fluxo de erro e sucesso */
 d.getElementById('btnSair').click();

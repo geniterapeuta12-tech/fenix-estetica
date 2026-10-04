@@ -30,6 +30,6 @@ T('20. worker: diagnóstico /r2-ok', WK.includes("p === '/r2-ok'"));
 T('21. versao.json 1.6.40 / R61', VJ.versao==='1.6.70'&&VJ.r==='R92');
 T('22. melhorias listadas (≥3)', (VJ.melhorias||[]).length>=3);
 /* center intocado */
-T('23. Center 2.0.0 intocado (UI nova da Plataforma)', fs.readFileSync(path.join(__dirname,'..','center-src','www','index.html'),'utf8').includes("CENTER_V='2.3.0'"));
+T('23. Center 2.0.0 intocado (UI nova da Plataforma)', fs.readFileSync(path.join(__dirname,'..','center-src','www','index.html'),'utf8').includes("CENTER_V='2.4.0'"));
 console.log(fail?('FALHAS: '+fail):('TUDO OK ('+ok+'/23)'));
 process.exit(fail?1:0);

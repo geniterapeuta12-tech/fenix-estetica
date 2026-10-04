@@ -15,7 +15,7 @@ T('6. PROVISIONING completo: fx_contas + auth_users + clinics (entra no app na h
 T('7. cadastro já LOGA (bloco criar-clinica devolve token + sb + conta)', (()=>{const seg=WK.split("p === '/auth-fenix/criar-clinica'")[1].split('confira')[0];return seg.includes('const sbx = await fxSBSessao(env, c);')&&seg.includes('const token = await fxAbrirSessao(env, c.id);')&&seg.includes('return j({ ok: true, token, sb: sbx, conta: await fxContaPub(c)');})());
 T('8. rate-limit cobre o cadastro', /criar-clinica[\s\S]{0,120}fxPorteira\(ip\)/.test(WK));
 /* center v2.1.0 */
-T('9. Center v2.3.0', CJ.includes("CENTER_V='2.3.0'"));
+T('9. Center v2.3.0', CJ.includes("CENTER_V='2.4.0'"));
 T('10. TELA INICIAL LIMPA: sem card de Apps/abrir antes de entrar', !CJ.includes('id="btnAbrirApp"')&&CJ.includes('id="btnAbrirApp2"')&&(CJ.match(/releases\/latest\/download\/FENIX-Estetica\.apk/g)||[]).length>=1);
 T('11. «✨ Primeira vez? Criar conta» na tela inicial (estilo Gmail)', CJ.includes('✨ Primeira vez? Criar conta')&&CJ.includes('id="btnCriarClinica"')&&CJ.includes("'/auth-fenix/criar-clinica'")&&CJ.includes('nome@fenix.com'));
 T('12. login aceita usuário ou email (campo único, sem @ vira @fenix.com)', CJ.includes('<label>Usuário ou email</label>')&&CJ.includes('(sem @ vira ana@fenix.com)'));
