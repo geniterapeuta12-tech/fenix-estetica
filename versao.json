@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.65",
-  "r": "R86",
+  "versao": "1.6.66",
+  "r": "R87",
   "quando": "03/10/2026",
   "melhorias": [
-    "ARTE COM I.A no Gerador: escolha o ESTILO (Luxo, Mármore, Orquídea, Seda, Spa, Botânico) e o MOTOR (Flux, Leonardo, SDXL…) — e o post com título maior e mais contraste",
-    "MODO AGENTE 🤖 no chat: ligue o robô, descreva a missão e ela divide em etapas e entrega VÁRIOS arquivos prontos na Biblioteca",
-    "📋 Protocolo pronto: botão novo nos Documentos que monta o protocolo completo do procedimento (etapas, cuidados, intervalos)",
-    "Sua LOGO no PDF dos relatórios: sobe em Sistema › Logo do estúdio no PDF e sai no cabeçalho",
-    "Agora aceita até 4 arquivos criados de uma vez pela I.A numa resposta só"
+    "🤖 Modo Agente agora entrega ATÉ 5 ARQUIVOS numa missão só — e quando você pede pra organizar arquivos, ela junta tudo num documento único com O principal, Observações e Resumo organizado (vira PDF bonito)",
+    "📄 PDFs e arquivos criados pela I.A agora saem no ESTILO NOVO dos relatórios: capa com faixa, títulos dourados e rodapé com página — em tudo que você baixa",
+    "💰 Catálogo dentro da cliente agora CONTA de verdade: mostra o que já foi pago e o que falta, dá pra lançar quanto pagou na venda e ajustar depois no financeiro",
+    "✨ Pagamento esperto na cliente: recebe um valor sem dizer de quem é e o app distribui sozinho, quitando as menores faltas primeiro (a sobra fica como avulso)",
+    "➕ Pacote somativo (vai somando sessões ao valor total) + 📄 Texto em PDF nas funções extras + Documentos que baixam em .txt, .pdf e .doc (Word)"
   ]
 }

@@ -4,7 +4,7 @@ let ok=0,fail=0;const T=(n,c)=>{if(c){ok++;}else{fail++;console.log('  ✗ '+n);
 const W=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const WK=fs.readFileSync(path.join(__dirname,'..','supabase','worker-live-backup.js'),'utf8');
 const VJ=JSON.parse(fs.readFileSync(path.join(__dirname,'..','versao.json'),'utf8'));
-T('1. versão 1.6.65 + versao.json R86 (5 melhorias)', W.includes("APP_VERSAO='1.6.65'")&&VJ.versao==='1.6.65'&&VJ.r==='R86'&&(VJ.melhorias||[]).length>=5);
+T('1. versão 1.6.66 + versao.json R87 (5 melhorias)', W.includes("APP_VERSAO='1.6.66'")&&VJ.versao==='1.6.66'&&VJ.r==='R87'&&(VJ.melhorias||[]).length>=5);
 /* worker: agente */
 T('2. worker: 7 irmãs (6 antigas + IA_AGENTE)', ['IA_SYS','IA_POST','IA_DOC','IA_RESUMO','IA_CLIENTE','IA_REL','IA_AGENTE'].every(k=>WK.includes('const '+k+'=')));
 T('3. worker: cota do agente (20/dia) + rótulo', WK.includes('cliente:30,agente:20')&&WK.includes("agente:'Modo Agente'"));
@@ -24,8 +24,8 @@ T('13. app: botão 🤖 + liga/desliga salvo + placeholder de missão', W.includ
 T('14. app: salva TODOS os canvases (canvasLista) e avisa «+N na Biblioteca»', W.includes('Array.isArray(j.canvasLista)')&&W.includes('arquivo(s) prontinho(s) na Biblioteca')&&W.includes('else nX++;'));
 /* protocolos + logo */
 T('15. app: botão 📋 Protocolo nos Documentos (molde completo)', W.includes('id="ddProto"')&&W.includes('Monte o PROTOCOLO COMPLETO')&&W.includes('intervalo recomendado entre sessões'));
-T('16. app: painel da logo (Sistema) salva fenix_logo', W.includes('Logo do estúdio no PDF')&&W.includes("localStorage.getItem('fenix_logo')")&&W.includes('id="btnLogoAdd"'));
-T('17. app: logo desenhada no PDF do relatório (XObject JPEG + /Im1)', W.includes('/Filter /DCTDecode')&&W.includes('/Im1 Do Q')&&W.includes('LOGO_BIN')&&W.includes("(6+2*nPag)+' 0 R >> '"));
+T('16. app: logo REMOVIDA (R87 — dono mandou tirar)', !W.includes('Logo do estúdio no PDF')&&!W.includes('logoPaint')&&!W.includes('btnLogoAdd'));
+T('17. app: PDF do relatório segue SEM logo (legado intacto)', W.includes('relPdfBytes')&&!W.includes('/Im1 Do Q')&&!W.includes('LOGO_BIN'));
 /* intactos */
 T('18. R84/R85 intactos (contexto 30k · totais prontos · catVendas)', WK.includes('slice(0,30000)')&&W.includes('const catVendasPkg=')&&W.includes('const catT=catVendasCli(id);'));
 T('19. aninhamento HTML 0 erros', (()=>{try{const {execSync}=require('child_process');return true}catch(e){return false}})());

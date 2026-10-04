@@ -6,7 +6,7 @@ const WK=fs.readFileSync(path.join(__dirname,'..','supabase','worker-live-backup
 const CL=fs.readFileSync(path.join(__dirname,'..','clients','index.html'),'utf8');
 const VJ=JSON.parse(fs.readFileSync(path.join(__dirname,'..','versao.json'),'utf8'));
 /* 1) versão */
-T('1. versão 1.6.65 + versao.json R82 (5 melhorias)', W.includes("APP_VERSAO='1.6.65'")&&VJ.versao==='1.6.65'&&VJ.r==='R86'&&(VJ.melhorias||[]).length>=5);
+T('1. versão 1.6.66 + versao.json R82 (5 melhorias)', W.includes("APP_VERSAO='1.6.66'")&&VJ.versao==='1.6.66'&&VJ.r==='R87'&&(VJ.melhorias||[]).length>=5);
 /* 2) financeiro na cliente: FIFO no worker */
 T('2. worker: pago por pacote = vínculo + FIFO dos sem vínculo', WK.includes('R82 — «pago» por pacote: pagamentos vinculados + distribuição FIFO')&&WK.includes('let fila = (pgall.results || []).filter(x => !x.pacote_id)')&&WK.includes('pago += usa'));
 T('3. worker: feitas por mapa + itens parse seguro', WK.includes('feitasMap[p.id] || 0')&&WK.includes('itens = p.itens ? JSON.parse(p.itens) : []'));
@@ -17,7 +17,7 @@ T('6. camada do fundo acompanha claro/escuro + applyTheme re-aplica', W.includes
 /* 4) claro dos temas novos */
 T('7. 7 regras claras (marfim) pros temas novos — NUNCA preto', (W.match(/html\[data-theme="light"\]\[data-accent="(roxo_coral|limao|roxo_vermelho|azul_cinza|rosa_vermelho|azul_vermelho|lava)"\] body\{background:radial/g)||[]).length===7&&(W.match(/html\[data-theme="light"\]\[data-accent="(roxo_coral|limao|roxo_vermelho|azul_cinza|rosa_vermelho|azul_vermelho|lava)"\]\{background:#f3efe4\}/g)||[]).length===7);
 /* 5) canvas PDF pela I.A */
-T('8. iaSend gera o PDF na hora (item nasce com .pdf + geradoEm)', W.includes("if(novo.tipo==='pdf'){try{novo.pdf=iaCanPdfBytes(novo.titulo,novo.texto||'');novo.geradoEm=nowLabel();}catch(e){}}"));
+T('8. iaSend gera o PDF na hora (item nasce com .pdf + geradoEm)', W.includes("if(novo.tipo==='pdf'){try{novo.pdf=pdfBonitoBytes(novo.titulo,novo.texto||'');novo.geradoEm=nowLabel();}catch(e){}}"));
 T('9. canvas: botão «PDF pronto» aparece quando existe', W.includes("$('btnIaCanBaixar').style.display=c.pdf?'':'none';")&&W.includes('id="btnIaCanBaixar"')&&W.includes("Uint8Array.from(c.pdf,ch=>ch.charCodeAt(0)&0xff)"));
 T('10. mensagem do chat anuncia PDF pronto', W.includes("pronto:!!novo.pdf")&&W.includes("Criei o PDF «"));
 /* 6) Fênix I.A na cliente */

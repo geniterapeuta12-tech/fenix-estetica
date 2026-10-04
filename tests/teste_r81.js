@@ -5,7 +5,7 @@ const W=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const WK=fs.readFileSync(path.join(__dirname,'..','supabase','worker-live-backup.js'),'utf8');
 const VJ=JSON.parse(fs.readFileSync(path.join(__dirname,'..','versao.json'),'utf8'));
 /* 1) versão */
-T('1. versão 1.6.65 + versao.json R81 (6 melhorias)', W.includes("APP_VERSAO='1.6.65'")&&VJ.versao==='1.6.65'&&VJ.r==='R86'&&(VJ.melhorias||[]).length>=5);
+T('1. versão 1.6.66 + versao.json R81 (6 melhorias)', W.includes("APP_VERSAO='1.6.66'")&&VJ.versao==='1.6.66'&&VJ.r==='R87'&&(VJ.melhorias||[]).length>=5);
 /* 2) temas */
 T('2. registro com 14 paletas (7 antigas + 7 novas)', (W.match(/const FX_TEMAS=\{[\s\S]*?\}\};/)||[''])[0].split('\n').filter(l=>/\{a:'#/.test(l)).length===14);
 T('3. as 7 novas presentes: roxo_coral, limao, roxo_vermelho, azul_cinza, rosa_vermelho, azul_vermelho, lava', ['roxo_coral:','limao:','roxo_vermelho:','azul_cinza:','rosa_vermelho:','azul_vermelho:','lava:{'].every(k=>W.includes(k)));

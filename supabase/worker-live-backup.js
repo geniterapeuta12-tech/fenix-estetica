@@ -37,7 +37,7 @@ const IA_DOC='Você escreve e melhora textos e documentos para um estúdio de es
 /* R81 — cotas de uso da I.A por clínica/dia (reset à meia-noite de Brasília) */
 const IA_COTAS={chat:100,post:30,doc:30,rel:30,cliente:30,agente:20};
 /* R86 — Modo Agente: missão em etapas com VÁRIOS arquivos prontos */
-const IA_AGENTE='Você é o MODO AGENTE da Fênix, assistente do estúdio de estética. Recebe UMA MISSÃO e EXECUTA sozinho em etapas. Regras: use SÓ os DADOS fornecidos (nunca invente números); não dê conselho médico; português simples; você NÃO altera dados do app — você CRIA ARQUIVOS. FORMATO OBRIGATÓRIO: (1) <pensamento>…</pensamento> com o PLANO em etapas numeradas curtas (ex.: «1. vou olhar os dados… 2. vou montar… 3. vou criar os arquivos…»); (2) depois CRIE de 2 a 4 ARQUIVOS completos, cada um num bloco próprio: <canvas tipo="texto" titulo="Nome claro do arquivo">conteúdo completo do arquivo</canvas> — use tipo="pdf" para documento formal (protocolo, contrato, tabela de preços). Arquivos CAPRICHADOS e completos (títulos, seções, listas, prontos pra usar). (3) Termine com resposta curta dizendo o que entregou.';
+const IA_AGENTE='Você é o MODO AGENTE da Fênix, assistente do estúdio de estética. Recebe UMA MISSÃO e EXECUTA sozinho em etapas. Regras: use SÓ os DADOS fornecidos (nunca invente números); não dê conselho médico; português simples; você NÃO altera dados do app — você CRIA ARQUIVOS. FORMATO OBRIGATÓRIO: (1) <pensamento>…</pensamento> com o PLANO em etapas numeradas curtas (ex.: «1. vou olhar os dados… 2. vou montar… 3. vou criar os arquivos…»); (2) depois CRIE de 2 a 4 ARQUIVOS completos, cada um num bloco próprio: <canvas tipo="texto" titulo="Nome claro do arquivo">conteúdo completo do arquivo</canvas> — use tipo="pdf" para documento formal (protocolo, contrato, tabela de preços). Arquivos CAPRICHADOS e completos (títulos, seções, listas, prontos pra usar). (3) Se a missão for organizar/resumir ARQUIVOS EXISTENTES (a lista vem em ARQUIVOS DA BIBLIOTECA), NÃO crie vários: gere UM ÚNICO canvas consolidado com as seções «O principal», «Observações» e «Resumo organizado». Termine com resposta curta dizendo o que entregou.';
 const IA_COTAS_ROTULO={chat:'Fênix I.A (chat)',post:'Gerador de Posts',doc:'I.A dos Documentos',rel:'I.A dos Relatórios',cliente:'I.A da cliente',agente:'Modo Agente'};
 const USO_COTA_DB=262144000; /* cota amigável do banco por clínica: 250 MB */
 async function cotaBate(env,cli,tipo){
@@ -780,7 +780,7 @@ export default {
           resp=resp.replace(/<\/?resposta>/gi,'').trim();
           let canvas=null;const canvasLista=[];
           const reC=/<canvas\s+tipo="(texto|pdf)"\s+titulo="([^"]*)">([\s\S]*?)<\/canvas>/gi;let mc;
-          while((mc=reC.exec(resp))){const c={tipo:mc[1],titulo:mc[2].trim().slice(0,120),conteudo:mc[3].trim()};canvasLista.push(c);if(!canvas)canvas=c;}
+          while((mc=reC.exec(resp))){if(canvasLista.length>=5)break;const c={tipo:mc[1],titulo:mc[2].trim().slice(0,120),conteudo:mc[3].trim()};canvasLista.push(c);if(!canvas)canvas=c;}
           if(canvasLista.length)resp=resp.replace(/<canvas[\s\S]*?<\/canvas>/gi,'').trim();
           return j({resposta:resp,pensamento:pensa,canvas,canvasLista,motor});}
         return j({resposta:(out&&out.resposta)||'',motor});

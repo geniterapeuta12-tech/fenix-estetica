@@ -156,6 +156,10 @@ Preços verificados em 03/10/2026 (fontes: Cloudflare, NodeTool, TokenMix, Model
 - **Cloudflare pago (R$27/mês)**: explicado; DONO decidiu ficar no grátis por enquanto (suficiente: ~500 fundos I.A/dia).
 - **Ordem aprovada**: ✅R75 Post REAL → R76 I.A da cliente (+ ideia 6 embutida) → R77 I.A lê relatório/anexos.
 
+## R87 — 8 pedidos do dono por voz (03/10/2026) — ✅ ENTREGUE v1.6.66
+1. ✅ Modo Agente entrega ATÉ 5 arquivos por missão (cap no worker) · 2. ✅ «organize esses arquivos» → agente gera UM canvas consolidado (O principal/Observações/Resumo organizado) que vira PDF bonito · 3. ✅ PDFs/arquivos da I.A no ESTILO NOVO do relatório (pdfBonitoBytes nos 2 canvases) · 4. ✅ conserto: catálogo dentro da cliente agora CONTA (pago/falta + «pago agora» na venda + edição) · 5. ✅ pacote somativo (sessão soma no valor total e entra no financeiro) · 6. ✅ pagamento não específico: ✨ distribui sozinho quitando a menor falta primeiro (sobra vira avulso) · 7. ✅ logo do relatório REMOVIDA (desfez o A1 do R86 — pedido do dono; sem citar logo nas notas) · 8. ✅ texto→PDF nas funções extras + Documentos baixam .txt/.pdf/.doc.
+- **Na mesa (só registra, sem pressa)**: 3 OpenRouter · 6 acervo na nuvem.
+
 ## R81 — pedido do dono em PDF «novas alterações» (02/10/2026) — APROVADO, as 6
 Decisões cravadas pelo dono (respondeu as minhas dúvidas):
 - **1 Cores de tema**: 7 novos (roxo coral, verde limão, roxo+vermelho, azul+cinza, rosa+vermelho, azul+vermelho, vermelho lava) + os 6 que já existiam. **Cada pessoa escolhe o seu** (fica no aparelho). Dourado continua o padrão. Motor novo: cores viram variáveis CSS controladas por JS (--gold/--gold2/--glow-c) — tudo segue o tema, inclusive chat, bordas e brilhos.
