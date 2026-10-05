@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.71",
-  "r": "R97",
+  "versao": "1.6.72",
+  "r": "R98",
   "quando": "04/10/2026",
   "melhorias": [
-    "🎨 O app agora abre NO ESTILO DAS MOCKUPS: papel claro + terracota + saudação grande («Boa tarde, Ana») — o escuro antigo era ligado sozinho; se você preferir escuro, é só escolher na Aparência que fica pra sempre",
-    "🧮 Cartões de resumo repaginados: borda terracota e números grandes serifados, igual ao desenho que você aprovou",
-    "🔘 Menu lateral com a pílula terracota na aba ativa e botões em formato de pílula («Nova venda»)",
-    "🚀 Entrar pela Central ficou À PROVA DE FALHAS: mesmo com a internet lenta, o convite não se perde e você cai dentro do app logado (tentou por 9 segundos até conseguir)",
-    "🔐 Corrigido no servidor: o convite de abertura só é consumido DEPOIS que a sessão nasce de verdade — fim do «piscou e caiu no login»"
+    "🔐 Entrada pela Central à prova de TUDO: mesmo com internet lenta ou convite vencido, você não cai mais na tela de login sem querer",
+    "✍️ Usuário com espaço ou acento agora entra do mesmo jeito: «Bela Vista» vira belavista e entra — e contas novas nascem limpas",
+    "🎨 Ícone NOVO do app: a fênix terracota no papel claro, igual às mockups que você aprovou (aparece na tela de início do celular)",
+    "✅ Teste novo de ponta a ponta: a Central entrega o convite e o app entra sozinho — provado de ponta a ponta",
+    "🧹 Acabamento geral da tela de entrada no estilo papel + terracota"
   ]
 }

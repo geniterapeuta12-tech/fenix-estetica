@@ -317,6 +317,7 @@ CREATE TABLE IF NOT EXISTS fx_tokens_abrir (token TEXT PRIMARY KEY, conta_id TEX
   fxTabelasOk = true;
 }
 const fxToken = () => [...crypto.getRandomValues(new Uint8Array(24))].map(b => b.toString(16).padStart(2, '0')).join('');
+const fxSlug = (x) => String(x || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9._-]/g, ''); /* R98 — «Bela Vista» → belavista (sem espaço/acento) */
 const fxLimite = new Map();
 function fxPorteira(ip) { const n = (fxLimite.get(ip) || 0) + 1; fxLimite.set(ip, n); setTimeout(() => fxLimite.delete(ip), 60000); return n <= 12; }
 async function fxContaPub(c) { return { email: c.email, nome: c.nome || '', papel: c.papel, clinica_id: c.clinica_id || null, status: c.status }; }
@@ -356,11 +357,17 @@ export default {
             const apelido = email.split('@')[0];
             const c2 = await env.DB.prepare('SELECT * FROM fx_contas WHERE email = ?').bind(apelido + '@fenix.com').first();
             if (c2) c = c2; /* R95 — criou pelo nome, entrou pelo nome (qualquer variação) */
+            const apelido2 = fxSlug(apelido);
+            if (!c && apelido2 && apelido2 !== apelido) {
+              const c3 = await env.DB.prepare('SELECT * FROM fx_contas WHERE email = ?').bind(apelido2 + '@fenix.com').first();
+              if (c3) c = c3; /* R98 — criou «Bela Vista» (nasceu belavista@), digitou com espaço/acento: entra do mesmo jeito */
+            }
           }
           if (!c) {
             const u = await env.DB.prepare('SELECT * FROM auth_users WHERE email = ?').bind(email).first();
             let u2 = u;
             if (!u2 && email.indexOf('@') >= 0) u2 = await env.DB.prepare('SELECT * FROM auth_users WHERE email = ?').bind(email.split('@')[0] + '@clinicas.fenix.app').first();
+            if (!u2 && email.indexOf('@') >= 0 && fxSlug(email.split('@')[0]) !== email.split('@')[0]) u2 = await env.DB.prepare('SELECT * FROM auth_users WHERE email = ?').bind(fxSlug(email.split('@')[0]) + '@fenix.com').first(); /* R98 */
             const uu = u2;
             if (!uu || !(await checkPass(pass, uu.pw))) return jerr('Email ou senha errados.', 401, 'invalid_credentials');
             const cEx = await env.DB.prepare('SELECT * FROM fx_contas WHERE email = ?').bind(uu.email).first();
@@ -385,6 +392,7 @@ export default {
           const b = await req.json();
           let email = String(b.email || '').trim().toLowerCase(), pass = String(b.password || '');
           if (email && email.indexOf('@') < 0) email = email + '@fenix.com'; /* R95 — só o nome → nome@fenix.com */
+          if (email.endsWith('@fenix.com')) email = fxSlug(email.split('@')[0]) + '@fenix.com'; /* R98 — nasce LIMPO: sem espaço, sem acento */
           const nome = String(b.nome || '').trim().slice(0, 80) || email.split('@')[0]; /* R94 — nome sai do email */
           if (!email.includes('@') || email.indexOf('@') !== email.lastIndexOf('@')) return jerr('Email ou usuário inválido — confere aí.', 400, 'validation');
           if (pass.length < 6) return jerr('A senha precisa de pelo menos 6 caracteres.', 400, 'validation');
