@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.72",
-  "r": "R98",
+  "versao": "1.6.73",
+  "r": "R99",
   "quando": "04/10/2026",
   "melhorias": [
-    "🔐 Entrada pela Central à prova de TUDO: mesmo com internet lenta ou convite vencido, você não cai mais na tela de login sem querer",
-    "✍️ Usuário com espaço ou acento agora entra do mesmo jeito: «Bela Vista» vira belavista e entra — e contas novas nascem limpas",
-    "🎨 Ícone NOVO do app: a fênix terracota no papel claro, igual às mockups que você aprovou (aparece na tela de início do celular)",
-    "✅ Teste novo de ponta a ponta: a Central entrega o convite e o app entra sozinho — provado de ponta a ponta",
-    "🧹 Acabamento geral da tela de entrada no estilo papel + terracota"
+    "✨ Visual mais acabado: entrada com a fênix terracota em destaque e cartão suave de landing",
+    "🔘 Abas internas em formato de pílula (estilo segmented control dos apps bonitos)",
+    "🧡 Últimos detalhes dourados do modo claro viraram terracota (chips, números, datas) — identidade única",
+    "🎯 Tocou em campo? Brilho terracota no foco — feedback bonito de digitar",
+    "🛋️ Estados vazios com mais respiração e texto acinzentado no tom do papel"
   ]
 }
