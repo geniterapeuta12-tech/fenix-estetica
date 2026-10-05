@@ -400,6 +400,17 @@
 - **Dono**: «o app Center não tá funcionando direito, não dá pra criar conta nem entrar; tira aquilo Apps Fênix abrir e tal — isso é depois que cadastrar». Diagnóstico: v2.0 só logava com o EMAIL da conta Fênix (sem aceitar o nome) e NÃO tinha criar-conta público (só pós-login do dono); CORS confere OK (ACAO:* no preflight e no POST — provado por curl -i).
 - **WORKER**: login expande nome sem @ → `nome@clinicas.fenix.app` · **/auth-fenix/criar-clinica PÚBLICO** (rate-limit fxPorteira): valida nome@clinica/senha6+/nome, duplicidade em fx_contas E auth_users, cria **fx_contas + auth_users + clinics** (provisioning completo — a conta já entra no app na hora) e já devolve token+sb+conta (auto-login na Center).
 - **CENTER v2.1.0**: tela inicial LIMPA — fora o card «📲 Apps Fênix» (abrir/baixar agora só pós-entrada; painel da clínica já tinha) · card **«✨ Primeira vez? Criar conta da clínica»** (nome, email nome@clinica, senha) que cria e JÁ LOGA · login com campo único «Clínica ou email» + dica «MESMA senha que você usa no app» · btnAbrirApp removido (fica o btnAbrirApp2 pós-login).
+## R100 — RONDA 2 COMPLETA: TODA A UI NAS MOCKUPS DO DONO · 1.6.74 (05/10/2026 — «tudo, toda ui»)
+- **Dono**: mandou as 9 referências geradas na Meta AI e pediu «tudo, toda ui» — implementar todas as telas.
+- **Agenda**: `.appt` vira cartão branco c/ borda fina; `.when b` (hora) = SERIFADA 1.5rem TERRACOTA #C05B3B (o «horão» da mockup); `.cal-day` pílula 12px e `.cal-day.today` terracota CHEIO c/ texto branco.
+- **Clientes/ficha**: `.avatar` = círculo PÊSSEGO #F6E3D3 c/ iniciais serifadas #B4562F (sem foto, igual mockup); `#pAvatar` 66px; `#pNome` serifada 1.75rem; `.pstats b` #B4562F 1.35rem; listas #clientList/#pkgList em cartões c/ hover terracota.
+- **Pacotes**: JS do renderPacotes injeta `.pkgbar` (trilho pêssego + preenchimento terracota) com % = done/ses.length — o «6/10» visual da mockup.
+- **Financeiro**: `#finList .txn` cartões finos, valores serifados, `.dot` in=sálvia/out=pêssego; sumBal JS agora é theme-aware (`#B4562F` no claro); pSaldo da ficha usa sálvia #2f7d5b no claro (fim do verde-neon #8dffb0).
+- **Fênix I.A**: `.ia-go` círculo terracota; `.ia-clip` contorno branco; `.ia2tabs` pílula c/ aba ativa branca c/ sombra; balões 16px (bubbles pêssego do usuário já da R90 intocados).
+- **Escuro intocado** (ronda 2 = 100% `html[data-theme="light"]`, provado no pin 8 do teste_r100).
+- **Testes**: NOVO `tests/teste_r100.js` (8/8) · cânon completo: **36 suítes verdes** (10 principais + 24 pinos + E2E ponte-a-ponte 8/8 + r100). versao.json 1.6.74/R100 c/ 5 melhorias.
+- **Binários**: APK **vc55/1.6.74** (sha a594a62e…) · Windows 1.6.74 · **release v1.6.74 id 403740414** (6 assets; v1.6.73 c/ ícone novo substituída lá também: vc54 + checksums). FENIX-TESTE-LOCAL.html regenerado (1.6.74-teste).
+
 ## R99.1 — DONO GEROU AS REFERÊNCIAS OFICIAIS DA UI (9 mockups) · ÍCONE VIRA A FÊNIX EM LINHA · vc54 (04/10/2026)
 - **Fluxo novo combinado com o dono**: QUANDO precisar de arte, eu mando o prompt pronto e ELE gera na Meta AI e me manda aqui (guia: PROMPTS-UI-META-AI.txt).
 - **Referências recebidas** (salvas em referencias/ e documentadas em referencias-ui.html): Início · Agenda · Ficha da cliente · Financeiro · Pacotes · Fênix I.A (chat) · Ícone · Desktop · Central login.

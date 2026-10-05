@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.73",
-  "r": "R99",
-  "quando": "04/10/2026",
+  "versao": "1.6.74",
+  "r": "R100",
+  "quando": "05/10/2026",
   "melhorias": [
-    "✨ Visual mais acabado: entrada com a fênix terracota em destaque e cartão suave de landing",
-    "🔘 Abas internas em formato de pílula (estilo segmented control dos apps bonitos)",
-    "🧡 Últimos detalhes dourados do modo claro viraram terracota (chips, números, datas) — identidade única",
-    "🎯 Tocou em campo? Brilho terracota no foco — feedback bonito de digitar",
-    "🛋️ Estados vazios com mais respiração e texto acinzentado no tom do papel"
+    "📅 Agenda no estilo aprovado: cartões de sessão com HORÃO serifado terracota e calendário em pílulas (hoje fica laranja)",
+    "👤 Clientes e ficha: circulinho pêssego com as iniciais em serifa terracota, nome grande serifado e números maiores no resumo",
+    "💰 Financeiro e pacotes: lançamentos em cartões finos com valores em serifa, e BARRA DE PROGRESSO laranja nos pacotes (6/10 igual ao desenho)",
+    "✨ Fênix I.A: botão de enviar círculo laranja, atalhos e abas em pílula, balões arredondados — nada de verde-neon",
+    "🎨 Ronda 2 completa seguindo as SUAS 9 referências da Meta AI (papel + terracota de ponta a ponta)"
   ]
 }

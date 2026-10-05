@@ -1,7 +1,7 @@
 # Fênix Estética — checksums SHA-256 da release v1.6.71 (R97) — 04/10/2026
 # Confira depois de baixar:  certutil -hashfile ARQUIVO SHA256   (Windows)
-12a26fd92fc92dc28fb4f1bf20c0ed28a9c90b38f0b3bc64c5926d8854cf0001  FENIX-Estetica.apk           (Android · vc54 · v1.6.73 — ícone: fênix em LINHA terracota (do dono) · UI 1.6.73)
-64a2eb8322f93b195419aba54d9555d2b9163bc9cb430506d00de721a7a94219  FENIX-Estetica-Windows.zip   (Windows · v1.6.73 — idem)
+a594a62e0d9a3245879f9c97f219d2d5bfd0780d8c26a4ac5b4d82dedc928c04  FENIX-Estetica.apk           (Android · vc55 · v1.6.74 — ronda 2: agenda/ficha/financeiro/pacotes/I.A no estilo das mockups · ícone fênix em linha)
+739e2c1875dd15bb974e776145faa2894477d62cae6501f07187e9f62bca9218  FENIX-Estetica-Windows.zip   (Windows · v1.6.74 — idem)
 dd3eb4bbb62b2d25c584bf27aa74ec5c4b58c27513b6d1a165874e20c5109ccd  Fenix-Center.apk             (Center Android · vc16 · v2.4.0 — entra e CAI NO APP na mesma janela · sem fenix:// automático)
 dde2189485204406684fecbbb21cdaab8940e06020eb65fbc29d38e641805745  Fenix-Center-Windows.zip     (Center Windows · v2.4.0 — idem)
 # Histórico: Center vc13/2.2.0 (eceb7002…) e vc12/2.1.0 (47333835…/5e3b6de4…) no git · Center 1.8.0/vc11 (d28e6a5c…/3cb3d6f4…) na release v1.6.66
