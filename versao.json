@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.79",
-  "r": "R105",
+  "versao": "1.6.80",
+  "r": "R106",
   "quando": "06/10/2026",
   "melhorias": [
-    "🛒 «Vendas do catálogo» (no Catálogo): TODAS as vendas de produtos/procedimentos com cliente, data, pacote, busca — e agora com EDITAR e REMOVER em cada venda",
-    "🚨 Fim da venda «paga» de mentira: financeiro da cliente agora mostra o status REAL — ✓ Quitado ou ⏳ Em aberto (falta R$ X) — com botão Receber pagamento direto ali",
-    "🗑 Remover funcionando em todo lugar: aba Catálogo da cliente e Vendas do catálogo agora apagam de verdade (2 toques)",
-    "💵 Venda do catálogo virou transação de verdade no financeiro: aparece identificada como «Venda do catálogo», com Editar (colocar/ajustar o valor pago) e Apagar — igual transação manual",
-    "🧮 Saldo honesto: venda pendente NÃO entra mais como dinheiro recebido — o saldo só soma o que realmente entrou"
+    "🛒 «Nova venda» DIRETO no Catálogo: botão no card Vendas do catálogo — escolhe a cliente ali na hora e registra a venda (não precisa mais abrir a ficha)",
+    "🎬 Novo no Studio: «Organizador de perfil» — agende vídeos e posts (tipo, data, hora, legenda), marque como postado, edite ou apague",
+    "☁️ O Organizador de perfil sincroniza na nuvem: celular e computador mostram a mesma lista",
+    "✏️ Vendas antigas: dá pra abrir a edição, tirar o «pago» e deixar EM ABERTO de novo — a tela agora ensina como (dica amarela)",
+    "🔁 Na venda, ao trocar a cliente escolhida, os pacotes e avulsas do «Vincular a» mudam junto"
   ]
 }

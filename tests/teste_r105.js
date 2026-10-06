@@ -3,7 +3,7 @@ const fs=require('fs');
 let ok=0,fail=0;const T=(n,c)=>{if(c){ok++;}else{fail++;console.log('  ✗ '+n);}};
 const W=fs.readFileSync('/home/user/index.html','utf8');
 const VJ=JSON.parse(fs.readFileSync('/home/user/versao.json','utf8'));
-T('1. versão 1.6.79 + versao.json R105 (5 melhorias)', W.includes("APP_VERSAO='1.6.79'")&&VJ.versao==='1.6.79'&&VJ.r==='R105'&&VJ.melhorias.length===5);
+T('1. versão 1.6.80 + versao.json R105 (5 melhorias)', W.includes("APP_VERSAO='1.6.80'")&&VJ.versao==='1.6.80'&&VJ.r==='R106'&&VJ.melhorias.length===5);
 T('2. finCliCat com status REAL (fim da etiqueta verde de mentira) + Receber ali', W.includes('const falta=finFalta(f); /* R105 — status REAL')&&!W.includes('entrada do catálogo')&&W.includes('⏳ Em aberto · falta \'+fmtBRL(falta)+\'')&&W.includes('✓ Quitado</span>'));
 T('3. 🗑 da aba Catálogo e das Vendas do catálogo AGORA funcionam', W.includes("bindDel('cliCatList',getFin,setFin")&&W.includes("bindDel('quemList',getFin,setFin"));
 T('4. finRows marca venda do catálogo (cat + pago) — «Venda do catálogo» no financeiro geral', W.includes("cat:t.origem==='cat'||undefined")&&W.includes("'Venda do catálogo':(t.tipo==='in'?'Entrada manual':'Saída manual')"));
