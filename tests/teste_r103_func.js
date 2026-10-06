@@ -31,7 +31,7 @@ d.getElementById('fpValor').value='150,00';
 d.getElementById('btnFpOk').click();
 fin=w.eval('getFin()');
 T('5. pago agora é 150 (parcial salvo)', Number(fin[0].pago)===150);
-T('6. etiqueta «pago R$ 150,00 · falta R$ 250,00» na cliente', txt(d.getElementById('cliCatList')).includes('pago R$ 150,00')&&txt(d.getElementById('cliCatList')).includes('falta R$ 250,00'));
+T('6. etiqueta «pago R$ 150,00 · falta R$ 250,00» na cliente', txt(d.getElementById('cliCatList')).includes('Em aberto')&&txt(d.getElementById('cliCatList')).includes('falta R$ 250,00'));
 
 /* ===== 3) Quitar tudo ===== */
 d.querySelector('#cliCatList [data-act="finpay"]').click();
@@ -40,7 +40,7 @@ T('7. «Quitar tudo» preencheu o que faltava (250)', d.getElementById('fpValor'
 d.getElementById('btnFpOk').click();
 fin=w.eval('getFin()');
 T('8. venda QUITADA: pago 400 de 400', Number(fin[0].pago)===400);
-T('9. quitada: etiqueta verde e botão Receber SUMIU', txt(d.getElementById('cliCatList')).includes('✓ pago R$ 400,00')&&!d.querySelector('#cliCatList [data-act="finpay"]'));
+T('9. quitada: etiqueta verde e botão Receber SUMIU', txt(d.getElementById('cliCatList')).includes('✓ Quitado')&&!d.querySelector('#cliCatList [data-act="finpay"]'));
 
 /* ===== 4) blindagem: paintSell quebra → modal AINDA abre com «Tentar de novo» ===== */
 w.eval("paintSell=function(){throw new Error('boom');};");

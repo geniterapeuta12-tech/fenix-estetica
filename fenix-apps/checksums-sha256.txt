@@ -1,7 +1,7 @@
-# Fênix Estética — checksums SHA-256 — R104 (v1.6.78) — 06/10/2026
+# Fênix Estética — checksums SHA-256 — R105 (v1.6.79) — 06/10/2026
 # Confira depois de baixar:  certutil -hashfile ARQUIVO SHA256   (Windows)
-8e7e23e961d8ef6f9f1b7cb76f87b00b6063f8feba7ca31e59560c206491174b  FENIX-Estetica.apk           (Android · vc59 · v1.6.78 — lista de itens do catálogo aparece sempre (repinta sozinha) + ir pagando)
-8f31708389a52ba88f00899c94ef07c9a36ba7315cdd8901908056e2c63615b1  FENIX-Estetica-Windows.zip   (Windows · v1.6.78 — idem)
+9e9e66a92aa7abd21bf1823501801b24b9dcf120d5e64045a2469f2e42a68955  FENIX-Estetica.apk           (Android · vc60 · v1.6.79 — «Vendas do catálogo» completa (ver/editar/remover) + status honesto Quitado/Em aberto + saldo só com dinheiro recebido)
+9a2d903d5e5e5175ba539996506dd76b0542274e626d10a71ab238483e4b8235  FENIX-Estetica-Windows.zip   (Windows · v1.6.79 — idem)
 dd3eb4bbb62b2d25c584bf27aa74ec5c4b58c27513b6d1a165874e20c5109ccd  Fenix-Center.apk             (Center Android · vc16 · v2.4.0 — entra e CAI NO APP na mesma janela · sem fenix:// automático)
 dde2189485204406684fecbbb21cdaab8940e06020eb65fbc29d38e641805745  Fenix-Center-Windows.zip     (Center Windows · v2.4.0 — idem)
-# Histórico: Estética vc58/1.6.77 (ab012fd7…/37dd3947…) na release v1.6.77 · vc57/1.6.76 (4b487f16…/e650d296…) na v1.6.76 · Center vc13/2.2.0 (eceb7002…) e vc12/2.1.0 (47333835…/5e3b6de4…) no git
+# Histórico: Estética vc59/1.6.78 (8e7e23e9…/8f317083…) na v1.6.78 · vc58/1.6.77 (ab012fd7…/37dd3947…) na v1.6.77 · Center vc13/2.2.0 (eceb7002…) e vc12/2.1.0 (47333835…/5e3b6de4…) no git

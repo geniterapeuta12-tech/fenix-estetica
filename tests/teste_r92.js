@@ -6,7 +6,7 @@ const WK=fs.readFileSync(path.join(__dirname,'..','supabase','worker-live-backup
 const CJ=fs.readFileSync(path.join(__dirname,'..','center','app.html'),'utf8');
 const MJ=fs.readFileSync(path.join(__dirname,'..','apk-src','br','fenix','estetica','MainActivity.java'),'utf8');
 const VJ=JSON.parse(fs.readFileSync(path.join(__dirname,'..','versao.json'),'utf8'));
-T('1. versão 1.6.78 + versao.json R92 (5 melhorias)', W.includes("APP_VERSAO='1.6.78'")&&VJ.versao==='1.6.78'&&VJ.r==='R104'&&(VJ.melhorias||[]).length===5);
+T('1. versão 1.6.79 + versao.json R92 (5 melhorias)', W.includes("APP_VERSAO='1.6.79'")&&VJ.versao==='1.6.79'&&VJ.r==='R105'&&(VJ.melhorias||[]).length===5);
 /* worker: ponte sb */
 T('2. worker: fxSBSessao — conta Fênix vira sessão supabase da clínica', WK.includes('async function fxSBSessao(env, c)')&&WK.includes("SELECT * FROM auth_users WHERE id = ?")&&WK.includes('return u ? await sessionFor(u, env.FENIX_SECRET) : null;'));
 T('3. worker: login e usar-abrir devolvem sb (2 respostas)', (WK.match(/const sbx = await fxSBSessao\(env, c\);/g)||[]).length===3&&(WK.match(/return j\(\{ ok: true, token, sb: sbx, conta: await fxContaPub\(c\) \}\);/g)||[]).length===2);

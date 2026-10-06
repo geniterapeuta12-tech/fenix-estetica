@@ -1683,7 +1683,7 @@ html:not([data-ui="classica"]) h1,html:not([data-ui="classica"]) h2,html:not([da
 <div class="shopgrid" id="catList"></div>
 </div>
 <div class="panelcard">
-<div class="sec-head"><div class="pc-tt"><h3>Quem comprou</h3><p class="sub" id="quemCount">—</p></div>
+<div class="sec-head"><div class="pc-tt"><h3>Vendas do catálogo</h3><p class="sub" id="quemCount">—</p></div>
 <div class="search" style="margin:0;min-width:min(220px,100%)"><svg class="ic"><use href="#i-search"/></svg><input id="quemBusca" placeholder="Buscar cliente, item ou pacote…"></div></div>
 <ul class="list" id="quemList" style="margin-top:10px"></ul>
 </div>
@@ -5270,7 +5270,7 @@ let onde='só na cliente';
 if(f.link&&f.link.tipo==='pacote'){const pk=pkgById(f.link.id);onde='pacote '+(pk?('“'+pk.nome+'”'):'');}
 else if(f.link&&f.link.tipo==='avulsa'){const ss=sesById(f.link.id);onde='sessão avulsa'+(ss&&ss.data?(' · '+fmtDate(ss.data)):'');}
 const falta=finFalta(f);const pago=falta<=0;
-return '<li class="txn"><span class="dot in"></span><div class="cinfo"><strong>'+esc(f.desc||'Venda do catálogo')+'</strong><small>'+esc(c?c.nome:'Cliente')+' · '+fmtDate(f.data)+' · '+esc(onde)+'</small></div>'+(pago?('<span class="badge b-green">✓ '+fmtBRL(f.pago!=null?f.pago:f.valor)+'</span>'):((Number(f.pago||0)>0?('<span class="badge b-gold">⏳ '+fmtBRL(f.pago)+' de '+fmtBRL(f.valor)+'</span>'):('<span class="badge b-gold">⏳ falta '+fmtBRL(falta)+'</span>'))+'<button class="iconbtn" data-act="finpay" data-id="'+f.id+'" title="Receber pagamento (ir pagando)"><svg class="ic"><use href="#i-fin"/></svg></button>'))+'</li>';}).join(''):'<li class="empty">'+(quemQ?'Nada encontrado para essa busca.':'Ninguém comprou ainda — as vendas do catálogo aparecem aqui.')+'</li>';}
+return '<li class="txn"><span class="dot in"></span><div class="cinfo"><strong>'+esc(f.desc||'Venda do catálogo')+'</strong><small>'+esc(c?c.nome:'Cliente')+' · '+fmtDate(f.data)+' · '+esc(onde)+'</small></div>'+(pago?('<span class="badge b-green">✓ Quitado · '+fmtBRL(f.pago!=null?f.pago:f.valor)+'</span>'):((Number(f.pago||0)>0?('<span class="badge b-gold">⏳ Em aberto · pago '+fmtBRL(f.pago)+' de '+fmtBRL(f.valor)+'</span>'):('<span class="badge b-gold">⏳ Em aberto · falta '+fmtBRL(falta)+'</span>'))+'<button class="iconbtn" data-act="finpay" data-id="'+f.id+'" title="Receber pagamento (ir pagando)"><svg class="ic"><use href="#i-fin"/></svg></button>'))+'<button class="iconbtn" data-act="finedit" data-id="'+f.id+'" title="Editar venda / valor pago"><svg class="ic"><use href="#i-edit"/></svg></button><button class="iconbtn del" data-id="'+f.id+'" title="Apagar (2 toques)"><svg class="ic"><use href="#i-trash"/></svg></button></li>';}).join(''):'<li class="empty">'+(quemQ?'Nada encontrado para essa busca.':'Ninguém comprou ainda — as vendas do catálogo aparecem aqui.')+'</li>';}
 $('quemBusca')&&$('quemBusca').addEventListener('input',e=>{quemQ=e.target.value;renderQuem();});
 let catTab='todos';
 function renderCat(){
@@ -6044,11 +6044,12 @@ $('finCliPays').innerHTML=pays.length?pays.map(x=>
 '<button class="iconbtn del" data-id="'+x.id+'" title="Apagar pagamento"><svg class="ic"><use href="#i-trash"/></svg></button></li>').join('')
 :'<li class="empty">Nenhum pagamento ainda.</li>';
 const cats=getFin().filter(f=>f.origem==='cat'&&f.link&&f.link.clientId===c).sort((a,b)=>String(b.data||'').localeCompare(String(a.data||'')));
-$('finCliCat').innerHTML=cats.length?cats.map(f=>'<li class="txn"><span class="dot in"></span>'+
-'<div class="cinfo"><strong>'+esc(f.desc)+'</strong><small>'+fmtDate(f.data)+' · entrada do catálogo'+(f.obs?' · '+esc(f.obs):'')+'</small></div>'+
-'<span class="badge b-green">'+fmtBRL(f.valor)+'</span>'+
-'<button class="iconbtn" data-act="finedit" data-id="'+f.id+'" title="Editar venda"><svg class="ic"><use href="#i-edit"/></svg></button>'+
-'<button class="iconbtn del" data-id="'+f.id+'" title="Apagar (2 toques)"><svg class="ic"><use href="#i-trash"/></svg></button></li>').join('')
+$('finCliCat').innerHTML=cats.length?cats.map(f=>{const falta=finFalta(f); /* R105 — status REAL: quitado ou em aberto */
+return '<li class="txn"><span class="dot in"></span>'+
+'<div class="cinfo"><strong>'+esc(f.desc)+'</strong><small>'+fmtDate(f.data)+' · venda do catálogo'+(falta>0&&Number(f.pago||0)>0?' · pago '+fmtBRL(f.pago)+' de '+fmtBRL(f.valor):'')+(f.obs?' · '+esc(f.obs):'')+'</small></div>'+
+(falta<=0?'<span class="badge b-green">✓ Quitado · '+fmtBRL(f.pago!=null?f.pago:f.valor)+'</span>':'<span class="badge b-gold">⏳ Em aberto · falta '+fmtBRL(falta)+'</span><button class="iconbtn" data-act="finpay" data-id="'+f.id+'" title="Receber pagamento (ir pagando)"><svg class="ic"><use href="#i-fin"/></svg></button>')+
+'<button class="iconbtn" data-act="finedit" data-id="'+f.id+'" title="Editar venda / valor pago"><svg class="ic"><use href="#i-edit"/></svg></button>'+
+'<button class="iconbtn del" data-id="'+f.id+'" title="Apagar (2 toques)"><svg class="ic"><use href="#i-trash"/></svg></button></li>';}).join('')
 :'<li class="empty">Nenhuma venda do catálogo ainda.</li>';}
 $('formPayCli').addEventListener('submit',e=>{e.preventDefault();
 const alvo=$('payCliPkg').value,valor=parseMoney($('payCliValor').value);
@@ -6177,15 +6178,15 @@ getFin().forEach(t=>{const lk=t.link?finLinkLabel(t.link):'';
 const cl=(t.link&&t.link.clientId)||null;let pk=null;
 if(t.link&&t.link.tipo==='pacote')pk=t.link.id;
 else if(t.link&&(t.link.tipo==='sessao'||t.link.tipo==='avulsa')){const s=sesById(t.link.id);pk=s?s.pacoteId:null;}
-rows.push({kind:'man',id:t.id,data:t.data,valor:t.valor,tipo:t.tipo,desc:t.desc,obs:t.obs||'',clientId:cl,pacoteId:pk,
-sub:(t.tipo==='in'?'Entrada manual':'Saída manual')+(lk?' · '+lk:'')});});
+rows.push({kind:'man',cat:t.origem==='cat'||undefined,pago:t.pago!=null?Number(t.pago):null,id:t.id,data:t.data,valor:t.valor,tipo:t.tipo,desc:t.desc,obs:t.obs||'',clientId:cl,pacoteId:pk,
+sub:(t.origem==='cat'?'Venda do catálogo':(t.tipo==='in'?'Entrada manual':'Saída manual'))+(lk?' · '+lk:'')});}); /* R105 — venda do catálogo identificável e com status real */
 getPay().forEach(p=>{const c=cliById(p.clientId);
 rows.push({kind:p.sessaoId?'av':'pay',id:p.id,data:p.data,valor:p.valor,tipo:'in',
 desc:(c?c.nome:'Cliente')+' · '+(p.metodo||''),obs:p.obs||'',clientId:p.clientId,pacoteId:p.pacoteId||null,
 sub:p.sessaoId?('Pagamento de avulsa · '+payTargetLabel(p)):('Pagamento de pacote · '+payTargetLabel(p))});});
 return rows.sort((a,b)=>String(b.data||'').localeCompare(String(a.data||'')));}
 function renderFin(){renderFinForm();mountFinBar();refreshFinBar();
-const rows=finRows();let inn=0,out=0;rows.forEach(r=>r.tipo==='in'?inn+=r.valor:out+=r.valor);
+const rows=finRows();let inn=0,out=0;rows.forEach(r=>{if(r.tipo==='in')inn+=(r.cat?(r.pago!=null?Math.min(r.pago,r.valor):r.valor):r.valor);else out+=r.valor;}); /* R105 — venda pendente não entra como dinheiro recebido */
 $('sumIn').textContent=fmtBRL(inn);$('sumOut').textContent=fmtBRL(out);
 const s=inn-out,el=$('sumBal');el.textContent=fmtBRL(s);el.style.color=s<0?'#ff8080':(document.documentElement.dataset.theme==='light'?'#B4562F':'var(--gold)');
 const flt=rows.filter(r=>{
@@ -6201,7 +6202,7 @@ $('finList').innerHTML=flt.map(r=>
 '<li class="txn"><span class="dot '+r.tipo+'"></span>'+
 '<div class="cinfo"><strong>'+esc(r.desc)+'</strong><small>'+fmtDate(r.data)+' · '+esc(r.sub)+(r.obs?' · '+esc(r.obs):'')+'</small></div>'+
 '<b class="val '+r.tipo+'">'+(r.tipo==='in'?'+':'−')+' '+fmtBRL(r.valor)+'</b>'+
-(r.kind==='man'?'<button class="iconbtn" data-act="finedit" data-id="'+r.id+'" title="Editar lançamento"><svg class="ic"><use href="#i-edit"/></svg></button><button class="iconbtn del" data-id="'+r.id+'" title="Apagar transação"><svg class="ic"><use href="#i-trash"/></svg></button>':
+(r.kind==='man'?(r.cat?(Number(r.pago||0)>=r.valor?'<span class="badge b-green">✓ Quitado</span>':'<span class="badge b-gold">⏳ Em aberto</span>'):'')+'<button class="iconbtn" data-act="finedit" data-id="'+r.id+'" title="Editar lançamento / valor pago"><svg class="ic"><use href="#i-edit"/></svg></button><button class="iconbtn del" data-id="'+r.id+'" title="Apagar transação"><svg class="ic"><use href="#i-trash"/></svg></button>':
 '<span class="badge '+(r.kind==='pay'?'b-gold':'b-green')+'">'+(r.kind==='pay'?'Pacote':'Avulsa')+'</span>')+'</li>').join('');}
 
 /* ========== ARQUIVOS: ENVIO + EDIÇÃO DE ESPECIFICAÇÃO ========== */
@@ -6453,6 +6454,8 @@ bindDel('pkgFilesList',getArq,setArq,()=>{renderPkgFiles();renderPacote();});
 bindDel('arqCliList',getArq,setArq,()=>renderCliente());
 bindDel('finCliPays',getPay,setPay,()=>{renderCliente();renderStats();});
 bindDel('finCliCat',getFin,setFin,()=>{renderCliente();renderStats();});
+bindDel('cliCatList',getFin,setFin,()=>{renderCliente();renderStats();try{renderQuem();}catch(e){}}); /* R105 — o 🗑 da aba Catálogo agora funciona */
+bindDel('quemList',getFin,setFin,()=>{renderCat();renderStats();}); /* R105 — remover direto das Vendas do catálogo */
 
 /* ===================== EDITAR LANÇAMENTO (financeiro) ===================== */
 function openEditFin(id){const f=getFin().find(x=>x.id===id);if(!f)return;
@@ -6503,7 +6506,7 @@ bindDel('agCliList',getAg,setAg,()=>{renderCliente();renderStats();paintCal('ag'
 function renderStats(){$('statClientes').textContent=getCli().length;
 $('statAgenda').textContent=getAg().length;
 $('statArq').textContent=getArq().length;
-let inn=0,out=0;finRows().forEach(r=>r.tipo==='in'?inn+=r.valor:out+=r.valor);
+let inn=0,out=0;finRows().forEach(r=>{if(r.tipo==='in')inn+=(r.cat?(r.pago!=null?Math.min(r.pago,r.valor):r.valor):r.valor);else out+=r.valor;}); /* R105 */
 const s=inn-out,el=$('statSaldo');el.textContent=fmtBRL(s);el.classList.toggle('neg',s<0);}
 
 /* ===================== SISTEMA (ZOOM) ===================== */
@@ -7875,13 +7878,13 @@ if(REMOTE&&!sellOpts().length){sellPollN=0;sellPollRemoto();try{$('sellList').in
 pullRemote(false).then(()=>{try{const m=$('sellModal');if(m&&!m.classList.contains('hidden'))paintSell();}catch(e2){}}).catch(()=>{try{$('sellList').innerHTML='<li class="empty">Sem conexão com a nuvem agora. <button class="btn small ghost" data-act="sellretry" type="button">Tentar de novo</button></li>';}catch(e2){}});}catch(e){}}}
 function renderPkgCat(){const p=pkgById(state.pacoteId);if(!p)return;
 const L=catDe('pacote',p.id).sort((a,b)=>String(b.data||'').localeCompare(String(a.data||'')));
-$('pkgCatList').innerHTML=L.length?L.map(f=>'<li class="txn"><span class="dot in"></span><div class="cinfo"><strong>'+esc(f.desc)+'</strong><small>'+fmtDate(f.data)+' · '+fmtBRL(f.valor)+((f.pago!=null&&Number(f.pago)<Number(f.valor))?(' · pago '+fmtBRL(Number(f.pago))+' · falta '+fmtBRL(Number(f.valor)-Number(f.pago))):' · paga')+'</small></div>'+((f.pago!=null&&Number(f.pago)<Number(f.valor))?('<button class="iconbtn" data-act="finpay" data-id="'+f.id+'" title="Receber pagamento (ir pagando)"><svg class="ic"><use href="#i-fin"/></svg></button>'):'')+'<button class="iconbtn" data-act="finedit" data-id="'+f.id+'" title="Editar valor pago"><svg class="ic"><use href="#i-edit"/></svg></button><button class="iconbtn del" data-id="'+f.id+'" title="Apagar venda"><svg class="ic"><use href="#i-trash"/></svg></button></li>').join(''):'<li class="empty">Nenhuma venda do catálogo neste pacote ainda.</li>';}
+$('pkgCatList').innerHTML=L.length?L.map(f=>'<li class="txn"><span class="dot in"></span><div class="cinfo"><strong>'+esc(f.desc)+'</strong><small>'+fmtDate(f.data)+' · '+fmtBRL(f.valor)+((f.pago!=null&&Number(f.pago)<Number(f.valor))?(' · Em aberto: falta '+fmtBRL(Number(f.valor)-Number(f.pago))):' · quitada')+'</small></div>'+((f.pago!=null&&Number(f.pago)<Number(f.valor))?('<button class="iconbtn" data-act="finpay" data-id="'+f.id+'" title="Receber pagamento (ir pagando)"><svg class="ic"><use href="#i-fin"/></svg></button>'):'')+'<button class="iconbtn" data-act="finedit" data-id="'+f.id+'" title="Editar valor pago"><svg class="ic"><use href="#i-edit"/></svg></button><button class="iconbtn del" data-id="'+f.id+'" title="Apagar venda"><svg class="ic"><use href="#i-trash"/></svg></button></li>').join(''):'<li class="empty">Nenhuma venda do catálogo neste pacote ainda.</li>';}
 function renderCatCli(){const c=state.clientId;
 const L=getFin().filter(f=>f.origem==='cat'&&f.link&&f.link.clientId===c).sort((a,b)=>String(b.data||'').localeCompare(String(a.data||'')));
 $('cliCatList').innerHTML=L.length?L.map(f=>{let onde='só na cliente';
 if(f.link.tipo==='pacote'){const p=pkgById(f.link.id);onde='pacote '+(p?('“'+p.nome+'”'):'');}
 else if(f.link.tipo==='avulsa'){const s=sesById(f.link.id);onde='sessão avulsa'+(s&&s.data?(' · '+fmtDate(s.data)):'');}
-return '<li class="txn"><span class="dot in"></span><div class="cinfo"><strong>'+esc(f.desc)+'</strong><small>'+fmtDate(f.data)+' · vinculada: '+onde+'</small></div>'+((f.pago==null||Number(f.pago)>=Number(f.valor))?('<span class="badge b-green">✓ pago '+fmtBRL(f.pago!=null?f.pago:f.valor)+'</span>'):((Number(f.pago||0)>0?('<span class="badge b-gold">⏳ pago '+fmtBRL(f.pago)+' · falta '+fmtBRL(Number(f.valor)-Number(f.pago))+'</span>'):('<span class="badge b-gold">⏳ falta '+fmtBRL(finFalta(f))+'</span>'))+'<button class="iconbtn" data-act="finpay" data-id="'+f.id+'" title="Receber pagamento (ir pagando)"><svg class="ic"><use href="#i-fin"/></svg></button>'))+'<button class="iconbtn" data-act="finedit" data-id="'+f.id+'" title="Editar valor pago"><svg class="ic"><use href="#i-edit"/></svg></button><button class="iconbtn del" data-id="'+f.id+'" title="Apagar venda"><svg class="ic"><use href="#i-trash"/></svg></button></li>';}).join(''):'<li class="empty">Nenhuma venda do catálogo ainda — use “Adicionar do catálogo”.</li>';}
+return '<li class="txn"><span class="dot in"></span><div class="cinfo"><strong>'+esc(f.desc)+'</strong><small>'+fmtDate(f.data)+' · vinculada: '+onde+'</small></div>'+((f.pago==null||Number(f.pago)>=Number(f.valor))?('<span class="badge b-green">✓ Quitado</span>'):((Number(f.pago||0)>0?('<span class="badge b-gold">⏳ Em aberto · falta '+fmtBRL(finFalta(f))+'</span>'):('<span class="badge b-gold">⏳ Em aberto · falta '+fmtBRL(finFalta(f))+'</span>'))+'<button class="iconbtn" data-act="finpay" data-id="'+f.id+'" title="Receber pagamento (ir pagando)"><svg class="ic"><use href="#i-fin"/></svg></button>'))+'<button class="iconbtn" data-act="finedit" data-id="'+f.id+'" title="Editar valor pago"><svg class="ic"><use href="#i-edit"/></svg></button><button class="iconbtn del" data-id="'+f.id+'" title="Apagar venda"><svg class="ic"><use href="#i-trash"/></svg></button></li>';}).join(''):'<li class="empty">Nenhuma venda do catálogo ainda — use “Adicionar do catálogo”.</li>';}
 if(!window._r48Ligado){window._r48Ligado=1;
 $('btnCatSell').addEventListener('click',()=>openSellModal('cliente:'));
 $('btnCliCatAdd').addEventListener('click',()=>openSellModal('cliente:'));
@@ -8142,7 +8145,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.78';
+const APP_VERSAO='1.6.79';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{

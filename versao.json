@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.78",
-  "r": "R104",
+  "versao": "1.6.79",
+  "r": "R105",
   "quando": "06/10/2026",
   "melhorias": [
-    "🛡️ Ao adicionar produto do catálogo na cliente/financeiro, os itens EXISTENTES aparecem sempre: se ainda estiverem vindo da nuvem, a janela se atualiza SOZINHA quando chegarem — e tem botão «Recarregar lista»",
-    "🧱 Um item com cadastro incompleto não apaga mais a lista inteira na hora de vender — só ele fica de fora",
-    "🔁 Depois de sincronizar com a nuvem, a janela de venda tenta buscar os itens de novo sozinha",
-    "💰 Venda do catálogo com «ir pagando»: botão Receber pagamento abate aos poucos, com «Quitar tudo», até zerar a dívida",
-    "⏳ Vendas novas nascem pendentes: campo de pagamento vazio = nada pago ainda (nada vem quitado automático)"
+    "🛒 «Vendas do catálogo» (no Catálogo): TODAS as vendas de produtos/procedimentos com cliente, data, pacote, busca — e agora com EDITAR e REMOVER em cada venda",
+    "🚨 Fim da venda «paga» de mentira: financeiro da cliente agora mostra o status REAL — ✓ Quitado ou ⏳ Em aberto (falta R$ X) — com botão Receber pagamento direto ali",
+    "🗑 Remover funcionando em todo lugar: aba Catálogo da cliente e Vendas do catálogo agora apagam de verdade (2 toques)",
+    "💵 Venda do catálogo virou transação de verdade no financeiro: aparece identificada como «Venda do catálogo», com Editar (colocar/ajustar o valor pago) e Apagar — igual transação manual",
+    "🧮 Saldo honesto: venda pendente NÃO entra mais como dinheiro recebido — o saldo só soma o que realmente entrou"
   ]
 }

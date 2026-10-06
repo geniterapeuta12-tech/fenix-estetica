@@ -4,7 +4,7 @@ let ok=0,fail=0;const T=(n,c)=>{if(c){ok++;}else{fail++;console.log('  ✗ '+n);
 const W=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const WK=fs.readFileSync(path.join(__dirname,'..','supabase','worker-live-backup.js'),'utf8');
 const VJ=JSON.parse(fs.readFileSync(path.join(__dirname,'..','versao.json'),'utf8'));
-T('1. versão 1.6.78 + versao.json R87 (5 melhorias)', W.includes("APP_VERSAO='1.6.78'")&&VJ.versao==='1.6.78'&&VJ.r==='R104'&&(VJ.melhorias||[]).length===5);
+T('1. versão 1.6.79 + versao.json R87 (5 melhorias)', W.includes("APP_VERSAO='1.6.79'")&&VJ.versao==='1.6.79'&&VJ.r==='R105'&&(VJ.melhorias||[]).length===5);
 /* worker */
 T('2. worker: agente limitado a 5 arquivos (cap canvasLista)', WK.includes('if(canvasLista.length>=5)break;'));
 T('3. worker: dica de organizar → UM canvas consolidado (O principal/Observações/Resumo organizado)', WK.includes('NÃO crie vários: gere UM ÚNICO canvas consolidado')&&WK.includes('«O principal», «Observações» e «Resumo organizado»'));
@@ -17,7 +17,7 @@ T('7. app: logo REMOVIDA de vez (painel + JS + XObject)', !W.includes('Logo do e
 T('8. app: venda nova do catálogo tem «Valor pago agora»', W.includes('id="sellPago"')&&W.includes('vazio = nada pago')&&W.includes('const pgV=parseMoney($(\'sellPago\').value)'));
 T('9. app: venda do catálogo grava f.pago', W.includes("pago,data:$('sellData').value||todayISO(),\nlink,obs:'Catálogo: '+names.join(', '),origem:'cat'"));
 T('10. app: financeiro da cliente soma o PAGO do catálogo', W.includes('const catVendasCliPago=')&&W.includes('f.pago!=null?f.pago:f.valor'));
-T('11. app: lista do catálogo mostra pago X · falta Y (pacote e cliente)', (W.match(/' · pago '\+fmtBRL\(Number\(f\.pago\)\)\+' · falta '/g)||[]).length===1&&W.includes('⏳ pago')&&W.includes("' · pago '+brl(pg)+"));
+T('11. app: lista do catálogo mostra status honesto (Em aberto · falta Y) no pacote e na cliente', (W.match(/' · Em aberto: falta '\+fmtBRL\(Number\(f\.valor\)-Number\(f\.pago\)\)/g)||[]).length===1&&W.includes('⏳ Em aberto')&&W.includes("' · pago '+brl(pg)+"));
 T('12. app: editar venda do catálogo ajusta o pago', W.includes('id="efPagoRow"')&&W.includes("f.origem==='cat'")&&W.includes('up.pago='));
 /* distribuição automática */
 T('13. app: opção ✨ Distribuir sozinho no pagamento da cliente', W.includes('<option value="auto">✨ Distribuir sozinho (menor falta primeiro)</option>'));
