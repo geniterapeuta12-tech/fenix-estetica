@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.75",
-  "r": "R101",
+  "versao": "1.6.76",
+  "r": "R102",
   "quando": "05/10/2026",
   "melhorias": [
-    "🔠 Títulos e números com a fonte serifada elegante estilo Anthropic (embutida — funciona sem internet)",
-    "🎨 Dois visuais na Aparência › UI do app: Moderna (laranja padrão, novo) e Clássica (a original com as cores de tema) — alterna quando quiser",
-    "🛡️ Vender do catálogo blindado: a lista abre sempre — e se vier vazia, o app puxa da nuvem na hora",
-    "🧹 Cor duplicada «Terracota» na lista de temas removida (o segundo botão não fazia nada)",
-    "✨ UI Moderna fica com a cor fixa laranja; as 7+ cores de tema ficam na Clássica"
+    "🛒 «Quem comprou» no Catálogo: histórico completo de todas as vendas — quem comprou, o que, quando, e se foi dentro de qual PACOTE (com busca e total recebido)",
+    "✍️ Registrar venda sem valor automático: você digita quanto cobrou e quanto a pessoa pagou (a soma da tabela fica só como dica)",
+    "🛡️ Criar produto dentro da venda não apaga mais o que você já digitou",
+    "🧾 Informações do catálogo que apareciam quebradas/duplicadas na ficha da cliente corrigidas (etiqueta de pagamento)",
+    "🔍 Busca no «Quem comprou» por cliente, item ou nome do pacote"
   ]
 }

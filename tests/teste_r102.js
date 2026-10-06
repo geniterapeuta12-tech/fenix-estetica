@@ -1,0 +1,15 @@
+/* R102 — Quem comprou + valor manual + correções do catálogo */
+const fs=require('fs');
+let ok=0,fail=0;const T=(n,c)=>{if(c){ok++;}else{fail++;console.log('  ✗ '+n);}};
+const W=fs.readFileSync('/home/user/index.html','utf8');
+const VJ=JSON.parse(fs.readFileSync('/home/user/versao.json','utf8'));
+T('1. versão 1.6.76 + versao.json R102', W.includes("APP_VERSAO='1.6.76'")&&VJ.versao==='1.6.76'&&VJ.r==='R102');
+T('2. «Quem comprou» na tela do Catálogo (lista + contagem + total)', W.includes('id="quemList"')&&W.includes('id="quemCount"')&&W.includes('<h3>Quem comprou</h3>'));
+T('3. renderQuem: mostra o PACOTE na venda + busca por cliente/item/pacote', W.includes("onde='pacote '+")&&W.includes("quemBusca\")&&$('quemBusca').addEventListener")===false&&W.includes("quemBusca")&&W.includes("function renderQuem()")&&W.includes("pg&&String(pg.nome||'').toLowerCase().includes(q)"));
+T('4. renderCat chama renderQuem (sempre em sincronia)', W.includes("function renderCat(){\ntry{renderQuem();}catch(e){}"));
+T('5. SEM valor automático + trava anti-apagar', W.includes("if(!sellTouched){$('sellValor').value='';")&&!W.includes("$('sellValor').value=sm>0?String(sm.toFixed(2))")&&W.includes('NUNCA apaga'));
+T('6. dica da soma + label do pago explícita', W.includes('Soma da tabela: ')&&W.includes('Quanto a pessoa pagou agora (R$) — vazio = pagou tudo'));
+T('7. criar item no modal preserva o digitado', W.includes("sellSel.add('i:'+it.id);paintSell();")&&!W.includes("sellSel.add('i:'+it.id);sellTouched=false;paintSell();"));
+T('8. badge dupla da ficha corrigida (uma etiqueta só)', !W.includes("</div><span class=\"badge b-green\">'+((f.pago==null")&&W.includes("'>+</span>')")===false&&(W.match(/b-green">✓ pago/g)||[]).length===1);
+console.log(fail?('FALHAS: '+fail):('TUDO OK ('+ok+'/8)'));
+process.exit(fail?1:0);

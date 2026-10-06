@@ -3,7 +3,7 @@ const fs=require('fs');
 let ok=0,fail=0;const T=(n,c)=>{if(c){ok++;}else{fail++;console.log('  ✗ '+n);}};
 const W=fs.readFileSync('/home/user/index.html','utf8');
 const VJ=JSON.parse(fs.readFileSync('/home/user/versao.json','utf8'));
-T('1. versão 1.6.75 + versao.json R100', W.includes("APP_VERSAO='1.6.75'")&&VJ.versao==='1.6.75'&&VJ.r==='R101');
+T('1. versão 1.6.76 + versao.json R100', W.includes("APP_VERSAO='1.6.76'")&&VJ.versao==='1.6.76'&&VJ.r==='R102');
 T('2. agenda: cartão .appt branco + HORÃO serifado terracota', W.includes('html[data-theme="light"] .appt .when b{font-family:Georgia,\'Times New Roman\',serif;font-size:1.5rem;color:#C05B3B')&&W.includes('html[data-theme="light"] .appt{background:#fff'));
 T('3. calendário em pílulas + hoje terracota cheio', W.includes('html[data-theme="light"] .cal-day{border-radius:12px}')&&W.includes('.cal-day.today{background:#D97757;color:#fff'));
 T('4. avatar = círculo pêssego c/ iniciais serifadas terracota + ficha #pNome grande', W.includes('html[data-theme="light"] .avatar{background:#F6E3D3;color:#B4562F;font-family:Georgia')&&W.includes('#pNome{font-family:Georgia'));
