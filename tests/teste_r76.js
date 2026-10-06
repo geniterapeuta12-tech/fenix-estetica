@@ -28,7 +28,7 @@ T('15. dono cadastra WhatsApp/Instagram (Dados › Sistema)', W.includes('id="cW
 T('16. worker: salva na clinics + rpc devolve wa/insta', WK.includes('SELECT nome, wa, insta FROM clinics')&&WK.includes('UPDATE clinics SET wa = ?')&&WK.includes('wa: (clin && clin.wa) || null'));
 T('17. clients: contatos no herói (wa.me + instagram)', C.includes('https://wa.me/55')&&C.includes('https://instagram.com/')&&C.includes('Fale com a clínica'));
 /* versão + integridade */
-T('18. versão 1.6.56 + versao.json R76 (4 melhorias)', W.includes("APP_VERSAO='1.6.81'")&&VJ.versao==='1.6.81'&&VJ.r==='R107'&&(VJ.melhorias||[]).length>=3);
+T('18. versão 1.6.56 + versao.json R76 (4 melhorias)', W.includes("APP_VERSAO='1.6.82'")&&VJ.versao==='1.6.82'&&VJ.r==='R108'&&(VJ.melhorias||[]).length>=3);
 T('19. nada quebrou (chat/fundos/PDF/editor/documentos)', ["$('viewIa').classList.toggle","gpFundoIA(true)",'relPdfModelo','edFromPost','iaDocGera','gpMelhora'].every(f=>W.includes(f)));
 T('20. cérebros todos presentes no worker', ['const IA_POST','const IA_DOC','const IA_SYS','const IA_RESUMO','const IA_CLIENTE','const IA_REL'].every(k=>WK.includes(k)));
 T('21. JS válidos (app + clients)', (()=>{try{new Function(W.match(/<script>([\s\S]*)<\/script>/)[1]);new Function(C.match(/<script>([\s\S]*)<\/script>/)[1]);return true}catch(e){return false}})());

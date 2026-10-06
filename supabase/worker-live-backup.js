@@ -651,6 +651,28 @@ export default {
         return j({ dia, cotas: IA_COTAS, uso, atualizado_em: new Date().toISOString() });
       }
 
+      /* ============ R108 — TOKEN PARA I.A (leitura pública controlada) ============ */
+      if (p === '/pub/ia/dados' && (req.method === 'GET' || req.method === 'POST')) {
+        const auth = req.headers.get('authorization') || '';
+        const tk = auth.replace(/^Bearer\s+/i, '').trim();
+        if (!tk || !tk.startsWith('fkia_')) return jerr('token ausente', 401, 'no_token');
+        const hb = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(tk));
+        const h = [...new Uint8Array(hb)].map(b => b.toString(16).padStart(2, '0')).join('');
+        let t = null;
+        try { t = await env.DB.prepare('SELECT * FROM ia_tokens WHERE hash = ? AND revogado = 0').bind(h).first(); } catch (e) { t = null; }
+        if (!t) return jerr('token inválido ou revogado', 401, 'bad_token');
+        if (t.expira_em) { const ex = Date.parse(t.expira_em); if (ex && ex < Date.now()) return jerr('token expirado', 401, 'expired'); }
+        let esc = {}; try { esc = JSON.parse(t.escopos || '{}') || {}; } catch (e) { esc = {}; }
+        const dados = {};
+        try { if (esc.clientes) dados.clientes = (await env.DB.prepare('SELECT id, nome, tel, email, nasc, obs FROM clientes WHERE clinic_id = ?').bind(t.clinic_id).all()).results || []; } catch (e) { dados.clientes = []; }
+        try { if (esc.agenda) dados.agenda = (await env.DB.prepare('SELECT id, cliente_id, cliente_nome, data, hora, proc, obs FROM agenda WHERE clinic_id = ?').bind(t.clinic_id).all()).results || []; } catch (e) { dados.agenda = []; }
+        try { if (esc.financeiro) dados.financeiro = (await env.DB.prepare('SELECT id, descr, tipo, valor, pago, data FROM financeiro WHERE clinic_id = ? ORDER BY data DESC LIMIT 500').bind(t.clinic_id).all()).results || []; } catch (e) { dados.financeiro = []; }
+        try { if (esc.catalogo) dados.catalogo = (await env.DB.prepare('SELECT id, nome, tipo, preco, descr FROM catalogo_itens WHERE clinic_id = ?').bind(t.clinic_id).all()).results || []; } catch (e) { dados.catalogo = []; }
+        try { await env.DB.prepare('UPDATE ia_tokens SET ultimo_uso = ? WHERE id = ?').bind(new Date().toISOString(), t.id).run(); } catch (e) {}
+        let cnome = ''; try { const cn = await env.DB.prepare('SELECT nome FROM clinics WHERE id = ?').bind(t.clinic_id).first(); cnome = (cn && cn.nome) || ''; } catch (e) {}
+        return j({ ok: true, clinica: cnome, escopos: Object.keys(esc).filter(k => esc[k]), dados, agora: new Date().toISOString() });
+      }
+
       /* ============ REST ============ */
       const mrest = p.match(/^\/rest\/v1\/([a-z_][a-z0-9_]*)$/);
       if (p === '/rest/v1/' || p === '/rest/v1') {

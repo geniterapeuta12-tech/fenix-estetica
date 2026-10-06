@@ -1489,6 +1489,7 @@ html:not([data-ui="classica"]) h1,html:not([data-ui="classica"]) h2,html:not([da
 <button class="navbtn" data-dsub="sync"><svg class="ic"><use href="#i-refresh"/></svg>Sincronização</button>
 <button class="navbtn" data-dsub="theme"><svg class="ic"><use href="#i-spark"/></svg>Aparência</button>
 <button class="navbtn" data-dsub="otim"><svg class="ic"><use href="#i-bolt"/></svg>Otimização</button>
+<button class="navbtn" data-dsub="iatok"><svg class="ic"><use href="#i-ai"/></svg>Token para I.A</button>
 <button class="navbtn" data-dsub="sistema"><svg class="ic"><use href="#i-search"/></svg>Sistema</button>
 <button class="navbtn" data-dsub="usuario"><svg class="ic"><use href="#i-id"/></svg>Usuário</button>
 <button class="navbtn" data-dsub="ajuda"><svg class="ic"><use href="#i-bolt"/></svg>Central de ajuda</button>
@@ -2332,6 +2333,28 @@ html:not([data-ui="classica"]) h1,html:not([data-ui="classica"]) h2,html:not([da
 <p class="sub" id="usuDadosMsg" style="margin-top:8px"></p>
 </div>
 </section>
+<section id="viewIatok" class="view hidden">
+<div class="panelcard">
+<div class="sec-head"><div><h3>Token para I.A</h3><p class="sub">Gere uma chave segura para uma inteligência artificial (ChatGPT, Claude, automações) <b>LER</b> o conteúdo da sua clínica. Só leitura — a I.A não muda nem apaga nada. O token aparece <b>UMA única vez</b>.</p></div>
+<button class="btn small" id="btnIatokNovo" type="button"><svg class="ic"><use href="#i-plus"/></svg>Gerar novo token</button></div>
+<p class="sub" id="iatokCount" style="margin:0 0 8px"></p>
+<div id="iatokForm" class="hidden" style="border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:10px">
+<label>Nome do token</label><div class="field"><input id="iatokNome" placeholder="Ex.: I.A do ChatGPT"></div>
+<label>A I.A pode ver:</label>
+<div class="grid2" style="margin:4px 0 8px">
+<div><label style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="iatokEs_clientes" checked> 👥 Clientes</label></div>
+<div><label style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="iatokEs_agenda" checked> 📅 Agenda</label></div>
+<div><label style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="iatokEs_financeiro"> 💰 Financeiro</label></div>
+<div><label style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="iatokEs_catalogo"> 🛍 Catálogo</label></div>
+</div>
+<label>Expira em</label><div class="field"><select id="iatokExp"><option value="">Nunca expira</option><option value="30">Em 30 dias</option><option value="90">Em 90 dias</option></select></div>
+<div class="rowbtns" style="margin-top:10px"><button class="btn" id="btnIatokGerar" type="button">🔑 Gerar token</button><button class="btn small ghost" id="btnIatokCanc" type="button">Cancelar</button></div>
+<p class="msg" id="iatokMsg"></p>
+</div>
+<ul class="list" id="iatokList"></ul>
+<p class="sub" style="margin-top:10px">⚠️ Quem tiver o token lê as áreas escolhidas. Revogue na hora se desconfiar de vazamento. LGPD: os dados passam pela empresa da I.A que você conectar.</p>
+</div>
+</section>
 <section id="viewSistema" class="view hidden">
 <div class="panelcard">
 <h3>Contatos do estúdio (aparecem no app da cliente)</h3>
@@ -3102,6 +3125,16 @@ html:not([data-ui="classica"]) h1,html:not([data-ui="classica"]) h2,html:not([da
 </div>
 </div>
 
+<div id="iatokShow" class="pmodal hidden">
+<div class="pmodal-card mode-card">
+<header><strong>🔑 Token gerado — copie AGORA</strong>
+<button id="iatokShowX" class="iconbtn" title="Fechar"><svg class="ic"><use href="#i-x"/></svg></button></header>
+<div class="mode-body" style="padding:14px 16px 18px">
+<p class="sub" style="margin:0 0 8px">Este token <b>não aparece de novo</b> (guardamos só a impressão digital dele). Copie e guarde num lugar seguro.</p>
+<p class="fk" style="word-break:break-all;background:rgba(0,0,0,.07);border-radius:10px;padding:10px" id="iatokShowVal"></p>
+<div class="rowbtns" style="margin-top:10px"><button class="btn" id="btnIatokCopiar" type="button"><svg class="ic"><use href="#i-doc"/></svg>Copiar token</button></div>
+<p class="sub" style="margin-top:10px">Na sua I.A, use:<br><b>POST</b> fenix-api.geniterapeuta12.workers.dev/pub/ia/dados<br>cabeçalho <b>Authorization: Bearer SEU_TOKEN</b></p>
+</div></div></div>
 <div id="finPayModal" class="pmodal hidden">
 <div class="pmodal-card mode-card">
 <header><strong>Receber pagamento — catálogo</strong>
@@ -3307,9 +3340,9 @@ payKey=()=>'fk_pay_'+currentKey,agKey=()=>'fk_ag_'+currentKey,finKey=()=>'fk_fin
 docKey=()=>'fk_doc_'+currentKey,alarmKey=()=>'fk_alarm_'+currentKey,iacKey=()=>'fk_iac_'+currentKey,iamKey=()=>'fk_iam_'+currentKey,
 formKey=()=>'fk_form_'+currentKey,respKey=()=>'fk_resp_'+currentKey,catKey=()=>'fk_cat_'+currentKey,kitKey=()=>'fk_kit_'+currentKey,usuKey=()=>'fk_usu_'+currentKey,msgKey=()=>'fk_msg_'+currentKey;
 const hashKey=()=>'fk_bkp_hash_'+currentKey;
-const DB={cli:[],pkg:[],ses:[],pay:[],ag:[],fin:[],arq:[],doc:[],alarm:[],iac:[],iam:[],form:[],resp:[],cat:[],kit:[],usu:[],msg:[],pub:[],bkp:[]};
-const pubKey=()=>'fk_pub_'+currentKey;
-const LEGACY={cli:cliKey,pkg:pkgKey,ses:sesKey,pay:payKey,ag:agKey,fin:finKey,arq:arqKey,doc:docKey,alarm:alarmKey,iac:iacKey,iam:iamKey,form:formKey,resp:respKey,cat:catKey,kit:kitKey,usu:usuKey,msg:msgKey,pub:pubKey};
+const DB={cli:[],pkg:[],ses:[],pay:[],ag:[],fin:[],arq:[],doc:[],alarm:[],iac:[],iam:[],form:[],resp:[],cat:[],kit:[],usu:[],msg:[],pub:[],iatok:[],bkp:[]};
+const pubKey=()=>'fk_pub_'+currentKey,iatokKey=()=>'fk_iatok_'+currentKey;
+const LEGACY={cli:cliKey,pkg:pkgKey,ses:sesKey,pay:payKey,ag:agKey,fin:finKey,arq:arqKey,doc:docKey,alarm:alarmKey,iac:iacKey,iam:iamKey,form:formKey,resp:respKey,cat:catKey,kit:kitKey,usu:usuKey,msg:msgKey,pub:pubKey,iatok:iatokKey};
 const getCli=()=>DB.cli,setCli=v=>{DB.cli=v;persist('cli');};
 const getPkg=()=>DB.pkg,setPkg=v=>{DB.pkg=v;persist('pkg');};
 const getSes=()=>DB.ses,setSes=v=>{DB.ses=v;persist('ses');};
@@ -3317,6 +3350,7 @@ const getPay=()=>DB.pay,setPay=v=>{DB.pay=v;persist('pay');};
 const getAg=()=>DB.ag,setAg=v=>{DB.ag=v;persist('ag');};
 const getFin=()=>DB.fin,setFin=v=>{DB.fin=v;persist('fin');};
 const getPub=()=>DB.pub,setPub=v=>{DB.pub=v;persist('pub');}; /* R106 — Organizador de perfil */
+const getIatok=()=>DB.iatok,setIatok=v=>{DB.iatok=v;persist('iatok');}; /* R108 — tokens para I.A */
 const getArq=()=>DB.arq,setArq=v=>{DB.arq=v;persist('arq');};
 const getDoc=()=>DB.doc,setDoc=v=>{DB.doc=v;persist('doc');};
 const getAlarm=()=>DB.alarm,setAlarm=v=>{DB.alarm=v;persist('alarm');};
@@ -3701,6 +3735,8 @@ const mapAlarm=r=>({id:r.id,hora:r.hora,label:r.label||'',ativa:r.ativa,som:r.so
 const dbAlarm=a=>({id:a.id,clinic_id:CLINIC_ID,hora:a.hora,label:a.label||'',ativa:a.ativa,som:a.som||'classico',data:a.data||'',ts:a.ts||0});
 const mapPub=r=>({id:r.id,tipo:r.tipo||'post',titulo:r.titulo||'',descr:r.descr||'',data_prog:r.data_prog||'',hora_prog:r.hora_prog||'',status:r.status||'agendado',ts:Number(r.ts||0)}); /* R106 — Organizador de perfil */
 const dbPub=x=>({id:x.id,clinic_id:CLINIC_ID,tipo:x.tipo||'post',titulo:x.titulo||'',descr:x.descr||'',data_prog:x.data_prog||'',hora_prog:x.hora_prog||'',status:x.status||'agendado',ts:x.ts||0});
+const mapIat=r=>{let es=[];try{es=JSON.parse(r.escopos||'[]');if(!Array.isArray(es))es=Object.keys(es||{});}catch(e){es=[];}return {id:r.id,nome:r.nome||'',hash:r.hash||'',escopos:es,criadoEm:r.criado_em||'',expiraEm:r.expira_em||'',revogado:Number(r.revogado||0),ultimoUso:r.ultimo_uso||''};}; /* R108 */
+const dbIat=x=>({id:x.id,clinic_id:CLINIC_ID,nome:x.nome||'',hash:x.hash||'',escopos:JSON.stringify(x.escopos||[]),criado_em:x.criadoEm||'',expira_em:x.expiraEm||'',revogado:x.revogado||0,ultimo_uso:x.ultimoUso||''});
 const mapIac=r=>({id:r.id,titulo:r.titulo||'Nova conversa',criadoEm:r.criado_em||'',ts:Number(r.ts||0)});
 const dbIac=c=>({id:c.id,clinic_id:CLINIC_ID,titulo:c.titulo||'Nova conversa',criado_em:c.criadoEm||'',ts:c.ts||0});
 const mapIam=r=>({id:r.id,conversaId:r.conversa_id,papel:r.papel,texto:r.texto,ts:Number(r.ts||0)});
@@ -3731,9 +3767,10 @@ iac:{table:'ia_conversas',fromDb:mapIac,toDb:dbIac},
 iam:{table:'ia_mensagens',fromDb:mapIam,toDb:dbIam},
 form:{table:'formularios',fromDb:mapForm,toDb:dbForm},
 pub:{table:'pubs',fromDb:mapPub,toDb:dbPub}, /* R106 */
+iatok:{table:'ia_tokens',fromDb:mapIat,toDb:dbIat}, /* R108 */
 resp:{table:'formulario_respostas',fromDb:mapResp,toDb:dbResp},
 cat:{table:'catalogo_itens',fromDb:mapCat,toDb:dbCat},kit:{table:'catalogo_kits',fromDb:mapKit,toDb:dbKit},usu:{table:'usuarios',fromDb:mapUsu,toDb:dbUsu},msg:{table:'mensagens',fromDb:mapMsg,toDb:dbMsg}};
-const LOAD_ORDER=['cli','pkg','ses','pay','ag','fin','arq','doc','alarm','iac','iam','form','resp','cat','kit','usu','msg','pub'];
+const LOAD_ORDER=['cli','pkg','ses','pay','ag','fin','arq','doc','alarm','iac','iam','form','resp','cat','kit','usu','msg','pub','iatok'];
 let synced={},dirty=new Set(),syncTimer=null,syncing=false,pulling=false,pendingRender=false,lastPull=0;
 function setCloud(st,txt){const b=$('cloudBadge');if(!b)return;
 b.className='badge '+(st==='ok'?'b-green':st==='err'?'b-red':'b-gold');b.textContent=txt;
@@ -4144,6 +4181,7 @@ $('viewBackup').classList.toggle('hidden',!(dados&&state.dsub==='backup'));
 $('viewSync').classList.toggle('hidden',!(dados&&state.dsub==='sync'));
 $('viewTheme').classList.toggle('hidden',!(dados&&state.dsub==='theme'));
 $('viewOtim').classList.toggle('hidden',!(dados&&state.dsub==='otim'));
+$('viewIatok').classList.toggle('hidden',!(dados&&state.dsub==='iatok')); /* R108 */
 $('viewSistema').classList.toggle('hidden',!(dados&&state.dsub==='sistema'));
 $('viewUso').classList.toggle('hidden',!(dados&&state.dsub==='uso'));
 $('viewUsuario').classList.toggle('hidden',!(dados&&state.dsub==='usuario'));
@@ -4153,13 +4191,14 @@ if(dados||anyStudio||equipe||clients){VIEWS.forEach(x=>$('view'+cap(x)).classLis
 if(dados){
 document.querySelectorAll('#navGestao .navbtn,#navStudio .navbtn,#navCatalogo .navbtn,#navEquipe .navbtn').forEach(b=>b.classList.remove('active'));
 document.querySelectorAll('#navDados .navbtn').forEach(b=>b.classList.toggle('active',b.dataset.dsub===state.dsub));
-$('viewTitle').textContent=state.dsub==='uso'?'Dados · Uso':state.dsub==='backup'?'Dados · Backup':(state.dsub==='sync'?'Dados · Sincronização':(state.dsub==='otim'?'Dados · Otimização':(state.dsub==='sistema'?'Dados · Sistema':(state.dsub==='usuario'?'Dados · Usuário':state.dsub==='termos'?'Dados · Termos de uso':state.dsub==='ajuda'?'Dados · Central de Ajuda':'Dados · Aparência'))));
+$('viewTitle').textContent=state.dsub==='uso'?'Dados · Uso':state.dsub==='backup'?'Dados · Backup':(state.dsub==='sync'?'Dados · Sincronização':(state.dsub==='otim'?'Dados · Otimização':(state.dsub==='sistema'?'Dados · Sistema':(state.dsub==='iatok'?'Dados · Token para I.A':(state.dsub==='usuario'?'Dados · Usuário':state.dsub==='termos'?'Dados · Termos de uso':state.dsub==='ajuda'?'Dados · Central de Ajuda':'Dados · Aparência')))));
 try{if(state.dsub==='backup'){renderBackupSummary();renderBkpList();}
 if(state.dsub==='sync')paintSyncPanel();
 if(state.dsub==='otim')applyPerf(currentPerf());
 if(state.dsub==='sistema')paintZoom();
 if(state.dsub==='uso')renderUso();
-if(state.dsub==='usuario')renderUsuDados();}catch(e){console.warn('dados:',e);}
+if(state.dsub==='usuario')renderUsuDados();
+if(state.dsub==='iatok')try{renderIatok();}catch(e2){} /* R108 */}catch(e){console.warn('dados:',e);}
 isolamentoAreas();updateBack();return;}
 if(catalogo){
 document.querySelectorAll('#navGestao .navbtn,#navDados .navbtn,#navEquipe .navbtn,#navStudio .navbtn').forEach(b=>b.classList.remove('active'));
@@ -5349,6 +5388,46 @@ $('pubList').addEventListener('click',e=>{
 const ok=e.target.closest('[data-act="pubok"]');if(ok){const L=getPub();const it=L.find(x=>x.id===ok.dataset.id);if(it){it.status='postado';setPub(L.slice());renderPerfil();}return;}
 const ed=e.target.closest('[data-act="pubedit"]');if(ed){const it=getPub().find(x=>x.id===ed.dataset.id);if(it)pubFormAbre(it);}});
 bindDel('pubList',getPub,setPub,renderPerfil);}
+/* ===== R108 — TOKEN PARA I.A (Dados › Token para I.A) ===== */
+let iatokMostrado='';
+function renderIatok(){
+const L=getIatok().slice().sort((a,b)=>String(b.criadoEm||'').localeCompare(String(a.criadoEm||'')));
+const escLbl={clientes:'👥 Clientes',agenda:'📅 Agenda',financeiro:'💰 Financeiro',catalogo:'🛍 Catálogo'};
+$('iatokCount').textContent=L.length?(L.filter(x=>!x.revogado).length+' ativo(s) de '+L.length):'Nenhum token ainda — gere o primeiro para conectar sua I.A.';
+$('iatokList').innerHTML=L.length?L.map(x=>{
+const escTxt=(x.escopos||[]).map(s=>escLbl[s]||s).join(' · ')||'—';
+const exp=x.expiraEm&&Date.parse(x.expiraEm)<Date.now();
+const st=x.revogado?'<span class="badge">✕ Revogado</span>':(exp?'<span class="badge b-gold">Expirou</span>':'<span class="badge b-green">● Ativo</span>');
+return '<li class="txn"><span class="dot in"></span><div class="cinfo"><strong>'+esc(x.nome||'Token')+'</strong><small>'+escTxt+' · criado '+fmtDate(x.criadoEm||'')+(x.ultimoUso?(' · último uso '+(/^\d{4}-/.test(String(x.ultimoUso))?String(x.ultimoUso).slice(0,10).split('-').reverse().join('/'):String(x.ultimoUso))):' · nunca usado')+'</small></div>'+st+(x.revogado?'':'<button class="iconbtn" data-act="iatokrev" data-id="'+x.id+'" title="Revogar (a I.A perde o acesso na hora)"><svg class="ic"><use href="#i-x"/></svg></button>')+'<button class="iconbtn del" data-id="'+x.id+'" title="Apagar registro (2 toques)"><svg class="ic"><use href="#i-trash"/></svg></button></li>';}).join(''):'<li class="empty">Gere um token e use na sua I.A (ChatGPT, Claude, automações…).</li>';}
+function iatokFormAbre(){$('iatokNome').value='';['clientes','agenda','financeiro','catalogo'].forEach(function(s){const c=$('iatokEs_'+s);if(c)c.checked=(s==='clientes'||s==='agenda');});$('iatokExp').value='';$('iatokForm').classList.remove('hidden');$('iatokMsg').textContent='';}
+async function iatokGerar(){
+const nome=$('iatokNome').value.trim();if(nome.length<2)return msg($('iatokMsg'),'Dê um nome pro token (ex.: «I.A do ChatGPT»).','err');
+const esc={};['clientes','agenda','financeiro','catalogo'].forEach(function(s){const c=$('iatokEs_'+s);if(c&&c.checked)esc[s]=true;});
+if(!Object.keys(esc).length)return msg($('iatokMsg'),'Escolha pelo menos UMA área que a I.A pode ver.','err');
+const bytes=new Uint8Array(32);(window.crypto||{getRandomValues:function(a){for(let i=0;i<a.length;i++)a[i]=Math.floor(Math.random()*256);return a;}}).getRandomValues(bytes);
+let bin='';bytes.forEach(function(b){bin+=String.fromCharCode(b);});
+const tok='fkia_'+btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+let hash=null;
+try{const hb=await window.crypto.subtle.digest('SHA-256',new TextEncoder().encode(tok));hash=[...new Uint8Array(hb)].map(function(b){return b.toString(16).padStart(2,'0');}).join('');}catch(e){hash='fb_'+tok.slice(5);}
+const L=getIatok();const expDias=parseInt($('iatokExp').value||'0',10);
+const it={id:uid(),nome:nome.slice(0,60),hash:hash,escopos:Object.keys(esc),criadoEm:todayISO(),expiraEm:expDias?new Date(Date.now()+expDias*864e5).toISOString().slice(0,10):'',revogado:0,ultimoUso:''};
+L.unshift(it);setIatok(L.slice());
+$('iatokForm').classList.add('hidden');iatokMostrado=tok;
+$('iatokShowVal').textContent=tok;
+$('iatokShow').classList.remove('hidden');
+renderIatok();}
+function iatokCopia(){const t=iatokMostrado||'';if(!t)return;
+const done=function(){msg($('iatokMsg'),'✔ Token copiado! Cole na configuração da sua I.A.','ok');};
+try{if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(done,function(){iatokCopia2(t,done);});else iatokCopia2(t,done);}catch(e){iatokCopia2(t,done);}}
+function iatokCopia2(t,done){try{const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();}catch(e){msg($('iatokMsg'),'Não deu pra copiar sozinho — toque e segure no token pra copiar.','err');}}
+if(!window._iatokLigado){window._iatokLigado=1;
+$('btnIatokNovo').addEventListener('click',iatokFormAbre);
+$('btnIatokCanc').addEventListener('click',()=>$('iatokForm').classList.add('hidden'));
+$('btnIatokGerar').addEventListener('click',function(){iatokGerar().catch(function(){msg($('iatokMsg'),'Não deu pra gerar agora — tente de novo.','err');});});
+$('btnIatokCopiar').addEventListener('click',iatokCopia);
+$('iatokShowX').addEventListener('click',function(){$('iatokShow').classList.add('hidden');iatokMostrado='';});
+$('iatokList').addEventListener('click',function(e){const rv=e.target.closest('[data-act="iatokrev"]');if(rv){const L=getIatok();const it=L.find(function(x){return x.id===rv.dataset.id;});if(it){it.revogado=1;setIatok(L.slice());renderIatok();msg($('iatokMsg'),'Token revogado — a I.A não acessa mais nada.','ok');}}});
+bindDel('iatokList',getIatok,setIatok,renderIatok);}
 let catTab='todos';
 function renderCat(){
 try{renderQuem();}catch(e){}
@@ -8229,7 +8308,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.81';
+const APP_VERSAO='1.6.82';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{

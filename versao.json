@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.81",
-  "r": "R107",
+  "versao": "1.6.82",
+  "r": "R108",
   "quando": "06/10/2026",
   "melhorias": [
-    "🧾 «Vendas» agora na BARRA LATERAL do Catálogo: alternância Loja (itens) × Vendas — na tela Vendas fica só o histórico completo, com Nova venda, editar, receber e remover",
-    "🔑 VENDAS ANTIGAS consertadas de vez: agora são reconhecidas como venda do catálogo em todo o app — aparecem no financeiro da cliente, nas Vendas do catálogo e no pacote",
-    "✏️ Editar venda antiga AGORA abre o campo do valor pago (antes nem aparecia o campo!) — dá pra colocar o pago, deixar Em aberto e ir pagando",
-    "🗑 Apagar funcionando dentro E fora da cliente, inclusive nas vendas antigas (2 toques pra confirmar)",
-    "🧮 Totais do pacote e da cliente agora contam também as vendas antigas que estavam invisíveis"
+    "🔑 NOVO em Dados › «Token para I.A»: gere uma chave própria da Fênix pra sua inteligência artificial (ChatGPT, Claude, automações) acessar e LER o conteúdo da clínica",
+    "🛡️ Você escolhe o que a I.A pode ver: Clientes, Agenda, Financeiro e/ou Catálogo — e é SÓ LEITURA (a I.A nunca muda nem apaga nada)",
+    "🗑️ Revogação na hora: revogou, a I.A perde o acesso imediatamente · o token aparece UMA vez só (guardamos só a impressão digital)",
+    "⏱️ Validade opcional (nunca / 30 / 90 dias) + registro do último uso de cada token",
+    "📡 Endpoint pronto pra copiar da tela: POST fenix-api…/pub/ia/dados com o token no cabeçalho — testado ao vivo (leu 24 clientes / 30 itens)"
   ]
 }
