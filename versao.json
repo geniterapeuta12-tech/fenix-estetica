@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.76",
-  "r": "R102",
-  "quando": "05/10/2026",
+  "versao": "1.6.77",
+  "r": "R103",
+  "quando": "06/10/2026",
   "melhorias": [
-    "🛒 «Quem comprou» no Catálogo: histórico completo de todas as vendas — quem comprou, o que, quando, e se foi dentro de qual PACOTE (com busca e total recebido)",
-    "✍️ Registrar venda sem valor automático: você digita quanto cobrou e quanto a pessoa pagou (a soma da tabela fica só como dica)",
-    "🛡️ Criar produto dentro da venda não apaga mais o que você já digitou",
-    "🧾 Informações do catálogo que apareciam quebradas/duplicadas na ficha da cliente corrigidas (etiqueta de pagamento)",
-    "🔍 Busca no «Quem comprou» por cliente, item ou nome do pacote"
+    "💰 Venda do catálogo agora NASCE PENDENTE: nada vem quitado sozinho — você digita quanto a pessoa pagou na hora (vazio = nada pago) e o resto fica devendo",
+    "🧾 «Ir pagando»: botão Receber pagamento nas vendas (no Quem comprou do Catálogo, na cliente e no pacote) — recebe aos poucos, com «Quitar tudo», até zerar a dívida",
+    "🛡️ Lista do catálogo dentro da cliente/financeiro/pacote nunca mais trava: a janela de venda abre SEMPRE, mostra «carregando…» se a nuvem demorar e tem botão Tentar de novo",
+    "✏️ Editar venda: esvaziar o valor pago deixa a venda devendo de novo; vendas antigas continuam exatamente como estão",
+    "⏳ Etiquetas claras do que ainda falta: «falta R$ X» ou «pago R$ Y de R$ Z» em todos os lugares da venda"
   ]
 }

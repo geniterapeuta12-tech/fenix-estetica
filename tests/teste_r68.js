@@ -16,9 +16,9 @@ T('10. título: Laboratório I.A · Relatórios', W.includes("'Laboratório I.A 
 T('11. nota da barra muda por área', W.includes('Laboratório I.A: converse com a inteligência artificial'));
 T('12. clicar num item sincroniza a área (data-area)', /const ar=b\.dataset\.area;if\(ar&&ar!==state\.sarea\)/.test(W));
 T('13. CSS das áreas (areatoggle/areabtn.on)', W.includes('.areatoggle{')&&W.includes('.areabtn.on{'));
-T('14. versão 1.6.49', W.includes("APP_VERSAO='1.6.76'"));
+T('14. versão 1.6.49', W.includes("APP_VERSAO='1.6.77'"));
 T('15. Resumo da I.A no relatório intacto (R66)', /sc\[0\]==='resumo'\?relIaBloco\(\):''/.test(W));
-T('16. versao.json 1.6.49/R70', VJ.versao==='1.6.76'&&VJ.r==='R102'&&(VJ.melhorias||[]).length>=3);
+T('16. versao.json 1.6.49/R70', VJ.versao==='1.6.77'&&VJ.r==='R103'&&(VJ.melhorias||[]).length>=3);
 T('17. JS válido', (()=>{try{new Function(W.match(/<script>([\s\S]*)<\/script>/)[1]);return true}catch(e){return false}})());
 T('18. Center 2.0.0 intocado (UI nova da Plataforma)', fs.readFileSync(path.join(__dirname,'..','center-src','www','index.html'),'utf8').includes("CENTER_V='2.4.0'"));
 console.log(fail?('FALHAS: '+fail):('TUDO OK ('+ok+'/18)'));

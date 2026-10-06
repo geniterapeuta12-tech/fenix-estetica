@@ -3081,6 +3081,17 @@ html:not([data-ui="classica"]) h1,html:not([data-ui="classica"]) h2,html:not([da
 </div>
 </div>
 
+<div id="finPayModal" class="pmodal hidden">
+<div class="pmodal-card mode-card">
+<header><strong>Receber pagamento — catálogo</strong>
+<button id="fpClose" class="iconbtn" title="Fechar"><svg class="ic"><use href="#i-x"/></svg></button></header>
+<div class="mode-body" style="padding:14px 16px 18px">
+<p class="sub" id="fpInfo" style="margin:0 0 10px"></p>
+<label>Quanto a pessoa pagou agora (R$)</label><div class="field"><input id="fpValor" type="text" inputmode="decimal" placeholder="0,00"></div>
+<div class="rowbtns" style="margin-top:10px"><button class="btn small ghost" id="btnFpTudo" type="button">Quitar tudo (o que falta)</button></div>
+<p class="msg" id="fpMsg"></p>
+<button class="btn" id="btnFpOk" type="button"><svg class="ic"><use href="#i-check"/></svg>Registrar pagamento</button>
+</div></div></div>
 <div id="sellModal" class="pmodal hidden">
 <div class="pmodal-card mode-card">
 <header><strong>Vender do catálogo</strong>
@@ -3092,7 +3103,7 @@ html:not([data-ui="classica"]) h1,html:not([data-ui="classica"]) h2,html:not([da
 <div><label>Valor da venda (R$) *</label><div class="field"><input id="sellValor" type="text" inputmode="decimal" placeholder="0,00"></div></div>
 <div><label>Data</label><input id="sellData" type="date"></div>
 </div>
-<label>Quanto a pessoa pagou agora (R$) — vazio = pagou tudo</label><div class="field"><input id="sellPago" type="text" inputmode="decimal" placeholder="Ex.: 50 de entrada"></div>
+<label>Quanto a pessoa pagou agora (R$) — vazio = nada pago (dá pra ir pagando depois)</label><div class="field"><input id="sellPago" type="text" inputmode="decimal" placeholder="Ex.: 50 de entrada"></div>
 <label>Vincular a</label><div class="field"><select id="sellVinc"></select></div>
 <label>Descrição *</label><div class="field"><input id="sellDesc" type="text" placeholder="O que foi vendido"></div>
 <div class="rowbtns" style="margin-top:10px"><button class="btn small ghost" id="btnSellNovo" type="button">＋ Criar produto/procedimento no catálogo</button></div>
@@ -3121,7 +3132,7 @@ html:not([data-ui="classica"]) h1,html:not([data-ui="classica"]) h2,html:not([da
 <label>Descrição *</label><div class="field"><input id="efDesc" type="text"></div>
 <label>Valor (R$) *</label><div class="field"><input id="efValor" type="text" inputmode="decimal"></div>
 <label>Observação</label><div class="field"><input id="efObs" type="text"></div>
-<div id="efPagoRow" class="hidden" style="margin-top:8px"><label>Valor pago (R$) — catálogo · vazio/total = pago</label><div class="field"><input id="efPago" type="text" inputmode="decimal"></div></div>
+<div id="efPagoRow" class="hidden" style="margin-top:8px"><label>Valor pago (R$) — catálogo · vazio = nada pago (fica devendo)</label><div class="field"><input id="efPago" type="text" inputmode="decimal"></div></div>
 <p class="msg" id="efMsg"></p>
 <button class="btn" id="btnEfOk" type="button"><svg class="ic"><use href="#i-check"/></svg>Salvar alterações</button>
 </div></div></div>
@@ -5241,6 +5252,7 @@ function catRows(){return getKit().slice().sort((a,b)=>(b.ts||0)-(a.ts||0)).map(
 function rowBadge(preco,sum){if(preco!=null)return '<span class="badge b-green">'+fmtBRL(preco)+'</span>';
 if(sum>0)return '<span class="badge b-green">Soma '+fmtBRL(sum)+'</span>';
 return '<span class="badge b-gold">Sem preço</span>';}
+function finFalta(f){const v=Math.round((Number(f&&f.valor)||0)*100)/100;const p=(f&&f.pago==null)?v:Math.round((Number(f&&f.pago)||0)*100)/100;return Math.max(0,Math.round((v-p)*100)/100);} /* R103 — quanto falta pagar (vendas antigas pago=null = quitadas) */
 let quemQ='';
 function renderQuem(){ /* R102 — todos que compraram, incluindo dentro de pacotes */
 const all=getFin().filter(f=>f.origem==='cat');
@@ -5255,8 +5267,8 @@ $('quemList').innerHTML=L.length?L.map(f=>{const c=f.link&&f.link.clientId?cliBy
 let onde='só na cliente';
 if(f.link&&f.link.tipo==='pacote'){const pk=pkgById(f.link.id);onde='pacote '+(pk?('“'+pk.nome+'”'):'');}
 else if(f.link&&f.link.tipo==='avulsa'){const ss=sesById(f.link.id);onde='sessão avulsa'+(ss&&ss.data?(' · '+fmtDate(ss.data)):'');}
-const pago=(f.pago==null||Number(f.pago)>=Number(f.valor));
-return '<li class="txn"><span class="dot in"></span><div class="cinfo"><strong>'+esc(f.desc||'Venda do catálogo')+'</strong><small>'+esc(c?c.nome:'Cliente')+' · '+fmtDate(f.data)+' · '+esc(onde)+'</small></div>'+(pago?('<span class="badge b-green">'+fmtBRL(f.pago!=null?f.pago:f.valor)+'</span>'):('<span class="badge b-gold">'+fmtBRL(f.pago||0)+' de '+fmtBRL(f.valor)+'</span>'))+'</li>';}).join(''):'<li class="empty">'+(quemQ?'Nada encontrado para essa busca.':'Ninguém comprou ainda — as vendas do catálogo aparecem aqui.')+'</li>';}
+const falta=finFalta(f);const pago=falta<=0;
+return '<li class="txn"><span class="dot in"></span><div class="cinfo"><strong>'+esc(f.desc||'Venda do catálogo')+'</strong><small>'+esc(c?c.nome:'Cliente')+' · '+fmtDate(f.data)+' · '+esc(onde)+'</small></div>'+(pago?('<span class="badge b-green">✓ '+fmtBRL(f.pago!=null?f.pago:f.valor)+'</span>'):((Number(f.pago||0)>0?('<span class="badge b-gold">⏳ '+fmtBRL(f.pago)+' de '+fmtBRL(f.valor)+'</span>'):('<span class="badge b-gold">⏳ falta '+fmtBRL(falta)+'</span>'))+'<button class="iconbtn" data-act="finpay" data-id="'+f.id+'" title="Receber pagamento (ir pagando)"><svg class="ic"><use href="#i-fin"/></svg></button>'))+'</li>';}).join(''):'<li class="empty">'+(quemQ?'Nada encontrado para essa busca.':'Ninguém comprou ainda — as vendas do catálogo aparecem aqui.')+'</li>';}
 $('quemBusca')&&$('quemBusca').addEventListener('input',e=>{quemQ=e.target.value;renderQuem();});
 let catTab='todos';
 function renderCat(){
@@ -6079,7 +6091,7 @@ $('sellDesc').value=names.join(' + ');}}
 /* venda do catálogo: handler único no bloco R48 (com vinculação) */
 $('sellClose').addEventListener('click',()=>$('sellModal').classList.add('hidden'));
 $('sellModal').addEventListener('click',e=>{if(e.target.id==='sellModal')$('sellModal').classList.add('hidden');});
-$('sellList').addEventListener('click',e=>{const li=e.target.closest('[data-ref]');if(!li)return;
+$('sellList').addEventListener('click',e=>{if(e.target.closest('[data-act="sellretry"]')){openSellModal('cliente:');return;}const li=e.target.closest('[data-ref]');if(!li)return;
 const r=li.dataset.ref;if(sellSel.has(r))sellSel.delete(r);else sellSel.add(r);paintSell();});
 $('sellValor').addEventListener('input',()=>{sellTouched=true;});
 $('sellDesc').addEventListener('input',()=>{sellTouched=true;});
@@ -6455,10 +6467,33 @@ const desc=$('efDesc').value.trim(),valor=parseMoney($('efValor').value);
 if(desc.length<2)return msg($('efMsg'),'Informe a descrição.','err');
 if(!isFinite(valor)||valor<=0)return msg($('efMsg'),'Valor inválido.','err');
 const up={tipo:$('efTipo').value,desc,valor,data:$('efData').value||todayISO(),obs:$('efObs').value.trim()};
-if($('efPagoRow')&&!$('efPagoRow').classList.contains('hidden')){if($('efPago').value!==($('efPago').dataset.orig||'')){const pg=parseMoney($('efPago').value);up.pago=(isFinite(pg)&&pg>0&&pg<=valor)?Math.round(pg*100)/100:valor;}else up.pago=valor;}
+if($('efPagoRow')&&!$('efPagoRow').classList.contains('hidden')){if($('efPago').value!==($('efPago').dataset.orig||'')){const pg=parseMoney($('efPago').value);up.pago=(isFinite(pg)&&pg>0)?Math.min(Math.round(pg*100)/100,valor):0;}else up.pago=(f.pago!=null?Math.min(Number(f.pago)||0,valor):valor);} /* R103 — inalterado mantém o pago de antes; esvaziar = nada pago */
 Object.assign(f,up);
 setFin(getFin().slice());$('editFinModal').classList.add('hidden');
-renderFin();renderStats();if(state.view==='cliente')renderCliente();});
+renderFin();renderStats();if(state.view==='cliente')renderCliente();try{renderQuem();}catch(e){}try{if(state.pacoteId&&$('pkgCatList'))renderPkgCat();}catch(e2){}});
+/* ===== R103 — IR PAGANDO: receber pagamentos parciais da venda do catálogo ===== */
+function openFinPay(id){const f=getFin().find(x=>x.id===id);if(!f)return;
+const falta=finFalta(f);
+$('finPayModal').dataset.fid=id;
+$('fpInfo').textContent='Venda: '+f.desc+' · total '+fmtBRL(f.valor)+(falta>0?(' · falta '+fmtBRL(falta)):' · quitada');
+$('fpValor').value=falta>0?String(falta).replace('.',','):'';
+$('fpMsg').textContent='';
+$('finPayModal').classList.remove('hidden');}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-act="finpay"]');if(b)openFinPay(b.dataset.id);});
+$('fpClose').addEventListener('click',()=>$('finPayModal').classList.add('hidden'));
+$('finPayModal').addEventListener('click',e=>{if(e.target.id==='finPayModal')$('finPayModal').classList.add('hidden');});
+$('btnFpTudo').addEventListener('click',()=>{try{const f=getFin().find(x=>x.id===$('finPayModal').dataset.fid);if(f)$('fpValor').value=String(finFalta(f)).replace('.',',');}catch(e){}});
+$('btnFpOk').addEventListener('click',()=>{
+const f=getFin().find(x=>x.id===$('finPayModal').dataset.fid);if(!f)return;
+const falta=finFalta(f);if(falta<=0)return msg($('fpMsg'),'Essa venda já está quitada — nada a receber.','err');
+const pg=parseMoney($('fpValor').value);
+if(!isFinite(pg)||pg<=0)return msg($('fpMsg'),'Digite quanto a pessoa pagou agora (ou use Quitar tudo).','err');
+const v=Math.round((Number(f.valor)||0)*100)/100,antes=Math.round((Number(f.pago)||0)*100)/100;
+const novo=Math.min(Math.round((antes+pg)*100)/100,v);
+f.pago=novo;setFin(getFin().slice());$('finPayModal').classList.add('hidden');
+renderFin();renderStats();if(state.view==='cliente')renderCliente();try{renderQuem();}catch(e){}
+try{if(state.pacoteId&&$('pkgCatList'))renderPkgCat();}catch(e2){}
+const mm=$('payCliMsg');if(mm)msg(mm,(novo>=v?('✔ Recebido '+fmtBRL(pg)+' — venda QUITADA! 🎉'):('✔ Recebido '+fmtBRL(pg)+' · falta '+fmtBRL(v-novo))),'ok');});
 bindDel('agCliList',getAg,setAg,()=>{renderCliente();renderStats();paintCal('ag');refreshWidgets();});
 
 /* ===================== STATS ===================== */
@@ -7818,22 +7853,24 @@ cliPkgs(state.clientId).forEach(p=>ops.push(['pacote:'+p.id,'Pacote: '+(p.nome||
 cliAvulsas(state.clientId).forEach(s=>ops.push(['avulsa:'+s.id,'Avulsa: '+(s.data?fmtDate(s.data):'sem data')+(s.obs?' · '+s.obs:'')]));
 sel.innerHTML=ops.map(o=>'<option value="'+o[0]+'">'+esc(o[1])+'</option>').join('');
 if(prefer&&ops.some(o=>o[0]===prefer))sel.value=prefer;}
-function openSellModal(prefer){ /* R101 — blindado: nenhum erro impede a lista de abrir; se vazia, puxa da nuvem na hora */
+function openSellModal(prefer){ /* R103 — blindagem total: o modal ABRE sempre; se a lista quebrar ou a nuvem demorar, mostra aviso e tem «Tentar de novo» */
 sellSel=new Set();sellTouched=false;
 $('sellMsg').textContent='';$('sellData').value=todayISO();$('sellPago').value='';
-SELL_NOVO=false;$('sellNovoBox').classList.add('hidden');
+SELL_NOVO=false;try{$('sellNovoBox').classList.add('hidden');}catch(e){}
 try{sellVincPinta(prefer||'cliente:');}catch(e){}
-paintSell();$('sellModal').classList.remove('hidden');
-if(REMOTE&&!sellOpts().length){try{pullRemote(false).then(()=>{try{const m=$('sellModal');if(m&&!m.classList.contains('hidden'))paintSell();}catch(e2){}});}catch(e){}}}
+try{$('sellModal').classList.remove('hidden');}catch(e){}
+try{paintSell();}catch(e){try{$('sellList').innerHTML='<li class="empty">Não deu pra montar a lista agora. <button class="btn small ghost" data-act="sellretry" type="button">Tentar de novo</button></li>';}catch(e2){}}
+if(REMOTE&&!sellOpts().length){try{$('sellList').innerHTML='<li class="empty">⏳ Carregando catálogo da nuvem…</li>';
+pullRemote(false).then(()=>{try{const m=$('sellModal');if(m&&!m.classList.contains('hidden'))paintSell();}catch(e2){}}).catch(()=>{try{$('sellList').innerHTML='<li class="empty">Sem conexão com a nuvem agora. <button class="btn small ghost" data-act="sellretry" type="button">Tentar de novo</button></li>';}catch(e2){}});}catch(e){}}}
 function renderPkgCat(){const p=pkgById(state.pacoteId);if(!p)return;
 const L=catDe('pacote',p.id).sort((a,b)=>String(b.data||'').localeCompare(String(a.data||'')));
-$('pkgCatList').innerHTML=L.length?L.map(f=>'<li class="txn"><span class="dot in"></span><div class="cinfo"><strong>'+esc(f.desc)+'</strong><small>'+fmtDate(f.data)+' · '+fmtBRL(f.valor)+((f.pago!=null&&Number(f.pago)<Number(f.valor))?(' · pago '+fmtBRL(Number(f.pago))+' · falta '+fmtBRL(Number(f.valor)-Number(f.pago))):' · paga')+'</small></div><button class="iconbtn" data-act="finedit" data-id="'+f.id+'" title="Editar valor pago"><svg class="ic"><use href="#i-edit"/></svg></button><button class="iconbtn del" data-id="'+f.id+'" title="Apagar venda"><svg class="ic"><use href="#i-trash"/></svg></button></li>').join(''):'<li class="empty">Nenhuma venda do catálogo neste pacote ainda.</li>';}
+$('pkgCatList').innerHTML=L.length?L.map(f=>'<li class="txn"><span class="dot in"></span><div class="cinfo"><strong>'+esc(f.desc)+'</strong><small>'+fmtDate(f.data)+' · '+fmtBRL(f.valor)+((f.pago!=null&&Number(f.pago)<Number(f.valor))?(' · pago '+fmtBRL(Number(f.pago))+' · falta '+fmtBRL(Number(f.valor)-Number(f.pago))):' · paga')+'</small></div>'+((f.pago!=null&&Number(f.pago)<Number(f.valor))?('<button class="iconbtn" data-act="finpay" data-id="'+f.id+'" title="Receber pagamento (ir pagando)"><svg class="ic"><use href="#i-fin"/></svg></button>'):'')+'<button class="iconbtn" data-act="finedit" data-id="'+f.id+'" title="Editar valor pago"><svg class="ic"><use href="#i-edit"/></svg></button><button class="iconbtn del" data-id="'+f.id+'" title="Apagar venda"><svg class="ic"><use href="#i-trash"/></svg></button></li>').join(''):'<li class="empty">Nenhuma venda do catálogo neste pacote ainda.</li>';}
 function renderCatCli(){const c=state.clientId;
 const L=getFin().filter(f=>f.origem==='cat'&&f.link&&f.link.clientId===c).sort((a,b)=>String(b.data||'').localeCompare(String(a.data||'')));
 $('cliCatList').innerHTML=L.length?L.map(f=>{let onde='só na cliente';
 if(f.link.tipo==='pacote'){const p=pkgById(f.link.id);onde='pacote '+(p?('“'+p.nome+'”'):'');}
 else if(f.link.tipo==='avulsa'){const s=sesById(f.link.id);onde='sessão avulsa'+(s&&s.data?(' · '+fmtDate(s.data)):'');}
-return '<li class="txn"><span class="dot in"></span><div class="cinfo"><strong>'+esc(f.desc)+'</strong><small>'+fmtDate(f.data)+' · vinculada: '+onde+'</small></div>'+((f.pago==null||Number(f.pago)>=Number(f.valor))?('<span class="badge b-green">✓ pago '+fmtBRL(f.pago!=null?f.pago:f.valor)+'</span>'):('<span class="badge b-gold">⏳ pago '+fmtBRL(f.pago)+' · falta '+fmtBRL(Number(f.valor)-Number(f.pago))+'</span>'))+'<button class="iconbtn" data-act="finedit" data-id="'+f.id+'" title="Editar valor pago"><svg class="ic"><use href="#i-edit"/></svg></button><button class="iconbtn del" data-id="'+f.id+'" title="Apagar venda"><svg class="ic"><use href="#i-trash"/></svg></button></li>';}).join(''):'<li class="empty">Nenhuma venda do catálogo ainda — use “Adicionar do catálogo”.</li>';}
+return '<li class="txn"><span class="dot in"></span><div class="cinfo"><strong>'+esc(f.desc)+'</strong><small>'+fmtDate(f.data)+' · vinculada: '+onde+'</small></div>'+((f.pago==null||Number(f.pago)>=Number(f.valor))?('<span class="badge b-green">✓ pago '+fmtBRL(f.pago!=null?f.pago:f.valor)+'</span>'):((Number(f.pago||0)>0?('<span class="badge b-gold">⏳ pago '+fmtBRL(f.pago)+' · falta '+fmtBRL(Number(f.valor)-Number(f.pago))+'</span>'):('<span class="badge b-gold">⏳ falta '+fmtBRL(finFalta(f))+'</span>'))+'<button class="iconbtn" data-act="finpay" data-id="'+f.id+'" title="Receber pagamento (ir pagando)"><svg class="ic"><use href="#i-fin"/></svg></button>'))+'<button class="iconbtn" data-act="finedit" data-id="'+f.id+'" title="Editar valor pago"><svg class="ic"><use href="#i-edit"/></svg></button><button class="iconbtn del" data-id="'+f.id+'" title="Apagar venda"><svg class="ic"><use href="#i-trash"/></svg></button></li>';}).join(''):'<li class="empty">Nenhuma venda do catálogo ainda — use “Adicionar do catálogo”.</li>';}
 if(!window._r48Ligado){window._r48Ligado=1;
 $('btnCatSell').addEventListener('click',()=>openSellModal('cliente:'));
 $('btnCliCatAdd').addEventListener('click',()=>openSellModal('cliente:'));
@@ -7857,7 +7894,7 @@ if(desc.length<2)return msg($('sellMsg'),'Escreva uma descrição para a venda.'
 const names=[];sellSel.forEach(r=>{const x=sellOpts().find(y=>y.ref===r);if(x)names.push(x.nome);});
 const vp=String($('sellVinc').value||'cliente:').split(':');
 const link=vp[0]==='pacote'&&vp[1]?{tipo:'pacote',id:vp[1],clientId:state.clientId}:(vp[0]==='avulsa'&&vp[1]?{tipo:'avulsa',id:vp[1],clientId:state.clientId}:{tipo:'cliente',id:state.clientId,clientId:state.clientId});
-const pgV=parseMoney($('sellPago').value);const pago=(isFinite(pgV)&&pgV>0&&pgV<valor)?Math.round(pgV*100)/100:valor;
+const pgV=parseMoney($('sellPago').value);const pago=(isFinite(pgV)&&pgV>0)?Math.min(Math.round(pgV*100)/100,valor):0; /* R103 — vazio = nada pago: a venda nasce devendo, dá pra ir pagando */
 const list=getFin();list.unshift({id:uid(),tipo:'in',desc,valor,pago,data:$('sellData').value||todayISO(),
 link,obs:'Catálogo: '+names.join(', '),origem:'cat'});
 setFin(list);$('sellModal').classList.add('hidden');
@@ -8094,7 +8131,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.76';
+const APP_VERSAO='1.6.77';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{
