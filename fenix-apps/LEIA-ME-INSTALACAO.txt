@@ -24,6 +24,7 @@ DETALHES
 • Login e senha: os mesmos. Celular e PC sincronizados
   (mesmo banco na nuvem).
 • Zoom das telas: menu Dados > Sistema (80% a 125%).
+• Novidade v1.6.78 — LISTA DE ITENS SEMPRE APARECE: ao adicionar produto do catálogo na cliente/financeiro, os itens existentes carregam e aparecem sozinhos (botão Recarregar lista) · um item com cadastro ruim não apaga a lista
 • Novidade v1.6.77 — VENDA DO CATÁLOGO COM «IR PAGANDO»: a venda nasce pendente (nada vem quitado automático), você registra quanto a pessoa pagou na hora e vai recebendo aos poucos com o botão Receber pagamento (com Quitar tudo) · lista do catálogo dentro da cliente blindada (abre sempre)
 • Novidade v1.6.70 — PLATAFORMA FÊNIX: a Central vira a porta de tudo (login com a CONTA FÊNIX) · «Abrir o Estética JÁ LOGADO» pela Central · no app, botão «Entrar pela conta Fênix» na tela de login
 

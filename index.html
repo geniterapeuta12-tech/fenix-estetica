@@ -3733,6 +3733,7 @@ synced[name]=JSON.parse(JSON.stringify(cur));dirty.delete(name);
 syncing=false;lastPull=Date.now();paintSyncPanel();
 if(fail){setCloud('err','⚠ Falha ao sincronizar ('+fail+')');setTimeout(syncAll,5000);return;}
 if(dirty.size)return syncAll();
+try{const _sm=$('sellModal');if(_sm&&!_sm.classList.contains('hidden')&&!sellOpts().length)setTimeout(function(){try{pullRemote(false);}catch(e){}},300);}catch(e){} /* R104 */
 setCloud('ok','☁ Sincronizado');}
 async function loadRemote(uid){
 /* R19: todas as tabelas em paralelo (era 1 por vez — boot ate 10x mais rapido) */
@@ -3755,6 +3756,7 @@ pulling=true;
 if(manual)setCloud('sync','☁ Atualizando…');
 try{const antes=JSON.stringify(DB);
 await loadRemote(CLINIC_ID);await loadBkpMeta();
+try{sellRepintaSeAberto();}catch(e){} /* R104 — itens chegaram: janela aberta se repinta */
 lastPull=Date.now();
 if(JSON.stringify(DB)!==antes){if(isTyping())pendingRender=true;else{renderApp();pendingRender=false;}setCloud('ok','☁ Atualizado');}
 else if(manual)setCloud('ok','☁ Já está atualizado');else setCloud('ok','☁ Sincronizado');
@@ -6075,11 +6077,12 @@ function sellOpts(){const ks=getKit().slice().sort((a,b)=>(b.ts||0)-(a.ts||0)).m
 const is=catItems().map(c=>({ref:'i:'+c.id,nome:c.nome,preco:c.preco,kit:false,d:c}));
 return ks.concat(is);}
 function paintSell(){const all=sellOpts();
-$('sellList').innerHTML=all.length?all.map(x=>'<li class="client clickable" data-ref="'+x.ref+'">'+
+$('sellList').innerHTML=all.length?all.map(x=>{try{ /* R104 — um item com dado ruim NUNCA apaga a lista dos outros */
+return '<li class="client clickable" data-ref="'+x.ref+'">'+
 '<span class="selbox'+(sellSel.has(x.ref)?' on':'')+'"></span>'+
-'<span class="avatar file"><svg class="ic"><use href="#'+(x.kit?'i-layers':(x.d.tipo==='produto'?'i-box':'i-spark'))+'"/></svg></span>'+
-'<div class="cinfo"><strong>'+esc(x.nome)+'</strong><small>'+(x.kit?'Kit':(x.d.tipo==='produto'?'Produto':'Procedimento'))+(x.d.preco!=null?' · '+fmtBRL(x.d.preco):(x.kit&&x.preco>0?' · soma '+fmtBRL(x.preco):' · sem preço'))+'</small></div>'+
-(x.preco>0?'<span class="badge b-green">'+fmtBRL(x.preco)+'</span>':'<span class="badge b-gold">Sem preço</span>')+'</li>').join(''):'<li class="empty">Catálogo vazio — cadastre itens no modo Catálogo.</li>';
+'<span class="avatar file"><svg class="ic"><use href="#'+(x.kit?'i-layers':(x.d&&x.d.tipo==='produto'?'i-box':'i-spark'))+'"/></svg></span>'+
+'<div class="cinfo"><strong>'+esc(x.nome||'(sem nome)')+'</strong><small>'+(x.kit?'Kit':(x.d&&x.d.tipo==='produto'?'Produto':'Procedimento'))+(x.d&&x.d.preco!=null?' · '+fmtBRL(x.d.preco):(x.kit&&x.preco>0?' · soma '+fmtBRL(x.preco):' · sem preço'))+'</small></div>'+
+(x.preco>0?'<span class="badge b-green">'+fmtBRL(x.preco)+'</span>':'<span class="badge b-gold">Sem preço</span>')+'</li>';}catch(e){return '';}}).join('')||'<li class="empty">Itens com cadastro incompleto ficaram de fora — confira o Catálogo.</li>':'<li class="empty">'+(REMOTE?'Nenhum item apareceu ainda. <button class="btn small ghost" data-act="sellretry" type="button">Recarregar lista</button>':'Catálogo vazio — cadastre itens no modo Catálogo.')+'</li>';
 sellRecalc();}
 function sellSumVals(){let sm=0;sellSel.forEach(r=>{const x=sellOpts().find(y=>y.ref===r);if(x&&x.preco>0)sm+=x.preco;});return sm;}
 function sellRecalc(){const n=sellSel.size,sm=sellSumVals();
@@ -7853,6 +7856,14 @@ cliPkgs(state.clientId).forEach(p=>ops.push(['pacote:'+p.id,'Pacote: '+(p.nome||
 cliAvulsas(state.clientId).forEach(s=>ops.push(['avulsa:'+s.id,'Avulsa: '+(s.data?fmtDate(s.data):'sem data')+(s.obs?' · '+s.obs:'')]));
 sel.innerHTML=ops.map(o=>'<option value="'+o[0]+'">'+esc(o[1])+'</option>').join('');
 if(prefer&&ops.some(o=>o[0]===prefer))sel.value=prefer;}
+function sellRepintaSeAberto(){ /* R104 — janela de venda aberta e lista vazia? repinta assim que os itens chegarem */try{const m=$('sellModal');if(m&&!m.classList.contains('hidden')&&!sellOpts().length)paintSell();}catch(e){}}
+let sellPollN=0;
+function sellPollRemoto(){ /* R104 — reclima por alguns segundos: mesmo com sync pendente ou nuvem lenta, quando os itens chegarem a lista PINTA SOZINHA */
+if(sellPollN>10)return;sellPollN++;
+setTimeout(()=>{try{const m=$('sellModal');if(!m||m.classList.contains('hidden'))return;
+if(sellOpts().length){paintSell();return;}
+if(REMOTE){try{pullRemote(false);}catch(e){}}
+sellPollRemoto();}catch(e){}},1300);}
 function openSellModal(prefer){ /* R103 — blindagem total: o modal ABRE sempre; se a lista quebrar ou a nuvem demorar, mostra aviso e tem «Tentar de novo» */
 sellSel=new Set();sellTouched=false;
 $('sellMsg').textContent='';$('sellData').value=todayISO();$('sellPago').value='';
@@ -7860,7 +7871,7 @@ SELL_NOVO=false;try{$('sellNovoBox').classList.add('hidden');}catch(e){}
 try{sellVincPinta(prefer||'cliente:');}catch(e){}
 try{$('sellModal').classList.remove('hidden');}catch(e){}
 try{paintSell();}catch(e){try{$('sellList').innerHTML='<li class="empty">Não deu pra montar a lista agora. <button class="btn small ghost" data-act="sellretry" type="button">Tentar de novo</button></li>';}catch(e2){}}
-if(REMOTE&&!sellOpts().length){try{$('sellList').innerHTML='<li class="empty">⏳ Carregando catálogo da nuvem…</li>';
+if(REMOTE&&!sellOpts().length){sellPollN=0;sellPollRemoto();try{$('sellList').innerHTML='<li class="empty">⏳ Carregando catálogo da nuvem…</li>';
 pullRemote(false).then(()=>{try{const m=$('sellModal');if(m&&!m.classList.contains('hidden'))paintSell();}catch(e2){}}).catch(()=>{try{$('sellList').innerHTML='<li class="empty">Sem conexão com a nuvem agora. <button class="btn small ghost" data-act="sellretry" type="button">Tentar de novo</button></li>';}catch(e2){}});}catch(e){}}}
 function renderPkgCat(){const p=pkgById(state.pacoteId);if(!p)return;
 const L=catDe('pacote',p.id).sort((a,b)=>String(b.data||'').localeCompare(String(a.data||'')));
@@ -8131,7 +8142,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.77';
+const APP_VERSAO='1.6.78';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{

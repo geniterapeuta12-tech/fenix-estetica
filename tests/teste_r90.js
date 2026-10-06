@@ -4,7 +4,7 @@ let ok=0,fail=0;const T=(n,c)=>{if(c){ok++;}else{fail++;console.log('  ✗ '+n);
 const W=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const WK=fs.readFileSync(path.join(__dirname,'..','supabase','worker-live-backup.js'),'utf8');
 const VJ=JSON.parse(fs.readFileSync(path.join(__dirname,'..','versao.json'),'utf8'));
-T('1. versão 1.6.77 + versao.json R90 (5 melhorias)', true&&(VJ.melhorias||[]).length===5);
+T('1. versão 1.6.78 + versao.json R90 (5 melhorias)', true&&(VJ.melhorias||[]).length===5);
 /* padrões novos */
 T('2. tema CLARO (papel) é o padrão de quem nunca escolheu', W.includes("if(!['dark','light'].includes(t))t='light';"));
 T('3. acento TERRACOTA é o padrão de quem nunca escolheu', W.includes("localStorage.getItem('fenix_accent')||'terraco'")&&W.includes("catch(e){return 'terraco'}"));

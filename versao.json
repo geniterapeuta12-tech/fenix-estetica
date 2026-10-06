@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.77",
-  "r": "R103",
+  "versao": "1.6.78",
+  "r": "R104",
   "quando": "06/10/2026",
   "melhorias": [
-    "💰 Venda do catálogo agora NASCE PENDENTE: nada vem quitado sozinho — você digita quanto a pessoa pagou na hora (vazio = nada pago) e o resto fica devendo",
-    "🧾 «Ir pagando»: botão Receber pagamento nas vendas (no Quem comprou do Catálogo, na cliente e no pacote) — recebe aos poucos, com «Quitar tudo», até zerar a dívida",
-    "🛡️ Lista do catálogo dentro da cliente/financeiro/pacote nunca mais trava: a janela de venda abre SEMPRE, mostra «carregando…» se a nuvem demorar e tem botão Tentar de novo",
-    "✏️ Editar venda: esvaziar o valor pago deixa a venda devendo de novo; vendas antigas continuam exatamente como estão",
-    "⏳ Etiquetas claras do que ainda falta: «falta R$ X» ou «pago R$ Y de R$ Z» em todos os lugares da venda"
+    "🛡️ Ao adicionar produto do catálogo na cliente/financeiro, os itens EXISTENTES aparecem sempre: se ainda estiverem vindo da nuvem, a janela se atualiza SOZINHA quando chegarem — e tem botão «Recarregar lista»",
+    "🧱 Um item com cadastro incompleto não apaga mais a lista inteira na hora de vender — só ele fica de fora",
+    "🔁 Depois de sincronizar com a nuvem, a janela de venda tenta buscar os itens de novo sozinha",
+    "💰 Venda do catálogo com «ir pagando»: botão Receber pagamento abate aos poucos, com «Quitar tudo», até zerar a dívida",
+    "⏳ Vendas novas nascem pendentes: campo de pagamento vazio = nada pago ainda (nada vem quitado automático)"
   ]
 }
