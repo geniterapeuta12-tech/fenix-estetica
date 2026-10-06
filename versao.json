@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.74",
-  "r": "R100",
+  "versao": "1.6.75",
+  "r": "R101",
   "quando": "05/10/2026",
   "melhorias": [
-    "📅 Agenda no estilo aprovado: cartões de sessão com HORÃO serifado terracota e calendário em pílulas (hoje fica laranja)",
-    "👤 Clientes e ficha: circulinho pêssego com as iniciais em serifa terracota, nome grande serifado e números maiores no resumo",
-    "💰 Financeiro e pacotes: lançamentos em cartões finos com valores em serifa, e BARRA DE PROGRESSO laranja nos pacotes (6/10 igual ao desenho)",
-    "✨ Fênix I.A: botão de enviar círculo laranja, atalhos e abas em pílula, balões arredondados — nada de verde-neon",
-    "🎨 Ronda 2 completa seguindo as SUAS 9 referências da Meta AI (papel + terracota de ponta a ponta)"
+    "🔠 Títulos e números com a fonte serifada elegante estilo Anthropic (embutida — funciona sem internet)",
+    "🎨 Dois visuais na Aparência › UI do app: Moderna (laranja padrão, novo) e Clássica (a original com as cores de tema) — alterna quando quiser",
+    "🛡️ Vender do catálogo blindado: a lista abre sempre — e se vier vazia, o app puxa da nuvem na hora",
+    "🧹 Cor duplicada «Terracota» na lista de temas removida (o segundo botão não fazia nada)",
+    "✨ UI Moderna fica com a cor fixa laranja; as 7+ cores de tema ficam na Clássica"
   ]
 }
