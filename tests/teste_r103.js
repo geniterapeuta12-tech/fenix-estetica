@@ -3,7 +3,7 @@ const fs=require('fs');
 let ok=0,fail=0;const T=(n,c)=>{if(c){ok++;}else{fail++;console.log('  ✗ '+n);}};
 const W=fs.readFileSync('/home/user/index.html','utf8');
 const VJ=JSON.parse(fs.readFileSync('/home/user/versao.json','utf8'));
-T('1. versão 1.6.80 + versao.json R103 (5 melhorias)', W.includes("APP_VERSAO='1.6.80'")&&VJ.versao==='1.6.80'&&VJ.r==='R106'&&VJ.melhorias.length===5);
+T('1. versão 1.6.81 + versao.json R103 (5 melhorias)', W.includes("APP_VERSAO='1.6.81'")&&VJ.versao==='1.6.81'&&VJ.r==='R107'&&VJ.melhorias.length===5);
 T('2. venda nasce PENDENTE: vazio = pago 0 (nada quitado automático)', W.includes('const pago=(isFinite(pgV)&&pgV>0)?Math.min(Math.round(pgV*100)/100,valor):0;')&&!W.includes('pgV<valor)?Math.round(pgV*100)/100:valor'));
 T('3. label nova do pago na venda', W.includes('Quanto a pessoa pagou agora (R$) — vazio = nada pago (dá pra ir pagando depois)')&&!W.includes('vazio = pagou tudo'));
 T('4. botão «Receber pagamento» (ir pagando) nas 3 listas', (W.match(/data-act="finpay"/g)||[]).length>=3&&W.includes('function openFinPay(')&&W.includes('id="finPayModal"')&&W.includes('btnFpTudo')&&W.includes('Quitar tudo'));

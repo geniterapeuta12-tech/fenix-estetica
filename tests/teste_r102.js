@@ -3,7 +3,7 @@ const fs=require('fs');
 let ok=0,fail=0;const T=(n,c)=>{if(c){ok++;}else{fail++;console.log('  ✗ '+n);}};
 const W=fs.readFileSync('/home/user/index.html','utf8');
 const VJ=JSON.parse(fs.readFileSync('/home/user/versao.json','utf8'));
-T('1. versão 1.6.80 + versao.json R102', W.includes("APP_VERSAO='1.6.80'")&&VJ.versao==='1.6.80'&&VJ.r==='R106');
+T('1. versão 1.6.81 + versao.json R102', W.includes("APP_VERSAO='1.6.81'")&&VJ.versao==='1.6.81'&&VJ.r==='R107');
 T('2. «Quem comprou» na tela do Catálogo (lista + contagem + total)', W.includes('id="quemList"')&&W.includes('id="quemCount"')&&W.includes('<h3>Vendas do catálogo</h3>'));
 T('3. renderQuem: mostra o PACOTE na venda + busca por cliente/item/pacote', W.includes("onde='pacote '+")&&W.includes("quemBusca\")&&$('quemBusca').addEventListener")===false&&W.includes("quemBusca")&&W.includes("function renderQuem()")&&W.includes("pg&&String(pg.nome||'').toLowerCase().includes(q)"));
 T('4. renderCat chama renderQuem (sempre em sincronia)', W.includes("function renderCat(){\ntry{renderQuem();}catch(e){}"));

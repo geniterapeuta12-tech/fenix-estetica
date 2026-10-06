@@ -3,7 +3,7 @@ const fs=require('fs');
 let ok=0,fail=0;const T=(n,c)=>{if(c){ok++;}else{fail++;console.log('  ✗ '+n);}};
 const W=fs.readFileSync('/home/user/index.html','utf8');
 const VJ=JSON.parse(fs.readFileSync('/home/user/versao.json','utf8'));
-T('1. versão 1.6.80 + versao.json R106 (5 melhorias)', W.includes("APP_VERSAO='1.6.80'")&&VJ.versao==='1.6.80'&&VJ.r==='R106'&&VJ.melhorias.length===5);
+T('1. versão 1.6.81 + versao.json R106 (5 melhorias)', W.includes("APP_VERSAO='1.6.81'")&&VJ.versao==='1.6.81'&&VJ.r==='R107'&&VJ.melhorias.length===5);
 T('2. tabela pubs na sincronia (LOAD_ORDER + TABLES + DB + LEGACY + helpers)', W.includes("'usu','msg','pub']")&&W.includes("pub:{table:'pubs',fromDb:mapPub,toDb:dbPub}")&&W.includes('msg:[],pub:[],bkp:[]')&&W.includes('msg:msgKey,pub:pubKey')&&W.includes("const getPub=()=>DB.pub,setPub=v=>{DB.pub=v;persist('pub');}"));
 T('3. sellModal com seletor de CLIENTE (venda direto do Catálogo)', W.includes('id="sellCliBox"')&&W.includes('id="sellCli"')&&W.includes('function openSellModalCat()')&&W.includes("$('btnQuemNova')&&$('btnQuemNova').addEventListener('click',()=>openSellModalCat())"));
 T('4. venda usa a cliente ESCOLHIDA + vinculação acompanha a troca', W.includes("const cliId=($('sellCliBox')&&!$('sellCliBox').classList.contains('hidden')&&$('sellCli').value)?$('sellCli').value:state.clientId;")&&W.includes("function sellVincPinta(prefer,cliId){cliId=cliId||state.clientId;")&&W.includes("$('sellCli')&&$('sellCli').addEventListener('change'"));

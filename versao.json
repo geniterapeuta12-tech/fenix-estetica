@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.80",
-  "r": "R106",
+  "versao": "1.6.81",
+  "r": "R107",
   "quando": "06/10/2026",
   "melhorias": [
-    "🛒 «Nova venda» DIRETO no Catálogo: botão no card Vendas do catálogo — escolhe a cliente ali na hora e registra a venda (não precisa mais abrir a ficha)",
-    "🎬 Novo no Studio: «Organizador de perfil» — agende vídeos e posts (tipo, data, hora, legenda), marque como postado, edite ou apague",
-    "☁️ O Organizador de perfil sincroniza na nuvem: celular e computador mostram a mesma lista",
-    "✏️ Vendas antigas: dá pra abrir a edição, tirar o «pago» e deixar EM ABERTO de novo — a tela agora ensina como (dica amarela)",
-    "🔁 Na venda, ao trocar a cliente escolhida, os pacotes e avulsas do «Vincular a» mudam junto"
+    "🧾 «Vendas» agora na BARRA LATERAL do Catálogo: alternância Loja (itens) × Vendas — na tela Vendas fica só o histórico completo, com Nova venda, editar, receber e remover",
+    "🔑 VENDAS ANTIGAS consertadas de vez: agora são reconhecidas como venda do catálogo em todo o app — aparecem no financeiro da cliente, nas Vendas do catálogo e no pacote",
+    "✏️ Editar venda antiga AGORA abre o campo do valor pago (antes nem aparecia o campo!) — dá pra colocar o pago, deixar Em aberto e ir pagando",
+    "🗑 Apagar funcionando dentro E fora da cliente, inclusive nas vendas antigas (2 toques pra confirmar)",
+    "🧮 Totais do pacote e da cliente agora contam também as vendas antigas que estavam invisíveis"
   ]
 }

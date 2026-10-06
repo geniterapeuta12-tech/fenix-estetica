@@ -1472,8 +1472,9 @@ html:not([data-ui="classica"]) h1,html:not([data-ui="classica"]) h2,html:not([da
 <p class="navnote" id="sareaNote">Documentos estilo Word e formulários da clínica, tudo em um lugar.</p>
 </nav>
 <nav class="sidenav hidden" id="navCatalogo">
-<button class="navbtn active"><svg class="ic"><use href="#i-box"/></svg>Catálogo</button>
-<p class="navnote">Procedimentos da clínica — itens de referência, com ou sem preço. Não interfere em pacotes nem financeiro.</p>
+<button class="navbtn active" data-cview="loja"><svg class="ic"><use href="#i-box"/></svg>Loja (itens)</button>
+<button class="navbtn" data-cview="vendas"><svg class="ic"><use href="#i-fin"/></svg>Vendas</button>
+<p class="navnote">Loja: itens do catálogo. Vendas: tudo que foi vendido — ver, editar, receber pagamento e remover.</p>
 </nav>
 <nav class="sidenav hidden" id="navEquipe">
 <button class="navbtn" data-esub="usuarios"><svg class="ic"><use href="#i-users"/></svg>Usuários</button>
@@ -1692,17 +1693,17 @@ html:not([data-ui="classica"]) h1,html:not([data-ui="classica"]) h2,html:not([da
 <section id="viewCatalogo" class="view hidden">
 <div class="panelcard form-head">
 <div class="sec-head"><div class="pc-tt"><h3 id="catTitle">Catálogo</h3><p class="sub" id="catCount"></p></div>
-<div class="rowbtns" style="margin:0;flex-wrap:wrap">
+<div class="rowbtns" id="catLojaTools" style="margin:0;flex-wrap:wrap">
 <button class="btn small ghost" id="btnCatPresets" type="button"><svg class="ic"><use href="#i-spark"/></svg>Prontos</button>
 <button class="btn small ghost" id="btnKit" type="button"><svg class="ic"><use href="#i-layers"/></svg>Montar kit</button>
 </div>
-<div class="search" style="margin:0;min-width:min(260px,100%)"><svg class="ic"><use href="#i-search"/></svg><input id="catSearch" placeholder="Buscar no catálogo…"></div></div>
+<div class="search" id="catLojaBusca" style="margin:0;min-width:min(260px,100%)"><svg class="ic"><use href="#i-search"/></svg><input id="catSearch" placeholder="Buscar no catálogo…"></div></div>
 </div>
-<div class="panelcard">
+<div class="panelcard" id="catLojaPanel">
 <div class="chips" id="catChips"></div>
 <div class="shopgrid" id="catList"></div>
 </div>
-<div class="panelcard">
+<div class="panelcard" id="quemCard">
 <div class="sec-head"><div class="pc-tt"><h3>Vendas do catálogo</h3><p class="sub" id="quemCount">—</p></div>
 <div class="search" style="margin:0;min-width:min(220px,100%)"><svg class="ic"><use href="#i-search"/></svg><input id="quemBusca" placeholder="Buscar cliente, item ou pacote…"></div><button class="btn small" id="btnQuemNova" type="button"><svg class="ic"><use href="#i-plus"/></svg>Nova venda</button></div>
 <ul class="list" id="quemList" style="margin-top:10px"></ul>
@@ -3295,7 +3296,7 @@ let PULL_INTERVAL=60000,perfTimer=null;const BKP_KEEP=5;
 const K='fenix_clinicas',S='fenix_sessao';
 let mem={},currentKey=null,navStack=[],pvUrl=null,avEditId=null;
 const state={mode:'gestao',view:'inicio',clientId:null,sub:'perfil',pacoteId:null,psub:'menu',openSes:null,openAv:null,
-search:'',sview:'docs',sarea:'studio',docId:null,docPkgPre:null,dsub:'backup',iaConv:null,iaBusy:false,formId:null,respForm:null,respId:null,csub:'procedimentos',catEd:false,catId:null};
+search:'',sview:'docs',sarea:'studio',docId:null,docPkgPre:null,dsub:'backup',iaConv:null,iaBusy:false,formId:null,respForm:null,respId:null,csub:'procedimentos',catEd:false,catId:null,cview:'loja'};
 try{state.sarea=localStorage.getItem('fenix_sarea')==='lab'?'lab':'studio'}catch(e){}
 const loadUsers=()=>{try{return JSON.parse(localStorage.getItem(K))||{}}catch(e){return mem}};
 const saveUsers=u=>{mem=u;try{localStorage.setItem(K,JSON.stringify(u))}catch(e){}};
@@ -4162,7 +4163,7 @@ if(state.dsub==='usuario')renderUsuDados();}catch(e){console.warn('dados:',e);}
 isolamentoAreas();updateBack();return;}
 if(catalogo){
 document.querySelectorAll('#navGestao .navbtn,#navDados .navbtn,#navEquipe .navbtn,#navStudio .navbtn').forEach(b=>b.classList.remove('active'));
-document.querySelectorAll('#navCatalogo .navbtn').forEach(b=>b.classList.add('active'));
+document.querySelectorAll('#navCatalogo .navbtn').forEach(b=>b.classList.toggle('active',b.dataset.cview===(state.cview||'loja')));
 $('viewTitle').textContent=computeTitle();
 if(state.catEd)renderCatEd();else renderCat();
 isolamentoAreas();updateBack();return;}
@@ -5285,9 +5286,10 @@ function rowBadge(preco,sum){if(preco!=null)return '<span class="badge b-green">
 if(sum>0)return '<span class="badge b-green">Soma '+fmtBRL(sum)+'</span>';
 return '<span class="badge b-gold">Sem preço</span>';}
 function finFalta(f){const v=Math.round((Number(f&&f.valor)||0)*100)/100;const p=(f&&f.pago==null)?v:Math.round((Number(f&&f.pago)||0)*100)/100;return Math.max(0,Math.round((v-p)*100)/100);} /* R103 — quanto falta pagar (vendas antigas pago=null = quitadas) */
+function finEhCat(f){return !!f&&(f.origem==='cat'||/^\s*Catálogo:/i.test(String(f.obs||'')));} /* R107 — venda ANTIGA (sem origem) também é venda do catálogo */
 let quemQ='';
 function renderQuem(){ /* R102 — todos que compraram, incluindo dentro de pacotes */
-const all=getFin().filter(f=>f.origem==='cat');
+const all=getFin().filter(f=>finEhCat(f));
 const L=all.filter(f=>{if(!quemQ)return true;const q=quemQ.toLowerCase();
 const c=f.link&&f.link.clientId?cliById(f.link.clientId):null;
 const pg=f.link&&f.link.tipo==='pacote'?pkgById(f.link.id):null;
@@ -5308,6 +5310,7 @@ try{const sb=$('sellCliBox');if(sb)sb.classList.remove('hidden');}catch(e){}
 try{const s=$('sellCli');s.innerHTML=getCli().slice().sort((a,b)=>String(a.nome||'').localeCompare(String(b.nome||''))).map(c=>'<option value="'+c.id+'">'+esc(c.nome||'sem nome')+'</option>').join('');s.value=getCli()[0]?getCli()[0].id:'';}catch(e){}
 try{sellVincPinta('cliente:',$('sellCli')?$('sellCli').value:null);}catch(e){}}
 $('btnQuemNova')&&$('btnQuemNova').addEventListener('click',()=>openSellModalCat());
+document.querySelectorAll('#navCatalogo .navbtn[data-cview]').forEach(b=>b.addEventListener('click',()=>{state.cview=b.dataset.cview;renderApp();})); /* R107 */
 $('sellCli')&&$('sellCli').addEventListener('change',()=>{try{sellVincPinta('cliente:',$('sellCli').value);}catch(e){}});
 /* ===== R106 — ORGANIZADOR DE PERFIL (Studio): vídeos e posts programados (sincroniza na nuvem) ===== */
 let pubEd=null;
@@ -5349,11 +5352,14 @@ bindDel('pubList',getPub,setPub,renderPerfil);}
 let catTab='todos';
 function renderCat(){
 try{renderQuem();}catch(e){}
-$('catTitle').textContent='Catálogo';
+const loja=(state.cview||'loja')!=='vendas'; /* R107 — Loja × Vendas na barra lateral */
+['catLojaPanel','catLojaTools','catLojaBusca'].forEach(function(idm){const el=$(idm);if(el)el.classList.toggle('hidden',!loja);});
+try{const fb=$('fabCat');if(fb)fb.style.display=loja?'':'none';}catch(e){}
+$('catTitle').textContent=loja?'Catálogo':'Vendas do catálogo';
 const rows=catRows(),q=(catQ||'').toLowerCase();
 const base=q?rows.filter(r=>(r.d.nome||'').toLowerCase().includes(q)||(r.d.descr||'').toLowerCase().includes(q)):rows;
 const fl=catTab==='todos'?base:base.filter(r=>r.kit?catTab==='kits':(r.d.tipo==='produto'?catTab==='produtos':catTab==='procs'));
-$('catCount').textContent=rows.length?(fl.length===rows.length?(rows.length+' item(s) no catálogo'):(fl.length+' de '+rows.length+' item(s) — busca ativa')):'Nada cadastrado ainda.';
+$('catCount').textContent=loja?(rows.length?(fl.length===rows.length?(rows.length+' item(s) no catálogo'):(fl.length+' de '+rows.length+' item(s) — busca ativa')):'Nada cadastrado ainda.'):'';
 $('catChips').innerHTML=[['todos','Todos'],['procs','Procedimentos'],['produtos','Produtos'],['kits','Kits']].map(c=>'<button type="button" class="chip'+(catTab===c[0]?' active':'')+'" data-chip="'+c[0]+'">'+c[1]+'</button>').join('');
 $('catList').innerHTML=fl.length?fl.map(r=>{const k=r.kit,c=r.d;
 const tag=k?'<span class="shtag">KIT</span>':(c.tipo==='produto'?'<span class="shtag prod">Produto</span>':'');
@@ -5786,7 +5792,7 @@ $('mFin').textContent='Em aberto: '+fmtBRL(t.saldo);
 $('mArq').textContent=cliFiles(c.id).length+' arquivo(s)';
 $('mDocsC').textContent=cliDocs(c.id).length+' documento(s)';
 const nl2=s=>String(s||'').trim().toLowerCase();$('mAna').textContent=getResp().filter(r=>nl2(r.pessoa)===nl2(c.nome||'')).length+' resposta(s) de anamnese';
-$('mCatCli').textContent=getFin().filter(f=>f.origem==='cat'&&f.link&&f.link.clientId===c.id).length+' venda(s) do catálogo';
+$('mCatCli').textContent=getFin().filter(f=>finEhCat(f)&&f.link&&f.link.clientId===c.id).length+' venda(s) do catálogo';
 if(state.sub==='info')populateInfo(c);
 if(state.sub==='pacotes'){renderPacotes();setAreaTab(areaTab);}
 if(state.sub==='pacote')renderPacote();
@@ -6117,7 +6123,7 @@ $('finCliPays').innerHTML=pays.length?pays.map(x=>
 '<div class="cinfo"><strong>'+fmtBRL(x.valor)+'</strong><small>'+fmtDate(x.data)+' · '+esc(x.metodo||'—')+' · '+esc(payTargetLabel(x))+(x.obs?' · '+esc(x.obs):'')+'</small></div>'+
 '<button class="iconbtn del" data-id="'+x.id+'" title="Apagar pagamento"><svg class="ic"><use href="#i-trash"/></svg></button></li>').join('')
 :'<li class="empty">Nenhum pagamento ainda.</li>';
-const cats=getFin().filter(f=>f.origem==='cat'&&f.link&&f.link.clientId===c).sort((a,b)=>String(b.data||'').localeCompare(String(a.data||'')));
+const cats=getFin().filter(f=>finEhCat(f)&&f.link&&f.link.clientId===c).sort((a,b)=>String(b.data||'').localeCompare(String(a.data||'')));
 $('finCliCat').innerHTML=cats.length?cats.map(f=>{const falta=finFalta(f); /* R105 — status REAL: quitado ou em aberto */
 return '<li class="txn"><span class="dot in"></span>'+
 '<div class="cinfo"><strong>'+esc(f.desc)+'</strong><small>'+fmtDate(f.data)+' · venda do catálogo'+(falta>0&&Number(f.pago||0)>0?' · pago '+fmtBRL(f.pago)+' de '+fmtBRL(f.valor):'')+(f.obs?' · '+esc(f.obs):'')+'</small></div>'+
@@ -6252,8 +6258,8 @@ getFin().forEach(t=>{const lk=t.link?finLinkLabel(t.link):'';
 const cl=(t.link&&t.link.clientId)||null;let pk=null;
 if(t.link&&t.link.tipo==='pacote')pk=t.link.id;
 else if(t.link&&(t.link.tipo==='sessao'||t.link.tipo==='avulsa')){const s=sesById(t.link.id);pk=s?s.pacoteId:null;}
-rows.push({kind:'man',cat:t.origem==='cat'||undefined,pago:t.pago!=null?Number(t.pago):null,id:t.id,data:t.data,valor:t.valor,tipo:t.tipo,desc:t.desc,obs:t.obs||'',clientId:cl,pacoteId:pk,
-sub:(t.origem==='cat'?'Venda do catálogo':(t.tipo==='in'?'Entrada manual':'Saída manual'))+(lk?' · '+lk:'')});}); /* R105 — venda do catálogo identificável e com status real */
+rows.push({kind:'man',cat:finEhCat(t)||undefined,pago:t.pago!=null?Number(t.pago):null,id:t.id,data:t.data,valor:t.valor,tipo:t.tipo,desc:t.desc,obs:t.obs||'',clientId:cl,pacoteId:pk,
+sub:(finEhCat(t)?'Venda do catálogo':(t.tipo==='in'?'Entrada manual':'Saída manual'))+(lk?' · '+lk:'')});}); /* R107 */ /* R105 — venda do catálogo identificável e com status real */
 getPay().forEach(p=>{const c=cliById(p.clientId);
 rows.push({kind:p.sessaoId?'av':'pay',id:p.id,data:p.data,valor:p.valor,tipo:'in',
 desc:(c?c.nome:'Cliente')+' · '+(p.metodo||''),obs:p.obs||'',clientId:p.clientId,pacoteId:p.pacoteId||null,
@@ -6529,6 +6535,7 @@ bindDel('arqCliList',getArq,setArq,()=>renderCliente());
 bindDel('finCliPays',getPay,setPay,()=>{renderCliente();renderStats();});
 bindDel('finCliCat',getFin,setFin,()=>{renderCliente();renderStats();});
 bindDel('cliCatList',getFin,setFin,()=>{renderCliente();renderStats();try{renderQuem();}catch(e){}}); /* R105 — o 🗑 da aba Catálogo agora funciona */
+bindDel('pkgCatList',getFin,setFin,()=>{renderCliente();renderStats();try{renderQuem();}catch(e){}}); /* R107 — o 🗑 do catálogo do PACOTE também */
 bindDel('quemList',getFin,setFin,()=>{renderCat();renderStats();}); /* R105 — remover direto das Vendas do catálogo */
 
 /* ===================== EDITAR LANÇAMENTO (financeiro) ===================== */
@@ -6536,7 +6543,7 @@ function openEditFin(id){const f=getFin().find(x=>x.id===id);if(!f)return;
 $('editFinModal').dataset.fid=id;$('efTipo').value=f.tipo;$('efDesc').value=f.desc;
 $('efValor').value=String(f.valor).replace('.',',');
 $('efData').value=f.data||todayISO();$('efObs').value=f.obs||'';$('efMsg').textContent='';
-const ehCat=f.origem==='cat';$('efPagoRow').classList.toggle('hidden',!ehCat);if(ehCat){$('efPago').value=String(f.pago!=null?f.pago:f.valor).replace('.',',');$('efPago').dataset.orig=$('efPago').value;} /* R106 — dica da venda antiga */
+const ehCat=finEhCat(f);$('efPagoRow').classList.toggle('hidden',!ehCat);if(ehCat){$('efPago').value=String(f.pago!=null?f.pago:f.valor).replace('.',',');$('efPago').dataset.orig=$('efPago').value;} /* R106 — dica da venda antiga */
 try{const _ed=$('efDica');if(_ed)_ed.textContent=(ehCat&&f.pago==null)?('Venda antiga: está como PAGA ('+fmtBRL(f.valor)+'). Se ela NÃO foi paga, apague o valor abaixo e salve — ela fica EM ABERTO e você pode ir pagando.'):'';}catch(e){}
 $('editFinModal').classList.remove('hidden');}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-act="finedit"]');if(b)openEditFin(b.dataset.id);});
@@ -7922,11 +7929,11 @@ else msg($('tgMsg'),'⚠ não consegui enviar o arquivo — tenta de novo.','err
 if(REMOTE&&origem!=='nuvem'){msgLiga();if(origem!=='eu')msgPuxa();}}
 function renderEqMsgsLista(){ /* repinta só a lista (sem perder foco do input) */ }
 /* ===== R48 — Catálogo vinculado (pacote/avulsa/cliente) · Termos ===== */
-function catDe(tipo,id){return getFin().filter(f=>f.origem==='cat'&&f.link&&f.link.tipo===tipo&&f.link.id===id);}
+function catDe(tipo,id){return getFin().filter(f=>finEhCat(f)&&f.link&&f.link.tipo===tipo&&f.link.id===id);}
 /* R85: venda do catálogo é dinheiro que ENTROU — conta no pago do pacote e nos totais da cliente */
 const catVendasPkg=pid=>catDe('pacote',pid).reduce((s,f)=>s+(Number(f.pago!=null?f.pago:f.valor)||0),0);
-const catVendasCli=cid=>getFin().filter(f=>f.origem==='cat'&&f.link&&f.link.clientId===cid).reduce((s,f)=>s+(Number(f.valor)||0),0);
-const catVendasCliPago=cid=>getFin().filter(f=>f.origem==='cat'&&f.link&&f.link.clientId===cid).reduce((s,f)=>s+(Number(f.pago!=null?f.pago:f.valor)||0),0);
+const catVendasCli=cid=>getFin().filter(f=>finEhCat(f)&&f.link&&f.link.clientId===cid).reduce((s,f)=>s+(Number(f.valor)||0),0);
+const catVendasCliPago=cid=>getFin().filter(f=>finEhCat(f)&&f.link&&f.link.clientId===cid).reduce((s,f)=>s+(Number(f.pago!=null?f.pago:f.valor)||0),0);
 let SELL_NOVO=false;
 function sellVincPinta(prefer,cliId){cliId=cliId||state.clientId;const sel=$('sellVinc');if(!sel)return;
 const ops=[['cliente:','Só na cliente (sem vínculo)']];
@@ -7955,7 +7962,7 @@ function renderPkgCat(){const p=pkgById(state.pacoteId);if(!p)return;
 const L=catDe('pacote',p.id).sort((a,b)=>String(b.data||'').localeCompare(String(a.data||'')));
 $('pkgCatList').innerHTML=L.length?L.map(f=>'<li class="txn"><span class="dot in"></span><div class="cinfo"><strong>'+esc(f.desc)+'</strong><small>'+fmtDate(f.data)+' · '+fmtBRL(f.valor)+((f.pago!=null&&Number(f.pago)<Number(f.valor))?(' · Em aberto: falta '+fmtBRL(Number(f.valor)-Number(f.pago))):' · quitada')+'</small></div>'+((f.pago!=null&&Number(f.pago)<Number(f.valor))?('<button class="iconbtn" data-act="finpay" data-id="'+f.id+'" title="Receber pagamento (ir pagando)"><svg class="ic"><use href="#i-fin"/></svg></button>'):'')+'<button class="iconbtn" data-act="finedit" data-id="'+f.id+'" title="Editar valor pago"><svg class="ic"><use href="#i-edit"/></svg></button><button class="iconbtn del" data-id="'+f.id+'" title="Apagar venda"><svg class="ic"><use href="#i-trash"/></svg></button></li>').join(''):'<li class="empty">Nenhuma venda do catálogo neste pacote ainda.</li>';}
 function renderCatCli(){const c=state.clientId;
-const L=getFin().filter(f=>f.origem==='cat'&&f.link&&f.link.clientId===c).sort((a,b)=>String(b.data||'').localeCompare(String(a.data||'')));
+const L=getFin().filter(f=>finEhCat(f)&&f.link&&f.link.clientId===c).sort((a,b)=>String(b.data||'').localeCompare(String(a.data||'')));
 $('cliCatList').innerHTML=L.length?L.map(f=>{let onde='só na cliente';
 if(f.link.tipo==='pacote'){const p=pkgById(f.link.id);onde='pacote '+(p?('“'+p.nome+'”'):'');}
 else if(f.link.tipo==='avulsa'){const s=sesById(f.link.id);onde='sessão avulsa'+(s&&s.data?(' · '+fmtDate(s.data)):'');}
@@ -8222,7 +8229,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.80';
+const APP_VERSAO='1.6.81';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{
