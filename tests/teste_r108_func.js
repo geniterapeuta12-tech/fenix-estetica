@@ -1,4 +1,4 @@
-/* R108 FUNC — gerar token no app (aparece 1x, com escopos), revogar, apagar; hash nunca é o token */
+/* R109 FUNC — gerar token no app (aparece 1x, com escopos), revogar, apagar; hash nunca é o token */
 const fs=require('fs'),path=require('path');
 const {JSDOM}=require(path.join('/home/user/tests','node_modules','jsdom'));
 let html=fs.readFileSync('/home/user/index.html','utf-8');

@@ -28,7 +28,7 @@ T('5. clicou Loja: loja volta', !d.getElementById('catLojaPanel').classList.cont
 
 /* ===== 2) finança da cliente: antiga aparece com valor, edita com campo do pago ===== */
 w.eval("openClient('c1');state.view='cliente';state.sub='financeiro';renderCliente();");
-T('6. financeiro da cliente: venda ANTIGA aparece (com valor no Quitado)', txt(d.getElementById('finCliCat')).includes('Acelerador (antiga)')&&txt(d.getElementById('finCliCat')).includes('✓ Quitado · R$ 300,00'));
+T('6. financeiro da cliente: venda ANTIGA aparece (⚠ Conferir · R$ 109: NUNCA Quitado sozinha)', txt(d.getElementById('finCliCat')).includes('Acelerador (antiga)')&&txt(d.getElementById('finCliCat')).includes('⚠ Conferir se pagou · R$ 300,00'));
 d.querySelector('#finCliCat [data-act="finedit"]').click();
 T('7. edição da ANTIGA abre COM o campo do valor pago (o bug de sempre!)', !d.getElementById('editFinModal').classList.contains('hidden')&&!d.getElementById('efPagoRow').classList.contains('hidden'));
 d.getElementById('efPago').value='';
@@ -43,7 +43,7 @@ T('9. APAGOU dentro da cliente (2 toques)', w.eval('getFin().length')===0&&txt(d
 
 /* ===== 4) apagar no financeiro GERAL (fora da cliente) ===== */
 w.eval("DB.fin=[{id:'antiga2',tipo:'in',desc:'Acelerador (antiga 2)',valor:150,data:'21/08/2026',pago:null,link:{tipo:'cliente',id:'c1',clientId:'c1'},obs:'Catálogo: Acelerador'}];setMode('gestao');state.view='financeiro';renderApp();");
-T('10. financeiro geral: venda antiga como «Venda do catálogo» com etiqueta Em aberto', txt(d.getElementById('finList')).includes('Venda do catálogo')&&txt(d.getElementById('finList')).includes('⏳ Em aberto'));
+T('10. financeiro geral: venda antiga como «Venda do catálogo» com ⚠ Conferir se pagou (R109)', txt(d.getElementById('finList')).includes('Venda do catálogo')&&txt(d.getElementById('finList')).includes('⚠ Conferir se pagou'));
 d.querySelector('#finList .del').click();
 d.querySelector('#finList .del').click();
 await new Promise(r=>setTimeout(r,100));

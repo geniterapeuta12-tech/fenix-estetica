@@ -1,0 +1,21 @@
+/* R109 — catálogo não marca quitado sozinho · soma automática · mesmo status em todas as listas · Análise + Análise I.A */
+const fs=require('fs');
+let ok=0,fail=0;const T=(n,c)=>{if(c){ok++;}else{fail++;console.log('  ✗ '+n);}};
+const W=fs.readFileSync('/home/user/index.html','utf8');
+const VJ=JSON.parse(fs.readFileSync('/home/user/versao.json','utf8'));
+T('1. versão 1.6.83 + versao.json R109 (5 melhorias)', W.includes("APP_VERSAO='1.6.83'")&&VJ.versao==='1.6.83'&&VJ.r==='R109'&&VJ.melhorias.length===5);
+T('2. helpers finFaltaReal + finStatus (quitado|aberto|conferir)', W.includes("function finFaltaReal(f)")&&W.includes("function finStatus(f)")&&W.includes("return 'conferir';")&&W.includes("Number(f.pago)>=Number(f.valor)?'quitado':'aberto'"));
+T('3. editar antiga SEM tocar no pago → pago=null (⚠ persiste, NUNCA vira paga)', W.includes("else up.pago=(f.pago!=null?Math.min(Number(f.pago)||0,valor):null);} /* R109")&&!W.includes('Math.min(Number(f.pago)||0,valor):valor);}'));
+T('4. ⚠ Conferir nas 4 listas (quem/finCliCat/cliCatList/finList)', (W.match(/⚠ Conferir se pagou/g)||[]).length>=3&&W.includes('⚠ Conferir · falta'));
+T('5. botão Receber (finpay) também nas antigas em quem/finCliCat/cliCatList/finList', (W.match(/data-act="finpay"/g)||[]).length>=5);
+T('6. openFinPay usa a falta REAL (antiga sugere o total)', (W.match(/const falta=finFaltaReal\(f\)/g)||[]).length===2&&W.includes('finFaltaReal(f); /* R109 — antiga (pago nulo) sugere o total */'));
+T('7. soma automática: clicar no item soma (digitar trava · ↺ soma volta)', W.includes("const auto=sm>0?String(sm.toFixed(2)).replace('.',','):'';")&&W.includes("sellAutoVal=auto;$('sellValor').value=auto;")&&W.includes("!==sellAutoVal)sellTouched=true")&&W.includes("id=\"btnSellSoma\"")&&W.includes("sellTouched=false;sellRecalc()"));
+T('8. catPreco/catSave salvam o que está NA TELA (isFinite, vazio = sem preço)', W.includes("const pvS=$('catPreco').value.trim(),pmS=parseMoney(pvS); /* R109")&&W.includes("(pvS!==''&&!isFinite(pmS))"));
+T('9. «Vender do catálogo» no formFin abre a janela de venda', W.includes('id="btnFinSellCat"')&&W.includes("$('btnFinSellCat').addEventListener('click',function(){openSellModalCat();});")&&W.includes("function openSellModalCat()"));
+T('10. botões Análise + Análise I.A no financeiro da gestão', W.includes('id="btnAnalise"')&&W.includes('id="btnAnaliseIA"')&&W.includes('Análise</button>')&&W.includes('Análise I.A</button>'));
+T('11. modal Análise: chips tudo/mes/d30/d90 + resumo/pendências/por mês/top/gastos/recebimentos', W.includes('id="analiseModal"')&&W.includes("function anChips()")&&W.includes("['tudo','Tudo'],['mes','Este mês'],['d30','30 dias'],['d90','90 dias']")&&W.includes("function renderAnalise()")&&W.includes('QUEM MAIS COMPROU')&&W.includes('TODOS OS GASTOS')&&W.includes('TODOS OS RECEBIMENTOS'));
+T('12. modal Análise I.A: barra ≤2min + chat → POST /ia com contexto iaAMonta()', W.includes('id="iaAModal"')&&W.includes("function iaAMonta()")&&W.includes("async function iaAEnvia(txt)")&&W.includes("fetch(NUVEM_URL+'/ia'")&&W.includes("'Coletando transações do financeiro…'")&&W.includes("iaAMonta();iaAHist=")&&W.includes("if(!window._anLigado){window._anLigado=1;"));
+T('13. Análise usa finCliDe (venda: clientId · manual: link.clientId)', W.includes('function finCliDe(t)')&&(W.match(/finCliDe\(t\)/g)||[]).length>=6);
+T('14. R108 intacto (Token I.A em Dados) + R107 intacto (finEhCat/Vendas)', W.includes('data-dsub="iatok"')&&W.includes('function finEhCat(f)')&&W.includes('data-cview="vendas"'));
+console.log(fail?('FALHAS: '+fail):('TUDO OK ('+ok+'/14)'));
+process.exit(fail?1:0);

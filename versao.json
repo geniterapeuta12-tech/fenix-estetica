@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.82",
-  "r": "R108",
-  "quando": "06/10/2026",
+  "versao": "1.6.83",
+  "r": "R109",
+  "quando": "07/10/2026",
   "melhorias": [
-    "🔑 NOVO em Dados › «Token para I.A»: gere uma chave própria da Fênix pra sua inteligência artificial (ChatGPT, Claude, automações) acessar e LER o conteúdo da clínica",
-    "🛡️ Você escolhe o que a I.A pode ver: Clientes, Agenda, Financeiro e/ou Catálogo — e é SÓ LEITURA (a I.A nunca muda nem apaga nada)",
-    "🗑️ Revogação na hora: revogou, a I.A perde o acesso imediatamente · o token aparece UMA vez só (guardamos só a impressão digital)",
-    "⏱️ Validade opcional (nunca / 30 / 90 dias) + registro do último uso de cada token",
-    "📡 Endpoint pronto pra copiar da tela: POST fenix-api…/pub/ia/dados com o token no cabeçalho — testado ao vivo (leu 24 clientes / 30 itens)"
+    "🛑 Venda antiga do catálogo NUNCA mais marca «paga» sozinha: salvou sem mexer no valor pago, continua ⚠ Conferir — e o catálogo também não perde mais o preço que você digitou",
+    "🛒 No Financeiro, botão «Vender do catálogo»: escolhe produtos/procedimentos na janela de venda e a soma é automática (digitou por cima? trava; ↺ soma volta)",
+    "🔁 Vendas e Financeiro agora mostram o MESMO status: ✓ Quitado só quando pagou tudo · ⏳ Em aberto com o quanto falta · ⚠ Conferir nas vendas antigas (com botão de receber em todas as listas)",
+    "📊 Financeiro da gestão ganhou «Análise»: Tudo / este mês / 30 / 90 dias com resumo, pendências, por mês, quem mais comprou e TODOS os gastos e recebimentos",
+    "🤖 E «Análise I.A»: barra de progresso coletando tudo (até 2 min) e depois você pergunta à I.A — «onde estou gastando demais?», «quem me deve?» — na hora"
   ]
 }

@@ -52,9 +52,9 @@ T('10. apagou o agendamento (2 toques)', w.eval('getPub().length')===0&&txt(d.ge
 
 /* ===== 3) VENDA ANTIGA (legado pago=null) → EM ABERTO → receber ===== */
 w.eval("DB.fin=[{id:'leg1',tipo:'in',desc:'Kit Glow (antiga)',valor:200,data:'01/09/2026',pago:null,link:{tipo:'cliente',id:'c1',clientId:'c1'},obs:'Catálogo: Kit Glow',origem:'cat'}];setMode('gestao');openClient('c1');state.view='cliente';state.sub='financeiro';renderCliente();");
-T('11. venda antiga aparece com valor no financeiro (✓ Quitado · R$ 200,00)', txt(d.getElementById('finCliCat')).includes('✓ Quitado · R$ 200,00'));
+T('11. venda antiga aparece com ⚠ Conferir no financeiro (R109: NUNCA quitada sozinha · R$ 200,00)', txt(d.getElementById('finCliCat')).includes('⚠ Conferir se pagou · R$ 200,00'));
 d.querySelector('#finCliCat [data-act="finedit"]').click();
-T('12. edição mostra a DICA da venda antiga', txt(d.getElementById('editFinModal')).includes('Venda antiga: está como PAGA'));
+T('12. edição mostra a DICA da venda antiga (R109: ⚠ CONFERIR)', txt(d.getElementById('editFinModal')).includes('⚠ CONFERIR (não sabemos se foi paga)'));
 d.getElementById('efPago').value='';
 d.getElementById('btnEfOk').click();
 T('13. esvaziou o pago → EM ABERTO · falta R$ 200,00', txt(d.getElementById('finCliCat')).includes('⏳ Em aberto · falta R$ 200,00'));

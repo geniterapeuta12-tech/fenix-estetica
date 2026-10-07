@@ -6,7 +6,7 @@ const WK=fs.readFileSync(path.join(__dirname,'..','supabase','worker-live-backup
 const CL=fs.readFileSync(path.join(__dirname,'..','clients','index.html'),'utf8');
 const VJ=JSON.parse(fs.readFileSync(path.join(__dirname,'..','versao.json'),'utf8'));
 /* 1) versão */
-T('1. versão 1.6.82 + versao.json R82 (5 melhorias)', W.includes("APP_VERSAO='1.6.82'")&&VJ.versao==='1.6.82'&&VJ.r==='R108'&&(VJ.melhorias||[]).length>=5);
+T('1. versão 1.6.83 + versao.json R82 (5 melhorias)', W.includes("APP_VERSAO='1.6.83'")&&VJ.versao==='1.6.83'&&VJ.r==='R109'&&(VJ.melhorias||[]).length>=5);
 /* 2) financeiro na cliente: FIFO no worker */
 T('2. worker: pago por pacote = vínculo + FIFO dos sem vínculo', WK.includes('R82 — «pago» por pacote: pagamentos vinculados + distribuição FIFO')&&WK.includes('let fila = (pgall.results || []).filter(x => !x.pacote_id)')&&WK.includes('pago += usa'));
 T('3. worker: feitas por mapa + itens parse seguro', WK.includes('feitasMap[p.id] || 0')&&WK.includes('itens = p.itens ? JSON.parse(p.itens) : []'));
