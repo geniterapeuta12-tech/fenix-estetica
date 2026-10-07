@@ -1,4 +1,4 @@
-/* R109 FUNC — Análise abre c/ resumo correto · finStatus/falta real · receber em antiga sugere total · soma automática na venda · edição antiga NÃO vira paga */
+/* R110 FUNC — Análise abre c/ resumo correto · finStatus/falta real · receber em antiga sugere total · soma automática na venda · edição antiga NÃO vira paga */
 const fs=require('fs'),path=require('path');
 const {JSDOM}=require(path.join('/home/user/tests','node_modules','jsdom'));
 let html=fs.readFileSync('/home/user/index.html','utf-8');

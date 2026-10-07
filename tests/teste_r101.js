@@ -3,7 +3,7 @@ const fs=require('fs');
 let ok=0,fail=0;const T=(n,c)=>{if(c){ok++;}else{fail++;console.log('  ✗ '+n);}};
 const W=fs.readFileSync('/home/user/index.html','utf8');
 const VJ=JSON.parse(fs.readFileSync('/home/user/versao.json','utf8'));
-T('1. versão 1.6.83 + versao.json R101', W.includes("APP_VERSAO='1.6.83'")&&VJ.versao==='1.6.83'&&VJ.r==='R109');
+T('1. versão 1.6.84 + versao.json R101', W.includes("APP_VERSAO='1.6.84'")&&VJ.versao==='1.6.84'&&VJ.r==='R110');
 T('2. fonte serifada estilo Anthropic EMBUTIDA (2 pesos woff2 base64)', (W.match(/@font-face\{font-family:'Source Serif 4'/g)||[]).length===2&&W.includes('base64,')&&W.includes('format(\'woff2\')'));
 T('3. títulos/números da UI Moderna usam a serifa (override !important)', W.includes('html:not([data-ui="classica"]) h1,html:not([data-ui="classica"]) h2,html:not([data-ui="classica"]) h3')&&W.indexOf("'Source Serif 4',Georgia,'Times New Roman',serif!important")>0);
 T('4. seletor UI do app: Moderna + Clássica na Aparência', W.includes('id="uiModerna"')&&W.includes('id="uiClassica"')&&W.includes("<h3>UI do app</h3>"));

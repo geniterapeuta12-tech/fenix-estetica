@@ -24,6 +24,7 @@ DETALHES
 • Login e senha: os mesmos. Celular e PC sincronizados
   (mesmo banco na nuvem).
 • Zoom das telas: menu Dados > Sistema (80% a 125%).
+• Novidade v1.6.84 — MODO LOCAL DE VERDADE (R110): sem internet o PRIMEIRO acesso cria a conta local no aparelho e entra na hora (login e criar conta) · a versão local de teste voltou a funcionar (abre e entra sem erro de conexão) · «Sincronizar agora» explica o modo local · tela de login abre na hora
 • Novidade v1.6.83 — FINANCEIRO MAIS ESPERTO (R109): venda antiga NUNCA marca «paga» sozinha (fica ⚠ Conferir até você confirmar) · «Vender do catálogo» dentro do Financeiro com SOMA automática dos itens · Vendas e Financeiro mostram o MESMO status (✓ Quitado / ⏳ Em aberto · falta / ⚠ Conferir) · NOVOS «Análise» (resumo por período, pendências, quem mais comprou, todos os gastos) e «Análise I.A» (barra de carregamento e depois você pergunta à inteligência artificial)
 • Novidade v1.6.82 — TOKEN PARA I.A (Dados › Token para I.A): gere uma chave própria pra sua inteligência artificial LER o conteúdo da clínica (você escolhe o que ela vê · só leitura · revoga na hora)
 • Novidade v1.6.81 — VENDAS na barra lateral do Catálogo (Loja × Vendas) · VENDAS ANTIGAS consertadas: aparecem em tudo, edição COM o campo do valor pago, e apagar funcionando dentro e fora da cliente e no pacote

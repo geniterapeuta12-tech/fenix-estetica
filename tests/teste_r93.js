@@ -5,7 +5,7 @@ const W=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const WK=fs.readFileSync(path.join(__dirname,'..','supabase','worker-live-backup.js'),'utf8');
 const CJ=fs.readFileSync(path.join(__dirname,'..','center','app.html'),'utf8');
 const VJ=JSON.parse(fs.readFileSync(path.join(__dirname,'..','versao.json'),'utf8'));
-T('1. Estética segue 1.6.83 (esse conserto é da Center + worker)', W.includes("APP_VERSAO='1.6.83'")&&VJ.versao==='1.6.83'&&VJ.r==='R109');
+T('1. Estética segue 1.6.84 (esse conserto é da Center + worker)', W.includes("APP_VERSAO='1.6.84'")&&VJ.versao==='1.6.84'&&VJ.r==='R110');
 /* worker */
 T('2. login aceita SÓ O NOME (expande @fenix.com + cai pro antigo @clinicas.fenix.app)', WK.includes("if (email && email.indexOf('@') < 0) email = email + '@fenix.com';")&&WK.includes("email.split('@')[0] + '@clinicas.fenix.app'"));
 T('3. /auth-fenix/criar-clinica PÚBLICO (self-signup, fora do gate do dono)', WK.includes("p === '/auth-fenix/criar-clinica'")&&WK.indexOf("'/auth-fenix/criar-clinica'")<WK.indexOf('ehDono'));

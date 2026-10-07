@@ -3801,6 +3801,7 @@ dirty.add(name);setCloud('sync','☁ Sincronizando…');
 clearTimeout(syncTimer);syncTimer=setTimeout(syncAll,700);}
 function persistAll(){LOAD_ORDER.forEach(n=>persist(n));}
 async function syncAll(){
+if(!REMOTE)return; /* R110 — modo local: nada vai pra nuvem */
 if(syncing)return;syncing=true;let fail=0;
 for(const name of LOAD_ORDER){
 if(!dirty.has(name))continue;
@@ -3868,7 +3869,7 @@ function paintSyncPanel(){if($('viewSync').classList.contains('hidden'))return;
 $('syncState').textContent=REMOTE?(dirty.size?'Enviando…':'Em dia'):'Modo local';
 $('syncLast').textContent=lastPull?new Date(lastPull).toLocaleTimeString('pt-BR'):'—';
 $('syncPend').textContent=dirty.size;}
-$('btnSyncNow').addEventListener('click',()=>{syncAll().then(()=>pullRemote(true));});
+$('btnSyncNow').addEventListener('click',()=>{if(!REMOTE)return msg($('syncMsg'),'💾 Você está no modo local — os dados ficam salvos neste aparelho e sincronizam quando a nuvem voltar.','');syncAll().then(()=>pullRemote(true));}); /* R110 */
 
 /* ===================== BACKUP INTELIGENTE ===================== */
 function snapshotData(){return{cli:DB.cli,pkg:DB.pkg,ses:DB.ses,pay:DB.pay,ag:DB.ag,fin:DB.fin,arq:DB.arq,doc:DB.doc,alarm:DB.alarm,iac:DB.iac,iam:DB.iam,form:DB.form,resp:DB.resp,cat:DB.cat,kit:DB.kit,usu:DB.usu,msg:DB.msg};}
@@ -5786,7 +5787,11 @@ if(!u||u.senha!==pass)return false;
 try{localStorage.setItem(S,nome.toLowerCase())}catch(x){}
 entrarLocal(u,nome.toLowerCase());return true;};
 if(!REMOTE){if(localOk())return;
-return msg($('loginMsg'),'Sem conexão com a nuvem agora e senha local incorreta. Verifique a internet e a senha.','err');}
+const us0=loadUsers(); /* R110 — modo local de verdade: sem NENHUM acesso local ainda? o 1º login CRIA o acesso neste aparelho (fim da tela travada) */
+if(Object.keys(us0).length)return msg($('loginMsg'),'Sem conexão com a nuvem agora e senha local incorreta. Verifique a internet e a senha.','err');
+const nk0=nome.toLowerCase();us0[nk0]={nome:nome,senha:pass,clinica:nome};saveUsers(us0);
+try{localStorage.setItem(S,nk0)}catch(x0){}
+entrarLocal(us0[nk0],nk0);return;}
 const {data,error}=await SB.auth.signInWithPassword({email:authEmail(nome),password:pass});
 if(error){const m=erroSB(error);
 if(localOk())return msg($('loginMsg'),'⚠ Nuvem recusou, mas entrou no modo local com a senha local.','err');
@@ -5804,7 +5809,12 @@ if(nome.length<3)return msg($('regMsg'),'Informe o nome da cl\u00ednica.','err')
 if(pass.length<6)return msg($('regMsg'),'A senha precisa de pelo menos 6 caracteres.','err');
 if(pass!==conf)return msg($('regMsg'),'As senhas n\u00e3o conferem.','err');
 msg($('regMsg'),'\u23f3 Criando sua cl\u00ednica\u2026','');trava(true);
-if(!REMOTE){trava(false);return msg($('regMsg'),'Sem conex\u00e3o com a nuvem agora \u2014 tente de novo em instantes.','err');}
+if(!REMOTE){ /* R110 — cadastro offline: cria o acesso local neste aparelho (não recusa mais) */
+const usC=loadUsers(),nkC=nome.toLowerCase();
+if(usC[nkC]){trava(false);return msg($('regMsg'),'J\u00e1 existe um acesso local com esse nome neste aparelho \u2014 use Entrar.','err');}
+usC[nkC]={nome:nome,senha:pass,clinica:nome};saveUsers(usC);
+try{localStorage.setItem(S,nkC)}catch(xC){}
+entrarLocal(usC[nkC],nkC);return;}
 const {data,error}=await SB.auth.signUp({email:authEmail(nome),password:pass,options:{data:{nome}}});
 if(error){trava(false);return msg($('regMsg'),erroSB(error),'err');}
 if(!data.session){trava(false);return msg($('regMsg'),'\u2714 Conta criada! Confirme o e-mail e volte aqui para entrar.','ok');}
@@ -8410,7 +8420,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.83';
+const APP_VERSAO='1.6.84';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{
@@ -8571,6 +8581,7 @@ $('btnSplashGo').addEventListener('click',()=>{
 /* R21: pequena espera ao clicar COMEÇAR (o pop-up de acesso lembrado não abre na cara) */
 const bg=$('btnSplashGo');if(bg.disabled)return;bg.disabled=true;bg.textContent='AGUARDE…';
 const sub=$('splashSub');if(sub)sub.textContent='Preparando seu acesso…';
+const temLembrete=!!(window.__pendRemoto||window.__pendLocal); /* R110 — sem acesso lembrado, login na hora (não espera 5s) */
 setTimeout(()=>{
 $('splash').classList.add('hidden');
 bg.disabled=false;bg.textContent='COMEÇAR';if(sub)sub.textContent='Sua clínica, seus clientes, tudo em um app.';
@@ -8582,7 +8593,7 @@ else if(window.__pendLocal){
 $('remClinica').textContent=window.__pendLocal.u.nome||window.__pendLocal.key;
 $('remUser').textContent='conta local deste dispositivo';
 $('rememberModal').classList.remove('hidden');}
-else $('authScreen').classList.remove('hidden');},5000);});
+else $('authScreen').classList.remove('hidden');},temLembrete?5000:300);});
 $('btnRememberGo').addEventListener('click',()=>{
 $('rememberModal').classList.add('hidden');
 if(window.__pendRemoto)entrarComCarregamento(()=>entrarRemoto(window.__pendRemoto));
