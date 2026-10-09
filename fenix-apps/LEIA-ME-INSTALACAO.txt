@@ -24,6 +24,7 @@ DETALHES
 • Login e senha: os mesmos. Celular e PC sincronizados
   (mesmo banco na nuvem).
 • Zoom das telas: menu Dados > Sistema (80% a 125%).
+• Novidade v1.6.89 — UNIFICAÇÃO TOTAL DA UI (R115): interface única, limpa e idêntica tanto no tema Claro quanto no tema Escuro — a mesma UI, os mesmos cartões, botões e tipografia do modo escuro agora ativos no claro, com total paridade visual · seleção de 14 cores do tema e modo Claro/Escuro totalmente acessíveis em Dados > Aparência
 • Novidade v1.6.88 — REDESIGN APPLE LUXURY DEFINITIVO (R114): nova experiência de luxo inspirada na Apple (macOS Sonoma, iOS 18 e VisionOS) — fundo cinza-titânio (#F5F5F7), cartões translúcidos com frosted glass e iluminação especular, ação primária em azul Apple (#0071E3), cápsulas de joia translúcidas para status, tipografia limpa SF Pro e física de mola (Apple Spring) com feedback tátil de clique · limpeza completa em Dados > Aparência com tema fixado no luxo definitivo · 100% das funções preservadas
 • Novidade v1.6.87 — DETALHES FINOS (R113): títulos de seção em micro-serifa terracota, calendário vivo, avatares em gradiente, valores em verde-profundo/terracota — o acabamento continuou
 • Novidade v1.6.86 — NOVA FACE DO FÊNIX (R112): design calibrado nos melhores sistemas do mundo (Claude, Linear, Stripe, Airbnb) mantendo a nossa alma papel + terracota — barra lateral quase-preta com o item ativo aceso, botões com gradiente e clique gostoso, números em serifa com rótulo em caixa alta, janelas com vidro fosco

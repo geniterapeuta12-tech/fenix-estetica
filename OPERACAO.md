@@ -400,6 +400,19 @@
 - **Dono**: «o app Center não tá funcionando direito, não dá pra criar conta nem entrar; tira aquilo Apps Fênix abrir e tal — isso é depois que cadastrar». Diagnóstico: v2.0 só logava com o EMAIL da conta Fênix (sem aceitar o nome) e NÃO tinha criar-conta público (só pós-login do dono); CORS confere OK (ACAO:* no preflight e no POST — provado por curl -i).
 - **WORKER**: login expande nome sem @ → `nome@clinicas.fenix.app` · **/auth-fenix/criar-clinica PÚBLICO** (rate-limit fxPorteira): valida nome@clinica/senha6+/nome, duplicidade em fx_contas E auth_users, cria **fx_contas + auth_users + clinics** (provisioning completo — a conta já entra no app na hora) e já devolve token+sb+conta (auto-login na Center).
 - **CENTER v2.1.0**: tela inicial LIMPA — fora o card «📲 Apps Fênix» (abrir/baixar agora só pós-entrada; painel da clínica já tinha) · card **«✨ Primeira vez? Criar conta da clínica»** (nome, email nome@clinica, senha) que cria e JÁ LOGA · login com campo único «Clínica ou email» + dica «MESMA senha que você usa no app» · btnAbrirApp removido (fica o btnAbrirApp2 pós-login).
+## R115 — UNIFICAÇÃO DEFINITIVA DA UI: MESMA UI NO CLARO E NO ESCURO · 1.6.89 (09/10/2026)
+- **Pedido do dono**: «tire essas novas interface sabe qunto voce muda pro modo escura e fica outr uui e etc quero isso no claro com a mesma ui nao quero mais essa.»
+- **DIAGNÓSTICO E CORREÇÃO DEFINITIVA**:
+  * Ao alternar para o modo escuro, o app exibia a verdadeira e clássica UI do Fênix (com botões dourados/accent, tipografia Montserrat/Playfair, cartões elegantes, sidebar clássica e layout consistente).
+  * No modo claro, camadas aditivas de override (R90 estilo Claude, R97, R99, R100, R101 e R114 Apple Luxury) descaracterizavam a interface, gerando divergência visual entre os modos.
+  * Remoção integral de todas as regras aditivas divergentes do modo claro: a UI do app passa a ser EXATAMENTE a mesma no Claro e no Escuro, mantendo 100% de paridade visual, de componentes e de layout.
+- **PALETAS E APARÊNCIA**:
+  * #cardCores (Cor do tema) desocultado em Dados > Aparência: as 14 cores canônicas (Terracota, Dourado, Verde Coral, Rosa-Queimado, etc.) funcionam perfeitamente e colorem botões, badges e destaques tanto no tema claro quanto no escuro.
+  * Controle direto e simples em Dados > Aparência: Escolha de Tema (Escuro / Claro), Cores do tema (14 paletas) e Imagem de fundo.
+  * Padrão fixado na UI clássica e coesa (currentUI() => 'classica').
+- **100% DAS FUNÇÕES PRESERVADAS**: Modo Local de Verdade (R110), soma automática (R109), Token para I.A (R108), Fênix I.A, catálogo, todas as regras de sincronização, financeiro e proteção LGPD intocados.
+- **ENTREGAS & AUTO-UPDATE**: index.html e index-ui.html atualizados para v1.6.89 (0 erros no node --check), versao.json atualizado com as 5 melhorias canônicas, teste suite teste_r115.js 8/8 verde, APK Android e Windows EXE atualizados e distribuídos via GitHub.
+
 ## R114 — REDESIGN APPLE LUXURY + LIMPEZA DE APARÊNCIA + BUILD & AUTO-UPDATE TOTAL · 1.6.88 (09/10/2026)
 - **Diretriz Canônica Apple Luxury (macOS Sonoma / iOS 18 / VisionOS)**: Interface ultra-sofisticada de luxo com materiais translúcidos, física de mola e tipografia SF Pro de alta precisão.
 - **LIMPEZA DE APARÊNCIA (viewTheme)**:

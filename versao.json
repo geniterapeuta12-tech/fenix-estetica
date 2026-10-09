@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.88",
-  "r": "R114",
+  "versao": "1.6.89",
+  "r": "R115",
   "quando": "09/10/2026",
   "melhorias": [
-    "✨ Redesign Apple Luxury definitivo: interface em cinza-titânio (#F5F5F7), cartões translúcidos com frosted glass e iluminação especular",
-    "💎 Sistema de cores Apple: ação primária Apple System Blue (#0071E3) e status em cápsulas de joia translúcidas (Quitado, Em aberto, Conferir)",
-    "📐 Geometria contínua Apple (squircles de 22px/26px, botões pílula 9999px) e tipografia SF Pro de alta precisão com tracking negativo",
-    "⚡ Física de mola Apple Spring (cubic-bezier(0.16, 1, 0.3, 1)) com feedback tátil de press/rebote e modais estilo folha iOS/macOS",
-    "🛡️ 100% das funções preservadas: Modos, Início, Clientes, Agenda, Financeiro, Modo Local offline (R110), Token I.A (R108) e Fênix I.A intactos"
+    "✨ Unificação definitiva da UI: mesma interface consistente, clássica e fluida tanto no modo Claro quanto no modo Escuro",
+    "🛡️ Remoção das interfaces novas divergentes no tema claro: layout, cards, botões e elementos 100% idênticos ao modo escuro",
+    "🎨 Restauração da paleta e componentes clássicos: dourado e as 14 cores de tema ativas com paridade visual absoluta",
+    "⚙️ Dados > Aparência simplificado: controle direto de Tema (Escuro / Claro) e Cores do tema sempre acessíveis",
+    "🔒 100% das funções preservadas: Modo Local offline (R110), soma automática (R109), Token para I.A (R108) e Fênix I.A intactos"
   ]
 }
