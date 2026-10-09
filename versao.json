@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.84",
-  "r": "R110",
-  "quando": "07/10/2026",
+  "versao": "1.6.85",
+  "r": "R111",
+  "quando": "08/10/2026",
   "melhorias": [
-    "🛠️ Versão local de teste CONSERTADA: ela abria com erro e não entrava — agora abre, entra e funciona 100% neste aparelho (sem nuvem, sem erro de conexão)",
-    "📶 Sem internet no app: o PRIMEIRO acesso cria a conta local no aparelho e entra na hora — não fica mais travado no «Sem conexão com a nuvem»",
-    "📝 Criar conta sem internet também funciona: cria o acesso local em vez de recusar (avisa se o nome já existe neste aparelho)",
-    "💾 Botão «Sincronizar agora» no modo local explica o que acontece (dados salvos no aparelho) em vez de mostrar «☁ Sincronizado» de mentira",
-    "⚡ Tela de login abre na hora: só espera os 5 segundos quando há acesso lembrado a confirmar — e revisão completa do modo local (todas as telas andadas sem erro)"
+    "✨ Acabamento fino em TODO o app: botões com clique gostoso (afunda ao apertar), contornos e focos alinhados ao padrão de design do Claude — a mesma linguagem que inspirou o Fênix",
+    "🎯 Etiquetas de status mais legíveis: ✓ Quitado em verde-calmo, ⚠/⏳ em âmbar-terracota, tudo com números alinhados em coluna (fica fácil comparar valores)",
+    "🖱️ Tudo responde ao toque: itens da lista acendem ao passar o dedo/mouse, clientes levantam de leve, chips e abas com feedback na hora",
+    "✍️ Campos de texto com borda que acorda em terracota ao passar o mouse e dica (placeholder) mais suave · estados de erro e acerto com cores calibradas",
+    "🪟 Janelas e cartões com sombra mais bonita e fundo esmaecido atrás do modal — e estados vazios com moldura pontilhada delicada (Clássica/escura intocada)"
   ]
 }

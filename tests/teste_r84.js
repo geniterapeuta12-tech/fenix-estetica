@@ -4,7 +4,7 @@ let ok=0,fail=0;const T=(n,c)=>{if(c){ok++;}else{fail++;console.log('  ✗ '+n);
 const W=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const WK=fs.readFileSync(path.join(__dirname,'..','supabase','worker-live-backup.js'),'utf8');
 const VJ=JSON.parse(fs.readFileSync(path.join(__dirname,'..','versao.json'),'utf8'));
-T('1. versão 1.6.84 + versao.json R84 (5 melhorias)', W.includes("APP_VERSAO='1.6.84'")&&VJ.versao==='1.6.84'&&VJ.r==='R110'&&(VJ.melhorias||[]).length>=5);
+T('1. versão 1.6.85 + versao.json R84 (5 melhorias)', W.includes("APP_VERSAO='1.6.85'")&&VJ.versao==='1.6.85'&&VJ.r==='R111'&&(VJ.melhorias||[]).length>=5);
 /* acesso: contexto inteiro chega à I.A */
 T('2. worker: contexto NÃO é mais cortado em 6.000 (30k)', WK.includes("slice(0,30000)")&&!WK.includes(".contexto||'').slice(0,6000)"));
 T('3. worker: usa totais JÁ calculados (não soma lista — fim do número inventado)', WK.includes('JÁ VÊM CALCULADOS nos DADOS acima')&&WK.includes('NUNCA tente somar ou recalcular listas'));

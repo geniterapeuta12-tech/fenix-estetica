@@ -4,7 +4,7 @@ let ok=0,fail=0;const T=(n,c)=>{if(c){ok++;}else{fail++;console.log('  ✗ '+n);
 const W=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const WK=fs.readFileSync(path.join(__dirname,'..','supabase','worker-live-backup.js'),'utf8');
 const VJ=JSON.parse(fs.readFileSync(path.join(__dirname,'..','versao.json'),'utf8'));
-T('1. versão 1.6.84 + versao.json R87 (5 melhorias)', W.includes("APP_VERSAO='1.6.84'")&&VJ.versao==='1.6.84'&&VJ.r==='R110'&&(VJ.melhorias||[]).length===5);
+T('1. versão 1.6.85 + versao.json R87 (5 melhorias)', W.includes("APP_VERSAO='1.6.85'")&&VJ.versao==='1.6.85'&&VJ.r==='R111'&&(VJ.melhorias||[]).length===5);
 /* worker */
 T('2. worker: agente limitado a 5 arquivos (cap canvasLista)', WK.includes('if(canvasLista.length>=5)break;'));
 T('3. worker: dica de organizar → UM canvas consolidado (O principal/Observações/Resumo organizado)', WK.includes('NÃO crie vários: gere UM ÚNICO canvas consolidado')&&WK.includes('«O principal», «Observações» e «Resumo organizado»'));

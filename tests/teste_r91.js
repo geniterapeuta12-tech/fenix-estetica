@@ -4,7 +4,7 @@ let ok=0,fail=0;const T=(n,c)=>{if(c){ok++;}else{fail++;console.log('  ✗ '+n);
 const W=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 const WK=fs.readFileSync(path.join(__dirname,'..','supabase','worker-live-backup.js'),'utf8');
 const VJ=JSON.parse(fs.readFileSync(path.join(__dirname,'..','versao.json'),'utf8'));
-T('1. versão 1.6.84 + R90 (a P1 é do servidor — app segue na UI 2.0)', true);
+T('1. versão 1.6.85 + R90 (a P1 é do servidor — app segue na UI 2.0)', true);
 /* tabelas novas (sem mexer nas existentes) */
 T('2. tabelas contas · sessoes · tokens_abrir (IF NOT EXISTS — não toca nas antigas)', WK.includes('CREATE TABLE IF NOT EXISTS fx_contas (id TEXT PRIMARY KEY, email TEXT UNIQUE, pw TEXT')&&WK.includes('CREATE TABLE IF NOT EXISTS fx_sessoes (token TEXT PRIMARY KEY, conta_id TEXT')&&WK.includes('CREATE TABLE IF NOT EXISTS fx_tokens_abrir (token TEXT PRIMARY KEY')&&WK.includes('let fxTabelasOk = false;'));
 /* endpoints */

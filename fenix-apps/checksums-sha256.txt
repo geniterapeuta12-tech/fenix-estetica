@@ -1,7 +1,7 @@
-# Fênix Estética — checksums SHA-256 — R110 (v1.6.84) — 07/10/2026
+# Fênix Estética — checksums SHA-256 — R111 (v1.6.85) — 08/10/2026
 # Confira depois de baixar:  certutil -hashfile ARQUIVO SHA256   (Windows)
-289ac7da347b2964eb0e8d48364e812af77c1aeb35847c419a011de4052ab4c3  FENIX-Estetica.apk           (Android · vc65 · v1.6.84 — Modo local de verdade: sem internet o 1º acesso cria a conta e entra na hora · versão local de teste consertada · login abre na hora)
-cd1db384c3109b5f3b2c4966e995ef3608927cfa81301ba19f91f1acf98ee9aa  FENIX-Estetica-Windows.zip   (Windows · v1.6.84 — idem)
-dd3eb4bbb62b2d25c584bf27aa74ec5c4b58c27513b6d1a165874e20c5109ccd  Fenix-Center.apk             (Center Android · vc16 · v2.4.0 — entra e CAI NO APP na mesma janela · sem fenix:// automático)
-dde2189485204406684fecbbb21cdaab8940e06020eb65fbc29d38e641805745  Fenix-Center-Windows.zip     (Center Windows · v2.4.0 — idem)
-# Histórico: Estética vc64/1.6.83 (4f86bc28…/ad4d5100…) na v1.6.83 · vc63/1.6.82 (71b0823e…/d917d3f8…) na v1.6.82 · vc62/1.6.81 (42ecb0f9…/9ff621cd…) na v1.6.81 · Center vc13/2.2.0 (eceb7002…) no git
+3b8756323b4e6fd41aa0a8c73d9358588e538315ff38f0a348ce3cf37efa0aea  FENIX-Estetica.apk           (Android · vc66 · v1.6.85 — acabamento fino da interface: botões, etiquetas, campos e janelas no padrão de design do Claude · Clássica intocada)
+244179a79c1a201c55d648979d98f13cca926393b2c35ffb1892e36645129dfd  FENIX-Estetica-Windows.zip   (Windows · v1.6.85 — idem)
+dd3eb4bbb62b2d25c584bf27aa74ec5c4b58c27513b6d1a165874e20c5109ccd  Fenix-Center.apk             (Center Android · vc16 · v2.4.0 — CONGELADO)
+dde2189485204406684fecbbb21cdaab8940e06020eb65fbc29d38e641805745  Fenix-Center-Windows.zip     (Center Windows · v2.4.0 — CONGELADO)
+# Histórico: Estética vc65/1.6.84 (289ac7da…/cd1db384…) na v1.6.84 · vc64/1.6.83 (4f86bc28…/ad4d5100…) na v1.6.83 · vc63/1.6.82 (71b0823e…/d917d3f8…) na v1.6.82

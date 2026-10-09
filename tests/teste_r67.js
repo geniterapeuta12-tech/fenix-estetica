@@ -20,9 +20,9 @@ T('10. EXE: no-cache pra pegar a versão nova', EX.includes("'Cache-Control': 'n
 T('11. EXE: sem internet → cópia interna (fallback)', EX.includes('loadFile(path.join(__dirname')&&EX.includes('caiLocal'));
 T('12. EXE: fonte versionada no repo (exe-src/)', fs.existsSync(path.join(__dirname,'..','exe-src','package.json')));
 /* app */
-T('13. APP_VERSAO 1.6.48', W.includes("APP_VERSAO='1.6.84'"));
+T('13. APP_VERSAO 1.6.48', W.includes("APP_VERSAO='1.6.85'"));
 T('14. Resumo da I.A embutido intacto (R66)', /sc\[0\]==='resumo'\?relIaBloco\(\):''/.test(W));
-T('15. versao.json 1.6.49/R70', VJ.versao==='1.6.84'&&VJ.r==='R110'&&(VJ.melhorias||[]).length>=3);
+T('15. versao.json 1.6.49/R70', VJ.versao==='1.6.85'&&VJ.r==='R111'&&(VJ.melhorias||[]).length>=3);
 T('16. JS do app válido', (()=>{try{new Function(W.match(/<script>([\s\S]*)<\/script>/)[1]);return true}catch(e){return false}})());
 T('17. Center 2.0.0 intocado (UI nova da Plataforma)', fs.readFileSync(path.join(__dirname,'..','center-src','www','index.html'),'utf8').includes("CENTER_V='2.4.0'"));
 console.log(fail?('FALHAS: '+fail):('TUDO OK ('+ok+'/17)'));
