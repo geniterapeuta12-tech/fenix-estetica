@@ -400,6 +400,22 @@
 - **Dono**: «o app Center não tá funcionando direito, não dá pra criar conta nem entrar; tira aquilo Apps Fênix abrir e tal — isso é depois que cadastrar». Diagnóstico: v2.0 só logava com o EMAIL da conta Fênix (sem aceitar o nome) e NÃO tinha criar-conta público (só pós-login do dono); CORS confere OK (ACAO:* no preflight e no POST — provado por curl -i).
 - **WORKER**: login expande nome sem @ → `nome@clinicas.fenix.app` · **/auth-fenix/criar-clinica PÚBLICO** (rate-limit fxPorteira): valida nome@clinica/senha6+/nome, duplicidade em fx_contas E auth_users, cria **fx_contas + auth_users + clinics** (provisioning completo — a conta já entra no app na hora) e já devolve token+sb+conta (auto-login na Center).
 - **CENTER v2.1.0**: tela inicial LIMPA — fora o card «📲 Apps Fênix» (abrir/baixar agora só pós-entrada; painel da clínica já tinha) · card **«✨ Primeira vez? Criar conta da clínica»** (nome, email nome@clinica, senha) que cria e JÁ LOGA · login com campo único «Clínica ou email» + dica «MESMA senha que você usa no app» · btnAbrirApp removido (fica o btnAbrirApp2 pós-login).
+## R114 — REDESIGN APPLE LUXURY + LIMPEZA DE APARÊNCIA + BUILD & AUTO-UPDATE TOTAL · 1.6.88 (09/10/2026)
+- **Diretriz Canônica Apple Luxury (macOS Sonoma / iOS 18 / VisionOS)**: Interface ultra-sofisticada de luxo com materiais translúcidos, física de mola e tipografia SF Pro de alta precisão.
+- **LIMPEZA DE APARÊNCIA (viewTheme)**:
+  * Ocultada seleção de «UI do app» (#cardUI contendo #uiModerna e #uiClassica) e seleção de «Cor do tema» (#cardCores contendo paletas antigas) via display:none!important.
+  * Visual fixado no novo padrão definitivo e exclusivo Apple Luxury sem dependência de paletas legadas.
+- **SISTEMA DE DESIGN APPLE LUXURY**:
+  * Canvas principal em cinza-titânio / alumínio polido #F5F5F7.
+  * Cartões e janelas em vidro fosco rgba(255, 255, 255, 0.82) com backdrop-filter: blur(24px) saturate(190%), borda fina especular 1px solid rgba(0, 0, 0, 0.05) e iluminação superior interna inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 10px 30px -10px rgba(0, 0, 0, 0.06).
+  * Tipografia geométrica limpa padrão SF Pro com tracking negativo -0.022em e números de métricas em tabular-nums.
+  * Ação primária Apple System Blue #0071E3 (hover #0077ED, press #0062C4).
+  * Badges de status translúcidas em cápsulas de joia: ✓ Quitado (rgba(52, 199, 89, 0.12) / #248A3D), ⏳ Em aberto (rgba(255, 149, 0, 0.12) / #B25000), ⚠ Conferir se pagou (rgba(255, 59, 48, 0.12) / #C92A2A).
+  * Geometria contínua com squircles de 22px nos cartões, 26px nos modais e botões em pílula 9999px.
+  * Física de mola Apple Spring (cubic-bezier(0.16, 1, 0.3, 1)) com feedback tátil ao pressionar (transform: scale(0.965)).
+- **100% DAS FUNÇÕES PRESERVADAS**: Modos (Gestão, Catálogo, Studio, Equipe, Dados), Início, Clientes, Agenda, Financeiro (R109), Modo Local offline (R110), Token I.A (R108) e Fênix I.A intactos.
+- **DISTRIBUIÇÃO E AUTO-UPDATE**: index.html e index-ui.html atualizados para v1.6.88 (0 erros no node --check), versao.json atualizado para R114 com 5 melhorias canônicas, APK e Windows EXE atualizados para distribuição.
+
 ## R113 — DETALHES FINOS: micro-tipografia + calendário vivo + valores on-brand · 1.6.87 (09/10/2026)
 - **3ª rodada do redesign (dono repetiu o pedido «usar os mds bastante + exe e apk de uma vez»)**: ~13 regras aditivas após a camada R112, TODAS html[data-theme="light"], zero JS/HTML.
 - **Entradas**: .pmodal .fk = micro-serifa caps terracota #B4562F (⚠️ escopado a .pmodal pra NÃO pegar .folha .fk do editor de PDF, que tem regra própria dourada) · .cal-day:hover levanta c/ borda terracota + .today sombra · .avatar GRADIENTE #E9906F→#C75F3C texto branco (substitui o rosado do R100) · .tab.active #B4562F bold · .pmodal-card/.modal-card raio 20 · .ia-msg .b raio 18 · .hero h3 ls -.02em · inputs border rgba(61,57,41,.15) · .val.in #2F7D4F / .val.out #B4562F (on-brand) · .sub #8E8878.
@@ -560,7 +576,7 @@
 - **Testes**: funcional **10/10** (4b: cadastrou → navega pro app com convite, sem modal) · r93 18/18 · r92 18/18 · r56 19/19 · r55 14/14 · r91 16/16 · r90 15/15 · r87 20/20.
 - **Binários**: **Fenix-Center.apk vc16/2.4.0** (sha dd3eb4bb… — e o marcador CENTER_V do MainActivity agora correto «2.4.0», o vc15 tinha ficado «1.8.0» interno) · **Fenix-Center-Windows.zip v2.4.0** (sha dde21894…) — substituídos na v1.6.70.
 
-## R95 — CENTER v2.3.0: SÓ O NOME (@fenix.com AUTOMÁTICO) + CAI NO APP DIRETO (04/10/2026) — «de uma vez por todas»
+## R95 �� CENTER v2.3.0: SÓ O NOME (@fenix.com AUTOMÁTICO) + CAI NO APP DIRETO (04/10/2026) — «de uma vez por todas»
 - **Dono**: «conserte de uma vez por todas o login/cadastro, não dá pra entrar e acessar o app diretamente; quero não precisar colocar @, depois de criar já auto adiciona @fenix.com».
 - **WORKER**: login sem @ → tenta `nome@fenix.com` e cai pro antigo `nome@clinicas.fenix.app` (cascata) · criar-clinica sem @ → conta nasce `nome@fenix.com` · migração ganhou guarda cEx (fim do UNIQUE constraint quando a conta fx já existe) · linha morta do patch anterior removida (confundia os testes).
 - **CENTER v2.3.0**: login «Usuário ou email» (placeholder «ex.: ana · (sem @ vira ana@fenix.com)») · cadastro «Seu usuário» (vira nome@fenix.com sozinho) · **entrou/cadastrou → ABRIR O APP DIRETO** (abreAppDireto: /abrir → fenix:// + janela web ?fx= + modal de apoio; quem volta já logado TAMBÉM cai no app).

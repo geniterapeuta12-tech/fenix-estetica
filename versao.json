@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.87",
-  "r": "R113",
-  "quando": "08/10/2026",
+  "versao": "1.6.88",
+  "r": "R114",
+  "quando": "09/10/2026",
   "melhorias": [
-    "🗂️ Títulos de seção com micro-tipografia editorial (ANÁLISE, PENDÊNCIAS, POR MÊS… em serifa terracota em caixa alta) — a tela agora guia o olho",
-    "📅 Calendário vivo: os dias respondem ao toque (levantam de leve) e o dia de hoje ganhou sombra terracota",
-    "🧑‍🤝‍🧑 Avatares em gradiente terracota com a inicial branca — mais quente e elegante nas listas de clientes",
-    "💵 Valores no tom da casa: entradas em verde-profundo e saídas em terracota — bate com as etiquetas ✓/⏳/⚠",
-    "✍️ Abas ativas em terracota, bolhas do chat mais arredondadas, campos com contorno mais firme, textos de apoio no cinza-quente da casa (Clássica/escura intocada)"
+    "✨ Redesign Apple Luxury definitivo: interface em cinza-titânio (#F5F5F7), cartões translúcidos com frosted glass e iluminação especular",
+    "💎 Sistema de cores Apple: ação primária Apple System Blue (#0071E3) e status em cápsulas de joia translúcidas (Quitado, Em aberto, Conferir)",
+    "📐 Geometria contínua Apple (squircles de 22px/26px, botões pílula 9999px) e tipografia SF Pro de alta precisão com tracking negativo",
+    "⚡ Física de mola Apple Spring (cubic-bezier(0.16, 1, 0.3, 1)) com feedback tátil de press/rebote e modais estilo folha iOS/macOS",
+    "🛡️ 100% das funções preservadas: Modos, Início, Clientes, Agenda, Financeiro, Modo Local offline (R110), Token I.A (R108) e Fênix I.A intactos"
   ]
 }
