@@ -1,4 +1,4 @@
-/* R110 FUNC — MODO LOCAL (SB=null, como no FENIX-TESTE-LOCAL): 1º login cria acesso · senha errada recusa · cadastro offline · sync honesto · login na hora · R112 funciona local */
+/* R110 FUNC — MODO LOCAL (SB=null, como no FENIX-TESTE-LOCAL): 1º login cria acesso · senha errada recusa · cadastro offline · sync honesto · login na hora · R113 funciona local */
 const fs=require('fs'),path=require('path');
 const {JSDOM}=require(path.join('/home/user/tests','node_modules','jsdom'));
 let html=fs.readFileSync('/home/user/index.html','utf-8');
@@ -28,19 +28,19 @@ await new Promise(r=>setTimeout(r,700));
 T('3. 1º login criou acesso local e ENTROU no app',!d.getElementById('appScreen').classList.contains('hidden'));
 T('4. badge 💾 Modo local',(d.getElementById('cloudBadge')||{}).textContent==='💾 Modo local');
 T('5. acesso salvo no aparelho (localStorage)',JSON.stringify(w.localStorage).includes('clinicaprincipal'));
-/* dados + R112 no local */
+/* dados + R113 no local */
 w.eval("setCli([{id:'c1',nome:'Ana Local'}]);setCat([{id:'i1',tipo:'item',nome:'Limpeza',preco:120}]);setMode('gestao');state.view='financeiro';renderApp();");
 await new Promise(r=>setTimeout(r,300));
 d.getElementById('btnAnalise').click();
 await new Promise(r=>setTimeout(r,120));
-T('6. Análise (R112) abre no modo local',!d.getElementById('analiseModal').classList.contains('hidden'));
+T('6. Análise (R113) abre no modo local',!d.getElementById('analiseModal').classList.contains('hidden'));
 d.getElementById('anClose').click();
 w.eval("openSellModalCat()");
 await new Promise(r=>setTimeout(r,300));
 const li=d.querySelector('#sellList [data-ref="i:i1"]');
 if(li)li.click();
 await new Promise(r=>setTimeout(r,100));
-T('7. venda com soma automática (R112) no local',!!li&&d.getElementById('sellValor').value==='120,00');
+T('7. venda com soma automática (R113) no local',!!li&&d.getElementById('sellValor').value==='120,00');
 w.eval("$('sellModal').classList.add('hidden');");
 /* sync agora em local: mensagem honesta */
 w.eval("setMode('dados');state.dsub='sync';renderApp();");

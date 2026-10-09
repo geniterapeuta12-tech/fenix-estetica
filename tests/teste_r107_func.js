@@ -43,7 +43,7 @@ T('9. APAGOU dentro da cliente (2 toques)', w.eval('getFin().length')===0&&txt(d
 
 /* ===== 4) apagar no financeiro GERAL (fora da cliente) ===== */
 w.eval("DB.fin=[{id:'antiga2',tipo:'in',desc:'Acelerador (antiga 2)',valor:150,data:'21/08/2026',pago:null,link:{tipo:'cliente',id:'c1',clientId:'c1'},obs:'Catálogo: Acelerador'}];setMode('gestao');state.view='financeiro';renderApp();");
-T('10. financeiro geral: venda antiga como «Venda do catálogo» com ⚠ Conferir se pagou (R112)', txt(d.getElementById('finList')).includes('Venda do catálogo')&&txt(d.getElementById('finList')).includes('⚠ Conferir se pagou'));
+T('10. financeiro geral: venda antiga como «Venda do catálogo» com ⚠ Conferir se pagou (R113)', txt(d.getElementById('finList')).includes('Venda do catálogo')&&txt(d.getElementById('finList')).includes('⚠ Conferir se pagou'));
 d.querySelector('#finList .del').click();
 d.querySelector('#finList .del').click();
 await new Promise(r=>setTimeout(r,100));

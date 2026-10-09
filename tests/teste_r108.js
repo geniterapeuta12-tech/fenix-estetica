@@ -4,7 +4,7 @@ let ok=0,fail=0;const T=(n,c)=>{if(c){ok++;}else{fail++;console.log('  ✗ '+n);
 const W=fs.readFileSync('/home/user/index.html','utf8');
 const WK=fs.readFileSync('/home/user/supabase/worker-live-backup.js','utf8');
 const VJ=JSON.parse(fs.readFileSync('/home/user/versao.json','utf8'));
-T('1. versão 1.6.86 + versao.json R112 (5 melhorias)', W.includes("APP_VERSAO='1.6.86'")&&VJ.versao==='1.6.86'&&VJ.r==='R112'&&VJ.melhorias.length===5);
+T('1. versão 1.6.87 + versao.json R113 (5 melhorias)', W.includes("APP_VERSAO='1.6.87'")&&VJ.versao==='1.6.87'&&VJ.r==='R113'&&VJ.melhorias.length===5);
 T('2. tabela ia_tokens na sincronia (LOAD_ORDER + TABLES + helpers)', W.includes("'msg','pub','iatok']")&&W.includes("iatok:{table:'ia_tokens',fromDb:mapIat,toDb:dbIat}")&&W.includes('msg:[],pub:[],iatok:[],bkp:[]')&&W.includes("msg:msgKey,pub:pubKey,iatok:iatokKey")&&W.includes("const getIatok=()=>DB.iatok,setIatok=v=>{DB.iatok=v;persist('iatok');}"));
 T('3. painel em Dados (view + sidebar + título + render)', W.includes('id="viewIatok"')&&W.includes('data-dsub="iatok"')&&W.includes("'Dados · Token para I.A'")&&W.includes("function renderIatok()")&&W.includes("if(state.dsub==='iatok')try{renderIatok();}catch(e2){}"));
 T('4. geração: token fkia_ + hash SHA-256 (o token NUNCA fica salvo em claro)', W.includes("const tok='fkia_'+btoa(bin)")&&W.includes("crypto.subtle.digest('SHA-256'")&&W.includes('iatokShowVal')&&!W.includes("hash:tok"));
