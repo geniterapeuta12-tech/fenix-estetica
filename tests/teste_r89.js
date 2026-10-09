@@ -6,9 +6,9 @@ const WK=fs.readFileSync(path.join(__dirname,'..','supabase','worker-live-backup
 const VJ=JSON.parse(fs.readFileSync(path.join(__dirname,'..','versao.json'),'utf8'));
 const MJ=fs.readFileSync(path.join(__dirname,'..','apk-src','br','fenix','estetica','MainActivity.java'),'utf8');
 const MF=fs.readFileSync(path.join(__dirname,'..','apk-manifest-vc48.xml'),'utf8');
-T('1. versão 1.6.85 + versao.json R89 (5 melhorias)', W.includes("APP_VERSAO='1.6.85'")&&VJ.versao==='1.6.85'&&VJ.r==='R111'&&(VJ.melhorias||[]).length===5);
+T('1. versão 1.6.86 + versao.json R89 (5 melhorias)', W.includes("APP_VERSAO='1.6.86'")&&VJ.versao==='1.6.86'&&VJ.r==='R112'&&(VJ.melhorias||[]).length===5);
 /* manifest */
-T('2. manifest vc48/1.6.85 com MANAGE_EXTERNAL_STORAGE + requestLegacyExternalStorage', MF.includes('android:versionCode="48"')&&MF.includes('android:versionName="1.6.68"')&&MF.includes('android.permission.MANAGE_EXTERNAL_STORAGE')&&MF.includes('android:requestLegacyExternalStorage="true"'));
+T('2. manifest vc48/1.6.86 com MANAGE_EXTERNAL_STORAGE + requestLegacyExternalStorage', MF.includes('android:versionCode="48"')&&MF.includes('android:versionName="1.6.68"')&&MF.includes('android.permission.MANAGE_EXTERNAL_STORAGE')&&MF.includes('android:requestLegacyExternalStorage="true"'));
 T('3. manifest guarda o resto (pacote · INTERNET · notificações · media · fenix scheme)', MF.includes("package=\"br.fenix.estetica\"")&&MF.includes('android.permission.INTERNET')&&MF.includes('android.permission.POST_NOTIFICATIONS')&&MF.includes('android.permission.READ_MEDIA_IMAGES')&&MF.includes('android:scheme="fenix"'));
 /* java */
 T('4. MainActivity: abre a tela da chave «Todos os arquivos» (abreTodosArq c/ fallback)', MJ.includes('MANAGE_APP_ALL_FILES_ACCESS_PERMISSION')&&MJ.includes('Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION')&&MJ.includes('Uri.fromParts("package", getPackageName(), null)'));

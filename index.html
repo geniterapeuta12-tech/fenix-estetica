@@ -1335,6 +1335,29 @@ html[data-theme="light"] .txn b,html[data-theme="light"] .txn strong,html[data-t
 html[data-theme="light"] .avatar{box-shadow:0 0 0 2px #fff,0 0 0 3.5px rgba(217,119,87,.28)}
 html[data-theme="light"] .pmodal{background:rgba(61,57,41,.38)}
 html[data-theme="light"] .pmodal-card,html[data-theme="light"] .modal-card{box-shadow:0 32px 80px rgba(61,57,41,.22)}
+/* ══════════ R112 — NOVA FACE (mistura Claude×Linear×Stripe×Airbnb · SÓ claro · identidade terracota mantida) ══════════ */
+html[data-theme="light"] .sidebar{background:#1F1C18;border-right:1px solid rgba(255,255,255,.06)}
+html[data-theme="light"] .navbtn:not(.active):hover{background:rgba(255,255,255,.07)}
+html[data-theme="light"] .navbtn{font-weight:500}
+html[data-theme="light"] .navbtn.active{background:linear-gradient(135deg,#D97757,#C75F3C);box-shadow:0 6px 14px rgba(199,95,60,.30)}
+html[data-theme="light"] #viewTitle{font-family:Georgia,'Times New Roman',serif;font-size:1.4rem;font-weight:600;letter-spacing:-.015em;color:#2E2A22}
+html[data-theme="light"] .btn{background:linear-gradient(135deg,#D97757,#C75F3C);border-color:#C75F3C;box-shadow:0 6px 16px rgba(199,95,60,.28),inset 0 1px 0 rgba(255,255,255,.18)}
+html[data-theme="light"] .btn:hover{background:linear-gradient(135deg,#C75F3C,#B4532F);border-color:#B4532F;box-shadow:0 8px 20px rgba(180,83,47,.32),inset 0 1px 0 rgba(255,255,255,.15);transform:translateY(-1px)}
+html[data-theme="light"] .btn:active{transform:translateY(0) scale(.985);box-shadow:0 3px 8px rgba(180,83,47,.30),inset 0 1px 0 rgba(255,255,255,.12)}
+html[data-theme="light"] .btn.small.ghost{background:#fffdf6;border-color:rgba(61,57,41,.16);box-shadow:none}
+html[data-theme="light"] .btn.small.ghost:hover{background:#F6EFE3;transform:none;box-shadow:none}
+html[data-theme="light"] .stats .stat{background:#fff;border:1px solid rgba(61,57,41,.08);border-radius:18px;box-shadow:0 1px 2px rgba(61,57,41,.05)}
+html[data-theme="light"] .stats .stat b{letter-spacing:-.02em}
+html[data-theme="light"] .stats .stat span{font-size:.72rem;text-transform:uppercase;letter-spacing:.09em;font-weight:600;color:#9A9382}
+html[data-theme="light"] .cinfo small{color:#9A9382}
+html[data-theme="light"] .pmodal{background:rgba(43,38,30,.44);backdrop-filter:blur(6px)}
+html[data-theme="light"] *::-webkit-scrollbar{width:8px;height:8px}
+html[data-theme="light"] *::-webkit-scrollbar-thumb{background:rgba(192,91,59,.28);border-radius:99px}
+html[data-theme="light"] *::-webkit-scrollbar-track{background:transparent}
+html[data-theme="light"] .tabs{background:#EFE8DB}
+html[data-theme="light"] .badge{border-width:1px}
+html[data-theme="light"] .txn{transition:background .16s ease,box-shadow .16s ease}
+html[data-theme="light"] .txn:hover{box-shadow:0 2px 8px rgba(61,57,41,.05)}
 
 /* ══════════ R101 — UI MODERNA (padrão): serifa estilo Anthropic nos títulos/números ══════════ */
 html:not([data-ui="classica"]) h1,html:not([data-ui="classica"]) h2,html:not([data-ui="classica"]) h3,html:not([data-ui="classica"]) .brand,html:not([data-ui="classica"]) .stat b,html:not([data-ui="classica"]) .appt .when b,html:not([data-ui="classica"]) #pNome,html:not([data-ui="classica"]) .pstats b,html:not([data-ui="classica"]) .avatar,html:not([data-ui="classica"]) .tmr-display,html:not([data-ui="classica"]) .cal-day.today,html:not([data-ui="classica"]) .cal-day i,html:not([data-ui="classica"]) .agechip,html:not([data-ui="classica"]) .when b,html:not([data-ui="classica"]) .num,html:not([data-ui="classica"]) .b-gold{font-family:'Source Serif 4',Georgia,'Times New Roman',serif!important}
@@ -8445,7 +8468,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.85';
+const APP_VERSAO='1.6.86';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{

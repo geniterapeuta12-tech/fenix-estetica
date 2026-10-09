@@ -24,7 +24,7 @@ T('14. PDF do canvas: título grande + SEM Courier (regra do dono)', (()=>{const
 T('15. canvas NÃO usa o /doc-texto nem altera anexo', W.includes("NUVEM_URL+'/doc-texto'")&&W.includes('id="btnIaAnexo"')&&W.includes('id="iaAnexoChip"'));
 /* intactos */
 T('16. chat/rel/posts/documentos intactos', ['iaSend','relIaAuto','gpAplica','iaDocGera','relPdfModelo','buildIaCtx'].every(f=>W.includes(f)));
-T('17. versão 1.6.58 + versao.json R79 (3+)', W.includes("APP_VERSAO='1.6.85'")&&VJ.versao==='1.6.85'&&VJ.r==='R111'&&(VJ.melhorias||[]).length>=3);
+T('17. versão 1.6.58 + versao.json R79 (3+)', W.includes("APP_VERSAO='1.6.86'")&&VJ.versao==='1.6.86'&&VJ.r==='R112'&&(VJ.melhorias||[]).length>=3);
 T('18. JS válido', (()=>{try{new Function(W.match(/<script>([\s\S]*)<\/script>/)[1]);return true}catch(e){return false}})());
 T('19. worker aceita modo vazio (chat) com pensamento e rota /ia única', WK.includes("const modo=String(b&&b.modo||'').slice(0,20);")&&WK.split("p === '/ia'").length===2);
 T('20. cliente não afetada (só conversa)', (()=>{try{return fs.readFileSync(path.join(__dirname,'..','clients','index.html'),'utf8').includes('/ia-cliente')}catch(e){return true}})());

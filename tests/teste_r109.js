@@ -3,7 +3,7 @@ const fs=require('fs');
 let ok=0,fail=0;const T=(n,c)=>{if(c){ok++;}else{fail++;console.log('  ✗ '+n);}};
 const W=fs.readFileSync('/home/user/index.html','utf8');
 const VJ=JSON.parse(fs.readFileSync('/home/user/versao.json','utf8'));
-T('1. versão 1.6.85 + versao.json R111 (5 melhorias)', W.includes("APP_VERSAO='1.6.85'")&&VJ.versao==='1.6.85'&&VJ.r==='R111'&&VJ.melhorias.length===5);
+T('1. versão 1.6.86 + versao.json R112 (5 melhorias)', W.includes("APP_VERSAO='1.6.86'")&&VJ.versao==='1.6.86'&&VJ.r==='R112'&&VJ.melhorias.length===5);
 T('2. helpers finFaltaReal + finStatus (quitado|aberto|conferir)', W.includes("function finFaltaReal(f)")&&W.includes("function finStatus(f)")&&W.includes("return 'conferir';")&&W.includes("Number(f.pago)>=Number(f.valor)?'quitado':'aberto'"));
 T('3. editar antiga SEM tocar no pago → pago=null (⚠ persiste, NUNCA vira paga)', W.includes("else up.pago=(f.pago!=null?Math.min(Number(f.pago)||0,valor):null);} /* R109")&&!W.includes('Math.min(Number(f.pago)||0,valor):valor);}'));
 T('4. ⚠ Conferir nas 4 listas (quem/finCliCat/cliCatList/finList)', (W.match(/⚠ Conferir se pagou/g)||[]).length>=3&&W.includes('⚠ Conferir · falta'));
