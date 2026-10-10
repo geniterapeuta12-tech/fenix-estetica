@@ -1,7 +1,7 @@
-# Fênix Estética — checksums SHA-256 — R115 (v1.6.89) — 09/10/2026
+# Fênix Estética — checksums SHA-256 — R116 (v1.6.90) — 09/10/2026
 # Confira depois de baixar:  certutil -hashfile ARQUIVO SHA256   (Windows)
-44b63cae12cc0e85d8911b1908df82b302dc1ad46721dc4ca45832ce0b7f2baa  FENIX-Estetica.apk           (Android · vc70 · v1.6.89 — UI clássica unificada: mesma interface limpa e elegante no claro e no escuro)
-369df879bf82a983b93da709bb899aed37b052467f7599e8f76672836b0b7e76  FENIX-Estetica-Windows.zip   (Windows · v1.6.89 — idem)
+eb8088595f2528e670c5668c537ac24701879764ee4e6b1653320689239ab6f1  FENIX-Estetica.apk           (Android · vc71 · v1.6.90 — Pastas & Parcerias de Clientes + Remoção do Pacote Somativo)
+153ecabb9adb7b48984de2df3af5044031545cd4e9d00bbffe0b26d020cf8800  FENIX-Estetica-Windows.zip   (Windows · v1.6.90 — idem)
 dd3eb4bbb62b2d25c584bf27aa74ec5c4b58c27513b6d1a165874e20c5109ccd  Fenix-Center.apk             (Center Android · vc16 · v2.4.0 — CONGELADO)
 dde2189485204406684fecbbb21cdaab8940e06020eb65fbc29d38e641805745  Fenix-Center-Windows.zip     (Center Windows · v2.4.0 — CONGELADO)
-# Histórico: Estética vc69/1.6.88 (32d77a71…/4e14e853…) na v1.6.88 · vc68/1.6.87 (84cbba33…/cd885926…) na v1.6.87 · vc67/1.6.86 (b219687a…/b25ea478…) na v1.6.86
+# Histórico: Estética vc70/1.6.89 (44b63cae…/369df879…) na v1.6.89 · vc69/1.6.88 (32d77a71…/4e14e853…) na v1.6.88 · vc68/1.6.87 (84cbba33…/cd885926…) na v1.6.87 · vc67/1.6.86 (b219687a…/b25ea478…) na v1.6.86

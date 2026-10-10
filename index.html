@@ -1223,6 +1223,24 @@ html[data-sidepos="right"] .sidebar.open{transform:none!important}
 html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 @media(min-width:901px){html[data-sidepos="right"][data-side="auto"] .sidebar:hover,html[data-sidepos="right"][data-side="auto"] .sidebar.open{transform:none}}
 @media(max-width:900px){html[data-sidepos="right"] .content{margin-right:0}}
+
+/* R116 — Pastas & Parcerias de Clientes */
+.pastas-bar{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 8px;margin-bottom:12px;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+.pasta-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;font-size:.82rem;font-weight:500;border:1px solid var(--line,rgba(255,255,255,.12));background:rgba(255,255,255,.04);color:var(--txt,#e2e8f0);cursor:pointer;white-space:nowrap;transition:all .15s ease;user-select:none}
+.pasta-chip:hover{background:rgba(255,255,255,.08);border-color:var(--accent,#e5a93c)}
+.pasta-chip.active{background:linear-gradient(135deg,var(--gold,#d4af37),var(--gold2,#aa820a));color:#121214;border-color:transparent;font-weight:700}
+.pasta-chip .pasta-count{font-size:.72rem;opacity:.88;background:rgba(0,0,0,.22);color:inherit;padding:1px 6px;border-radius:10px}
+.pasta-chip.active .pasta-count{background:rgba(0,0,0,.35);color:#fff}
+.pasta-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:.68rem;font-weight:600;letter-spacing:.02em;background:rgba(212,175,55,.15);color:var(--gold,#d4af37);border:1px solid rgba(212,175,55,.35);vertical-align:middle;cursor:pointer;margin-left:6px;transition:transform .12s}
+.pasta-badge:hover{transform:scale(1.04)}
+.pasta-banner{background:rgba(255,255,255,.03);border:1px solid var(--line,rgba(255,255,255,.1));border-left:4px solid var(--gold,#d4af37);border-radius:12px;padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+html[data-theme="light"] .pasta-chip{background:#fff;border-color:var(--line,#e2e8f0);color:#332e22}
+html[data-theme="light"] .pasta-chip:hover{background:#f8f9fa}
+html[data-theme="light"] .pasta-chip.active{background:linear-gradient(135deg,var(--gold,#d4af37),var(--gold2,#aa820a));color:#fff}
+html[data-theme="light"] .pasta-chip.active .pasta-count{background:rgba(0,0,0,.25);color:#fff}
+html[data-theme="light"] .pasta-badge{background:rgba(180,130,10,.1);color:#8d6505;border-color:rgba(180,130,10,.25)}
+html[data-theme="light"] .pasta-banner{background:#fdfcf9;border-color:var(--line,#e2e8f0);border-left-color:var(--gold,#d4af37)}
+
 </style>
 </head>
 <body>
@@ -2502,12 +2520,37 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <div><label>Telefone (opcional)</label><div class="field"><input id="cliTel" type="tel" placeholder="(11) 99999-9999"></div></div>
 <div><label>E-mail (opcional)</label><div class="field"><input id="cliEmail" type="email" placeholder="cliente@email.com"></div></div>
 </div>
+<div style="margin-top:10px;"><label>Pasta / Parceria (opcional)</label><div class="field"><input id="cliPasta" list="cliPastasDL" type="text" placeholder="Ex.: Parceria Faculdade São Camilo"></div><datalist id="cliPastasDL"></datalist></div>
 <p class="msg" id="cliMsg"></p><button class="btn" type="submit">Registrar cliente</button>
 </form>
 </div>
 </div>
 <div class="panelcard">
-<h3>Clientes da clínica</h3><p class="sub">Toque para abrir a página do cliente.</p>
+<div class="sec-head" style="margin-bottom:12px;">
+<div><h3 id="cliTituloLista">Clientes da clínica</h3><p class="sub" id="cliSubLista">Toque para abrir a página do cliente.</p></div>
+<div class="rowbtns" style="margin:0;gap:8px;"><button class="btn small ghost" id="btnNovaPasta" type="button" title="Criar nova pasta de clientes">📁+ Nova pasta</button></div>
+</div>
+
+<!-- Barra de Pastas de Clientes -->
+<div id="cliPastasBar" class="pastas-bar"></div>
+
+<!-- Banner de Pasta Ativa -->
+<div id="boxPastaAtiva" class="pasta-banner hidden">
+<div style="display:flex;align-items:center;gap:10px;">
+<span style="font-size:24px;">📁</span>
+<div>
+<div style="display:flex;align-items:center;gap:8px;"><strong id="pastaAtivaNome" style="font-size:1.02rem;">Pasta</strong><span class="badge b-gold" id="pastaAtivaQtd">0 clientes</span></div>
+<small class="sub" style="display:block;margin-top:2px;">Clientes desta pasta. (Elas também continuam visíveis na lista geral)</small>
+</div>
+</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+<button class="btn small" id="btnAdicionarCliPasta" type="button">➕ Adicionar nesta pasta</button>
+<button class="btn small ghost" id="btnRenomearPasta" type="button" title="Renomear pasta">✏️ Renomear</button>
+<button class="btn small ghost" id="btnExcluirPasta" type="button" title="Excluir pasta">🗑️ Excluir</button>
+<button class="btn small ghost" id="btnSairPasta" type="button">✖ Ver todas</button>
+</div>
+</div>
+
 <div class="search"><svg class="ic"><use href="#i-search"/></svg><input id="cliSearch" type="text" placeholder="Pesquisar cliente pelo nome..."></div>
 <ul class="list" id="clientList"></ul>
 </div>
@@ -2517,7 +2560,7 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <div id="cliPerfil">
 <div class="panelcard profile">
 <span class="avatar big" id="pAvatar"></span>
-<div class="pinfo"><h3 id="pNome"></h3><p id="pContato"></p><p id="pExtra"></p><p id="pDesde"></p></div>
+<div class="pinfo"><h3 id="pNome"></h3><div id="pPastaBadgeWrap" style="margin:4px 0;"></div><p id="pContato"></p><p id="pExtra"></p><p id="pDesde"></p></div>
 <div class="pstats">
 <div><b id="pPacotes">0</b><span>Pacotes</span></div>
 <div><b id="pSessoes">0</b><span>Sessões</span></div>
@@ -2554,6 +2597,7 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <div><label>Telefone</label><div class="field"><input id="infoTel" type="tel" placeholder="(11) 99999-9999"></div></div>
 <div><label>E-mail</label><div class="field"><input id="infoEmail" type="email" placeholder="cliente@email.com"></div></div>
 </div>
+<div style="margin-top:10px;"><label>Pasta / Parceria</label><div class="field"><input id="infoPasta" list="cliPastasDL" type="text" placeholder="Ex.: Parceria Faculdade São Camilo"></div></div>
 <label>Endereço</label><div class="field"><input id="infoEnd" type="text" placeholder="Rua, número, bairro, cidade"></div>
 <label>Observações (alergias, preferências...)</label><textarea id="infoObs" placeholder="Anotações livres sobre a cliente"></textarea>
 <p class="msg" id="infoMsg"></p><button class="btn" type="submit">Salvar informações</button>
@@ -2608,7 +2652,7 @@ html[data-sidepos="right"][data-side="fixed"] .sidebar{transform:none}
 <div id="cliPacote" class="hidden">
 <div id="pkgMenu">
 <div class="panelcard"><p class="sub" id="pkgMeta"></p><div class="bar"><i id="pkgBarFill"></i></div><p class="sub" id="pkgProg"></p></div>
-<div class="panelcard">
+<div class="panelcard" id="cardPacSoma" style="display:none!important;" aria-hidden="true">
 <h3>➕ Pacote somativo — vai somando sessões</h3>
 <p class="sub">Adiciona uma sessão com valor: soma no VALOR TOTAL do pacote e entra no financeiro como a receber (depois é só registrar os pagamentos normalmente).</p>
 <div class="grid3" style="margin-top:10px">
@@ -3258,7 +3302,7 @@ let PULL_INTERVAL=60000,perfTimer=null;const BKP_KEEP=5;
 /* ===================== ESTADO ===================== */
 const K='fenix_clinicas',S='fenix_sessao';
 let mem={},currentKey=null,navStack=[],pvUrl=null,avEditId=null;
-const state={mode:'gestao',view:'inicio',clientId:null,sub:'perfil',pacoteId:null,psub:'menu',openSes:null,openAv:null,
+const state={mode:'gestao',view:'inicio',pastaAtiva:null,clientId:null,sub:'perfil',pacoteId:null,psub:'menu',openSes:null,openAv:null,
 search:'',sview:'docs',sarea:'studio',docId:null,docPkgPre:null,dsub:'backup',iaConv:null,iaBusy:false,formId:null,respForm:null,respId:null,csub:'procedimentos',catEd:false,catId:null,cview:'loja'};
 try{state.sarea=localStorage.getItem('fenix_sarea')==='lab'?'lab':'studio'}catch(e){}
 const loadUsers=()=>{try{return JSON.parse(localStorage.getItem(K))||{}}catch(e){return mem}};
@@ -5849,29 +5893,200 @@ $('cliSearch').addEventListener('input',e=>{state.search=e.target.value;renderCl
 ['cliCPF','infoCPF'].forEach(id=>$(id).addEventListener('input',e=>e.target.value=maskCPF(e.target.value)));
 $('infoNasc').addEventListener('input',updateIdadeChip);
 function updateIdadeChip(){const a=calcIdade($('infoNasc').value);$('infoIdade').textContent=(a!==null&&a>=0)?a+' anos':'—';}
+/* R116 — PASTAS & PARCERIAS DE CLIENTES */
+function getPastasCli(){
+  let salvas=[];
+  try{salvas=JSON.parse(localStorage.getItem('fenix_cli_pastas')||'[]');}catch(e){}
+  if(!Array.isArray(salvas))salvas=[];
+  const cliPastas=getCli().map(c=>(c.pasta||'').trim()).filter(Boolean);
+  const set=new Set([...salvas,...cliPastas]);
+  return Array.from(set).filter(Boolean).sort((a,b)=>a.localeCompare(b,'pt-BR'));
+}
+function salvaPastasCli(list){
+  try{localStorage.setItem('fenix_cli_pastas',JSON.stringify(list));}catch(e){}
+}
+function abrirPastaCli(pasta){
+  state.pastaAtiva=pasta?pasta.trim():null;
+  if(state.view!=='clientes'){
+    navigate(()=>{state.view='clientes';state.clientId=null;});
+  }
+  renderClientes();
+}
+function criarNovaPastaCli(){
+  const nome=prompt('Nome da nova pasta ou parceria (ex: Parceria Faculdade São Camilo):');
+  if(!nome||!nome.trim())return;
+  const pNome=nome.trim();
+  const pastas=getPastasCli();
+  if(!pastas.includes(pNome)){pastas.push(pNome);salvaPastasCli(pastas);}
+  state.pastaAtiva=pNome;
+  renderClientes();
+  const formCard=$('formCliente')?.closest('.panelcard');
+  if(formCard&&formCard.classList.contains('closed'))formCard.classList.remove('closed');
+  if($('cliPasta'))$('cliPasta').value=pNome;
+  if($('cliNome')){$('cliNome').focus();$('cliNome').scrollIntoView({behavior:'smooth',block:'center'});}
+  msg($('cliMsg'),'Pasta “'+esc(pNome)+'” criada! Preencha abaixo para cadastrar uma cliente nesta pasta.','ok');
+}
+function addCliNaPastaAtiva(){
+  const formCard=$('formCliente')?.closest('.panelcard');
+  if(formCard&&formCard.classList.contains('closed'))formCard.classList.remove('closed');
+  if($('cliPasta'))$('cliPasta').value=state.pastaAtiva||'';
+  if($('cliNome')){$('cliNome').focus();$('cliNome').scrollIntoView({behavior:'smooth',block:'center'});}
+  msg($('cliMsg'),state.pastaAtiva?'Cadastrando cliente diretamente na pasta “'+esc(state.pastaAtiva)+'”.':'Cadastre a cliente abaixo.','ok');
+}
+function renomearPastaCli(){
+  if(!state.pastaAtiva)return;
+  const oldNome=state.pastaAtiva;
+  const novo=prompt('Novo nome para a pasta:',oldNome);
+  if(!novo||!novo.trim()||novo.trim()===oldNome)return;
+  const novoNome=novo.trim();
+  let salvas=getPastasCli().map(p=>p===oldNome?novoNome:p);
+  if(!salvas.includes(novoNome))salvas.push(novoNome);
+  salvaPastasCli(salvas);
+  const list=getCli();
+  let cnt=0;
+  list.forEach(c=>{if((c.pasta||'').trim()===oldNome){c.pasta=novoNome;cnt++;}});
+  setCli(list);
+  state.pastaAtiva=novoNome;
+  renderClientes();
+  toast('Pasta renomeada para “'+novoNome+'” ('+cnt+' cliente(s) atualizada(s)).');
+}
+function excluirPastaCli(){
+  if(!state.pastaAtiva)return;
+  const pastaExcluir=state.pastaAtiva;
+  if(!confirm('Excluir a pasta “'+pastaExcluir+'”?\n\nAs clientes NÃO serão apagadas: elas apenas sairão desta pasta e continuarão visíveis na lista geral.'))return;
+  let salvas=getPastasCli().filter(p=>p!==pastaExcluir);
+  salvaPastasCli(salvas);
+  const list=getCli();
+  list.forEach(c=>{if((c.pasta||'').trim()===pastaExcluir){c.pasta='';}});
+  setCli(list);
+  state.pastaAtiva=null;
+  renderClientes();
+  toast('Pasta excluída. As clientes permanecem normalmente na lista geral.');
+}
+
 $('formCliente').addEventListener('submit',e=>{e.preventDefault();
 const nome=$('cliNome').value.trim(),cpf=$('cliCPF').value.trim(),nasc=$('cliNasc').value,
 tel=$('cliTel').value.trim(),email=$('cliEmail').value.trim();
+const pasta=($('cliPasta')?$('cliPasta').value.trim():(state.pastaAtiva||''));
 if(nome.length<3)return msg($('cliMsg'),'O nome é obrigatório.','err');
 if(tel&&tel.replace(/\D/g,'').length<10)return msg($('cliMsg'),'Telefone incompleto.','err');
 if(email&&!/^\S+@\S+\.\S+$/.test(email))return msg($('cliMsg'),'E-mail inválido.','err');
-const list=getCli();list.unshift({id:uid(),nome,cpf,nasc,tel,email,end:'',obs:'',data:new Date().toLocaleDateString('pt-BR')});
-setCli(list);e.target.reset();renderClientes();renderStats();
-msg($('cliMsg'),'✔ Cliente registrado!','ok');});
-function renderClientes(){const q=state.search.toLowerCase();
-$('clientsDL').innerHTML=getCli().map(c=>'<option value="'+esc(c.nome)+'">').join('');
-const list=getCli().filter(c=>String(c.nome||'').toLowerCase().includes(q));
-if(!list.length){$('clientList').innerHTML='<li class="empty">'+(q?'Nenhum cliente encontrado para “'+esc(state.search)+'”.':'Nenhum cliente registrado ainda.')+'</li>';return;}
-$('clientList').innerHTML=list.map(c=>{const a=calcIdade(c.nasc);
-return '<li class="client clickable" data-id="'+c.id+'">'+
-'<span class="avatar">'+esc(initials(c.nome))+'</span>'+
-'<div class="cinfo"><strong>'+esc(c.nome)+'</strong><small>'+esc(c.tel||'Sem telefone')+(c.email?' · '+esc(c.email):'')+((a!==null&&a>=0)?' · '+a+' anos':'')+'</small></div>'+
-'<svg class="ic chev"><use href="#i-chev"/></svg></li>';}).join('');}
-$('clientList').addEventListener('click',e=>{const li=e.target.closest('.clickable');if(li)openClient(li.dataset.id);});
+if(pasta){
+  const pastas=getPastasCli();
+  if(!pastas.includes(pasta)){pastas.push(pasta);salvaPastasCli(pastas);}
+}
+const list=getCli();list.unshift({id:uid(),nome,cpf,nasc,tel,email,end:'',obs:'',pasta,data:new Date().toLocaleDateString('pt-BR')});
+setCli(list);e.target.reset();
+if(state.pastaAtiva&&$('cliPasta'))$('cliPasta').value=state.pastaAtiva;
+renderClientes();renderStats();
+msg($('cliMsg'),'✔ Cliente registrada'+(pasta?' na pasta “'+esc(pasta)+'”':'')+'!','ok');});
+
+function renderClientes(){
+  const q=state.search.toLowerCase();
+  $('clientsDL').innerHTML=getCli().map(c=>'<option value="'+esc(c.nome)+'">').join('');
+  const pastasDL=$('cliPastasDL');
+  if(pastasDL)pastasDL.innerHTML=getPastasCli().map(p=>'<option value="'+esc(p)+'">').join('');
+
+  // Atualizar barra de pastas
+  const pastas=getPastasCli();
+  const totalGeral=getCli().length;
+  const bar=$('cliPastasBar');
+  if(bar){
+    let chips='<button type="button" class="pasta-chip'+(!state.pastaAtiva?' active':'')+'" data-pastafilter="">📁 Todas as clientes <span class="pasta-count">'+totalGeral+'</span></button>';
+    pastas.forEach(p=>{
+      const cnt=getCli().filter(c=>(c.pasta||'').trim()===p).length;
+      chips+='<button type="button" class="pasta-chip'+(state.pastaAtiva===p?' active':'')+'" data-pastafilter="'+esc(p)+'">📁 '+esc(p)+' <span class="pasta-count">'+cnt+'</span></button>';
+    });
+    chips+='<button type="button" class="pasta-chip" id="btnNovaPastaChip" style="border-style:dashed;">➕ Nova pasta</button>';
+    bar.innerHTML=chips;
+  }
+
+  // Header / Banner da pasta ativa
+  const boxP=$('boxPastaAtiva');
+  if(boxP){
+    if(state.pastaAtiva){
+      boxP.classList.remove('hidden');
+      if($('pastaAtivaNome'))$('pastaAtivaNome').textContent=state.pastaAtiva;
+      const qtd=getCli().filter(c=>(c.pasta||'').trim()===state.pastaAtiva).length;
+      if($('pastaAtivaQtd'))$('pastaAtivaQtd').textContent=qtd+(qtd===1?' cliente':' clientes');
+      if($('cliTituloLista'))$('cliTituloLista').textContent='📁 '+state.pastaAtiva;
+      if($('cliSubLista'))$('cliSubLista').textContent='Exibindo clientes desta pasta. Toque em "Ver todas" para ver a lista geral.';
+    } else {
+      boxP.classList.add('hidden');
+      if($('cliTituloLista'))$('cliTituloLista').textContent='Clientes da clínica';
+      if($('cliSubLista'))$('cliSubLista').textContent='Toque para abrir a página do cliente.';
+    }
+  }
+
+  // Filtragem da lista
+  let list=getCli();
+  if(state.pastaAtiva){
+    list=list.filter(c=>(c.pasta||'').trim()===state.pastaAtiva);
+  }
+  if(q){
+    list=list.filter(c=>String(c.nome||'').toLowerCase().includes(q)||(c.pasta||'').toLowerCase().includes(q));
+  }
+
+  if(!list.length){
+    if(state.pastaAtiva){
+      $('clientList').innerHTML='<li class="empty">Nenhuma cliente nesta pasta ainda.<br><button class="btn small" style="margin-top:10px" type="button" onclick="addCliNaPastaAtiva()">➕ Adicionar cliente nesta pasta</button></li>';
+    } else {
+      $('clientList').innerHTML='<li class="empty">'+(q?'Nenhum cliente encontrado para “'+esc(state.search)+'”.':'Nenhum cliente registrado ainda.')+'</li>';
+    }
+    return;
+  }
+
+  $('clientList').innerHTML=list.map(c=>{
+    const a=calcIdade(c.nasc);
+    const pastaTag=c.pasta?'<span class="pasta-badge" data-pastaclick="'+esc(c.pasta)+'" title="Pasta: '+esc(c.pasta)+'">📁 '+esc(c.pasta)+'</span>':'';
+    return '<li class="client clickable" data-id="'+c.id+'">'+
+    '<span class="avatar">'+esc(initials(c.nome))+'</span>'+
+    '<div class="cinfo"><strong>'+esc(c.nome)+pastaTag+'</strong><small>'+esc(c.tel||'Sem telefone')+(c.email?' · '+esc(c.email):'')+((a!==null&&a>=0)?' · '+a+' anos':'')+'</small></div>'+
+    '<svg class="ic chev"><use href="#i-chev"/></svg></li>';
+  }).join('');
+}
+
+$('clientList').addEventListener('click',e=>{
+  const pBadge=e.target.closest('[data-pastaclick]');
+  if(pBadge){
+    e.stopPropagation();
+    abrirPastaCli(pBadge.dataset.pastaclick);
+    return;
+  }
+  const li=e.target.closest('.clickable');
+  if(li)openClient(li.dataset.id);
+});
+
+const barCliPastas=$('cliPastasBar');
+if(barCliPastas){
+  barCliPastas.addEventListener('click',e=>{
+    const btn=e.target.closest('[data-pastafilter]');
+    if(btn){
+      abrirPastaCli(btn.dataset.pastafilter);
+      return;
+    }
+    if(e.target.closest('#btnNovaPastaChip')){
+      criarNovaPastaCli();
+    }
+  });
+}
+if($('btnNovaPasta'))$('btnNovaPasta').addEventListener('click',criarNovaPastaCli);
+if($('btnAdicionarCliPasta'))$('btnAdicionarCliPasta').addEventListener('click',addCliNaPastaAtiva);
+if($('btnRenomearPasta'))$('btnRenomearPasta').addEventListener('click',renomearPastaCli);
+if($('btnExcluirPasta'))$('btnExcluirPasta').addEventListener('click',excluirPastaCli);
+if($('btnSairPasta'))$('btnSairPasta').addEventListener('click',()=>abrirPastaCli(''));
 function renderCliente(){const c=cliById(state.clientId);if(!c){showView('clientes');return;}
 const secs={perfil:'cliPerfil',info:'cliInfo',pacotes:'cliPacotes',pacote:'cliPacote',arquivos:'cliArquivos',financeiro:'cliFinanceiro',agenda:'cliAgenda',documentos:'cliDocumentos',anamnese:'cliAnamnese',catalogo:'cliCatalogo',docEd:'cliDocEd'};
 Object.entries(secs).forEach(([k,id])=>$(id).classList.toggle('hidden',state.sub!==k));
 $('pAvatar').textContent=initials(c.nome);$('pNome').textContent=c.nome;
+const pWrap=$('pPastaBadgeWrap');
+if(pWrap){
+  if(c.pasta){
+    pWrap.innerHTML='<span class="pasta-badge" style="cursor:pointer;font-size:.74rem;padding:3px 10px;" onclick="abrirPastaCli(\''+esc(c.pasta)+'\')" title="Clique para abrir esta pasta">📁 Pasta / Parceria: '+esc(c.pasta)+'</span>';
+  } else {
+    pWrap.innerHTML='';
+  }
+}
 $('pContato').textContent=(c.tel||'Sem telefone')+(c.email?' · '+c.email:'');
 const a=calcIdade(c.nasc);
 $('pExtra').textContent=[c.cpf?('CPF '+c.cpf):null,((a!==null&&a>=0)?a+' anos':null),(c.nasc?('nasc. '+fmtDate(c.nasc)):null)].filter(Boolean).join(' · ');
@@ -5903,6 +6118,7 @@ if(state.sub==='catalogo')renderCatCli();
 if(state.sub==='docEd')renderDocEdCli();}
 function populateInfo(c){$('infoNome').value=c.nome||'';$('infoCPF').value=c.cpf||'';$('infoNasc').value=c.nasc||'';
 $('infoTel').value=c.tel||'';$('infoEmail').value=c.email||'';$('infoEnd').value=c.end||'';$('infoObs').value=c.obs||'';
+if($('infoPasta'))$('infoPasta').value=c.pasta||'';
 updateIdadeChip();}
 $('formInfo').addEventListener('submit',e=>{e.preventDefault();
 const list=getCli(),c=list.find(x=>x.id===state.clientId);if(!c)return;
@@ -5912,7 +6128,9 @@ const email=$('infoEmail').value.trim();
 if(email&&!/^\S+@\S+\.\S+$/.test(email))return msg($('infoMsg'),'E-mail inválido.','err');
 const tel=$('infoTel').value.trim();
 if(tel&&tel.replace(/\D/g,'').length<10)return msg($('infoMsg'),'Telefone incompleto.','err');
-Object.assign(c,{nome,cpf:$('infoCPF').value.trim(),nasc:$('infoNasc').value,tel,email,end:$('infoEnd').value.trim(),obs:$('infoObs').value.trim()});
+const pasta=$('infoPasta')?$('infoPasta').value.trim():(c.pasta||'');
+if(pasta){const pastas=getPastasCli();if(!pastas.includes(pasta)){pastas.push(pasta);salvaPastasCli(pastas);}}
+Object.assign(c,{nome,cpf:$('infoCPF').value.trim(),nasc:$('infoNasc').value,tel,email,end:$('infoEnd').value.trim(),obs:$('infoObs').value.trim(),pasta});
 setCli(list);renderCliente();msg($('infoMsg'),'✔ Informações salvas!','ok');});
 $('btnDelCliente').addEventListener('click',e=>{armDelete(e.currentTarget,()=>{
 const id=state.clientId;
@@ -8329,7 +8547,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.89';
+const APP_VERSAO='1.6.90';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{

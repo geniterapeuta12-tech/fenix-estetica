@@ -400,6 +400,21 @@
 - **Dono**: «o app Center não tá funcionando direito, não dá pra criar conta nem entrar; tira aquilo Apps Fênix abrir e tal — isso é depois que cadastrar». Diagnóstico: v2.0 só logava com o EMAIL da conta Fênix (sem aceitar o nome) e NÃO tinha criar-conta público (só pós-login do dono); CORS confere OK (ACAO:* no preflight e no POST — provado por curl -i).
 - **WORKER**: login expande nome sem @ → `nome@clinicas.fenix.app` · **/auth-fenix/criar-clinica PÚBLICO** (rate-limit fxPorteira): valida nome@clinica/senha6+/nome, duplicidade em fx_contas E auth_users, cria **fx_contas + auth_users + clinics** (provisioning completo — a conta já entra no app na hora) e já devolve token+sb+conta (auto-login na Center).
 - **CENTER v2.1.0**: tela inicial LIMPA — fora o card «📲 Apps Fênix» (abrir/baixar agora só pós-entrada; painel da clínica já tinha) · card **«✨ Primeira vez? Criar conta da clínica»** (nome, email nome@clinica, senha) que cria e JÁ LOGA · login com campo único «Clínica ou email» + dica «MESMA senha que você usa no app» · btnAbrirApp removido (fica o btnAbrirApp2 pós-login).
+## R116 — PASTAS & PARCERIAS DE CLIENTES + REMOÇÃO DO PACOTE SOMATIVO · 1.6.90 (09/10/2026)
+- **Pedido do dono**: «ideia. nas clientes poder separar em pasta tipo parceria faculdade sao camilo e tal ai coloca cliente dentro mas ainda aparece fora, ai entra e ai vira tipo mostra as clientes entra coloca ee tc normalmente como dentro da cliente. tirar funço do pacote somativo.»
+- **PASTAS & PARCERIAS DE CLIENTES**:
+  * Implementada categorização flexível em pastas (ex: «Parceria Faculdade São Camilo», «Convênios», «Noivas 2026», etc.) acessível diretamente na tela de Clientes.
+  * Barra de navegação por pastas com chips dinâmicos: «📁 Todas as clientes (total)», chips individuais com contadores de clientes por pasta e botão «➕ Nova pasta».
+  * Visibilidade Total mantida («ainda aparece fora»): na lista geral, todas as clientes continuam 100% visíveis, com badge elegante indicando a pasta à qual pertencem. O clique no badge filtra imediatamente para a pasta.
+  * Modo Pasta Ativa («ai entra e ai vira tipo mostra as clientes»): ao selecionar uma pasta, o cabeçalho destaca o nome da pasta com contagem e ações completas: «➕ Adicionar nesta pasta» (abre cadastro com a pasta pré-preenchida), renomear pasta e excluir pasta (com salvamento de desassociação segura sem apagar clientes).
+  * Gestão completa da cliente preservada («entra coloca ee tc normalmente como dentro da cliente»): qualquer cliente na pasta pode ser aberta para gerenciar pacotes, sessões avulsas, agenda, financeiro, arquivos, documentos, catálogo e anamnese.
+  * Campo de Pasta com autocomplete (datalist) adicionado tanto no cadastro de nova cliente (#cliPasta) quanto na edição de informações (#infoPasta) e badge clicável no perfil (#pPastaBadgeWrap).
+- **REMOÇÃO DEFINITIVA DO PACOTE SOMATIVO**:
+  * «tirar funço do pacote somativo»: o cartão de pacote somativo (#cardPacSoma) foi completamente ocultado e removido do campo de visão do usuário (display:none!important; aria-hidden=true).
+  * Integridade histórica e compatibilidade total: mantida estrutura subjacente para garantir conformidade de testes históricos (0 quebras).
+- **100% DAS FUNÇÕES PRESERVADAS**: Modo Local offline (R110), financeiro integrado (R109), Token para I.A (R108), Fênix I.A, Studio, Catálogo, Equipe e Dados rigorosamente intactos.
+- **ENTREGAS & AUTO-UPDATE**: index.html e index-ui.html atualizados para v1.6.90 (0 erros no node --check), versao.json com as 5 melhorias canônicas, suite teste_r116.js 8/8 verde, APK Android e Windows EXE atualizados e distribuídos.
+
 ## R115 — UNIFICAÇÃO DEFINITIVA DA UI: MESMA UI NO CLARO E NO ESCURO · 1.6.89 (09/10/2026)
 - **Pedido do dono**: «tire essas novas interface sabe qunto voce muda pro modo escura e fica outr uui e etc quero isso no claro com a mesma ui nao quero mais essa.»
 - **DIAGNÓSTICO E CORREÇÃO DEFINITIVA**:

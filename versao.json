@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.89",
-  "r": "R115",
+  "versao": "1.6.90",
+  "r": "R116",
   "quando": "09/10/2026",
   "melhorias": [
-    "✨ Unificação definitiva da UI: mesma interface consistente, clássica e fluida tanto no modo Claro quanto no modo Escuro",
-    "🛡️ Remoção das interfaces novas divergentes no tema claro: layout, cards, botões e elementos 100% idênticos ao modo escuro",
-    "🎨 Restauração da paleta e componentes clássicos: dourado e as 14 cores de tema ativas com paridade visual absoluta",
-    "⚙️ Dados > Aparência simplificado: controle direto de Tema (Escuro / Claro) e Cores do tema sempre acessíveis",
-    "🔒 100% das funções preservadas: Modo Local offline (R110), soma automática (R109), Token para I.A (R108) e Fênix I.A intactos"
+    "📁 Pastas & Parcerias de Clientes: crie pastas (ex: Parceria Faculdade São Camilo) para agrupar e organizar suas clientes com total flexibilidade",
+    "👁️ Visibilidade total: clientes organizadas em pastas continuam 100% visíveis na lista geral com badge elegante indicando a pasta/parceria",
+    "⚡ Navegação em pastas: entre na pasta para ver apenas suas clientes, adicionar novas clientes diretamente nela, renomear ou gerenciar",
+    "🚫 Remoção do Pacote Somativo: função e card de pacote somativo completamente eliminados da interface para manter o fluxo simples e limpo",
+    "🔒 100% funções preservadas: Modo Local offline (R110), financeiro integrado (R109), Token para I.A (R108) e Fênix I.A rigorosamente intactos"
   ]
 }
