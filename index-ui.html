@@ -2526,9 +2526,27 @@ html[data-theme="dark"] .story-card-luxury{background:rgba(28,26,23,0.85);border
 <p>Diga o que você quer postar e a I.A cria o cartão visual (estilo do estúdio) e a legenda pronta com hashtags — pra você baixar em PNG e publicar.</p>
 <span class="badge b-gold" style="margin-top:12px;display:inline-block">Fênix I.A</span></div>
 </div>
-<div class="panelcard">
+<div class="panelcard" id="gpWrap">
+<!-- Seletor de Formato do Post em pílulas -->
+<label style="display:block;margin-bottom:8px;font-weight:600;font-size:.9rem">Formato do Post</label>
+<div class="pastas-bar" id="gpFormatos" style="margin-bottom:14px">
+  <button type="button" class="pasta-chip active" data-gpformato="auto">🎲 Deixar I.A escolher</button>
+  <button type="button" class="pasta-chip" data-gpformato="educativo">💡 Educativo</button>
+  <button type="button" class="pasta-chip" data-gpformato="mito_verdade">⚡ Mito vs Verdade</button>
+  <button type="button" class="pasta-chip" data-gpformato="pergunta">❓ Pergunta</button>
+  <button type="button" class="pasta-chip" data-gpformato="autoridade">👑 Frase de Impacto</button>
+</div>
+
 <label>O que você quer postar?</label>
 <textarea class="input" id="gpCmd" rows="2" style="width:100%;resize:vertical" placeholder="Ex.: ozônio terapia capilar com os benefícios · promoção de limpeza de pele essa semana · abri vaga pra quinta…"></textarea>
+
+<!-- Opções de Visualização da Imagem -->
+<label style="display:block;margin-top:14px;margin-bottom:8px;font-weight:600;font-size:.9rem">Opções de Visualização da Imagem</label>
+<div class="pastas-bar" id="gpModosVis" style="margin-bottom:14px">
+  <button type="button" class="pasta-chip active" data-gpmodo="pura">MODO 1: Foto Pura de Alto Padrão (Padrão)</button>
+  <button type="button" class="pasta-chip" data-gpmodo="editorial">MODO 2: Editorial / Revista</button>
+</div>
+
 <div class="rowbtns" style="margin-top:10px">
 <button class="btn" id="gpGo" type="button">✨ Gerar post</button>
 </div>
@@ -2553,10 +2571,14 @@ html[data-theme="dark"] .story-card-luxury{background:rgba(28,26,23,0.85);border
 <div class="panelcard hidden" id="gpOut">
 <div class="sec-head"><div><h3>Seu post</h3><p class="sub">Baixe o cartão em PNG e publique com a legenda copiada.</p></div></div>
 <div id="gpCard" style="max-width:420px;border-radius:14px;overflow:hidden;margin:6px 0 14px"></div>
-<div class="rowbtns"><button class="btn" id="gpPng" type="button"><svg class="ic"><use href="#i-dl"/></svg>Baixar PNG</button><button class="btn small" id="gpEdit" type="button">✏️ Editar no Studio</button></div>
+<div class="rowbtns">
+  <button class="btn" id="gpPng" type="button"><svg class="ic"><use href="#i-dl"/></svg>📥 Baixar Foto do Post (PNG)</button>
+  <button class="btn small" id="btnRegeneraFoto" type="button">🔄 Gerar Outra Foto</button>
+  <button class="btn small" id="gpEdit" type="button">✏️ Editar no Studio</button>
+</div>
 <label style="margin-top:14px">Legenda (copie e cole no Instagram)</label>
 <div id="gpLeg" style="border:1px solid var(--line);border-radius:10px;padding:12px 14px;line-height:1.6;white-space:pre-wrap"></div>
-<div class="rowbtns" style="margin-top:8px"><button class="btn small ghost" id="gpCopy" type="button">📋 Copiar legenda</button></div>
+<div class="rowbtns" style="margin-top:8px"><button class="btn small ghost" id="gpCopy" type="button">📋 Copiar Legenda Completa</button></div>
 </div>
 </section>
 
@@ -8350,38 +8372,93 @@ if(!window._gpArteLigado){window._gpArteLigado=1;
 document.addEventListener('click',e=>{const ge=e.target.closest('[data-ge]');if(ge){GP_ARTE.estilo=ge.dataset.ge;gpArtePersist();gpArteUI();msg($('gpMsg'),'Estilo da arte: '+ge.textContent.trim(),'');}
 const gm=e.target.closest('[data-gm]');if(gm){GP_ARTE.modelo=gm.dataset.gm;gpArtePersist();gpArteUI();msg($('gpMsg'),'Motor da arte: '+gm.textContent.trim(),'');}});}
 try{gpArteUI();}catch(e){}
-async function gpFundoIA(auto){if(gpFundoBusy)return;
-if(!SB_TOKEN){if(!auto)return msg($('gpMsg'),'Entre com sua conta pra usar a I.A.','err');return;}
-gpFundoBusy=true;if(!auto)msg($('gpMsg'),'🎨 A I.A está pintando um fundo no tema do seu post…');else msg($('gpMsg'),'🎨 Criando também o fundo do post com I.A…');
-try{
-const tema=($('gpCmd').value.trim()||(gpData&&gpData.titulo)||'fundo elegante para estúdio de estética');
-const r=await fetch(NUVEM_URL+'/ia-imagem',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SB_TOKEN||'')},body:JSON.stringify({tema,estilo:GP_ARTE.estilo,modelo:GP_ARTE.modelo})});
-const j=await r.json().catch(()=>null);
-if(!r.ok||!j||!j.img)throw new Error((j&&(j.erro||msgCota(j)))||('HTTP '+r.status));
-gpFundo={tipo:'ia',dataURL:'data:image/jpeg;base64,'+j.img};gpFundoPersist();
-if(gpData){$('gpCard').innerHTML=gpCardHTML(gpData);}
-if(!auto)msg($('gpMsg'),'✔ Fundo criado pela I.A! Gerou feio? Toque de novo que sai outro.','ok');
-else msg($('gpMsg'),'✔ Post completo: texto + fundo criado pela I.A — agora é só baixar o PNG!','ok');
-}catch(e){if(!auto)msg($('gpMsg'),'⚠ '+((e&&e.erro)||'a I.A de imagem falhou — tenta de novo em instantes'),'err');}
-gpFundoBusy=false;}
+let GP_FORMATO_ATIVO='auto';
+let GP_MODO_VIS='pura';
+function initGpFormatosEModos(){
+  const fBar=$('gpFormatos');
+  if(fBar){
+    fBar.querySelectorAll('.pasta-chip').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        fBar.querySelectorAll('.pasta-chip').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        GP_FORMATO_ATIVO=btn.dataset.gpformato||'auto';
+      });
+    });
+  }
+  const mBar=$('gpModosVis');
+  if(mBar){
+    mBar.querySelectorAll('.pasta-chip').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        mBar.querySelectorAll('.pasta-chip').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        GP_MODO_VIS=btn.dataset.gpmodo||'pura';
+        if(gpData&&$('gpCard')){$('gpCard').innerHTML=gpCardHTML(gpData);}
+      });
+    });
+  }
+}
+try{initGpFormatosEModos();}catch(e){}
+
+async function gpGeraFotoReal(auto){
+  if(gpFundoBusy)return;
+  if(!SB_TOKEN){if(!auto)return msg($('gpMsg'),'Entre com sua conta pra usar a I.A.','err');return;}
+  gpFundoBusy=true;
+  if(!auto)msg($('gpMsg'),'🔄 Gerando outra fotografia com o motor Flux…');
+  else msg($('gpMsg'),'🎨 Gerando fotografia real e cinematográfica pelo motor Flux…');
+  try{
+    const promptVisual=(gpData&&(gpData.prompt_visual||gpData.tema||gpData.titulo_arte))||$('gpCmd').value.trim()||'High-end luxury aesthetic clinic';
+    const r=await fetch(NUVEM_URL+'/ia-imagem',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SB_TOKEN||'')},
+      body:JSON.stringify({
+        prompt_visual:promptVisual,
+        tema:promptVisual,
+        modelo:'flux'
+      })
+    });
+    const j=await r.json().catch(()=>null);
+    if(!r.ok||!j||!j.img)throw new Error((j&&(j.erro||msgCota(j)))||('HTTP '+r.status));
+    gpFundo={tipo:'ia',dataURL:'data:image/jpeg;base64,'+j.img};
+    gpFundoPersist();
+    if(gpData){$('gpCard').innerHTML=gpCardHTML(gpData);}
+    if(!auto)msg($('gpMsg'),'✔ Nova foto gerada pela I.A mantendo a legenda intacta!','ok');
+    else msg($('gpMsg'),'✔ Post e fotografia de alta resolução prontos!','ok');
+  }catch(e){
+    if(!auto)msg($('gpMsg'),'⚠ '+(e&&e.message||'a geração de foto falhou — tente novamente'),'err');
+  }
+  gpFundoBusy=false;
+}
+async function gpFundoIA(auto){return gpGeraFotoReal(auto);}
+
 let gpBusy=false,gpData=null;
 function gpWrap(t,n){const p=String(t||'').trim().split(/\s+/);const L=[];let cur='';
 p.forEach(w=>{if((cur+' '+w).trim().length>n){if(cur)L.push(cur);cur=w;}else cur=(cur?cur+' ':'')+w;});
 if(cur)L.push(cur);return L;}
 function gpCardHTML(g){
-const bf=Array.isArray(g.beneficios)?g.beneficios.slice(0,4):[];
-const ti=gpWrap(g.titulo,26).slice(0,bf.length?2:3);
-const ca=bf.length?gpWrap(g.chamada,44).slice(0,2):gpWrap(g.chamada,38).slice(0,4);
-const fim=gpFundo&&gpFundo.dataURL?gpFundo.dataURL:null;
-let h='<div style="aspect-ratio:1/1;border-radius:14px;overflow:hidden;border:1px solid rgba(var(--glow-c),.35);position:relative;background:'+(fim?'#141414 url("'+fim+'") center/cover no-repeat':'#141414')+'">';
-h+='<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,8,8,.24) 0%,rgba(8,8,8,.55) 46%,rgba(8,8,8,.93) 100%)"></div>';
-h+='<div style="position:relative;height:100%;box-sizing:border-box;padding:8%;display:flex;flex-direction:column;justify-content:space-between">';
-h+='<div style="font-family:Montserrat,sans-serif;font-size:.62rem;letter-spacing:.24em;color:var(--gold)">✦ ESTÚDIO DE ESTÉTICA ✦</div>';
-h+='<div><div style="font-family:Playfair,Georgia,serif;font-size:'+(bf.length?2:2.45)+'rem;line-height:1.12;color:#f5ecca;font-weight:700;text-shadow:0 2px 16px rgba(0,0,0,.6);letter-spacing:.01em">'+ti.map(esc).join('<br>')+'</div>';
-if(ca.length)h+='<div style="font-family:Montserrat,sans-serif;font-size:1rem;line-height:1.5;color:#d9d3c5;margin-top:12px">'+ca.map(esc).join('<br>')+'</div>';
-if(bf.length)h+='<div style="margin-top:14px">'+bf.map(b=>'<div style="font-family:Montserrat,sans-serif;font-size:.95rem;color:var(--gold);margin-top:6px">✓ '+esc(b)+'</div>').join('')+'</div>';
-h+='</div><div style="border-top:1px solid rgba(var(--glow-c),.4);padding-top:10px;display:flex;align-items:center;gap:10px"><span style="width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#141414;display:flex;align-items:center;justify-content:center;font-family:Playfair,Georgia,serif;font-weight:700">F</span><span style="font-family:Montserrat,sans-serif;font-size:.68rem;letter-spacing:.14em;color:var(--gold)">'+esc((($('appClinic')&&$('appClinic').textContent)||'FÊNIX ESTÉTICA').toUpperCase().slice(0,28))+'</span></div></div>';
-return h;}
+  const fim=gpFundo&&gpFundo.dataURL?gpFundo.dataURL:null;
+  const clinicNome=esc((($('appClinic')&&$('appClinic').textContent)||'FÊNIX ESTÉTICA').toUpperCase().slice(0,28));
+  
+  if(GP_MODO_VIS==='pura'){
+    let h='<div style="aspect-ratio:1/1;border-radius:14px;overflow:hidden;border:1px solid rgba(var(--glow-c),.35);position:relative;background:'+(fim?'#141414 url(\"'+fim+'\") center/cover no-repeat':'#141414')+';box-shadow:0 10px 30px rgba(0,0,0,.35)">';
+    h+='<div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,0) 65%, rgba(0,0,0,.72) 100%)"></div>';
+    h+='<div style="position:relative;height:100%;box-sizing:border-box;padding:6%;display:flex;flex-direction:column;justify-content:flex-end">';
+    h+='<div style="display:flex;align-items:center;gap:10px;backdrop-filter:blur(10px);background:rgba(0,0,0,.35);padding:6px 14px;border-radius:9999px;width:fit-content;border:1px solid rgba(255,255,255,.15)"><span style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#141414;display:flex;align-items:center;justify-content:center;font-family:Playfair,Georgia,serif;font-weight:700;font-size:.72rem">F</span><span style="font-family:Montserrat,sans-serif;font-size:.65rem;letter-spacing:.14em;color:#fff;font-weight:600">'+clinicNome+'</span></div>';
+    h+='</div></div>';
+    return h;
+  }
+  
+  // MODO 2: Editorial / Revista
+  const tituloArte=esc(g.titulo_arte||g.titulo||'Estética de Alto Padrão');
+  const tagFormato=esc((g.formato?g.formato.toUpperCase().replace('_',' '):'EDITORIAL EXCLUSIVO'));
+  let h='<div style="aspect-ratio:1/1;border-radius:14px;overflow:hidden;border:1px solid rgba(var(--glow-c),.35);position:relative;background:'+(fim?'#141414 url(\"'+fim+'\") center/cover no-repeat':'#141414')+';box-shadow:0 10px 30px rgba(0,0,0,.35)">';
+  h+='<div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(10,10,10,.35) 0%, rgba(10,10,10,.6) 50%, rgba(10,10,10,.88) 100%)"></div>';
+  h+='<div style="position:relative;height:100%;box-sizing:border-box;padding:8%;display:flex;flex-direction:column;justify-content:space-between">';
+  h+='<div style="font-family:Montserrat,sans-serif;font-size:.65rem;letter-spacing:.26em;color:var(--gold);font-weight:600">✦ '+tagFormato+' ✦</div>';
+  h+='<div style="text-align:center;margin:auto 0;"><h2 style="font-family:Playfair Display,Georgia,serif;font-size:2.2rem;line-height:1.2;color:#ffffff;font-weight:700;text-shadow:0 3px 20px rgba(0,0,0,.8);margin:0;letter-spacing:-0.01em">'+tituloArte+'</h2></div>';
+  h+='<div style="border-top:1px solid rgba(255,255,255,.15);padding-top:10px;display:flex;align-items:center;gap:10px"><span style="width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#141414;display:flex;align-items:center;justify-content:center;font-family:Playfair,Georgia,serif;font-weight:700;font-size:.75rem">F</span><span style="font-family:Montserrat,sans-serif;font-size:.68rem;letter-spacing:.14em;color:var(--gold);font-weight:600">'+clinicNome+'</span></div>';
+  h+='</div></div>';
+  return h;
+}
 async function fundoPronto(f){
 if(!f||!f.dataURL)return null;
 return new Promise(res=>{const im=new Image();im.onload=()=>res(im);im.onerror=()=>res(null);im.src=f.dataURL;});}
@@ -8405,40 +8482,64 @@ if(ctx.measureText(t).width<=maxW)cur=t;else{if(cur)lines.push(cur);cur=w;}}
 if(cur)lines.push(cur);
 return {z:zMin,lines,lh:zMin*1.16};}
 function gpDesenha(cv,g,fim){
-const ctx=cv.getContext('2d');cv.width=1080;cv.height=1080;
-if(fim)drawCover(ctx,fim,1080,1080);else{ctx.fillStyle='#141414';ctx.fillRect(0,0,1080,1080);}
-veu(ctx);
-ctx.strokeStyle='rgba(var(--glow-c),.45)';ctx.lineWidth=3;rr2(ctx,26,26,1028,1028,34);ctx.stroke();
-const comSombra=!!fim;
-ctx.fillStyle='#d4af37';ctx.textBaseline='alphabetic';sombra(ctx,comSombra);
-try{ctx.letterSpacing='14px';}catch(e){}
-ctx.font='600 27px Montserrat, Arial, sans-serif';
-ctx.fillText('✦ ESTÚDIO DE ESTÉTICA ✦',90,128);
-try{ctx.letterSpacing='0px';}catch(e){}
-const bf=Array.isArray(g.beneficios)?g.beneficios.slice(0,4):[];
-ctx.strokeStyle='rgba(var(--glow-c),.5)';ctx.lineWidth=2;sombra(ctx,false);
-ctx.beginPath();ctx.moveTo(90,962);ctx.lineTo(990,962);ctx.stroke();
-ctx.fillStyle='#d4af37';ctx.beginPath();ctx.arc(118,1004,26,0,Math.PI*2);ctx.fill();
-ctx.fillStyle='#141414';ctx.font='700 30px Georgia, serif';ctx.textAlign='center';ctx.fillText('F',118,1015);ctx.textAlign='left';
-const nome=(($('appClinic')&&$('appClinic').textContent)||'Fênix Estética').toUpperCase().slice(0,28);
-ctx.fillStyle='#d4af37';try{ctx.letterSpacing='8px';}catch(e){}
-ctx.font='600 27px Montserrat, Arial, sans-serif';ctx.fillText(nome,160,1014);
-try{ctx.letterSpacing='0px';}catch(e){}
-const lb=bf.length?bf.map(b=>({v:String(b),f:fitLines(ctx,b,860,62,26,38,'Montserrat, Arial, sans-serif','600')})):[];
-const hBf=lb.reduce((s,x)=>s+x.f.lines.length*x.f.lh,0)+(lb.length?Math.max(0,lb.length-1)*14:0);
-let yB=952-46-hBf;
-lb.forEach(x=>{ctx.fillStyle='#d4af37';sombra(ctx,comSombra);ctx.font='600 '+x.f.z+'px Montserrat, Arial, sans-serif';
-x.f.lines.forEach((j2)=>{ctx.fillText('✓  '+j2,90,yB+x.f.lh*0.8);yB+=x.f.lh;});yB+=14;});
-const yTop=196;const yFim=(lb.length?yB:920)-34;
-const ft=fitLines(ctx,g.titulo,900,yFim-yTop-((g.chamada&&String(g.chamada).trim())?150:0),46,92,'Playfair Display, Georgia, serif','700');
-ctx.fillStyle='#f0e6c0';sombra(ctx,comSombra);
-let y=yTop+ft.lh*0.82;
-ft.lines.forEach(l=>{ctx.fillText(l,90,y);y+=ft.lh;});
-if(g.chamada&&String(g.chamada).trim()){y+=18;
-const fc=fitLines(ctx,g.chamada,880,Math.max(60,yFim-y),24,38,'Montserrat, Arial, sans-serif','400');
-ctx.fillStyle='#cfc9bb';sombra(ctx,comSombra);
-fc.lines.forEach(l=>{ctx.fillText(l,90,y+fc.lh*0.8);y+=fc.lh;});}
-sombra(ctx,false);}
+  const ctx=cv.getContext('2d');cv.width=1080;cv.height=1080;
+  if(fim)drawCover(ctx,fim,1080,1080);else{ctx.fillStyle='#141414';ctx.fillRect(0,0,1080,1080);}
+  
+  const nome=(($('appClinic')&&$('appClinic').textContent)||'Fênix Estética').toUpperCase().slice(0,28);
+
+  if(GP_MODO_VIS==='pura'){
+    // MODO 1: Foto Pura de Alto Padrão - Vinheta suave inferior
+    const grad=ctx.createLinearGradient(0,750,0,1080);
+    grad.addColorStop(0,'rgba(0,0,0,0)');
+    grad.addColorStop(1,'rgba(0,0,0,0.72)');
+    ctx.fillStyle=grad;
+    ctx.fillRect(0,750,1080,330);
+    
+    // Logo discreta da Fênix no canto inferior
+    ctx.fillStyle='#d4af37';
+    ctx.beginPath();ctx.arc(98,1000,24,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#141414';ctx.font='700 28px Georgia, serif';ctx.textAlign='center';ctx.fillText('F',98,1010);ctx.textAlign='left';
+    ctx.fillStyle='#ffffff';
+    try{ctx.letterSpacing='6px';}catch(e){}
+    ctx.font='600 24px Montserrat, Arial, sans-serif';ctx.fillText(nome,138,1008);
+    try{ctx.letterSpacing='0px';}catch(e){}
+    return;
+  }
+
+  // MODO 2: Editorial / Revista
+  const grad=ctx.createLinearGradient(0,0,0,1080);
+  grad.addColorStop(0,'rgba(8,8,8,0.35)');
+  grad.addColorStop(0.5,'rgba(8,8,8,0.58)');
+  grad.addColorStop(1,'rgba(8,8,8,0.88)');
+  ctx.fillStyle=grad;
+  ctx.fillRect(0,0,1080,1080);
+  
+  ctx.strokeStyle='rgba(255,255,255,0.2)';ctx.lineWidth=2;rr2(ctx,32,32,1016,1016,28);ctx.stroke();
+
+  ctx.fillStyle='#d4af37';ctx.textBaseline='alphabetic';
+  try{ctx.letterSpacing='12px';}catch(e){}
+  ctx.font='600 24px Montserrat, Arial, sans-serif';
+  const tagFormato='✦ '+(g.formato?g.formato.toUpperCase().replace('_',' '):'EDITORIAL')+' ✦';
+  ctx.fillText(tagFormato,90,118);
+  try{ctx.letterSpacing='0px';}catch(e){}
+
+  const tit=String(g.titulo_arte||g.titulo||'Estética de Alto Padrão');
+  const ft=fitLines(ctx,tit,900,480,52,94,'Playfair Display, Georgia, serif','700');
+  ctx.fillStyle='#ffffff';
+  sombra(ctx,true);
+  let y=540-(ft.lines.length*ft.lh/2);
+  ft.lines.forEach(l=>{ctx.fillText(l,90,y);y+=ft.lh;});
+  sombra(ctx,false);
+
+  ctx.strokeStyle='rgba(255,255,255,0.2)';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(90,960);ctx.lineTo(990,960);ctx.stroke();
+  ctx.fillStyle='#d4af37';ctx.beginPath();ctx.arc(118,1004,26,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#141414';ctx.font='700 30px Georgia, serif';ctx.textAlign='center';ctx.fillText('F',118,1015);ctx.textAlign='left';
+  ctx.fillStyle='#d4af37';
+  try{ctx.letterSpacing='8px';}catch(e){}
+  ctx.font='600 26px Montserrat, Arial, sans-serif';ctx.fillText(nome,160,1014);
+  try{ctx.letterSpacing='0px';}catch(e){}
+}
 async function gpPngV2(){if(!gpData)return msg($('gpMsg'),'Gere um post primeiro.','err');
 msg($('gpMsg'),'Gerando PNG em alta…');
 try{
@@ -8508,39 +8609,84 @@ leImagemReduz(f,d=>{if(!d)return msg($('edMsg'),'Não consegui abrir essa imagem
 edData.fundo={tipo:'foto',dataURL:d};edRender();
 const host=$('edFundos');if(host)host.querySelectorAll('button').forEach(b=>b.style.outline=b.dataset.fk==='foto'?'2px solid var(--gold)':'none');
 msg($('edMsg'),'✔ Sua foto é o fundo do design.','ok');});});
-function gpAplica(j){let g=null;const rr=j.resposta;if(rr&&typeof rr==='object')g=rr;else if(typeof rr==='string'){try{const i=rr.indexOf('{'),f=rr.lastIndexOf('}');if(i>=0&&f>i)g=JSON.parse(rr.slice(i,f+1));}catch(e){}}
-if(!g||!g.titulo)throw new Error('a I.A não conseguiu montar o post — tenta de novo');
-const gbf=Array.isArray(g.beneficios)?g.beneficios.filter(x=>typeof x==='string'&&x.trim()).map(x=>x.trim().slice(0,42)).slice(0,4):[];gpData={titulo:String(g.titulo).slice(0,80),chamada:String(g.chamada||'').slice(0,240),beneficios:gbf,legenda:String(g.legenda||'').slice(0,1200)};
-$('gpCard').innerHTML=gpCardHTML(gpData);
-$('gpLeg').textContent=gpData.legenda||'';
-$('gpOut').classList.remove('hidden');msg($('gpMsg'),'✔ Post pronto — baixe o PNG e copie a legenda!','ok');
-try{$('gpOut').scrollIntoView({behavior:'smooth',block:'start'});}catch(e){}}
-async function gpMelhora(){if(gpBusy)return;const txt=$('gpMeu').value.trim();
-if(!txt)return msg($('gpMsg'),'Cole o seu texto primeiro (no campo acima do botão).','err');
-if(!SB_TOKEN)return msg($('gpMsg'),'Entre com sua conta pra usar a I.A.','err');
-gpBusy=true;$('gpMelhora').disabled=true;msg($('gpMsg'),'✨ A I.A está melhorando o seu texto…');
-try{
-const r=await fetch(NUVEM_URL+'/ia',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SB_TOKEN||'')},body:JSON.stringify({modo:'post',pergunta:'MELHORAR ROTEIRO DO USUÁRIO: '+txt,contexto:buildIaCtx()})});
-const j=await r.json().catch(()=>null);
-if(!r.ok||!j||!j.resposta)throw new Error((j&&(j.erro||msgCota(j)))||('HTTP '+r.status));
-gpAplica(j);if(!gpFundo)gpFundoIA(true);
-}catch(e){msg($('gpMsg'),'⚠ '+((e&&e.message)||'erro')+' — tenta de novo em instantes.','err');}
-$('gpMelhora').disabled=false;gpBusy=false;}
+function gpAplica(j){
+  let g=null;const rr=j.resposta;
+  if(rr&&typeof rr==='object')g=rr;
+  else if(typeof rr==='string'){try{const i=rr.indexOf('{'),f=rr.lastIndexOf('}');if(i>=0&&f>i)g=JSON.parse(rr.slice(i,f+1));}catch(e){}}
+  if(!g||(!g.titulo&&!g.titulo_arte&&!g.tema))throw new Error('a I.A não conseguiu montar o post — tenta de novo');
+  
+  const gbf=Array.isArray(g.beneficios)?g.beneficios.filter(x=>typeof x==='string'&&x.trim()).map(x=>x.trim().slice(0,42)).slice(0,4):[];
+  gpData={
+    tema:String(g.tema||g.titulo||'').slice(0,120),
+    formato:String(g.formato||GP_FORMATO_ATIVO||'educativo').slice(0,30),
+    prompt_visual:String(g.prompt_visual||'').slice(0,600),
+    titulo_arte:String(g.titulo_arte||g.titulo||'').slice(0,80),
+    titulo:String(g.titulo||g.titulo_arte||'').slice(0,80),
+    chamada:String(g.chamada||'').slice(0,240),
+    beneficios:gbf,
+    legenda:String(g.legenda||'').slice(0,1800)
+  };
+  $('gpCard').innerHTML=gpCardHTML(gpData);
+  $('gpLeg').textContent=gpData.legenda||'';
+  $('gpOut').classList.remove('hidden');
+  msg($('gpMsg'),'✔ Post pronto — gerando fotografia profissional com a I.A…','ok');
+  try{$('gpOut').scrollIntoView({behavior:'smooth',block:'start'});}catch(e){}
+}
+async function gpMelhora(){
+  if(gpBusy)return;const txt=$('gpMeu').value.trim();
+  if(!txt)return msg($('gpMsg'),'Cole o seu texto primeiro (no campo acima do botão).','err');
+  if(!SB_TOKEN)return msg($('gpMsg'),'Entre com sua conta pra usar a I.A.','err');
+  gpBusy=true;$('gpMelhora').disabled=true;msg($('gpMsg'),'✨ A I.A está melhorando o seu texto…');
+  try{
+    const r=await fetch(NUVEM_URL+'/ia',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SB_TOKEN||'')},body:JSON.stringify({modo:'post',pergunta:'MELHORAR ROTEIRO DO USUÁRIO: '+txt,contexto:buildIaCtx()})});
+    const j=await r.json().catch(()=>null);
+    if(!r.ok||!j||!j.resposta)throw new Error((j&&(j.erro||msgCota(j)))||('HTTP '+r.status));
+    gpAplica(j);
+    await gpGeraFotoReal(true);
+  }catch(e){msg($('gpMsg'),'⚠ '+((e&&e.message)||'erro')+' — tenta de novo em instantes.','err');}
+  $('gpMelhora').disabled=false;gpBusy=false;
+}
 $('gpMelhora').addEventListener('click',gpMelhora);
 async function gpGera(){
-if(gpBusy)return;const cmd=$('gpCmd').value.trim();
-if(!cmd)return msg($('gpMsg'),'Diga o que você quer postar (ex.: «promoção de limpeza de pele essa semana»).','err');
-if(!SB_TOKEN)return msg($('gpMsg'),'Entre com sua conta pra usar a I.A.','err');
-gpBusy=true;$('gpGo').disabled=true;msg($('gpMsg'),'✨ A I.A está criando seu post…');
-try{
-const r=await fetch(NUVEM_URL+'/ia',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SB_TOKEN||'')},body:JSON.stringify({modo:'post',pergunta:cmd,contexto:buildIaCtx()})});
-const j=await r.json().catch(()=>null);
-if(!r.ok||!j||!j.resposta)throw new Error((j&&(j.erro||msgCota(j)))||('HTTP '+r.status));
-gpAplica(j);if(!gpFundo)gpFundoIA(true);
-}catch(e){msg($('gpMsg'),'⚠ '+((e&&e.message)||'erro')+' — tenta de novo em instantes.','err');}
-$('gpGo').disabled=false;gpBusy=false;}
+  if(gpBusy)return;const cmd=$('gpCmd').value.trim();
+  if(!cmd)return msg($('gpMsg'),'Diga o que você quer postar (ex.: «ozônio terapia capilar» ou «promoção de peeling»).','err');
+  if(!SB_TOKEN)return msg($('gpMsg'),'Entre com sua conta pra usar a I.A.','err');
+  gpBusy=true;$('gpGo').disabled=true;msg($('gpMsg'),'✨ A I.A está criando seu post e roteiro…');
+  try{
+    let promptComFormato=cmd;
+    if(GP_FORMATO_ATIVO&&GP_FORMATO_ATIVO!=='auto'){
+      promptComFormato+=' (Formato obrigatório do post: '+GP_FORMATO_ATIVO+')';
+    }
+    const r=await fetch(NUVEM_URL+'/ia',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SB_TOKEN||'')},
+      body:JSON.stringify({modo:'post',pergunta:promptComFormato,contexto:buildIaCtx()})
+    });
+    const j=await r.json().catch(()=>null);
+    if(!r.ok||!j||!j.resposta)throw new Error((j&&(j.erro||msgCota(j)))||('HTTP '+r.status));
+    gpAplica(j);
+    await gpGeraFotoReal(true);
+  }catch(e){
+    msg($('gpMsg'),'⚠ '+((e&&e.message)||'erro')+' — tenta de novo em instantes.','err');
+  }
+  $('gpGo').disabled=false;gpBusy=false;
+}
 $('gpGo').addEventListener('click',gpGera);
-$('gpCopy').addEventListener('click',()=>{if(!gpData||!gpData.legenda)return;try{navigator.clipboard.writeText(gpData.legenda);msg($('gpMsg'),'✔ Legenda copiada!','ok');}catch(e){}});
+$('btnRegeneraFoto')?.addEventListener('click',()=>{
+  if(!gpData)return msg($('gpMsg'),'Gere um post primeiro antes de trocar a foto.','err');
+  gpGeraFotoReal(false);
+});
+$('gpCopy').addEventListener('click',()=>{
+  if(!gpData||!gpData.legenda)return;
+  try{
+    navigator.clipboard.writeText(gpData.legenda).then(()=>{
+      msg($('gpMsg'),'✔ Legenda completa copiada!','ok');
+      toast('📋 Legenda copiada!');
+    }).catch(()=>{
+      msg($('gpMsg'),'✔ Legenda selecionada!','ok');
+    });
+  }catch(e){}
+});
 $('gpPng').addEventListener('click',gpPngV2);
 /* R71 — I.A nos Documentos (gerar / melhorar / resumir / corrigir) */
 let ddBusy=false,iaDocBusy=false;
@@ -9607,7 +9753,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.92';
+const APP_VERSAO='1.6.93';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{

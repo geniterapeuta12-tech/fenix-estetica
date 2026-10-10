@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.92",
-  "r": "R118",
+  "versao": "1.6.93",
+  "r": "R119",
   "quando": "10/10/2026",
   "melhorias": [
-    "🎟️ Vale-Presente & Voucher VIP digital com código único para WhatsApp",
-    "💡 Gerador diário de ideias de Stories e roteiros de engajamento",
-    "🔍 Analisador de Perfil do Instagram com termômetro de conversão de 0 a 100",
-    "✨ Gerador de biografia magnética com 1 toque e roteiro dos 4 destaques",
-    "🛡️ 100% das funções, modo local (R110) e estabilidade de dados preservadas"
+    "📸 Gerador de Posts real: I.A de imagem fotográfica sem bloqueios pelo motor Flux",
+    "✍️ Fim do modelo engessado: posts em formatos de Mito vs Verdade, Dúvidas e Educativos",
+    "🎨 Opção de Foto Pura de Alto Padrão sem sobreposição de textos pesados",
+    "🔄 Botão para regerar foto da I.A mantendo a legenda do post",
+    "🛡️ 100% de estabilidade e regras de negócios preservadas"
   ]
 }

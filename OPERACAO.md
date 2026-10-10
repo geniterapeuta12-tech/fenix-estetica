@@ -398,7 +398,25 @@
 - **Testes**: teste_r86 20/20 novo · pins atualizados (r75#7 motores, r80#2/3/11 canvasLista, r81#11+r82#14 cotas agente, r84#4/#6 maxTokens/modo) · cânon **32 verdes** (só r50/51/52/62 legados) · aninhamento 0 · checagem jsdom ok.
 ## R93 — CONSERTOS DA CENTER: SELF-SIGNUP + LOGIN POR NOME + TELA LIMPA (04/10/2026) — Center v2.1.0
 - **Dono**: «o app Center não tá funcionando direito, não dá pra criar conta nem entrar; tira aquilo Apps Fênix abrir e tal — isso é depois que cadastrar». Diagnóstico: v2.0 só logava com o EMAIL da conta Fênix (sem aceitar o nome) e NÃO tinha criar-conta público (só pós-login do dono); CORS confere OK (ACAO:* no preflight e no POST — provado por curl -i).
-- **WORKER**: login expande nome sem @ → `nome@clinicas.fenix.app` · **/auth-fenix/criar-clinica PÚBLICO** (rate-limit fxPorteira): valida nome@clinica/senha6+/nome, duplicidade em fx_contas E auth_users, cria **fx_contas + auth_users + clinics** (provisioning completo — a conta já entra no app na hora) e já devolve token+sb+conta (auto-login na Center).
+## R119 — GERADOR DE POSTS REAL (I.A DE IMAGEM FOTOGRÁFICA + COPY HUMANIZADA + MODOS DE VISUALIZAÇÃO) · 1.6.93 (10/10/2026)
+- **Pedido do dono**: «# 📸 ORDEM DE REESTRUTURAÇÃO: GERADOR DE POSTS REAL (I.A DE IMAGEM FOTOGRÁFICA + COPY HUMANIZADA) — O gerador de posts atual está preso em um molde artificial ("Título + 4 Benefícios") e a I.A de imagem está bloqueada gerando apenas texturas abstratas de mármore. O dono quer posts reais: fotografias conceituais de verdade sobre o tema e legendas variadas e persuasivas».
+- **1. DESTRAVAMENTO DO BACKEND (worker-live-backup.js)**:
+  * `/ia-imagem`: Removida restrição obsoleta de texturas abstratas sem pessoas/rostos. Implementada geração conceitual fotográfica de luxo para o motor Flux (`@cf/black-forest-labs/flux-1-schnell`): `"High-end luxury aesthetic clinic photography. Subject: " + promptDoTema + ". Elegant, clean, professional studio lighting, 8k resolution, cinematic depth of field, serene atmosphere, modern wellness beauty aesthetic. Hyperrealistic, NO words, NO typos, NO watermarks, NO distorted anatomy."`. Suporte a `prompt_visual` e `tema`.
+  * `IA_POST`: Prompt reestruturado para responder em JSON com `tema`, `formato` (educativo, mito_verdade, pergunta, autoridade), `prompt_visual` em inglês para o Flux, `titulo_arte` de impacto curto e `legenda` magnética com gancho forte, explicação envolvente, CTA para WhatsApp e hashtags.
+- **2. NOVA INTERFACE DO GERADOR DE POSTS (#viewPosts / #gpWrap)**:
+  * **Seletor de Formato do Post em pílulas (#gpFormatos)**: 🎲 Deixar I.A escolher, 💡 Educativo, ⚡ Mito vs Verdade, ❓ Pergunta e 👑 Frase de Impacto.
+  * **Opções de Visualização da Imagem (#gpModosVis)**:
+    - **MODO 1: Foto Pura de Alto Padrão (Padrão/Recomendado)**: Exibe a fotografia gerada pela I.A em tela cheia com vinheta sutil no rodapé e selo discreto/elegante da Fênix, sem blocos de texto pesados encobrindo a arte.
+    - **MODO 2: Editorial / Revista**: Fotografia com sobreposição equilibrada e tipografia editorial de luxo (Playfair Display) contendo a frase de impacto principal (`titulo_arte`), sem caixas de benefícios empilhadas.
+- **3. INTEGRAÇÃO COM IMAGEM REAL & REGENERAÇÃO DE FOTO**:
+  * Ao clicar em `✨ Gerar post` (#gpGo), a I.A cria o roteiro multi-formato e dispara automaticamente a geração da fotografia real de alta definição via Cloudflare Flux.
+  * **Novo Botão 🔄 Gerar Outra Foto (#btnRegeneraFoto)**: Permite regerar apenas a imagem pelo Flux mantendo a legenda e o roteiro 100% intactos.
+- **4. EXPORTAÇÃO EM ALTA RESOLUÇÃO & CÓPIA DE LEGENDA**:
+  * `📥 Baixar Foto do Post (PNG)` (#gpPng): Exporta via Canvas em 1080x1080 calibrado tanto no modo Foto Pura quanto no modo Editorial.
+  * `📋 Copiar Legenda Completa` (#gpCopy): Copia o texto humanizado com emojis elegantes e hashtags estratégicas.
+- **100% DAS FUNÇÕES PRESERVADAS**: Modo Local offline (R110), Financeiro integrado (R109), Token IA (R108), Pastas de Clientes (R116), Pagamentos sem vínculo (R117) e Funções Extras R118 (Vouchers VIP, Stories, Analisador) mantidos rigorosamente intactos.
+- **ENTREGAS & AUTO-UPDATE**: index.html e index-ui.html atualizados para v1.6.93 (0 erros node --check), versao.json com as 5 melhorias canônicas, suite teste_r119.js 8/8 verde, APK Android e Windows ZIP atualizados e distribuídos.
+
 ## R118 — AS 3 NOVAS FUNÇÕES EXTRAS: VALE-PRESENTE VIP + STORIES & ENGAJAMENTO + ANALISADOR DE PERFIL · 1.6.92 (10/10/2026)
 - **Pedido do dono**: «# 🚀 ORDEM DE IMPLEMENTAÇÃO: AS 3 NOVAS FUNÇÕES EXTRAS + BUILD COMPLETO — Base de Planejamento aprovada na Mesa: MESA-DE-PLANEJAMENTO.md».
 - **1. VALE-PRESENTE & VOUCHER VIP (#vouchOpen / #vouchBox)**:
