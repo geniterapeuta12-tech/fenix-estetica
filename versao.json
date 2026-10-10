@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.90",
-  "r": "R116",
+  "versao": "1.6.91",
+  "r": "R117",
   "quando": "09/10/2026",
   "melhorias": [
-    "📁 Pastas & Parcerias de Clientes: crie pastas (ex: Parceria Faculdade São Camilo) para agrupar e organizar suas clientes com total flexibilidade",
-    "👁️ Visibilidade total: clientes organizadas em pastas continuam 100% visíveis na lista geral com badge elegante indicando a pasta/parceria",
-    "⚡ Navegação em pastas: entre na pasta para ver apenas suas clientes, adicionar novas clientes diretamente nela, renomear ou gerenciar",
-    "🚫 Remoção do Pacote Somativo: função e card de pacote somativo completamente eliminados da interface para manter o fluxo simples e limpo",
-    "🔒 100% funções preservadas: Modo Local offline (R110), financeiro integrado (R109), Token para I.A (R108) e Fênix I.A rigorosamente intactos"
+    "💰 Pagamento sem vínculo na cliente: registre pagamentos e créditos diretamente para a cliente sem obrigatoriedade de vincular a pacotes ou sessões",
+    "🔄 Sincronização do Financeiro Geral com a Cliente: transações manuais criadas no Financeiro Geral vinculadas à cliente agora aparecem dentro da ficha financeira da cliente e atualizam o total pago",
+    "📁 Modal In-App para Pastas (Fim do erro prompt()): criação e renomeação de pastas agora usam janela modal interna rápida e segura, eliminando o erro de prompt() no app Windows/Android",
+    "🗑️ Gestão financeira unificada: exclusão e conciliação de pagamentos (tanto de pacotes quanto de entradas do financeiro geral) funcionando diretamente dentro da cliente",
+    "🔒 100% das funções preservadas: Modo Local offline (R110), cálculo de totais, Token para I.A (R108) e Fênix I.A rigorosamente mantidos"
   ]
 }

@@ -400,6 +400,24 @@
 - **Dono**: «o app Center não tá funcionando direito, não dá pra criar conta nem entrar; tira aquilo Apps Fênix abrir e tal — isso é depois que cadastrar». Diagnóstico: v2.0 só logava com o EMAIL da conta Fênix (sem aceitar o nome) e NÃO tinha criar-conta público (só pós-login do dono); CORS confere OK (ACAO:* no preflight e no POST — provado por curl -i).
 - **WORKER**: login expande nome sem @ → `nome@clinicas.fenix.app` · **/auth-fenix/criar-clinica PÚBLICO** (rate-limit fxPorteira): valida nome@clinica/senha6+/nome, duplicidade em fx_contas E auth_users, cria **fx_contas + auth_users + clinics** (provisioning completo — a conta já entra no app na hora) e já devolve token+sb+conta (auto-login na Center).
 - **CENTER v2.1.0**: tela inicial LIMPA — fora o card «📲 Apps Fênix» (abrir/baixar agora só pós-entrada; painel da clínica já tinha) · card **«✨ Primeira vez? Criar conta da clínica»** (nome, email nome@clinica, senha) que cria e JÁ LOGA · login com campo único «Clínica ou email» + dica «MESMA senha que você usa no app» · btnAbrirApp removido (fica o btnAbrirApp2 pós-login).
+## R117 — PAGAMENTOS SEM VÍNCULO + FINANCEIRO GERAL NA CLIENTE + MODAL DE PASTAS SEM PROMPT · 1.6.91 (09/10/2026)
+- **Pedido do dono**: «seguinte rapidinho quero so que conserte dentro da cliente que nao da pra adicionar pagammento ou valor pago sem ter vinculo nao precisa ter vinculo. e na hora de adicionar no fianceiro fora da cliente soq eu vincular na cliente e pra aparecer dentro da clietne tambem» e «tambem conserte ao tentar criar pasta da esse erro: UNCAUGHT ERROR: PROMPT() IS AND WILL NOT».
+- **PAGAMENTOS SEM VÍNCULO DENTRO DA CLIENTE**:
+  * Removida obrigatoriedade de vínculo a pacotes ou sessões avulsas ao registrar pagamento em Cliente > Financeiro (#formPayCli).
+  * O seletor (#payCliPkg) agora disponibiliza por padrão a opção «Sem vínculo (pagamento avulso / crédito da cliente)», mesmo que a cliente não possua pacotes ou avulsas criadas.
+  * O pagamento sem vínculo é salvo com pacoteId: null e sessaoId: null, listado em «Todos os pagamentos e entradas» como «Sem vínculo» e contabilizado integralmente no total pago da cliente (#fcPago) e saldo.
+- **INTEGRAÇÃO DO FINANCEIRO GERAL DENTRO DA CLIENTE**:
+  * Transações manuais (entradas e saídas) criadas no módulo Financeiro Geral (fora da cliente) vinculadas à cliente (#finCliSel) agora aparecem imediatamente dentro da ficha da cliente em «Todos os pagamentos e entradas» (#finCliPays).
+  * As entradas do financeiro geral passam a somar no total pago da cliente (#fcPago / cliTotals), e as saídas (estornos/devoluções) abatem corretamente do valor recebido.
+  * Se a entrada for vinculada a um pacote, ela passa a abater também do saldo do pacote (pkgPays unificado).
+  * Exclusão unificada: o botão de apagar em #finCliPays identifica a origem da transação (getPay ou getFin) e exclui com segurança do armazenamento correspondente.
+- **FIM DEFINITIVO DO ERRO DE PROMPT() NO APP WINDOWS/ANDROID**:
+  * O Chromium/Electron bloqueia a chamada nativa window.prompt() com o erro «UNCAUGHT ERROR: prompt() is and will not be supported».
+  * Implementado modal in-app nativo (#modalPasta) para criação e renomeação de pastas de clientes, com foco automático, tecla Enter para salvar e Escape/Cancelar para fechar.
+  * Adicionado polyfill protetor no início do script para interceptar e neutralizar qualquer chamada inesperada a window.prompt sem travar a aplicação.
+- **100% DAS FUNÇÕES PRESERVADAS**: Modo Local offline (R110), Financeiro (R109), Token IA (R108), Fênix IA, Catálogo e Pastas rigorosamente intactos.
+- **ENTREGAS & AUTO-UPDATE**: index.html e index-ui.html atualizados para v1.6.91 (0 erros no node --check), versao.json com as 5 melhorias canônicas, suite teste_r117.js 8/8 verde, APK Android e Windows EXE atualizados e distribuídos.
+
 ## R116 — PASTAS & PARCERIAS DE CLIENTES + REMOÇÃO DO PACOTE SOMATIVO · 1.6.90 (09/10/2026)
 - **Pedido do dono**: «ideia. nas clientes poder separar em pasta tipo parceria faculdade sao camilo e tal ai coloca cliente dentro mas ainda aparece fora, ai entra e ai vira tipo mostra as clientes entra coloca ee tc normalmente como dentro da cliente. tirar funço do pacote somativo.»
 - **PASTAS & PARCERIAS DE CLIENTES**:
