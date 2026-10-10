@@ -1,3 +1,17 @@
+## R120 — FÊNIX SPARK & AGENT WORKSPACE + REMOÇÃO DO GERADOR DE POSTS (10/10/2026, versão 1.6.94)
+- MISSÃO PRINCIPAL EXECUTADA: Grande consolidação unificada do Fênix Estética integrando Fênix Spark, Agent Workspace, I.A 100% falante, múltiplos artefatos simultâneos, cards de prévia inteligente no chat, geração de fotografias conceituais pelo motor Flux Schnell (/ia-imagem), catálogo canônico de 40 telas de design do app (FENIX_UI_GALLERY), remoção definitiva do Gerador de Posts do menu do Studio e eliminação da biblioteca estática.
+- BACKEND (/ia no worker-live-backup.js): Atualizada instrução sysFinal para formato agêntico obrigatório: raciocínio neural entre <pensamento> e </pensamento>, diálogo acolhedor completo com explicações clínicas detalhadas entre <resposta> e </resposta> (NUNCA fica em silêncio), e liberdade total para gerar múltiplos blocos <canvas tipo="texto|pdf" titulo="...">.
+- REMOÇÃO DO GERADOR DE POSTS: Eliminado botão do menu lateral do Studio (mantendo exatamente os 7 itens nobres: Documentos, Editor, Formulários, Planilha, Organizador de perfil, Relatórios, Fênix I.A). Seção <section id="viewPosts"> ocultada de forma segura e roteador protegido com redirecionamento de sview === 'posts' para 'ia'.
+- FIM DA BIBLIOTECA ESTÁTICA: Removidos #ia2tabs e #iaBibWrap. Barra lateral #iaSide agora é 100% dedicada ao histórico de conversas (#iaConvWrap).
+- AGENT WORKSPACE & SPLIT-VIEW:
+  * Desktop: Chat 42% (#iaChatPane) e Workspace 58% (#iaWorkspacePane) perfeitamente integrados com botão toggle ✨ Spark (#btnSparkToggle).
+  * Mobile: Pílulas rápidas no topo [💬 Conversa] | [✨ Workspace (N)] (#iaMobSwitch).
+  * Três abas de alta produção no Workspace: [📄 Documentos da Conversa] com editor em tempo real e download de PDF, [🎨 Galeria Visual & UIs] com busca, filtros por categoria e as 40 telas de design canônicas com geração de mockups sob demanda, e [📋 Roteiro Clínico] com checklist interativo.
+- CHAT INTELIGENTE & IMAGENS FLUX:
+  * Suporte a múltiplos artefatos por resposta com cards (.ia-artifact-card) exibindo snippet do texto e botões [👁️ Abrir no Workspace] e [📥 Baixar PDF].
+  * Detecção de intenção visual com geração direta de fotografias conceituais de estética via Cloudflare Flux (/ia-imagem), renderizando (.ia-img-card) com botões [🔍 Expandir] (lightbox modal), [📥 Baixar PNG], [🔄 Nova Variação] e [📋 Copiar Prompt].
+- SINCRONIZAÇÃO & QUALIDADE: index.html sincronizado com index-ui.html, suite de testes teste_r120.js 8/8 aprovada com 100% de sucesso e zero erros de sintaxe no node --check.
+
 ## R59 — FIM DO SERVICE WORKER ZUMBI (30/09/2026, commit 933eb20)
 - DIAGNÓSTICO DEFINITIVO do «não funciona nada» intermitente: aparelhos que usaram o Center como PWA/abriram /center/ no navegador (era v1.2/v1.3) têm o service worker fenix-center-v4/v5 REGISTRADO PRA SEMPRE; sw deletado do repo (R53.2) → 404 no update → SW velho CONTINUA → servia o app v1.3 (loja) CACHE-FIRST: sem Account, sem voltar, UI velha, «nada funciona» — nenhuma correção desde R53 chegava nesses aparelhos.
 - FIX: center/sw.js NO AR = EXTERMINADOR (install skipWaiting · activate: caches.keys→delete ALL→registration.unregister()→clients.navigate(reload)) → browser atualiza o SW na próxima visita → zumbi morto, caches limpos, rede direta. CONFIRMADO servindo (200, caches.delete+unregister).

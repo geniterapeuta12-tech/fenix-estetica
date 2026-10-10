@@ -359,9 +359,131 @@ html[data-theme="light"] .ia-msg .b pre{background:#f1ead6;border-color:var(--li
 .ia-pensa-btn:hover{color:var(--gold);border-color:rgba(var(--glow-c),.4)}
 .ia-pensa-corpo{display:none;border-left:3px solid rgba(var(--glow-c),.45);background:#121212;padding:10px 14px;border-radius:0 12px 12px 0;color:var(--muted);font:italic 500 .82rem Montserrat;line-height:1.7;white-space:pre-wrap;max-width:720px}
 .ia-pensa-corpo.aberta{display:block;margin:2px 0 6px}
-.ia2tabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin:0 12px 10px;background:#0d0d0d;border:1px solid var(--line);border-radius:11px;padding:3px}
-.ia2tabs button{border:0;background:none;color:var(--muted);font:600 .74rem Montserrat;padding:7px 0;border-radius:8px;cursor:pointer;transition:.15s}
-.ia2tabs button.on{background:#1d1d1d;color:var(--gold)}
+/* ==================== FÊNIX SPARK & AGENT WORKSPACE (R120) ==================== */
+.ia-mob-switch{display:none;padding:6px 12px;background:#101010;border-bottom:1px solid var(--line);gap:8px;justify-content:center}
+.ia-mob-pill{border:1px solid var(--line);background:#181818;color:var(--muted);border-radius:99px;padding:6px 14px;font:600 .74rem Montserrat;cursor:pointer;transition:.18s;display:inline-flex;align-items:center;gap:6px}
+.ia-mob-pill.on{background:linear-gradient(135deg,rgba(var(--glow-c),.22),rgba(var(--glow-c),.08));border-color:var(--gold);color:var(--gold)}
+.badge-mini{background:var(--gold);color:#101010;font-size:.62rem;font-weight:700;border-radius:99px;padding:1px 6px}
+
+.ia-split-container{display:flex;flex:1;min-height:0;width:100%;height:100%;overflow:hidden;position:relative}
+.ia-chat-pane{flex:0 0 42%;width:42%;display:flex;flex-direction:column;min-height:0;border-right:1px solid var(--line);position:relative;background:inherit;transition:flex .25s ease,width .25s ease}
+.ia-chat-pane.full-width{flex:1 1 100%!important;width:100%!important;border-right:none}
+
+.ia-top-meta{display:flex;align-items:center;gap:10px;min-width:0}
+.ia-top-meta .small-logo{width:28px;height:28px;flex:none;color:var(--gold)}
+.ia-top{display:flex;align-items:center;justify-content:space-between;padding:10px 16px 10px 52px;border-bottom:1px solid var(--line);gap:10px}
+.ia-top h4{margin:0;font:600 .92rem Montserrat;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ia-top .sub{display:block;font:500 .68rem Montserrat;color:var(--gold);margin-top:1px}
+
+.spark-btn{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(var(--glow-c),.5);background:linear-gradient(135deg,rgba(var(--glow-c),.22),rgba(var(--glow-c),.06));color:var(--gold);border-radius:99px;padding:6px 13px;font:700 .72rem Montserrat;cursor:pointer;transition:.2s;box-shadow:0 0 16px rgba(var(--glow-c),.18);flex:none}
+.spark-btn:hover{background:linear-gradient(135deg,rgba(var(--glow-c),.32),rgba(var(--glow-c),.12));border-color:var(--gold);box-shadow:0 0 22px rgba(var(--glow-c),.35)}
+
+.ia-chips-bar{display:flex;gap:6px;overflow-x:auto;padding:6px 16px 2px;scrollbar-width:none}
+.ia-chips-bar::-webkit-scrollbar{display:none}
+.ia-chip-btn{border:1px solid var(--line);background:#151515;color:var(--muted);border-radius:99px;padding:5px 11px;font:600 .7rem Montserrat;cursor:pointer;white-space:nowrap;transition:.15s;flex:none}
+.ia-chip-btn:hover{color:var(--gold);border-color:rgba(var(--glow-c),.4);background:#1a1a1a}
+
+.spark-comp-btn{background:linear-gradient(135deg,rgba(var(--glow-c),.25),rgba(var(--glow-c),.08));border-color:rgba(var(--glow-c),.45)!important;box-shadow:0 0 10px rgba(var(--glow-c),.2)}
+
+/* Workspace Pane (58%) */
+.ia-workspace-pane{flex:1;display:flex;flex-direction:column;min-height:0;background:#101010;overflow:hidden;position:relative}
+.ia-workspace-pane.hidden{display:none!important}
+.ws-header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--line);background:#131313;gap:12px;flex:none}
+.ws-header-left{display:flex;align-items:center;gap:12px;min-width:0;flex-wrap:wrap}
+.ws-badge{font:700 .66rem Montserrat;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;background:rgba(var(--glow-c),.12);padding:4px 8px;border-radius:6px;border:1px solid rgba(var(--glow-c),.25);flex:none}
+.ws-tabs-bar{display:flex;gap:4px;background:#0c0c0c;border:1px solid var(--line);border-radius:10px;padding:3px}
+.ws-tab-btn{border:0;background:none;color:var(--muted);font:600 .74rem Montserrat;padding:6px 12px;border-radius:7px;cursor:pointer;transition:.15s;white-space:nowrap}
+.ws-tab-btn.on{background:#1e1e1e;color:var(--gold)}
+.ws-close-btn{border:1px solid var(--line);background:none;color:var(--muted);width:30px;height:30px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.85rem;transition:.15s;flex:none}
+.ws-close-btn:hover{color:#ff8080;border-color:rgba(255,128,128,.4);background:rgba(255,128,128,.08)}
+
+.ws-body-tab{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden;position:relative}
+.ws-body-tab.hidden{display:none!important}
+
+/* Workspace Docs Tab */
+.ws-docs-nav{display:flex;align-items:center;gap:6px;padding:8px 16px;border-bottom:1px solid var(--line);background:#121212;overflow-x:auto;scrollbar-width:none;flex:none}
+.ws-docs-nav::-webkit-scrollbar{display:none}
+.ws-doc-pills{display:flex;gap:6px;flex:none}
+.ws-doc-pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:#181818;color:var(--txt);border-radius:8px;padding:6px 12px;font:600 .74rem Montserrat;cursor:pointer;transition:.15s;white-space:nowrap;max-width:200px}
+.ws-doc-pill.on{border-color:var(--gold);background:rgba(var(--glow-c),.12);color:var(--gold)}
+.ws-doc-pill .t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ws-doc-editor-wrap{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.ws-doc-topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);background:#131313;flex:none}
+.ws-doc-title-input{flex:1;min-width:0;background:none;border:0;outline:none;font:500 1.05rem 'Playfair Display',serif;color:var(--txt);letter-spacing:.02em}
+.ws-doc-actions{display:flex;align-items:center;gap:8px;flex:none}
+.ws-doc-content-wrap{flex:1;display:flex;min-height:0;overflow-y:auto;background:radial-gradient(900px 420px at 70% -10%,rgba(var(--glow-c),.05),transparent 60%),#0e0e0e}
+.ws-doc-textarea{flex:1;width:100%;margin:0 auto;background:none;border:0;outline:none;resize:none;color:var(--txt);font:500 .94rem Montserrat;line-height:1.85;padding:22px 24px}
+.ws-doc-footbar{padding:6px 18px;text-align:right;color:var(--muted);font-size:.68rem;border-top:1px solid var(--line);background:#121212;flex:none}
+
+/* Workspace Gallery Tab */
+.ws-gallery-toolbar{padding:12px 16px;border-bottom:1px solid var(--line);background:#131313;display:flex;flex-direction:column;gap:10px;flex:none}
+.ws-gallery-search{width:100%;background:#181818;border:1px solid var(--line);border-radius:10px;padding:9px 14px;color:var(--txt);font:500 .82rem Montserrat;outline:none}
+.ws-gallery-search:focus{border-color:var(--gold)}
+.ws-gallery-cats{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.ws-gallery-cats::-webkit-scrollbar{display:none}
+.ws-cat-pill{border:1px solid var(--line);background:#171717;color:var(--muted);border-radius:99px;padding:5px 12px;font:600 .7rem Montserrat;cursor:pointer;white-space:nowrap;transition:.15s;flex:none}
+.ws-cat-pill.on{background:rgba(var(--glow-c),.14);border-color:var(--gold);color:var(--gold)}
+.ws-gallery-grid{flex:1;overflow-y:auto;padding:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;align-content:start}
+.ws-card{background:#151515;border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px;transition:.2s}
+.ws-card:hover{border-color:rgba(var(--glow-c),.4);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.ws-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.ws-card-title{font:600 .86rem Montserrat;color:var(--txt);margin:0}
+.ws-card-cat{font:700 .62rem Montserrat;text-transform:uppercase;color:var(--gold);background:rgba(var(--glow-c),.1);padding:3px 7px;border-radius:5px;flex:none}
+.ws-card-desc{font:500 .74rem Montserrat;color:var(--muted);line-height:1.55;margin:0;max-height:68px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
+.ws-card-mockup{width:100%;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:#0a0a0a;position:relative}
+.ws-card-mockup img{width:100%;height:160px;object-fit:cover;display:block}
+.ws-card-mockup-actions{position:absolute;bottom:6px;right:6px;display:flex;gap:4px}
+.ws-card-actions{display:flex;gap:6px;margin-top:auto}
+
+/* Workspace Roteiro Tab */
+.ws-roteiro-wrap{flex:1;overflow-y:auto;padding:18px 22px}
+.ws-roteiro-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;border-bottom:1px solid var(--line);padding-bottom:12px}
+.ws-roteiro-head h3{margin:0 0 4px;font:500 1.15rem 'Playfair Display',serif;color:var(--txt)}
+.ws-roteiro-head .sub{margin:0;font:500 .76rem Montserrat;color:var(--muted)}
+.ws-roteiro-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.ws-roteiro-item{display:flex;align-items:center;gap:10px;background:#151515;border:1px solid var(--line);border-radius:12px;padding:12px 14px;transition:.15s}
+.ws-roteiro-item:hover{border-color:rgba(var(--glow-c),.35)}
+.ws-roteiro-item.done{opacity:.65;background:#101010}
+.ws-roteiro-item.done .ws-roteiro-txt{text-decoration:line-through;color:var(--muted)}
+.ws-roteiro-check{width:18px;height:18px;accent-color:var(--gold);cursor:pointer;flex:none}
+.ws-roteiro-txt{flex:1;min-width:0;font:500 .82rem Montserrat;color:var(--txt)}
+.ws-roteiro-del{border:0;background:none;color:var(--muted);cursor:pointer;padding:4px;border-radius:6px;transition:.15s;flex:none}
+.ws-roteiro-del:hover{color:#ff8080}
+
+/* Empty State 4 Cards */
+.ia-empty-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px;max-width:680px}
+.ia-empty-card{display:flex;align-items:flex-start;gap:12px;background:#151515;border:1px solid var(--line);border-radius:14px;padding:14px;cursor:pointer;text-align:left;transition:.2s}
+.ia-empty-card:hover{border-color:var(--gold);background:rgba(var(--glow-c),.08);transform:translateY(-2px)}
+.ia-ec-icon{font-size:1.35rem;flex:none;line-height:1}
+.ia-ec-content strong{display:block;font:600 .82rem Montserrat;color:var(--txt);margin-bottom:3px}
+.ia-ec-content p{margin:0;font:500 .72rem Montserrat;color:var(--muted);line-height:1.45}
+
+/* Smart Artifact Card (.ia-artifact-card) */
+.ia-artifact-card{display:flex;flex-direction:column;gap:8px;background:linear-gradient(135deg,#181818,#141414);border:1px solid rgba(var(--glow-c),.35);border-radius:14px;padding:12px 14px;margin-top:8px;max-width:540px;box-shadow:0 8px 24px rgba(0,0,0,.3);transition:.2s}
+.ia-artifact-card:hover{border-color:var(--gold);box-shadow:0 10px 30px rgba(var(--glow-c),.2)}
+.ia-art-head{display:flex;align-items:center;gap:10px}
+.ia-art-icon{width:34px;height:34px;border-radius:10px;background:rgba(var(--glow-c),.12);color:var(--gold);display:flex;align-items:center;justify-content:center;flex:none}
+.ia-art-icon .ic{width:18px;height:18px}
+.ia-art-info{flex:1;min-width:0}
+.ia-art-info strong{display:block;font:600 .86rem Montserrat;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ia-art-badge{display:inline-block;font:700 .58rem Montserrat;letter-spacing:.08em;color:var(--gold);text-transform:uppercase;margin-top:2px}
+.ia-art-preview{font:500 .74rem Montserrat;color:var(--muted);line-height:1.55;max-height:50px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;background:#101010;border-radius:8px;padding:6px 10px;border:1px solid var(--line)}
+.ia-art-actions{display:flex;gap:8px;margin-top:2px}
+
+/* Inline Image Card (.ia-img-card) */
+.ia-img-card{display:flex;flex-direction:column;gap:8px;background:#151515;border:1px solid rgba(var(--glow-c),.35);border-radius:16px;padding:12px;margin-top:8px;max-width:440px;box-shadow:0 12px 36px rgba(0,0,0,.45)}
+.ia-img-wrap{border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#0a0a0a;position:relative}
+.ia-img-el{width:100%;max-height:360px;object-fit:cover;display:block;border-radius:11px}
+.ia-img-actions{display:flex;gap:6px;flex-wrap:wrap}
+
+/* Lightbox Modal */
+.ia-lightbox-modal{position:fixed;inset:0;z-index:400;display:flex;align-items:center;justify-content:center;padding:20px}
+.ia-lightbox-modal.hidden{display:none!important}
+.ia-lightbox-overlay{position:absolute;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(8px)}
+.ia-lightbox-content{position:relative;z-index:2;max-width:min(92vw,720px);max-height:92vh;display:flex;flex-direction:column;align-items:center;gap:12px}
+.ia-lightbox-content img{max-width:100%;max-height:78vh;object-fit:contain;border-radius:14px;border:1px solid rgba(var(--glow-c),.4);box-shadow:0 20px 60px rgba(0,0,0,.8)}
+.ia-lightbox-close{position:absolute;top:-14px;right:-14px;width:34px;height:34px;border-radius:50%;background:#222;border:1px solid var(--line);color:#fff;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,.5)}
+.ia-lightbox-actions{display:flex;gap:8px}
 .ia2new.menor{margin:2px 12px 10px;padding:9px 12px;font-size:.78rem}
 .ia-fun{flex:none;width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:13px;border:1px solid var(--line);background:#141414;color:var(--gold);cursor:pointer;transition:.15s}
 .ia-fun .ic{width:16px;height:16px}
@@ -397,8 +519,16 @@ html[data-theme="light"] .ia-msg .b pre{background:#f1ead6;border-color:var(--li
 .ia-cbody{flex:1;overflow-y:auto;display:flex;min-height:0}
 #iaCanTexto{flex:1;width:100%;max-width:860px;margin:0 auto;background:none;border:0;outline:none;resize:none;color:var(--txt);font:500 .95rem Montserrat;line-height:1.9;padding:26px 22px}
 .ia-cfoot{flex:none;padding:8px 18px 12px;text-align:center;color:var(--muted);font-size:.68rem}
-html[data-theme="light"] .ia2tabs{background:#efe8d5}
-html[data-theme="light"] .ia2tabs button.on{background:#fffdf6}
+html[data-theme="light"] .ia-mob-switch{background:#ede6d3}
+html[data-theme="light"] .ia-mob-pill{background:#fffdf6}
+html[data-theme="light"] .ia-workspace-pane{background:#faf7ee}
+html[data-theme="light"] .ws-header,html[data-theme="light"] .ws-doc-topbar,html[data-theme="light"] .ws-gallery-toolbar{background:#f4efe0}
+html[data-theme="light"] .ws-tab-btn.on{background:#fffdf6}
+html[data-theme="light"] .ws-doc-pill{background:#fffdf6}
+html[data-theme="light"] .ws-card,html[data-theme="light"] .ws-roteiro-item,html[data-theme="light"] .ia-empty-card{background:#fffdf6}
+html[data-theme="light"] .ia-artifact-card{background:#fffdf6}
+html[data-theme="light"] .ia-art-preview{background:#f6f1e3}
+html[data-theme="light"] .ia-img-card{background:#fffdf6}
 html[data-theme="light"] .ia-pensa-btn,html[data-theme="light"] .ia-fun,html[data-theme="light"] .ia-cback,html[data-theme="light"] .ia-cact.perigo{background:#fffdf6}
 html[data-theme="light"] .ia-pensa-corpo{background:#f1ead6;color:#6d6553}
 html[data-theme="light"] .ia-pop,html[data-theme="light"] .ia-modal-card{background:#fffdf6}
@@ -1434,7 +1564,6 @@ html[data-theme="dark"] .story-card-luxury{background:rgba(28,26,23,0.85);border
 <button class="navbtn" data-sview="planilha" data-area="studio"><svg class="ic"><use href="#i-fold"/></svg>Planilha</button>
 <button class="navbtn" data-sview="perfil" data-area="studio"><svg class="ic"><use href="#i-play"/></svg>Organizador de perfil</button>
 <button class="navbtn" data-sview="relatorios" data-area="lab"><svg class="ic"><use href="#i-spark"/></svg>Relatórios</button>
-<button class="navbtn" data-sview="posts" data-area="lab"><svg class="ic"><use href="#i-spark"/></svg>Gerador de Posts</button>
 <button class="navbtn" data-sview="ia" data-area="lab"><svg class="ic"><use href="#i-ai"/></svg>Fênix I.A</button>
 <p class="navnote" id="sareaNote">Documentos estilo Word e formulários da clínica, tudo em um lugar.</p>
 </nav>
@@ -1713,32 +1842,131 @@ html[data-theme="dark"] .story-card-luxury{background:rgba(28,26,23,0.85);border
 <aside class="ia-side" id="iaSide">
 <div class="ia2head"><div class="ia2brand"><svg class="logo" viewBox="0 0 1440 960"><use href="#phoenix"/></svg><h3>Fênix I.A</h3></div></div>
 <button class="ia2new" id="btnIaNew" type="button"><svg class="ic"><use href="#i-plus"/></svg>Nova conversa</button>
-<div class="ia2tabs"><button class="on" id="iaTabConv" type="button">Conversas</button><button id="iaTabBib" type="button">📚 Biblioteca</button></div>
 <div id="iaConvWrap">
 <div class="ia2lab">Conversas</div>
 <p class="ia2cnt" id="iaConvCount"></p>
 <ul class="ia-list" id="iaConvList"></ul>
 </div>
-<div id="iaBibWrap" class="hidden">
-<p class="ia2cnt" id="iaBibCount"></p>
-<ul class="ia-list" id="iaBibList"></ul>
-</div>
 <div class="ia-foot"><span class="badge b-gold" id="iaStatus">Fênix I.A</span><button class="ia-cfgbtn" id="btnIaCfg" type="button"><svg class="ic"><use href="#i-id"/></svg>Configurações</button></div>
 </aside>
 <main class="ia-main">
 <button class="ia-fold" id="btnIaSide" type="button" title="Mostrar ou esconder a barra de conversas"><svg class="ic"><use href="#i-chev"/></svg></button>
-<div class="ia-top"><h4 id="iaConvTitle">Nova conversa</h4><span class="sub" id="iaConvSub" hidden></span></div>
-<div class="ia-box" id="iaBox"></div>
-<div class="ia-in"><div class="ia-inwrap">
-<div id="iaAnexoChip" class="hidden" style="margin:0 0 8px;font-size:.75rem;color:var(--gold)">📎 <span id="iaAnexoNome"></span> <button id="iaAnexoX" type="button" style="background:none;border:none;color:#8a7f68;cursor:pointer;margin-left:6px">✕</button></div>
-<div class="ia-comp">
-<button class="ia-clip" id="btnIaAnexo" type="button" title="Anexar foto ou arquivo pra a I.A ler"><svg viewBox="0 0 24 24" style="width:17px;height:17px" fill="currentColor"><path d="M16.5 6.5l-7.1 7.1a2 2 0 002.8 2.8l7.5-7.5a4 4 0 10-5.7-5.7l-7.7 7.7a6 6 0 108.5 8.5l7.1-7.1 1.4 1.4-7.1 7.1a8 8 0 11-11.3-11.3l7.7-7.7a6 6 0 118.5 8.5l-7.1 7.1a4 4 0 01-5.7-5.7l7.1-7.1 1.5 1.4z"/></svg></button>
-<input type="file" id="iaAnexo" accept="image/*,.txt,.md,.csv,.pdf,.doc,.docx,.json,.log" class="fhid">
-<button class="ia-clip" id="btnIaAgente" type="button" title="Modo Agente" style="font-size:15px;line-height:1">🤖</button>
-<textarea id="iaInput" placeholder="Pergunte qualquer coisa… (Enter envia · Shift+Enter quebra linha)"></textarea>
-<button class="ia-go" id="btnIaSend" type="button" title="Enviar"><svg class="ic"><use href="#i-send"/></svg></button>
+
+<!-- Mobile switcher bar -->
+<div class="ia-mob-switch" id="iaMobSwitch">
+  <button type="button" class="ia-mob-pill on" id="btnMobTabChat">💬 Conversa</button>
+  <button type="button" class="ia-mob-pill" id="btnMobTabWs">✨ Workspace <span class="badge-mini" id="wsDocCountBadge">0</span></button>
 </div>
-</div></div>
+
+<!-- Split-view container -->
+<div class="ia-split-container" id="iaSplitContainer">
+  <!-- Coluna 1: Chat Pane (42%) -->
+  <div class="ia-chat-pane" id="iaChatPane">
+    <div class="ia-top">
+      <div class="ia-top-meta">
+        <svg class="logo small-logo" viewBox="0 0 1440 960"><use href="#phoenix"/></svg>
+        <div>
+          <h4 id="iaConvTitle">Nova conversa</h4>
+          <span class="sub" id="iaConvSub">● Motor Neural Ativo</span>
+        </div>
+      </div>
+      <button class="spark-btn" id="btnSparkToggle" type="button" title="Alternar Agent Workspace">✨ Spark Workspace</button>
+    </div>
+
+    <div class="ia-box" id="iaBox"></div>
+
+    <!-- Quick Chips Bar -->
+    <div class="ia-chips-bar" id="iaChipsBar">
+      <button type="button" class="ia-chip-btn" data-iachip="foto">📸 Criar Imagem</button>
+      <button type="button" class="ia-chip-btn" data-iachip="ui">🎨 UIs & Design</button>
+      <button type="button" class="ia-chip-btn" data-iachip="agente">🤖 Modo Agente</button>
+      <button type="button" class="ia-chip-btn" data-iachip="anexo">📎 Anexar</button>
+    </div>
+
+    <div class="ia-in">
+      <div class="ia-inwrap">
+        <div id="iaAnexoChip" class="hidden" style="margin:0 0 8px;font-size:.75rem;color:var(--gold)">📎 <span id="iaAnexoNome"></span> <button id="iaAnexoX" type="button" style="background:none;border:none;color:#8a7f68;cursor:pointer;margin-left:6px">✕</button></div>
+        <div class="ia-comp">
+          <button class="ia-clip spark-comp-btn" id="btnIaSparkComp" type="button" title="✨ Fênix Spark" style="color:var(--gold)">✨</button>
+          <button class="ia-clip" id="btnIaAnexo" type="button" title="Anexar foto ou arquivo pra a I.A ler"><svg viewBox="0 0 24 24" style="width:17px;height:17px" fill="currentColor"><path d="M16.5 6.5l-7.1 7.1a2 2 0 002.8 2.8l7.5-7.5a4 4 0 10-5.7-5.7l-7.7 7.7a6 6 0 108.5 8.5l7.1-7.1 1.4 1.4-7.1 7.1a8 8 0 11-11.3-11.3l7.7-7.7a6 6 0 118.5 8.5l-7.1 7.1a4 4 0 01-5.7-5.7l7.1-7.1 1.5 1.4z"/></svg></button>
+          <input type="file" id="iaAnexo" accept="image/*,.txt,.md,.csv,.pdf,.doc,.docx,.json,.log" class="fhid">
+          <button class="ia-clip" id="btnIaAgente" type="button" title="Modo Agente" style="font-size:15px;line-height:1">🤖</button>
+          <textarea id="iaInput" placeholder="Pergunte qualquer coisa… (Enter envia · Shift+Enter quebra linha)"></textarea>
+          <button class="ia-go" id="btnIaSend" type="button" title="Enviar"><svg class="ic"><use href="#i-send"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Coluna 2: Agent Workspace Pane (58%) -->
+  <div class="ia-workspace-pane" id="iaWorkspacePane">
+    <div class="ws-header">
+      <div class="ws-header-left">
+        <span class="ws-badge">✨ AGENT WORKSPACE</span>
+        <div class="ws-tabs-bar">
+          <button type="button" class="ws-tab-btn on" id="wsTabBtnDocs" data-wstab="docs">📄 Documentos <span id="wsTabDocsCount">(0)</span></button>
+          <button type="button" class="ws-tab-btn" id="wsTabBtnGallery" data-wstab="gallery">🎨 Galeria Visual & UIs (40)</button>
+          <button type="button" class="ws-tab-btn" id="wsTabBtnRoteiro" data-wstab="roteiro">📋 Roteiro Clínico</button>
+        </div>
+      </div>
+      <button type="button" class="ws-close-btn" id="btnWsClose" title="Fechar Workspace">✕</button>
+    </div>
+
+    <!-- Aba 1: Documentos da Conversa -->
+    <div class="ws-body-tab" id="wsViewDocs">
+      <div class="ws-docs-nav" id="wsDocsNav">
+        <div class="ws-doc-pills" id="wsDocPills"></div>
+      </div>
+      <div class="ws-doc-editor-wrap" id="wsDocEditorWrap">
+        <div class="ws-doc-topbar">
+          <input type="text" class="ws-doc-title-input" id="wsDocTitulo" placeholder="Título do documento..." maxlength="100">
+          <div class="ws-doc-actions">
+            <span class="badge b-gold" id="wsDocTipoBadge">PDF</span>
+            <button class="btn small gold" id="btnWsBaixarPdf" type="button"><svg class="ic"><use href="#i-dl"/></svg>📥 Baixar PDF</button>
+            <button class="btn small perigo" id="btnWsDelDoc" type="button" title="Remover este arquivo"><svg class="ic"><use href="#i-trash"/></svg></button>
+          </div>
+        </div>
+        <div class="ws-doc-content-wrap">
+          <textarea class="ws-doc-textarea" id="wsDocTexto" placeholder="Conteúdo do documento no Workspace..." spellcheck="false"></textarea>
+        </div>
+        <div class="ws-doc-footbar">
+          <span id="wsDocStatus">Salvo automaticamente</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Aba 2: Galeria Visual & UIs -->
+    <div class="ws-body-tab hidden" id="wsViewGallery">
+      <div class="ws-gallery-toolbar">
+        <input type="text" class="ws-gallery-search" id="wsGallerySearch" placeholder="🔍 Buscar telas do design (ex: Login, Agenda, Ficha, Financeiro)...">
+        <div class="ws-gallery-cats" id="wsGalleryCats">
+          <button type="button" class="ws-cat-pill on" data-wscat="all">Todos (40)</button>
+          <button type="button" class="ws-cat-pill" data-wscat="gestao">Gestão</button>
+          <button type="button" class="ws-cat-pill" data-wscat="atendimento">Atendimento</button>
+          <button type="button" class="ws-cat-pill" data-wscat="financeiro">Financeiro</button>
+          <button type="button" class="ws-cat-pill" data-wscat="design">Design System</button>
+        </div>
+      </div>
+      <div class="ws-gallery-grid" id="wsGalleryGrid"></div>
+    </div>
+
+    <!-- Aba 3: Roteiro Clínico -->
+    <div class="ws-body-tab hidden" id="wsViewRoteiro">
+      <div class="ws-roteiro-wrap">
+        <div class="ws-roteiro-head">
+          <div>
+            <h3>Roteiro Clínico & Metas Prioritárias</h3>
+            <p class="sub">Checklist estratégico para transformar a rotina e os atendimentos da clínica.</p>
+          </div>
+          <button class="btn small" id="btnWsNovoRoteiro" type="button">＋ Adicionar Tarefa</button>
+        </div>
+        <ul class="ws-roteiro-list" id="wsRoteiroList"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Fallback canvas (compatibilidade) -->
 <div class="ia-canvas hidden" id="iaCanvas">
 <div class="ia-chead">
 <button class="ia-cback" id="btnIaCanBack" type="button"><svg class="ic"><use href="#i-chev"/></svg>Conversa</button>
@@ -1750,6 +1978,7 @@ html[data-theme="dark"] .story-card-luxury{background:rgba(28,26,23,0.85);border
 <div class="ia-cbody"><textarea id="iaCanTexto" placeholder="Escreva aqui — o canvas salva sozinho…" spellcheck="false"></textarea></div>
 <div class="ia-cfoot"><span id="iaCanSalvo">salvo automaticamente</span></div>
 </div>
+
 <div class="panelcard collap closed" id="iaCfgCard">
 <button class="pc-head" type="button"><span class="pc-tt"><h3>Configurações da I.A</h3>
 <p class="sub">O app JÁ VEM com a Fênix I.A ligada (roda na nossa nuvem, sem chave). Opcional: se quiser usar uma API própria compatível com OpenAI, preencha abaixo — a chave fica só neste navegador.</p></span>
@@ -1768,6 +1997,19 @@ html[data-theme="dark"] .story-card-luxury{background:rgba(28,26,23,0.85);border
 <div class="rowbtns"><button class="btn small" id="btnIaSaveCfg" type="button"><svg class="ic"><use href="#i-save"/></svg>Salvar configurações</button>
 <button class="btn small ghost" id="btnIaTest" type="button"><svg class="ic"><use href="#i-play"/></svg>Testar conexão</button></div>
 </div>
+</div>
+
+<!-- Lightbox Modal para imagens da I.A -->
+<div class="ia-lightbox-modal hidden" id="iaLightboxModal">
+  <div class="ia-lightbox-overlay" id="iaLightboxOverlay"></div>
+  <div class="ia-lightbox-content">
+    <button class="ia-lightbox-close" id="btnLightboxClose" type="button">✕</button>
+    <img id="iaLightboxImg" src="" alt="Imagem ampliada">
+    <div class="ia-lightbox-actions">
+      <button class="btn small gold" id="btnLightboxDl" type="button"><svg class="ic"><use href="#i-dl"/></svg> Baixar PNG</button>
+      <button class="btn small ghost" id="btnLightboxCopy" type="button">📋 Copiar Prompt</button>
+    </div>
+  </div>
 </div>
 </main>
 </div>
@@ -2519,68 +2761,7 @@ html[data-theme="dark"] .story-card-luxury{background:rgba(28,26,23,0.85);border
 </div>
 </section>
 
-<section id="viewPosts" class="view hidden">
-<div class="hero">
-<svg class="logo" viewBox="0 0 1440 960"><use href="#phoenix"/></svg>
-<div><h3>Gerador de Posts</h3>
-<p>Diga o que você quer postar e a I.A cria o cartão visual (estilo do estúdio) e a legenda pronta com hashtags — pra você baixar em PNG e publicar.</p>
-<span class="badge b-gold" style="margin-top:12px;display:inline-block">Fênix I.A</span></div>
-</div>
-<div class="panelcard" id="gpWrap">
-<!-- Seletor de Formato do Post em pílulas -->
-<label style="display:block;margin-bottom:8px;font-weight:600;font-size:.9rem">Formato do Post</label>
-<div class="pastas-bar" id="gpFormatos" style="margin-bottom:14px">
-  <button type="button" class="pasta-chip active" data-gpformato="auto">🎲 Deixar I.A escolher</button>
-  <button type="button" class="pasta-chip" data-gpformato="educativo">💡 Educativo</button>
-  <button type="button" class="pasta-chip" data-gpformato="mito_verdade">⚡ Mito vs Verdade</button>
-  <button type="button" class="pasta-chip" data-gpformato="pergunta">❓ Pergunta</button>
-  <button type="button" class="pasta-chip" data-gpformato="autoridade">👑 Frase de Impacto</button>
-</div>
-
-<label>O que você quer postar?</label>
-<textarea class="input" id="gpCmd" rows="2" style="width:100%;resize:vertical" placeholder="Ex.: ozônio terapia capilar com os benefícios · promoção de limpeza de pele essa semana · abri vaga pra quinta…"></textarea>
-
-<!-- Opções de Visualização da Imagem -->
-<label style="display:block;margin-top:14px;margin-bottom:8px;font-weight:600;font-size:.9rem">Opções de Visualização da Imagem</label>
-<div class="pastas-bar" id="gpModosVis" style="margin-bottom:14px">
-  <button type="button" class="pasta-chip active" data-gpmodo="pura">MODO 1: Foto Pura de Alto Padrão (Padrão)</button>
-  <button type="button" class="pasta-chip" data-gpmodo="editorial">MODO 2: Editorial / Revista</button>
-</div>
-
-<div class="rowbtns" style="margin-top:10px">
-<button class="btn" id="gpGo" type="button">✨ Gerar post</button>
-</div>
-<div style="border-top:1px solid var(--line);margin:14px 0 4px;padding-top:12px">
-<label>Fundo do post</label>
-<label style="display:block;margin-top:14px;font:600 .78rem Montserrat,sans-serif;letter-spacing:.08em;color:var(--gold)">ESTILO DA ARTE (I.A)</label>
-<div class="rowbtns" id="gpEstilos" style="gap:8px;flex-wrap:wrap;margin-top:6px"></div>
-<label style="display:block;margin-top:10px;font:600 .78rem Montserrat,sans-serif;letter-spacing:.08em;color:var(--gold)">MOTOR DA ARTE</label>
-<div class="rowbtns" id="gpModelos" style="gap:8px;flex-wrap:wrap;margin-top:6px"></div>
-<div class="rowbtns" id="gpFundos" style="gap:8px;flex-wrap:wrap;margin-top:8px"></div>
-<input type="file" id="gpFoto" accept="image/*" class="fhid">
-</div>
-<div style="border-top:1px solid var(--line);margin:14px 0 4px;padding-top:12px">
-<label>Já escreveu o seu? Cole o roteiro que a I.A só melhora (suas ideias ficam)</label>
-<textarea class="input" id="gpMeu" rows="2" style="width:100%;resize:vertical" placeholder="Ex.: venha conhecer a ozônio terapia capilar, é barato e faz bem pro cabelo, marca pelo whats"></textarea>
-<div class="rowbtns" style="margin-top:10px">
-<button class="btn ghost" id="gpMelhora" type="button">✨ Melhorar meu texto</button>
-</div>
-</div>
-<p class="msg" id="gpMsg"></p>
-</div>
-<div class="panelcard hidden" id="gpOut">
-<div class="sec-head"><div><h3>Seu post</h3><p class="sub">Baixe o cartão em PNG e publique com a legenda copiada.</p></div></div>
-<div id="gpCard" style="max-width:420px;border-radius:14px;overflow:hidden;margin:6px 0 14px"></div>
-<div class="rowbtns">
-  <button class="btn" id="gpPng" type="button"><svg class="ic"><use href="#i-dl"/></svg>📥 Baixar Foto do Post (PNG)</button>
-  <button class="btn small" id="btnRegeneraFoto" type="button">🔄 Gerar Outra Foto</button>
-  <button class="btn small" id="gpEdit" type="button">✏️ Editar no Studio</button>
-</div>
-<label style="margin-top:14px">Legenda (copie e cole no Instagram)</label>
-<div id="gpLeg" style="border:1px solid var(--line);border-radius:10px;padding:12px 14px;line-height:1.6;white-space:pre-wrap"></div>
-<div class="rowbtns" style="margin-top:8px"><button class="btn small ghost" id="gpCopy" type="button">📋 Copiar Legenda Completa</button></div>
-</div>
-</section>
+<section id="viewPosts" class="view hidden" style="display:none"></section>
 
 <section id="viewEditor" class="view hidden">
 <div class="hero">
@@ -4548,6 +4729,7 @@ for(const id in dd){const el=document.getElementById(id);if(el&&!el.classList.co
 const st={viewEditor:'editor',viewPerfil:'perfil',viewDocs:'docs',viewDocEd:'doc',viewForms:'forms',viewFormEd:'formEd',viewRespFill:'respFill',viewRespList:'respList',viewRespView:'respView',viewPlanilha:'planilha',viewRelatorios:'relatorios',viewIa:'ia'};
 for(const id in st){const el=document.getElementById(id);if(el&&!el.classList.contains('hidden')&&!(state.mode==='studio'&&state.sview===st[id]))el.classList.add('hidden');}}
 function renderApp(){
+if(state.mode==='studio'&&state.sview==='posts') state.sview='ia';
 const studio=state.mode==='studio',catalogo=state.mode==='catalogo',equipe=state.mode==='equipe',dados=state.mode==='dados',clients=state.mode==='clients';
 const anyStudio=studio||catalogo;
 $('navGestao').classList.toggle('hidden',anyStudio||equipe||dados||clients||state.mode==='extras');
@@ -4570,7 +4752,7 @@ $('viewRespList').classList.toggle('hidden',!(studio&&state.sview==='respList'))
 $('viewRespView').classList.toggle('hidden',!(studio&&state.sview==='respView'));
 $('viewRelatorios').classList.toggle('hidden',!(studio&&state.sview==='relatorios'));
 $('viewIa').classList.toggle('hidden',!(studio&&state.sview==='ia'));
-$('viewPosts').classList.toggle('hidden',!(studio&&state.sview==='posts'));
+if($('viewPosts')) $('viewPosts').classList.toggle('hidden',!(studio&&state.sview==='posts'));
 $('viewEditor').classList.toggle('hidden',!(studio&&state.sview==='editor'));
 $('viewCatalogo').classList.toggle('hidden',!(catalogo&&!state.catEd));
 $('viewCatEd').classList.toggle('hidden',!(catalogo&&state.catEd));
@@ -4925,15 +5107,17 @@ if(first){c.titulo=first.texto.slice(0,42)+(first.texto.length>42?'…':'');c.ts
 function renderIA(){paintIaCfg();
 const c=state.iaConv?convById(state.iaConv):null;
 $('iaConvTitle').textContent=c?c.titulo:'Nova conversa';
-$('iaConvSub').textContent=c?('criada em '+esc(c.criadoEm)):'Escreva abaixo para começar — a conversa é salva ao enviar.';
+$('iaConvSub').textContent=c?('● Motor Neural Ativo · criada em '+esc(c.criadoEm)):'● Motor Neural Ativo';
 const all=getIac().slice().sort((a,b)=>b.ts-a.ts).filter(x=>msgsOf(x.id).length>0||x.titulo!=='Nova conversa');
-$('iaConvCount').textContent=all.length+' conversa(s) salva(s)';
+$('iaConvCount').textContent=all.length+' conversa(s) ativa(s)';
 $('iaConvList').innerHTML=all.length?all.map(x=>{const n=msgsOf(x.id).length;
 return '<li class="ia-item'+(x.id===state.iaConv?' on':'')+'" data-conv="'+x.id+'" title="'+esc(x.titulo)+' · '+n+' mensagem(ns) · '+esc(x.criadoEm)+'">'+
 '<svg class="ic"><use href="#i-ai"/></svg><span class="t">'+esc(x.titulo)+'</span>'+
 '<button class="x" data-act="delconv" data-id="'+x.id+'" title="Apagar conversa"><svg class="ic"><use href="#i-trash"/></svg></button></li>';}).join('')
 :'<li class="empty">Nenhuma conversa ainda.</li>';
-renderIaMsgs();iaFit();}
+renderIaMsgs();
+renderWorkspace();
+iaFit();}
 function iaFmt(t){let s=esc(t);
 s=s.replace(/```([\s\S]*?)```/g,(m,code)=>'<pre>'+code.replace(/^\n/,'')+'</pre>');
 s=s.replace(/`([^`]+)`/g,'<code>$1</code>');
@@ -4944,11 +5128,88 @@ const i=$('iaInput');if(i)i.placeholder=window.innerWidth<=900?'Pergunte qualque
 window.addEventListener('resize',iaFit);
 function renderIaMsgs(){const box=$('iaBox');if(!box)return;
 const ms=state.iaConv?msgsOf(state.iaConv):[];
-if(!ms.length){box.innerHTML='<div class="ia-hello"><svg class="logo" viewBox="0 0 1440 960"><use href="#phoenix"/></svg><h3>Como posso ajudar hoje?</h3><p>Pergunte qualquer coisa sobre o seu negócio — ideias de posts, textos pra clientes, dúvidas do dia a dia. A Fênix I.A responde com base nos seus dados, sem precisar de chave.</p></div>';return;}
-box.innerHTML=ms.map(m=>'<div class="ia-msg '+m.papel+'"><span class="who">'+(m.papel==='user'?'Você':'I.A')+'</span>'+
-(m.pensa?'<button class="ia-pensa-btn" type="button">💭 Pensamento</button><div class="ia-pensa-corpo">'+esc(m.pensa)+'</div>':'')+
-'<div class="b">'+iaFmt(m.texto)+'</div>'+
-(m.arq?'<button class="ia-arq" type="button" data-canabrir="'+esc(m.arq.id)+'"><svg class="ic"><use href="#'+(m.arq.tipo==='pdf'?'i-dl':'i-doc')+'"/></svg>'+esc(m.arq.titulo)+' · abrir no canvas</button>':'')+'</div>').join('')+
+if(!ms.length){
+  box.innerHTML=`
+  <div class="ia-hello">
+    <svg class="logo" viewBox="0 0 1440 960"><use href="#phoenix"/></svg>
+    <h3>Fênix I.A & Spark Workspace</h3>
+    <p>Inteligência neural clínica com geração simultânea de documentos, fotografias conceituais e catálogo de telas.</p>
+    <div class="ia-empty-cards">
+      <div class="ia-empty-card" data-iacmd="foto">
+        <div class="ia-ec-icon">📸</div>
+        <div class="ia-ec-content">
+          <strong>Criar Foto Conceitual</strong>
+          <p>Fotografia de alta definição para estética via motor Flux.</p>
+        </div>
+      </div>
+      <div class="ia-empty-card" data-iacmd="ui">
+        <div class="ia-ec-icon">🎨</div>
+        <div class="ia-ec-content">
+          <strong>Ver UIs & Telas de Design</strong>
+          <p>Explorar as 40 telas canônicas e gerar mockups sob demanda.</p>
+        </div>
+      </div>
+      <div class="ia-empty-card" data-iacmd="diag">
+        <div class="ia-ec-icon">🩺</div>
+        <div class="ia-ec-content">
+          <strong>Diagnóstico Clínico</strong>
+          <p>Análise de faturamento, clientes sem retorno e agendamentos.</p>
+        </div>
+      </div>
+      <div class="ia-empty-card" data-iacmd="proto">
+        <div class="ia-ec-icon">📄</div>
+        <div class="ia-ec-content">
+          <strong>Contrato & Protocolo PDF</strong>
+          <p>Gerar contrato, termo de consentimento e pós-sessão de uma vez.</p>
+        </div>
+      </div>
+    </div>
+  </div>`;
+  return;
+}
+box.innerHTML=ms.map(m=>{
+  const arqs=(Array.isArray(m.arqs)&&m.arqs.length)?m.arqs:(m.arq?[m.arq]:[]);
+  let artsHtml='';
+  if(arqs.length){
+    artsHtml=arqs.map(a=>{
+      const snippet=String(a.conteudo||a.texto||'').replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim().slice(0,140);
+      return `<div class="ia-artifact-card" data-canid="${esc(a.id)}">
+        <div class="ia-art-head">
+          <div class="ia-art-icon"><svg class="ic"><use href="#${a.tipo==='pdf'?'i-dl':'i-doc'}"/></svg></div>
+          <div class="ia-art-info">
+            <strong>${esc(a.titulo||'Documento sem título')}</strong>
+            <span class="ia-art-badge">${a.tipo==='pdf'?'DOCUMENTO PDF':'TEXTO CLÍNICO'}</span>
+          </div>
+        </div>
+        ${snippet?`<div class="ia-art-preview">${esc(snippet)}</div>`:''}
+        <div class="ia-art-actions">
+          <button type="button" class="btn small ghost ia-btn-abrir-ws" data-canabrir="${esc(a.id)}">👁️ Abrir no Workspace</button>
+          <button type="button" class="btn small gold ia-btn-dl-pdf" data-canbaixar="${esc(a.id)}">📥 Baixar PDF</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+  let imgHtml='';
+  if(m.img){
+    imgHtml=`<div class="ia-img-card" data-imgprompt="${esc(m.imgPrompt||'')}">
+      <div class="ia-img-wrap">
+        <img src="data:image/png;base64,${m.img}" alt="Fotografia conceitual I.A" class="ia-img-el">
+      </div>
+      <div class="ia-img-actions">
+        <button type="button" class="btn small ghost ia-btn-expand-img" data-imgb64="${m.img}">🔍 Expandir</button>
+        <button type="button" class="btn small gold ia-btn-dl-img" data-imgb64="${m.img}">📥 Baixar PNG</button>
+        <button type="button" class="btn small ghost ia-btn-re-img" data-prompt="${esc(m.imgPrompt||'')}">🔄 Nova Variação</button>
+        <button type="button" class="btn small ghost ia-btn-copy-prompt" data-prompt="${esc(m.imgPrompt||'')}">📋 Copiar Prompt</button>
+      </div>
+    </div>`;
+  }
+  return `<div class="ia-msg ${m.papel}"><span class="who">${m.papel==='user'?'Você':'I.A'}</span>`+
+  (m.pensa?`<button class="ia-pensa-btn" type="button">💭 Pensamento</button><div class="ia-pensa-corpo">${esc(m.pensa)}</div>`:'')+
+  (m.texto?`<div class="b">${iaFmt(m.texto)}</div>`:'')+
+  artsHtml+
+  imgHtml+
+  `</div>`;
+}).join('')+
 (state.iaBusy?'<div class="ia-msg ia"><span class="who">I.A</span><div class="b"><span class="ia-typing"><i></i><i></i><i></i>&nbsp;pensando…</span></div></div>':'');
 box.scrollTop=box.scrollHeight;}
 $('iaConvList').addEventListener('click',e=>{
@@ -4957,11 +5218,13 @@ if(del){armDelete(del,()=>{const id=del.dataset.id;
 setIam(getIam().filter(m=>m.conversaId!==id));setIac(getIac().filter(c=>c.id!==id));
 if(state.iaConv===id)state.iaConv=null;renderIA();});return;}
 const li=e.target.closest('[data-conv]');if(li){state.iaConv=li.dataset.conv;renderIA();}});
-function pushMsg(papel,texto,pensa,arq){const list=getIam();
-list.push({id:uid(),conversaId:state.iaConv,papel,texto,pensa:pensa||'',arq:arq||null,ts:Date.now()});setIam(list);
+function pushMsg(papel,texto,pensa,arqs,img,imgPrompt){const list=getIam();
+const arqsArr=Array.isArray(arqs)?arqs:(arqs?[arqs]:[]);
+const msgObj={id:uid(),conversaId:state.iaConv,papel,texto:String(texto||''),pensa:pensa||'',arqs:arqsArr,arq:arqsArr[0]||null,img:img||null,imgPrompt:imgPrompt||'',ts:Date.now()};
+list.push(msgObj);setIam(list);
 const c=convById(state.iaConv);
 if(c){c.ts=Date.now();if(papel==='user'&&c.titulo==='Nova conversa')renameConv(state.iaConv);}
-return list[list.length-1];}
+return msgObj;}
 function buildIaCtx(){ /* R80: contexto COMPLETO da clínica — a I.A VÊ tudo, SOMENTE LEITURA */
 try{
 const hoje=new Date();const dd=n=>String(n).padStart(2,'0');
@@ -5026,73 +5289,157 @@ docOrd.forEach(d=>{const who=d.clientId?nomeCli(d.clientId):'—';const txt=Stri
 L.push('- '+(d.titulo||'sem título')+' · cliente: '+who+' · '+txt+(String(d.texto||'').length>350?' (…)':''));});}
 return L.join('\n');
 }catch(e){return '';}}
-async function iaSend(){const ta=$('iaInput');const txt=ta.value.trim();
-if(!txt||state.iaBusy)return;
-ensureConv();
-const cfg=iaCfg();
-if(!cfg.key){ /* R61: motor FÊNIX na nossa nuvem — sem chave */
-const hist=msgsOf(state.iaConv).slice(-10).map(m=>({role:m.papel==='user'?'user':'assistant',content:m.texto}));
-const temImg=!!iaAnexoImg,temTxt=!!iaAnexoTxt;
-pushMsg('user',txt+(temImg?' 📎[foto]':temTxt?' 📎[anexo]':''));ta.value='';state.iaBusy=true;renderIA();
-try{
-if(temImg){
-/* R84 — multimodal de verdade: 1) visão descreve a imagem · 2) o CÉREBRO principal responde com acesso a TUDO */
-const r2=await fetch(NUVEM_URL+'/ia-vis',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SB_TOKEN||'')},body:JSON.stringify({imagem:iaAnexoImg,pergunta:(txt||'Leia o texto e o conteúdo desta imagem e descreva tudo que importa para um estúdio de estética.').slice(0,600)})});
-const j2=await r2.json().catch(()=>null);
-if(!r2.ok||!j2||!j2.resposta)throw new Error((j2&&(j2.erro||msgCota(j2)))||('HTTP '+r2.status));
-let ctx=buildIaCtx();if(iaAgenteOn()){const LC=getCans().slice(0,10);if(LC.length)ctx+='\n\nARQUIVOS DA BIBLIOTECA (sobre os quais você pode agir — organize, resuma, consolide):\n'+LC.map(c=>'— ['+(c.tipo==='pdf'?'PDF':'TEXTO')+'] '+c.titulo+'\n'+String(c.texto||'').slice(0,1200)).join('\n\n');}
-ctx+='\n\nIMAGEM ANEXADA PELO DONO (descrição gerada por visão computacional — responda considerando-a junto com os dados da clínica):\n'+String(j2.resposta).slice(0,4000);
-const perguntaFinal=txt||'Leia a imagem anexada e me diga o que importa nela pra minha clínica.';
-const r=await fetch(NUVEM_URL+'/ia',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SB_TOKEN||'')},body:JSON.stringify({modo:iaAgenteOn()?'agente':'',pergunta:perguntaFinal,contexto:ctx,historico:hist})});
-const j=await r.json().catch(()=>null);
-if(!r.ok||!j||(!j.resposta&&!j.canvas))throw new Error((j&&(j.erro||msgCota(j)))||('HTTP '+r.status));
-let rt=String(j.resposta||''),pc=j.pensamento||'',arq=null,nX=0;
-const LST=(Array.isArray(j.canvasLista)&&j.canvasLista.length)?j.canvasLista.map(x=>({tipo:x&&x.tipo,titulo:x&&x.titulo,conteudo:x&&x.conteudo})):[];
-let ix=rt.indexOf('<canvas');
-while(ix>=0){const mm=rt.match(/<canvas\s+tipo="(texto|pdf)"\s+titulo="([^"]*)">([\s\S]*?)<\/canvas>/i);if(!mm)break;LST.push({tipo:mm[1],titulo:mm[2],conteudo:mm[3]});rt=rt.replace(mm[0],'');ix=rt.indexOf('<canvas');}
-if(!LST.length&&j.canvas&&j.canvas.conteudo)LST.push({tipo:j.canvas.tipo,titulo:j.canvas.titulo,conteudo:j.canvas.conteudo});
-LST.forEach((cv,ci)=>{const novo={id:uid(),tipo:cv.tipo==='pdf'?'pdf':'texto',titulo:String(cv.titulo||'Canvas da I.A').slice(0,80),texto:String(cv.conteudo||''),criadoEm:nowLabel(),ts:Date.now(),geradoEm:'',ia:true};
-if(novo.tipo==='pdf'){try{novo.pdf=pdfBonitoBytes(novo.titulo,novo.texto||'');novo.geradoEm=nowLabel();}catch(e){}}
-const Lc=getCans();Lc.unshift(novo);setCans(Lc);
-if(ci===0)arq={id:novo.id,titulo:novo.titulo,tipo:novo.tipo,pronto:!!novo.pdf};else nX++;});
-if(nX&&rt)rt+='\n\n📚 +'+nX+' arquivo(s) prontinho(s) na Biblioteca.';
-if(!rt&&arq)rt=(nX?'Criei '+(nX+1)+' arquivos — o primeiro aqui embaixo, o resto na Biblioteca. 👇':(arq.tipo==='pdf'&&arq.pronto?'Criei o PDF «'+arq.titulo+'» — pronto pra baixar. 👇':'Criei o arquivo «'+arq.titulo+'» — abre aí embaixo. 👇'));
-pushMsg('ia',rt,pc,arq);
-}else{
-let ctx=buildIaCtx();if(iaAgenteOn()){const LC=getCans().slice(0,10);if(LC.length)ctx+='\n\nARQUIVOS DA BIBLIOTECA (sobre os quais você pode agir — organize, resuma, consolide):\n'+LC.map(c=>'— ['+(c.tipo==='pdf'?'PDF':'TEXTO')+'] '+c.titulo+'\n'+String(c.texto||'').slice(0,1200)).join('\n\n');}
-if(temTxt)ctx+='\n\nANEXO ENVIADO PELA CLÍNICA (responda considerando o anexo se a pergunta se referir a ele):\n'+iaAnexoTxt.slice(0,6000);
-const perguntaFinal=txt||'Leia o anexo e me faça um resumo.';
-const r=await fetch(NUVEM_URL+'/ia',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SB_TOKEN||'')},body:JSON.stringify({modo:iaAgenteOn()?'agente':'',pergunta:perguntaFinal,contexto:ctx,historico:hist})});
-const j=await r.json().catch(()=>null);
-if(!r.ok||!j||(!j.resposta&&!j.canvas))throw new Error((j&&(j.erro||msgCota(j)))||('HTTP '+r.status));
-let rt=String(j.resposta||''),pc=j.pensamento||'',arq=null,nX=0;
-const LST=(Array.isArray(j.canvasLista)&&j.canvasLista.length)?j.canvasLista.map(x=>({tipo:x&&x.tipo,titulo:x&&x.titulo,conteudo:x&&x.conteudo})):[];
-let ix=rt.indexOf('<canvas');
-while(ix>=0){const mm=rt.match(/<canvas\s+tipo="(texto|pdf)"\s+titulo="([^"]*)">([\s\S]*?)<\/canvas>/i);if(!mm)break;LST.push({tipo:mm[1],titulo:mm[2],conteudo:mm[3]});rt=rt.replace(mm[0],'');ix=rt.indexOf('<canvas');}
-if(!LST.length&&j.canvas&&j.canvas.conteudo)LST.push({tipo:j.canvas.tipo,titulo:j.canvas.titulo,conteudo:j.canvas.conteudo});
-LST.forEach((cv,ci)=>{const novo={id:uid(),tipo:cv.tipo==='pdf'?'pdf':'texto',titulo:String(cv.titulo||'Canvas da I.A').slice(0,80),texto:String(cv.conteudo||''),criadoEm:nowLabel(),ts:Date.now(),geradoEm:'',ia:true};
-if(novo.tipo==='pdf'){try{novo.pdf=pdfBonitoBytes(novo.titulo,novo.texto||'');novo.geradoEm=nowLabel();}catch(e){}}
-const Lc=getCans();Lc.unshift(novo);setCans(Lc);
-if(ci===0)arq={id:novo.id,titulo:novo.titulo,tipo:novo.tipo,pronto:!!novo.pdf};else nX++;});
-if(nX&&rt)rt+='\n\n📚 +'+nX+' arquivo(s) prontinho(s) na Biblioteca.';
-if(!rt&&arq)rt=(nX?'Criei '+(nX+1)+' arquivos — o primeiro aqui embaixo, o resto na Biblioteca. 👇':(arq.tipo==='pdf'&&arq.pronto?'Criei o PDF «'+arq.titulo+'» — pronto pra baixar. 👇':'Criei o arquivo «'+arq.titulo+'» — abre aí embaixo. 👇'));
-pushMsg('ia',rt,pc,arq);
+async function iaSend(){
+  const ta=$('iaInput');
+  const txt=ta.value.trim();
+  if(!txt||state.iaBusy)return;
+  ensureConv();
+
+  // 1. Deteccao de intencao visual (Flux Schnell)
+  const isImgIntent = /^(?:\/(?:imagem|foto|flux)|(?:crie|criar|gere|gerar|faça|fazer|desenhe)\s+(?:uma\s+)?(?:foto|imagem|fotografia|ilustraç(?:ão|ao)|mockup)\b|(?:foto|imagem|fotografia|mockup)\s+de\b)/i.test(txt);
+  if(isImgIntent){
+    let tema = txt.replace(/^(?:\/(?:imagem|foto|flux)\s*|(?:crie|criar|gere|gerar|faça|fazer|desenhe)\s+(?:uma\s+)?(?:foto|imagem|fotografia|ilustraç(?:ão|ao)|mockup)\s*(?:de|do|da|para|sobre)?\s*|(?:foto|imagem|fotografia|mockup)\s+de\s*)/i, '').trim();
+    if(!tema) tema = txt;
+    pushMsg('user', txt);
+    ta.value = '';
+    state.iaBusy = true;
+    renderIA();
+    try{
+      const rImg = await fetch(NUVEM_URL + '/ia-imagem', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + (SB_TOKEN || '') },
+        body: JSON.stringify({ prompt_visual: tema, modelo: 'flux' })
+      });
+      const jImg = await rImg.json().catch(()=>null);
+      if(!rImg.ok || !jImg || !jImg.imagem) {
+        throw new Error((jImg && (jImg.erro || jImg.message)) || ('HTTP ' + rImg.status));
+      }
+      const desc = 'Fotografia conceitual criada com sucesso pelo motor neural Flux Schnell. Você pode expandi-la em alta definição ou baixá-la em PNG.';
+      pushMsg('ia', desc, 'Geração visual executada via Flux Schnell em resolução ultra-nítida.', null, jImg.imagem, tema);
+    }catch(err){
+      pushMsg('ia', '⚠ Não consegui gerar a imagem agora (' + ((err && err.message) || 'erro') + '). Verifique a conexão e tente novamente.');
+    }
+    state.iaBusy = false;
+    renderIA();
+    return;
+  }
+
+  const cfg=iaCfg();
+  if(!cfg.key){ /* R61: motor FÊNIX na nossa nuvem — sem chave */
+    const hist=msgsOf(state.iaConv).slice(-10).map(m=>({role:m.papel==='user'?'user':'assistant',content:m.texto}));
+    const temImg=!!iaAnexoImg,temTxt=!!iaAnexoTxt;
+    pushMsg('user',txt+(temImg?' 📎[foto]':temTxt?' 📎[anexo]':''));ta.value='';state.iaBusy=true;renderIA();
+    try{
+      let ctx=buildIaCtx();
+      if(iaAgenteOn()){
+        const LC=getCans().slice(0,10);
+        if(LC.length)ctx+='\n\nARQUIVOS DO WORKSPACE (sobre os quais você pode agir — organize, resuma, consolide):\n'+LC.map(c=>'— ['+(c.tipo==='pdf'?'PDF':'TEXTO')+'] '+c.titulo+'\n'+String(c.texto||'').slice(0,1200)).join('\n\n');
+      }
+      let perguntaFinal=txt;
+      if(temImg){
+        /* Visão computacional multimodal */
+        const r2=await fetch(NUVEM_URL+'/ia-vis',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SB_TOKEN||'')},body:JSON.stringify({imagem:iaAnexoImg,pergunta:(txt||'Leia o texto e o conteúdo desta imagem e descreva tudo que importa para um estúdio de estética.').slice(0,600)})});
+        const j2=await r2.json().catch(()=>null);
+        if(!r2.ok||!j2||!j2.resposta)throw new Error((j2&&(j2.erro||msgCota(j2)))||('HTTP '+r2.status));
+        ctx+='\n\nIMAGEM ANEXADA PELO DONO (descrição gerada por visão computacional — responda considerando-a junto com os dados da clínica):\n'+String(j2.resposta).slice(0,4000);
+        perguntaFinal=txt||'Leia a imagem anexada e me diga o que importa nela pra minha clínica.';
+        iaAnexoClear();
+      } else if(temTxt){
+        ctx+='\n\nANEXO ENVIADO PELA CLÍNICA (responda considerando o anexo se a pergunta se referir a ele):\n'+iaAnexoTxt.slice(0,6000);
+        perguntaFinal=txt||'Leia o anexo e me faça um resumo.';
+        iaAnexoClear();
+      }
+
+      const r=await fetch(NUVEM_URL+'/ia',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SB_TOKEN||'')},body:JSON.stringify({modo:iaAgenteOn()?'agente':'',pergunta:perguntaFinal,contexto:ctx,historico:hist})});
+      const j=await r.json().catch(()=>null);
+      if(!r.ok||!j||(!j.resposta&&!j.canvas))throw new Error((j&&(j.erro||msgCota(j)))||('HTTP '+r.status));
+
+      let rt=String(j.resposta||''),pc=j.pensamento||'';
+      const LST=(Array.isArray(j.canvasLista)&&j.canvasLista.length)?j.canvasLista.map(x=>({tipo:x&&x.tipo,titulo:x&&x.titulo,conteudo:x&&x.conteudo})):[];
+      
+      // Extrair todos os blocos <canvas> gerados inline no texto da resposta
+      const regexCanvas=/<canvas\s+tipo="(texto|pdf)"\s+titulo="([^"]*)">([\s\S]*?)<\/canvas>/gi;
+      let mm;
+      while((mm=regexCanvas.exec(rt))!==null){
+        LST.push({tipo:mm[1],titulo:mm[2],conteudo:mm[3]});
+      }
+      rt=rt.replace(/<canvas\s+tipo="(?:texto|pdf)"\s+titulo="[^"]*">[\s\S]*?<\/canvas>/gi,'').trim();
+
+      if(!LST.length&&j.canvas&&j.canvas.conteudo){
+        LST.push({tipo:j.canvas.tipo,titulo:j.canvas.titulo,conteudo:j.canvas.conteudo});
+      }
+
+      const arqsCreated=[];
+      if(LST.length){
+        const Lc=getCans();
+        LST.forEach(cv=>{
+          const novo={
+            id:uid(),
+            conversaId:state.iaConv,
+            tipo:cv.tipo==='pdf'?'pdf':'texto',
+            titulo:String(cv.titulo||'Documento Fênix').slice(0,80),
+            texto:String(cv.conteudo||''),
+            criadoEm:nowLabel(),
+            ts:Date.now(),
+            geradoEm:'',
+            ia:true
+          };
+          if(novo.tipo==='pdf'){
+            try{
+              novo.pdf=pdfBonitoBytes(novo.titulo,novo.texto||'');
+              novo.geradoEm=nowLabel();
+            }catch(e){}
+          }
+          Lc.unshift(novo);
+          arqsCreated.push({
+            id:novo.id,
+            titulo:novo.titulo,
+            tipo:novo.tipo,
+            pronto:!!novo.pdf,
+            conteudo:novo.texto
+          });
+        });
+        setCans(Lc);
+        state.wsDocId=arqsCreated[0].id;
+        state.wsTab='docs';
+        state.wsOpen=true;
+      }
+
+      if(!rt&&arqsCreated.length){
+        rt=arqsCreated.length>1
+          ?('Preparei '+arqsCreated.length+' documentos completos para sua clínica. Você pode visualizá-los e editá-los no Workspace ou baixar em PDF abaixo.')
+          :('Elaborei o documento «'+arqsCreated[0].titulo+'» com todas as diretrizes necessárias. Veja a prévia abaixo ou acesse no Workspace.');
+      }
+
+      pushMsg('ia',rt,pc,arqsCreated);
+    }catch(err){
+      pushMsg('ia','⚠ Não consegui falar com a I.A agora ('+((err&&err.message)||'erro')+'). Confere a internet e tenta de novo.');
+    }
+    state.iaBusy=false;
+    renderIA();
+    return;
+  }
+
+  if(iaAnexoImg||iaAnexoTxt){iaAnexoClear();pushMsg('ia','📎 Anexo funciona no motor Fênix (padrão). Na chave personalizada, cole o texto direto.');renderIA();return;}
+  pushMsg('user',txt);ta.value='';renderIA();
+  state.iaBusy=true;renderIA();
+  try{
+    const sys=cfg.sys?[{role:'system',content:cfg.sys}]:[];
+    const hist=msgsOf(state.iaConv).slice(-20).map(m=>({role:m.papel==='user'?'user':'assistant',content:m.texto}));
+    const r=await fetch(String(cfg.base).replace(/\/$/,'')+'/chat/completions',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+cfg.key},
+      body:JSON.stringify({model:cfg.model,messages:sys.concat(hist)})
+    });
+    const j=await r.json();
+    if(!r.ok||j.error)throw new Error((j.error&&(j.error.message||j.error.code))||('HTTP '+r.status));
+    pushMsg('ia',(j.choices&&j.choices[0]&&j.choices[0].message&&j.choices[0].message.content)||'(sem resposta)');
+  }catch(err){
+    pushMsg('ia','⚠ Erro na requisição: '+((err&&err.message)||'desconhecido'));
+  }
+  state.iaBusy=false;
+  renderIA();
 }
-}catch(err){pushMsg('ia','⚠ Não consegui falar com a I.A agora ('+((err&&err.message)||'erro')+'). Confere a internet e tenta de novo.');}
-state.iaBusy=false;renderIA();return;}
-if(iaAnexoImg||iaAnexoTxt){iaAnexoClear();pushMsg('ia','📎 Anexo funciona no motor Fênix (padrão). Na chave personalizada, cole o texto direto.');renderIA();return;}
-pushMsg('user',txt);ta.value='';renderIA();
-state.iaBusy=true;renderIA();
-try{const sys=cfg.sys?[{role:'system',content:cfg.sys}]:[];
-const hist=msgsOf(state.iaConv).slice(-20).map(m=>({role:m.papel==='user'?'user':'assistant',content:m.texto}));
-const r=await fetch(String(cfg.base).replace(/\/$/,'')+'/chat/completions',{method:'POST',
-headers:{'Content-Type':'application/json','Authorization':'Bearer '+cfg.key},
-body:JSON.stringify({model:cfg.model,messages:sys.concat(hist)})});
-const j=await r.json();
-if(!r.ok||j.error)throw new Error((j.error&&(j.error.message||j.error.code))||('HTTP '+r.status));
-pushMsg('ia',(j.choices&&j.choices[0]&&j.choices[0].message&&j.choices[0].message.content)||'(sem resposta)');
-}catch(err){pushMsg('ia','⚠ Erro na requisição: '+((err&&err.message)||'desconhecido'));}
-state.iaBusy=false;renderIA();}
 let iaAnexoImg=null,iaAnexoTxt='';
 const leImagemReduzP=f=>new Promise(res=>{try{leImagemReduz(f,res);}catch(e){res(null);}});
 async function pdfTexto(f){
@@ -5145,33 +5492,543 @@ msg($('cMsg'),'✔ Contatos salvos — já aparecem no espaço da cliente!','ok'
 $('btnIaSide').addEventListener('click',()=>{const w=$('iaWrap');if(!w)return;
 w.classList.toggle('sem');try{localStorage.setItem('fenix_iaside',w.classList.contains('sem')?'1':'0');}catch(e){}});
 try{const _p=localStorage.getItem('fenix_iaside');if(_p==='1'||(window.innerWidth<=900&&_p!=='0')){const w=$('iaWrap');if(w)w.classList.add('sem');}}catch(e){}
-$('iaBox').addEventListener('click',e=>{const abrir=e.target.closest('[data-canabrir]');if(abrir){openCanvas(abrir.dataset.canabrir);return;}
-const b=e.target.closest('.ia-pensa-btn');if(!b)return;
-const c=b.nextElementSibling;if(!c)return;const ab=c.classList.toggle('aberta');
-b.textContent=ab?'💭 Esconder pensamento':'💭 Pensamento';});
+$('iaBox').addEventListener('click',e=>{
+  const abrir=e.target.closest('[data-canabrir]');
+  if(abrir){openInWorkspace(abrir.dataset.canabrir);return;}
+  const dl=e.target.closest('[data-canbaixar]');
+  if(dl){dlDocPdf(dl.dataset.canbaixar);return;}
+  const exp=e.target.closest('.ia-btn-expand-img');
+  if(exp){openLightbox(exp.dataset.imgb64,exp.closest('.ia-img-card')?.dataset.imgprompt||'');return;}
+  const dlImg=e.target.closest('.ia-btn-dl-img');
+  if(dlImg){dlBase64Png(dlImg.dataset.imgb64,'fenix-foto-conceitual');return;}
+  const cp=e.target.closest('.ia-btn-copy-prompt');
+  if(cp){navigator.clipboard.writeText(cp.dataset.prompt||'').then(()=>toast('📋 Prompt copiado!')).catch(()=>{});return;}
+  const re=e.target.closest('.ia-btn-re-img');
+  if(re){$('iaInput').value='Crie uma variação da imagem sobre: '+(re.dataset.prompt||'');$('iaInput').focus();return;}
+  const ec=e.target.closest('[data-iacmd]');
+  if(ec){
+    const cmd=ec.dataset.iacmd;
+    if(cmd==='foto'){$('iaInput').value='Crie uma fotografia conceitual de alta qualidade para tratamento de ozonioterapia e bioressonância';$('iaInput').focus();}
+    else if(cmd==='ui'){state.wsOpen=true;state.wsTab='gallery';renderWorkspace();}
+    else if(cmd==='diag'){$('iaInput').value='Faça um diagnóstico clínico e financeiro completo da minha clínica com base nos dados atuais.';iaSend();}
+    else if(cmd==='proto'){$('iaInput').value='Crie um Contrato de Prestação de Serviços Estéticos e um Termo de Consentimento Informado para Limpeza de Pele.';iaSend();}
+    return;
+  }
+  const b=e.target.closest('.ia-pensa-btn');
+  if(!b)return;
+  const c=b.nextElementSibling;if(!c)return;const ab=c.classList.toggle('aberta');
+  b.textContent=ab?'💭 Esconder pensamento':'💭 Pensamento';
+});
 
 /* ===================== R79 — BIBLIOTECA + CANVAS ===================== */
 function getCans(){try{return JSON.parse(localStorage.getItem('fenix_ia_can_'+(currentKey||'local'))||'[]')}catch(e){return[]}}
 function setCans(v){try{localStorage.setItem('fenix_ia_can_'+(currentKey||'local'),JSON.stringify(v))}catch(e){}}
 function canById(id){return getCans().find(c=>c.id===id);}
-function setIaTab(t){try{
-$('iaTabConv').classList.toggle('on',t==='conv');$('iaTabBib').classList.toggle('on',t==='bib');
-$('iaConvWrap').classList.toggle('hidden',t!=='conv');$('iaBibWrap').classList.toggle('hidden',t!=='bib');
-if(t==='bib')renderIaBib();}catch(e){}}
-$('iaTabConv').addEventListener('click',()=>setIaTab('conv'));
-$('iaTabBib').addEventListener('click',()=>setIaTab('bib'));
-function renderIaBib(){const L=getCans().slice().sort((a,b)=>b.ts-a.ts);
-$('iaBibCount').textContent=L.length+' arquivo(s) criado(s) na Fênix I.A';
-$('iaBibList').innerHTML=L.length?L.map(x=>'<li class="ia-item" data-can="'+x.id+'" title="'+esc(x.titulo)+' · '+esc(x.criadoEm)+'">'+
-'<svg class="ic"><use href="#'+(x.tipo==='pdf'?'i-dl':'i-doc')+'"/></svg><span class="t">'+esc(x.titulo)+'</span>'+
-'<button class="x" data-act="delcan" data-id="'+x.id+'" title="Apagar arquivo"><svg class="ic"><use href="#i-trash"/></svg></button></li>').join('')
-:'<li class="empty">Nada criado ainda — usa o botão ✦ Funções na conversa.</li>';}
-$('iaBibList').addEventListener('click',e=>{
-const del=e.target.closest('[data-act="delcan"]');
-if(del){armDelete(del,()=>{const id=del.dataset.id;setCans(getCans().filter(c=>c.id!==id));
-if(state.iaCan===id){state.iaCan=null;const cv=$('iaCanvas');if(cv)cv.classList.add('hidden');}
-renderIaBib();});return;}
-const li=e.target.closest('[data-can]');if(li)openCanvas(li.dataset.can);});
+/* ===================== R120 — FÊNIX SPARK & AGENT WORKSPACE ===================== */
+const FENIX_UI_GALLERY = [
+  // 1. Gestão
+  { id:'ui_login', num:1, titulo:'Entrada / Login', cat:'gestao', catLabel:'Gestão', desc:'A vitrine da marca com logo Fênix e cartão de acesso seguro.', prompt:'Login screen of Fênix aesthetic clinic management app, elegant phoenix logo in terracotta, dark brown serif typography, cream warm paper background' },
+  { id:'ui_inicio', num:2, titulo:'Início / Dashboard', cat:'gestao', catLabel:'Gestão', desc:'Saudação editorial «Boa tarde, Ana» e grade de métricas 2x2 com números serifados.', prompt:'Home dashboard screen for aesthetic clinic app, large serif greeting "Boa tarde, Ana", 2x2 grid of white rounded cards with stats, warm cream paper' },
+  { id:'ui_agenda', num:3, titulo:'Agenda do Dia', cat:'gestao', catLabel:'Gestão', desc:'Linha de pílulas de datas horizontais e cartões de procedimentos com horários.', prompt:'Daily schedule screen for beauty clinic, horizontal date pill selector, white appointment cards with terracotta time labels, clean editorial UI' },
+  { id:'ui_clientes', num:4, titulo:'Lista de Clientes', cat:'gestao', catLabel:'Gestão', desc:'Diretório minimalista com avatares em pêssego e campo de busca refinado.', prompt:'Client directory screen for aesthetic clinic, soft rounded search bar, list of cards with peach initials circle and typography, warm minimal look' },
+  { id:'ui_ficha_cli', num:5, titulo:'Ficha da Cliente', cat:'gestao', catLabel:'Gestão', desc:'Perfil completo da cliente Mariana com estatísticas, abas e próxima sessão.', prompt:'Client profile detail screen for aesthetic clinic, Mariana profile, stat cards for skin type and sessions, pill tabs, next appointment card' },
+  { id:'ui_nova_cli', num:6, titulo:'Cadastro de Nova Cliente', cat:'gestao', catLabel:'Gestão', desc:'Formulário acolhedor de cadastro com campos de contato, data de nascimento e queixas.', prompt:'New client registration form screen, luxury beauty clinic, clean inputs, terracotta button, warm paper aesthetic' },
+  { id:'ui_pastas_cli', num:7, titulo:'Pastas & Parcerias de Clientes', cat:'gestao', catLabel:'Gestão', desc:'Organização de clientes por faculdades, parcerias corporativas e campanhas.', prompt:'Client folder organization screen, partnership categories, folder tags, aesthetic clinic directory, warm paper UI' },
+  { id:'ui_center_b2b', num:8, titulo:'Central Fênix B2B', cat:'gestao', catLabel:'Gestão', desc:'Painel de gestão multi-clínicas e administração geral do ecossistema.', prompt:'B2B clinic management hub login screen, Fênix Center, trustworthy sober aesthetic clinic platform' },
+  { id:'ui_notificacoes', num:9, titulo:'Central de Notificações', cat:'gestao', catLabel:'Gestão', desc:'Avisos de sessões, confirmações de WhatsApp e alertas operacionais.', prompt:'Clinic notifications center screen, appointment reminders, warm minimalist alert cards, editorial UI' },
+  { id:'ui_perfil_prof', num:10, titulo:'Perfil da Profissional', cat:'gestao', catLabel:'Gestão', desc:'Dados da biomédica/esteticista, registro profissional e assinatura digital.', prompt:'Aesthetic practitioner profile screen, credentials, signature card, warm paper theme, luxury typography' },
+
+  // 2. Atendimento & Clínico
+  { id:'ui_pacotes', num:11, titulo:'Pacotes & Sessões', cat:'atendimento', catLabel:'Atendimento', desc:'Acompanhamento visual 6/10 com barra de progresso terracota e saldo de sessões.', prompt:'Prepaid session package screen, progress bar 6 of 10 sessions, white rounded card with client tag, aesthetic clinic' },
+  { id:'ui_novo_pacote', num:12, titulo:'Novo Pacote Personalizado', cat:'atendimento', catLabel:'Atendimento', desc:'Configurador de sessões e procedimentos com cálculo de desconto da clínica.', prompt:'New custom treatment package builder screen, session counter, price summary, luxury clinic design' },
+  { id:'ui_sessao_feita', num:13, titulo:'Registro de Sessão Feita', cat:'atendimento', catLabel:'Atendimento', desc:'Check-in de procedimento realizado com notas de evolução e próximas recomendações.', prompt:'Completed treatment session check-in screen, clinical evolution notes, date stamp, warm minimalist UI' },
+  { id:'ui_anamnese', num:14, titulo:'Termo de Consentimento & Anamnese', cat:'atendimento', catLabel:'Atendimento', desc:'Ficha de anamnese com assinatura digital e histórico de saúde da cliente.', prompt:'Clinical consent form and anamnesis screen, digital signature field, clean medical checklist, beauty clinic' },
+  { id:'ui_antes_depois', num:15, titulo:'Fotos Antes & Depois', cat:'atendimento', catLabel:'Atendimento', desc:'Comparador visual de evolução estética com slider interativo e linha do tempo.', prompt:'Before and after aesthetic treatment comparison screen, clean split photo layout, clinical timeline, warm paper' },
+  { id:'ui_proto_limpeza', num:16, titulo:'Protocolo de Limpeza de Pele', cat:'atendimento', catLabel:'Atendimento', desc:'Roteiro passo a passo com tempos de emoliência, extração e máscara calmante.', prompt:'Deep skin cleansing clinical protocol screen, step-by-step timer cards, aesthetic clinic guideline UI' },
+  { id:'ui_proto_ozonio', num:17, titulo:'Protocolo Bioressonância & Ozônio', cat:'atendimento', catLabel:'Atendimento', desc:'Diretrizes terapêuticas integrativas e dosimetria personalizada.', prompt:'Ozone therapy and bioresonance clinical protocol screen, dosage guide, wellness medical clinic UI' },
+  { id:'ui_clients_app', num:18, titulo:'Fênix Clients (Espaço da Cliente)', cat:'atendimento', catLabel:'Atendimento', desc:'Visão do aplicativo mobile no celular da cliente com agenda e orientações pós-sessão.', prompt:'Client-facing mobile app screen for beauty clinic, appointment countdown, personalized post-care guide' },
+  { id:'ui_wa_confirm', num:19, titulo:'Confirmação WhatsApp', cat:'atendimento', catLabel:'Atendimento', desc:'Mensagem magnética e card pronto para envio direto com link do WhatsApp.', prompt:'WhatsApp appointment confirmation preview card, one-click send button, warm aesthetic clinic branding' },
+  { id:'ui_facial_body', num:20, titulo:'Mapeamento Facial & Corporal', cat:'atendimento', catLabel:'Atendimento', desc:'Mapeamento anatômico de queixas e plano de tratamento estético.', prompt:'Facial mapping and aesthetic diagnosis screen, anatomical diagram card, treatment plan notes' },
+
+  // 3. Financeiro
+  { id:'ui_financeiro', num:21, titulo:'Painel Financeiro Principal', cat:'financeiro', catLabel:'Financeiro', desc:'Receita do mês com valor em destaque R$ 14.500 e mini gráfico sparkline.', prompt:'Finance dashboard screen, large monthly revenue card with sparkline, income and expense column cards, beauty clinic' },
+  { id:'ui_entradas', num:22, titulo:'Entradas & Faturamento', cat:'financeiro', catLabel:'Financeiro', desc:'Lançamento detalhado de valores pagos com ou sem vínculo de cliente.', prompt:'Cash inflow and revenue logging screen, unlinked and linked payment options, aesthetic clinic finance' },
+  { id:'ui_despesas', num:23, titulo:'Despesas & Insumos', cat:'financeiro', catLabel:'Financeiro', desc:'Controle de custos fixos, insumos de estética e gastos operacionais.', prompt:'Operating expenses and clinic supplies tracking screen, category breakdown, warm minimalist UI' },
+  { id:'ui_formas_pag', num:24, titulo:'Calculadora & Formas de Pagamento', cat:'financeiro', catLabel:'Financeiro', desc:'Divisão rápida de PIX, Cartão e parcelamento com taxas da maquininha.', prompt:'Payment split and calculator screen, PIX and credit card breakdown, aesthetic clinic point of sale' },
+  { id:'ui_metas_lucro', num:25, titulo:'Metas & Lucratividade', cat:'financeiro', catLabel:'Financeiro', desc:'Projeção de faturamento mensal e atingimento de metas da clínica.', prompt:'Clinic monthly revenue goal and profit margin screen, progress ring, elegant financial charts' },
+  { id:'ui_vendas_loja', num:26, titulo:'Loja & Produtos Home Care', cat:'financeiro', catLabel:'Financeiro', desc:'Catálogo de dermocosméticos e controle de vendas para home care.', prompt:'Home care cosmetics catalog and clinic shop screen, product grid with price tags, luxury aesthetic clinic' },
+  { id:'ui_voucher_vip', num:27, titulo:'Vale-Presente & Voucher VIP', cat:'financeiro', catLabel:'Financeiro', desc:'Cartão de presente exclusivo VALE-XXXX em vidro jateado de luxo.', prompt:'Luxury gift voucher card screen, VALE code, gold foil accents, frosted glass effect, aesthetic clinic' },
+  { id:'ui_comissao', num:28, titulo:'Comissão da Equipe', cat:'financeiro', catLabel:'Financeiro', desc:'Cálculo automatizado de comissões por procedimento para colaboradores.', prompt:'Staff commission calculator screen, percentage split per treatment, aesthetic clinic management' },
+  { id:'ui_fechamento', num:29, titulo:'Fechamento de Caixa Diário', cat:'financeiro', catLabel:'Financeiro', desc:'Conferência diária de entradas em dinheiro, PIX e cartões com saldo final.', prompt:'Daily cash register closeout screen, total reconciliation, summary receipt card, clean UI' },
+  { id:'ui_recibo_pdf', num:30, titulo:'Recibo & Comprovante PDF', cat:'financeiro', catLabel:'Financeiro', desc:'Emissão elegante de recibos clínicos prontos para envio ou impressão.', prompt:'Payment receipt and clinical invoice screen, printable PDF layout preview, warm paper luxury branding' },
+
+  // 4. Design System & Studio
+  { id:'ui_chat_ia', num:31, titulo:'Fênix I.A Conversacional', cat:'design', catLabel:'Design System', desc:'Interface do chat neural com raciocínio analítico e balões acolhedores.', prompt:'AI chat screen called Fenix IA, warm peach user bubbles, white AI cards with spark icon, aesthetic clinic' },
+  { id:'ui_workspace', num:32, titulo:'Agent Workspace & Split-View', cat:'design', catLabel:'Design System', desc:'Área de trabalho em duas colunas (Chat 42% / Workspace 58%) sincronizadas.', prompt:'Split screen desktop workspace for AI agent, chat on left and multi-document editor on right, luxury dark mode' },
+  { id:'ui_editor_doc', num:33, titulo:'Editor Visual de Documentos', cat:'design', catLabel:'Design System', desc:'Ambiente de escrita de termos, receitas e contratos com barra de ferramentas.', prompt:'Document editor screen, word-style clean layout for clinical contracts and terms, warm paper aesthetic' },
+  { id:'ui_formularios', num:34, titulo:'Formulários & Questionários', cat:'design', catLabel:'Design System', desc:'Criador e preenchimento de fichas de avaliação e formulários dinâmicos.', prompt:'Form builder and questionnaire screen, aesthetic clinic survey and clinical intake fields' },
+  { id:'ui_planilha', num:35, titulo:'Planilha Inteligente da Clínica', cat:'design', catLabel:'Design System', desc:'Grade de controle de procedimentos, custos de produtos e rentabilidade.', prompt:'Smart spreadsheet table screen for aesthetic clinic, procedure rows and profit columns, clean UI' },
+  { id:'ui_organizador_feed', num:36, titulo:'Organizador de Feed & Perfil', cat:'design', catLabel:'Design System', desc:'Grade 3x3 de planejamento visual do feed do Instagram com pré-visualização.', prompt:'Instagram feed grid planner screen for aesthetic clinic, 3x3 aesthetic posts preview, editorial layout' },
+  { id:'ui_stories_ideias', num:37, titulo:'Central de Stories & Engajamento', cat:'design', catLabel:'Design System', desc:'Gerador e sorteador de ganchos estratégicos para conversão no Instagram.', prompt:'Instagram stories content ideas generator screen, high-converting hooks cards, beauty clinic marketing' },
+  { id:'ui_analisador_perfil', num:38, titulo:'Analisador de Perfil do Instagram', cat:'design', catLabel:'Design System', desc:'Auditoria de autoridade, bio magnética e checklist de conversão.', prompt:'Instagram profile auditor screen, aesthetic clinic branding score, bio recommendations checklist' },
+  { id:'ui_aparencia', num:39, titulo:'Aparência & Tema (Claro / Escuro)', cat:'design', catLabel:'Design System', desc:'Seletor do Modo Claro Papel Quente e Modo Noturno Luxo com cores de destaque.', prompt:'App theme and appearance settings screen, light cream paper option and luxury dark gold option' },
+  { id:'ui_icone_marca', num:40, titulo:'Ícone & Identidade Visual Fênix', cat:'design', catLabel:'Design System', desc:'Marca gráfica da fênix geométrica minimalista em terracota e dourado.', prompt:'Minimalist mobile app icon, stylized geometric phoenix in terracotta orange and gold, cream paper background' }
+];
+
+let FENIX_UI_MOCKUPS = {};
+try{ FENIX_UI_MOCKUPS = JSON.parse(localStorage.getItem('fenix_ui_mockups')||'{}'); }catch(e){}
+
+function saveUiMockup(id, b64){
+  try{
+    FENIX_UI_MOCKUPS[id]=b64;
+    localStorage.setItem('fenix_ui_mockups', JSON.stringify(FENIX_UI_MOCKUPS));
+  }catch(e){}
+}
+
+let WS_CAT_ATIVA = 'all';
+let WS_SEARCH_QUERY = '';
+
+function getWsRoteiro(){
+  try{
+    const saved = localStorage.getItem('fenix_ws_roteiro');
+    if(saved) return JSON.parse(saved);
+  }catch(e){}
+  const padrao = [
+    { id:'r1', txt:'Definir protocolo padrão de Limpeza de Pele Profunda e Ozonioterapia', feita:true },
+    { id:'r2', txt:'Revisar fichas de anamnese e termos de consentimento das clientes', feita:true },
+    { id:'r3', txt:'Criar combo promocional para clientes sem retorno há mais de 30 dias', feita:false },
+    { id:'r4', txt:'Conferir fechamento semanal de pagamentos e sessões pendentes', feita:false },
+    { id:'r5', txt:'Personalizar link exclusivo do Fênix Clients para novas clientes', feita:false },
+    { id:'r6', txt:'Planejar 5 ideias de stories com ganchos de alta conversão', feita:false },
+    { id:'r7', txt:'Emitir relatório mensal de faturamento e custos da clínica', feita:false }
+  ];
+  try{ localStorage.setItem('fenix_ws_roteiro', JSON.stringify(padrao)); }catch(e){}
+  return padrao;
+}
+
+function setWsRoteiro(list){
+  try{ localStorage.setItem('fenix_ws_roteiro', JSON.stringify(list)); }catch(e){}
+}
+
+function getWsDocs(){
+  const allCans = getCans();
+  if(!state.iaConv) return allCans;
+  const ms = msgsOf(state.iaConv);
+  const idsInConv = new Set();
+  ms.forEach(m => {
+    if(Array.isArray(m.arqs)) m.arqs.forEach(a => a && a.id && idsInConv.add(a.id));
+    if(m.arq && m.arq.id) idsInConv.add(m.arq.id);
+  });
+  const convDocs = allCans.filter(c => idsInConv.has(c.id) || c.conversaId === state.iaConv);
+  return convDocs.length ? convDocs : allCans;
+}
+
+function renderWorkspace(){
+  if(state.wsOpen === undefined) state.wsOpen = true;
+  const pane = $('iaWorkspacePane');
+  const chatPane = $('iaChatPane');
+  if(!pane) return;
+
+  pane.classList.toggle('hidden', !state.wsOpen);
+  if(chatPane){
+    chatPane.classList.toggle('full-width', !state.wsOpen);
+  }
+
+  const curTab = state.wsTab || 'docs';
+  $('wsTabBtnDocs')?.classList.toggle('on', curTab === 'docs');
+  $('wsTabBtnGallery')?.classList.toggle('on', curTab === 'gallery');
+  $('wsTabBtnRoteiro')?.classList.toggle('on', curTab === 'roteiro');
+
+  $('wsViewDocs')?.classList.toggle('hidden', curTab !== 'docs');
+  $('wsViewGallery')?.classList.toggle('hidden', curTab !== 'gallery');
+  $('wsViewRoteiro')?.classList.toggle('hidden', curTab !== 'roteiro');
+
+  if(curTab === 'docs') renderWsDocs();
+  else if(curTab === 'gallery') renderWsGallery();
+  else if(curTab === 'roteiro') renderWsRoteiro();
+}
+
+function renderWsDocs(){
+  const docs = getWsDocs();
+  const countBadge = $('wsDocCountBadge');
+  const docsCountSpan = $('wsTabDocsCount');
+  if(countBadge) countBadge.textContent = docs.length;
+  if(docsCountSpan) docsCountSpan.textContent = '(' + docs.length + ')';
+
+  const pillsContainer = $('wsDocPills');
+  if(!pillsContainer) return;
+
+  if(!docs.length){
+    pillsContainer.innerHTML = '<span class="fempty" style="padding:4px 8px;font-size:.74rem">Nenhum arquivo gerado nesta conversa ainda.</span>';
+    $('wsDocTitulo').value = '';
+    $('wsDocTexto').value = '';
+    $('wsDocStatus').textContent = 'Nenhum documento selecionado';
+    return;
+  }
+
+  if(!state.wsDocId || !canById(state.wsDocId)){
+    state.wsDocId = docs[0].id;
+  }
+
+  pillsContainer.innerHTML = docs.map(d => `
+    <button type="button" class="ws-doc-pill ${d.id === state.wsDocId ? 'on' : ''}" data-wsdocid="${esc(d.id)}" title="${esc(d.titulo)}">
+      <svg class="ic" style="width:14px;height:14px;flex:none"><use href="#${d.tipo==='pdf'?'i-dl':'i-doc'}"/></svg>
+      <span class="t">${esc(d.titulo || 'Sem título')}</span>
+    </button>
+  `).join('');
+
+  const curDoc = canById(state.wsDocId);
+  if(curDoc){
+    $('wsDocTitulo').value = curDoc.titulo || '';
+    $('wsDocTexto').value = curDoc.texto || '';
+    $('wsDocTipoBadge').textContent = curDoc.tipo === 'pdf' ? 'PDF' : 'Texto';
+    $('wsDocStatus').textContent = curDoc.geradoEm ? ('PDF gerado em ' + curDoc.geradoEm + ' · salvo automaticamente') : ('Criado em ' + (curDoc.criadoEm || 'hoje') + ' · salvo automaticamente');
+  }
+}
+
+function wsDocSave(){
+  const L = getCans();
+  const c = L.find(x => x.id === state.wsDocId);
+  if(!c) return;
+  c.titulo = $('wsDocTitulo').value.trim() || 'Sem título';
+  c.texto = $('wsDocTexto').value;
+  c.ts = Date.now();
+  if(c.tipo === 'pdf'){
+    try{ c.pdf = iaCanPdfBytes(c.titulo, c.texto); c.geradoEm = nowLabel(); }catch(e){}
+  }
+  setCans(L);
+  $('wsDocStatus').textContent = 'Salvo às ' + new Date().toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+  const curPill = document.querySelector(`.ws-doc-pill[data-wsdocid="${c.id}"] .t`);
+  if(curPill) curPill.textContent = c.titulo;
+}
+
+function renderWsGallery(){
+  const grid = $('wsGalleryGrid');
+  if(!grid) return;
+  const q = WS_SEARCH_QUERY.toLowerCase().trim();
+  const cat = WS_CAT_ATIVA;
+
+  const filtered = FENIX_UI_GALLERY.filter(item => {
+    const matchCat = (cat === 'all' || item.cat === cat);
+    const matchQuery = !q || (item.titulo.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q));
+    return matchCat && matchQuery;
+  });
+
+  if(!filtered.length){
+    grid.innerHTML = '<p class="fempty" style="grid-column:1/-1">Nenhuma tela encontrada para este filtro.</p>';
+    return;
+  }
+
+  grid.innerHTML = filtered.map(item => {
+    const mockupB64 = FENIX_UI_MOCKUPS[item.id];
+    return `
+      <div class="ws-card" data-screenid="${esc(item.id)}">
+        <div class="ws-card-head">
+          <h4 class="ws-card-title">${item.num}. ${esc(item.titulo)}</h4>
+          <span class="ws-card-cat">${esc(item.catLabel)}</span>
+        </div>
+        <p class="ws-card-desc">${esc(item.desc)}</p>
+        ${mockupB64 ? `
+          <div class="ws-card-mockup">
+            <img src="data:image/png;base64,${mockupB64}" alt="${esc(item.titulo)}">
+            <div class="ws-card-mockup-actions">
+              <button type="button" class="btn small ghost ia-btn-expand-img" data-imgb64="${mockupB64}" title="Expandir">🔍</button>
+              <button type="button" class="btn small gold ia-btn-dl-img" data-imgb64="${mockupB64}" title="Baixar PNG">📥</button>
+            </div>
+          </div>
+        ` : ''}
+        <div class="ws-card-actions">
+          <button type="button" class="btn small gold btn-gerar-mockup-ui" data-screenid="${esc(item.id)}" style="width:100%">
+            ✨ ${mockupB64 ? 'Gerar Nova Versão' : 'Gerar Mockup com I.A'}
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderWsRoteiro(){
+  const listEl = $('wsRoteiroList');
+  if(!listEl) return;
+  const items = getWsRoteiro();
+  if(!items.length){
+    listEl.innerHTML = '<li class="fempty">Nenhuma meta no roteiro clínico. Adicione uma meta acima!</li>';
+    return;
+  }
+  listEl.innerHTML = items.map(it => `
+    <li class="ws-roteiro-item ${it.feita ? 'done' : ''}" data-rotid="${esc(it.id)}">
+      <input type="checkbox" class="ws-roteiro-check" ${it.feita ? 'checked' : ''} data-rotcheck="${esc(it.id)}">
+      <span class="ws-roteiro-txt">${esc(it.txt)}</span>
+      <button type="button" class="ws-roteiro-del" data-rotdel="${esc(it.id)}" title="Remover tarefa">🗑</button>
+    </li>
+  `).join('');
+}
+
+function openInWorkspace(docId){
+  state.wsDocId = docId;
+  state.wsTab = 'docs';
+  state.wsOpen = true;
+  const pane = $('iaWorkspacePane');
+  if(pane) pane.classList.remove('hidden');
+  const chatPane = $('iaChatPane');
+  if(chatPane) chatPane.classList.remove('full-width');
+  if(window.innerWidth <= 900){
+    $('btnMobTabWs')?.classList.add('on');
+    $('btnMobTabChat')?.classList.remove('on');
+    $('iaChatPane')?.classList.add('mob-hidden');
+  }
+  renderWorkspace();
+}
+
+async function gerarMockupUi(screenId){
+  const item = FENIX_UI_GALLERY.find(s => s.id === screenId);
+  if(!item) return;
+  const btn = document.querySelector(`.btn-gerar-mockup-ui[data-screenid="${screenId}"]`);
+  if(btn){
+    btn.disabled = true;
+    btn.textContent = '⏳ Gerando Mockup...';
+  }
+  toast('✨ Criando mockup de «' + item.titulo + '» com o motor Flux…');
+  try{
+    const r = await fetch(NUVEM_URL + '/ia-imagem', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + (SB_TOKEN || '') },
+      body: JSON.stringify({ prompt_visual: item.prompt, modelo: 'flux' })
+    });
+    const j = await r.json().catch(() => null);
+    if(!r.ok || !j || !j.img) throw new Error((j && (j.erro || msgCota(j))) || ('HTTP ' + r.status));
+    saveUiMockup(screenId, j.img);
+    ensureConv();
+    pushMsg('ia', `Aqui está o mockup conceitual de design gerado para **${item.titulo}** (${item.catLabel}):`, '', [], j.img, item.prompt);
+    toast('✔ Mockup gerado com sucesso!');
+    renderWorkspace();
+    renderIaMsgs();
+  }catch(e){
+    toast('⚠ ' + ((e && e.message) || 'Erro ao gerar mockup.'));
+    if(btn){
+      btn.disabled = false;
+      btn.textContent = '✨ Gerar Mockup com I.A';
+    }
+  }
+}
+
+function openLightbox(imgB64, promptText){
+  const modal = $('iaLightboxModal');
+  const imgEl = $('iaLightboxImg');
+  if(!modal || !imgEl) return;
+  imgEl.src = 'data:image/png;base64,' + imgB64;
+  modal.dataset.currentb64 = imgB64;
+  modal.dataset.currentprompt = promptText || '';
+  modal.classList.remove('hidden');
+}
+
+function closeLightbox(){
+  const modal = $('iaLightboxModal');
+  if(modal) modal.classList.add('hidden');
+}
+
+function dlBase64Png(b64, nomeArquivo){
+  try{
+    const bin = atob(b64);
+    const bytes = new Uint8Array(bin.length);
+    for(let i=0; i<bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    const blob = new Blob([bytes], {type:'image/png'});
+    const u = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = u;
+    a.download = (nomeArquivo || 'fenix-imagem').toLowerCase().replace(/[^a-z0-9]+/gi, '-') + '.png';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    toast('📥 Download da imagem concluído!');
+  }catch(e){
+    toast('⚠ Não foi possível baixar a imagem.');
+  }
+}
+
+function dlDocPdf(docId){
+  const c = canById(docId);
+  if(!c) return;
+  try{
+    const b = c.pdf || iaCanPdfBytes(c.titulo, c.texto);
+    const u = URL.createObjectURL(new Blob([Uint8Array.from(b, ch => ch.charCodeAt(0) & 0xff)], {type:'application/pdf'}));
+    const a = document.createElement('a');
+    a.href = u;
+    a.download = ((c.titulo || 'documento').toLowerCase().replace(/[^a-z0-9]+/gi, '-').replace(/^-+|-+$/g, '') || 'documento') + '.pdf';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    toast('📥 Download do PDF iniciado!');
+  }catch(e){
+    toast('⚠ Não foi possível baixar o PDF.');
+  }
+}
+
+// Workspace Event Listeners
+$('btnSparkToggle')?.addEventListener('click', ()=>{
+  state.wsOpen = !state.wsOpen;
+  renderWorkspace();
+});
+$('btnWsClose')?.addEventListener('click', ()=>{
+  state.wsOpen = false;
+  renderWorkspace();
+});
+$('btnIaSparkComp')?.addEventListener('click', ()=>{
+  state.wsOpen = true;
+  state.wsTab = 'docs';
+  renderWorkspace();
+});
+$('btnMobTabChat')?.addEventListener('click', ()=>{
+  $('btnMobTabChat')?.classList.add('on');
+  $('btnMobTabWs')?.classList.remove('on');
+  $('iaChatPane')?.classList.remove('mob-hidden');
+  state.wsOpen = false;
+  renderWorkspace();
+});
+$('btnMobTabWs')?.addEventListener('click', ()=>{
+  $('btnMobTabWs')?.classList.add('on');
+  $('btnMobTabChat')?.classList.remove('on');
+  $('iaChatPane')?.classList.add('mob-hidden');
+  state.wsOpen = true;
+  renderWorkspace();
+});
+$('wsTabBtnDocs')?.addEventListener('click', ()=>{
+  state.wsTab = 'docs';
+  renderWorkspace();
+});
+$('wsTabBtnGallery')?.addEventListener('click', ()=>{
+  state.wsTab = 'gallery';
+  renderWorkspace();
+});
+$('wsTabBtnRoteiro')?.addEventListener('click', ()=>{
+  state.wsTab = 'roteiro';
+  renderWorkspace();
+});
+$('wsDocPills')?.addEventListener('click', e=>{
+  const pill = e.target.closest('[data-wsdocid]');
+  if(pill){
+    state.wsDocId = pill.dataset.wsdocid;
+    renderWsDocs();
+  }
+});
+$('wsDocTitulo')?.addEventListener('input', ()=>{
+  clearTimeout(iaCanTmr);
+  iaCanTmr = setTimeout(wsDocSave, 400);
+});
+$('wsDocTexto')?.addEventListener('input', ()=>{
+  clearTimeout(iaCanTmr);
+  iaCanTmr = setTimeout(wsDocSave, 400);
+});
+$('btnWsBaixarPdf')?.addEventListener('click', ()=>{
+  if(state.wsDocId) dlDocPdf(state.wsDocId);
+});
+$('btnWsDelDoc')?.addEventListener('click', function(){
+  if(!state.wsDocId) return;
+  armDelete(this, ()=>{
+    const id = state.wsDocId;
+    setCans(getCans().filter(c => c.id !== id));
+    state.wsDocId = null;
+    renderWsDocs();
+    renderIaMsgs();
+  });
+});
+$('wsGallerySearch')?.addEventListener('input', e=>{
+  WS_SEARCH_QUERY = e.target.value;
+  renderWsGallery();
+});
+$('wsGalleryCats')?.addEventListener('click', e=>{
+  const pill = e.target.closest('[data-wscat]');
+  if(pill){
+    document.querySelectorAll('.ws-cat-pill').forEach(b => b.classList.remove('on'));
+    pill.classList.add('on');
+    WS_CAT_ATIVA = pill.dataset.wscat;
+    renderWsGallery();
+  }
+});
+$('wsGalleryGrid')?.addEventListener('click', e=>{
+  const btnMock = e.target.closest('.btn-gerar-mockup-ui');
+  if(btnMock){
+    gerarMockupUi(btnMock.dataset.screenid);
+    return;
+  }
+  const btnExp = e.target.closest('.ia-btn-expand-img');
+  if(btnExp){
+    openLightbox(btnExp.dataset.imgb64, 'Mockup de UI da Fênix');
+    return;
+  }
+  const btnDl = e.target.closest('.ia-btn-dl-img');
+  if(btnDl){
+    dlBase64Png(btnDl.dataset.imgb64, 'mockup-ui-fenix');
+    return;
+  }
+});
+$('wsRoteiroList')?.addEventListener('click', e=>{
+  const chk = e.target.closest('[data-rotcheck]');
+  if(chk){
+    const id = chk.dataset.rotcheck;
+    const list = getWsRoteiro();
+    const it = list.find(x => x.id === id);
+    if(it){
+      it.feita = chk.checked;
+      setWsRoteiro(list);
+      renderWsRoteiro();
+    }
+    return;
+  }
+  const del = e.target.closest('[data-rotdel]');
+  if(del){
+    const id = del.dataset.rotdel;
+    const list = getWsRoteiro().filter(x => x.id !== id);
+    setWsRoteiro(list);
+    renderWsRoteiro();
+    return;
+  }
+});
+$('btnWsNovoRoteiro')?.addEventListener('click', ()=>{
+  const txt = prompt('Digite a nova tarefa/meta clínica:');
+  if(txt && txt.trim()){
+    const list = getWsRoteiro();
+    list.push({ id: uid(), txt: txt.trim(), feita: false });
+    setWsRoteiro(list);
+    renderWsRoteiro();
+  }
+});
+$('btnLightboxClose')?.addEventListener('click', closeLightbox);
+$('iaLightboxOverlay')?.addEventListener('click', closeLightbox);
+$('btnLightboxDl')?.addEventListener('click', ()=>{
+  const modal = $('iaLightboxModal');
+  if(modal && modal.dataset.currentb64){
+    dlBase64Png(modal.dataset.currentb64, 'fenix-imagem-ampliada');
+  }
+});
+$('btnLightboxCopy')?.addEventListener('click', ()=>{
+  const modal = $('iaLightboxModal');
+  if(modal && modal.dataset.currentprompt){
+    navigator.clipboard.writeText(modal.dataset.currentprompt).then(()=>{
+      toast('📋 Prompt copiado para a área de transferência!');
+    }).catch(()=>{});
+  }
+});
+$('iaChipsBar')?.addEventListener('click', e=>{
+  const chip = e.target.closest('[data-iachip]');
+  if(!chip) return;
+  const tipo = chip.dataset.iachip;
+  if(tipo === 'foto'){
+    $('iaInput').value = 'Crie uma fotografia conceitual de alta qualidade para ';
+    $('iaInput').focus();
+  } else if(tipo === 'ui'){
+    state.wsOpen = true;
+    state.wsTab = 'gallery';
+    renderWorkspace();
+  } else if(tipo === 'agente'){
+    const cur = iaAgenteOn();
+    localStorage.setItem('fenix_iaagente', cur ? '0' : '1');
+    iaAgentePinta();
+    toast(cur ? '🤖 Modo Agente desativado.' : '🤖 Modo Agente ativado! A I.A entregará múltiplos arquivos.');
+  } else if(tipo === 'anexo'){
+    $('iaAnexo')?.click();
+  }
+});
 let iaCanTmr=null;
 /* R86 — MODO AGENTE 🤖 */
 function iaAgenteOn(){try{return localStorage.getItem('fenix_iaagente')==='1';}catch(e){return false;}}
@@ -5800,12 +6657,16 @@ try{const b=pdfBonitoBytes(tt,tx);const u=URL.createObjectURL(new Blob([Uint8Arr
 function canSave(){const L=getCans();const c=L.find(x=>x.id===state.iaCan);if(!c)return;
 c.titulo=$('iaCanTitulo').value.trim()||'Sem título';c.texto=$('iaCanTexto').value;c.ts=Date.now();setCans(L);
 $('iaCanSalvo').textContent='salvo às '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});}
-function openCanvas(id){const c=canById(id);if(!c)return;state.iaCan=id;
-$('iaCanTitulo').value=c.titulo;$('iaCanTexto').value=c.texto||'';
-$('iaCanTipo').textContent=c.tipo==='pdf'?'PDF':'Texto';
-$('btnIaCanBaixar').style.display=c.pdf?'':'none';
-$('iaCanSalvo').textContent=c.geradoEm?('PDF gerado em '+c.geradoEm+' · continua editando'):('criado em '+c.criadoEm+' · salva sozinho');
-$('iaCanvas').classList.remove('hidden');try{renderIaBib();}catch(e){}}
+function openCanvas(id){
+  openInWorkspace(id);
+  const c=canById(id);if(!c)return;state.iaCan=id;
+  const tEl=$('iaCanTitulo'), xEl=$('iaCanTexto');
+  if(tEl)tEl.value=c.titulo;if(xEl)xEl.value=c.texto||'';
+  if($('iaCanTipo'))$('iaCanTipo').textContent=c.tipo==='pdf'?'PDF':'Texto';
+  if($('btnIaCanBaixar'))$('btnIaCanBaixar').style.display=c.pdf?'':'none';
+  if($('iaCanSalvo'))$('iaCanSalvo').textContent=c.geradoEm?('PDF gerado em '+c.geradoEm+' · continua editando'):('criado em '+c.criadoEm+' · salva sozinho');
+  if($('iaCanvas'))$('iaCanvas').classList.remove('hidden');try{renderIaBib();}catch(e){}
+}
 function closeCanvas(){state.iaCan=null;$('iaCanvas').classList.add('hidden');try{renderIaBib();}catch(e){}}
 $('btnIaCanBack').addEventListener('click',closeCanvas);
 $('iaCanTitulo').addEventListener('input',()=>{clearTimeout(iaCanTmr);iaCanTmr=setTimeout(canSave,400);});
@@ -8642,16 +9503,15 @@ async function gpMelhora(){
     const j=await r.json().catch(()=>null);
     if(!r.ok||!j||!j.resposta)throw new Error((j&&(j.erro||msgCota(j)))||('HTTP '+r.status));
     gpAplica(j);
-    await gpGeraFotoReal(true);
   }catch(e){msg($('gpMsg'),'⚠ '+((e&&e.message)||'erro')+' — tenta de novo em instantes.','err');}
-  $('gpMelhora').disabled=false;gpBusy=false;
+  if($('gpMelhora'))$('gpMelhora').disabled=false;gpBusy=false;
 }
-$('gpMelhora').addEventListener('click',gpMelhora);
+$('gpMelhora')?.addEventListener('click',gpMelhora);
 async function gpGera(){
-  if(gpBusy)return;const cmd=$('gpCmd').value.trim();
+  if(gpBusy)return;const cmd=$('gpCmd')?.value.trim();
   if(!cmd)return msg($('gpMsg'),'Diga o que você quer postar (ex.: «ozônio terapia capilar» ou «promoção de peeling»).','err');
   if(!SB_TOKEN)return msg($('gpMsg'),'Entre com sua conta pra usar a I.A.','err');
-  gpBusy=true;$('gpGo').disabled=true;msg($('gpMsg'),'✨ A I.A está criando seu post e roteiro…');
+  gpBusy=true;if($('gpGo'))$('gpGo').disabled=true;msg($('gpMsg'),'✨ A I.A está criando seu post e roteiro…');
   try{
     let promptComFormato=cmd;
     if(GP_FORMATO_ATIVO&&GP_FORMATO_ATIVO!=='auto'){
@@ -8669,14 +9529,14 @@ async function gpGera(){
   }catch(e){
     msg($('gpMsg'),'⚠ '+((e&&e.message)||'erro')+' — tenta de novo em instantes.','err');
   }
-  $('gpGo').disabled=false;gpBusy=false;
+  if($('gpGo'))$('gpGo').disabled=false;gpBusy=false;
 }
-$('gpGo').addEventListener('click',gpGera);
+$('gpGo')?.addEventListener('click',gpGera);
 $('btnRegeneraFoto')?.addEventListener('click',()=>{
   if(!gpData)return msg($('gpMsg'),'Gere um post primeiro antes de trocar a foto.','err');
   gpGeraFotoReal(false);
 });
-$('gpCopy').addEventListener('click',()=>{
+$('gpCopy')?.addEventListener('click',()=>{
   if(!gpData||!gpData.legenda)return;
   try{
     navigator.clipboard.writeText(gpData.legenda).then(()=>{
@@ -8687,7 +9547,7 @@ $('gpCopy').addEventListener('click',()=>{
     });
   }catch(e){}
 });
-$('gpPng').addEventListener('click',gpPngV2);
+$('gpPng')?.addEventListener('click',gpPngV2);
 /* R71 — I.A nos Documentos (gerar / melhorar / resumir / corrigir) */
 let ddBusy=false,iaDocBusy=false;
 async function iaFetch(pergunta){const r=await fetch(NUVEM_URL+'/ia',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SB_TOKEN||'')},body:JSON.stringify({modo:'doc',pergunta,contexto:buildIaCtx()})});
@@ -9753,7 +10613,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.93';
+const APP_VERSAO='1.6.94';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{

@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.93",
-  "r": "R119",
+  "versao": "1.6.94",
+  "r": "R120",
   "quando": "10/10/2026",
   "melhorias": [
-    "📸 Gerador de Posts real: I.A de imagem fotográfica sem bloqueios pelo motor Flux",
-    "✍️ Fim do modelo engessado: posts em formatos de Mito vs Verdade, Dúvidas e Educativos",
-    "🎨 Opção de Foto Pura de Alto Padrão sem sobreposição de textos pesados",
-    "🔄 Botão para regerar foto da I.A mantendo a legenda do post",
-    "🛡️ 100% de estabilidade e regras de negócios preservadas"
+    "✨ Fênix Spark & Workspace: split-screen com múltiplos documentos e galeria de UIs",
+    "💬 I.A falante: explicações e orientações clínicas completas ao criar arquivos",
+    "📸 Geração inline de imagens: fotografias conceituais pelo motor Flux no chat",
+    "📄 Prévia inteligente no chat: cards com resumo de arquivos e download direto de PDFs",
+    "🧹 Studio otimizado: remoção do gerador de posts e fim da biblioteca estática"
   ]
 }
