@@ -10771,41 +10771,44 @@ $('splash').classList.remove('hidden');
 }catch(e){showErrorGlobal((e&&e.message)||e);}
 })();
 $('btnSplashGo').addEventListener('click',()=>{
-/* R21: pequena espera ao clicar COMEÇAR (o pop-up de acesso lembrado não abre na cara) */
-const bg=$('btnSplashGo');if(bg.disabled)return;bg.disabled=true;bg.textContent='AGUARDE…';
-const sub=$('splashSub');if(sub)sub.textContent='Preparando seu acesso…';
-const temLembrete=!!(window.__pendRemoto||window.__pendLocal); /* R110 — sem acesso lembrado, login na hora (não espera 5s) */
-setTimeout(()=>{
-$('splash').classList.add('hidden');
-bg.disabled=false;bg.textContent='COMEÇAR';if(sub)sub.textContent='Sua clínica, seus clientes, tudo em um app.';
-if(window.__pendRemoto){const u=window.__pendRemoto;
-$('remClinica').textContent=(u.user_metadata&&u.user_metadata.nome)||String(u.email||'').split('@')[0]||'Sua clínica';
-$('remUser').textContent=u.email||'';
-$('rememberModal').classList.remove('hidden');}
-else if(window.__pendLocal){
-$('remClinica').textContent=window.__pendLocal.u.nome||window.__pendLocal.key;
-$('remUser').textContent='conta local deste dispositivo';
-$('rememberModal').classList.remove('hidden');}
-else $('authScreen').classList.remove('hidden');},temLembrete?5000:300);});
+  const bg=$('btnSplashGo');
+  if(bg){bg.disabled=false;bg.textContent='COMEÇAR';}
+  $('splash').classList.add('hidden');
+  if(window.__pendRemoto){
+    entrarComCarregamento(()=>entrarRemoto(window.__pendRemoto));
+  }else if(window.__pendLocal){
+    entrarComCarregamento(()=>entrarLocal(window.__pendLocal.u,window.__pendLocal.key));
+  }else{
+    $('authScreen').classList.remove('hidden');
+  }
+});
 $('btnRememberGo').addEventListener('click',()=>{
-$('rememberModal').classList.add('hidden');
-if(window.__pendRemoto)entrarComCarregamento(()=>entrarRemoto(window.__pendRemoto));
-else if(window.__pendLocal)entrarComCarregamento(()=>entrarLocal(window.__pendLocal.u,window.__pendLocal.key));});
+  $('rememberModal').classList.add('hidden');
+  if(window.__pendRemoto)entrarComCarregamento(()=>entrarRemoto(window.__pendRemoto));
+  else if(window.__pendLocal)entrarComCarregamento(()=>entrarLocal(window.__pendLocal.u,window.__pendLocal.key));
+});
 $('btnRememberOther').addEventListener('click',async()=>{
-$('rememberModal').classList.add('hidden');
-try{if(REMOTE&&window.__pendRemoto)await SB.auth.signOut();}catch(e){}
-try{localStorage.removeItem(S);}catch(e){}
-window.__pendRemoto=null;window.__pendLocal=null;
-$('authScreen').classList.remove('hidden');});
+  $('rememberModal').classList.add('hidden');
+  try{if(REMOTE&&window.__pendRemoto)await SB.auth.signOut();}catch(e){}
+  try{localStorage.removeItem(S);}catch(e){}
+  window.__pendRemoto=null;window.__pendLocal=null;
+  $('authScreen').classList.remove('hidden');
+});
 function entrarComCarregamento(fn){
-$('enterLoad').classList.remove('hidden');
-const bar=$('enterLoadBar'),st=$('enterLoadStage');
-[[300,'Conectando à nuvem…',30],[800,'Carregando seus dados…',65],[1300,'Preparando sua clínica…',88]]
-.forEach(p=>setTimeout(()=>{st.textContent=p[1];bar.style.width=p[2]+'%';},p[0]));
-setTimeout(()=>{try{fn();}catch(e){$('enterLoad').classList.add('hidden');showErrorGlobal((e&&e.message)||e);return;}
-bar.style.width='100%';
-setTimeout(()=>{$('enterLoad').classList.add('hidden');bar.style.width='0';
-$('welcomeModal').classList.remove('hidden');},380);},1450);}
+  $('enterLoad').classList.remove('hidden');
+  const bar=$('enterLoadBar'),st=$('enterLoadStage');
+  if(st)st.textContent='Carregando sua clínica…';
+  if(bar)bar.style.width='60%';
+  setTimeout(()=>{
+    try{fn();}catch(e){$('enterLoad').classList.add('hidden');showErrorGlobal((e&&e.message)||e);return;}
+    if(bar)bar.style.width='100%';
+    setTimeout(()=>{
+      $('enterLoad').classList.add('hidden');
+      if(bar)bar.style.width='0';
+      $('welcomeModal').classList.remove('hidden');
+    },150);
+  },300);
+}
 let selUsu=null;
 function ultUsu(){try{return JSON.parse(localStorage.getItem('fenix_user_ativo')||'null')}catch(e){return null}}
 function renderUserStep(modo){
@@ -10826,7 +10829,8 @@ b.onclick=fn;ul.appendChild(b);};
 if(modo==='confirm'&&last){add(last.nome||'usuário','último acesso neste aparelho — toque para entrar',()=>pedirSenha(last),true);
 const o=document.createElement('button');o.className='btn small ghost';o.type='button';o.textContent='Entrar com outro usuário';o.onclick=()=>renderUserStep('lista');ul.appendChild(o);return;}
 us.forEach(u=>add(u.nome||u.username||'usuário','toque para colocar a senha',()=>pedirSenha(u),false));
-const nn=document.createElement('button');nn.className='btn small ghost';nn.type='button';nn.textContent='Cadastrar novo usuário';nn.onclick=()=>renderUserStep('cad');ul.appendChild(nn);}
+const nn=document.createElement('button');nn.className='btn small ghost';nn.type='button';nn.textContent='Cadastrar novo usuário';nn.onclick=()=>renderUserStep('cad');ul.appendChild(nn);
+const fechar=document.createElement('button');fechar.className='btn small ghost';fechar.type='button';fechar.style.marginTop='6px';fechar.textContent='Entrar direto na clínica';fechar.onclick=()=>{$('userModal').classList.add('hidden');};ul.appendChild(fechar);}
 function pedirSenha(u){selUsu=u;$('userPassNome').textContent=u.nome||u.username||'usuário';$('userPass').value='';
 $('userList').classList.add('hidden');$('userNewBox').classList.add('hidden');$('userPassBox').classList.remove('hidden');$('userMsg').textContent='';}
 function usuarioEntrou(u){try{localStorage.setItem('fenix_user_ativo',JSON.stringify({id:u.id,nome:u.nome||u.username||'usuário'}));}catch(e){}
@@ -10893,10 +10897,18 @@ document.querySelectorAll('#ajudaCorpo .faq').forEach(f=>{f.style.display=!q||f.
 document.querySelectorAll('#ajudaCorpo .ajuda-grp').forEach(g=>{let vis=0;let n=g.nextElementSibling;
 while(n&&n.classList&&n.classList.contains('faq')){if(n.style.display!=='none')vis++;n=n.nextElementSibling;}
 g.style.display=(!q||vis)?'':'none';});});}
-$('btnWelcomeGo').addEventListener('click',()=>{$('welcomeModal').classList.add('hidden');
-const last=ultUsu();
-if(last&&getUsu().some(u=>String(u.id||'')===String(last.id||''))){usuarioEntrou(last);return;}
-renderUserStep();$('userModal').classList.remove('hidden');});
+$('btnWelcomeGo').addEventListener('click',()=>{
+  $('welcomeModal').classList.add('hidden');
+  const us=getUsu();
+  const last=ultUsu();
+  if(last&&us.some(u=>String(u.id||'')===String(last.id||''))){usuarioEntrou(last);return;}
+  if(us.length<=1){
+    if(us.length===1)usuarioEntrou(us[0]);
+    else $('userModal').classList.add('hidden');
+    return;
+  }
+  renderUserStep();$('userModal').classList.remove('hidden');
+});
 </script>
 <div id="termosAceite" class="hidden" style="position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.74);display:flex;align-items:center;justify-content:center;padding:16px">
 <div style="max-width:520px;width:100%;max-height:86dvh;overflow:auto;background:#171411;border:1px solid rgba(var(--glow-c),.4);border-radius:16px;padding:22px 20px;box-shadow:0 30px 80px rgba(0,0,0,.6)">
