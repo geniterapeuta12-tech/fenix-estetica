@@ -1241,6 +1241,45 @@ html[data-theme="light"] .pasta-chip.active .pasta-count{background:rgba(0,0,0,.
 html[data-theme="light"] .pasta-badge{background:rgba(180,130,10,.1);color:#8d6505;border-color:rgba(180,130,10,.25)}
 html[data-theme="light"] .pasta-banner{background:#fdfcf9;border-color:var(--line,#e2e8f0);border-left-color:var(--gold,#d4af37)}
 
+
+/* R118 — 3 NOVAS FUNÇÕES EXTRAS (Apple Luxury: Voucher VIP, Stories 25, Analisador IG) */
+.voucher-card-luxury{background:linear-gradient(135deg,rgba(255,255,255,0.92) 0%,rgba(248,245,238,0.85) 100%);border:1px solid rgba(212,175,55,0.4);border-radius:22px;padding:24px;box-shadow:0 16px 40px rgba(0,0,0,0.08),inset 0 1px 0 rgba(255,255,255,0.9);backdrop-filter:blur(20px) saturate(180%);position:relative;overflow:hidden;color:#1a1a1c;margin:0 auto;max-width:520px}
+html[data-theme="dark"] .voucher-card-luxury{background:linear-gradient(135deg,rgba(32,30,26,0.92) 0%,rgba(20,19,16,0.85) 100%);border-color:rgba(212,175,55,0.35);color:#f5f5f7;box-shadow:0 16px 40px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.1)}
+.vouch-header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px dashed rgba(212,175,55,0.3);padding-bottom:12px;margin-bottom:16px}
+.vouch-brand{font-weight:700;letter-spacing:.08em;font-size:.85rem;color:var(--gold,#d4af37)}
+.vouch-tag{font-size:.65rem;font-weight:700;letter-spacing:.1em;background:rgba(212,175,55,0.15);color:var(--gold,#d4af37);padding:4px 10px;border-radius:999px}
+.vouch-para{font-size:1.05rem;margin:0 0 12px;font-weight:500}
+.vouch-benefit-box{background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.25);border-radius:14px;padding:16px;text-align:center;margin-bottom:16px}
+.vouch-benefit-label{font-size:.65rem;letter-spacing:.12em;font-weight:700;color:var(--gold,#d4af37);display:block;margin-bottom:4px}
+.vouch-benefit-title{margin:0;font-size:1.35rem;color:var(--gold,#d4af37)}
+.vouch-footer-meta{display:flex;justify-content:space-between;align-items:center;padding-top:10px;font-size:.85rem}
+.vouch-footer-meta small{display:block;font-size:.62rem;opacity:.75;letter-spacing:.06em}
+.vouch-bottom-seal{text-align:center;font-size:.68rem;opacity:.7;margin-top:14px;letter-spacing:.05em}
+
+.story-card-luxury{background:rgba(255,255,255,0.85);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:22px;box-shadow:0 12px 30px rgba(0,0,0,0.06),inset 0 1px 0 rgba(255,255,255,0.8);backdrop-filter:blur(20px) saturate(180%);transition:all .25s ease}
+html[data-theme="dark"] .story-card-luxury{background:rgba(28,26,23,0.85);border-color:rgba(255,255,255,0.1);box-shadow:0 12px 30px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.05)}
+.story-steps-box{display:flex;flex-direction:column;gap:12px}
+.story-step{background:rgba(var(--glow-c,212,175,55),0.05);border:1px solid var(--line,rgba(255,255,255,0.1));border-left:3px solid var(--gold,#d4af37);border-radius:12px;padding:12px 14px}
+.story-step-badge{font-size:.68rem;font-weight:700;letter-spacing:.05em;color:var(--gold,#d4af37);display:block;margin-bottom:4px}
+.story-step p{margin:0;font-size:.92rem;line-height:1.45}
+
+.audit-score-card{display:flex;align-items:center;gap:18px;background:rgba(var(--glow-c,212,175,55),0.06);border:1px solid var(--line,rgba(255,255,255,0.12));border-radius:18px;padding:18px}
+.audit-score-circle{width:84px;height:84px;border-radius:50%;border:4px solid var(--gold,#d4af37);display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,0.15);box-shadow:0 4px 14px rgba(var(--glow-c,212,175,55),0.25);flex-shrink:0}
+.audit-score-num{font-size:1.6rem;font-weight:800;line-height:1;color:var(--gold,#d4af37)}
+.audit-score-circle small{font-size:.62rem;opacity:.8}
+.audit-checklist{display:flex;flex-direction:column;gap:10px}
+.audit-check-item{display:flex;align-items:flex-start;gap:12px;padding:14px;background:var(--bg-card,rgba(255,255,255,0.03));border:1px solid var(--line,rgba(255,255,255,0.1));border-radius:14px;cursor:pointer;transition:all .15s ease}
+.audit-check-item:hover{background:rgba(var(--glow-c,212,175,55),0.07);border-color:var(--gold,#d4af37)}
+.audit-checkbox{width:20px;height:20px;margin-top:2px;cursor:pointer;accent-color:var(--gold,#d4af37)}
+.audit-check-text strong{display:block;font-size:.94rem}
+.audit-check-text small{display:block;color:var(--muted,#8e8e93);margin-top:3px;line-height:1.35}
+.destaque-card{background:var(--bg-card,rgba(255,255,255,0.03));border:1px solid var(--line,rgba(255,255,255,0.1));border-radius:16px;padding:16px;display:flex;flex-direction:column;justify-content:space-between}
+.destaque-header{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.destaque-icon{font-size:1.3rem}
+.destaque-roteiro ul{margin:6px 0 0;padding-left:18px;font-size:.84rem;line-height:1.45;color:var(--txt,inherit)}
+.bio-box-card{background:var(--bg-card,rgba(255,255,255,0.03));border:1px solid var(--line,rgba(255,255,255,0.1));border-radius:16px;padding:16px;display:flex;flex-direction:column;justify-content:space-between;gap:12px}
+.bio-box-text{font-size:.9rem;line-height:1.55;white-space:pre-line;background:rgba(0,0,0,0.12);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.05)}
+
 </style>
 </head>
 <body>
@@ -1978,6 +2017,9 @@ html[data-theme="light"] .pasta-banner{background:#fdfcf9;border-color:var(--lin
 <div class="fng">
 <button class="fncard" id="txtOpen" type="button"><span class="fnico">📄</span><span class="fnmeta"><b>Arquivo de texto em PDF</b><small>Escolhe um arquivo .txt e transforma em PDF bonito pra baixar</small></span><span class="fnchev">›</span></button>
 <button class="fncard" id="rolOpen" type="button"><span class="fnico">🎡</span><span class="fnmeta"><b>Roleta</b><small>Sorteio com nomes ou números, com giro animado</small></span><span class="fngo">Abrir ›</span></button>
+<button class="fncard" id="vouchOpen" type="button"><span class="fnico">🎟️</span><span class="fnmeta"><b>Vale-Presente & Voucher VIP</b><small>Gere vales elegantes com código único e envie pelo WhatsApp</small></span><span class="fngo">Abrir ›</span></button>
+<button class="fncard" id="storiesOpen" type="button"><span class="fnico">💡</span><span class="fnmeta"><b>Ideias de Stories & Engajamento</b><small>Roteiros prontos e ganchos de alta conversão para o seu Instagram</small></span><span class="fngo">Abrir ›</span></button>
+<button class="fncard" id="perfilAuditOpen" type="button"><span class="fnico">🔍</span><span class="fnmeta"><b>Analisador de Perfil do Instagram</b><small>Termômetro de conversão, gerador de bio perfeita e roteiro de destaques</small></span><span class="fngo">Abrir ›</span></button>
 </div>
 <div id="txtPdfBox" class="hidden" style="margin-top:14px">
 <div class="panelcard">
@@ -1992,6 +2034,339 @@ html[data-theme="light"] .pasta-banner{background:#fdfcf9;border-color:var(--lin
 <p class="msg" id="txtPdfMsg"></p>
 </div>
 </div>
+
+<!-- ==================== FUNÇÃO 1: VALE-PRESENTE & VOUCHER VIP ==================== -->
+<div id="vouchBox" class="hidden" style="margin-top:14px">
+  <div class="panelcard">
+    <button class="btn small ghost" id="btnVouchBack" type="button">← Voltar às funções</button>
+    <div style="display:flex;align-items:center;gap:12px;margin-top:14px;">
+      <span style="font-size:2.2rem;">🎟️</span>
+      <div>
+        <h3 style="margin:0;font-size:1.25rem;">Vale-Presente & Voucher VIP</h3>
+        <p class="sub" style="margin:2px 0 0;">Crie vales exclusivos e cartões de presente digitais para suas clientes presentearem amigas ou usarem na clínica.</p>
+      </div>
+    </div>
+    
+    <div class="grid2" style="margin-top:18px;">
+      <div>
+        <label>De (Quem presenteia) *</label>
+        <div class="field"><input id="vouchDe" type="text" placeholder="Ex.: Lucas"></div>
+      </div>
+      <div>
+        <label>Para (Presenteada) *</label>
+        <div class="field"><input id="vouchPara" type="text" placeholder="Ex.: Mariana"></div>
+      </div>
+    </div>
+
+    <div class="grid3" style="margin-top:12px;">
+      <div>
+        <label>Tipo de presente</label>
+        <select id="vouchTipo">
+          <option value="procedimento">Procedimento / Tratamento</option>
+          <option value="valor">Valor em Dinheiro (R$)</option>
+        </select>
+      </div>
+      <div>
+        <label id="lblVouchValor">Procedimento / Valor *</label>
+        <div class="field"><input id="vouchValor" type="text" placeholder="Ex.: Limpeza de Pele Profunda ou R$ 150,00"></div>
+      </div>
+      <div>
+        <label>Validade do voucher</label>
+        <input id="vouchValidade" type="date">
+      </div>
+    </div>
+
+    <div class="rowbtns" style="margin-top:14px;">
+      <button class="btn" id="btnGerarVouch" type="button" style="border-radius:9999px;">✨ Gerar Cartão de Presente</button>
+    </div>
+    <p class="msg" id="vouchMsg"></p>
+
+    <!-- Cartão Gerado (Preview de Luxo em Vidro Jateado) -->
+    <div id="vouchCardWrap" class="hidden" style="margin-top:20px;">
+      <div id="vouchCard" class="voucher-card-luxury">
+        <div class="vouch-header">
+          <div class="vouch-brand">👑 FÊNIX ESTÉTICA</div>
+          <span class="vouch-tag">VALE-PRESENTE EXCLUSIVO</span>
+        </div>
+        <div class="vouch-body">
+          <p class="vouch-para" id="vcParaTexto">Mariana, você ganhou um presente especial de Lucas!</p>
+          <div class="vouch-benefit-box">
+            <span class="vouch-benefit-label">PRESENTE CONCEDIDO</span>
+            <h2 class="vouch-benefit-title" id="vcBeneficio">Limpeza de Pele Profunda</h2>
+          </div>
+          <div class="vouch-footer-meta">
+            <div>
+              <small>CÓDIGO DE AUTENTICIDADE</small>
+              <strong id="vcCodigo">VALE-9F4A</strong>
+            </div>
+            <div style="text-align:right;">
+              <small>VÁLIDO ATÉ</small>
+              <strong id="vcValidade">10/11/2026</strong>
+            </div>
+          </div>
+        </div>
+        <div class="vouch-bottom-seal">✦ Apresente este voucher no momento do agendamento ✦</div>
+      </div>
+
+      <!-- Botões de Ação para o Voucher -->
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;justify-content:center;">
+        <button class="btn small" id="btnCopiarVouchMsg" type="button" style="border-radius:9999px;width:auto;">📋 Copiar Mensagem Pronta</button>
+        <button class="btn small" id="btnZapVouch" type="button" style="border-radius:9999px;width:auto;background:#25d366;color:#fff;border-color:transparent;">💬 Abrir no WhatsApp</button>
+      </div>
+    </div>
+
+    <!-- Histórico de Vouchers Emitidos -->
+    <div style="margin-top:28px;">
+      <div class="sec-head">
+        <div>
+          <h4 style="margin:0;">Vouchers Emitidos</h4>
+          <p class="sub" style="margin:2px 0 0;">Consulte e marque os vouchers que já foram utilizados.</p>
+        </div>
+        <button class="btn small ghost" id="btnLimparVouchers" type="button" style="width:auto;" title="Limpar vouchers utilizados">Limpar utilizados</button>
+      </div>
+      <ul class="list" id="vouchList" style="margin-top:10px;"></ul>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== FUNÇÃO 2: IDEIAS DE STORIES & ENGAJAMENTO ==================== -->
+<div id="storiesBox" class="hidden" style="margin-top:14px">
+  <div class="panelcard">
+    <button class="btn small ghost" id="btnStoriesBack" type="button">← Voltar às funções</button>
+    <div style="display:flex;align-items:center;gap:12px;margin-top:14px;">
+      <span style="font-size:2.2rem;">💡</span>
+      <div>
+        <h3 style="margin:0;font-size:1.25rem;">Ideias de Stories & Engajamento</h3>
+        <p class="sub" style="margin:2px 0 0;font-style:italic;">"Nunca mais fique sem saber o que postar hoje"</p>
+      </div>
+    </div>
+
+    <!-- Filtros de Categoria em Pílula -->
+    <div class="pastas-bar" id="storiesFiltros" style="margin-top:14px;">
+      <button type="button" class="pasta-chip active" data-sfiltro="todos">Todos</button>
+      <button type="button" class="pasta-chip" data-sfiltro="mito">Mito ou Verdade</button>
+      <button type="button" class="pasta-chip" data-sfiltro="bastidores">Bastidores da Clínica</button>
+      <button type="button" class="pasta-chip" data-sfiltro="enquete">Enquete Interativa</button>
+      <button type="button" class="pasta-chip" data-sfiltro="prova">Prova Social / Resultados</button>
+    </div>
+
+    <!-- Botão de Sorteio com Gradiente e Efeito Mola -->
+    <div style="margin-top:14px;">
+      <button class="btn" id="btnSortearStory" type="button" style="width:100%;font-size:1.05rem;padding:14px;border-radius:9999px;">
+        🎲 Sortear Nova Ideia de Post
+      </button>
+    </div>
+
+    <!-- Cartão da Ideia Sorteada -->
+    <div id="storyCard" class="story-card-luxury" style="margin-top:18px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+        <span class="badge b-gold" id="storyCategoria">Mito ou Verdade</span>
+        <small class="sub" id="storyNum">Ideia 1 de 25</small>
+      </div>
+      <h3 id="storyTema" style="margin:12px 0 16px;font-size:1.2rem;">Lavar o rosto na água quente envelhece a pele?</h3>
+      
+      <div class="story-steps-box">
+        <div class="story-step">
+          <span class="story-step-badge">Story 1 • Gancho</span>
+          <p id="storyPasso1">Abra uma enquete: "Você lava o rosto na água quente do chuveiro? Sim ou Não". Use foto sua pensativa ou no consultório.</p>
+        </div>
+        <div class="story-step">
+          <span class="story-step-badge">Story 2 • Conteúdo</span>
+          <p id="storyPasso2">Explique: "A água quente desidrata a barreira da pele e estimula o efeito rebote (mais oleosidade e poros dilatados!). Para lavar o rosto, sempre água morna ou fria!".</p>
+        </div>
+        <div class="story-step">
+          <span class="story-step-badge">Story 3 • Chamada (CTA)</span>
+          <p id="storyPasso3">Finalize: "Quer saber como recuperar o viço da sua pele neste mês? Me manda uma mensagem no direct que eu te conto o protocolo ideal para você!".</p>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;display:flex;gap:10px;justify-content:flex-end;">
+        <button class="btn small" id="btnCopiarStory" type="button" style="border-radius:9999px;width:auto;">📋 Copiar Roteiro Completo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== FUNÇÃO 3: ANALISADOR DE PERFIL DO INSTAGRAM ==================== -->
+<div id="perfilAuditBox" class="hidden" style="margin-top:14px">
+  <div class="panelcard">
+    <button class="btn small ghost" id="btnPerfilAuditBack" type="button">← Voltar às funções</button>
+    <div style="display:flex;align-items:center;gap:12px;margin-top:14px;">
+      <span style="font-size:2.2rem;">🔍</span>
+      <div>
+        <h3 style="margin:0;font-size:1.25rem;">Analisador de Perfil do Instagram</h3>
+        <p class="sub" style="margin:2px 0 0;">Audite seu perfil, descubra sua pontuação de conversão e gere bios e destaques irresistíveis.</p>
+      </div>
+    </div>
+
+    <!-- Três Abas de Navegação em Pílula -->
+    <div class="pastas-bar" id="auditAbas" style="margin-top:14px;">
+      <button type="button" class="pasta-chip active" id="tabAuditScore">Termômetro de Conversão (Score)</button>
+      <button type="button" class="pasta-chip" id="tabAuditBio">Gerador de Bio Perfeita</button>
+      <button type="button" class="pasta-chip" id="tabAuditDestaques">Roteiro dos 4 Destaques</button>
+    </div>
+
+    <!-- Aba 1: Termômetro de Conversão (Score 0 a 100) -->
+    <div id="auditPainelScore" style="margin-top:16px;">
+      <!-- Score Card com anel estilo Apple -->
+      <div class="audit-score-card">
+        <div class="audit-score-circle">
+          <span class="audit-score-num" id="auditScoreNum">0</span>
+          <small>de 100</small>
+        </div>
+        <div style="flex:1;">
+          <h4 id="auditDiagnosticoTitulo" style="margin:0 0 4px;font-size:1.15rem;">🚨 Perfil Amador</h4>
+          <p class="sub" id="auditDiagnosticoSub" style="margin:0;">Marque os itens abaixo para auditar os elementos vitais de conversão do seu perfil.</p>
+        </div>
+      </div>
+
+      <!-- Checklist de 5 Perguntas (+20 pts cada) -->
+      <div class="audit-checklist" style="margin-top:18px;">
+        <label class="audit-check-item">
+          <input type="checkbox" id="chkAudit1" class="audit-checkbox">
+          <div class="audit-check-text">
+            <strong>1. Foto de perfil nítida e profissional (+20 pts)</strong>
+            <small>É uma foto nítida do seu rosto sorrindo, com boa luz, transmitindo autoridade e acolhimento?</small>
+          </div>
+        </label>
+
+        <label class="audit-check-item">
+          <input type="checkbox" id="chkAudit2" class="audit-checkbox">
+          <div class="audit-check-text">
+            <strong>2. Nome do perfil otimizado para busca (SEO) (+20 pts)</strong>
+            <small>O campo Nome (não o @) contém sua especialidade e sua cidade ou bairro? (Ex: Dra. Ana | Estética Campinas)</small>
+          </div>
+        </label>
+
+        <label class="audit-check-item">
+          <input type="checkbox" id="chkAudit3" class="audit-checkbox">
+          <div class="audit-check-text">
+            <strong>3. Bio clara com promessa e localização (+20 pts)</strong>
+            <small>Sua bio explica em 3 segundos quem você ajuda, o método que usa e o local exato onde atende?</small>
+          </div>
+        </label>
+
+        <label class="audit-check-item">
+          <input type="checkbox" id="chkAudit4" class="audit-checkbox">
+          <div class="audit-check-text">
+            <strong>4. Link direto para o WhatsApp sem labirinto (+20 pts)</strong>
+            <small>O link abre direto uma conversa amigável de WhatsApp, sem menus lentos ou árvores de links confusas?</small>
+          </div>
+        </label>
+
+        <label class="audit-check-item">
+          <input type="checkbox" id="chkAudit5" class="audit-checkbox">
+          <div class="audit-check-text">
+            <strong>5. Destaques magnéticos organizados (+20 pts)</strong>
+            <small>Você possui pelo menos os destaques: Comece Aqui, Resultados, Espaço e Agendamentos com capas limpas?</small>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <!-- Aba 2: Gerador de Bio Perfeita -->
+    <div id="auditPainelBio" class="hidden" style="margin-top:16px;">
+      <div class="grid3">
+        <div>
+          <label>Especialidade principal *</label>
+          <div class="field"><input id="bioEsp" type="text" placeholder="Ex.: Harmonização Facial & Botox"></div>
+        </div>
+        <div>
+          <label>Cidade / Bairro *</label>
+          <div class="field"><input id="bioLocal" type="text" placeholder="Ex.: Jardins, São Paulo - SP"></div>
+        </div>
+        <div>
+          <label>Diferencial / Promessa</label>
+          <div class="field"><input id="bioDif" type="text" placeholder="Ex.: Naturalidade sem exageros"></div>
+        </div>
+      </div>
+      <div class="rowbtns" style="margin-top:12px;">
+        <button class="btn" id="btnGerarBio" type="button" style="border-radius:9999px;">✨ Gerar 3 Opções de Bio</button>
+      </div>
+
+      <div id="bioResultados" style="margin-top:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;"></div>
+    </div>
+
+    <!-- Aba 3: Roteiro dos 4 Destaques -->
+    <div id="auditPainelDestaques" class="hidden" style="margin-top:16px;">
+      <p class="sub" style="margin-bottom:14px;">Os 4 destaques que transformam visitantes do Instagram em clientes pagantes:</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;">
+        <!-- Destaque 1 -->
+        <div class="destaque-card">
+          <div class="destaque-header">
+            <span class="destaque-icon">👋</span>
+            <h4 style="margin:0;">1. Comece Aqui</h4>
+          </div>
+          <p class="sub" style="font-size:.82rem;margin:4px 0 8px;">Apresentação pessoal e propósito da clínica.</p>
+          <div class="destaque-roteiro">
+            <small><b>O que postar:</b></small>
+            <ul>
+              <li>Quem é você e sua formação/especializações.</li>
+              <li>Por que escolheu a estética e sua paixão por cuidar de pessoas.</li>
+              <li>Como é a experiência de ser atendida por você.</li>
+            </ul>
+          </div>
+          <button class="btn small ghost btn-copiar-destaque" data-d="0" type="button" style="border-radius:9999px;margin-top:12px;width:100%;">📋 Copiar Roteiro</button>
+        </div>
+
+        <!-- Destaque 2 -->
+        <div class="destaque-card">
+          <div class="destaque-header">
+            <span class="destaque-icon">✨</span>
+            <h4 style="margin:0;">2. Resultados</h4>
+          </div>
+          <p class="sub" style="font-size:.82rem;margin:4px 0 8px;">Antes e depois ético e transformações reais.</p>
+          <div class="destaque-roteiro">
+            <small><b>O que postar:</b></small>
+            <ul>
+              <li>Casos reais com foco na melhora da autoestima da cliente.</li>
+              <li>Prints de elogios e mensagens carinhosas no WhatsApp.</li>
+              <li>Explicação da queixa inicial e do resultado alcançado.</li>
+            </ul>
+          </div>
+          <button class="btn small ghost btn-copiar-destaque" data-d="1" type="button" style="border-radius:9999px;margin-top:12px;width:100%;">📋 Copiar Roteiro</button>
+        </div>
+
+        <!-- Destaque 3 -->
+        <div class="destaque-card">
+          <div class="destaque-header">
+            <span class="destaque-icon">🌿</span>
+            <h4 style="margin:0;">3. Nosso Espaço</h4>
+          </div>
+          <p class="sub" style="font-size:.82rem;margin:4px 0 8px;">Ambiente acolhedor, poltronas e biossegurança.</p>
+          <div class="destaque-roteiro">
+            <small><b>O que postar:</b></small>
+            <ul>
+              <li>Vídeo curto tipo "tour" mostrando a sala de atendimento.</li>
+              <li>Cantinho do café, aromas, música relaxante e conforto.</li>
+              <li>Cuidado com higiene, descartáveis e esterilização rigorosa.</li>
+            </ul>
+          </div>
+          <button class="btn small ghost btn-copiar-destaque" data-d="2" type="button" style="border-radius:9999px;margin-top:12px;width:100%;">📋 Copiar Roteiro</button>
+        </div>
+
+        <!-- Destaque 4 -->
+        <div class="destaque-card">
+          <div class="destaque-header">
+            <span class="destaque-icon">📅</span>
+            <h4 style="margin:0;">4. Agendamentos</h4>
+          </div>
+          <p class="sub" style="font-size:.82rem;margin:4px 0 8px;">Facilitando o agendamento sem fricção.</p>
+          <div class="destaque-roteiro">
+            <small><b>O que postar:</b></small>
+            <ul>
+              <li>Como funciona a consulta de avaliação personalizada.</li>
+              <li>Horários de atendimento e formas de pagamento aceitas.</li>
+              <li>Adesivo com link direto para o WhatsApp da clínica.</li>
+            </ul>
+          </div>
+          <button class="btn small ghost btn-copiar-destaque" data-d="3" type="button" style="border-radius:9999px;margin-top:12px;width:100%;">📋 Copiar Roteiro</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <p class="sub" style="margin-top:16px">✦ Novas funções entram aqui em breve.</p>
 </section>
 
@@ -4795,9 +5170,603 @@ const P2=getPkg();const pp=P2.find(x=>x.id===p.id);pp.valor=Math.round(((Number(
 $('pacSValor').value='';$('pacSObs').value='';
 renderPacote();renderCliente();renderStats();
 msg($('pacSMsg'),'✔ Sessão '+n+' adicionada: +'+fmtBRL(v)+' — pacote agora vale '+fmtBRL(pp.valor)+' (entrou como a receber).','ok');});
-/* R87 — TEXTO EM PDF (funções extras) */
-$('txtOpen').addEventListener('click',()=>{$('txtPdfBox').classList.remove('hidden');$('txtPdfIn').focus();});
-$('btnTxtBack').addEventListener('click',()=>{$('txtPdfBox').classList.add('hidden');});
+/* ==================== R118 — AS 3 NOVAS FUNÇÕES EXTRAS ==================== */
+function fecharTodasBoxesExtras(){
+  ['txtPdfBox','vouchBox','storiesBox','perfilAuditBox'].forEach(id=>{
+    const el=$(id);if(el)el.classList.add('hidden');
+  });
+  const fng=$('viewExtras')?.querySelector('.fng');
+  if(fng)fng.classList.remove('hidden');
+}
+
+function abrirBoxExtra(boxId){
+  fecharTodasBoxesExtras();
+  const fng=$('viewExtras')?.querySelector('.fng');
+  if(fng)fng.classList.add('hidden');
+  const box=$(boxId);
+  if(box){
+    box.classList.remove('hidden');
+    box.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+}
+
+// 1. Navegação das funções extras
+$('txtOpen').addEventListener('click',()=>{abrirBoxExtra('txtPdfBox');$('txtPdfIn')?.focus();});
+$('btnTxtBack').addEventListener('click',fecharTodasBoxesExtras);
+
+$('vouchOpen').addEventListener('click',()=>{abrirBoxExtra('vouchBox');renderVouchers();});
+$('btnVouchBack').addEventListener('click',fecharTodasBoxesExtras);
+
+$('storiesOpen').addEventListener('click',()=>{abrirBoxExtra('storiesBox');sortearStory();});
+$('btnStoriesBack').addEventListener('click',fecharTodasBoxesExtras);
+
+$('perfilAuditOpen').addEventListener('click',()=>{abrirBoxExtra('perfilAuditBox');recalcularAuditScore();});
+$('btnPerfilAuditBack').addEventListener('click',fecharTodasBoxesExtras);
+
+/* ---------- FUNÇÃO 1: VALE-PRESENTE & VOUCHER VIP ---------- */
+function getVouchers(){
+  try{return JSON.parse(localStorage.getItem('fenix_vouchers')||'[]');}catch(e){return [];}
+}
+function setVouchers(l){
+  try{localStorage.setItem('fenix_vouchers',JSON.stringify(l));}catch(e){}
+}
+
+// Data de validade padrão: 30 dias a partir de hoje
+(function initVouchData(){
+  const d=new Date();
+  d.setDate(d.getDate()+30);
+  const valEl=$('vouchValidade');
+  if(valEl)valEl.value=d.toISOString().split('T')[0];
+})();
+
+$('vouchTipo').addEventListener('change',e=>{
+  const lbl=$('lblVouchValor');
+  const inp=$('vouchValor');
+  if(!lbl||!inp)return;
+  if(e.target.value==='valor'){
+    lbl.textContent='Valor em Dinheiro (R$) *';
+    inp.placeholder='Ex.: 150,00';
+  } else {
+    lbl.textContent='Procedimento / Tratamento *';
+    inp.placeholder='Ex.: Limpeza de Pele Profunda';
+  }
+});
+
+let ULTIMO_VOUCHER=null;
+
+$('btnGerarVouch').addEventListener('click',()=>{
+  const de=$('vouchDe').value.trim();
+  const para=$('vouchPara').value.trim();
+  const tipo=$('vouchTipo').value;
+  const valRaw=$('vouchValor').value.trim();
+  const valData=$('vouchValidade').value;
+
+  if(!de)return msg($('vouchMsg'),'Informe quem está presenteando.','err');
+  if(!para)return msg($('vouchMsg'),'Informe a pessoa presenteada.','err');
+  if(!valRaw)return msg($('vouchMsg'),'Informe o procedimento ou o valor do presente.','err');
+
+  let beneficio=valRaw;
+  if(tipo==='valor'){
+    const n=parseMoney(valRaw);
+    beneficio=isFinite(n)&&n>0?fmtBRL(n):valRaw;
+  }
+
+  let dtVal='30 dias';
+  if(valData){
+    const pts=valData.split('-');
+    if(pts.length===3)dtVal=pts[2]+'/'+pts[1]+'/'+pts[0];
+  }
+
+  const codigo='VALE-'+Math.random().toString(36).substring(2,6).toUpperCase();
+  const voucher={
+    id:uid(),
+    codigo,
+    de,
+    para,
+    tipo,
+    beneficio,
+    validade:dtVal,
+    criadoEm:new Date().toLocaleDateString('pt-BR'),
+    utilizado:false
+  };
+
+  const list=getVouchers();
+  list.unshift(voucher);
+  setVouchers(list);
+  ULTIMO_VOUCHER=voucher;
+
+  // Atualiza cartão visual
+  $('vcParaTexto').textContent=para+', você ganhou um presente especial de '+de+'!';
+  $('vcBeneficio').textContent=beneficio;
+  $('vcCodigo').textContent=codigo;
+  $('vcValidade').textContent=dtVal;
+  $('vouchCardWrap').classList.remove('hidden');
+
+  renderVouchers();
+  msg($('vouchMsg'),'✨ Vale-Presente '+codigo+' gerado com sucesso!','ok');
+  $('vouchCardWrap').scrollIntoView({behavior:'smooth',block:'center'});
+});
+
+function geraTextoVoucher(v){
+  return '🎁 *VALE-PRESENTE EXCLUSIVO — FÊNIX ESTÉTICA*\n\n' +
+    'Olá *' + v.para + '*! Você ganhou um presente muito especial de *' + v.de + '*!\n\n' +
+    '✨ *Presente:* ' + v.beneficio + '\n' +
+    '🎟️ *Código do Voucher:* ' + v.codigo + '\n' +
+    '📅 *Válido até:* ' + v.validade + '\n\n' +
+    '✦ _Apresente este código no agendamento para resgatar sua experiência exclusiva._\n\n' +
+    '📲 Entre em contato conosco para agendar seu horário!';
+}
+
+$('btnCopiarVouchMsg').addEventListener('click',()=>{
+  if(!ULTIMO_VOUCHER)return;
+  const txt=geraTextoVoucher(ULTIMO_VOUCHER);
+  navigator.clipboard.writeText(txt).then(()=>{
+    toast('📋 Mensagem pronta do Vale-Presente copiada!');
+  }).catch(()=>{
+    toast('Mensagem selecionada para envio.');
+  });
+});
+
+$('btnZapVouch').addEventListener('click',()=>{
+  if(!ULTIMO_VOUCHER)return;
+  const txt=geraTextoVoucher(ULTIMO_VOUCHER);
+  window.open('https://api.whatsapp.com/send?text='+encodeURIComponent(txt),'_blank');
+});
+
+function renderVouchers(){
+  const ul=$('vouchList');if(!ul)return;
+  const list=getVouchers();
+  if(!list.length){
+    ul.innerHTML='<li class="empty">Nenhum vale-presente emitido ainda.</li>';
+    return;
+  }
+  ul.innerHTML=list.map(v=>
+    '<li class="client">'+
+    '<span class="avatar">'+(v.utilizado?'✓':'🎟️')+'</span>'+
+    '<div class="cinfo">'+
+    '<strong>'+esc(v.codigo)+' · '+esc(v.para)+'<small style="margin-left:6px;font-weight:normal;">de '+esc(v.de)+'</small></strong>'+
+    '<small>'+esc(v.beneficio)+' · Validade: '+esc(v.validade)+' · Gerado em: '+esc(v.criadoEm)+'</small>'+
+    '</div>'+
+    '<div style="display:flex;gap:6px;align-items:center;">'+
+    (v.utilizado?
+      '<span class="badge b-green">✓ Utilizado</span>'+
+      '<button class="btn small ghost btn-vouch-toggle" data-id="'+v.id+'" style="width:auto;font-size:.72rem;" title="Marcar como em aberto">Desmarcar</button>'
+      :
+      '<span class="badge b-gold">⏳ Disponível</span>'+
+      '<button class="btn small btn-vouch-toggle" data-id="'+v.id+'" style="width:auto;font-size:.72rem;" title="Marcar como utilizado">✓ Utilizar</button>'
+    )+
+    '<button class="iconbtn del btn-vouch-del" data-id="'+v.id+'" title="Excluir voucher"><svg class="ic"><use href="#i-trash"/></svg></button>'+
+    '</div>'+
+    '</li>'
+  ).join('');
+}
+
+$('vouchList').addEventListener('click',e=>{
+  const bToggle=e.target.closest('.btn-vouch-toggle');
+  if(bToggle){
+    const id=bToggle.dataset.id;
+    const list=getVouchers();
+    const item=list.find(x=>x.id===id);
+    if(item){
+      item.utilizado=!item.utilizado;
+      setVouchers(list);
+      renderVouchers();
+      toast(item.utilizado?'Voucher marcado como utilizado!':'Voucher reaberto como disponível.');
+    }
+    return;
+  }
+  const bDel=e.target.closest('.btn-vouch-del');
+  if(bDel){
+    armDelete(bDel,()=>{
+      const id=bDel.dataset.id;
+      setVouchers(getVouchers().filter(x=>x.id!==id));
+      renderVouchers();
+      toast('Voucher excluído.');
+    });
+  }
+});
+
+$('btnLimparVouchers').addEventListener('click',()=>{
+  const list=getVouchers();
+  const pendentes=list.filter(x=>!x.utilizado);
+  if(list.length===pendentes.length)return toast('Nenhum voucher utilizado para limpar.');
+  setVouchers(pendentes);
+  renderVouchers();
+  toast('Vouchers utilizados removidos do histórico.');
+});
+
+/* ---------- FUNÇÃO 2: IDEIAS DE STORIES & ENGAJAMENTO (25 GANCHOS) ---------- */
+const BANCO_STORIES=[
+  {
+    cat:'mito',catNome:'Mito ou Verdade',
+    tema:'Lavar o rosto na água quente envelhece a pele?',
+    p1:'Abra uma enquete: "Você lava o rosto na água quente do chuveiro? Sim ou Não". Use foto sua pensativa ou no consultório.',
+    p2:'Explique: "A água quente desidrata a barreira da pele e estimula o efeito rebote (mais oleosidade e poros dilatados!). Para lavar o rosto, sempre água morna ou fria!".',
+    p3:'Finalize: "Quer saber como recuperar o viço da sua pele neste mês? Me manda uma mensagem no direct que eu te conto o protocolo ideal para você!".'
+  },
+  {
+    cat:'mito',catNome:'Mito ou Verdade',
+    tema:'Pele oleosa não precisa de hidratante?',
+    p1:'Enquete: "Quem tem pele oleosa DEVE hidratar? Sim ou Não?". Coloque uma caixinha de perguntas.',
+    p2:'Vídeo curto: "Pelo contrário! Quando você não hidrata, sua pele entende que está seca e produz MAIS sebo ainda. O segredo é o hidratante em gel com ácido hialurônico!".',
+    p3:'CTA: "Se sua pele vive brilhando no meio da tarde, responda EU QUERO aqui que vou te indicar o skincare certo!".'
+  },
+  {
+    cat:'mito',catNome:'Mito ou Verdade',
+    tema:'Protetor solar dentro de casa ou em dia nublado é frescura?',
+    p1:'Foto com protetor na mão: "Você usa protetor mesmo em dias chuvosos ou dentro do escritório? Vote: Sempre x Só no sol".',
+    p2:'Texto explicativo: "Os raios UVA atravessam vidros e a luz azul do celular/computador estimula manchas de melasma e envelhecimento precoce!".',
+    p3:'CTA: "Agende sua limpeza profunda e saia daqui com a barreira cutânea 100% blindada e protegida!".'
+  },
+  {
+    cat:'mito',catNome:'Mito ou Verdade',
+    tema:'Botox deixa o rosto congelado e sem expressão?',
+    p1:'Enquete: "Você tem medo de fazer botox e ficar sem expressão? Tenho medo x Amo o efeito".',
+    p2:'Explique: "Isso acontecia nos anos 90! Hoje a técnica é de naturalidade e micro-doses: suaviza as rugas bravas sem tirar o seu sorriso natural!".',
+    p3:'CTA: "Restam apenas 3 vagas de avaliação para esta semana. Clique no link da bio e garanta o seu horário!".'
+  },
+  {
+    cat:'mito',catNome:'Mito ou Verdade',
+    tema:'Dormir de maquiagem envelhece 7 dias em uma única noite?',
+    p1:'Foto com algodão demaquilante: "Quem nunca teve preguiça de tirar a make antes de dormir? Vote: Me confesso x Nunca durmo maquiada".',
+    p2:'Explique: "Os resíduos obstruem os poros, impedem a renovação celular noturna e aceleram o surgimento de linhas finas e cravos inflamatórios!".',
+    p3:'CTA: "Que tal começar a semana com uma limpeza de pele detox completa? Me chama no WhatsApp pelo link!".'
+  },
+  {
+    cat:'mito',catNome:'Mito ou Verdade',
+    tema:'Esfoliar o rosto todos os dias limpa mais a pele?',
+    p1:'Enquete: "Quantas vezes por semana você esfolia o rosto? Todos os dias x 1 a 2 vezes".',
+    p2:'Vídeo/Texto: "Esfoliar diariamente causa microfissuras na pele e destrói o manto lipídico! O ideal é no máximo 1x por semana ou apenas em consultório com peeling enzimático".',
+    p3:'CTA: "Quer uma renovação celular profunda e segura? Conheça nosso peeling de diamante. Link na bio!".'
+  },
+  {
+    cat:'mito',catNome:'Mito ou Verdade',
+    tema:'Beber muita água sozinha elimina celulite?',
+    p1:'Enquete: "Você bate sua meta diária de água? Com certeza x Sempre esqueço".',
+    p2:'Explique: "A água ajuda muito a desinchar, mas a celulite tem componente inflamatório e de retenção linfática profunda. A massagem modeladora e drenagem aceleram 5x mais!".',
+    p3:'CTA: "Quer desinchar e reduzir medidas para o final de semana? Agende sua massagem drenante pelo WhatsApp!".'
+  },
+  {
+    cat:'bastidores',catNome:'Bastidores da Clínica',
+    tema:'Como eu higienizo e esterilizo cada instrumento antes do seu atendimento',
+    p1:'Foto em close da autoclave ou das embalagens cirúrgicas seladas com o indicador biológico.',
+    p2:'Vídeo mostrando o processo: limpeza enzimática, secagem, selagem e esterilização a 134°C. "Sua segurança e biossegurança são inegociáveis aqui".',
+    p3:'CTA: "Cuidado e carinho em cada detalhe. Toque no link da bio para viver essa experiência!".'
+  },
+  {
+    cat:'bastidores',catNome:'Bastidores da Clínica',
+    tema:'Tour pela sala: por que escolhi essa iluminação e música para relaxar você',
+    p1:'Vídeo curto mostrando a poltrona macia, a luz indireta e a musiquinha relaxante de fundo.',
+    p2:'Áudio acolhedor: "Minha missão não é só cuidar da sua pele, mas oferecer 1 hora de paz para desligar a mente da rotina corrida".',
+    p3:'CTA: "Você merece esse momento só seu hoje. Mande uma mensagem para ver os horários disponíveis!".'
+  },
+  {
+    cat:'bastidores',catNome:'Bastidores da Clínica',
+    tema:'Chegaram os ativos premium que vamos usar este mês',
+    p1:'Foto abrindo caixa com novos frascos lacrados de cosméticos de alta tecnologia.',
+    p2:'Explicação do ativo: "Esse sérum tem peptídeos que estimulam 3x mais colágeno. Nossas clientes deste mês vão sair brilhando!".',
+    p3:'CTA: "Quer ser uma das primeiras a experimentar essa novidade? Chame agora no direct!".'
+  },
+  {
+    cat:'bastidores',catNome:'Bastidores da Clínica',
+    tema:'O que eu levo na minha bolsa para cuidar da minha própria pele',
+    p1:'Foto dos 3 itens indispensáveis: protetor com cor, hidratante labial e água termal.',
+    p2:'Explique por que escolheu cada um e como eles salvam sua pele ao longo do dia.',
+    p3:'CTA: "E você, qual produto não sai da sua bolsa de jeito nenhum? Me conta na caixinha abaixo!".'
+  },
+  {
+    cat:'bastidores',catNome:'Bastidores da Clínica',
+    tema:'Minha rotina matinal antes de abrir a clínica para o primeiro horário',
+    p1:'Foto do cafezinho e do cronograma do dia na bancada.',
+    p2:'Texto: "Organizando a ficha de cada cliente do dia, preparando os ativos sob medida para cada tipo de pele. Amo essa rotina!".',
+    p3:'CTA: "Sua pele já está no meu cronograma desta semana? Toque no link da bio e venha se cuidar!".'
+  },
+  {
+    cat:'bastidores',catNome:'Bastidores da Clínica',
+    tema:'Como monto o protocolo personalizado exclusivo de cada cliente',
+    p1:'Foto analisando uma ficha de anamnese com a lupa/luz especial.',
+    p2:'Explicação: "Nenhuma pele é igual. Aqui não fazemos receita de bolo: analisamos sensibilidade, rotina e histórico antes de tocar no seu rosto".',
+    p3:'CTA: "Quer uma avaliação individualizada para a sua pele? Clique no link e agende hoje!".'
+  },
+  {
+    cat:'enquete',catNome:'Enquete Interativa',
+    tema:'O que mais te incomoda hoje na sua pele: manchas ou cravinhos?',
+    p1:'Adesivo de enquete: "O que mais te incomoda hoje? [Manchas/Melasma] ou [Cravos e Oleosidade]".',
+    p2:'Mostre como a clínica trata a opção mais votada: "Para manchas, o segredo é renovação celular sem agredir; para cravos, limpeza de pele ultrassônica indolor!".',
+    p3:'CTA: "Responda à enquete e ganhe uma avaliação facial personalizada no WhatsApp!".'
+  },
+  {
+    cat:'enquete',catNome:'Enquete Interativa',
+    tema:'Você usa protetor solar todos os dias religiosamente?',
+    p1:'Enquete divertida: "Nível de compromisso com o protetor: [Passo até no escuro] x [Passo só quando lembro]".',
+    p2:'Texto: "Se você marcou a segunda opção, não se sinta culpada! Mas sabia que 80% do envelhecimento precoce vem do sol? Vamos criar esse hábito juntas!".',
+    p3:'CTA: "Quer descobrir o protetor ideal que não escorre nem arde os olhos? Manda uma mensagem!".'
+  },
+  {
+    cat:'enquete',catNome:'Enquete Interativa',
+    tema:'Qual sensação você mais ama pós-sessão?',
+    p1:'Enquete: "Qual sensação pós-estética é melhor? [Pele lisinha de seda] x [Rosto relaxado sem tensão]".',
+    p2:'Vídeo/foto sua: "E o melhor de tudo é que no nosso protocolo nós entregamos as duas coisas juntas!".',
+    p3:'CTA: "Venha sentir essa leveza. Restam poucas vagas para sábado, reserve a sua!".'
+  },
+  {
+    cat:'enquete',catNome:'Enquete Interativa',
+    tema:'Se pudesse escolher um procedimento para fazer hoje mesmo, qual seria?',
+    p1:'Enquete de 4 opções: "Seu desejo de hoje: [Limpeza de pele profunda] [Massagem relaxante] [Peeling renovador] [Glow facial]".',
+    p2:'Comente as opções mais votadas mostrando os benefícios imediatos de cada uma.',
+    p3:'CTA: "Qualquer que seja a sua escolha, temos o protocolo perfeito para você. Link na bio!".'
+  },
+  {
+    cat:'enquete',catNome:'Enquete Interativa',
+    tema:'Com que frequência você faz limpeza de pele profissional?',
+    p1:'Enquete: "Frequência da sua limpeza de pele: [Todo mês certinho] x [Só quando a pele pede socorro]".',
+    p2:'Texto: "O ciclo natural da pele é de 28 a 30 dias. É o tempo que as células mortas acumulam. Manter a frequência mensal é o segredo de uma pele sem poros dilatados!".',
+    p3:'CTA: "Faz mais de 30 dias desde a sua última sessão? Toque no link e renove sua pele!".'
+  },
+  {
+    cat:'enquete',catNome:'Enquete Interativa',
+    tema:'Tratamentos corporais: gordura localizada ou flacidez?',
+    p1:'Enquete: "Seu foco corporal hoje: [Reduzir medidas na cintura] x [Tonificar e firmar a pele]".',
+    p2:'Explicação do protocolo combinado: "Unimos massagem modeladora com ativos firmadores para atacar as duas queixas ao mesmo tempo!".',
+    p3:'CTA: "Descubra nosso pacote corporal com condições especiais para este mês. Chame no direct!".'
+  },
+  {
+    cat:'prova',catNome:'Prova Social / Resultados',
+    tema:'A transformação da Mariana: recuperando o viço em 4 semanas',
+    p1:'Story com depoimento/print autorizado: "Dra, minha pele nunca esteve tão macia!".',
+    p2:'Explique o passo a passo ético do que foi feito: 1 sessão de limpeza detox + protocolo de hidratação profunda + ajuste no sabonete em casa.',
+    p3:'CTA: "Quer ter o mesmo resultado e transformar sua autoestima? Clique no link e fale comigo!".'
+  },
+  {
+    cat:'prova',catNome:'Prova Social / Resultados',
+    tema:'Print de WhatsApp: "Meu marido reparou no brilho da minha pele!"',
+    p1:'Print do WhatsApp com o elogio da cliente (tampando o nome para privacidade).',
+    p2:'Comentário: "Não tem preço que pague receber uma mensagem dessa numa segunda-feira de manhã. Esse é o poder de cuidar de si!".',
+    p3:'CTA: "Você também merece se olhar no espelho e amar o que vê. Agende seu horário!".'
+  },
+  {
+    cat:'prova',catNome:'Prova Social / Resultados',
+    tema:'O segredo de uma pele luminosa e sem poros abertos',
+    p1:'Foto em macro mostrando o aspecto de viço natural pós-atendimento.',
+    p2:'Explicação: "Esse brilho não é oleosidade — é hidratação profunda e barreira restaurada com nossos ativos biomiméticos!".',
+    p3:'CTA: "Venha conquistar seu glow natural. Link de agendamento na bio!".'
+  },
+  {
+    cat:'prova',catNome:'Prova Social / Resultados',
+    tema:'Cliente que tinha medo de sentir dor e amou a sessão',
+    p1:'Texto: "Quantas pessoas deixam de fazer limpeza de pele porque acham que vai doer ou marcar o rosto?".',
+    p2:'Print/áudio de cliente: "Nem senti a extração, cheguei a cochilar na maca!". Explique o emoliente térmico suave.',
+    p3:'CTA: "Limpeza de pele acolhedora e sem sofrimento. Clique no link e comprove!".'
+  },
+  {
+    cat:'prova',catNome:'Prova Social / Resultados',
+    tema:'Resultado de apenas 1 sessão de massagem drenante modeladora',
+    p1:'Foto das pernas/cintura mais definidas e sem retenção de líquido pós-atendimento.',
+    p2:'Explique como a estimulação dos gânglios linfáticos elimina toxinas e traz leveza imediata para o corpo.',
+    p3:'CTA: "Sinta seu corpo leve e desinchado hoje mesmo. Agende sua sessão pelo link!".'
+  },
+  {
+    cat:'prova',catNome:'Prova Social / Resultados',
+    tema:'Como 1 hora de autocuidado mudou a semana pesada da nossa cliente',
+    p1:'Foto da xícara de chá e da cliente relaxada na maca com manta quentinha.',
+    p2:'Relato: "Ela chegou tensa de um dia difícil de trabalho e saiu com as energias renovadas e sorriso leve. Estética é saúde mental!".',
+    p3:'CTA: "Permita-se essa pausa. Reserve seu horário desta semana pelo WhatsApp!".'
+  }
+];
+
+let storyFiltroAtivo='todos';
+let ULTIMO_STORY=null;
+
+function sortearStory(){
+  let lista=BANCO_STORIES;
+  if(storyFiltroAtivo!=='todos'){
+    lista=BANCO_STORIES.filter(x=>x.cat===storyFiltroAtivo);
+  }
+  if(!lista.length)lista=BANCO_STORIES;
+  const item=lista[Math.floor(Math.random()*lista.length)];
+  ULTIMO_STORY=item;
+
+  $('storyCategoria').textContent=item.catNome;
+  $('storyNum').textContent='Ideia '+(BANCO_STORIES.indexOf(item)+1)+' de '+BANCO_STORIES.length;
+  $('storyTema').textContent=item.tema;
+  $('storyPasso1').textContent=item.p1;
+  $('storyPasso2').textContent=item.p2;
+  $('storyPasso3').textContent=item.p3;
+
+  const card=$('storyCard');
+  if(card){
+    card.style.transform='scale(0.97)';
+    setTimeout(()=>card.style.transform='scale(1)',150);
+  }
+}
+
+$('storiesFiltros').addEventListener('click',e=>{
+  const b=e.target.closest('[data-sfiltro]');
+  if(!b)return;
+  storyFiltroAtivo=b.dataset.sfiltro;
+  $('storiesFiltros').querySelectorAll('.pasta-chip').forEach(c=>c.classList.toggle('active',c===b));
+  sortearStory();
+});
+
+$('btnSortearStory').addEventListener('click',sortearStory);
+
+$('btnCopiarStory').addEventListener('click',()=>{
+  if(!ULTIMO_STORY)return;
+  const txt='💡 *ROTEIRO DE STORIES — FÊNIX ESTÉTICA*\n' +
+    'Tema: *' + ULTIMO_STORY.tema + '* (' + ULTIMO_STORY.catNome + ')\n\n' +
+    '📱 *Story 1 (Gancho / Enquete):*\n' + ULTIMO_STORY.p1 + '\n\n' +
+    '📱 *Story 2 (Conteúdo & Explicação):*\n' + ULTIMO_STORY.p2 + '\n\n' +
+    '📱 *Story 3 (Chamada para Ação / CTA):*\n' + ULTIMO_STORY.p3;
+  navigator.clipboard.writeText(txt).then(()=>{
+    toast('📋 Roteiro de Stories completo copiado!');
+  }).catch(()=>{
+    toast('Roteiro pronto!');
+  });
+});
+
+/* ---------- FUNÇÃO 3: ANALISADOR DE PERFIL DO INSTAGRAM ---------- */
+function initAuditAbas(){
+  const abas=[
+    {btn:'tabAuditScore',panel:'auditPainelScore'},
+    {btn:'tabAuditBio',panel:'auditPainelBio'},
+    {btn:'tabAuditDestaques',panel:'auditPainelDestaques'}
+  ];
+  abas.forEach(a=>{
+    $(a.btn)?.addEventListener('click',()=>{
+      abas.forEach(x=>{
+        $(x.btn)?.classList.toggle('active',x===a);
+        $(x.panel)?.classList.toggle('hidden',x!==a);
+      });
+    });
+  });
+}
+initAuditAbas();
+
+function getAuditChecks(){
+  try{return JSON.parse(localStorage.getItem('fenix_audit_ig')||'[]');}catch(e){return [];}
+}
+function setAuditChecks(arr){
+  try{localStorage.setItem('fenix_audit_ig',JSON.stringify(arr));}catch(e){}
+}
+
+function recalcularAuditScore(){
+  const saved=getAuditChecks();
+  let pts=0;
+  for(let i=1;i<=5;i++){
+    const chk=$('chkAudit'+i);
+    if(chk){
+      chk.checked=saved.includes(i);
+      if(chk.checked)pts+=20;
+    }
+  }
+  $('auditScoreNum').textContent=pts;
+  const tit=$('auditDiagnosticoTitulo');
+  const sub=$('auditDiagnosticoSub');
+  if(pts<=40){
+    tit.textContent='🚨 Perfil Amador (Score '+pts+'/100)';
+    tit.style.color='#ff6b6b';
+    sub.textContent='Você está perdendo clientes diariamente. Pequenos ajustes na foto, no nome e no link direto para o WhatsApp vão começar a converter visitas em vendas.';
+  } else if(pts<=80){
+    tit.textContent='⚠️ Perfil em Evolução (Score '+pts+'/100)';
+    tit.style.color='var(--gold,#d4af37)';
+    sub.textContent='Quase lá! Seu perfil já transmite autoridade, mas refinar sua bio com uma promessa clara e os 4 destaques magnéticos vai dobrar seus agendamentos.';
+  } else {
+    tit.textContent='💎 Perfil Magnético (Score 100/100)';
+    tit.style.color='#4cd964';
+    sub.textContent='Vitrine impecável! Sua foto, SEO, promessa, link direto e destaques estão calibrados no mais alto padrão para atrair clientes pagantes todos os dias.';
+  }
+}
+
+for(let i=1;i<=5;i++){
+  $('chkAudit'+i)?.addEventListener('change',()=>{
+    const checked=[];
+    for(let j=1;j<=5;j++){
+      if($('chkAudit'+j)?.checked)checked.push(j);
+    }
+    setAuditChecks(checked);
+    recalcularAuditScore();
+  });
+}
+
+// Gerador de Bio
+$('btnGerarBio').addEventListener('click',()=>{
+  const esp=$('bioEsp').value.trim()||'Estética Avançada';
+  const local=$('bioLocal').value.trim()||'Sua Cidade';
+  const dif=$('bioDif').value.trim()||'Realçando sua beleza com naturalidade';
+
+  const op1 = '✨ Realçando sua melhor versão com naturalidade\n' +
+    '👩‍⚕️ Especialista em ' + esp + '\n' +
+    '📍 Atendimento exclusivo em ' + local + '\n' +
+    '💎 ' + dif + '\n' +
+    '👇 Agende sua avaliação personalizada:';
+
+  const op2 = '💖 Cuidando da sua pele e da sua autoestima\n' +
+    '🌿 ' + esp + ' • ' + dif + '\n' +
+    '📍 Clínica acolhedora em ' + local + '\n' +
+    '📅 Vagas limitadas para este mês\n' +
+    '👇 Toque no link e fale comigo no WhatsApp:';
+
+  const op3 = esp + ' | ' + local + '\n' +
+    '✦ ' + dif + '\n' +
+    '✦ Protocolos individuais de alta performance\n' +
+    '✦ Biossegurança rigorosa e conforto\n' +
+    '📲 Clique abaixo para agendar seu horário:';
+
+  const bios=[
+    {tit:'Modelo 1 • Autoridade & Sofisticação',txt:op1},
+    {tit:'Modelo 2 • Conexão & Autoestima',txt:op2},
+    {tit:'Modelo 3 • Minimalista & Direto ao Ponto',txt:op3}
+  ];
+
+  $('bioResultados').innerHTML=bios.map((b,idx)=>
+    '<div class="bio-box-card">'+
+    '<div><strong style="display:block;margin-bottom:8px;font-size:.95rem;">'+b.tit+'</strong>'+
+    '<div class="bio-box-text" id="bioTxt'+idx+'">'+esc(b.txt)+'</div></div>'+
+    '<button class="btn small btn-copiar-bio" data-idx="'+idx+'" type="button" style="border-radius:9999px;">📋 Copiar Bio</button>'+
+    '</div>'
+  ).join('');
+
+  // Armazena textos brutos para cópia exata com quebras
+  window._biosGeradas=bios.map(x=>x.txt);
+  $('bioResultados').scrollIntoView({behavior:'smooth',block:'nearest'});
+});
+
+$('auditPainelBio').addEventListener('click',e=>{
+  const b=e.target.closest('.btn-copiar-bio');
+  if(!b)return;
+  const idx=Number(b.dataset.idx);
+  const txt=(window._biosGeradas&&window._biosGeradas[idx])||'';
+  if(txt){
+    navigator.clipboard.writeText(txt).then(()=>{
+      toast('📋 Biografia copiada com sucesso!');
+    }).catch(()=>{
+      toast('Bio pronta!');
+    });
+  }
+});
+
+// Copiar Roteiros dos Destaques
+const ROTEIROS_DESTAQUES=[
+  '👋 ROTEIRO DO DESTAQUE 1: "COMECE AQUI"\n\n' +
+  '• Story 1: Foto ou vídeo seu sorrindo com legenda: "Prazer, sou a [Seu Nome]! Seja muito bem-vinda ao meu espaço!".\n' +
+  '• Story 2: Fale brevemente sobre sua formação, anos de experiência e sua especialidade principal.\n' +
+  '• Story 3: Conte o porquê escolheu a estética: "Minha missão é devolver a segurança de você se olhar no espelho sem maquiagem e amar o que vê".\n' +
+  '• Story 4: Vídeo rápido mostrando como é acolhedora a experiência na clínica.\n' +
+  '• Story 5: "Pronta para viver essa transformação? Me chame no WhatsApp pelo link!".',
+
+  '✨ ROTEIRO DO DESTAQUE 2: "RESULTADOS"\n\n' +
+  '• Story 1: Capa do destaque com frase: "Transformações reais de peles e autoestimas".\n' +
+  '• Story 2 a 5: Fotos de antes e depois éticos com iluminação igual, explicando qual era a queixa e como foi solucionada.\n' +
+  '• Story 6 a 8: Prints de WhatsApp de clientes elogiando a pele ou a massagem.\n' +
+  '• Story 9: "Quer ser nossa próxima transformação? Agende sua avaliação pelo link!".',
+
+  '🌿 ROTEIRO DO DESTAQUE 3: "NOSSO ESPAÇO"\n\n' +
+  '• Story 1: Tour em vídeo curto com música suave mostrando a porta de entrada, recepção e poltrona/maca.\n' +
+  '• Story 2: Detalhes do cantinho do café, aromatizador e água fresca para receber a cliente.\n' +
+  '• Story 3: Foco em biossegurança: autoclave, materiais descartáveis abertos na frente da cliente e higiene impecável.\n' +
+  '• Story 4: "Um refúgio no meio da sua rotina corrida. Venha relaxar com a gente!".',
+
+  '📅 ROTEIRO DO DESTAQUE 4: "AGENDAMENTOS"\n\n' +
+  '• Story 1: "Como funciona para ser atendida aqui: do primeiro contato ao pós-procedimento".\n' +
+  '• Story 2: Explique a avaliação inicial: analisamos sua pele com cuidado para definir o protocolo certo.\n' +
+  '• Story 3: Formas de pagamento aceitas (Pix, Cartão, Parcelamento) e horários de atendimento.\n' +
+  '• Story 4: Adesivo de link direto: "Toque aqui para falar diretamente no meu WhatsApp e reservar seu horário!".'
+];
+
+$('auditPainelDestaques').addEventListener('click',e=>{
+  const b=e.target.closest('.btn-copiar-destaque');
+  if(!b)return;
+  const idx=Number(b.dataset.d);
+  const txt=ROTEIROS_DESTAQUES[idx]||'';
+  if(txt){
+    navigator.clipboard.writeText(txt).then(()=>{
+      toast('📋 Roteiro do destaque copiado!');
+    }).catch(()=>{
+      toast('Roteiro copiado!');
+    });
+  }
+});
+
 $('btnTxtArq').addEventListener('click',()=>{$('txtPdfArq').click();});
 $('txtPdfArq').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;
 const rd=new FileReader();rd.onload=()=>{$('txtPdfIn').value=String(rd.result||'');if(!$('txtPdfTi').value.trim())$('txtPdfTi').value=f.name.replace(/\.[^.]*$/,'');$('txtPdfNome').textContent='📄 '+f.name+' ('+Math.max(1,Math.round(f.size/1024))+' KB)';msg($('txtPdfMsg'),'✔ Arquivo carregado — agora é só gerar o PDF.','ok');};
@@ -8638,7 +9607,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.6.91';
+const APP_VERSAO='1.6.92';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{

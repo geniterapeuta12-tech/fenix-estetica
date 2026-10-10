@@ -399,7 +399,32 @@
 ## R93 — CONSERTOS DA CENTER: SELF-SIGNUP + LOGIN POR NOME + TELA LIMPA (04/10/2026) — Center v2.1.0
 - **Dono**: «o app Center não tá funcionando direito, não dá pra criar conta nem entrar; tira aquilo Apps Fênix abrir e tal — isso é depois que cadastrar». Diagnóstico: v2.0 só logava com o EMAIL da conta Fênix (sem aceitar o nome) e NÃO tinha criar-conta público (só pós-login do dono); CORS confere OK (ACAO:* no preflight e no POST — provado por curl -i).
 - **WORKER**: login expande nome sem @ → `nome@clinicas.fenix.app` · **/auth-fenix/criar-clinica PÚBLICO** (rate-limit fxPorteira): valida nome@clinica/senha6+/nome, duplicidade em fx_contas E auth_users, cria **fx_contas + auth_users + clinics** (provisioning completo — a conta já entra no app na hora) e já devolve token+sb+conta (auto-login na Center).
-- **CENTER v2.1.0**: tela inicial LIMPA — fora o card «📲 Apps Fênix» (abrir/baixar agora só pós-entrada; painel da clínica já tinha) · card **«✨ Primeira vez? Criar conta da clínica»** (nome, email nome@clinica, senha) que cria e JÁ LOGA · login com campo único «Clínica ou email» + dica «MESMA senha que você usa no app» · btnAbrirApp removido (fica o btnAbrirApp2 pós-login).
+## R118 — AS 3 NOVAS FUNÇÕES EXTRAS: VALE-PRESENTE VIP + STORIES & ENGAJAMENTO + ANALISADOR DE PERFIL · 1.6.92 (10/10/2026)
+- **Pedido do dono**: «# 🚀 ORDEM DE IMPLEMENTAÇÃO: AS 3 NOVAS FUNÇÕES EXTRAS + BUILD COMPLETO — Base de Planejamento aprovada na Mesa: MESA-DE-PLANEJAMENTO.md».
+- **1. VALE-PRESENTE & VOUCHER VIP (#vouchOpen / #vouchBox)**:
+  * Novo cartão de acesso na grade de Funções Extras (#vouchOpen) com ícone 🎟️.
+  * Painel exclusivo (#vouchBox) com botão «← Voltar às funções» (#btnVouchBack).
+  * Formulário dinâmico com campos: De (quem presenteia, #vouchDe), Para (presenteada, #vouchPara), Tipo de presente (procedimento ou valor em dinheiro, #vouchTipo), Procedimento/Valor (#vouchValor) e Validade (#vouchValidade — padrão 30 dias).
+  * Geração instantânea de código alfanumérico único (ex.: VALE-9F4A) com persistência em `fenix_vouchers` no `localStorage`.
+  * Cartão de Luxo em Vidro Jateado (#vouchCard) com visual de alta joalheria, selo de autenticidade e validade.
+  * Ações com 1 toque: «📋 Copiar Mensagem Pronta» (#btnCopiarVouchMsg) formatada para WhatsApp e «💬 Abrir no WhatsApp» (#btnZapVouch) com deep-link direto.
+  * Histórico de vouchers emitidos (#vouchList) com status e opção de marcar como «✓ Utilizado».
+- **2. IDEIAS DE STORIES & ENGAJAMENTO (#storiesOpen / #storiesBox)**:
+  * Novo cartão de acesso na grade de Funções Extras (#storiesOpen) com ícone 💡 e slogan «Nunca mais fique sem saber o que postar hoje».
+  * Filtro de categorias em pílula Apple (#storiesFiltros): Todos, Mito ou Verdade, Bastidores da Clínica, Enquete Interativa, Prova Social / Resultados.
+  * Botão de sorteio em gradiente com física de mola (#btnSortearStory): «🎲 Sortear Nova Ideia de Post».
+  * Banco de dados interno rico (BANCO_STORIES) com 25 ganchos estratégicos de alta conversão exclusivos para clínicas de estética.
+  * Cartão translúcido de luxo (#storyCard) exibindo: categoria, tema, estrutura passo a passo em 3 stories (Story 1 - Gancho/Enquete, Story 2 - Conteúdo & Explicação, Story 3 - Chamada para Ação/CTA).
+  * Botão «📋 Copiar Roteiro dos 3 Stories» (#btnCopiarStory) para cópia instantânea para a área de transferência.
+- **3. ANALISADOR DE PERFIL DO INSTAGRAM (#perfilAuditOpen / #perfilAuditBox)**:
+  * Novo cartão de acesso na grade de Funções Extras (#perfilAuditOpen) com ícone 🔍.
+  * Três abas de navegação em pílula (#auditAbas): Termômetro de Conversão (Score), Gerador de Bio Perfeita e Roteiro dos 4 Destaques.
+  * **Aba 1 (Termômetro Score 0 a 100)**: Score visual em anel (#auditScoreNum), checklist interativo com 5 critérios de autoridade (+20 pts cada) salvos em `fenix_audit_ig` no `localStorage`, e diagnóstico dinâmico (Perfil Amador, Perfil em Evolução, Perfil Magnético).
+  * **Aba 2 (Gerador de Bio Perfeita)**: Formulário com Especialidade (#bioEsp), Cidade/Local (#bioLocal) e Diferencial (#bioDif). Gera 3 modelos prontos (Autoridade & Elegância, Transformação & Desejo, Direto ao Ponto & Escassez) com botão de cópia individual.
+  * **Aba 3 (Roteiro dos 4 Destaques)**: Cartões detalhados e roteiros prontos para os 4 destaques vitais (Comece Aqui, Resultados, Procedimentos, Dúvidas) com botões para copiar roteiro com 1 clique.
+- **100% DAS FUNÇÕES PRESERVADAS**: Modo Local offline (R110), Financeiro integrado (R109), Token IA (R108), Fênix IA, Pastas de Clientes (R116), Pagamento sem vínculo (R117) e polyfill seguro de prompt() 100% preservados.
+- **ENTREGAS & AUTO-UPDATE**: index.html e index-ui.html sincronizados em v1.6.92 (0 erros node --check), versao.json com as 5 melhorias canônicas, suite teste_r118.js 8/8 verde, APK Android e Windows ZIP atualizados e distribuídos.
+
 ## R117 — PAGAMENTOS SEM VÍNCULO + FINANCEIRO GERAL NA CLIENTE + MODAL DE PASTAS SEM PROMPT · 1.6.91 (09/10/2026)
 - **Pedido do dono**: «seguinte rapidinho quero so que conserte dentro da cliente que nao da pra adicionar pagammento ou valor pago sem ter vinculo nao precisa ter vinculo. e na hora de adicionar no fianceiro fora da cliente soq eu vincular na cliente e pra aparecer dentro da clietne tambem» e «tambem conserte ao tentar criar pasta da esse erro: UNCAUGHT ERROR: PROMPT() IS AND WILL NOT».
 - **PAGAMENTOS SEM VÍNCULO DENTRO DA CLIENTE**:

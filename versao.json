@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.91",
-  "r": "R117",
-  "quando": "09/10/2026",
+  "versao": "1.6.92",
+  "r": "R118",
+  "quando": "10/10/2026",
   "melhorias": [
-    "💰 Pagamento sem vínculo na cliente: registre pagamentos e créditos diretamente para a cliente sem obrigatoriedade de vincular a pacotes ou sessões",
-    "🔄 Sincronização do Financeiro Geral com a Cliente: transações manuais criadas no Financeiro Geral vinculadas à cliente agora aparecem dentro da ficha financeira da cliente e atualizam o total pago",
-    "📁 Modal In-App para Pastas (Fim do erro prompt()): criação e renomeação de pastas agora usam janela modal interna rápida e segura, eliminando o erro de prompt() no app Windows/Android",
-    "🗑️ Gestão financeira unificada: exclusão e conciliação de pagamentos (tanto de pacotes quanto de entradas do financeiro geral) funcionando diretamente dentro da cliente",
-    "🔒 100% das funções preservadas: Modo Local offline (R110), cálculo de totais, Token para I.A (R108) e Fênix I.A rigorosamente mantidos"
+    "🎟️ Vale-Presente & Voucher VIP digital com código único para WhatsApp",
+    "💡 Gerador diário de ideias de Stories e roteiros de engajamento",
+    "🔍 Analisador de Perfil do Instagram com termômetro de conversão de 0 a 100",
+    "✨ Gerador de biografia magnética com 1 toque e roteiro dos 4 destaques",
+    "🛡️ 100% das funções, modo local (R110) e estabilidade de dados preservadas"
   ]
 }
