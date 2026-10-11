@@ -1,3 +1,23 @@
+## R123 — AUTENTICAÇÃO CANÔNICA E REENTRADA BLINDADA + VERSÃO 1.6.97 INCREMENTADA (11/10/2026, versão 1.6.97)
+- MISSÃO PRINCIPAL: Restauração da arquitetura de login canônica e determinística sem intermediários artificiais, garantindo que o reingresso na clínica ocorra de forma instantânea e sem conflitos de modais ou temporizadores, acompanhada da publicação estrita versão a versão (1.6.96 -> 1.6.97, R122 -> R123).
+- RESTAURAÇÃO DO FLUXO DE LOGIN CANÔNICO:
+  * Remoção completa da camada convoluta FenixAuth e seus múltiplos timers concorrentes.
+  * Chamadas diretas em formLogin e formCadastro para entrarLocal e entrarRemoto, integrando diretamente com entrarUI e welcomeModal sem duplicidade de modais ou travamentos.
+  * Eliminação de ouvintes duplicados no botão COMEÇAR (#btnWelcomeGo), garantindo seleção de usuário ou entrada imediata limpa.
+  * Splash reativo e instantâneo (#btnSplashGo) com transição fluida para o modal de lembrete de acesso ou autenticação direta.
+- PRESERVAÇÃO TOTAL DO REDESIGN APPLE LUXURY & SPA (#viewIa):
+  * Barra lateral refinada com Playfair Display, botão de destaque arredondado '+ Nova conversa', lista invisível de conversas e badge '● Fênix Neural Ativo'.
+  * Compositor em cápsula flutuante única (.ia-comp-capsule) com chips rápidos de ação, anexo circular, placeholder acolhedor em português e botão dourado de envio.
+  * Empty state editorial com logotipo Fênix dourado e grade 2x2 com cards de alta fidelidade.
+  * Split-screen e Agent Workspace com visualizador de documentos em estilo papelaria executiva e galeria de 40 telas de UI do app.
+- VALIDAÇÃO DE ENGENHARIA & DISTRIBUIÇÃO:
+  * Zero erros de sintaxe (node --check aprovado).
+  * 100% de integridade nos testes de regressão (teste_r123, teste_r120 e verificador_bugs aprovados com estabilidade total nos 5 modos).
+  * Sincronização 100% idêntica entre index.html e index-ui.html.
+  * Injeção de código nos binários de distribuição: FENIX-Estetica.apk (vc78) e FENIX-Estetica-Windows.zip.
+  * Checksums SHA-256 recalculados e documentados em checksums-sha256.txt.
+  * Release independente v1.6.97 publicado no GitHub com todos os 6 binários anexados.
+
 ## R122 — REDESIGN TOTAL DA FÊNIX I.A (PADRÃO APPLE LUXURY & SPA) + SISTEMA DE AUTENTICAÇÃO REFORMULADO (11/10/2026, versão 1.6.96)
 - MISSÃO PRINCIPAL: Transformação radical da interface da Fênix I.A (#viewIa) para o padrão estético Apple Luxury & Spa, eliminando todo o lixo técnico de programador e IDE (▲, ←, →, 🔍, Automações, Personalizações, pastas brutas do Windows como PACOTE-FENIX-ANTIGRAVITY, seletores técnicos de modelo e escopo).
 - PURIFICAÇÃO DA BARRA LATERAL (#iaSide):
