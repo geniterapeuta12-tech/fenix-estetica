@@ -3781,13 +3781,13 @@ html[data-theme="dark"] .story-card-luxury{background:rgba(28,26,23,0.85);border
 <div class="loadbar"><i id="enterLoadBar"></i></div>
 </div>
 </div>
-<div id="welcomeModal" class="pmodal-soft hidden">
+<div id="welcomeModal" class="pmodal-soft hidden" onclick="if(event.target===this){if(typeof window.fecharWelcomeModal==='function'){window.fecharWelcomeModal();}else{this.classList.add('hidden');}}">
 <div class="pmcard">
 <svg class="logo" style="width:74px" viewBox="0 0 1440 960"><use href="#phoenix"/></svg>
 <h3 style="margin:8px 0 0">Bem-vinda, <span id="welcomeClin">sua clínica</span> ✦</h3>
 <p class="sub" style="margin-top:6px">Tudo pronto: seus dados estão carregados e sincronizados.</p>
 <p class="sub" id="welcomeSub" style="margin-top:2px"></p>
-<button class="btn gold" id="btnWelcomeGo" type="button" style="margin-top:12px">COMEÇAR</button>
+<button class="btn gold" id="btnWelcomeGo" type="button" onclick="if(typeof window.fecharWelcomeModal==='function'){window.fecharWelcomeModal();}else{var w=document.getElementById('welcomeModal');if(w)w.classList.add('hidden');}" style="margin-top:12px;cursor:pointer;position:relative;z-index:10;min-width:200px">COMEÇAR</button>
 </div>
 </div>
 
@@ -3869,6 +3869,37 @@ window.iniciarAppFenix=function(){
   }catch(e){
     console.error('iniciarAppFenix err:',e);
     try{var a=document.getElementById('authScreen');if(a)a.classList.remove('hidden');}catch(_){}
+  }
+};
+
+window.fecharWelcomeModal=function(){
+  try{
+    var wm=document.getElementById('welcomeModal');if(wm)wm.classList.add('hidden');
+    var el=document.getElementById('enterLoad');if(el)el.classList.add('hidden');
+    var sp=document.getElementById('splash');if(sp)sp.classList.add('hidden');
+    var au=document.getElementById('authScreen');if(au)au.classList.add('hidden');
+    var ap=document.getElementById('appScreen');if(ap)ap.classList.remove('hidden');
+    try{
+      var us=(typeof getUsu==='function')?getUsu():[];
+      var last=(typeof ultUsu==='function')?ultUsu():null;
+      if(last&&us&&us.some(function(u){return String(u.id||'')===String(last.id||'');})){
+        if(typeof usuarioEntrou==='function')usuarioEntrou(last);
+        return;
+      }
+      if(!us||us.length<=1){
+        if(us&&us.length===1&&typeof usuarioEntrou==='function')usuarioEntrou(us[0]);
+        else{var um=document.getElementById('userModal');if(um)um.classList.add('hidden');}
+        return;
+      }
+      if(typeof renderUserStep==='function')renderUserStep();
+      var um2=document.getElementById('userModal');if(um2)um2.classList.remove('hidden');
+    }catch(err){
+      console.warn('fecharWelcomeModal user err:',err);
+      var um3=document.getElementById('userModal');if(um3)um3.classList.add('hidden');
+    }
+  }catch(e){
+    console.error('fecharWelcomeModal err:',e);
+    try{var wm2=document.getElementById('welcomeModal');if(wm2)wm2.classList.add('hidden');}catch(_){}
   }
 };
 
@@ -11002,18 +11033,13 @@ document.querySelectorAll('#ajudaCorpo .faq').forEach(f=>{f.style.display=!q||f.
 document.querySelectorAll('#ajudaCorpo .ajuda-grp').forEach(g=>{let vis=0;let n=g.nextElementSibling;
 while(n&&n.classList&&n.classList.contains('faq')){if(n.style.display!=='none')vis++;n=n.nextElementSibling;}
 g.style.display=(!q||vis)?'':'none';});});}
-$('btnWelcomeGo').addEventListener('click',()=>{
-  $('welcomeModal').classList.add('hidden');
-  const us=getUsu();
-  const last=ultUsu();
-  if(last&&us.some(u=>String(u.id||'')===String(last.id||''))){usuarioEntrou(last);return;}
-  if(us.length<=1){
-    if(us.length===1)usuarioEntrou(us[0]);
-    else $('userModal').classList.add('hidden');
-    return;
-  }
-  renderUserStep();$('userModal').classList.remove('hidden');
-});
+const _btnWel = $('btnWelcomeGo');
+if(_btnWel){
+  _btnWel.addEventListener('click',()=>{
+    if(typeof window.fecharWelcomeModal==='function') window.fecharWelcomeModal();
+    else { var w=$('welcomeModal'); if(w) w.classList.add('hidden'); }
+  });
+}
 </script>
 <div id="termosAceite" class="hidden" style="position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.74);display:flex;align-items:center;justify-content:center;padding:16px">
 <div style="max-width:520px;width:100%;max-height:86dvh;overflow:auto;background:#171411;border:1px solid rgba(var(--glow-c),.4);border-radius:16px;padding:22px 20px;box-shadow:0 30px 80px rgba(0,0,0,.6)">
