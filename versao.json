@@ -1,12 +1,12 @@
 {
-  "versao": "1.6.94",
-  "r": "R120",
-  "quando": "10/10/2026",
+  "versao": "1.6.95",
+  "r": "R121",
+  "quando": "11/10/2026",
   "melhorias": [
+    "✨ Login Canônico Restaurado: fluxo direto de seleção de usuário sem travamento ou reload",
     "✨ Fênix Spark & Workspace: split-screen com múltiplos documentos e galeria de UIs",
     "💬 I.A falante: explicações e orientações clínicas completas ao criar arquivos",
     "📸 Geração inline de imagens: fotografias conceituais pelo motor Flux no chat",
-    "📄 Prévia inteligente no chat: cards com resumo de arquivos e download direto de PDFs",
-    "🧹 Studio otimizado: remoção do gerador de posts e fim da biblioteca estática"
+    "📄 Prévia inteligente no chat: cards com resumo de arquivos e download direto de PDFs"
   ]
 }

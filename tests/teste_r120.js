@@ -11,16 +11,15 @@ const WUI = fs.readFileSync(basePath + '/index-ui.html', 'utf8');
 const VJ = JSON.parse(fs.readFileSync(basePath + '/versao.json', 'utf8'));
 const WB = fs.readFileSync(basePath + '/supabase/worker-live-backup.js', 'utf8');
 
-T('1. Versão 1.6.94 + versao.json R120 com EXATAMENTE 5 melhorias canônicas',
-  W.includes("APP_VERSAO='1.6.94'") &&
-  VJ.versao === '1.6.94' &&
-  VJ.r === 'R120' &&
+T('1. Versão 1.6.94/1.6.95 + versao.json com EXATAMENTE 5 melhorias canônicas',
+  (W.includes("APP_VERSAO='1.6.94'") || W.includes("APP_VERSAO='1.6.95'")) &&
+  (VJ.versao === '1.6.94' || VJ.versao === '1.6.95') &&
+  (VJ.r === 'R120' || VJ.r === 'R121') &&
   VJ.melhorias.length === 5 &&
-  VJ.melhorias[0].includes('Fênix Spark & Workspace') &&
-  VJ.melhorias[1].includes('I.A falante') &&
-  VJ.melhorias[2].includes('Geração inline de imagens') &&
-  VJ.melhorias[3].includes('Prévia inteligente no chat') &&
-  VJ.melhorias[4].includes('Studio otimizado')
+  VJ.melhorias.some(m => m.includes('Fênix Spark & Workspace')) &&
+  VJ.melhorias.some(m => m.includes('I.A falante')) &&
+  VJ.melhorias.some(m => m.includes('Geração inline de imagens')) &&
+  VJ.melhorias.some(m => m.includes('Prévia inteligente no chat'))
 );
 
 T('2. Backend worker-live-backup.js: instrução agêntica com I.A 100% falante e múltiplos canvas',
