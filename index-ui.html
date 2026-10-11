@@ -3769,8 +3769,8 @@ html[data-theme="dark"] .story-card-luxury{background:rgba(28,26,23,0.85);border
 <div class="remcard"><span class="avatar" id="remAv">✦</span>
 <div><b id="remClinica">Sua clínica</b><br><small class="sub" id="remUser">—</small></div></div>
 <div class="rowbtns" style="margin-top:12px">
-<button class="btn ghost" id="btnRememberOther" type="button">Usar outra conta</button>
-<button class="btn gold" id="btnRememberGo" type="button">Entrar agora</button>
+<button class="btn ghost" id="btnRememberOther" type="button" onclick="if(typeof window.usarOutraConta==='function'){window.usarOutraConta();}else{var r=document.getElementById('rememberModal');if(r)r.classList.add('hidden');var a=document.getElementById('authScreen');if(a)a.classList.remove('hidden');}" style="cursor:pointer;position:relative;z-index:10">Usar outra conta</button>
+<button class="btn gold" id="btnRememberGo" type="button" onclick="if(typeof window.executarEntradaLembrada==='function'){window.executarEntradaLembrada();}else if(typeof window.__executarEntrada==='function'){window.__executarEntrada();}else{var r=document.getElementById('rememberModal');if(r)r.classList.add('hidden');var a=document.getElementById('authScreen');if(a)a.classList.remove('hidden');}" style="cursor:pointer;position:relative;z-index:10">Entrar agora</button>
 </div>
 </div>
 </div>
@@ -3860,15 +3860,17 @@ window.iniciarAppFenix=function(){
         try{
           var app=document.getElementById('appScreen');
           if(!app||app.classList.contains('hidden')){
-            var l=document.getElementById('enterLoad');if(l)l.classList.add('hidden');
-            var a=document.getElementById('authScreen');if(a)a.classList.remove('hidden');
+            if(!window.__sessionReady){
+              var l=document.getElementById('enterLoad');if(l)l.classList.add('hidden');
+              var a=document.getElementById('authScreen');if(a){a.classList.remove('hidden');if(typeof preencherLoginLembrado==='function')preencherLoginLembrado();}
+            }
           }
         }catch(_){}
-      },3500);
+      },6000);
     }
   }catch(e){
     console.error('iniciarAppFenix err:',e);
-    try{var a=document.getElementById('authScreen');if(a)a.classList.remove('hidden');}catch(_){}
+    try{var a=document.getElementById('authScreen');if(a){a.classList.remove('hidden');if(typeof preencherLoginLembrado==='function')preencherLoginLembrado();}}catch(_){}
   }
 };
 
@@ -3901,6 +3903,110 @@ window.fecharWelcomeModal=function(){
     console.error('fecharWelcomeModal err:',e);
     try{var wm2=document.getElementById('welcomeModal');if(wm2)wm2.classList.add('hidden');}catch(_){}
   }
+};
+
+window.executarEntradaLembrada=async function(){
+  try{
+    var rm=document.getElementById('rememberModal');if(rm)rm.classList.add('hidden');
+    var el=document.getElementById('enterLoad');if(el)el.classList.remove('hidden');
+    var st=document.getElementById('enterLoadStage');if(st)st.textContent='Carregando sua clínica…';
+    var bar=document.getElementById('enterLoadBar');if(bar)bar.style.width='60%';
+    if(window.__pendRemoto){
+      try{
+        await entrarRemoto(window.__pendRemoto);
+        if(bar)bar.style.width='100%';
+      }catch(err){
+        console.warn('entrarRemoto err:',err);
+        var s=localStorage.getItem(S);
+        var us=(typeof loadUsers==='function')?loadUsers():{};
+        if(s&&us[s]){
+          try{
+            entrarLocal(us[s],s);
+            if(bar)bar.style.width='100%';
+            return;
+          }catch(_){}
+        }
+        showErrorGlobal((err&&err.message)||err);
+        var a=document.getElementById('authScreen');
+        if(a){a.classList.remove('hidden');if(typeof preencherLoginLembrado==='function')preencherLoginLembrado();}
+      }finally{if(el)el.classList.add('hidden');}
+    }else if(window.__pendLocal){
+      try{
+        entrarLocal(window.__pendLocal.u,window.__pendLocal.key);
+        if(bar)bar.style.width='100%';
+      }catch(err){
+        console.warn('entrarLocal err:',err);
+        showErrorGlobal((err&&err.message)||err);
+        var a=document.getElementById('authScreen');
+        if(a){a.classList.remove('hidden');if(typeof preencherLoginLembrado==='function')preencherLoginLembrado();}
+      }finally{if(el)el.classList.add('hidden');}
+    }else{
+      if(el)el.classList.add('hidden');
+      var a=document.getElementById('authScreen');
+      if(a){a.classList.remove('hidden');if(typeof preencherLoginLembrado==='function')preencherLoginLembrado();}
+    }
+  }catch(e){
+    console.error('executarEntradaLembrada err:',e);
+    try{
+      var rm2=document.getElementById('rememberModal');if(rm2)rm2.classList.add('hidden');
+      var el2=document.getElementById('enterLoad');if(el2)el2.classList.add('hidden');
+      var a2=document.getElementById('authScreen');if(a2){a2.classList.remove('hidden');if(typeof preencherLoginLembrado==='function')preencherLoginLembrado();}
+    }catch(_){}
+  }
+};
+
+window.usarOutraConta=async function(){
+  try{
+    var rm=document.getElementById('rememberModal');if(rm)rm.classList.add('hidden');
+    try{if(REMOTE&&window.__pendRemoto&&SB&&SB.auth)await SB.auth.signOut();}catch(_){}
+    try{localStorage.removeItem(S);}catch(_){}
+    window.__pendRemoto=null;window.__pendLocal=null;
+    var a=document.getElementById('authScreen');if(a)a.classList.remove('hidden');
+    var ln=document.getElementById('loginNome');if(ln)ln.value='';
+    var ls=document.getElementById('loginSenha');if(ls)ls.value='';
+  }catch(e){
+    console.error('usarOutraConta err:',e);
+    try{var a=document.getElementById('authScreen');if(a)a.classList.remove('hidden');}catch(_){}
+  }
+};
+
+window.atualizarCardLembrado=function(){
+  try{
+    var rc=document.getElementById('remClinica');
+    var ru=document.getElementById('remUser');
+    var ra=document.getElementById('remAv');
+    var nome='';var usu='';
+    if(window.__pendRemoto){
+      nome=(window.__pendRemoto.user_metadata&&window.__pendRemoto.user_metadata.nome)||(window.__pendRemoto.email?window.__pendRemoto.email.split('@')[0]:'Sua clínica');
+      usu=window.__pendRemoto.email||'Conta na nuvem';
+    }else if(window.__pendLocal){
+      nome=(window.__pendLocal.u&&(window.__pendLocal.u.clinica||window.__pendLocal.u.nome))||window.__pendLocal.key;
+      usu=(window.__pendLocal.u&&window.__pendLocal.u.nome)||'Acesso local';
+    }else{
+      var lastS=localStorage.getItem(S);
+      if(lastS){
+        var us=(typeof loadUsers==='function')?loadUsers():{};
+        nome=(us[lastS]&&(us[lastS].clinica||us[lastS].nome))||lastS;
+        usu='Acesso salvo';
+      }
+    }
+    if(rc&&nome)rc.textContent=nome;
+    if(ru&&usu)ru.textContent=usu;
+    if(ra&&nome)ra.textContent=nome.charAt(0).toUpperCase();
+  }catch(_){}
+};
+
+window.preencherLoginLembrado=function(){
+  try{
+    var ln=document.getElementById('loginNome');
+    if(ln&&!ln.value){
+      var lastS=localStorage.getItem(S);
+      if(lastS){
+        var us=(typeof loadUsers==='function')?loadUsers():{};
+        ln.value=(us[lastS]&&(us[lastS].clinica||us[lastS].nome))||lastS;
+      }
+    }
+  }catch(_){}
 };
 
 const CAT_FOTOS={'modeladora':'data:image/jpeg;base64,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',
@@ -7690,8 +7796,13 @@ const {data,error}=await SB.auth.signInWithPassword({email:authEmail(nome),passw
 if(error){const m=erroSB(error);
 if(localOk())return msg($('loginMsg'),'⚠ Nuvem recusou, mas entrou no modo local com a senha local.','err');
 return msg($('loginMsg'),m,'err');}
+const nk=nome.toLowerCase();
+try{localStorage.setItem(S,nk);}catch(x){}
+try{const usCloud=loadUsers();usCloud[nk]={nome:nome,senha:pass,clinica:nome,email:authEmail(nome)};saveUsers(usCloud);}catch(x){}
 await entrarRemoto(data.user);
-}catch(err){const t=(err&&err.message)||String(err);
+}catch(err){
+if(localOk())return msg($('loginMsg'),'⚠ Sem conexão com a nuvem agora — entrou no modo local com seus dados salvos.','err');
+const t=(err&&err.message)||String(err);
 try{msg($('loginMsg'),'Não deu agora: '+t+' — verifique a internet e tente de novo.','err');}catch(x){}
 showErrorGlobal(t);}finally{trava(false);}});
 $('formCadastro').addEventListener('submit',async e=>{e.preventDefault();
@@ -7712,6 +7823,9 @@ entrarLocal(usC[nkC],nkC);return;}
 const {data,error}=await SB.auth.signUp({email:authEmail(nome),password:pass,options:{data:{nome}}});
 if(error){trava(false);return msg($('regMsg'),erroSB(error),'err');}
 if(!data.session){trava(false);return msg($('regMsg'),'\u2714 Conta criada! Confirme o e-mail e volte aqui para entrar.','ok');}
+const nkC=nome.toLowerCase();
+try{localStorage.setItem(S,nkC);}catch(xC){}
+try{const usC=loadUsers();usC[nkC]={nome:nome,senha:pass,clinica:nome,email:authEmail(nome)};saveUsers(usC);}catch(xC){}
 await entrarRemoto(data.user);
 trava(false);
 }catch(err){trava(false);msg($('regMsg'),'N\u00e3o deu agora: '+((err&&err.message)||'Erro de conex\u00e3o.')+' — tente de novo em instantes.','err');}});
@@ -7725,7 +7839,8 @@ Object.keys(DB).forEach(k=>DB[k]=[]);
 $('cloudBadge').classList.add('hidden');
 $('appScreen').classList.add('hidden');$('authScreen').classList.remove('hidden');
 try{localStorage.removeItem('fenix_user_ativo');}catch(e){}
-$('loginSenha').value='';$('authScreen').scrollTop=0;});
+$('loginSenha').value='';$('authScreen').scrollTop=0;
+if(typeof preencherLoginLembrado==='function')preencherLoginLembrado();});
 /* ═══ R92 — CONTA FÊNIX (Plataforma): entrar pela Central · abrir já logado (fx=) ═══ */
 const FXAPI='https://fenix-api.geniterapeuta12.workers.dev';
 function travaFx(t){const b=$('btnFxOk');if(b){b.disabled=t;b.textContent=t?'Entrando…':'🏛️ Entrar pela conta Fênix';}}
@@ -7818,6 +7933,8 @@ cl=ins.data||{id:user.id,key:currentKey,nome};}
 cl={id:user.id,key:currentKey,nome:(user.user_metadata&&user.user_metadata.nome)||currentKey};}
 if(cl&&cl.id===user.id){
 CLINIC_ID=user.id;currentKey=cl.key||(user.email||'').split('@')[0];
+try{localStorage.setItem(S,currentKey);}catch(e){}
+try{const us=loadUsers();if(!us[currentKey]){us[currentKey]={nome:cl.nome,clinica:cl.nome,key:currentKey};saveUsers(us);}}catch(e){}
 try{await loadRemote(user.id);await loadBkpMeta();lastPull=Date.now();}catch(err){console.warn('loadRemote:',err);}
 entrarUI(cl.nome,currentKey);
 $('appClinic').textContent=cl.nome;
@@ -10835,8 +10952,21 @@ window.__executarEntrada = async function(){
         else if(us.length===1){usuarioEntrou(us[0]);}
         else if(us.length>1){renderUserStep();$('userModal').classList.remove('hidden');}
       }catch(err){
+        console.warn('entrarRemoto falhou no boot:', err);
+        const s = localStorage.getItem(S);
+        const us = (typeof loadUsers==='function')?loadUsers():{};
+        if(s && us[s]){
+          try{
+            entrarLocal(us[s], s);
+            if(bar) bar.style.width='100%';
+            $('welcomeModal').classList.add('hidden');
+            return;
+          }catch(errLocal){
+            console.warn('entrarLocal também falhou:', errLocal);
+          }
+        }
         showErrorGlobal((err&&err.message)||err);
-        try{const a=$('authScreen');if(a)a.classList.remove('hidden');}catch(_){}
+        try{const a=$('authScreen');if(a){a.classList.remove('hidden');if(typeof preencherLoginLembrado==='function')preencherLoginLembrado();}}catch(_){}
       }finally{
         $('enterLoad').classList.add('hidden');
         if(bar) bar.style.width='0';
@@ -10857,7 +10987,7 @@ window.__executarEntrada = async function(){
         else if(us.length>1){renderUserStep();$('userModal').classList.remove('hidden');}
       }catch(err){
         showErrorGlobal((err&&err.message)||err);
-        try{const a=$('authScreen');if(a)a.classList.remove('hidden');}catch(_){}
+        try{const a=$('authScreen');if(a){a.classList.remove('hidden');if(typeof preencherLoginLembrado==='function')preencherLoginLembrado();}}catch(_){}
       }finally{
         $('enterLoad').classList.add('hidden');
         if(bar) bar.style.width='0';
@@ -10865,10 +10995,11 @@ window.__executarEntrada = async function(){
     }else{
       $('enterLoad').classList.add('hidden');
       $('authScreen').classList.remove('hidden');
+      if(typeof preencherLoginLembrado==='function')preencherLoginLembrado();
     }
   }catch(e){
     showErrorGlobal((e&&e.message)||e);
-    try{const a=$('authScreen');if(a)a.classList.remove('hidden');}catch(_){}
+    try{const a=$('authScreen');if(a){a.classList.remove('hidden');if(typeof preencherLoginLembrado==='function')preencherLoginLembrado();}}catch(_){}
   }
 };
 
@@ -10890,16 +11021,22 @@ window.__executarEntrada = async function(){
     if(!window.__pendRemoto){
       try{
         const s=localStorage.getItem(S);
-        if(s){const u=loadUsers()[s];if(u)window.__pendLocal={u:u,key:s};}
+        if(s){
+          const us=loadUsers();
+          if(us[s])window.__pendLocal={u:us[s],key:s};
+          else window.__pendLocal={u:{nome:s,clinica:s,key:s},key:s};
+        }
       }catch(e){}
     }
     window.__sessionReady=true;
+    if(typeof atualizarCardLembrado==='function')atualizarCardLembrado();
+    if(typeof preencherLoginLembrado==='function')preencherLoginLembrado();
     if(window.__appIniciado){
       await window.__executarEntrada();
     }
   }catch(e){
     showErrorGlobal((e&&e.message)||e);
-    try{const a=$('authScreen');if(a)a.classList.remove('hidden');}catch(_){}
+    try{const a=$('authScreen');if(a){a.classList.remove('hidden');if(typeof preencherLoginLembrado==='function')preencherLoginLembrado();}}catch(_){}
   }
 })();
 
@@ -10910,23 +11047,8 @@ if(_btnSp){
     else if(typeof window.__executarEntrada==='function') window.__executarEntrada();
   });
 }
-$('btnRememberGo').addEventListener('click',async()=>{
-  $('rememberModal').classList.add('hidden');
-  if(window.__pendRemoto){
-    $('enterLoad').classList.remove('hidden');
-    try{await entrarRemoto(window.__pendRemoto);}catch(e){showErrorGlobal((e&&e.message)||e);}
-    finally{$('enterLoad').classList.add('hidden');}
-  }else if(window.__pendLocal){
-    try{entrarLocal(window.__pendLocal.u,window.__pendLocal.key);}catch(e){showErrorGlobal((e&&e.message)||e);}
-  }
-});
-$('btnRememberOther').addEventListener('click',async()=>{
-  $('rememberModal').classList.add('hidden');
-  try{if(REMOTE&&window.__pendRemoto)await SB.auth.signOut();}catch(e){}
-  try{localStorage.removeItem(S);}catch(e){}
-  window.__pendRemoto=null;window.__pendLocal=null;
-  $('authScreen').classList.remove('hidden');
-});
+if($('btnRememberGo'))$('btnRememberGo').addEventListener('click',()=>window.executarEntradaLembrada());
+if($('btnRememberOther'))$('btnRememberOther').addEventListener('click',()=>window.usarOutraConta());
 function entrarComCarregamento(fn){
   $('enterLoad').classList.remove('hidden');
   const bar=$('enterLoadBar'),st=$('enterLoadStage');
