@@ -1,3 +1,30 @@
+## R122 — REDESIGN TOTAL DA FÊNIX I.A (PADRÃO APPLE LUXURY & SPA) + SISTEMA DE AUTENTICAÇÃO REFORMULADO (11/10/2026, versão 1.6.96)
+- MISSÃO PRINCIPAL: Transformação radical da interface da Fênix I.A (#viewIa) para o padrão estético Apple Luxury & Spa, eliminando todo o lixo técnico de programador e IDE (▲, ←, →, 🔍, Automações, Personalizações, pastas brutas do Windows como PACOTE-FENIX-ANTIGRAVITY, seletores técnicos de modelo e escopo).
+- PURIFICAÇÃO DA BARRA LATERAL (#iaSide):
+  * Topo nobre com logotipo da Fênix estilizada em ouro metálico suave e tipografia nobre 'Playfair Display'.
+  * Botão de destaque '+ Nova conversa' (#btnIaNew) com cantos arredondados de 14px, gradiente sutil e borda dourada translúcida.
+  * Lista de conversas (#iaConvWrap e #iaConvList) com rolagem fluida invisível, títulos limpos em Montserrat, data discreta e lixeira no hover.
+  * Rodapé com badge minimalista '● Fênix Neural Ativo' e botão sutil de configurações (#btnIaCfg).
+- COMPOSITOR EM CÁPSULA ÚNICA FLUTUANTE (.ia-comp-capsule):
+  * Barra de 4 chips rápidos acima do input: [📸 Criar Imagem] [🎨 UIs & Design] [🤖 Modo Agente] [📎 Anexo].
+  * Cápsula flutuante arredondada única com botão circular discreto de anexo (+) (#btnIaAnexo), campo de texto auto-expansível (#iaInput) com placeholder acolhedor em português "Converse com a Fênix I.A ou peça uma imagem...", botão de microfone (#btnIaVoice) e botão redondo metálico dourado de envio (#btnIaSend).
+- EMPTY STATE EDITORIAL & BALÕES DE CHAT:
+  * Empty state com logotipo de 64px pulsando suavemente em ouro metálico, título Playfair Display "Como posso transformar seu estúdio hoje?", subtítulo executivo e grade 2x2 com 4 cards de ação rápida translúcidos: Criar Fotografia, Explorar UIs do App, Resumo Executivo e Elaborar Protocolo.
+  * Balões com avatares dedicados (usuário e Fênix), cartões de pensamento "💭 Pensamento Neural", cartões de artefato PDF com botões diretos de abertura e download, e cartões de foto conceitual Flux Schnell com botões em duas linhas: [🔍 Expandir] + [📥 Baixar PNG] na primeira linha e [🔄 Nova Variação] na segunda linha.
+- AGENT WORKSPACE LUXURY:
+  * Topo clean com título nobre 'Agent Workspace' em Playfair Display, botão de destaque dourado [📥 Baixar PDF] e botão discreto de fechar (✕).
+  * Três abas minimalistas: [📄 Documento Vivo] [🎨 Galeria de UIs (40)] [📋 Metas Clínicas].
+  * Visualizador de documentos com estilo de papelaria executiva e borda superior dourada.
+- SISTEMA DE AUTENTICAÇÃO REFORMULADO (FenixAuth):
+  * Fluxo limpo e desbugado de login, cadastro, lembrete e seleção de usuário.
+  * Remoção de atrasos artificiais e eliminação do efeito duplo de carregamento.
+- VALIDAÇÃO DE ENGENHARIA & DISTRIBUIÇÃO:
+  * Zero erros de sintaxe (node --check passou).
+  * 100% de integridade nos 5 modos clínicos (teste_r122, teste_r121, teste_r120 e verificador_bugs aprovados).
+  * index.html e index-ui.html 100% sincronizados e idênticos.
+  * Injeção de código nos binários de distribuição: FENIX-Estetica.apk (vc77) e FENIX-Estetica-Windows.zip.
+  * Checksums SHA-256 recalculados e documentados em checksums-sha256.txt.
+
 ## R120 — FÊNIX SPARK & AGENT WORKSPACE + REMOÇÃO DO GERADOR DE POSTS (10/10/2026, versão 1.6.94)
 - MISSÃO PRINCIPAL EXECUTADA: Grande consolidação unificada do Fênix Estética integrando Fênix Spark, Agent Workspace, I.A 100% falante, múltiplos artefatos simultâneos, cards de prévia inteligente no chat, geração de fotografias conceituais pelo motor Flux Schnell (/ia-imagem), catálogo canônico de 40 telas de design do app (FENIX_UI_GALLERY), remoção definitiva do Gerador de Posts do menu do Studio e eliminação da biblioteca estática.
 - BACKEND (/ia no worker-live-backup.js): Atualizada instrução sysFinal para formato agêntico obrigatório: raciocínio neural entre <pensamento> e </pensamento>, diálogo acolhedor completo com explicações clínicas detalhadas entre <resposta> e </resposta> (NUNCA fica em silêncio), e liberdade total para gerar múltiplos blocos <canvas tipo="texto|pdf" titulo="...">.

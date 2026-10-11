@@ -270,316 +270,314 @@ button.iconbtn.on{color:#8dffb0;border-color:rgba(141,255,176,.55)}
 .calc-pad button.op{color:var(--gold)}
 .calc-pad button.eq{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border-color:transparent}
 body.no-widgets .widget,body.no-widgets .dock{display:none!important}
-/* R78 — Fênix I.A: visual novo (barra lateral de conversas + chat amplo de ponta a ponta) */
+/* ==================== FÊNIX I.A — PADRÃO APPLE LUXURY & SPA (R122) ==================== */
 #viewIa{max-width:none;gap:0;margin:-26px calc(-1*clamp(18px,4vw,44px)) -70px;height:100vh;height:100dvh}
-.ia-wrap{display:flex;height:100%;min-height:0;position:relative;overflow:hidden;background:radial-gradient(900px 420px at 60% -10%,rgba(var(--glow-c),.08),transparent 60%),#0d0d0d}
-.ia-side{width:266px;flex:none;display:flex;flex-direction:column;background:#121212;border-right:1px solid var(--line);transition:margin-left .22s ease}
-.ia-wrap.sem .ia-side{margin-left:-266px}
-.ia2head{display:flex;align-items:center;padding:16px 14px 10px}
-.ia2brand{display:flex;align-items:center;gap:10px}
-.ia2brand .logo{width:34px;flex:none;animation:glow 3s ease-in-out infinite}
-.ia2brand h3{margin:0;font-family:'Playfair Display',serif;font-size:1.02rem;font-weight:500;color:var(--gold);letter-spacing:.06em}
-.ia2new{margin:2px 12px 12px;display:flex;align-items:center;gap:8px;padding:11px 12px;border-radius:12px;border:1px solid rgba(var(--glow-c),.38);background:linear-gradient(135deg,rgba(var(--glow-c),.17),rgba(var(--glow-c),.05));color:var(--gold);font:600 .84rem Montserrat;letter-spacing:.03em;cursor:pointer;transition:.18s}
-.ia2new:hover{border-color:var(--gold);background:linear-gradient(135deg,rgba(var(--glow-c),.26),rgba(var(--glow-c),.08))}
+.ia-wrap{display:flex;height:100%;min-height:0;position:relative;overflow:hidden;background:radial-gradient(1200px 600px at 50% -10%,rgba(212,175,55,.07),transparent 70%),#0c0c0e}
+.ia-side{width:272px;flex:none;display:flex;flex-direction:column;background:rgba(18,18,22,.85);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-right:1px solid rgba(212,175,55,.18);transition:margin-left .24s cubic-bezier(.16,1,.3,1)}
+.ia-wrap.sem .ia-side{margin-left:-272px}
+
+/* Barra Lateral Luxury */
+.ia-brand-head{display:flex;align-items:center;gap:12px;padding:18px 16px 14px;border-bottom:1px solid rgba(255,255,255,.05)}
+.ia-brand-logo-wrap{width:36px;height:36px;border-radius:50%;background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.35);display:flex;align-items:center;justify-content:center;box-shadow:0 0 16px rgba(212,175,55,.2);flex:none}
+.ia-brand-logo-wrap .logo{width:22px;height:22px;color:var(--gold)}
+.ia-brand-title{margin:0;font-family:'Playfair Display',serif;font-size:1.18rem;font-weight:600;color:#f5eed8;letter-spacing:.04em}
+
+.ia-new-wrap{padding:12px 14px 8px}
+.ia2new{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border-radius:14px;border:1px solid rgba(212,175,55,.32);background:linear-gradient(135deg,rgba(212,175,55,.16),rgba(212,175,55,.04));color:var(--gold);font:600 .84rem Montserrat;letter-spacing:.02em;cursor:pointer;transition:.2s cubic-bezier(.16,1,.3,1);box-shadow:0 4px 16px rgba(0,0,0,.3),0 0 14px rgba(212,175,55,.08)}
+.ia2new:hover{border-color:var(--gold);background:linear-gradient(135deg,rgba(212,175,55,.28),rgba(212,175,55,.08));box-shadow:0 6px 20px rgba(0,0,0,.4),0 0 22px rgba(212,175,55,.2);transform:translateY(-1px)}
 .ia2new .ic{width:15px;height:15px;flex:none}
-.ia2lab{padding:4px 18px 2px;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
-.ia2cnt{margin:0 18px 8px;font-size:.66rem;color:var(--muted)}
-.ia-list{flex:1;overflow-y:auto;min-height:0;margin:0;padding:2px 8px 10px;list-style:none;display:flex;flex-direction:column;gap:2px}
-.ia-item{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:10px;border:1px solid transparent;cursor:pointer;color:var(--txt);font:500 .8rem Montserrat}
-.ia-item .ic{width:14px;height:14px;flex:none;color:var(--muted)}
-.ia-item:hover{background:#1b1b1b}
-.ia-item.on{background:rgba(var(--glow-c),.1);border-color:rgba(var(--glow-c),.35)}
-.ia-item.on .ic{color:var(--gold)}
+
+#iaConvWrap{flex:1;overflow-y:auto;min-height:0;padding:4px 10px 10px;scrollbar-width:none}
+#iaConvWrap::-webkit-scrollbar{display:none}
+.ia-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:3px}
+.ia-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;border:1px solid transparent;cursor:pointer;color:#d4d4d8;font:500 .8rem Montserrat;transition:.18s;position:relative}
+.ia-item:hover{background:rgba(255,255,255,.05);color:#fafafa}
+.ia-item.on{background:rgba(212,175,55,.12);border-color:rgba(212,175,55,.32);color:#f5eed8}
+.ia-item .ic{width:14px;height:14px;flex:none;color:var(--gold);opacity:.85}
 .ia-item .t{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ia-item .x{flex:none;display:flex;align-items:center;justify-content:center;width:24px;height:24px;border:0;border-radius:7px;background:none;color:var(--muted);cursor:pointer;opacity:0;transition:.15s}
+.ia-item .ia-time{font-size:.66rem;color:#71717a;margin-left:auto;flex:none;font-weight:500}
+.ia-item:hover .ia-time{display:none}
+.ia-item .x{flex:none;display:flex;align-items:center;justify-content:center;width:24px;height:24px;border:0;border-radius:7px;background:none;color:#a1a1aa;cursor:pointer;opacity:0;transition:.15s}
 .ia-item:hover .x{opacity:1}
-.ia-item .x:hover{color:#ff8080;background:rgba(255,128,128,.12)}
+.ia-item .x:hover{color:#ff8080;background:rgba(255,128,128,.15)}
 .ia-item .x .ic{width:13px;height:13px}
-.ia-foot{display:flex;align-items:center;gap:8px;padding:10px 12px;border-top:1px solid var(--line)}
-.ia-foot .badge{font-size:.58rem;flex:none}
-.ia-cfgbtn{flex:1;display:flex;align-items:center;gap:7px;padding:8px 10px;border:0;border-radius:10px;background:none;color:var(--muted);font:600 .74rem Montserrat;cursor:pointer;transition:.15s}
-.ia-cfgbtn:hover{color:var(--txt);background:#1b1b1b}
+
+.ia-foot{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-top:1px solid rgba(255,255,255,.06);background:rgba(12,12,14,.6);gap:8px}
+.ia-status-badge{display:inline-flex;align-items:center;gap:6px;font:600 .72rem Montserrat;color:var(--gold);background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.24);padding:4px 10px;border-radius:99px}
+.ia-status-dot{font-size:.6rem;color:var(--gold);animation:pulse 2s infinite}
+.ia-cfgbtn{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:0;border-radius:8px;background:none;color:#a1a1aa;font:600 .74rem Montserrat;cursor:pointer;transition:.15s}
+.ia-cfgbtn:hover{color:#fff;background:rgba(255,255,255,.07)}
 .ia-cfgbtn .ic{width:14px;height:14px}
+
+/* Botão de Recolher Sidebar */
 .ia-main{flex:1;min-width:0;position:relative;display:flex;flex-direction:column}
-.ia-fold{position:absolute;top:12px;left:10px;z-index:14;width:30px;height:30px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:9px;background:#161616;color:var(--muted);cursor:pointer;transition:.15s}
-.ia-fold:hover{color:var(--gold);border-color:rgba(var(--glow-c),.5)}
+.ia-fold{position:absolute;top:12px;left:10px;z-index:14;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(212,175,55,.25);border-radius:10px;background:rgba(18,18,22,.85);backdrop-filter:blur(10px);color:#a1a1aa;cursor:pointer;transition:.18s}
+.ia-fold:hover{color:var(--gold);border-color:var(--gold);box-shadow:0 0 14px rgba(212,175,55,.2)}
 .ia-fold .ic{width:15px;height:15px;transform:rotate(180deg);transition:transform .22s}
 .ia-wrap.sem .ia-fold .ic{transform:rotate(0)}
-.ia-top{padding:12px 56px 6px 52px;min-height:38px}
-.ia-top h4{margin:0;font:500 .88rem Montserrat;letter-spacing:.05em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ia-box{flex:1;overflow-y:auto;min-height:0;width:100%;max-width:860px;margin:0 auto;padding:14px 22px 26px;display:flex;flex-direction:column;gap:18px}
-.ia-hello{margin:auto;text-align:center;padding:30px 8px}
-.ia-hello .logo{width:84px;margin:0 auto 14px;color:var(--gold);animation:glow 3s ease-in-out infinite}
-.ia-hello h3{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,4vw,1.9rem);margin:0 0 8px;color:var(--txt)}
-.ia-hello p{margin:0 auto;max-width:470px;color:var(--muted);font-size:.86rem;line-height:1.6}
-.ia-msg{display:flex;flex-direction:column;gap:5px;max-width:100%}
-.ia-msg .who{font-size:.58rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-.ia-msg .b{padding:0 2px;font-size:.92rem;line-height:1.7;white-space:pre-wrap;word-break:break-word}
-.ia-msg.user{align-self:flex-end;align-items:flex-end;max-width:80%}
-.ia-msg.user .b{background:#1d1d1d;border:1px solid var(--line);border-radius:16px;padding:11px 15px}
-.ia-msg.ia .b{background:none;border:0;padding:0}
-.ia-msg .b code{background:rgba(var(--glow-c),.14);padding:1px 5px;border-radius:5px;font-size:.82em}
-.ia-msg .b pre{background:#0b0b0b;border:1px solid var(--line);border-radius:10px;padding:12px;overflow:auto;margin:8px 0;font-size:.8rem;white-space:pre-wrap}
-.ia-in{flex:none;padding:8px 18px 16px}
-.ia-inwrap{max-width:860px;margin:0 auto}
-.ia-proj-pill-row{display:flex;align-items:center;margin-bottom:8px}
-.ia-proj-pill{display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:8px;font:500 .74rem Montserrat;color:var(--muted);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);cursor:pointer;transition:.15s}
-.ia-proj-pill:hover{color:var(--txt);border-color:rgba(var(--glow-c),.35)}
-.ia-scope-row{display:flex;align-items:center;margin-top:8px}
-.ia-scope-pill{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:8px;font:500 .74rem Montserrat;color:#888;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);cursor:pointer;transition:.15s}
-.ia-scope-pill:hover{color:var(--txt);border-color:rgba(var(--glow-c),.35)}
-.ia-comp{display:flex;flex-direction:column;background:#181818;border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:12px 14px 10px;box-shadow:0 12px 36px rgba(0,0,0,.45);transition:border-color .18s}
-.ia-comp:focus-within{border-color:rgba(var(--glow-c),.6)}
-.ia-comp textarea{width:100%;min-height:46px;max-height:180px;background:none;border:0;outline:none;resize:none;color:var(--txt);font:500 .88rem Montserrat;line-height:1.55;padding:2px 4px 6px}
-.ia-comp textarea::placeholder{color:#6c6c6c}
-.ia-comp-bottom{display:flex;align-items:center;justify-content:space-between;width:100%;gap:8px;margin-top:4px}
-.ia-comp-left{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.ia-comp-right{display:flex;align-items:center;gap:6px}
-.ia-clip{flex:none;width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:10px;cursor:pointer;transition:.15s;border:1px solid var(--line);background:#141414;color:var(--muted);font-size:1.05rem}
-.ia-clip:hover{color:var(--gold);border-color:rgba(var(--glow-c),.5)}
-.ia-plus-btn{width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.12);background:#202020;color:var(--muted);font-size:1.15rem;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s}
-.ia-plus-btn:hover{color:var(--gold);border-color:rgba(var(--glow-c),.5);background:#282828}
-.ia-model-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:99px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:#ddd;font:500 .76rem Montserrat;cursor:pointer;transition:.15s}
-.ia-model-pill:hover{background:rgba(255,255,255,.1);border-color:rgba(var(--glow-c),.4);color:var(--gold)}
-.ia-voice-btn{width:32px;height:32px;border-radius:50%;border:none;background:none;color:#888;font-size:1.05rem;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s}
-.ia-voice-btn:hover{color:var(--txt);background:rgba(255,255,255,.08)}
-.ia-voice-btn.listening{color:#ff4444;background:rgba(255,68,68,.18);animation:pulse 1s infinite}
-.ia-go{width:32px;height:32px;border-radius:50%;border:none;background:#ffffff;color:#121212;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s;box-shadow:0 2px 8px rgba(0,0,0,.3);flex:none}
-.ia-go .ic{width:16px;height:16px}
-.ia-go:hover{filter:brightness(1.1);transform:scale(1.05)}
-.ia-pill-arr{font-size:.66rem;opacity:.7;margin-left:3px}
-.ia-window-bar{display:flex;align-items:center;justify-content:space-between;padding:10px 12px 6px;border-bottom:1px solid rgba(255,255,255,.04)}
-.ia-win-left{display:flex;align-items:center;gap:6px}
-.ia-brand-glyph{font-size:.88rem;color:var(--gold);font-weight:700;margin-right:4px}
-.ia-icon-btn{width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;border-radius:6px;border:none;background:transparent;color:var(--muted);font-size:.82rem;cursor:pointer;transition:.15s}
-.ia-icon-btn:hover{background:rgba(255,255,255,.08);color:var(--txt)}
-.ia-new-wrap{padding:8px 10px 6px}
-.ia-nav-links{display:flex;flex-direction:column;gap:2px;padding:4px 8px 10px;border-bottom:1px solid rgba(255,255,255,.05)}
-.ia-nav-link{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:8px;border:none;background:transparent;color:#9c9c9c;font:500 .78rem Montserrat;cursor:pointer;text-align:left;transition:.15s;width:100%}
-.ia-nav-link:hover{background:rgba(255,255,255,.06);color:var(--txt)}
-.ia-nav-ic{font-size:.86rem;width:16px;text-align:center;flex:none}
-.ia-projects-sec{padding:10px 10px 4px}
-.ia-sec-head{display:flex;align-items:center;justify-content:space-between;padding:2px 4px 6px}
-.ia-sec-title{font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#6b6b6b}
-.ia-sec-actions{display:flex;align-items:center;gap:6px;color:#6b6b6b;font-size:.72rem;cursor:pointer}
-.ia-project-item{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:8px;font-size:.76rem;font-weight:600;color:#c0c0c0;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.04)}
-.ia-proj-folder{font-size:.82rem;flex:none}
-.ia-proj-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.ia-time{font-size:.66rem;color:#666;margin-left:auto;flex:none;padding-right:2px;font-weight:500}
-.ia-item:hover .ia-time{opacity:0;display:none}
-#iaCfgCard{position:absolute;top:48px;right:14px;z-index:20;width:min(440px,calc(100% - 28px));max-height:calc(100% - 66px);overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.6)}
-#iaCfgCard.collap.closed{display:none}
-.ia-typing{display:inline-flex;gap:4px;align-items:center;color:var(--muted);font-size:.78rem}
-.ia-typing i{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 1.1s infinite}
-.ia-typing i:nth-child(2){animation-delay:.18s}.ia-typing i:nth-child(3){animation-delay:.36s}
-@media(max-width:900px){
-.ia-side{position:absolute;left:0;top:0;bottom:0;z-index:12;width:min(300px,85vw);margin-left:0!important;box-shadow:14px 0 44px rgba(0,0,0,.55);transform:translateX(-105%);transition:transform .22s}
-.ia-wrap.sem .ia-side{transform:translateX(-105%)}
-.ia-wrap:not(.sem) .ia-side{transform:none}
-}
-html[data-theme="light"] .ia-wrap{background:#f6f1e2}
-html[data-theme="light"] .ia-side{background:#efe8d5}
-html[data-theme="light"] .ia-item:hover,html[data-theme="light"] .ia-cfgbtn:hover{background:#e6ddc4}
-html[data-theme="light"] .ia-item.on{background:rgba(var(--glow-c),.18)}
-html[data-theme="light"] .ia-comp{background:#fffdf6;box-shadow:0 10px 34px rgba(80,60,0,.08)}
-html[data-theme="light"] .ia-clip{background:#f6f1e3}
-html[data-theme="light"] .ia-fold{background:#fffdf6}
-html[data-theme="light"] .ia-msg.user .b{background:#fffdf6}
-html[data-theme="light"] .ia-msg .b pre{background:#f1ead6;border-color:var(--line)}
-html[data-theme="light"] .ia-window-bar{border-bottom-color:rgba(0,0,0,.06)}
-html[data-theme="light"] .ia-icon-btn:hover{background:rgba(0,0,0,.06);color:#111}
-html[data-theme="light"] .ia-nav-links{border-bottom-color:rgba(0,0,0,.06)}
-html[data-theme="light"] .ia-nav-link{color:#555}
-html[data-theme="light"] .ia-nav-link:hover{background:rgba(0,0,0,.05);color:#111}
-html[data-theme="light"] .ia-project-item{background:rgba(0,0,0,.03);border-color:rgba(0,0,0,.06);color:#333}
-html[data-theme="light"] .ia-proj-pill{background:#fff;border-color:var(--line);color:#555}
-html[data-theme="light"] .ia-scope-pill{background:#fff;border-color:var(--line);color:#666}
-html[data-theme="light"] .ia-model-pill{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.08);color:#222}
-html[data-theme="light"] .ia-plus-btn{background:#fff;border-color:var(--line);color:#444}
-html[data-theme="light"] .ia-plus-btn:hover{background:#f0e9d6}
-html[data-theme="light"] .ia-go{background:#181818;color:#fff}
-html[data-theme="light"] .ia-time{color:#888}
-/* R79 — pensamento + abas Biblioteca + funções/canvas */
-.ia-pensa-btn{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:#131313;color:var(--muted);border-radius:99px;padding:5px 12px;font:600 .68rem Montserrat;cursor:pointer;margin:0 0 2px;transition:.15s}
-.ia-pensa-btn:hover{color:var(--gold);border-color:rgba(var(--glow-c),.4)}
-.ia-pensa-corpo{display:none;border-left:3px solid rgba(var(--glow-c),.45);background:#121212;padding:10px 14px;border-radius:0 12px 12px 0;color:var(--muted);font:italic 500 .82rem Montserrat;line-height:1.7;white-space:pre-wrap;max-width:720px}
-.ia-pensa-corpo.aberta{display:block;margin:2px 0 6px}
-/* ==================== FÊNIX SPARK & AGENT WORKSPACE (R120) ==================== */
-.ia-mob-switch{display:none;padding:6px 12px;background:#101010;border-bottom:1px solid var(--line);gap:8px;justify-content:center}
-.ia-mob-pill{border:1px solid var(--line);background:#181818;color:var(--muted);border-radius:99px;padding:6px 14px;font:600 .74rem Montserrat;cursor:pointer;transition:.18s;display:inline-flex;align-items:center;gap:6px}
-.ia-mob-pill.on{background:linear-gradient(135deg,rgba(var(--glow-c),.22),rgba(var(--glow-c),.08));border-color:var(--gold);color:var(--gold)}
-.badge-mini{background:var(--gold);color:#101010;font-size:.62rem;font-weight:700;border-radius:99px;padding:1px 6px}
+
+/* Split View & Mobile Bar */
+.ia-mob-switch{display:none;padding:8px 12px;background:#101012;border-bottom:1px solid rgba(255,255,255,.06);gap:8px;justify-content:center}
+.ia-mob-pill{border:1px solid rgba(255,255,255,.1);background:#18181b;color:#a1a1aa;border-radius:99px;padding:6px 16px;font:600 .76rem Montserrat;cursor:pointer;transition:.18s;display:inline-flex;align-items:center;gap:6px}
+.ia-mob-pill.on{background:linear-gradient(135deg,rgba(212,175,55,.24),rgba(212,175,55,.08));border-color:var(--gold);color:var(--gold);box-shadow:0 0 16px rgba(212,175,55,.18)}
+.badge-mini{background:var(--gold);color:#101012;font-size:.62rem;font-weight:700;border-radius:99px;padding:1px 6px}
 
 .ia-split-container{display:flex;flex:1;min-height:0;width:100%;height:100%;overflow:hidden;position:relative}
-.ia-chat-pane{flex:0 0 42%;width:42%;display:flex;flex-direction:column;min-height:0;border-right:1px solid var(--line);position:relative;background:inherit;transition:flex .25s ease,width .25s ease}
+.ia-chat-pane{flex:0 0 42%;width:42%;display:flex;flex-direction:column;min-height:0;border-right:1px solid rgba(212,175,55,.16);position:relative;background:inherit;transition:flex .25s ease,width .25s ease}
 .ia-chat-pane.full-width{flex:1 1 100%!important;width:100%!important;border-right:none}
 
-.ia-top-meta{display:flex;align-items:center;gap:10px;min-width:0}
-.ia-top-meta .small-logo{width:28px;height:28px;flex:none;color:var(--gold)}
-.ia-top{display:flex;align-items:center;justify-content:space-between;padding:10px 16px 10px 52px;border-bottom:1px solid var(--line);gap:10px}
-.ia-top h4{margin:0;font:600 .92rem Montserrat;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ia-top .sub{display:block;font:500 .68rem Montserrat;color:var(--gold);margin-top:1px}
+/* Topo do Chat Apple Luxury */
+.ia-top{display:flex;align-items:center;justify-content:space-between;padding:12px 18px 12px 52px;border-bottom:1px solid rgba(255,255,255,.06);background:rgba(14,14,16,.6);backdrop-filter:blur(16px);gap:12px;min-height:56px}
+.ia-top-meta{display:flex;align-items:center;gap:12px;min-width:0}
+.ia-top-logo-badge{width:32px;height:32px;border-radius:50%;background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.3);display:flex;align-items:center;justify-content:center;box-shadow:0 0 14px rgba(212,175,55,.15);flex:none}
+.ia-top-logo-badge .small-logo{width:20px;height:20px;color:var(--gold)}
+.ia-top-info{min-width:0}
+.ia-top-info h4{margin:0;font:600 .94rem Montserrat;color:#fafafa;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ia-top-info .sub{display:block;font:500 .68rem Montserrat;color:var(--gold);margin-top:2px}
+.ia-top-actions{display:flex;align-items:center;gap:10px;flex:none}
+.spark-btn{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(212,175,55,.45);background:linear-gradient(135deg,rgba(212,175,55,.2),rgba(212,175,55,.05));color:var(--gold);border-radius:99px;padding:6px 14px;font:700 .74rem Montserrat;cursor:pointer;transition:.2s;box-shadow:0 0 16px rgba(212,175,55,.15);flex:none}
+.spark-btn:hover{background:linear-gradient(135deg,rgba(212,175,55,.32),rgba(212,175,55,.1));border-color:var(--gold);box-shadow:0 0 24px rgba(212,175,55,.32);transform:scale(1.02)}
+.ia-top-more-btn{width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);color:#a1a1aa;display:inline-flex;align-items:center;justify-content:center;font-size:1.1rem;cursor:pointer;transition:.18s;letter-spacing:1px;line-height:1}
+.ia-top-more-btn:hover{color:#fff;border-color:rgba(212,175,55,.4);background:rgba(212,175,55,.1)}
 
-.spark-btn{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(var(--glow-c),.5);background:linear-gradient(135deg,rgba(var(--glow-c),.22),rgba(var(--glow-c),.06));color:var(--gold);border-radius:99px;padding:6px 13px;font:700 .72rem Montserrat;cursor:pointer;transition:.2s;box-shadow:0 0 16px rgba(var(--glow-c),.18);flex:none}
-.spark-btn:hover{background:linear-gradient(135deg,rgba(var(--glow-c),.32),rgba(var(--glow-c),.12));border-color:var(--gold);box-shadow:0 0 22px rgba(var(--glow-c),.35)}
+/* Área de Mensagens */
+.ia-box{flex:1;overflow-y:auto;min-height:0;width:100%;max-width:880px;margin:0 auto;padding:18px 20px 24px;display:flex;flex-direction:column;gap:18px;scrollbar-width:thin}
+.ia-box::-webkit-scrollbar{width:6px}
+.ia-box::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:10px}
 
-.ia-chips-bar{display:flex;gap:6px;overflow-x:auto;padding:6px 16px 2px;scrollbar-width:none}
+/* Empty State Editorial Luxury */
+.ia-hello{margin:auto;text-align:center;padding:26px 10px;max-width:680px}
+.ia-hello-logo-wrap{width:64px;height:64px;margin:0 auto 16px;border-radius:50%;background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.38);display:flex;align-items:center;justify-content:center;box-shadow:0 0 28px rgba(212,175,55,.2);animation:glow 3s ease-in-out infinite}
+.ia-hello-logo-wrap .logo{width:38px;height:38px;color:var(--gold)}
+.ia-hello h3{font-family:'Playfair Display',serif;font-size:clamp(1.35rem,3.4vw,1.8rem);margin:0 0 8px;color:#fafafa;font-weight:500;letter-spacing:.02em}
+.ia-hello p{margin:0 auto;max-width:500px;color:#a1a1aa;font:500 .84rem/1.6 Montserrat}
+
+.ia-empty-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:24px;text-align:left}
+.ia-empty-card{display:flex;align-items:flex-start;gap:12px;background:rgba(22,22,26,.7);backdrop-filter:blur(16px);border:1px solid rgba(212,175,55,.22);border-radius:16px;padding:14px 16px;cursor:pointer;transition:.22s;box-shadow:0 4px 16px rgba(0,0,0,.25)}
+.ia-empty-card:hover{border-color:rgba(212,175,55,.6);background:rgba(28,28,34,.9);transform:translateY(-2px);box-shadow:0 10px 28px rgba(0,0,0,.4),0 0 20px rgba(212,175,55,.14)}
+.ia-ec-icon{font-size:1.35rem;flex:none;line-height:1}
+.ia-ec-content strong{display:block;font:600 .84rem Montserrat;color:#fafafa;margin-bottom:4px}
+.ia-ec-content p{margin:0;font:500 .74rem/1.45 Montserrat;color:#a1a1aa}
+
+/* Mensagens (Balões & Avatares) */
+.ia-msg{display:flex;align-items:flex-start;gap:10px;max-width:100%}
+.ia-avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;margin-top:2px}
+.ia-avatar.user{border:1px solid rgba(212,175,55,.35);background:rgba(212,175,55,.08);color:var(--gold)}
+.ia-avatar.user .ic{width:16px;height:16px}
+.ia-avatar.ia{border:1px solid rgba(212,175,55,.5);background:rgba(212,175,55,.12);color:var(--gold);box-shadow:0 0 14px rgba(212,175,55,.15)}
+.ia-avatar.ia .ic{width:18px;height:18px}
+.ia-msg-body{display:flex;flex-direction:column;gap:5px;min-width:0;max-width:calc(100% - 44px)}
+.ia-msg .who{font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8a8a92}
+
+.ia-msg.user{margin-left:auto;flex-direction:row-reverse}
+.ia-msg.user .ia-msg-body{align-items:flex-end}
+.ia-msg.user .b{background:#18181b;border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:12px 18px;color:#f4f4f5;font:500 .88rem/1.6 Montserrat;box-shadow:0 4px 14px rgba(0,0,0,.25);white-space:pre-wrap;word-break:break-word}
+
+.ia-msg.ia{margin-right:auto}
+.ia-msg.ia .ia-msg-body{align-items:flex-start}
+.ia-msg.ia .b{background:rgba(18,18,22,.85);backdrop-filter:blur(16px);border:1px solid rgba(212,175,55,.32);border-radius:18px;padding:14px 18px;color:#f4f4f5;font:500 .88rem/1.7 Montserrat;box-shadow:0 6px 20px rgba(0,0,0,.3),0 0 16px rgba(212,175,55,.06);white-space:pre-wrap;word-break:break-word}
+.ia-msg .b code{background:rgba(212,175,55,.14);color:var(--gold);padding:2px 6px;border-radius:5px;font-size:.84em}
+.ia-msg .b pre{background:#0c0c0e;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px;overflow:auto;margin:8px 0;font-size:.8rem;white-space:pre-wrap;color:#e4e4e7}
+
+.ia-pensa-btn{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(212,175,55,.28);background:rgba(20,20,24,.85);color:var(--gold);border-radius:99px;padding:5px 13px;font:600 .7rem Montserrat;cursor:pointer;margin:0 0 2px;transition:.18s}
+.ia-pensa-btn:hover{border-color:var(--gold);background:rgba(212,175,55,.15);box-shadow:0 0 14px rgba(212,175,55,.18)}
+.ia-pensa-corpo{display:none;border-left:3px solid var(--gold);background:rgba(15,15,18,.9);padding:10px 14px;border-radius:0 12px 12px 0;color:#a1a1aa;font:italic 500 .82rem/1.7 Montserrat;white-space:pre-wrap;max-width:720px}
+.ia-pensa-corpo.aberta{display:block;margin:3px 0 8px}
+
+/* Card de Imagem Gerada (Padrão 2 Linhas: Expandir + Baixar PNG / Nova Variação) */
+.ia-img-card{display:flex;flex-direction:column;gap:10px;background:rgba(18,18,22,.85);border:1px solid rgba(212,175,55,.32);border-radius:18px;padding:12px;margin-top:8px;max-width:440px;box-shadow:0 12px 36px rgba(0,0,0,.45),0 0 20px rgba(212,175,55,.08)}
+.ia-img-wrap{border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.08);background:#0a0a0c;position:relative}
+.ia-img-el{width:100%;max-height:360px;object-fit:cover;display:block}
+.ia-img-actions-rows{display:flex;flex-direction:column;gap:8px}
+.ia-img-row1{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ia-btn-pill{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid rgba(255,255,255,.12);background:rgba(26,26,30,.85);color:#d4d4d8;border-radius:99px;padding:8px 14px;font:600 .74rem Montserrat;cursor:pointer;transition:.18s}
+.ia-btn-pill:hover{border-color:var(--gold);color:var(--gold);background:rgba(35,35,42,.95);box-shadow:0 0 14px rgba(212,175,55,.15)}
+.ia-btn-pill.full-row{width:100%}
+.ia-btn-pill .ic{width:14px;height:14px;flex:none}
+
+/* Card de Artefato (PDF / Documento) */
+.ia-artifact-card{display:flex;flex-direction:column;gap:10px;background:rgba(18,18,22,.85);backdrop-filter:blur(16px);border:1px solid rgba(212,175,55,.32);border-radius:16px;padding:14px 16px;margin-top:8px;max-width:540px;box-shadow:0 8px 24px rgba(0,0,0,.35),0 0 18px rgba(212,175,55,.06);transition:.2s}
+.ia-artifact-card:hover{border-color:var(--gold);box-shadow:0 10px 32px rgba(0,0,0,.45),0 0 22px rgba(212,175,55,.15)}
+.ia-art-head{display:flex;align-items:center;gap:10px}
+.ia-art-icon{width:36px;height:36px;border-radius:10px;background:rgba(212,175,55,.14);border:1px solid rgba(212,175,55,.3);color:var(--gold);display:flex;align-items:center;justify-content:center;flex:none}
+.ia-art-icon .ic{width:18px;height:18px}
+.ia-art-info{flex:1;min-width:0}
+.ia-art-info strong{display:block;font:600 .86rem Montserrat;color:#fafafa;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ia-art-badge{display:inline-block;font:700 .6rem Montserrat;letter-spacing:.08em;color:var(--gold);text-transform:uppercase;margin-top:2px}
+.ia-art-preview{font:500 .74rem/1.55 Montserrat;color:#a1a1aa;max-height:50px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;background:#0f0f12;border-radius:8px;padding:6px 10px;border:1px solid rgba(255,255,255,.06)}
+.ia-art-actions{display:flex;gap:8px;margin-top:2px}
+
+/* Barra de Chips Rápidos & Cápsula Flutuante Única */
+.ia-chips-bar{display:flex;gap:8px;justify-content:center;overflow-x:auto;padding:6px 16px 8px;scrollbar-width:none}
 .ia-chips-bar::-webkit-scrollbar{display:none}
-.ia-chip-btn{border:1px solid var(--line);background:#151515;color:var(--muted);border-radius:99px;padding:5px 11px;font:600 .7rem Montserrat;cursor:pointer;white-space:nowrap;transition:.15s;flex:none}
-.ia-chip-btn:hover{color:var(--gold);border-color:rgba(var(--glow-c),.4);background:#1a1a1a}
+.ia-chip-btn{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(255,255,255,.1);background:rgba(24,24,28,.75);backdrop-filter:blur(14px);color:#d4d4d8;border-radius:99px;padding:6px 14px;font:600 .73rem Montserrat;cursor:pointer;white-space:nowrap;transition:.18s;flex:none}
+.ia-chip-btn:hover{color:var(--gold);border-color:rgba(212,175,55,.45);background:rgba(32,32,38,.9);transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,0,0,.3)}
+.ia-chip-icon{font-size:.82rem}
 
-.spark-comp-btn{background:linear-gradient(135deg,rgba(var(--glow-c),.25),rgba(var(--glow-c),.08));border-color:rgba(var(--glow-c),.45)!important;box-shadow:0 0 10px rgba(var(--glow-c),.2)}
+.ia-in{flex:none;padding:4px 18px 20px}
+.ia-inwrap{max-width:880px;margin:0 auto;position:relative}
+#iaAnexoChip{display:inline-flex;align-items:center;gap:6px;margin:0 0 8px 12px;font:600 .74rem Montserrat;color:var(--gold);background:rgba(212,175,55,.1);padding:4px 10px;border-radius:99px;border:1px solid rgba(212,175,55,.25)}
+#iaAnexoChip.hidden{display:none!important}
+#iaAnexoX{background:none;border:none;color:#ff8080;cursor:pointer;margin-left:4px;font-size:.78rem}
 
-/* Workspace Pane (58%) */
-.ia-workspace-pane{flex:1;display:flex;flex-direction:column;min-height:0;background:#101010;overflow:hidden;position:relative}
+.ia-comp-capsule{display:flex;align-items:center;gap:8px;background:rgba(24,24,28,.85);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(212,175,55,.28);border-radius:999px;padding:6px 8px 6px 14px;box-shadow:0 12px 36px rgba(0,0,0,.45),0 0 22px rgba(212,175,55,.08);transition:border-color .2s,box-shadow .2s}
+.ia-comp-capsule:focus-within{border-color:rgba(212,175,55,.6);box-shadow:0 14px 40px rgba(0,0,0,.55),0 0 28px rgba(212,175,55,.18)}
+.ia-comp-capsule textarea{flex:1;background:transparent;border:0;outline:none;resize:none;min-height:24px;max-height:130px;color:#fafafa;font:500 .88rem/1.45 Montserrat;padding:5px 4px;margin:0}
+.ia-comp-capsule textarea::placeholder{color:#71717a}
+
+.ia-capsule-btn{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.18s;flex:none}
+.ia-capsule-btn.ia-clip{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#a1a1aa}
+.ia-capsule-btn.ia-clip:hover{border-color:var(--gold);color:var(--gold);background:rgba(212,175,55,.12)}
+.ia-capsule-btn.ia-clip .ic{width:16px;height:16px}
+.ia-capsule-btn.ia-voice-btn{border:none;background:transparent;color:#a1a1aa}
+.ia-capsule-btn.ia-voice-btn:hover{color:#fff;background:rgba(255,255,255,.08)}
+.ia-capsule-btn.ia-voice-btn.listening{color:#ff4444;background:rgba(255,68,68,.18);animation:pulse 1s infinite}
+.ia-capsule-btn.ia-voice-btn .ic{width:16px;height:16px}
+
+.ia-go{width:38px;height:38px;border-radius:50%;border:none;background:linear-gradient(135deg,#e6c86e,#cba135);color:#121214;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s;box-shadow:0 4px 14px rgba(212,175,55,.35);flex:none}
+.ia-go:hover{transform:scale(1.05);filter:brightness(1.08);box-shadow:0 6px 18px rgba(212,175,55,.5)}
+.ia-go .ic{width:16px;height:16px}
+
+/* Workspace Pane Luxury (58%) */
+.ia-workspace-pane{flex:1;display:flex;flex-direction:column;min-height:0;background:rgba(14,14,16,.85);backdrop-filter:blur(20px);overflow:hidden;position:relative}
 .ia-workspace-pane.hidden{display:none!important}
-.ws-header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--line);background:#131313;gap:12px;flex:none}
-.ws-header-left{display:flex;align-items:center;gap:12px;min-width:0;flex-wrap:wrap}
-.ws-badge{font:700 .66rem Montserrat;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;background:rgba(var(--glow-c),.12);padding:4px 8px;border-radius:6px;border:1px solid rgba(var(--glow-c),.25);flex:none}
-.ws-tabs-bar{display:flex;gap:4px;background:#0c0c0c;border:1px solid var(--line);border-radius:10px;padding:3px}
-.ws-tab-btn{border:0;background:none;color:var(--muted);font:600 .74rem Montserrat;padding:6px 12px;border-radius:7px;cursor:pointer;transition:.15s;white-space:nowrap}
-.ws-tab-btn.on{background:#1e1e1e;color:var(--gold)}
-.ws-close-btn{border:1px solid var(--line);background:none;color:var(--muted);width:30px;height:30px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.85rem;transition:.15s;flex:none}
-.ws-close-btn:hover{color:#ff8080;border-color:rgba(255,128,128,.4);background:rgba(255,128,128,.08)}
+
+.ws-header{display:flex;flex-direction:column;border-bottom:1px solid rgba(212,175,55,.16);background:rgba(18,18,22,.9);padding:14px 18px 10px;gap:12px;flex:none}
+.ws-header-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.ws-title{margin:0;font-family:'Playfair Display',serif;font-size:1.24rem;font-weight:600;color:#f5eed8;letter-spacing:.02em}
+.ws-header-actions{display:flex;align-items:center;gap:10px}
+.ws-top-dl-btn{display:inline-flex;align-items:center;gap:6px;border:none;background:linear-gradient(135deg,#e6c86e,#cba135);color:#121214;border-radius:99px;padding:7px 16px;font:700 .74rem Montserrat;cursor:pointer;transition:.2s;box-shadow:0 4px 14px rgba(212,175,55,.3)}
+.ws-top-dl-btn:hover{filter:brightness(1.08);transform:scale(1.02);box-shadow:0 6px 18px rgba(212,175,55,.45)}
+.ws-top-dl-btn .ic{width:14px;height:14px}
+.ws-close-btn{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#a1a1aa;width:32px;height:32px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.85rem;transition:.18s;flex:none}
+.ws-close-btn:hover{color:#ff8080;border-color:rgba(255,128,128,.4);background:rgba(255,128,128,.1)}
+
+.ws-tabs-bar{display:flex;gap:6px;border-bottom:1px solid rgba(255,255,255,.06);padding-bottom:2px}
+.ws-tab-btn{border:0;background:none;color:#a1a1aa;font:600 .76rem Montserrat;padding:8px 14px;border-radius:8px;cursor:pointer;transition:.18s;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;position:relative}
+.ws-tab-btn:hover{color:#fafafa;background:rgba(255,255,255,.04)}
+.ws-tab-btn.on{color:var(--gold);background:rgba(212,175,55,.1)}
+.ws-tab-btn.on::after{content:'';position:absolute;bottom:-3px;left:14px;right:14px;height:2px;background:var(--gold);border-radius:2px}
 
 .ws-body-tab{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden;position:relative}
 .ws-body-tab.hidden{display:none!important}
 
 /* Workspace Docs Tab */
-.ws-docs-nav{display:flex;align-items:center;gap:6px;padding:8px 16px;border-bottom:1px solid var(--line);background:#121212;overflow-x:auto;scrollbar-width:none;flex:none}
+.ws-docs-nav{display:flex;align-items:center;gap:6px;padding:8px 18px;border-bottom:1px solid rgba(255,255,255,.05);background:rgba(16,16,20,.6);overflow-x:auto;scrollbar-width:none;flex:none}
 .ws-docs-nav::-webkit-scrollbar{display:none}
 .ws-doc-pills{display:flex;gap:6px;flex:none}
-.ws-doc-pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:#181818;color:var(--txt);border-radius:8px;padding:6px 12px;font:600 .74rem Montserrat;cursor:pointer;transition:.15s;white-space:nowrap;max-width:200px}
-.ws-doc-pill.on{border-color:var(--gold);background:rgba(var(--glow-c),.12);color:var(--gold)}
+.ws-doc-pill{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(255,255,255,.08);background:rgba(24,24,28,.8);color:#d4d4d8;border-radius:8px;padding:6px 12px;font:600 .74rem Montserrat;cursor:pointer;transition:.15s;white-space:nowrap;max-width:210px}
+.ws-doc-pill.on{border-color:var(--gold);background:rgba(212,175,55,.14);color:var(--gold)}
 .ws-doc-pill .t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.ws-doc-editor-wrap{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden}
-.ws-doc-topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);background:#131313;flex:none}
-.ws-doc-title-input{flex:1;min-width:0;background:none;border:0;outline:none;font:500 1.05rem 'Playfair Display',serif;color:var(--txt);letter-spacing:.02em}
+
+.ws-doc-editor-wrap{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden;padding:14px 18px}
+.ws-stationery-card{flex:1;display:flex;flex-direction:column;min-height:0;background:rgba(18,18,22,.9);border:1px solid rgba(212,175,55,.28);border-top:3px solid var(--gold);border-radius:16px;overflow:hidden;box-shadow:0 12px 36px rgba(0,0,0,.4)}
+.ws-doc-topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 18px;border-bottom:1px solid rgba(255,255,255,.06);background:rgba(20,20,24,.6);flex:none}
+.ws-doc-title-input{flex:1;min-width:0;background:none;border:0;outline:none;font:600 1.22rem 'Playfair Display',serif;color:#f5eed8;letter-spacing:.02em}
 .ws-doc-actions{display:flex;align-items:center;gap:8px;flex:none}
-.ws-doc-content-wrap{flex:1;display:flex;min-height:0;overflow-y:auto;background:radial-gradient(900px 420px at 70% -10%,rgba(var(--glow-c),.05),transparent 60%),#0e0e0e}
-.ws-doc-textarea{flex:1;width:100%;margin:0 auto;background:none;border:0;outline:none;resize:none;color:var(--txt);font:500 .94rem Montserrat;line-height:1.85;padding:22px 24px}
-.ws-doc-footbar{padding:6px 18px;text-align:right;color:var(--muted);font-size:.68rem;border-top:1px solid var(--line);background:#121212;flex:none}
+.ws-doc-content-wrap{flex:1;display:flex;min-height:0;overflow-y:auto;background:radial-gradient(900px 420px at 70% -10%,rgba(212,175,55,.04),transparent 60%),#111114}
+.ws-doc-textarea{flex:1;width:100%;margin:0 auto;background:none;border:0;outline:none;resize:none;color:#e4e4e7;font:500 .94rem/1.85 Montserrat;padding:22px 24px}
+.ws-doc-footbar{padding:8px 18px;text-align:right;color:#71717a;font-size:.68rem;border-top:1px solid rgba(255,255,255,.05);background:rgba(16,16,20,.6);flex:none}
 
 /* Workspace Gallery Tab */
-.ws-gallery-toolbar{padding:12px 16px;border-bottom:1px solid var(--line);background:#131313;display:flex;flex-direction:column;gap:10px;flex:none}
-.ws-gallery-search{width:100%;background:#181818;border:1px solid var(--line);border-radius:10px;padding:9px 14px;color:var(--txt);font:500 .82rem Montserrat;outline:none}
-.ws-gallery-search:focus{border-color:var(--gold)}
+.ws-gallery-toolbar{padding:12px 18px;border-bottom:1px solid rgba(255,255,255,.06);background:rgba(18,18,22,.85);display:flex;flex-direction:column;gap:10px;flex:none}
+.ws-gallery-search{width:100%;background:rgba(26,26,30,.8);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:9px 14px;color:#fafafa;font:500 .82rem Montserrat;outline:none;transition:.18s}
+.ws-gallery-search:focus{border-color:var(--gold);box-shadow:0 0 14px rgba(212,175,55,.15)}
 .ws-gallery-cats{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
 .ws-gallery-cats::-webkit-scrollbar{display:none}
-.ws-cat-pill{border:1px solid var(--line);background:#171717;color:var(--muted);border-radius:99px;padding:5px 12px;font:600 .7rem Montserrat;cursor:pointer;white-space:nowrap;transition:.15s;flex:none}
-.ws-cat-pill.on{background:rgba(var(--glow-c),.14);border-color:var(--gold);color:var(--gold)}
-.ws-gallery-grid{flex:1;overflow-y:auto;padding:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;align-content:start}
-.ws-card{background:#151515;border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px;transition:.2s}
-.ws-card:hover{border-color:rgba(var(--glow-c),.4);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.ws-cat-pill{border:1px solid rgba(255,255,255,.08);background:rgba(24,24,28,.8);color:#a1a1aa;border-radius:99px;padding:5px 13px;font:600 .7rem Montserrat;cursor:pointer;white-space:nowrap;transition:.15s;flex:none}
+.ws-cat-pill.on{background:rgba(212,175,55,.16);border-color:var(--gold);color:var(--gold)}
+.ws-gallery-grid{flex:1;overflow-y:auto;padding:16px 18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;align-content:start}
+.ws-card{background:rgba(20,20,24,.85);border:1px solid rgba(212,175,55,.2);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px;transition:.2s}
+.ws-card:hover{border-color:rgba(212,175,55,.5);box-shadow:0 8px 24px rgba(0,0,0,.4),0 0 16px rgba(212,175,55,.1)}
 .ws-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
-.ws-card-title{font:600 .86rem Montserrat;color:var(--txt);margin:0}
-.ws-card-cat{font:700 .62rem Montserrat;text-transform:uppercase;color:var(--gold);background:rgba(var(--glow-c),.1);padding:3px 7px;border-radius:5px;flex:none}
-.ws-card-desc{font:500 .74rem Montserrat;color:var(--muted);line-height:1.55;margin:0;max-height:68px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
-.ws-card-mockup{width:100%;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:#0a0a0a;position:relative}
+.ws-card-title{font:600 .86rem Montserrat;color:#fafafa;margin:0}
+.ws-card-cat{font:700 .62rem Montserrat;text-transform:uppercase;color:var(--gold);background:rgba(212,175,55,.12);padding:3px 7px;border-radius:5px;flex:none}
+.ws-card-desc{font:500 .74rem/1.55 Montserrat;color:#a1a1aa;margin:0;max-height:68px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
+.ws-card-mockup{width:100%;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,.08);background:#0a0a0c;position:relative}
 .ws-card-mockup img{width:100%;height:160px;object-fit:cover;display:block}
 .ws-card-mockup-actions{position:absolute;bottom:6px;right:6px;display:flex;gap:4px}
 .ws-card-actions{display:flex;gap:6px;margin-top:auto}
 
 /* Workspace Roteiro Tab */
 .ws-roteiro-wrap{flex:1;overflow-y:auto;padding:18px 22px}
-.ws-roteiro-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;border-bottom:1px solid var(--line);padding-bottom:12px}
-.ws-roteiro-head h3{margin:0 0 4px;font:500 1.15rem 'Playfair Display',serif;color:var(--txt)}
-.ws-roteiro-head .sub{margin:0;font:500 .76rem Montserrat;color:var(--muted)}
+.ws-roteiro-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;border-bottom:1px solid rgba(255,255,255,.06);padding-bottom:12px}
+.ws-roteiro-head h3{margin:0 0 4px;font:500 1.15rem 'Playfair Display',serif;color:#fafafa}
+.ws-roteiro-head .sub{margin:0;font:500 .76rem Montserrat;color:#a1a1aa}
 .ws-roteiro-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
-.ws-roteiro-item{display:flex;align-items:center;gap:10px;background:#151515;border:1px solid var(--line);border-radius:12px;padding:12px 14px;transition:.15s}
-.ws-roteiro-item:hover{border-color:rgba(var(--glow-c),.35)}
-.ws-roteiro-item.done{opacity:.65;background:#101010}
-.ws-roteiro-item.done .ws-roteiro-txt{text-decoration:line-through;color:var(--muted)}
+.ws-roteiro-item{display:flex;align-items:center;gap:10px;background:rgba(20,20,24,.85);border:1px solid rgba(212,175,55,.18);border-radius:12px;padding:12px 14px;transition:.15s}
+.ws-roteiro-item:hover{border-color:rgba(212,175,55,.4)}
+.ws-roteiro-item.done{opacity:.65;background:rgba(16,16,20,.6)}
+.ws-roteiro-item.done .ws-roteiro-txt{text-decoration:line-through;color:#71717a}
 .ws-roteiro-check{width:18px;height:18px;accent-color:var(--gold);cursor:pointer;flex:none}
-.ws-roteiro-txt{flex:1;min-width:0;font:500 .82rem Montserrat;color:var(--txt)}
-.ws-roteiro-del{border:0;background:none;color:var(--muted);cursor:pointer;padding:4px;border-radius:6px;transition:.15s;flex:none}
+.ws-roteiro-txt{flex:1;min-width:0;font:500 .82rem Montserrat;color:#fafafa}
+.ws-roteiro-del{border:0;background:none;color:#71717a;cursor:pointer;padding:4px;border-radius:6px;transition:.15s;flex:none}
 .ws-roteiro-del:hover{color:#ff8080}
-
-/* Empty State 4 Cards */
-.ia-empty-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px;max-width:680px}
-.ia-empty-card{display:flex;align-items:flex-start;gap:12px;background:#151515;border:1px solid var(--line);border-radius:14px;padding:14px;cursor:pointer;text-align:left;transition:.2s}
-.ia-empty-card:hover{border-color:var(--gold);background:rgba(var(--glow-c),.08);transform:translateY(-2px)}
-.ia-ec-icon{font-size:1.35rem;flex:none;line-height:1}
-.ia-ec-content strong{display:block;font:600 .82rem Montserrat;color:var(--txt);margin-bottom:3px}
-.ia-ec-content p{margin:0;font:500 .72rem Montserrat;color:var(--muted);line-height:1.45}
-
-/* Smart Artifact Card (.ia-artifact-card) */
-.ia-artifact-card{display:flex;flex-direction:column;gap:8px;background:linear-gradient(135deg,#181818,#141414);border:1px solid rgba(var(--glow-c),.35);border-radius:14px;padding:12px 14px;margin-top:8px;max-width:540px;box-shadow:0 8px 24px rgba(0,0,0,.3);transition:.2s}
-.ia-artifact-card:hover{border-color:var(--gold);box-shadow:0 10px 30px rgba(var(--glow-c),.2)}
-.ia-art-head{display:flex;align-items:center;gap:10px}
-.ia-art-icon{width:34px;height:34px;border-radius:10px;background:rgba(var(--glow-c),.12);color:var(--gold);display:flex;align-items:center;justify-content:center;flex:none}
-.ia-art-icon .ic{width:18px;height:18px}
-.ia-art-info{flex:1;min-width:0}
-.ia-art-info strong{display:block;font:600 .86rem Montserrat;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ia-art-badge{display:inline-block;font:700 .58rem Montserrat;letter-spacing:.08em;color:var(--gold);text-transform:uppercase;margin-top:2px}
-.ia-art-preview{font:500 .74rem Montserrat;color:var(--muted);line-height:1.55;max-height:50px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;background:#101010;border-radius:8px;padding:6px 10px;border:1px solid var(--line)}
-.ia-art-actions{display:flex;gap:8px;margin-top:2px}
-
-/* Inline Image Card (.ia-img-card) */
-.ia-img-card{display:flex;flex-direction:column;gap:8px;background:#151515;border:1px solid rgba(var(--glow-c),.35);border-radius:16px;padding:12px;margin-top:8px;max-width:440px;box-shadow:0 12px 36px rgba(0,0,0,.45)}
-.ia-img-wrap{border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#0a0a0a;position:relative}
-.ia-img-el{width:100%;max-height:360px;object-fit:cover;display:block;border-radius:11px}
-.ia-img-actions{display:flex;gap:6px;flex-wrap:wrap}
 
 /* Lightbox Modal */
 .ia-lightbox-modal{position:fixed;inset:0;z-index:400;display:flex;align-items:center;justify-content:center;padding:20px}
 .ia-lightbox-modal.hidden{display:none!important}
-.ia-lightbox-overlay{position:absolute;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(8px)}
+.ia-lightbox-overlay{position:absolute;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(10px)}
 .ia-lightbox-content{position:relative;z-index:2;max-width:min(92vw,720px);max-height:92vh;display:flex;flex-direction:column;align-items:center;gap:12px}
-.ia-lightbox-content img{max-width:100%;max-height:78vh;object-fit:contain;border-radius:14px;border:1px solid rgba(var(--glow-c),.4);box-shadow:0 20px 60px rgba(0,0,0,.8)}
-.ia-lightbox-close{position:absolute;top:-14px;right:-14px;width:34px;height:34px;border-radius:50%;background:#222;border:1px solid var(--line);color:#fff;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,.5)}
+.ia-lightbox-content img{max-width:100%;max-height:78vh;object-fit:contain;border-radius:16px;border:1px solid rgba(212,175,55,.45);box-shadow:0 20px 60px rgba(0,0,0,.85),0 0 30px rgba(212,175,55,.15)}
+.ia-lightbox-close{position:absolute;top:-14px;right:-14px;width:34px;height:34px;border-radius:50%;background:#18181b;border:1px solid rgba(212,175,55,.3);color:#fff;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,.5)}
 .ia-lightbox-actions{display:flex;gap:8px}
-.ia2new.menor{margin:2px 12px 10px;padding:9px 12px;font-size:.78rem}
-.ia-fun{flex:none;width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:13px;border:1px solid var(--line);background:#141414;color:var(--gold);cursor:pointer;transition:.15s}
-.ia-fun .ic{width:16px;height:16px}
-.ia-fun:hover{border-color:rgba(var(--glow-c),.5);background:#1a1a1a}
-.ia-inwrap{position:relative}
-.ia-pop{position:absolute;bottom:calc(100% + 8px);left:0;z-index:30;width:280px;background:#161616;border:1px solid var(--line);border-radius:14px;padding:6px;box-shadow:0 16px 44px rgba(0,0,0,.5)}
-.ia-pop button{display:flex;gap:10px;align-items:center;width:100%;border:0;background:none;color:var(--txt);padding:10px;border-radius:10px;cursor:pointer;text-align:left;font:600 .82rem Montserrat}
-.ia-pop button:hover{background:#1f1f1f}
-.ia-pop button .ic{width:16px;height:16px;color:var(--gold);flex:none}
-.ia-pop small{display:block;color:var(--muted);font-weight:500;font-size:.68rem;margin-top:2px}
-.ia-pop-mais{padding:8px 10px 6px;color:var(--muted);font-size:.66rem;border-top:1px solid var(--line);margin-top:4px}
-.ia-modal{position:absolute;inset:0;z-index:26;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:18px}
-.ia-modal.hidden{display:none}
-.ia-modal-card{width:min(420px,100%);background:#151515;border:1px solid var(--line);border-radius:18px;padding:22px}
-.ia-modal-card h3{margin:0 0 4px;font-family:'Playfair Display',serif;font-weight:500}
-.ia-can-tips{display:grid;gap:10px;margin:14px 0}
-.ia-can-tips button{display:flex;gap:12px;align-items:center;border:1px solid var(--line);background:#101010;color:var(--txt);border-radius:13px;padding:12px 14px;cursor:pointer;text-align:left;transition:.15s}
-.ia-can-tips button.on{border-color:var(--gold);background:rgba(var(--glow-c),.09)}
-.ia-can-tips b{font:700 .88rem Montserrat}
-.ia-can-tips small{display:block;color:var(--muted);font:500 .7rem Montserrat;margin-top:2px}
-.ia-can-tips .ic{width:20px;height:20px;color:var(--gold);flex:none}
-.ia-canvas{position:absolute;inset:0;z-index:18;display:flex;flex-direction:column;background:radial-gradient(900px 420px at 60% -10%,rgba(var(--glow-c),.07),transparent 60%),#0f0f0f}
-.ia-canvas.hidden{display:none}
-.ia-chead{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);flex:none}
-.ia-cback{display:flex;align-items:center;gap:6px;border:1px solid var(--line);background:#161616;color:var(--muted);border-radius:10px;padding:8px 12px;font:600 .78rem Montserrat;cursor:pointer;flex:none}
-.ia-cback:hover{color:var(--gold)}
-.ia-cback .ic{width:14px;height:14px;transform:rotate(180deg)}
-#iaCanTitulo{flex:1;min-width:0;background:none;border:0;outline:none;color:var(--txt);font:500 1rem 'Playfair Display',serif;letter-spacing:.02em}
-.ia-cact{display:flex;align-items:center;gap:6px;border:1px solid rgba(var(--glow-c),.4);background:linear-gradient(135deg,rgba(var(--glow-c),.16),rgba(var(--glow-c),.05));color:var(--gold);border-radius:10px;padding:8px 12px;font:700 .76rem Montserrat;cursor:pointer;flex:none}
-.ia-cact .ic{width:14px;height:14px}
-.ia-cact.perigo{border-color:var(--line);background:#161616;color:var(--muted)}
-.ia-cact.perigo:hover{color:#ff8080;border-color:rgba(255,128,128,.4)}
-.ia-cbody{flex:1;overflow-y:auto;display:flex;min-height:0}
-#iaCanTexto{flex:1;width:100%;max-width:860px;margin:0 auto;background:none;border:0;outline:none;resize:none;color:var(--txt);font:500 .95rem Montserrat;line-height:1.9;padding:26px 22px}
-.ia-cfoot{flex:none;padding:8px 18px 12px;text-align:center;color:var(--muted);font-size:.68rem}
-html[data-theme="light"] .ia-mob-switch{background:#ede6d3}
-html[data-theme="light"] .ia-mob-pill{background:#fffdf6}
+
+#iaCfgCard{position:absolute;top:56px;right:18px;z-index:20;width:min(440px,calc(100% - 36px));max-height:calc(100% - 72px);overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.7);background:rgba(18,18,22,.95);border:1px solid rgba(212,175,55,.35);border-radius:18px}
+#iaCfgCard.collap.closed{display:none}
+
+.ia-typing{display:inline-flex;gap:4px;align-items:center;color:#a1a1aa;font-size:.78rem}
+.ia-typing i{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 1.1s infinite}
+.ia-typing i:nth-child(2){animation-delay:.18s}.ia-typing i:nth-child(3){animation-delay:.36s}
+
+/* Responsividade Mobile */
+@media(max-width:900px){
+.ia-side{position:absolute;left:0;top:0;bottom:0;z-index:12;width:min(300px,85vw);margin-left:0!important;box-shadow:14px 0 44px rgba(0,0,0,.6);transform:translateX(-105%);transition:transform .22s}
+.ia-wrap.sem .ia-side{transform:translateX(-105%)}
+.ia-wrap:not(.sem) .ia-side{transform:none}
+.ia-mob-switch{display:flex}
+.ia-chat-pane{flex:1 1 100%!important;width:100%!important;border-right:none}
+.ia-chat-pane.mob-hidden{display:none!important}
+.ia-workspace-pane{flex:1 1 100%!important;width:100%!important}
+.ia-empty-cards{grid-template-columns:1fr}
+.ia-top{padding-left:52px}
+}
+
+/* Light Theme Apple Luxury */
+html[data-theme="light"] .ia-wrap{background:radial-gradient(1200px 600px at 50% -10%,rgba(190,140,40,.08),transparent 70%),#fbf9f4}
+html[data-theme="light"] .ia-side{background:rgba(247,244,235,.9);border-right-color:rgba(190,140,40,.2)}
+html[data-theme="light"] .ia-brand-head{border-bottom-color:rgba(0,0,0,.06)}
+html[data-theme="light"] .ia-brand-title{color:#2a251b}
+html[data-theme="light"] .ia-item{color:#4a453b}
+html[data-theme="light"] .ia-item:hover{background:#ede6d3}
+html[data-theme="light"] .ia-item.on{background:rgba(190,140,40,.15);border-color:rgba(190,140,40,.35);color:#1c170d}
+html[data-theme="light"] .ia-foot{border-top-color:rgba(0,0,0,.06);background:rgba(242,238,228,.8)}
+html[data-theme="light"] .ia-top{background:rgba(248,245,238,.9);border-bottom-color:rgba(0,0,0,.06)}
+html[data-theme="light"] .ia-top-info h4{color:#2a251b}
+html[data-theme="light"] .ia-hello h3{color:#2a251b}
+html[data-theme="light"] .ia-hello p{color:#6c6454}
+html[data-theme="light"] .ia-empty-card{background:#ffffff;border-color:rgba(190,140,40,.25);box-shadow:0 4px 16px rgba(80,60,0,.05)}
+html[data-theme="light"] .ia-empty-card:hover{background:#fffdf9;border-color:var(--gold)}
+html[data-theme="light"] .ia-empty-card strong{color:#2a251b}
+html[data-theme="light"] .ia-msg.user .b{background:#ffffff;border-color:rgba(0,0,0,.08);color:#2a251b}
+html[data-theme="light"] .ia-msg.ia .b{background:#fffdf8;border-color:rgba(190,140,40,.35);color:#2a251b}
+html[data-theme="light"] .ia-chip-btn{background:#ffffff;border-color:rgba(0,0,0,.08);color:#4a453b}
+html[data-theme="light"] .ia-comp-capsule{background:#ffffff;border-color:rgba(190,140,40,.3);box-shadow:0 10px 34px rgba(80,60,0,.08)}
+html[data-theme="light"] .ia-comp-capsule textarea{color:#2a251b}
 html[data-theme="light"] .ia-workspace-pane{background:#faf7ee}
-html[data-theme="light"] .ws-header,html[data-theme="light"] .ws-doc-topbar,html[data-theme="light"] .ws-gallery-toolbar{background:#f4efe0}
-html[data-theme="light"] .ws-tab-btn.on{background:#fffdf6}
-html[data-theme="light"] .ws-doc-pill{background:#fffdf6}
-html[data-theme="light"] .ws-card,html[data-theme="light"] .ws-roteiro-item,html[data-theme="light"] .ia-empty-card{background:#fffdf6}
-html[data-theme="light"] .ia-artifact-card{background:#fffdf6}
-html[data-theme="light"] .ia-art-preview{background:#f6f1e3}
-html[data-theme="light"] .ia-img-card{background:#fffdf6}
-html[data-theme="light"] .ia-pensa-btn,html[data-theme="light"] .ia-fun,html[data-theme="light"] .ia-cback,html[data-theme="light"] .ia-cact.perigo{background:#fffdf6}
-html[data-theme="light"] .ia-pensa-corpo{background:#f1ead6;color:#6d6553}
-html[data-theme="light"] .ia-pop,html[data-theme="light"] .ia-modal-card{background:#fffdf6}
-html[data-theme="light"] .ia-pop button:hover{background:#f1ead9}
-html[data-theme="light"] .ia-can-tips button{background:#f6f1e3}
-html[data-theme="light"] .ia-canvas{background:#f6f1e2}
+html[data-theme="light"] .ws-header{background:#f4efe0;border-bottom-color:rgba(190,140,40,.2)}
+html[data-theme="light"] .ws-title{color:#2a251b}
+html[data-theme="light"] .ws-tab-btn.on{background:rgba(190,140,40,.12)}
+html[data-theme="light"] .ws-stationery-card{background:#ffffff}
+html[data-theme="light"] .ws-doc-topbar{background:#fdfbf7}
+html[data-theme="light"] .ws-doc-title-input{color:#2a251b}
+html[data-theme="light"] .ws-doc-content-wrap{background:#fffdf8}
+html[data-theme="light"] .ws-doc-textarea{color:#2a251b}
+html[data-theme="light"] .ws-card{background:#ffffff}
+html[data-theme="light"] .ws-card-title{color:#2a251b}
+html[data-theme="light"] .ws-roteiro-item{background:#ffffff}
+html[data-theme="light"] .ws-roteiro-txt{color:#2a251b}
+html[data-theme="light"] .ia-artifact-card{background:#ffffff}
+html[data-theme="light"] .ia-img-card{background:#ffffff}
 /* R80 — cartão de canvas criado pela I.A */
 .ia-arq{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;margin-top:4px;border:1px solid rgba(var(--glow-c),.45);background:rgba(var(--glow-c),.08);color:var(--gold);border-radius:12px;padding:9px 14px;font:600 .78rem Montserrat;cursor:pointer;transition:.15s}
 .ia-arq:hover{background:rgba(var(--glow-c),.16);border-color:var(--gold)}
@@ -1885,40 +1883,15 @@ html[data-theme="dark"] .story-card-luxury{background:rgba(28,26,23,0.85);border
 <section id="viewIa" class="view hidden">
 <div class="ia-wrap" id="iaWrap">
 <aside class="ia-side" id="iaSide">
-  <div class="ia-window-bar">
-    <div class="ia-win-left">
-      <span class="ia-brand-glyph" title="Fênix Antigravity">▲</span>
-      <button type="button" class="ia-icon-btn" id="btnIaSideToggle" title="Recolher painel"><svg viewBox="0 0 24 24" style="width:13px;height:13px" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 3v18"/></svg></button>
-      <button type="button" class="ia-icon-btn" id="btnIaHistBack" title="Voltar">←</button>
-      <button type="button" class="ia-icon-btn" id="btnIaHistFwd" title="Avançar">→</button>
+  <div class="ia-brand-head">
+    <div class="ia-brand-logo-wrap">
+      <svg class="logo" viewBox="0 0 1440 960"><use href="#phoenix"/></svg>
     </div>
-    <div class="ia-win-right">
-      <button type="button" class="ia-icon-btn" id="btnIaSearch" title="Buscar">🔍</button>
-    </div>
+    <h3 class="ia-brand-title">Fênix I.A</h3>
   </div>
 
   <div class="ia-new-wrap">
     <button class="ia2new" id="btnIaNew" type="button"><svg class="ic"><use href="#i-plus"/></svg>+ Nova conversa</button>
-  </div>
-
-  <div class="ia-nav-links">
-    <button type="button" class="ia-nav-link" id="btnIaHistLink"><span class="ia-nav-ic">🕒</span><span>Histórico de Conversas</span></button>
-    <button type="button" class="ia-nav-link" id="btnIaAutoLink"><span class="ia-nav-ic">⏱</span><span>Automações</span></button>
-    <button type="button" class="ia-nav-link" id="btnIaCustomLink"><span class="ia-nav-ic">📦</span><span>Personalizações</span></button>
-  </div>
-
-  <div class="ia-projects-sec">
-    <div class="ia-sec-head">
-      <span class="ia-sec-title">Projetos</span>
-      <div class="ia-sec-actions">
-        <span class="ia-sec-icon" title="Filtrar">⎘</span>
-        <span class="ia-sec-icon" title="Opções">▾</span>
-      </div>
-    </div>
-    <div class="ia-project-item">
-      <span class="ia-proj-folder">📁</span>
-      <b class="ia-proj-name" id="iaProjName">PACOTE-FENIX-ANTIGRAVITY</b>
-    </div>
   </div>
 
   <div id="iaConvWrap">
@@ -1927,9 +1900,9 @@ html[data-theme="dark"] .story-card-luxury{background:rgba(28,26,23,0.85);border
     <ul class="ia-list" id="iaConvList"></ul>
   </div>
 
-  <div class="ia-foot">
-    <span class="badge b-gold" id="iaStatus">Fênix I.A</span>
-    <button class="ia-cfgbtn" id="btnIaCfg" type="button"><svg class="ic"><use href="#i-id"/></svg>Configurações</button>
+  <div class="ia-foot" id="iaFoot">
+    <span class="ia-status-badge" id="iaStatus"><span class="ia-status-dot">●</span> Fênix Neural Ativo</span>
+    <button class="ia-cfgbtn" id="btnIaCfg" type="button" title="Configurações da I.A"><svg class="ic"><use href="#i-id"/></svg>Configurações</button>
   </div>
 </aside>
 <main class="ia-main">
@@ -1945,56 +1918,54 @@ html[data-theme="dark"] .story-card-luxury{background:rgba(28,26,23,0.85);border
 <div class="ia-split-container" id="iaSplitContainer">
   <!-- Coluna 1: Chat Pane (42%) -->
   <div class="ia-chat-pane" id="iaChatPane">
-    <div class="ia-top">
+    <div class="ia-top" id="iaTop">
       <div class="ia-top-meta">
-        <svg class="logo small-logo" viewBox="0 0 1440 960"><use href="#phoenix"/></svg>
-        <div>
+        <div class="ia-top-logo-badge">
+          <svg class="logo small-logo" viewBox="0 0 1440 960"><use href="#phoenix"/></svg>
+        </div>
+        <div class="ia-top-info">
           <h4 id="iaConvTitle">Nova conversa</h4>
           <span class="sub" id="iaConvSub">● Motor Neural Ativo</span>
         </div>
       </div>
-      <button class="spark-btn" id="btnSparkToggle" type="button" title="Alternar Agent Workspace">✨ Spark Workspace</button>
+      <div class="ia-top-actions">
+        <button class="spark-btn" id="btnSparkToggle" type="button" title="Alternar Agent Workspace">✨ Modo Spark</button>
+        <button class="ia-top-more-btn" id="btnIaTopMenu" type="button" title="Mais opções">•••</button>
+      </div>
     </div>
 
     <div class="ia-box" id="iaBox"></div>
 
     <!-- Quick Chips Bar -->
     <div class="ia-chips-bar" id="iaChipsBar">
-      <button type="button" class="ia-chip-btn" data-iachip="foto">📸 Criar Imagem</button>
-      <button type="button" class="ia-chip-btn" data-iachip="ui">🎨 UIs & Design</button>
-      <button type="button" class="ia-chip-btn" data-iachip="agente">🤖 Modo Agente</button>
-      <button type="button" class="ia-chip-btn" data-iachip="anexo">📎 Anexar</button>
+      <button type="button" class="ia-chip-btn" data-iachip="foto"><span class="ia-chip-icon">📸</span> Criar Imagem</button>
+      <button type="button" class="ia-chip-btn" data-iachip="ui"><span class="ia-chip-icon">🎨</span> UIs & Design</button>
+      <button type="button" class="ia-chip-btn" data-iachip="agente"><span class="ia-chip-icon">🤖</span> Modo Agente</button>
+      <button type="button" class="ia-chip-btn" data-iachip="anexo"><span class="ia-chip-icon">📎</span> Anexo</button>
     </div>
 
     <div class="ia-in">
       <div class="ia-inwrap">
-        <div class="ia-proj-pill-row">
-          <div class="ia-proj-pill" id="iaPillProj"><span style="font-size:13px">📁</span> <span id="iaPillProjNome">PACOTE-FENIX-ANTIGRAVITY</span> <span class="ia-pill-arr">⌵</span></div>
+        <div id="iaAnexoChip" class="hidden">
+          <span class="ia-anexo-icon">📎</span> <span id="iaAnexoNome"></span>
+          <button id="iaAnexoX" type="button" title="Remover anexo">✕</button>
         </div>
 
-        <div id="iaAnexoChip" class="hidden" style="margin:0 0 8px;font-size:.75rem;color:var(--gold)">📎 <span id="iaAnexoNome"></span> <button id="iaAnexoX" type="button" style="background:none;border:none;color:#8a7f68;cursor:pointer;margin-left:6px">✕</button></div>
+        <div class="ia-comp-capsule">
+          <button class="ia-capsule-btn ia-clip" id="btnIaAnexo" type="button" title="Anexar foto ou documento">
+            <svg viewBox="0 0 24 24" class="ic" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+          </button>
+          <input type="file" id="iaAnexo" accept="image/*,.txt,.md,.csv,.pdf,.doc,.docx,.json,.log" class="fhid">
 
-        <div class="ia-comp">
-          <textarea id="iaInput" placeholder="Ask anything. @ to mention, / for actions"></textarea>
-          <div class="ia-comp-bottom">
-            <div class="ia-comp-left">
-              <button class="ia-clip ia-plus-btn" id="btnIaAnexo" type="button" title="Anexar foto ou arquivo pra a I.A ler">+</button>
-              <input type="file" id="iaAnexo" accept="image/*,.txt,.md,.csv,.pdf,.doc,.docx,.json,.log" class="fhid">
-              <button class="ia-clip spark-comp-btn hidden" id="btnIaSparkComp" type="button" title="✨ Fênix Spark" style="color:var(--gold)">✨</button>
-              <button class="ia-clip hidden" id="btnIaAgente" type="button" title="Modo Agente">🤖</button>
-              <div class="ia-model-pill" id="btnIaModelPick" title="Modelo Neural">
-                <span id="iaModelName">Gemini 3.8 Flash High</span> <span class="ia-pill-arr">⌵</span>
-              </div>
-            </div>
-            <div class="ia-comp-right">
-              <button class="ia-voice-btn" id="btnIaVoice" type="button" title="Falar por voz">🎙</button>
-              <button class="ia-go" id="btnIaSend" type="button" title="Enviar"><svg viewBox="0 0 24 24" style="width:16px;height:16px" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
-            </div>
-          </div>
-        </div>
+          <textarea id="iaInput" rows="1" placeholder="Converse com a Fênix I.A ou peça uma imagem..." spellcheck="false"></textarea>
 
-        <div class="ia-scope-row">
-          <div class="ia-scope-pill" id="btnIaScopePick" title="Ambiente de execução">💻 Local ⌵</div>
+          <button class="ia-capsule-btn ia-voice-btn" id="btnIaVoice" type="button" title="Falar por voz">
+            <svg viewBox="0 0 24 24" class="ic" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+          </button>
+
+          <button class="ia-go" id="btnIaSend" type="button" title="Enviar mensagem">
+            <svg viewBox="0 0 24 24" class="ic" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
         </div>
       </div>
     </div>
@@ -2003,15 +1974,21 @@ html[data-theme="dark"] .story-card-luxury{background:rgba(28,26,23,0.85);border
   <!-- Coluna 2: Agent Workspace Pane (58%) -->
   <div class="ia-workspace-pane" id="iaWorkspacePane">
     <div class="ws-header">
-      <div class="ws-header-left">
-        <span class="ws-badge">✨ AGENT WORKSPACE</span>
-        <div class="ws-tabs-bar">
-          <button type="button" class="ws-tab-btn on" id="wsTabBtnDocs" data-wstab="docs">📄 Documentos <span id="wsTabDocsCount">(0)</span></button>
-          <button type="button" class="ws-tab-btn" id="wsTabBtnGallery" data-wstab="gallery">🎨 Galeria Visual & UIs (40)</button>
-          <button type="button" class="ws-tab-btn" id="wsTabBtnRoteiro" data-wstab="roteiro">📋 Roteiro Clínico</button>
+      <div class="ws-header-top">
+        <h3 class="ws-title">Agent Workspace</h3>
+        <div class="ws-header-actions">
+          <button class="ws-top-dl-btn" id="btnWsTopDlPdf" type="button" title="Baixar PDF do documento ativo">
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>Baixar PDF</span>
+          </button>
+          <button type="button" class="ws-close-btn" id="btnWsClose" title="Fechar Workspace">✕</button>
         </div>
       </div>
-      <button type="button" class="ws-close-btn" id="btnWsClose" title="Fechar Workspace">✕</button>
+      <div class="ws-tabs-bar">
+        <button type="button" class="ws-tab-btn on" id="wsTabBtnDocs" data-wstab="docs">📄 Documento Vivo <span id="wsTabDocsCount">(0)</span></button>
+        <button type="button" class="ws-tab-btn" id="wsTabBtnGallery" data-wstab="gallery">🎨 Galeria de UIs (40)</button>
+        <button type="button" class="ws-tab-btn" id="wsTabBtnRoteiro" data-wstab="roteiro">📋 Metas Clínicas</button>
+      </div>
     </div>
 
     <!-- Aba 1: Documentos da Conversa -->
@@ -2020,19 +1997,21 @@ html[data-theme="dark"] .story-card-luxury{background:rgba(28,26,23,0.85);border
         <div class="ws-doc-pills" id="wsDocPills"></div>
       </div>
       <div class="ws-doc-editor-wrap" id="wsDocEditorWrap">
-        <div class="ws-doc-topbar">
-          <input type="text" class="ws-doc-title-input" id="wsDocTitulo" placeholder="Título do documento..." maxlength="100">
-          <div class="ws-doc-actions">
-            <span class="badge b-gold" id="wsDocTipoBadge">PDF</span>
-            <button class="btn small gold" id="btnWsBaixarPdf" type="button"><svg class="ic"><use href="#i-dl"/></svg>📥 Baixar PDF</button>
-            <button class="btn small perigo" id="btnWsDelDoc" type="button" title="Remover este arquivo"><svg class="ic"><use href="#i-trash"/></svg></button>
+        <div class="ws-stationery-card">
+          <div class="ws-doc-topbar">
+            <input type="text" class="ws-doc-title-input" id="wsDocTitulo" placeholder="Título do documento..." maxlength="100">
+            <div class="ws-doc-actions">
+              <span class="badge b-gold" id="wsDocTipoBadge">PDF</span>
+              <button class="btn small gold" id="btnWsBaixarPdf" type="button"><svg class="ic"><use href="#i-dl"/></svg>📥 Baixar PDF</button>
+              <button class="btn small perigo" id="btnWsDelDoc" type="button" title="Remover este arquivo"><svg class="ic"><use href="#i-trash"/></svg></button>
+            </div>
           </div>
-        </div>
-        <div class="ws-doc-content-wrap">
-          <textarea class="ws-doc-textarea" id="wsDocTexto" placeholder="Conteúdo do documento no Workspace..." spellcheck="false"></textarea>
-        </div>
-        <div class="ws-doc-footbar">
-          <span id="wsDocStatus">Salvo automaticamente</span>
+          <div class="ws-doc-content-wrap">
+            <textarea class="ws-doc-textarea" id="wsDocTexto" placeholder="Conteúdo do documento no Workspace..." spellcheck="false"></textarea>
+          </div>
+          <div class="ws-doc-footbar">
+            <span id="wsDocStatus">Salvo automaticamente</span>
+          </div>
         </div>
       </div>
     </div>
@@ -2052,13 +2031,13 @@ html[data-theme="dark"] .story-card-luxury{background:rgba(28,26,23,0.85);border
       <div class="ws-gallery-grid" id="wsGalleryGrid"></div>
     </div>
 
-    <!-- Aba 3: Roteiro Clínico -->
+    <!-- Aba 3: Metas Clínicas / Roteiro -->
     <div class="ws-body-tab hidden" id="wsViewRoteiro">
       <div class="ws-roteiro-wrap">
         <div class="ws-roteiro-head">
           <div>
-            <h3>Roteiro Clínico & Metas Prioritárias</h3>
-            <p class="sub">Checklist estratégico para transformar a rotina e os atendimentos da clínica.</p>
+            <h3>Metas Clínicas & Roteiro Estratégico</h3>
+            <p class="sub">Checklist prioritário para transformar os atendimentos e a rotina do seu estúdio.</p>
           </div>
           <button class="btn small" id="btnWsNovoRoteiro" type="button">＋ Adicionar Tarefa</button>
         </div>
@@ -2116,7 +2095,6 @@ html[data-theme="dark"] .story-card-luxury{background:rgba(28,26,23,0.85);border
 </main>
 </div>
 </section>
-
 <!-- ================= EQUIPE ================= -->
 <section id="viewUsuarios" class="view hidden">
 <div class="panelcard">
@@ -5235,45 +5213,48 @@ function iaFmt(t){let s=esc(t);
 s=s.replace(/```([\s\S]*?)```/g,(m,code)=>'<pre>'+code.replace(/^\n/,'')+'</pre>');
 s=s.replace(/`([^`]+)`/g,'<code>$1</code>');
 s=s.replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>');return s;}
+function iaAutoGrow(){const ta=$('iaInput');if(!ta)return;ta.style.height='auto';ta.style.height=Math.min(130,Math.max(26,ta.scrollHeight))+'px';}
 function iaFit(){try{const v=$('viewIa');if(!v||v.classList.contains('hidden'))return;
 const t=v.getBoundingClientRect().top;v.style.height=Math.max(430,window.innerHeight-t)+'px';
-const i=$('iaInput');if(i)i.placeholder=window.innerWidth<=900?'Pergunte qualquer coisa…':'Pergunte qualquer coisa… (Enter envia · Shift+Enter quebra linha)';}catch(e){}}
+const i=$('iaInput');if(i&&!i.value)i.placeholder='Converse com a Fênix I.A ou peça uma imagem...';}catch(e){}}
 window.addEventListener('resize',iaFit);
 function renderIaMsgs(){const box=$('iaBox');if(!box)return;
 const ms=state.iaConv?msgsOf(state.iaConv):[];
 if(!ms.length){
   box.innerHTML=`
   <div class="ia-hello">
-    <svg class="logo" viewBox="0 0 1440 960"><use href="#phoenix"/></svg>
-    <h3>Fênix I.A & Spark Workspace</h3>
-    <p>Inteligência neural clínica com geração simultânea de documentos, fotografias conceituais e catálogo de telas.</p>
+    <div class="ia-hello-logo-wrap">
+      <svg class="logo" viewBox="0 0 1440 960"><use href="#phoenix"/></svg>
+    </div>
+    <h3>Como posso transformar seu estúdio hoje?</h3>
+    <p>Inteligência clínica, geração visual e organização para o seu dia a dia.</p>
     <div class="ia-empty-cards">
       <div class="ia-empty-card" data-iacmd="foto">
         <div class="ia-ec-icon">📸</div>
         <div class="ia-ec-content">
-          <strong>Criar Foto Conceitual</strong>
-          <p>Fotografia de alta definição para estética via motor Flux.</p>
+          <strong>Criar Fotografia</strong>
+          <p>Gere uma foto estética de sérum com iluminação de estúdio.</p>
         </div>
       </div>
       <div class="ia-empty-card" data-iacmd="ui">
         <div class="ia-ec-icon">🎨</div>
         <div class="ia-ec-content">
-          <strong>Ver UIs & Telas de Design</strong>
-          <p>Explorar as 40 telas canônicas e gerar mockups sob demanda.</p>
+          <strong>Explorar UIs do App</strong>
+          <p>Veja o design system e mockups das telas do aplicativo.</p>
         </div>
       </div>
       <div class="ia-empty-card" data-iacmd="diag">
-        <div class="ia-ec-icon">🩺</div>
+        <div class="ia-ec-icon">📊</div>
         <div class="ia-ec-content">
-          <strong>Diagnóstico Clínico</strong>
-          <p>Análise de faturamento, clientes sem retorno e agendamentos.</p>
+          <strong>Resumo Executivo</strong>
+          <p>Qual é o faturamento, pacotes e clientes sem retorno do mês?</p>
         </div>
       </div>
       <div class="ia-empty-card" data-iacmd="proto">
         <div class="ia-ec-icon">📄</div>
         <div class="ia-ec-content">
-          <strong>Contrato & Protocolo PDF</strong>
-          <p>Gerar contrato, termo de consentimento e pós-sessão de uma vez.</p>
+          <strong>Elaborar Protocolo</strong>
+          <p>Escreva um protocolo clínico de boas-vindas pronto em PDF.</p>
         </div>
       </div>
     </div>
@@ -5308,22 +5289,37 @@ box.innerHTML=ms.map(m=>{
       <div class="ia-img-wrap">
         <img src="data:image/png;base64,${m.img}" alt="Fotografia conceitual I.A" class="ia-img-el">
       </div>
-      <div class="ia-img-actions">
-        <button type="button" class="btn small ghost ia-btn-expand-img" data-imgb64="${m.img}">🔍 Expandir</button>
-        <button type="button" class="btn small gold ia-btn-dl-img" data-imgb64="${m.img}">📥 Baixar PNG</button>
-        <button type="button" class="btn small ghost ia-btn-re-img" data-prompt="${esc(m.imgPrompt||'')}">🔄 Nova Variação</button>
-        <button type="button" class="btn small ghost ia-btn-copy-prompt" data-prompt="${esc(m.imgPrompt||'')}">📋 Copiar Prompt</button>
+      <div class="ia-img-actions-rows">
+        <div class="ia-img-row1">
+          <button type="button" class="ia-btn-pill ia-btn-expand-img" data-imgb64="${m.img}"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> <span>Expandir</span></button>
+          <button type="button" class="ia-btn-pill ia-btn-dl-img" data-imgb64="${m.img}"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> <span>Baixar PNG</span></button>
+        </div>
+        <button type="button" class="ia-btn-pill ia-btn-re-img full-row" data-prompt="${esc(m.imgPrompt||'')}"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> <span>Nova Variação</span></button>
       </div>
     </div>`;
   }
-  return `<div class="ia-msg ${m.papel}"><span class="who">${m.papel==='user'?'Você':'I.A'}</span>`+
-  (m.pensa?`<button class="ia-pensa-btn" type="button">💭 Pensamento</button><div class="ia-pensa-corpo">${esc(m.pensa)}</div>`:'')+
-  (m.texto?`<div class="b">${iaFmt(m.texto)}</div>`:'')+
-  artsHtml+
-  imgHtml+
-  `</div>`;
+  const avatarHtml = m.papel === 'user'
+    ? `<div class="ia-avatar user" title="Você"><svg viewBox="0 0 24 24" class="ic" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>`
+    : `<div class="ia-avatar ia" title="Fênix I.A"><svg viewBox="0 0 1440 960" class="ic"><use href="#phoenix"/></svg></div>`;
+
+  return `<div class="ia-msg ${m.papel}">
+    ${avatarHtml}
+    <div class="ia-msg-body">
+      <span class="who">${m.papel==='user'?'Você':'Fênix I.A'}</span>`+
+      (m.pensa?`<button class="ia-pensa-btn" type="button">💭 Pensamento Neural</button><div class="ia-pensa-corpo">${esc(m.pensa)}</div>`:'')+
+      (m.texto?`<div class="b">${iaFmt(m.texto)}</div>`:'')+
+      artsHtml+
+      imgHtml+
+    `</div>
+  </div>`;
 }).join('')+
-(state.iaBusy?'<div class="ia-msg ia"><span class="who">I.A</span><div class="b"><span class="ia-typing"><i></i><i></i><i></i>&nbsp;pensando…</span></div></div>':'');
+(state.iaBusy?`<div class="ia-msg ia">
+  <div class="ia-avatar ia"><svg viewBox="0 0 1440 960" class="ic"><use href="#phoenix"/></svg></div>
+  <div class="ia-msg-body">
+    <span class="who">Fênix I.A</span>
+    <div class="b"><span class="ia-typing"><i></i><i></i><i></i>&nbsp;pensando…</span></div>
+  </div>
+</div>`:'' );
 box.scrollTop=box.scrollHeight;}
 $('iaConvList').addEventListener('click',e=>{
 const del=e.target.closest('[data-act="delconv"]');
@@ -5413,7 +5409,7 @@ async function iaSend(){
   if(isImgIntent){
     let tema = txt.replace(/^(?:\/(?:imagem|foto|flux)\s*|(?:crie|criar|gere|gerar|faça|fazer|desenhe)\s+(?:uma\s+)?(?:foto|imagem|fotografia|ilustraç(?:ão|ao)|mockup)\s*(?:de|do|da|para|sobre)?\s*|(?:foto|imagem|fotografia|mockup)\s+de\s*)/i, '').trim();
     if(!tema) tema = txt;
-    pushMsg('user', txt);
+    pushMsg('user', txt); ta.value = ''; iaAutoGrow();
     ta.value = '';
     state.iaBusy = true;
     renderIA();
@@ -5621,16 +5617,16 @@ $('iaBox').addEventListener('click',e=>{
   const ec=e.target.closest('[data-iacmd]');
   if(ec){
     const cmd=ec.dataset.iacmd;
-    if(cmd==='foto'){$('iaInput').value='Crie uma fotografia conceitual de alta qualidade para tratamento de ozonioterapia e bioressonância';$('iaInput').focus();}
+    if(cmd==='foto'){$('iaInput').value='Gere uma foto estética de sérum com iluminação de estúdio';$('iaInput').focus();iaAutoGrow();}
     else if(cmd==='ui'){state.wsOpen=true;state.wsTab='gallery';renderWorkspace();}
-    else if(cmd==='diag'){$('iaInput').value='Faça um diagnóstico clínico e financeiro completo da minha clínica com base nos dados atuais.';iaSend();}
-    else if(cmd==='proto'){$('iaInput').value='Crie um Contrato de Prestação de Serviços Estéticos e um Termo de Consentimento Informado para Limpeza de Pele.';iaSend();}
+    else if(cmd==='diag'){$('iaInput').value='Qual é o faturamento, pacotes e clientes sem retorno do mês? Faça um resumo executivo.';iaSend();}
+    else if(cmd==='proto'){$('iaInput').value='Escreva um protocolo clínico de boas-vindas pronto em PDF.';iaSend();}
     return;
   }
   const b=e.target.closest('.ia-pensa-btn');
   if(!b)return;
   const c=b.nextElementSibling;if(!c)return;const ab=c.classList.toggle('aberta');
-  b.textContent=ab?'💭 Esconder pensamento':'💭 Pensamento';
+  b.textContent=ab?'💭 Esconder pensamento':'💭 Pensamento Neural';
 });
 
 /* ===================== R79 — BIBLIOTECA + CANVAS ===================== */
@@ -6127,8 +6123,9 @@ $('iaChipsBar')?.addEventListener('click', e=>{
   if(!chip) return;
   const tipo = chip.dataset.iachip;
   if(tipo === 'foto'){
-    $('iaInput').value = 'Crie uma fotografia conceitual de alta qualidade para ';
+    $('iaInput').value = 'Gere uma foto estética de ';
     $('iaInput').focus();
+    iaAutoGrow();
   } else if(tipo === 'ui'){
     state.wsOpen = true;
     state.wsTab = 'gallery';
@@ -6141,6 +6138,16 @@ $('iaChipsBar')?.addEventListener('click', e=>{
   } else if(tipo === 'anexo'){
     $('iaAnexo')?.click();
   }
+});
+$('iaInput')?.addEventListener('input', iaAutoGrow);
+$('btnWsTopDlPdf')?.addEventListener('click', ()=>{
+  if(state.wsDocId) dlDocPdf(state.wsDocId);
+  else if(getCans().length) dlDocPdf(getCans()[0].id);
+  else toast('Nenhum documento gerado para baixar.');
+});
+$('btnIaTopMenu')?.addEventListener('click', ()=>{
+  $('iaCfgCard')?.classList.toggle('closed');
+  paintIaCfg();
 });
 /* ==================== ANTIGRAVITY IDE EXTENSIONS ==================== */
 const IA_MODELS = [

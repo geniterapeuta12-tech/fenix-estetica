@@ -1,7 +1,7 @@
 # Fênix Estética — checksums SHA-256 — R122 (v1.6.96) — 11/10/2026
 # Confira depois de baixar:  certutil -hashfile ARQUIVO SHA256   (Windows)
-c65adff8f3ef6cfbe73d2ee8634b0d20782d592dd37cce185b17fdfb3d68bc48  FENIX-Estetica.apk           (Android · vc77 · v1.6.96 — Sistema de Autenticação Reformulado + Fênix Spark & Workspace)
-3189b9795bafeb33442a6d4dc16424a6d4279a27a687b6f4728c279a0cb2cf01  FENIX-Estetica-Windows.zip   (Windows · v1.6.96 — idem)
+068ac2016e99b9e5313580ff969ea32b82b9ebf840f4bd0387c784a7ec03fdc3  FENIX-Estetica.apk           (Android · vc77 · v1.6.96 — Redesign Apple Luxury Fênix I.A + Auth R122)
+b50bc7cdd319d032ceac1e10bcea24ea8cc7607c1a49252803dc8da22cc19d34  FENIX-Estetica-Windows.zip   (Windows · v1.6.96 — idem)
 dd3eb4bbb62b2d25c584bf27aa74ec5c4b58c27513b6d1a165874e20c5109ccd  Fenix-Center.apk             (Center Android · vc16 · v2.4.0 — CONGELADO)
 dde2189485204406684fecbbb21cdaab8940e06020eb65fbc29d38e641805745  Fenix-Center-Windows.zip     (Center Windows · v2.4.0 — CONGELADO)
 # Histórico: Estética vc76/1.6.95 (e8e14eba…/90a8c1c3…) na v1.6.95 · vc75/1.6.94 (3954c08a…/df9bbc20…) na v1.6.94 · vc74/1.6.93 (9f859925…/107cd253…) na v1.6.93
