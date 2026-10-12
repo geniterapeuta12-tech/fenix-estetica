@@ -1,10 +1,10 @@
 {
-  "versao": "1.6.97",
-  "r": "R123",
-  "quando": "11/10/2026",
+  "versao": "1.6.98",
+  "r": "R124",
+  "quando": "12/10/2026",
   "melhorias": [
-    "🚀 Autenticação Canônica e Reentrada Blindada (R123): login e cadastro com fluxo direto e transição fluida sem bloqueio",
-    "✨ Redesign Apple Luxury da Fênix I.A: purificação estética total, cápsula flutuante e empty state editorial",
+    "🚀 Entrada e Autenticação Totalmente Recriadas (R124): fluxo de login, cadastro e reentrada 100% blindado contra travamentos",
+    "✨ Auto-Entry e Fim da Trava de Modais: entrada instantânea para dono da clínica sem retenção indevida na seleção de usuários",
     "💼 Fênix Spark & Workspace: split-screen com múltiplos documentos e galeria de 40 UIs",
     "🎙️ I.A falante: explicações e orientações clínicas completas ao criar arquivos",
     "📸 Geração inline de imagens: fotografias conceituais pelo motor Flux no chat"

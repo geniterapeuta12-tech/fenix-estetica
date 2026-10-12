@@ -1,3 +1,20 @@
+## R124 — ENTRADA E AUTENTICAÇÃO TOTALMENTE RECRIADAS (12/10/2026, versão 1.6.98)
+- MISSÃO PRINCIPAL: Recriação completa da arquitetura de entrada do aplicativo (splash, lembrete, carregamento, autenticação, welcome modal e seleção de usuário), eliminando todas as travas na reentrada, corridas assíncronas no boot e bloqueio em modais secundários. Publicação versão a versão estrita: 1.6.97 -> 1.6.98 (R124).
+- REARQUITETURA DA ENTRADA & DESBUGAGEM TOTAL:
+  * Inicialização blindada no Bootstrap: verificação síncrona imediata da chave local (localStorage) combinada com timeout de segurança de 1.2s para a sessão na nuvem (Promise.race), evitando travamento de tela preta ou re-exibição involuntária da splash.
+  * Auto-Entry no Welcome Modal (#btnWelcomeGo): para clínicas com único usuário ou nenhum usuário cadastrado, a entrada no dashboard da clínica ocorre de forma instantânea sem retenção desnecessária em #userModal ("Quem está usando?").
+  * Fechamento seguro de modais: adicionado ouvinte de clique no backdrop e tecla Escape no #userModal, impedindo que o usuário fique aprisionado sem conseguir entrar na clínica.
+  * Reset completo no Logout (#btnSair): limpeza e ocultação de todos os modais (#welcomeModal, #userModal, #rememberModal, #enterLoad) e exibição limpa da tela de login com preenchimento automático do nome da última clínica.
+  * Carregamento fluido e rápido: animação da barra dourada de carregamento otimizada para ~580ms, proporcionando resposta ágil e elegante à dona da clínica.
+- PRESERVAÇÃO INTEGRAL DO PADRÃO APPLE LUXURY:
+  * Fênix I.A com cápsula única flutuante (.ia-comp-capsule), Playfair Display, empty state editorial 2x2 e Agent Workspace com 40 UIs canônicas preservados com 100% de fidelidade visual.
+- VALIDAÇÃO & DISTRIBUIÇÃO:
+  * Zero erros de sintaxe (node --check aprovado).
+  * 100% de aprovação na suíte de testes (teste_r124, teste_r120 e verificador_bugs).
+  * Sincronização estrita entre index.html e index-ui.html.
+  * Injeção de código nos binários de distribuição (APK e Windows ZIP) e recálculo dos checksums SHA-256.
+  * Release independente v1.6.98 publicada no GitHub.
+
 ## R123 — AUTENTICAÇÃO CANÔNICA E REENTRADA BLINDADA + VERSÃO 1.6.97 INCREMENTADA (11/10/2026, versão 1.6.97)
 - MISSÃO PRINCIPAL: Restauração da arquitetura de login canônica e determinística sem intermediários artificiais, garantindo que o reingresso na clínica ocorra de forma instantânea e sem conflitos de modais ou temporizadores, acompanhada da publicação estrita versão a versão (1.6.96 -> 1.6.97, R122 -> R123).
 - RESTAURAÇÃO DO FLUXO DE LOGIN CANÔNICO:
