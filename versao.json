@@ -1,10 +1,10 @@
 {
-  "versao": "1.6.98",
-  "r": "R124",
-  "quando": "12/10/2026",
+  "versao": "1.7.4",
+  "r": "R130",
+  "quando": "15/10/2026",
   "melhorias": [
-    "🚀 Entrada e Autenticação Totalmente Recriadas (R124): fluxo de login, cadastro e reentrada 100% blindado contra travamentos",
-    "✨ Auto-Entry e Fim da Trava de Modais: entrada instantânea para dono da clínica sem retenção indevida na seleção de usuários",
+    "✨ Reconstrução Total do Começar à Clínica (R130): nova UI refinada, fluidez absoluta do primeiro Começar até a entrada na clínica sem travas ou inconsistências",
+    "🛡️ Reconstrução Total da Entrada & Temas (R128): zero tela escura/dourada indevida; inicialização síncrona instantânea no <head> com o tema e acento salvos",
     "💼 Fênix Spark & Workspace: split-screen com múltiplos documentos e galeria de 40 UIs",
     "🎙️ I.A falante: explicações e orientações clínicas completas ao criar arquivos",
     "📸 Geração inline de imagens: fotografias conceituais pelo motor Flux no chat"

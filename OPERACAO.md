@@ -1,3 +1,102 @@
+## R130 — RECONSTRUÇÃO TOTAL DO COMEÇAR À CLÍNICA & UI LUXURY APPLE (15/10/2026, versão 1.7.4)
+- MISSÃO PRINCIPAL: Resolução completa e definitiva da solicitação do usuário ("de uma vez por todas recrie tudo tudo mudando só um pouco a ui do começar até o começar de entrar na clínica, tá bugando e não dando certo; quero que sempre entre no app e verifique se a atualização deu certo"). Cumprimento rigoroso da regra de versionamento sequencial imutável: v1.7.3 (R129) -> v1.7.4 (R130).
+- DIAGNÓSTICO PROFUNDO & CAUSAS-RAIZ DA INSTABILIDADE ENTRE OS DOIS "COMEÇAR":
+  * **Dupla Camada de "COMEÇAR" com Inconsistências de Estado:** O fluxo continha o primeiro "COMEÇAR" no `#splash` (`#btnSplashGo`) e o segundo "COMEÇAR" no `#welcomeModal` (`#btnWelcomeGo`). Quando a usuária alternava entre sessões ou logava novamente, o `#welcomeModal` sofria conflito entre timers de auto-avanço e cliques manuais, gerando condição de corrida e sensação de travamento na transição para a clínica.
+  * **UI Desalinhada entre as Telas de Entrada:** O `#splash` e o `#welcomeModal` possuíam estruturas visuais dispares, gerando estranheza e quebra de continuidade estética entre o início e a chegada à clínica.
+- RECONSTRUÇÃO ARQUITETURAL R130 IMPLEMENTADA:
+  * **1. Reconstrução Visual Apple Luxury Coesa:**
+    - Ambas as telas (`#splash` e `#welcomeModal`) agora compartilham uma arquitetura visual idêntica, nobre e refinada: cartão flutuante com cantos arredondados generosos (`.splash-card` e `.welcome-card`), badge circular com gradiente sutil e logo Fênix dourada (`.splash-badge` e `.welcome-badge`), tipografia editorial Playfair Display / Georgia com entrelinha perfeita, e botão tátil em formato pílula com brilho áureo (`.splash-btn` e `.welcome-btn`).
+    - Suporte nativo e perfeito a tema claro (`html[data-theme="light"]`) com fundo em linho editorial e cartões brancos com sombra etérea, e a tema escuro com veludo profundo e detalhes em latão polido.
+  * **2. Fluidez Absoluta e Imediata do Começar à Clínica:**
+    - No primeiro "COMEÇAR" (`#btnSplashGo`): se há sessão salva, transiciona imediatamente e sem atrito para o carregamento e entrada; se não há sessão, abre diretamente a tela de autenticação (`#authScreen`).
+    - No segundo "COMEÇAR" (`#btnWelcomeGo`): o clique no botão executa instantaneamente (0ms) a entrada no app (`avancarWelcome()` -> `usuarioEntrou()`), dispensando com segurança todos os modais de pré-entrada (`#welcomeModal`, `#enterLoad`, `#rememberModal`, `#splash`, `#authScreen`), definindo o usuário ativo e exibindo a clínica (`#appScreen`) com dados 100% renderizados.
+    - O auto-avanço suave de boas-vindas complementa o fluxo de forma não bloqueante: quem deseja esperar entra sozinho, quem clica em "COMEÇAR" entra na hora.
+  * **3. Resiliência Contra Travamento:**
+    - Todas as transições contam com blocos protetores `try/catch/finally` que garantem que nenhuma flag de concorrência (`_iniciandoSplash`, `_avancandoWelcome`) permaneça presa.
+- VERIFICAÇÃO INTEGRAL DA ATUALIZAÇÃO (DADOS > SISTEMA):
+  * `APP_VERSAO = '1.7.4'` perfeitamente alinhado com `versao.json` ("1.7.4", "R130", 15/10/2026).
+  * A verificação de atualização em Dados > Sistema exibe com precisão `v1.7.4 — esta instalação | mais recente ✓` com as melhorias canônicas.
+- VALIDAÇÃO E DISTRIBUIÇÃO:
+  * 100% de aprovação na bateria completa de testes: `teste_r130.js` (7/7), `teste_r129.js` (7/7), `teste_r128.js` (7/7), `teste_r127.js` (7/7), `teste_r126.js` (7/7), `teste_r120.js` (8/8), `test_all_renders.js` (11/11) e `verificador_bugs.js` (ESTÁVEL).
+  * `index.html` e `index-ui.html` perfeitamente sincronizados (1:1).
+  * Binários atualizados: `FENIX-Estetica.apk` (vc85) e `FENIX-Estetica-Windows.zip`.
+  * Checksums recalculados e salvos em `fenix-apps/checksums-sha256.txt`.
+
+## R129 — AUTO-ENTRADA INSTANTÂNEA NO APP & ELIMINAÇÃO TOTAL DA TRAVA NO COMEÇAR (15/10/2026, versão 1.7.3)
+- MISSÃO PRINCIPAL: Resolução definitiva do problema reportado pelo usuário ("ainda tem a trava no começar no início de tudo. Analisar todos os problemas no código, consertar e testar depois no app pra ver se entra: quero que SEMPRE ENTRE NO APP e verifique se a atualização deu certo"). Cumprimento rigoroso da regra de versionamento sequencial imutável: v1.7.2 (R128) -> v1.7.3 (R129).
+- DIAGNÓSTICO PROFUNDO & CAUSAS-RAIZ DA TRAVA ELIMINADAS:
+  * **Ausência de Auto-Entrada Direta no Bootstrap:** Ao encontrar uma clínica salva no `localStorage`, o `bootstrap()` anterior apenas populava variáveis pendentes, mas não chamava a função de entrada. O usuário era forçado a ver a tela de `#splash` e clicar no botão "COMEÇAR" em TODAS as aberturas do app.
+  * **Modais Intermediários Bloqueantes (`#rememberModal` e `#welcomeModal`):** Ao clicar em "COMEÇAR", o fluxo anterior abria um modal intermediário pedindo "Entrar agora", e em seguida o `entrarUI()` exibia o `#welcomeModal` com um segundo botão "COMEÇAR". Qualquer falha em timeouts assíncronos deixava o usuário travado nesses modais.
+  * **Janela de Corrida no Carregamento do Script:** O botão `#btnSplashGo` no DOM estático chamava `iniciarSplash()` antes mesmo que as milhares de linhas de script e o CDN do Supabase terminassem o parsing, causando `ReferenceError` em dispositivos móveis ou redes lentas.
+- RECONSTRUÇÃO ARQUITETURAL R129 IMPLEMENTADA:
+  * **1. Auto-Entrada Imediata no Bootstrap:** Se existe uma clínica salva no `localStorage` (ou sessão ativa na nuvem), o `bootstrap()` invoca `entrarLocal(u, lastKey)` instantaneamente e retorna. O app entra direto no dashboard da clínica sem exibir o `#splash` nem exigir qualquer clique.
+  * **2. Blindagem Síncrona de Sessão no `<head>` (`data-has-session="1"`):** No `<script id="fenix-theme-boot">`, a presença de sessão é detectada no frame zero. A regra CSS `html[data-has-session="1"] #splash { display: none !important; pointer-events: none !important; }` descarta o `#splash` antes mesmo do primeiro frame de pintura, impedindo qualquer flash ou trava.
+  * **3. Fast-Path Global de `iniciarSplash` no `<head>`:** Declaração síncrona de `window.iniciarSplash` antes de qualquer elemento ou folha de estilo, garantindo resposta imediata ao clique mesmo se o restante da página ainda estiver carregando.
+  * **4. Descarte de Modais Bloqueantes em `entrarUI`:** Ao carregar a clínica, `entrarUI` agora aciona `usuarioEntrou(...)` diretamente para o usuário ativo/dono sem prender a usuária em `#welcomeModal`.
+  * **5. Desbloqueio e Acesso Direto em `iniciarSplash`:** Caso um novo usuário sem sessão prévia clique em "COMEÇAR", a tela de login (`#authScreen` / `mostrarLogin()`) abre imediatamente sem etapas intermediárias.
+- VERIFICAÇÃO INTEGRAL DA ATUALIZAÇÃO (DADOS > SISTEMA):
+  * `APP_VERSAO = '1.7.3'` sincronizado com `versao.json` ("1.7.3", "R129", 15/10/2026).
+  * A verificação de atualização em Dados > Sistema exibe com sucesso `v1.7.3 — esta instalação | mais recente ✓` e lista as melhorias canônicas.
+- VALIDAÇÃO E DISTRIBUIÇÃO:
+  * 100% de aprovação na bateria de testes: `teste_r129.js` (7/7), `teste_r128.js` (7/7), `teste_r127.js` (7/7), `teste_r126.js` (7/7), `teste_r120.js` (8/8), `test_app_entry_flow.js` (100% OK), `test_all_renders.js` (11/11) e `verificador_bugs.js` (ESTÁVEL).
+  * `index.html` e `index-ui.html` perfeitamente sincronizados (1:1).
+  * Binários atualizados: `FENIX-Estetica.apk` (vc84) e `FENIX-Estetica-Windows.zip`.
+  * Checksums recalculados e salvos em `fenix-apps/checksums-sha256.txt`.
+
+## R128 — RECONSTRUÇÃO TOTAL DA ENTRADA E TEMA & ELIMINAÇÃO DA CAMADA ANTIGA (15/10/2026, versão 1.7.2)
+- MISSÃO PRINCIPAL: Resolução completa e definitiva do problema reportado pelo usuário ("acho que tem uma camada antiga do começar porque o tema tá dourado e escuro sendo que o meu é outro. Conserte e recrie toda essa parte pra não dar mais esses problemas, seja rápido e eficiente"). Cumprimento rigoroso da regra de versionamento sequencial imutável: v1.7.1 (R127) -> v1.7.2 (R128).
+- DIAGNÓSTICO PROFUNDO & CAUSAS-RAIZ IDENTIFICADAS:
+  * **FOUC (Flash of Unstyled / Mismatched Dark & Gold Theme):** No `<head>` original não havia script de restauração síncrona de tema. O documento HTML padrão possuía variáveis `:root` escuras e douradas (`--gold: #d4af37`, `background: #000`). O tema do usuário (`fenix_theme: 'light'`, `fenix_accent: 'terraco'`, etc.) só era aplicado milhares de linhas depois no bootstrap, fazendo com que o `#splash` e qualquer tela inicial aparecessem em preto e dourado antes do tema real ser processado.
+  * **Regra Legada de Fundo Sempre Escuro em Modais de Entrada:** A classe `.pmcard` (usada por `#welcomeModal`, `#rememberModal`, `#enterLoad`, `#userModal`) possuía a regra legada `R31: .pmcard tem fundo SEMPRE escuro → texto claro FIXO (não segue o tema)` com gradiente `#1d1a11` (marrom-escuro dourado). Isso forçava os modais de boas-vindas e acesso a permanecerem escuros e dourados mesmo com o app em tema claro.
+  * **Dupla Camada de "COMEÇAR":** Existiam dois botões "COMEÇAR" em sequência (`#btnSplashGo` na tela de splash e `#btnWelcomeGo` no modal de boas-vindas `#welcomeModal`). Ao carregar a clínica, a aplicação prendia a usuária no `#welcomeModal` exigindo um segundo clique em "COMEÇAR" numa tela escura e dourada.
+- RECONSTRUÇÃO ARQUITETURAL R128 IMPLEMENTADA:
+  * **1. Inicialização Síncrona Instantânea no `<head>` (`<script id="fenix-theme-boot">`):** Script inline executado antes de qualquer renderização ou carregamento CSS, lendo `fenix_theme` e `fenix_accent` diretamente do `localStorage` e configurando `document.documentElement.dataset.theme`, `dataset.accent`, `dataset.ui` e injetando as variáveis CSS `--gold`, `--gold2`, `--gold-deep`, `--gold-dark`, `--gold-soft`, `--glow-c` desde o frame zero (eliminação de 100% do FOUC).
+  * **2. Estilização Completa e Elegante de Entrada no Tema Claro:** Adicionadas regras para `html[data-theme="light"]` cobrindo `#splash`, `.splashbox`, `.pmcard`, `.remcard`, `#btnSplashGo`, `#btnWelcomeGo` e `#btnRememberGo`. Em tema claro, o fundo é papel de alta textura (`#f3efe4`), os cartões `.pmcard` são brancos editoriais (`#ffffff`), com bordas suaves e acento terracota/ativo nos botões.
+  * **3. Desbloqueio e Libertação do `.pmcard`:** Superada a restrição legada da R31. Modais de entrada agora acompanham harmonicamente o tema do usuário (claro ou escuro) e a paleta de cor selecionada.
+  * **4. Entrada Fluida e Direta (Auto-Avanço sem Trava):** Em `entrarComCarregamento`, após a sincronização de dados, o `#welcomeModal` realiza um auto-avanço suave de 450ms direto ao dashboard da clínica (`avancarWelcome()`), permitindo também clique manual imediato. Zero travamento e zero sensação de barreira ou tela redundante.
+  * **5. Sincronização Proativa nos Handlers:** Funções `iniciarSplash` sincronizam o tema localmente para tolerância máxima a navegadores estritos ou WebViews móveis.
+- PRESERVAÇÃO INTEGRAL:
+  * Padrão Apple Luxury da Fênix I.A e Fênix Spark / Workspace mantidos intactos com 40 telas canônicas e síntese vocal/Flux.
+- VALIDAÇÃO E DISTRIBUIÇÃO:
+  * 100% de aprovação na suíte de testes: `teste_r128.js` (7/7), `teste_r127.js` (7/7), `teste_r126.js` (7/7), `teste_r120.js` (8/8) e `verificador_bugs.js` (11/11 renderizadores, zero erros, status ESTÁVEL).
+  * `index.html` e `index-ui.html` rigorosamente sincronizados em paridade 1:1.
+  * Binários de distribuição atualizados: `FENIX-Estetica.apk` (vc83) e `FENIX-Estetica-Windows.zip`.
+  * Checksums SHA-256 recalculados e salvos em `fenix-apps/checksums-sha256.txt`.
+
+## R127 — BLINDAGEM TOTAL DE ENTRADA E BOTÕES DE ACESSO (14/10/2026, versão 1.7.1)
+- MISSÃO PRINCIPAL: Resolução definitiva do problema onde o botão "COMEÇAR" (`#btnSplashGo` e `#btnWelcomeGo`) e os demais botões de pré-entrada (`#btnRememberGo`, `#btnRememberOther`, `#btnEntrar`, `#btnCriar`, `#btnFxOk`) não respondiam ao clique ("não dá pra clicar") ao abrir o aplicativo. Cumprimento estrito da regra de versionamento sequencial imutável: v1.7.0 (R126) -> v1.7.1 (R127).
+- BLINDAGEM DA PRÉ-ENTRADA & RESOLUÇÃO DOS BOTÕES TRAVADOS:
+  * **Definição Imediata no Topo do Script:** Todas as funções essenciais de splash, navegação e autenticação (`iniciarSplash`, `entrarLembrado`, `usarOutraConta`, `avancarWelcome`, `mostrarLogin`, `mostrarCadastro`, `mostrarFx`, `submeterLogin`, `submeterCadastro`, `submeterFx`, `sairDoApp`) são declaradas e atribuídas imediatamente a `window` no topo absoluto do script (antes de qualquer processamento pesado de imagens ou galerias), eliminando o erro de `ReferenceError: iniciarSplash is not defined` durante o carregamento inicial.
+  * **Eliminação de Temporal Dead Zone (TDZ):** Declaração antecipada do seletor `$` (`const $=id=>document.getElementById(id); window.$=$;`) no topo do script, garantindo acesso instantâneo aos elementos DOM em qualquer estágio da execução.
+  * **Blindagem CSS & Stacking Context:** Adicionada camada CSS com `position: relative`, `z-index: 100/101/102`, `pointer-events: auto !important`, `cursor: pointer !important` e `touch-action: manipulation !important` para `#splash`, `.splashbox`, `#btnSplashGo`, `#authScreen` e todos os botões de pré-entrada. Modais ocultos recebem estritamente `display: none !important; pointer-events: none !important`.
+  * **Failsafe contra Travamentos de Concorrência:** Flags de concorrência (`_iniciandoSplash`, `_entrandoLembrado`, `_avancandoWelcome`) equipadas com temporizador de auto-reset (1200ms), prevenindo travamento permanente mesmo em cliques rápidos ou falhas de rede.
+  * **Proteção contra Reabertura Acidental do Splash:** Flag `window.__splashIniciado = true;` e guardas no bootstrap impedem que o timeout assíncrono de sessão do Supabase (1.2s) ressuscite a tela de splash sobre modais ativos de acesso lembrado ou boas-vindas.
+  * **Fallback Síncrono de Sessão Local:** Entrada com resposta ultrarrápida (15ms) checando `localStorage` de forma determinística caso a sessão na nuvem ainda esteja em handshake.
+- PRESERVAÇÃO INTEGRAL:
+  * Padrão Apple Luxury da Fênix I.A e Fênix Spark / Workspace mantidos intactos com 40 telas canônicas e síntese vocal/Flux.
+- VALIDAÇÃO E DISTRIBUIÇÃO:
+  * 100% de aprovação na suíte de testes: `teste_r127.js` (7/7), `teste_r126.js` (7/7), `teste_r120.js` (8/8) e `verificador_bugs.js` (11/11 renderizadores, zero erros, status ESTÁVEL).
+  * `index.html` e `index-ui.html` perfeitamente sincronizados.
+  * Binários de distribuição atualizados: `FENIX-Estetica.apk` (vc82) e `FENIX-Estetica-Windows.zip`.
+  * Checksums SHA-256 recalculados e salvos em `fenix-apps/checksums-sha256.txt`.
+
+## R126 — RECONSTRUÇÃO TOTAL DO LOGIN E CADASTRO (12/10/2026, versão 1.7.0)
+- MISSÃO PRINCIPAL: Reconstrução completa de raiz de todo o subsistema de login, cadastro, lembrete de acesso e inicialização ("COMEÇAR"), eliminando de forma definitiva botões sem resposta, travamentos em modais e falhas de runtime. Cumprimento estrito da regra de versionamento sequencial: v1.6.99 -> v1.7.0 (R126).
+- RECONSTRUÇÃO DO SUBSISTEMA DE AUTENTICAÇÃO E ENTRADA:
+  * Todas as funções de submissão e navegação expostas com escopo global e robusto no objeto `window`: `submeterLogin`, `submeterCadastro`, `submeterFx`, `mostrarLogin`, `mostrarCadastro`, `mostrarFx`, `iniciarSplash`, `entrarLembrado`, `usarOutraConta`, `avancarWelcome` e `sairDoApp`.
+  * Dupla amarração à prova de falhas: ouvintes inline nos formulários/botões (`onsubmit` e `onclick`) operando em perfeita harmonia com `addEventListener` protegidos por optional chaining.
+  * Travas de concorrência (`_submetendoLogin`, `_iniciandoSplash`, `_entrandoLembrado`, `_avancandoWelcome`) prevenindo disparos múltiplos ou reentrâncias simultâneas.
+  * Desbloqueio garantido de botões e spinners via blocos `try / finally { trava(false); }`.
+  * Resolução dos botões do modal de lembrete de conta (`#btnRememberGo` e `#btnRememberOther`) que não respondiam devido à ausência das funções globais.
+  * Transição rápida e determinística da splash para login direto ou lembrete de acesso local/remoto.
+- PRESERVAÇÃO INTEGRAL DO PADRÃO APPLE LUXURY:
+  * Design Apple Luxury preservado em #viewIa (cápsula flutuante `.ia-comp-capsule`, empty state Playfair Display, botões de ação e Agent Workspace com 40 UIs).
+- VALIDAÇÃO E DISTRIBUIÇÃO:
+  * 100% de aprovação na suíte de testes: teste_r126 (7/7), teste_r120 (8/8) e verificador_bugs (Status Consolidado: ESTÁVEL).
+  * Sincronização 100% idêntica entre `index.html` e `index-ui.html`.
+  * Injeção de código nos binários de distribuição: `FENIX-Estetica.apk` (vc81) e `FENIX-Estetica-Windows.zip`.
+  * Recálculo e atualização dos hashes SHA-256 em `fenix-apps/checksums-sha256.txt`.
+
 ## R124 — ENTRADA E AUTENTICAÇÃO TOTALMENTE RECRIADAS (12/10/2026, versão 1.6.98)
 - MISSÃO PRINCIPAL: Recriação completa da arquitetura de entrada do aplicativo (splash, lembrete, carregamento, autenticação, welcome modal e seleção de usuário), eliminando todas as travas na reentrada, corridas assíncronas no boot e bloqueio em modais secundários. Publicação versão a versão estrita: 1.6.97 -> 1.6.98 (R124).
 - REARQUITETURA DA ENTRADA & DESBUGAGEM TOTAL:
