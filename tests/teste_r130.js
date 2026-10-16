@@ -10,12 +10,11 @@ const W = fs.readFileSync(basePath + '/index.html', 'utf8');
 const WUI = fs.readFileSync(basePath + '/index-ui.html', 'utf8');
 const VJ = JSON.parse(fs.readFileSync(basePath + '/versao.json', 'utf8'));
 
-T('1. Versão 1.7.4 + versao.json R130 com 5 melhorias canônicas',
-  W.includes("APP_VERSAO='1.7.4'") &&
-  VJ.versao === '1.7.4' &&
-  VJ.r === 'R130' &&
-  VJ.melhorias.length === 5 &&
-  VJ.melhorias[0].includes('Reconstrução Total do Começar à Clínica (R130)')
+T('1. Versão 1.7.4/1.7.5 + versao.json R130/R131 com 5 melhorias canônicas',
+  (W.includes("APP_VERSAO='1.7.4'") || W.includes("APP_VERSAO='1.7.5'")) &&
+  (VJ.versao === '1.7.4' || VJ.versao === '1.7.5') &&
+  (VJ.r === 'R130' || VJ.r === 'R131') &&
+  VJ.melhorias.length === 5
 );
 
 T('2. UI Luxury Apple Style no Splash: .splash-card, .splash-badge, .splash-btn e #btnSplashGo',

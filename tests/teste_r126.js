@@ -10,10 +10,10 @@ const W = fs.readFileSync(basePath + '/index.html', 'utf8');
 const WUI = fs.readFileSync(basePath + '/index-ui.html', 'utf8');
 const VJ = JSON.parse(fs.readFileSync(basePath + '/versao.json', 'utf8'));
 
-T('1. Versão 1.7.0/1.7.1/1.7.2/1.7.3/1.7.4 + versao.json R126/R127/R128/R129/R130 com 5 melhorias canônicas',
-  (W.includes("APP_VERSAO='1.7.0'") || W.includes("APP_VERSAO='1.7.1'") || W.includes("APP_VERSAO='1.7.2'") || W.includes("APP_VERSAO='1.7.3'") || W.includes("APP_VERSAO='1.7.4'")) &&
-  (VJ.versao === '1.7.0' || VJ.versao === '1.7.1' || VJ.versao === '1.7.2' || VJ.versao === '1.7.3' || VJ.versao === '1.7.4') &&
-  (VJ.r === 'R126' || VJ.r === 'R127' || VJ.r === 'R128' || VJ.r === 'R129' || VJ.r === 'R130') &&
+T('1. Versão 1.7.0/1.7.1/1.7.2/1.7.3/1.7.4/1.7.5 + versao.json R126/R127/R128/R129/R130/R131 com 5 melhorias canônicas',
+  (W.includes("APP_VERSAO='1.7.0'") || W.includes("APP_VERSAO='1.7.1'") || W.includes("APP_VERSAO='1.7.2'") || W.includes("APP_VERSAO='1.7.3'") || W.includes("APP_VERSAO='1.7.4'") || W.includes("APP_VERSAO='1.7.5'")) &&
+  (VJ.versao === '1.7.0' || VJ.versao === '1.7.1' || VJ.versao === '1.7.2' || VJ.versao === '1.7.3' || VJ.versao === '1.7.4' || VJ.versao === '1.7.5') &&
+  (VJ.r === 'R126' || VJ.r === 'R127' || VJ.r === 'R128' || VJ.r === 'R129' || VJ.r === 'R130' || VJ.r === 'R131') &&
   VJ.melhorias.length === 5
 );
 

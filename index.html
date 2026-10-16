@@ -48,27 +48,38 @@
     st.setProperty('--gold-soft', cfg.s);
     st.setProperty('--glow-c', cfg.g);
 
-    // R129 — Verificação imediata de sessão no boot do head
+    // R131 — Verificação de sessão no boot do head: só marca hasSession se houver token Supabase ativo
     var s = localStorage.getItem('fenix_sessao');
-    if (s && s.trim()) {
+    var sbTok = null;
+    try {
+      if (typeof localStorage.key === 'function' && typeof localStorage.length === 'number') {
+        for (var i = 0; i < localStorage.length; i++) {
+          var ki = localStorage.key(i);
+          if (ki && ki.indexOf('sb-') === 0 && ki.indexOf('-auth-token') !== -1) {
+            sbTok = localStorage.getItem(ki);
+            break;
+          }
+        }
+      }
+      if (!sbTok) {
+        for (var k in localStorage) {
+          if (k && k.indexOf('sb-') === 0 && k.indexOf('-auth-token') !== -1) {
+            sbTok = localStorage.getItem(k);
+            break;
+          }
+        }
+      }
+    } catch (_) {}
+    if (s && s.trim() && sbTok) {
       d.dataset.hasSession = '1';
     }
   } catch (e) {}
 })();
-// R129 — Fast-path global iniciarSplash pronto no <head>
+// R131 — Fast-path global iniciarSplash pronto no <head> direcionando para autenticação segura
 window.iniciarSplash = function(e) {
   if (e && e.preventDefault) e.preventDefault();
   if (e && e.stopPropagation) e.stopPropagation();
   window.__splashIniciado = true;
-  try {
-    var s = localStorage.getItem('fenix_sessao');
-    if (s && typeof entrarLocal === 'function') {
-      var us = (typeof loadUsers === 'function') ? loadUsers() : {};
-      var u = (us && us[s]) ? us[s] : { nome: s, clinica: s, key: s };
-      entrarLocal(u, s);
-      return;
-    }
-  } catch(_) {}
   var sp = document.getElementById('splash');
   if (sp) sp.classList.add('hidden');
   var auth = document.getElementById('authScreen');
@@ -4297,27 +4308,15 @@ function iniciarSplash() {
         } else if (typeof entrarComCarregamento === 'function') {
           entrarComCarregamento(() => entrarRemoto(window.__pendRemoto));
         }
-      } else if (window.__pendLocal) {
-        if (typeof entrarLocal === 'function') {
-          entrarLocal(window.__pendLocal.u, window.__pendLocal.key);
-        } else if (typeof entrarComCarregamento === 'function') {
-          entrarComCarregamento(() => entrarLocal(window.__pendLocal.u, window.__pendLocal.key));
-        }
       } else {
-        // Fallback síncrono imediato de armazenamento local
+        $('authScreen')?.classList.remove('hidden');
+        mostrarLogin();
         const lk = localStorage.getItem('fenix_sessao');
-        if (lk) {
+        if (lk && $('loginNome') && !$('loginNome').value) {
           const us = (typeof loadUsers === 'function') ? loadUsers() : {};
-          const u = (us && us[lk]) ? us[lk] : { nome: lk, clinica: lk, key: lk };
-          window.__pendLocal = { u, key: lk };
-          if (typeof entrarLocal === 'function') {
-            entrarLocal(u, lk);
-          } else if (typeof entrarComCarregamento === 'function') {
-            entrarComCarregamento(() => entrarLocal(u, lk));
-          }
-        } else {
-          $('authScreen')?.classList.remove('hidden');
-          mostrarLogin();
+          const u = (us && us[lk]) ? us[lk] : null;
+          $('loginNome').value = (u && (u.clinica || u.nome)) || lk;
+          setTimeout(() => { try { $('loginSenha')?.focus(); } catch (_) {} }, 100);
         }
       }
     } finally {
@@ -8625,7 +8624,12 @@ $('formCadastro')?.addEventListener('submit', submeterCadastro);
 
 async function sairDoApp() {
   exitBackup();
-  try { if (REMOTE && SB && SB.auth) await SB.auth.signOut(); else localStorage.removeItem(S); } catch (e) {}
+  try { if (REMOTE && SB && SB.auth) await SB.auth.signOut(); } catch (e) {}
+  try { localStorage.removeItem(S); } catch (e) {}
+  try { document.documentElement.dataset.hasSession = '0'; } catch (e) {}
+  window.__pendRemoto = null;
+  window.__pendLocal = null;
+  window.__splashIniciado = false;
   currentKey = null; CLINIC_ID = null; SB_TOKEN = ''; navStack = []; synced = {}; dirty.clear(); lastPull = 0; closeSide();
   ME = { kind: 'local', row: null, email: '' };
   $('dock')?.classList.add('hidden');
@@ -8642,6 +8646,7 @@ async function sairDoApp() {
   $('authScreen')?.classList.remove('hidden');
   mostrarLogin();
 
+  if ($('loginNome')) $('loginNome').value = '';
   if ($('loginSenha')) $('loginSenha').value = '';
   if ($('loginMsg')) $('loginMsg').textContent = '';
   if ($('regMsg')) $('regMsg').textContent = '';
@@ -8745,7 +8750,7 @@ $('agData').value=todayISO();$('finData').value=todayISO();
 cals.ag.ym=curYM();cals.wc.ym=curYM();cals.wc.sel=todayISO();
 setTimeout(migraFotosStorage,4000);
 $('cloudBadge').classList.remove('hidden');
-if(REMOTE)setCloud('ok','☁ Nuvem ativa');else setCloud('local','💾 Modo local');
+if(CLINIC_ID)setCloud('ok','☁ Nuvem ativa');else setCloud('local','💾 Modo local');
 applySide(currentSide());
 mountFilterBar('fbarGen','gen');mountFilterBar('fbarCli','cli');mountFilterBar('fbarPkg','pkg');mountFinBar();
 loadWS();mountWidgets();
@@ -8767,7 +8772,7 @@ if(wl&&us.some(u=>String(u.id||'')===String(wl.id||''))){
   renderUserStep('lista');
   $('userModal')?.classList.remove('hidden');
 }
-if(REMOTE){setTimeout(()=>pullRemote(false),2500);flushPendingBkp();}
+if(REMOTE&&CLINIC_ID){setTimeout(()=>pullRemote(false),500);flushPendingBkp();}
 }catch(err){showErrorGlobal((err&&err.message)||err);}}
 function entrarLocal(u,key){currentKey=key;
 DB.cli=read(cliKey(),[]);let ch=false;
@@ -10305,7 +10310,7 @@ async function gpGeraFotoReal(auto){
   if(!auto)msg($('gpMsg'),'🔄 Gerando outra fotografia com o motor Flux…');
   else msg($('gpMsg'),'🎨 Gerando fotografia real e cinematográfica pelo motor Flux…');
   try{
-    const promptVisual=(gpData&&(gpData.prompt_visual||gpData.tema||gpData.titulo_arte))||$('gpCmd').value.trim()||'High-end luxury aesthetic clinic';
+    const promptVisual=(gpData&&(gpData.prompt_visual||gpData.tema||gpData.titulo_arte))||$('gpCmd')?.value?.trim()||'High-end luxury aesthetic clinic';
     const r=await fetch(NUVEM_URL+'/ia-imagem',{
       method:'POST',
       headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SB_TOKEN||'')},
@@ -10525,17 +10530,17 @@ function gpAplica(j){
     beneficios:gbf,
     legenda:String(g.legenda||'').slice(0,1800)
   };
-  $('gpCard').innerHTML=gpCardHTML(gpData);
-  $('gpLeg').textContent=gpData.legenda||'';
-  $('gpOut').classList.remove('hidden');
+  if($('gpCard')) $('gpCard').innerHTML=gpCardHTML(gpData);
+  if($('gpLeg')) $('gpLeg').textContent=gpData.legenda||'';
+  $('gpOut')?.classList.remove('hidden');
   msg($('gpMsg'),'✔ Post pronto — gerando fotografia profissional com a I.A…','ok');
-  try{$('gpOut').scrollIntoView({behavior:'smooth',block:'start'});}catch(e){}
+  try{$('gpOut')?.scrollIntoView({behavior:'smooth',block:'start'});}catch(e){}
 }
 async function gpMelhora(){
-  if(gpBusy)return;const txt=$('gpMeu').value.trim();
+  if(gpBusy)return;const txt=$('gpMeu')?.value?.trim()||'';
   if(!txt)return msg($('gpMsg'),'Cole o seu texto primeiro (no campo acima do botão).','err');
   if(!SB_TOKEN)return msg($('gpMsg'),'Entre com sua conta pra usar a I.A.','err');
-  gpBusy=true;$('gpMelhora').disabled=true;msg($('gpMsg'),'✨ A I.A está melhorando o seu texto…');
+  gpBusy=true;if($('gpMelhora'))$('gpMelhora').disabled=true;msg($('gpMsg'),'✨ A I.A está melhorando o seu texto…');
   try{
     const r=await fetch(NUVEM_URL+'/ia',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SB_TOKEN||'')},body:JSON.stringify({modo:'post',pergunta:'MELHORAR ROTEIRO DO USUÁRIO: '+txt,contexto:buildIaCtx()})});
     const j=await r.json().catch(()=>null);
@@ -11651,7 +11656,7 @@ if(base){const id=String(f.id||'').replace(/\(/g,'');const ext=(u.match(/\.([a-z
 if(mu)setArq(la);}catch(e){}}
 
 /* ===== R28 — versão do app, aviso de atualização e contraste ===== */
-const APP_VERSAO='1.7.4';
+const APP_VERSAO='1.7.5';
 let UPD=null,updToastEl=null;
 function _lum(c){const m=String(c).match(/\d+(\.\d+)?/g);if(!m||m.length<3)return null;return .2126*(+m[0])+.7152*(+m[1])+.0722*(+m[2]);}
 function consertaContraste(){try{
@@ -11804,69 +11809,99 @@ loadWS();
     window.__pendRemoto = null;
     window.__pendLocal = null;
 
-    // 1. Checa clínica local primeiro de forma síncrona e imediata
-    const lastKey = localStorage.getItem(S);
-    if (lastKey) {
-      const us = (typeof loadUsers === 'function') ? loadUsers() : {};
-      const u = (us && us[lastKey]) ? us[lastKey] : { nome: lastKey, clinica: lastKey, key: lastKey };
-      window.__pendLocal = { u, key: lastKey };
-      window.__splashIniciado = true;
-      try {
-        entrarLocal(u, lastKey);
-        return;
-      } catch (errAuto) {
-        console.warn('[Fênix R129] Erro na auto-entrada direta local:', errAuto);
-      }
-    }
-
-    // 2. Checa sessão remota na nuvem com timeout seguro de 1.2s
+    // R131 — 1. Prioridade absoluta: checa sessão remota ativa na nuvem com timeout seguro
     if (REMOTE && SB && SB.auth) {
       try {
         const sessPromise = SB.auth.getSession();
-        const timeoutPromise = new Promise(resolve => setTimeout(() => resolve({ data: { session: null } }), 1200));
+        const timeoutPromise = new Promise(resolve => setTimeout(() => resolve({ data: { session: null } }), 1500));
         const { data } = await Promise.race([sessPromise, timeoutPromise]);
         if (data && data.session && data.session.user) {
           window.__pendRemoto = data.session.user;
           window.__splashIniciado = true;
+          document.documentElement.dataset.hasSession = '1';
+          $('splash')?.classList.add('hidden');
           try {
-            entrarRemoto(data.session.user);
+            await entrarRemoto(data.session.user);
             return;
           } catch (errRem) {
-            console.warn('[Fênix R129] Erro na auto-entrada remota:', errRem);
+            console.warn('[Fênix R131] Erro na auto-entrada remota:', errRem);
           }
         }
       } catch (e) {
-        console.warn('[Fênix] getSession error/timeout:', e);
+        console.warn('[Fênix R131] getSession error/timeout:', e);
       }
+    }
+
+    // R131 — 2. Sem sessão remota ativa em getSession: tenta reconexão automática com credencial salva da clínica
+    const lastKey = localStorage.getItem(S);
+    if (lastKey && REMOTE && SB && SB.auth) {
+      const us = (typeof loadUsers === 'function') ? loadUsers() : {};
+      const u = (us && us[lastKey]) ? us[lastKey] : null;
+      if (u && u.senha) {
+        try {
+          const nomeAuth = u.clinica || u.nome || lastKey;
+          const { data: logData, error: logErr } = await SB.auth.signInWithPassword({
+            email: authEmail(nomeAuth),
+            password: u.senha
+          });
+          if (!logErr && logData && logData.user) {
+            window.__pendRemoto = logData.user;
+            window.__splashIniciado = true;
+            document.documentElement.dataset.hasSession = '1';
+            $('splash')?.classList.add('hidden');
+            try {
+              await entrarRemoto(logData.user);
+              return;
+            } catch (errRem2) {
+              console.warn('[Fênix R131] Erro na auto-reconexão remota:', errRem2);
+            }
+          }
+        } catch (eAuto) {
+          console.warn('[Fênix R131] Tentativa de auto-reconexão:', eAuto);
+        }
+      }
+    }
+
+    // R131 — 3. Sem sessão remota ativa: garante que a tela de login/cadastro fique acessível
+    document.documentElement.dataset.hasSession = '0';
+    if (lastKey) {
+      const us = (typeof loadUsers === 'function') ? loadUsers() : {};
+      const u = (us && us[lastKey]) ? us[lastKey] : null;
+      window.__pendLocal = u ? { u, key: lastKey } : null;
     }
 
     // Pré-preenche o nome da clínica no campo de login
     try {
       const ln = $('loginNome');
       if (ln && !ln.value) {
-        if (window.__pendLocal) ln.value = window.__pendLocal.u.nome || window.__pendLocal.key;
-        else if (window.__pendRemoto) {
-          const u = window.__pendRemoto;
-          ln.value = (u.user_metadata && u.user_metadata.nome) || String(u.email || '').split('@')[0];
+        if (window.__pendLocal && window.__pendLocal.u) {
+          ln.value = window.__pendLocal.u.clinica || window.__pendLocal.u.nome || window.__pendLocal.key;
+        } else if (lastKey) {
+          ln.value = lastKey;
         }
       }
     } catch (_) {}
 
-    // Exibe a tela de boas-vindas inicial (splash) SOMENTE se nenhuma tela/modal ativo e sem sessão
+    // R131 — Exibe tela de autenticação (ou splash) se nenhuma sessão ativa
     if (!window.__splashIniciado) {
-      const semSessao = !localStorage.getItem(S);
       const modalAtivo = !$('rememberModal')?.classList.contains('hidden') ||
                          !$('welcomeModal')?.classList.contains('hidden') ||
                          !$('enterLoad')?.classList.contains('hidden') ||
                          !$('userModal')?.classList.contains('hidden');
-      if (semSessao && !modalAtivo && $('appScreen').classList.contains('hidden') && $('authScreen').classList.contains('hidden')) {
-        $('splash').classList.remove('hidden');
+      if (!modalAtivo && $('appScreen').classList.contains('hidden')) {
+        $('splash')?.classList.add('hidden');
+        $('authScreen')?.classList.remove('hidden');
+        mostrarLogin();
+        if ($('loginNome') && $('loginNome').value) {
+          setTimeout(() => { try { $('loginSenha')?.focus(); } catch (_) {} }, 100);
+        }
       }
     }
   } catch (e) {
     showErrorGlobal((e && e.message) || e);
-    if (!window.__splashIniciado && $('appScreen').classList.contains('hidden') && $('authScreen').classList.contains('hidden')) {
-      $('splash').classList.remove('hidden');
+    if (!window.__splashIniciado && $('appScreen').classList.contains('hidden')) {
+      $('authScreen')?.classList.remove('hidden');
+      mostrarLogin();
     }
   }
 })();
@@ -11903,18 +11938,18 @@ function iniciarSplash(e) {
       if (bg) { bg.disabled = false; bg.textContent = 'COMEÇAR'; }
       if (sub) sub.textContent = 'Sua clínica, seus clientes, tudo em um app.';
 
-      const lk = localStorage.getItem(S);
       if (window.__pendRemoto) {
         if (typeof entrarRemoto === 'function') entrarRemoto(window.__pendRemoto);
-      } else if (window.__pendLocal) {
-        if (typeof entrarLocal === 'function') entrarLocal(window.__pendLocal.u, window.__pendLocal.key);
-      } else if (lk) {
-        const us = (typeof loadUsers === 'function') ? loadUsers() : {};
-        const u = (us && us[lk]) ? us[lk] : { nome: lk, clinica: lk, key: lk };
-        if (typeof entrarLocal === 'function') entrarLocal(u, lk);
       } else {
         $('authScreen')?.classList.remove('hidden');
         mostrarLogin();
+        const lk = localStorage.getItem(S);
+        if (lk && $('loginNome') && !$('loginNome').value) {
+          const us = (typeof loadUsers === 'function') ? loadUsers() : {};
+          const u = (us && us[lk]) ? us[lk] : null;
+          $('loginNome').value = (u && (u.clinica || u.nome)) || lk;
+          setTimeout(() => { try { $('loginSenha')?.focus(); } catch (_) {} }, 100);
+        }
       }
     } finally {
       _iniciandoSplash = false;

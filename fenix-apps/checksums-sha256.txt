@@ -1,7 +1,7 @@
-﻿# FÃªnix EstÃ©tica â€” checksums SHA-256 â€” R130 (v1.7.4) â€” 15/10/2026
+﻿# FÃªnix EstÃ©tica â€” checksums SHA-256 â€” R131 (v1.7.5) â€” 15/10/2026
 # Confira depois de baixar:  certutil -hashfile ARQUIVO SHA256   (Windows)
-889059c62c61ef1d0ab3262fd29d8ac94108f0ed2522ebafc0974d7673742609  FENIX-Estetica.apk           (Android Â· vc85 Â· v1.7.4 â€” ReconstruÃ§Ã£o ComeÃ§ar Ã  ClÃ­nica R130)
-9b45c200c92dde3414abfdc92995c0c656ee9973cadb3b85927d712b5cda5e9a  FENIX-Estetica-Windows.zip   (Windows Â· v1.7.4 â€” idem)
+d7eb294ca046f8b5406c8af77208af69a5723b7021e1a688b53e32ca2a8416a2  FENIX-Estetica.apk           (Android Â· vc86 Â· v1.7.5 â€” ReconexÃ£o Nuvem & RestauraÃ§Ã£o Login/Sync R131)
+8d36aa20fa85cb46378554b6b0ecb2754370f4ea46d56195a15ea424845d3208  FENIX-Estetica-Windows.zip   (Windows Â· v1.7.5 â€” idem)
 dd3eb4bbb62b2d25c584bf27aa74ec5c4b58c27513b6d1a165874e20c5109ccd  Fenix-Center.apk             (Center Android Â· vc16 Â· v2.4.0 â€” CONGELADO)
 dde2189485204406684fecbbb21cdaab8940e06020eb65fbc29d38e641805745  Fenix-Center-Windows.zip     (Center Windows Â· v2.4.0 â€” CONGELADO)
-# HistÃ³rico: EstÃ©tica vc84/1.7.3 na v1.7.3 Â· vc83/1.7.2 na v1.7.2 Â· vc82/1.7.1 na v1.7.1 Â· vc81/1.7.0 na v1.7.0 Â· vc80/1.6.99 na v1.6.99
+# HistÃ³rico: EstÃ©tica vc85/1.7.4 na v1.7.4 Â· vc84/1.7.3 na v1.7.3 Â· vc83/1.7.2 na v1.7.2 Â· vc82/1.7.1 na v1.7.1 Â· vc81/1.7.0 na v1.7.0 Â· vc80/1.6.99 na v1.6.99

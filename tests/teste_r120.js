@@ -12,9 +12,9 @@ const VJ = JSON.parse(fs.readFileSync(basePath + '/versao.json', 'utf8'));
 const WB = fs.readFileSync(basePath + '/supabase/worker-live-backup.js', 'utf8');
 
 T('1. Versão e versao.json com EXATAMENTE 5 melhorias canônicas',
-  (W.includes("APP_VERSAO='1.6.94'") || W.includes("APP_VERSAO='1.6.95'") || W.includes("APP_VERSAO='1.6.96'") || W.includes("APP_VERSAO='1.6.97'") || W.includes("APP_VERSAO='1.6.98'") || W.includes("APP_VERSAO='1.6.99'") || W.includes("APP_VERSAO='1.7.0'") || W.includes("APP_VERSAO='1.7.1'") || W.includes("APP_VERSAO='1.7.2'") || W.includes("APP_VERSAO='1.7.3'") || W.includes("APP_VERSAO='1.7.4'")) &&
-  (VJ.versao === '1.6.94' || VJ.versao === '1.6.95' || VJ.versao === '1.6.96' || VJ.versao === '1.6.97' || VJ.versao === '1.6.98' || VJ.versao === '1.6.99' || VJ.versao === '1.7.0' || VJ.versao === '1.7.1' || VJ.versao === '1.7.2' || VJ.versao === '1.7.3' || VJ.versao === '1.7.4') &&
-  (VJ.r === 'R120' || VJ.r === 'R121' || VJ.r === 'R122' || VJ.r === 'R123' || VJ.r === 'R124' || VJ.r === 'R125' || VJ.r === 'R126' || VJ.r === 'R127' || VJ.r === 'R128' || VJ.r === 'R129' || VJ.r === 'R130') &&
+  (W.includes("APP_VERSAO='1.6.94'") || W.includes("APP_VERSAO='1.6.95'") || W.includes("APP_VERSAO='1.6.96'") || W.includes("APP_VERSAO='1.6.97'") || W.includes("APP_VERSAO='1.6.98'") || W.includes("APP_VERSAO='1.6.99'") || W.includes("APP_VERSAO='1.7.0'") || W.includes("APP_VERSAO='1.7.1'") || W.includes("APP_VERSAO='1.7.2'") || W.includes("APP_VERSAO='1.7.3'") || W.includes("APP_VERSAO='1.7.4'") || W.includes("APP_VERSAO='1.7.5'")) &&
+  (VJ.versao === '1.6.94' || VJ.versao === '1.6.95' || VJ.versao === '1.6.96' || VJ.versao === '1.6.97' || VJ.versao === '1.6.98' || VJ.versao === '1.6.99' || VJ.versao === '1.7.0' || VJ.versao === '1.7.1' || VJ.versao === '1.7.2' || VJ.versao === '1.7.3' || VJ.versao === '1.7.4' || VJ.versao === '1.7.5') &&
+  (VJ.r === 'R120' || VJ.r === 'R121' || VJ.r === 'R122' || VJ.r === 'R123' || VJ.r === 'R124' || VJ.r === 'R125' || VJ.r === 'R126' || VJ.r === 'R127' || VJ.r === 'R128' || VJ.r === 'R129' || VJ.r === 'R130' || VJ.r === 'R131') &&
   VJ.melhorias.length === 5 &&
   VJ.melhorias.some(m => m.includes('Fênix Spark & Workspace')) &&
   VJ.melhorias.some(m => m.includes('I.A falante')) &&

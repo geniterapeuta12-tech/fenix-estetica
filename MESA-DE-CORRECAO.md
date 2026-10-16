@@ -1,6 +1,6 @@
 # 🛠️ MESA DE CORREÇÃO — FÊNIX ESTÉTICA
 > **Raio-X Modular, Auditoria de Integridade & Diagnóstico Contínuo dos 5 Modos**  
-> *Última Varredura: 15/10/2026 às 18:49:49 · Status Geral: 🟢 ESTÁVEL · Versão: 1.7.4 (R130)*
+> *Última Varredura: 15/10/2026 às 21:42:34 · Status Geral: 🟢 ESTÁVEL · Versão: 1.7.5 (R131)*
 
 ---
 
@@ -19,9 +19,9 @@
 ## 🔍 2. DIAGNÓSTICO TÉCNICO DETALHADO
 
 ### ⚡ Núcleo JavaScript & Worker
-* **Sintaxe JavaScript (`node --check`)**: ✔️ **100% Válida**. Zero erros sintáticos no bloco principal de script (~12227 linhas).
+* **Sintaxe JavaScript (`node --check`)**: ✔️ **100% Válida**. Zero erros sintáticos no bloco principal de script (~12262 linhas).
 * **Worker de Nuvem (`worker-live-backup.js`)**: ✔️ **100% Válido**. Sintaxe aprovada, suporte a streaming, pensamento agêntico (`<pensamento>`), resposta dialógica (`<resposta>`) e múltiplos artefatos (`<canvas>`) preservados.
-* **Sincronia de Arquivos**: ✔️ `index.html` e `index-ui.html` com **paridade exata (1:1)** (2232465 bytes).
+* **Sincronia de Arquivos**: ✔️ `index.html` e `index-ui.html` com **paridade exata (1:1)** (2233837 bytes).
 
 ### 🏛️ Estrutura & Integridade do DOM
 * **Balanço Estrutural de Tags**:
@@ -54,10 +54,11 @@
 | `node tests/teste_r128.js` | Reconstrução Total da Entrada & Temas, <head> theme boot, Splash & Modais claros | 7/7 OK | 🟢 APROVADO |
 | `node tests/teste_r129.js` | Auto-Entrada Instantânea Sem Trava, <head> session boot, CSS descartador de splash | 7/7 OK | 🟢 APROVADO |
 | `node tests/teste_r130.js` | Reconstrução Total do Começar à Clínica, UI Luxury Apple, Fluidez Absoluta | 7/7 OK | 🟢 APROVADO |
+| `node tests/teste_r131.js` | Reconexão Nuvem & Restauração do Login/Sincronização, Prioridade Remota | 7/7 OK | 🟢 APROVADO |
 | `node tests/test_all_renders.js` | Execução de renderizadores (`renderClientes`, `renderAgenda`, `renderFin`, etc.) | 11/11 OK | 🟢 APROVADO |
 
-> **Nota sobre a Versão Canônica Atual (1.7.4 / R130)**:  
-> A versão 1.7.4 recria com perfeição a jornada completa do primeiro "COMEÇAR" no splash até o "COMEÇAR" da clínica no welcomeModal, com UI refinada Apple Luxury, fluidez instantânea e zero bugs de travamento.
+> **Nota sobre a Versão Canônica Atual (1.7.5 (R131))**:  
+> A versão 1.7.5 restaura a integração na nuvem e o fluxo completo de autenticação e sincronização (login/cadastro), priorizando a sessão remota na nuvem com fallback local transparente, preservando o ecossistema Apple Luxury, Split-View Workspace e os 5 modos do sistema.
 
 ---
 

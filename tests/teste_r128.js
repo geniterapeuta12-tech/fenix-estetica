@@ -11,12 +11,12 @@ const W = fs.readFileSync(basePath + '/index.html', 'utf8');
 const WUI = fs.readFileSync(basePath + '/index-ui.html', 'utf8');
 const VJ = JSON.parse(fs.readFileSync(basePath + '/versao.json', 'utf8'));
 
-T('1. Versão 1.7.2/1.7.3/1.7.4 + versao.json R128/R129/R130 com 5 melhorias canônicas',
-  (W.includes("APP_VERSAO='1.7.2'") || W.includes("APP_VERSAO='1.7.3'") || W.includes("APP_VERSAO='1.7.4'")) &&
-  (VJ.versao === '1.7.2' || VJ.versao === '1.7.3' || VJ.versao === '1.7.4') &&
-  (VJ.r === 'R128' || VJ.r === 'R129' || VJ.r === 'R130') &&
+T('1. Versão 1.7.2/1.7.3/1.7.4/1.7.5 + versao.json R128/R129/R130/R131 com 5 melhorias canônicas',
+  (W.includes("APP_VERSAO='1.7.2'") || W.includes("APP_VERSAO='1.7.3'") || W.includes("APP_VERSAO='1.7.4'") || W.includes("APP_VERSAO='1.7.5'")) &&
+  (VJ.versao === '1.7.2' || VJ.versao === '1.7.3' || VJ.versao === '1.7.4' || VJ.versao === '1.7.5') &&
+  (VJ.r === 'R128' || VJ.r === 'R129' || VJ.r === 'R130' || VJ.r === 'R131') &&
   VJ.melhorias.length === 5 &&
-  (VJ.melhorias.some(m => m.includes('Reconstrução Total da Entrada & Temas')) || VJ.melhorias.some(m => m.includes('Auto-Entrada Instantânea')) || VJ.melhorias.some(m => m.includes('Reconstrução Total do Começar à Clínica')))
+  (VJ.melhorias.some(m => m.includes('Reconstrução Total da Entrada & Temas')) || VJ.melhorias.some(m => m.includes('Auto-Entrada Instantânea')) || VJ.melhorias.some(m => m.includes('Reconstrução Total do Começar à Clínica')) || VJ.melhorias.some(m => m.includes('Restauração do Login/Sincronização')))
 );
 
 T('2. Inicialização síncrona instantânea de tema e acento no <head>',

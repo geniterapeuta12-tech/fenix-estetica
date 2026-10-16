@@ -1,3 +1,32 @@
+## R131 — RECONEXÃO NUVEM, RESTAURAÇÃO DO LOGIN & SINCRONIZAÇÃO TOTAL (15/10/2026, versão 1.7.5)
+- MISSÃO PRINCIPAL: Resolução completa e definitiva da solicitação do usuário ("conserte agora rapidinho que nada tá sincronizado, 0 clientes e tal, e também o sistema de cadastro login não aparece, já entra direto provavelmente não entrando na clínica e sendo modo local e não tá comunicando com o banco de dados pois a i.a não funciona. e também aparece nuvem ativa porém com nenhum dado evidente sendo que tá e tem"). Cumprimento rigoroso da regra de versionamento sequencial imutável: v1.7.4 (R130) -> v1.7.5 (R131).
+- DIAGNÓSTICO PROFUNDO & CAUSAS-RAIZ DA FALHA:
+  * **Auto-Entrada Cega em Modo Local (Bypass de Login):** No R129, o `bootstrap()` executava `entrarLocal(u, lastKey)` e `return;` assim que encontrava qualquer string no `localStorage.getItem('fenix_sessao')`. Isso suprimia completamente a tela de login/cadastro (`#authScreen` / `mostrarLogin()`), prendia o app em modo local offline (`ME.kind = 'local'`, `CLINIC_ID = null`), deixava o banco zerado (`DB.cli = []`, 0 clientes) e bloqueava a I.A porque os endpoints `/ia` exigem `SB_TOKEN` e `CLINIC_ID`.
+  * **Falso Positivo de "Nuvem Ativa" no Topo:** A função `entrarUI()` verificava `if (REMOTE)` em vez de `if (CLINIC_ID)`. Como `const REMOTE = true;` é uma constante de ambiente, o badge no topo exibia falsamente `☁ Nuvem ativa` mesmo quando o app estava operando em modo local desconectado com `CLINIC_ID = null` e 0 clientes sincronizados.
+  * **Falta de Reconexão Automática Resiliente:** Se o token do Supabase expirava ou a sessão era limpa, o app não tentava a re-autenticação com as credenciais salvas da clínica, nem dava chance para o usuário logar, caindo silenciosamente no modo local sem dados.
+- RECONSTRUÇÃO ARQUITETURAL R131 IMPLEMENTADA:
+  * **1. Prioridade Absoluta à Sessão Remota na Nuvem:**
+    - O `bootstrap()` consulta imediatamente `SB.auth.getSession()` com timeout seguro de 1.5s. Havendo sessão válida na nuvem, invoca `await entrarRemoto(data.session.user)`, restaura `CLINIC_ID = user.id`, obtém `SB_TOKEN`, carrega todas as tabelas em paralelo (`loadRemote()`) e exibe os dados reais e a I.A funcional.
+  * **2. Reconexão Automática Resiliente com Credenciais Salvas:**
+    - Se `getSession()` não retorna sessão ativa, mas existem credenciais salvas da clínica no dispositivo (`u.senha`), o `bootstrap()` executa `SB.auth.signInWithPassword()` em segundo plano para restaurar a conexão à nuvem sem exigir que o usuário digite a senha novamente.
+  * **3. Acesso Garantido à Tela de Login e Cadastro (Zero Bypass Cego):**
+    - Se não houver sessão ativa nem reconexão automática, o app NUNCA entra silenciosamente no modo local. Em vez disso, define `document.documentElement.dataset.hasSession = '0'`, oculta o splash e abre diretamente a tela de autenticação (`#authScreen` -> `mostrarLogin()`), com o nome da clínica pré-preenchido e foco imediato no campo de senha para agilizar a entrada.
+    - O link "criar conta" (`mostrarCadastro()`) fica 100% visível e funcional para cadastro de novas clínicas.
+  * **4. Correção Definitiva do Badge de Nuvem (`setCloud`):**
+    - `entrarUI()` agora condiciona o status `☁ Nuvem ativa` estritamente a `if (CLINIC_ID)`. Se `CLINIC_ID` for nulo, o app exibe honestamente `💾 Modo local`.
+    - Ao entrar na clínica com `CLINIC_ID`, o `pullRemote(false)` dispara rapidamente em 500ms garantindo a sincronização imediata de clientes, agendamentos, pacotes e financeiro.
+  * **5. Logout Limpo (`sairDoApp`):**
+    - Ao clicar em "Sair", o app desloga do Supabase, limpa `localStorage.removeItem(S)`, redefine `dataset.hasSession = '0'`, limpa `DB` e retorna à tela de login sem reter resquícios locais.
+- VERIFICAÇÃO INTEGRAL DA ATUALIZAÇÃO (DADOS > SISTEMA):
+  * `APP_VERSAO = '1.7.5'` perfeitamente alinhado com `versao.json` ("1.7.5", "R131", 15/10/2026).
+  * A verificação de atualização em Dados > Sistema exibe com precisão `v1.7.5 — esta instalação | mais recente ✓` com as melhorias canônicas.
+- VALIDAÇÃO E DISTRIBUIÇÃO:
+  * 100% de aprovação na bateria completa de testes: `teste_r131.js` (7/7), `teste_r130.js` (7/7), `teste_r129.js` (7/7), `teste_r128.js` (7/7), `teste_r127.js` (7/7), `teste_r126.js` (7/7), `teste_r120.js` (8/8), `test_app_entry_flow.js` (100% OK), `test_all_renders.js` (11/11) e `verificador_bugs.js` (ESTÁVEL).
+  * `index.html` e `index-ui.html` perfeitamente sincronizados (1:1).
+  * Binários atualizados: `FENIX-Estetica.apk` (vc86) e `FENIX-Estetica-Windows.zip`.
+  * Pasta `versoes/v1.7.5/` criada com os executáveis e APK nomeados com a versão.
+  * Checksums recalculados e salvos em `fenix-apps/checksums-sha256.txt`.
+
 ## R130 — RECONSTRUÇÃO TOTAL DO COMEÇAR À CLÍNICA & UI LUXURY APPLE (15/10/2026, versão 1.7.4)
 - MISSÃO PRINCIPAL: Resolução completa e definitiva da solicitação do usuário ("de uma vez por todas recrie tudo tudo mudando só um pouco a ui do começar até o começar de entrar na clínica, tá bugando e não dando certo; quero que sempre entre no app e verifique se a atualização deu certo"). Cumprimento rigoroso da regra de versionamento sequencial imutável: v1.7.3 (R129) -> v1.7.4 (R130).
 - DIAGNÓSTICO PROFUNDO & CAUSAS-RAIZ DA INSTABILIDADE ENTRE OS DOIS "COMEÇAR":

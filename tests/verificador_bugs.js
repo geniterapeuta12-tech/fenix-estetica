@@ -36,6 +36,7 @@ const relatorio = {
     r128Status: 'PENDENTE',
     r129Status: 'PENDENTE',
     r130Status: 'PENDENTE',
+    r131Status: 'PENDENTE',
     allRendersStatus: 'PENDENTE'
   }
 };
@@ -448,6 +449,15 @@ try {
   }
 
   try {
+    const resR131 = execSync('node tests/teste_r131.js', { encoding: 'utf8' });
+    relatorio.metricas.r131Status = resR131.trim();
+    console.log('✔ [Regressão R131] teste_r131.js passou com sucesso: ' + resR131.trim());
+  } catch (errR131) {
+    relatorio.metricas.r131Status = 'FALHA';
+    relatorio.alertas.push('teste_r131.js falhou: ' + errR131.message);
+  }
+
+  try {
     const resRenders = execSync('node tests/test_all_renders.js', { encoding: 'utf8' });
     relatorio.metricas.allRendersStatus = '11/11 OK';
     console.log('✔ [Renderizadores] test_all_renders.js passou com sucesso: 11/11 OK');
@@ -484,6 +494,7 @@ fs.writeFileSync('tests/ultimo_relatorio_bugs.json', JSON.stringify(relatorio, n
 const dataFormatada = new Date().toLocaleDateString('pt-BR') + ' às ' + new Date().toLocaleTimeString('pt-BR');
 const vjData = fs.existsSync('versao.json') ? JSON.parse(fs.readFileSync('versao.json', 'utf8')) : null;
 const versaoStr = vjData ? `${vjData.versao} (${vjData.r})` : '1.7.1 (R127)';
+const testBadge = s => (s && s !== 'FALHA' && s !== 'PENDENTE') ? '🟢 APROVADO' : '❌ FALHA';
 const mdContent = `# 🛠️ MESA DE CORREÇÃO — FÊNIX ESTÉTICA
 > **Raio-X Modular, Auditoria de Integridade & Diagnóstico Contínuo dos 5 Modos**  
 > *Última Varredura: ${dataFormatada} · Status Geral: ${relatorio.statusGeral === 'ESTÁVEL' ? '🟢 ESTÁVEL' : '⚠️ ATENÇÃO'} · Versão: ${versaoStr}*
@@ -534,16 +545,17 @@ const mdContent = `# 🛠️ MESA DE CORREÇÃO — FÊNIX ESTÉTICA
 | Teste | Escopo Auditado | Resultado | Status |
 | :--- | :--- | :---: | :---: |
 | \`node tests/verificador_bugs.js\` | Super auditor multi-modos, sintaxe, tags DOM, runtime sandbox | APROVADO | 🟢 ESTÁVEL |
-| \`node tests/teste_r120.js\` | Fênix Spark & Workspace, I.A falante, Flux inline, desativação #viewPosts, Galeria 40 UIs | 8/8 OK | 🟢 APROVADO |
-| \`node tests/teste_r126.js\` | Reconstrução do Login/Cadastro, Splash e Entrada Blindada, Apple Luxury | 7/7 OK | 🟢 APROVADO |
-| \`node tests/teste_r127.js\` | Blindagem Total de Entrada, Exposição Antecipada de Funções Globais | 7/7 OK | 🟢 APROVADO |
-| \`node tests/teste_r128.js\` | Reconstrução Total da Entrada & Temas, <head> theme boot, Splash & Modais claros | 7/7 OK | 🟢 APROVADO |
-| \`node tests/teste_r129.js\` | Auto-Entrada Instantânea Sem Trava, <head> session boot, CSS descartador de splash | 7/7 OK | 🟢 APROVADO |
-| \`node tests/teste_r130.js\` | Reconstrução Total do Começar à Clínica, UI Luxury Apple, Fluidez Absoluta | 7/7 OK | 🟢 APROVADO |
-| \`node tests/test_all_renders.js\` | Execução de renderizadores (\`renderClientes\`, \`renderAgenda\`, \`renderFin\`, etc.) | 11/11 OK | 🟢 APROVADO |
+| \`node tests/teste_r120.js\` | Fênix Spark & Workspace, I.A falante, Flux inline, desativação #viewPosts, Galeria 40 UIs | ${relatorio.metricas.r120Status === 'FALHA' ? 'FALHA' : '8/8 OK'} | ${testBadge(relatorio.metricas.r120Status)} |
+| \`node tests/teste_r126.js\` | Reconstrução do Login/Cadastro, Splash e Entrada Blindada, Apple Luxury | ${relatorio.metricas.r126Status === 'FALHA' ? 'FALHA' : '7/7 OK'} | ${testBadge(relatorio.metricas.r126Status)} |
+| \`node tests/teste_r127.js\` | Blindagem Total de Entrada, Exposição Antecipada de Funções Globais | ${relatorio.metricas.r127Status === 'FALHA' ? 'FALHA' : '7/7 OK'} | ${testBadge(relatorio.metricas.r127Status)} |
+| \`node tests/teste_r128.js\` | Reconstrução Total da Entrada & Temas, <head> theme boot, Splash & Modais claros | ${relatorio.metricas.r128Status === 'FALHA' ? 'FALHA' : '7/7 OK'} | ${testBadge(relatorio.metricas.r128Status)} |
+| \`node tests/teste_r129.js\` | Auto-Entrada Instantânea Sem Trava, <head> session boot, CSS descartador de splash | ${relatorio.metricas.r129Status === 'FALHA' ? 'FALHA' : '7/7 OK'} | ${testBadge(relatorio.metricas.r129Status)} |
+| \`node tests/teste_r130.js\` | Reconstrução Total do Começar à Clínica, UI Luxury Apple, Fluidez Absoluta | ${relatorio.metricas.r130Status === 'FALHA' ? 'FALHA' : '7/7 OK'} | ${testBadge(relatorio.metricas.r130Status)} |
+| \`node tests/teste_r131.js\` | Reconexão Nuvem & Restauração do Login/Sincronização, Prioridade Remota | ${relatorio.metricas.r131Status === 'FALHA' ? 'FALHA' : '7/7 OK'} | ${testBadge(relatorio.metricas.r131Status)} |
+| \`node tests/test_all_renders.js\` | Execução de renderizadores (\`renderClientes\`, \`renderAgenda\`, \`renderFin\`, etc.) | ${relatorio.metricas.allRendersStatus} | ${testBadge(relatorio.metricas.allRendersStatus)} |
 
-> **Nota sobre a Versão Canônica Atual (1.7.4 / R130)**:  
-> A versão 1.7.4 recria com perfeição a jornada completa do primeiro "COMEÇAR" no splash até o "COMEÇAR" da clínica no welcomeModal, com UI refinada Apple Luxury, fluidez instantânea e zero bugs de travamento.
+> **Nota sobre a Versão Canônica Atual (${versaoStr})**:  
+> A versão 1.7.5 restaura a integração na nuvem e o fluxo completo de autenticação e sincronização (login/cadastro), priorizando a sessão remota na nuvem com fallback local transparente, preservando o ecossistema Apple Luxury, Split-View Workspace e os 5 modos do sistema.
 
 ---
 

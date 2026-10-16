@@ -1,0 +1,8 @@
+Fênix Estética — Versão 1.7.5 (R131)
+Descrição: Reconexão Nuvem & Restauração do Login/Sincronização
+Data: 15/10/2026
+
+Arquivos desta versão:
+- FENIX-Estetica-v1.7.5.apk (Android)
+- Fenix-Estetica-v1.7.5.exe (Executável Windows)
+- FENIX-Estetica-Windows-v1.7.5.zip (Pacote completo Windows)

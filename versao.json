@@ -1,9 +1,9 @@
 {
-  "versao": "1.7.4",
-  "r": "R130",
+  "versao": "1.7.5",
+  "r": "R131",
   "quando": "15/10/2026",
   "melhorias": [
-    "✨ Reconstrução Total do Começar à Clínica (R130): nova UI refinada, fluidez absoluta do primeiro Começar até a entrada na clínica sem travas ou inconsistências",
+    "✨ Reconexão Nuvem & Restauração do Login/Sincronização (R131): restaura acesso à tela de login/cadastro, prioriza sessão remota na nuvem e resolve sincronização de clientes e IA",
     "🛡️ Reconstrução Total da Entrada & Temas (R128): zero tela escura/dourada indevida; inicialização síncrona instantânea no <head> com o tema e acento salvos",
     "💼 Fênix Spark & Workspace: split-screen com múltiplos documentos e galeria de 40 UIs",
     "🎙️ I.A falante: explicações e orientações clínicas completas ao criar arquivos",
